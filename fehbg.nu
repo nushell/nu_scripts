@@ -16,8 +16,11 @@
 # !! Requires `WALLPAPER_DIR` and `TMP_DIR` environment variables to be set !!
 #    (or just hardcode your own paths below)
 #
+# You can set this script to run on desktop startup, e.g., by adding it to
+# xinitrc.
+#
 # Dependencies;
-# * nu version  >0.25.1 (0.25.1. doesn't work due to coercion error bug)
+# * nu version  >0.25.1 (0.25.1 doesn't work due to coercion error bug)
 # * feh
 # * imagemagick
 

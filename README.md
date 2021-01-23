@@ -6,4 +6,4 @@ This is a place to share Nushell scripts with each other. If you'd like to share
 
 | File | Nu version | Description |
 | ---- | ---------- | ----------  |
-| [fehbg.nu](../blob/main/fehbg.nu) | >0.25.1 | Sets a random image from a directory as a wallpaper |
+| [fehbg.nu](../blob/main/fehbg.nu) | >0.25.1 | Sets a random image from a directory as a wallpaper (Linux only) |
