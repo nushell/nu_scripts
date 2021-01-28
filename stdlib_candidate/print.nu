@@ -24,3 +24,19 @@ def print [
 
 # > print 1 2 3 "four"
 # 123four
+
+# An alternate print command that concatenates arguments together with an optional separator.
+# This one uses str collect instead of build-string.
+#    By default there will be no newline
+def print2 [
+    --separator(-s):any     # Optional separator (not yet flagged as optional?)
+    ...rest                 # All of the parameters
+    ] {
+    let is_empty = $(= $separator | empty?)
+    let num_of_rest = $(echo $rest | count)
+    if $is_empty {
+        echo $rest | str from | str collect
+    } {
+        echo $rest | str from | str collect $separator
+    }
+}
