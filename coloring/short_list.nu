@@ -1,4 +1,4 @@
-source nu_style.nu
+source ../stdlib_candidate/nu_style.nu
 
 # # Regular Colors
 echo '  Regular Colors' $(char newline) $(char newline) | str collect
