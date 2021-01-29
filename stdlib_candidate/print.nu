@@ -40,3 +40,38 @@ def print2 [
         echo $rest | str from | str collect $separator
     }
 }
+
+def print3 [
+    --separator(-s):any     # Optional separator (not yet flagged as optional?)
+    --flat(-f)              # If tables are found, flatten them
+    ...rest                 # All of the parameters
+    ] {
+    let sep_empty = $(= $separator | empty?)
+    let num_of_rest = $(echo $rest | count)
+    echo $rest | each --numbered {
+        if $sep_empty {
+            if $(echo $it.item | count) > 1 && $flat {
+                let flatter = $(echo $it.item | flatten | str from | str collect)
+                build-string $flatter
+            } {
+                build-string $it.item
+            }
+        } {
+            if $num_of_rest > $(= $it.index + 1) {
+                if $(echo $it.item | count) > 1 && $flat {
+                    let flatter = $(echo $it.item | flatten | str from | str collect $separator)
+                    build-string $flatter $separator
+                } {
+                    build-string $it.item $separator
+                }
+            } {
+                if $(echo $it.item | count) > 1 && $flat {
+                    let flatter = $(echo $it.item | flatten | str from | str collect $separator)
+                    build-string $flatter
+                } {
+                    build-string $it.item
+                }
+            }
+        }
+    } | str collect
+}
