@@ -46,3 +46,10 @@ echo $blocks.7 | str lpad -c $blocks.7 -l $pb_len | autoview
 echo $(char newline)
 echo "Done"
 echo $(ansi cursor_on)
+
+
+# Try to do this in the next version
+# Make it a custom command so you can do
+# set-progress 33 100
+# and the display look like
+# 33% (33/100) [███████████                    ]
