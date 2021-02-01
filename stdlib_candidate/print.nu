@@ -41,22 +41,29 @@ def print2 [
     }
 }
 
+# Bring in the logging command
+source logging.nu
+
 # A print command that concatenates arguments together with an optional separator.
 # This print command will also concatenate tables like [1 2 3] as well as most other primitives
 # since the str from command has been updated with wider support.
 def print3 [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
-    --flat(-f)               # If tables are found, flatten them
+    --flat(-f)              # If tables are found, flatten them
     ...rest                 # All of the parameters
     ] {
     let sep_empty = $(= $separator | empty?)
     let num_of_rest = $(echo $rest | count)
+    let flat = $(= $flat | empty?)
     echo $rest | each --numbered {
         if $sep_empty {
+            log 'sep is empty'
             if $(echo $it.item | count) > 1 && $flat {
+                log 'flatten please'
                 let flatter = $(echo $it.item | flatten | str from | str collect)
                 build-string $flatter
             } {
+                log 'no flat'
                 build-string $it.item
             }
         } {
