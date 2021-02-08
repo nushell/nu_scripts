@@ -42,7 +42,7 @@ def print2 [
 }
 
 # Bring in the logging command
-source logging.nu
+#source logging.nu
 
 # A print command that concatenates arguments together with an optional separator.
 # This print command will also concatenate tables like [1 2 3] as well as most other primitives
@@ -57,13 +57,13 @@ def print3 [
     let flat = $(= $flat | empty?)
     echo $rest | each --numbered {
         if $sep_empty {
-            log 'sep is empty'
+            #log 'sep is empty'
             if $(echo $it.item | count) > 1 && $flat {
-                log 'flatten please'
+                #log 'flatten please'
                 let flatter = $(echo $it.item | flatten | str from | str collect)
                 build-string $flatter
             } {
-                log 'no flat'
+                #log 'no flat'
                 build-string $it.item
             }
         } {
