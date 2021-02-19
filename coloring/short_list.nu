@@ -170,8 +170,8 @@ echo ' High Intensity backgrounds' $(char newline) $(char newline) | str collect
 # | \e[0;105m | Purple |
 # | \e[0;106m | Cyan   |
 # | \e[0;107m | White  |
-echo '| Value | Color  |' $(char newline) | str collect
-echo '| ----- | -----  |' $(char newline) | str collect
+echo '| Value  | Color  |' $(char newline) | str collect
+echo '| -----  | -----  |' $(char newline) | str collect
 echo '|' $(bg_light_black) ' 0;100m ' $(relet) '| ' Black '  |' $(char newline) | str collect
 echo '|' $(bg_light_red) ' 0;101m ' $(relet) '| ' Red '    |' $(char newline) | str collect
 echo '|' $(bg_light_green) ' 0;102m ' $(relet) '| ' Green '  |' $(char newline) | str collect
