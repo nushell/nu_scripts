@@ -21,6 +21,8 @@ def construct_prompt [] {
     # let right = $(build-string $current_time)
     # let the_prompt = $(build-string $left $(echo $right | str lpad -c ' ' -l $(= $term_width - $(echo $left | str length))) $(char newline) $decorator ' ')
 
+    echo $title_bar
+
     echo $the_prompt | str collect
 
     ## put this in your config.toml
@@ -39,11 +41,11 @@ def set_title_str [str-arg] {
     echo [$(ansi title) ' ' $str-arg ' ' $(ansi bel)] | str collect
 }
 def get_abbrev_pwd_win [] {
-    echo [$(pwd | split row '\\' | first $(pwd | split row '\\' | count | each {= $it - 1} ) |  str substring '0,1' | format '{$it}/' | append $(pwd | split row '\\' | last ) | str collect)] | str collect
+    echo [$(pwd | split row '\' | first $(pwd | split row '\' | count | each {= $it - 1} ) |  str substring '0,1' | format '{$it}/' | append $(pwd | split row '\' | last ) | str collect)] | str collect
 }
 def get_abbrev_pwd_lin [] {
     echo [$(pwd | split row '/' | first $(pwd | split row '/' | count | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(pwd | split row '/' | last ) | str collect)] | str collect
 }
 def set_title [] {
-    set_title_str $(echo $(get_abbrev_pwd_win))
+    set_title_str $(build-string $(get_abbrev_pwd_win) ' ' $(term size -w) 'x' $(term size -t) | str collect)
 }
