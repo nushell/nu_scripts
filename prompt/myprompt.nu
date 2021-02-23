@@ -1,11 +1,11 @@
 # This is a work in progress. Not working yet but you can see where I'm going.
 def construct_prompt [] {
     let decorator = $(char prompt)
-    let machine_name = $(sys | get host.hostname)
+    # let machine_name = $(sys | get host.hostname)
     let current_dir = $(pwd)
     let git_info = $(do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect )
     let title_bar = $(set_title)
-    let git_status = $(git -c core.quotepath=false -c color.status=false status -uall --short --branch)
+    # let git_status = $(git -c core.quotepath=false -c color.status=false status -uall --short --branch)
     let term_width = $(term size -w)
     let current_time = $(date now | date format '%I:%M:%S%.3f %p')
 
