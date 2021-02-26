@@ -2,7 +2,8 @@
 def construct_prompt [] {
     let decorator = $(char prompt)
     # let machine_name = $(sys | get host.hostname)
-    let current_dir = $(pwd)
+    # let current_dir = $(pwd)
+    let current_dir = $(home_abbrev)
     let git_info = $(do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect )
     let title_bar = $(set_title)
     # let git_status = $(git -c core.quotepath=false -c color.status=false status -uall --short --branch)
@@ -27,6 +28,21 @@ def construct_prompt [] {
 
     ## put this in your config.toml
     # prompt = "construct_prompt"
+
+    ## also you need to source the file in your startup like
+    # "source C:\\Users\\username\\source\\some\\folder\\nu_scripts\\prompt\\left_and_right_prompt.nu",
+}
+
+# Abbreviate home path
+def home_abbrev [] {
+    let is_home_in_path = $(echo $(pwd) | str starts-with $nu.home-dir)
+    if $is_home_in_path {
+        let lin-home = $(echo $nu.home-dir | str find-replace -a '\\' '/' | str downcase)
+        let lin-pwd = $(echo $(pwd) | str find-replace -a '\\' '/' | str downcase)
+        echo $lin-pwd | str find-replace $lin-home '~'
+    } {
+        echo $(pwd)
+    }
 }
 
 # Get Git Info custom commands
