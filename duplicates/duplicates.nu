@@ -1,7 +1,7 @@
 # duplicates returns the rows that correspond to duplicates of the given column.
 def duplicates [
-column: string # Column to look duplicates at
---count(-c) # set it to display the number of times the value is repeated.
+    column: string # Column to look duplicates at
+    --count(-c) # set it to display the number of times the value is repeated.
 ] {
     group-by $column |
     pivot |
