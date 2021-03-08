@@ -1,6 +1,7 @@
 # This is a work in progress. Not working yet but you can see where I'm going.
 def construct_prompt [] {
-    let decorator = $(char prompt)
+    # let decorator = $(char prompt)
+    let decorator = $(create_second_line)
     # let machine_name = $(sys | get host.hostname)
     # let current_dir = $(pwd)
     let current_dir = $(home_abbrev)
@@ -60,8 +61,12 @@ def get_abbrev_pwd_win [] {
     echo [$(pwd | split row '\' | first $(pwd | split row '\' | count | each {= $it - 1} ) |  str substring '0,1' | format '{$it}/' | append $(pwd | split row '\' | last ) | str collect)] | str collect
 }
 def get_abbrev_pwd_lin [] {
-    echo [$(pwd | split row '/' | first $(pwd | split row '/' | count | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(pwd | split row '/' | last ) | str collect)] | str collect
+    # echo [$(pwd | split row '/' | first $(pwd | split row '/' | count | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(pwd | split row '/' | last ) | str collect)] | str collect
+    echo [$(home_abbrev | split row '/' | first $(home_abbrev | split row '/' | count | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(home_abbrev | split row '/' | last ) | str collect)] | str collect
 }
 def set_title [] {
-    set_title_str $(build-string $(get_abbrev_pwd_win) ' ' $(term size -w) 'x' $(term size -t) | str collect)
+    set_title_str $(build-string $(get_abbrev_pwd_lin) ' ' $(term size -w) 'x' $(term size -t) | str collect)
+}
+def create_second_line [] {
+    build-string $(ansi gb) $(char -u "2514") $(char -u "2500") ' $ ' $(ansi cb) $(char prompt) $(ansi reset)
 }
