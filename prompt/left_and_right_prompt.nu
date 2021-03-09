@@ -2,29 +2,53 @@
 def construct_prompt [] {
     # let decorator = $(char prompt)
     let decorator = $(create_second_line)
+
+    # not using machine name
     # let machine_name = $(sys | get host.hostname)
+
+    # the current working directory
     # let current_dir = $(pwd)
     let current_dir = $(home_abbrev)
-    let git_info = $(do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect )
-    let title_bar = $(set_title)
+
+    # the current bit branch
     # let git_status = $(git -c core.quotepath=false -c color.status=false status -uall --short --branch)
+    let git_info = $(do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect )
+
+    # what to put in the title
+    let title_bar = $(set_title)
+
+    # get the terminal width
     let term_width = $(term size -w)
+
+    # get the curren time
     let current_time = $(date now | date format '%I:%M:%S%.3f %p')
 
+    # let's construct the left and right prompt
+    # the left side of the prompt with ansi colors
     let left_colored = $(build-string $(ansi gb) $current_dir $(ansi cb) '(' $git_info ')' $(ansi reset))
+
+    # the left prompt length without the ansi escapes
     let left_len = $(echo $left_colored | ansi strip | str length)
-    let right_colored = $(build-string $(ansi blue) $(echo $nu.env.CMD_DURATION) '|' $(ansi yb) $current_time $(ansi reset))
+
+    # the right side of the prompt with ansi colors
+    let right_colored = $(build-string $(ansi blue) $(echo $nu.env.CMD_DURATION) '|' $(ansi dark_gray) $current_time $(ansi reset))
+
+    # the right prompt length *with* ansi escapes (need this to determine how many escape chars there are)
     let right_colored_len = $(echo $right_colored | str length)
+
+    # the right prompt length without the ansi escapes
     let right_len = $(echo $right_colored | ansi strip | str length)
+
+    # let's calcuate the length of the right prompt so we know how much to pad the left prompt
     let calculated_right_len = $(= $term_width - $left_len + ($right_colored_len - $right_len))
+
+    # finally, let's make the prompt
     let the_prompt = $(build-string $left_colored $(echo $right_colored | str lpad -c ' ' -l $calculated_right_len) $(char newline) $decorator ' ')
 
-    # let left = $(build-string $current_dir '(' $git_info ')')
-    # let right = $(build-string $current_time)
-    # let the_prompt = $(build-string $left $(echo $right | str lpad -c ' ' -l $(= $term_width - $(echo $left | str length))) $(char newline) $decorator ' ')
-
+    # let's update the title bar now
     echo $title_bar
 
+    # and last, but not least, let's print the prompt
     echo $the_prompt | str collect
 
     ## put this in your config.toml
