@@ -79,7 +79,7 @@ def git_br [] {
 # Set Title String custom commands
 
 def set_title_str [str-arg] {
-    echo [$(ansi title) ' ' $str-arg ' ' $(ansi bel)] | str collect
+    echo [$(ansi title) ' ' $str-arg ' ' $(char bel)] | str collect
 }
 def get_abbrev_pwd_win [] {
     echo [$(pwd | split row '\' | first $(pwd | split row '\' | count | each {= $it - 1} ) |  str substring '0,1' | format '{$it}/' | append $(pwd | split row '\' | last ) | str collect)] | str collect
