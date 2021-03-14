@@ -5,16 +5,16 @@ def duplicates [
 ] {
     group-by $column |
     pivot |
-    insert count { = $it.Column1 | flatten | count} |
+    insert count { = $it.Column1 | flatten | length } |
     where count > 1 |
     reject Column0 |
-    if  $(= $count | empty?) {reject count} {each {=$it}}  |
+    if  $(= $count | empty?) { reject count } { each {= $it } }  |
     flatten |
     flatten
 }
 
-# duplicates files recursively finds duplicate files in the current working folder. 
-# It uses a heuristic based on duplicate files having the same size. 
+# duplicates files recursively finds duplicate files in the current working folder.
+# It uses a heuristic based on duplicate files having the same size.
 def "duplicates files" [] {
     do -i {ls **/*} | duplicates size
 }

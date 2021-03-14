@@ -82,11 +82,11 @@ def set_title_str [str-arg] {
     echo [$(ansi title) ' ' $str-arg ' ' $(char bel)] | str collect
 }
 def get_abbrev_pwd_win [] {
-    echo [$(pwd | split row '\' | first $(pwd | split row '\' | count | each {= $it - 1} ) |  str substring '0,1' | format '{$it}/' | append $(pwd | split row '\' | last ) | str collect)] | str collect
+    echo [$(pwd | split row '\' | first $(pwd | split row '\' | length | each {= $it - 1} ) |  str substring '0,1' | format '{$it}/' | append $(pwd | split row '\' | last ) | str collect)] | str collect
 }
 def get_abbrev_pwd_lin [] {
-    # echo [$(pwd | split row '/' | first $(pwd | split row '/' | count | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(pwd | split row '/' | last ) | str collect)] | str collect
-    echo [$(home_abbrev | split row '/' | first $(home_abbrev | split row '/' | count | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(home_abbrev | split row '/' | last ) | str collect)] | str collect
+    # echo [$(pwd | split row '/' | first $(pwd | split row '/' | length | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(pwd | split row '/' | last ) | str collect)] | str collect
+    echo [$(home_abbrev | split row '/' | first $(home_abbrev | split row '/' | length | each {= $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append $(home_abbrev | split row '/' | last ) | str collect)] | str collect
 }
 def set_title [] {
     set_title_str $(build-string $(get_abbrev_pwd_lin) ' ' $(term size -w) 'x' $(term size -t) | str collect)

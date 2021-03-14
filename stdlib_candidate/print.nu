@@ -5,7 +5,7 @@ def print [
     ...rest                 # All of the parameters
     ] {
     let is_empty = $(= $separator | empty?)
-    let num_of_rest = $(echo $rest | count)
+    let num_of_rest = $(echo $rest | length)
     echo $rest | each --numbered {
         if $is_empty {
             build-string $it.item
@@ -33,7 +33,7 @@ def print2 [
     ...rest                 # All of the parameters
     ] {
     let is_empty = $(= $separator | empty?)
-    let num_of_rest = $(echo $rest | count)
+    let num_of_rest = $(echo $rest | length)
     if $is_empty {
         echo $rest | str from | str collect
     } {
@@ -53,12 +53,12 @@ def print3 [
     ...rest                 # All of the parameters
     ] {
     let sep_empty = $(= $separator | empty?)
-    let num_of_rest = $(echo $rest | count)
+    let num_of_rest = $(echo $rest | length)
     let flat = $(= $flat | empty?)
     echo $rest | each --numbered {
         if $sep_empty {
             #log 'sep is empty'
-            if $(echo $it.item | count) > 1 && $flat {
+            if $(echo $it.item | length) > 1 && $flat {
                 #log 'flatten please'
                 let flatter = $(echo $it.item | flatten | str from | str collect)
                 build-string $flatter
@@ -68,14 +68,14 @@ def print3 [
             }
         } {
             if $num_of_rest > $(= $it.index + 1) {
-                if $(echo $it.item | count) > 1 && $flat {
+                if $(echo $it.item | length) > 1 && $flat {
                     let flatter = $(echo $it.item | flatten | str from | str collect $separator)
                     build-string $flatter $separator
                 } {
                     build-string $it.item $separator
                 }
             } {
-                if $(echo $it.item | count) > 1 && $flat {
+                if $(echo $it.item | length) > 1 && $flat {
                     let flatter = $(echo $it.item | flatten | str from | str collect $separator)
                     build-string $flatter
                 } {
