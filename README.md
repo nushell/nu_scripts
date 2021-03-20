@@ -33,5 +33,6 @@ You can run nushell scripts in a few different ways.
 | not assigned yet | [progress_bar.nu](./progress_bar.nu)                      | 0.26       | Draws a progress bar        |
 | not assigned yet | [progress_bar_no_back.nu](./progress_bar_no_back.nu)      | 0.26       | Draws a progress bar with no background        |
 | prompt           | [myprompt.nu](./prompt/myprompt.nu)                       | 0.26       | Prototype script to create a prompt.        |
+| prompt           | [git_status_prompt.nu](./prompt/git_status_prompt.nu)     | 0.28       | Creates a prompt which includes short working directory and current git status.        |
 | stdlib_candidate | [nu_style.nu](./stdlib_candidate/nu_style.nu)             | 0.26       | Define colors as names.        |
 | stdlib_candidate | [print.nu](./stdlib_candidate/print.nu)                   | 0.26       | Examples of a print statement.        |
