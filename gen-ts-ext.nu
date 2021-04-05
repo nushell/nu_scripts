@@ -1,3 +1,21 @@
+def gen-ts-cmds-begin [] {
+    # hooray for multi-line strings
+    build-string "import * as vscode from 'vscode';
+
+export function activate(context: vscode.ExtensionContext) {
+  const keywordsWithSubCommandsProvider = vscode.languages.registerCompletionItemProvider(
+    'nushell',
+    {
+      provideCompletionItems(
+        document: vscode.TextDocument,
+        position: vscode.Position,
+        token: vscode.CancellationToken,
+        context: vscode.CompletionContext
+    ) {
+
+"
+}
+
 # generate typescript from nushell commands
 def gen-ts-cmds [] {
     # help commands | do -i { each { where $it.subcommands == $nothing }} | where description != '' | select name description | insert camel foo | each { update camel { build-string $it.name 'Completion' | str camel-case }}
@@ -9,16 +27,14 @@ def gen-ts-cmds [] {
     let cmds = $(help commands | do -i { each { where $it.subcommands == $nothing }} | where description != '' | select name description)
     let updated_cmds = $(echo $cmds | insert camel { build-string $it.name 'Completion' | str camel-case } )
 
-    echo $updated_cmds |
+    let ts = $(echo $updated_cmds |
     each {
-        # let cmdCamelName = $(build-string $it.name 'Completion' | str camel-case)
-        # update camel $cmdCamelName
-        let line1 = $(build-string "const " $it.camel " = new vscode.CompletionItem('" $it.name "');" $(char newline))
-        let line2 = $(build-string $it.camel ".commitCharacters = [' '];" $(char newline) $(char newline))
+        let line1 = $(build-string "      const " $it.camel " = new vscode.CompletionItem('" $it.name "');" $(char newline))
+        let line2 = $(build-string "      " $it.camel ".commitCharacters = [' '];" $(char newline) $(char newline))
         build-string $line1 $line2
-    } | str collect
+    } | str collect)
 
-    build-string "return [ " $(echo $updated_cmds | get camel | str collect ', ') " ];" | str collect
+    build-string $(echo $ts) $(char nl) "      return [ " $(echo $updated_cmds | get camel | str collect ', ') " ];" $(char nl) '      },' $(char nl) '    }' $(char nl) '  );' $(char nl) $(char nl) | str collect
 }
 
 # generate typescript from nushell subcommands
@@ -28,7 +44,7 @@ def gen-ts-subs [] {
     let subs_count = $(help commands | get subcommands | insert base { get name | split column ' ' base sub} | flatten | group-by base | pivot cmd cmd_count | update cmd_count { get cmd_count | length })
     let subs_collection = $(help commands | get subcommands | insert base { get name | split column ' ' base sub} | flatten | group-by base | pivot cmd sub_cmds)
 
-    echo $subs_collection |
+    let ts = $(echo $subs_collection |
     each {
         let preamble = $(get sub_cmds | each --numbered {
             # echo `index={{$it.index}} base={{$it.item.base}} sub={{$it.item.sub}}`
@@ -64,15 +80,15 @@ def gen-ts-subs [] {
         let line17 = $(build-string "        ' '" $(char nl))
         let line18 = $(build-string "    );" $(char nl) $(char nl))
 
-        build-string $preamble $line09 $line10 $line11 $line12 $line13 $line14 $line15 $line16 $line17 $line18 | autoview
-    }
+        build-string $preamble $line09 $line10 $line11 $line12 $line13 $line14 $line15 $line16 $line17 $line18
+    } | str collect)
 
     echo $subs_collection |
         let post01 = $(build-string "    context.subscriptions.push(" $(char nl))
         let post02 = $(build-string "        " $(echo $updated_cmds | get camelProvider | uniq | str collect ', ') $(char nl))
-        let post03 = $(build-string "    );" $(char nl))
+        let post03 = $(build-string "    );" $(char nl) "}" $(char nl))
 
-        build-string $post01 $post02 $post03 | autoview
+        build-string $ts $post01 $post02 $post03
 }
 
 # def log [message:any] {
@@ -80,3 +96,5 @@ def gen-ts-subs [] {
 #     let mess = $(build-string $now '|DBG|' $message $(char newline))
 #     echo $mess | autoview
 # }
+
+build-string $(gen-ts-cmds-begin) $(gen-ts-cmds) $(gen-ts-subs) | save foo.ts
