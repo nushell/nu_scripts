@@ -7,7 +7,7 @@ def ls-incorrect-dirs [] {
 }
 let incorrect_count = $(ls-incorrect-dirs | length);
 if $incorrect_count > 0 {
-  echo 'The following directories are named incorrectly:'
+  echo `The following directories are named incorrectly: {{$(char newline)}}`
 	ls-incorrect-dirs
 	exit 1
 } {
