@@ -18,13 +18,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 # generate typescript from nushell commands
 def gen-ts-cmds [] {
-    # help commands | do -i { each { where $it.subcommands == $nothing }} | where description != '' | select name description | insert camel foo | each { update camel { build-string $it.name 'Completion' | str camel-case }}
-
-    # const ansiCompletion = new vscode.CompletionItem('ansi');
-    # ansiCompletion.commitCharacters = [' '];
-    # ansiCompletion.documentation = new vscode.MarkdownString('Press <kbd>SpaceBar</kbd> to get completions');
-
-    let cmds = $(help commands | do -i { each { where $it.subcommands == $nothing }} | where description != '' | select name description)
+    # let cmds = $(help commands | do -i { each { where $it.subcommands == $nothing }} | where description != '' | select name description)
+    let cmds = $(help commands | where description != '' | select name description)
     let updated_cmds = $(echo $cmds | insert camel { build-string $it.name 'Completion' | str camel-case } )
 
     let ts = $(echo $updated_cmds |
@@ -97,4 +92,4 @@ def gen-ts-subs [] {
 #     echo $mess | autoview
 # }
 
-build-string $(gen-ts-cmds-begin) $(gen-ts-cmds) $(gen-ts-subs) | save foo.ts
+build-string $(gen-ts-cmds-begin) $(gen-ts-cmds) $(gen-ts-subs) | save extension.ts
