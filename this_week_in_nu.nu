@@ -20,7 +20,7 @@ def do-work [] {
   let query_prefix = "https://api.github.com/search/issues?q=repo:nushell/"
   let query_date = $(seq date --days 7 -r | last)
   # let query_select = " | get items | select url user.login title"
-  let query_suffix = $(build-string "+is:pr+is:merged+merged:%3E" $query_date)
+  let query_suffix = $(build-string "+is:pr+is:merged+merged:%3E%3D" $query_date)
 
   # echo $site_table
 
