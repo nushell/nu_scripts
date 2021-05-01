@@ -50,6 +50,7 @@ def do-work [] {
   }
 }
 
-
-build-string '# This week in Nushell #' $(char nl) $(char nl)
+# 2019-08-23 was the release of 0.2.0, the first public release
+let week_num = $(seq date -b '2019-08-23' -n 7 | length)
+build-string '# This week in Nushell #' $week_num $(char nl) $(char nl)
 do-work | str collect
