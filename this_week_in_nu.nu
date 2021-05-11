@@ -20,7 +20,7 @@ def do-work [] {
 
   let entries = $(echo $site_table | each {
       let query_string = $(build-string $query_prefix $it.repo $query_suffix)
-      let site_json = $(fetch $query_string | get items | select html_url user.login title)
+      let site_json = $(fetch $query_string | get items | select html_url user.login title body)
       build-string '## ' $(echo $it.site) $(char nl) $(char nl)
       if $(= $site_json | empty?) {
         build-string "none found this week" $(char nl) $(char nl)
@@ -32,13 +32,13 @@ def do-work [] {
           # only print the comma if there's another item
           let user_prs = $(echo $it.prs | each -n {
               if $pr_count == $(= $it.index + 1) {
-                  build-string '[' $it.item.title '](' $it.item.html_url ')'
+                  build-string $(char nl) '### [' $it.item.title '](' $it.item.html_url ')' $(char nl) $(char nl) $it.item.body $(char nl)
               } {
-                  build-string '[' $it.item.title '](' $it.item.html_url '), and '
+                  build-string $(char nl) '### [' $it.item.title '](' $it.item.html_url ')' $(char nl) $(char nl) $it.item.body $(char nl) 'and' $(char nl)
               }
           } | str collect)
 
-          build-string '- ' $user_name ' created ' $user_prs $(char nl)
+          build-string '### **' $user_name '** ' $(char nl) $(char nl) '---' $(char nl) $user_prs $(char nl)
         } | str collect
         build-string $(char nl)
       }
