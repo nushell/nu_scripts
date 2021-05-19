@@ -15,25 +15,25 @@ def 'to str' [] {
 # Foreground Colors
 echo 0..16 | each {
     let i = $it
-    let row = $(echo 0..16 | each {
+    let row = (echo 0..16 | each {
         let j = $it
-        let code = $(= $i * 16 + $j)
+        let code = ($i * 16 + $j)
         if $code < 256 {
-            echo [$(ansi -e '38;5;') $(echo $code | to str) 'm' $(echo $code | to str | str lpad -l 4 -c ' ')] | str collect
+            echo [(ansi -e '38;5;') (echo $code | to str) 'm' (echo $code | to str | str lpad -l 4 -c ' ')] | str collect
         } {} # Do nothing in the else
     } | str collect)
-    echo [$row $(char newline)] | str collect
+    echo [$row (char newline)] | str collect
 } | str collect
 
 # Background Colors
 echo 0..16 | each {
     let i = $it
-    let row = $(echo 0..16 | each {
+    let row = (echo 0..16 | each {
         let j = $it
-        let code = $(= $i * 16 + $j)
+        let code = ($i * 16 + $j)
         if $code < 256 {
-            echo [$(ansi -e '48;5;') $(echo $code | to str) 'm' $(echo $code | to str | str lpad -l 4 -c ' ') $(ansi reset)] | str collect
+            echo [(ansi -e '48;5;') (echo $code | to str) 'm' (echo $code | to str | str lpad -l 4 -c ' ') (ansi reset)] | str collect
         } {} # do nothing in the else
     } | str collect)
-    echo [$row $(char newline)] | str collect
+    echo [$row (char newline)] | str collect
 } | str collect

@@ -26,47 +26,47 @@ alias fg_light_white = ansi -e '97m'
 def ls-wide2 [
     --columns(-c):int # The number of columns in your output
     ] {
-    let is_empty = $(= $columns | empty?)
-    let ls_data = $(ls)
+    let is_empty = ($columns | empty?)
+    let ls_data = (ls)
     let ansi_size = 9 # \x1b[36m + string + \x1b[0m, ~9 characters are added to each string for coloring
-    let max_fname_size = $(= $(echo $ls_data | get name | str from | str length | math max) + $ansi_size)
-    let max_fsize_size = $(echo $ls_data | get size | str from | str length | math max)
-    # log $(build-string 'max_fname_size=' $max_fname_size ' max_fsize_size=' $max_fsize_size)
+    let max_fname_size = ((echo $ls_data | get name | str from | str length | math max) + $ansi_size)
+    let max_fsize_size = (echo $ls_data | get size | str from | str length | math max)
+    # log (build-string 'max_fname_size=' $max_fname_size ' max_fsize_size=' $max_fsize_size)
     ls | each -n {
-        let clr_file = $(colorize $it.item.name)
-        # log $(build-string $clr_file ' ' $max_fname_size)
-        let clr_size = $(echo $it.item.size | str from)
-        # log $(build-string $clr_size ' ' $max_fsize_size)
-        build-string $(echo $clr_file | str rpad -c ' ' -l $max_fname_size) ' ' $(echo $clr_size | str lpad -c ' ' -l $max_fsize_size) ' ' | autoview
+        let clr_file = (colorize $it.item.name)
+        # log (build-string $clr_file ' ' $max_fname_size)
+        let clr_size = (echo $it.item.size | str from)
+        # log (build-string $clr_size ' ' $max_fsize_size)
+        build-string (echo $clr_file | str rpad -c ' ' -l $max_fname_size) ' ' (echo $clr_size | str lpad -c ' ' -l $max_fsize_size) ' ' | autoview
         if $is_empty {
-            if $(= $it.index + 1) mod 3 == 0 {
-                echo $(char newline) | autoview
+            if ($it.index + 1) mod 3 == 0 {
+                echo (char newline) | autoview
             } {}
         } {
-            if $(= $it.index + 1) mod $columns == 0 {
-                echo $(char newline) | autoview
+            if ($it.index + 1) mod $columns == 0 {
+                echo (char newline) | autoview
             } {}
         }
     } | str collect
 }
 
 def colorize [thing:any] {
-    let thing_as_string = $(echo $thing | str from)
-    let ext = $(echo $thing_as_string | path extension)
-    let is_empty = $(= $ext | empty?)
+    let thing_as_string = (echo $thing | str from)
+    let ext = (echo $thing_as_string | path parse | get extension)
+    let is_empty = ($ext | empty?)
 
     if $is_empty {
-        # build-string $(ansi -e '36m') $thing $(ansi -e '0m')
-        build-string $(fg_cyan) $thing $(relet)
+        # build-string (ansi -e '36m') $thing (ansi -e '0m')
+        build-string (fg_cyan) $thing (relet)
         # build-string 'e[36m' $thing 'e[0m'
     } {
         if $ext == "nu" {
-            # build-string $(ansi -e '95m') $thing $(ansi -e '0m')
-            build-string $(fg_light_magenta) $thing $(relet)
+            # build-string (ansi -e '95m') $thing (ansi -e '0m')
+            build-string (fg_light_magenta) $thing (relet)
             # build-string 'e[95m' $thing 'e[0m'
         } {
-            # build-string $(ansi -e '92m') $thing $(ansi -e '0m')
-            build-string $(fg_light_green) $thing $(relet)
+            # build-string (ansi -e '92m') $thing (ansi -e '0m')
+            build-string (fg_light_green) $thing (relet)
             # build-string 'e[92m' $thing 'e[0m'
         }
     }
@@ -81,17 +81,17 @@ def colorit [] {
     colorize " file.nu"
 
     # These all work
-    build-string $(fg_light_green) "abc" $(relet)
-    echo $(fg_cyan) "def" $(relet) | str collect
-    #echo '|' $(fg_light_green) ' 0;92m ' $(relet) '| ' Green '  |' $(char newline) | str collect
+    build-string (fg_light_green) "abc" (relet)
+    echo (fg_cyan) "def" (relet) | str collect
+    #echo '|' (fg_light_green) ' 0;92m ' (relet) '| ' Green '  |' (char newline) | str collect
 }
 
 # This is a first attempt and some type of logging
 def log [
     message:any # Some log message
     ] {
-    let now = $(date now | date format '%Y%m%d_%H%M%S.%f')
-    let mess = $(build-string $now '|DBG|' $message $(char newline))
+    let now = (date now | date format '%Y%m%d_%H%M%S.%f')
+    let mess = (build-string $now '|DBG|' $message (char newline))
     echo $mess | autoview
 }
 

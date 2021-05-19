@@ -5,10 +5,10 @@ def get-col [
     ] {
 
     # meant to be used like `ls | get-col 1`
-    # ls | select $(ls | get | nth 2)
-    
+    # ls | select (ls | get | nth 2)
+
     each {
-        echo $it | select $(echo $it | get | nth $col_index)
+        echo $it | select (echo $it | get | nth $col_index)
     }
 }
 

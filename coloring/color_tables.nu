@@ -12,14 +12,14 @@
 
 echo 0..8 | each {
     let x = $it
-    let row = $(echo 30..37 | each {
+    let row = (echo 30..37 | each {
         let i = $it
-        let row = $(echo 40..47 | each {
+        let row = (echo 40..47 | each {
             let a = $it
-            let color = $(build-string $x ';' $i ';' $a 'm')
-            echo [$(ansi -e $color) $color $(ansi reset) '  ']
+            let color = (build-string $x ';' $i ';' $a 'm')
+            echo [(ansi -e $color) $color (ansi reset) '  ']
         } | str collect)
-        echo [$row $(char newline)] | str collect
+        echo [$row (char newline)] | str collect
     } | str collect)
-    echo [$row $(char newline)] | str collect
+    echo [$row (char newline)] | str collect
 } | str collect

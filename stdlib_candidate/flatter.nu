@@ -3,7 +3,7 @@
 # Example: sys | flatter 3
 def flatter [levels:int] {
   if $levels > 0 {
-    flatten | flatter $(= $levels - 1)
+    flatten | flatter ($levels - 1)
   } {
     each { echo $it }
   }

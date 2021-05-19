@@ -2,7 +2,7 @@
 # found here https://github.com/PowerShell/PowerShell/blob/5f3dd938b792e1a395fd011ac1461246db7c0e1f/src/System.Management.Automation/FormatAndOutput/common/PSStyle.cs
 
 # Example Usage
-# echo $(fg_blue) Darren $(relet) ' ' Schroeder | str collect
+# echo (fg_blue) Darren (relet) ' ' Schroeder | str collect
 # More examples in the short_list.nu script
 
 alias fmt_error = ansi -e '31;1m'
@@ -28,8 +28,8 @@ alias underline_on = ansi -e '4m'
 alias strikethrough_off = ansi -e '29m'
 alias strikethrough_on = ansi -e '9m'
 
-# this doesn't work right. i need to have an $(ansi escape) defined but i don't think there is one
-#def format_hyperlink [link text] {echo [$(ansi -o '8;;') $link '\' $text $(ansi -o '8;;') '\'] | str collect }
+# this doesn't work right. i need to have an (ansi escape) defined but i don't think there is one
+#def format_hyperlink [link text] {echo [(ansi -o '8;;') $link '\' $text (ansi -o '8;;') '\'] | str collect }
 
 alias fg_black = ansi -e '30m'
 alias fg_red = ansi -e '31m'
@@ -59,7 +59,7 @@ def fg_from_rgb [
     green:int # green component 0-255
     blue:int # blue component 0-255
     ] {
-        echo [$(ansi -e '38;2;') $red ';' $green ';' $blue 'm'] | str collect
+        echo [(ansi -e '38;2;') $red ';' $green ';' $blue 'm'] | str collect
     }
 
 alias bg_black = ansi -e '40m'
@@ -92,19 +92,19 @@ def bg_from_rgb [
     green:int # green component 0-255
     blue:int # blue component 0-255
     ] {
-        echo [$(ansi -e '48;2;') $red ';' $green ';' $blue 'm'] | str collect
+        echo [(ansi -e '48;2;') $red ';' $green ';' $blue 'm'] | str collect
     }
 
 # Get a foreground color from an index value 0-255
 def fg_from_index [
     idx:int # index value 0-255
 ] {
-    echo [$(ansi -e '38;5;') $idx 'm'] | str collect
+    echo [(ansi -e '38;5;') $idx 'm'] | str collect
 }
 
 # Get a background color from an index value 0-255
 def bg_from_index [
     idx:int # index value 0-255
 ] {
-    echo [$(ansi -e '48;5;') $idx 'm'] | str collect
+    echo [(ansi -e '48;5;') $idx 'm'] | str collect
 }

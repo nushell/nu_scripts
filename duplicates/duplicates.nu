@@ -5,10 +5,10 @@ def duplicates [
 ] {
     group-by $column |
     pivot |
-    insert count { = $it.Column1 | flatten | length } |
+    insert count { $it.Column1 | flatten | length } |
     where count > 1 |
     reject Column0 |
-    if  $(= $count | empty?) { reject count } { each {= $it } }  |
+    if  ($count | empty?) { reject count } { each { $it } }  |
     flatten |
     flatten
 }

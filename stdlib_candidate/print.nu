@@ -4,13 +4,13 @@ def print [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
     ...rest                 # All of the parameters
     ] {
-    let is_empty = $(= $separator | empty?)
-    let num_of_rest = $(echo $rest | length)
+    let is_empty = ($separator | empty?)
+    let num_of_rest = (echo $rest | length)
     echo $rest | each --numbered {
         if $is_empty {
             build-string $it.item
         } {
-            if $num_of_rest > $(= $it.index + 1) {
+            if $num_of_rest > ($it.index + 1) {
                 build-string $it.item $separator
             } {
                 build-string $it.item
@@ -32,8 +32,8 @@ def print2 [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
     ...rest                 # All of the parameters
     ] {
-    let is_empty = $(= $separator | empty?)
-    let num_of_rest = $(echo $rest | length)
+    let is_empty = ($separator | empty?)
+    let num_of_rest = (echo $rest | length)
     if $is_empty {
         echo $rest | str from | str collect
     } {
@@ -52,31 +52,31 @@ def print3 [
     --flat(-f)              # If tables are found, flatten them
     ...rest                 # All of the parameters
     ] {
-    let sep_empty = $(= $separator | empty?)
-    let num_of_rest = $(echo $rest | length)
-    let flat = $(= $flat | empty?)
+    let sep_empty = ($separator | empty?)
+    let num_of_rest = (echo $rest | length)
+    let flat = ($flat | empty?)
     echo $rest | each --numbered {
         if $sep_empty {
             #log 'sep is empty'
-            if $(echo $it.item | length) > 1 && $flat {
+            if (echo $it.item | length) > 1 && $flat {
                 #log 'flatten please'
-                let flatter = $(echo $it.item | flatten | str from | str collect)
+                let flatter = (echo $it.item | flatten | str from | str collect)
                 build-string $flatter
             } {
                 #log 'no flat'
                 build-string $it.item
             }
         } {
-            if $num_of_rest > $(= $it.index + 1) {
-                if $(echo $it.item | length) > 1 && $flat {
-                    let flatter = $(echo $it.item | flatten | str from | str collect $separator)
+            if $num_of_rest > ($it.index + 1) {
+                if (echo $it.item | length) > 1 && $flat {
+                    let flatter = (echo $it.item | flatten | str from | str collect $separator)
                     build-string $flatter $separator
                 } {
                     build-string $it.item $separator
                 }
             } {
-                if $(echo $it.item | length) > 1 && $flat {
-                    let flatter = $(echo $it.item | flatten | str from | str collect $separator)
+                if (echo $it.item | length) > 1 && $flat {
+                    let flatter = (echo $it.item | flatten | str from | str collect $separator)
                     build-string $flatter
                 } {
                     build-string $it.item

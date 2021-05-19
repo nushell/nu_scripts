@@ -20,9 +20,9 @@ let blocks = ["▏" "▎" "▍" "▌" "▋" "▊" "▉" "█"]
 # "▏" #1/8
 
 # Turn off the cursor
-echo $(ansi cursor_off)
+echo (ansi cursor_off)
 # Move cursor all the way to the left
-echo $(ansi -e '1000D') | autoview
+echo (ansi -e '1000D') | autoview
 # Draw the background for the progress bar
 echo $bg_fill | str lpad -c $bg_fill -l $pb_len
 
@@ -33,19 +33,19 @@ echo 1..<$pb_len | each {
 
     let cur_progress = $it
     echo 0..7 | each  {
-        let cur_idx = $(= $it mod 8)
-        let cur_block = $(echo $blocks | nth $cur_idx)
+        let cur_idx = ($it mod 8)
+        let cur_block = (echo $blocks | nth $cur_idx)
         echo $cur_block | str lpad -c $blocks.7 -l $cur_progress | autoview
-        echo $(ansi -e '1000D') | autoview
+        echo (ansi -e '1000D') | autoview
         sleep 50ms
     }
-    echo $(ansi -e '1000D') | autoview
+    echo (ansi -e '1000D') | autoview
 }
 # Fill in the last background block
 echo $blocks.7 | str lpad -c $blocks.7 -l $pb_len | autoview
-echo $(char newline)
+echo (char newline)
 echo "Done"
-echo $(ansi cursor_on)
+echo (ansi cursor_on)
 
 
 # Try to do this in the next version
