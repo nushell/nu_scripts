@@ -20,7 +20,7 @@
 # xinitrc.
 #
 # Dependencies;
-# * nu version  >=0.31.1 (requires new syntax introduced in 0.31.1 and 0.32.0)
+# * nu version  >=0.32.0 (requires new syntax introduced in 0.32.0)
 # * feh
 # * imagemagick
 
