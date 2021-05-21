@@ -3,31 +3,29 @@
 
 # This prints the column headers
 let nl = (char newline)
-let plus = (echo [$nl '   + '] | str collect)
-let cols = (seq 0 35 | each { echo (build-string $it) | str lpad -c ' ' -l 3 } | str collect)
-echo [$plus $cols] | str collect
+let plus = $"($nl)   + "
+let cols = (seq 0 35 | each { |col| $"($col)" | str lpad -c ' ' -l 3 } | str collect)
+$"($plus)($cols)"
 
 let ansi_bg = (ansi -e '48;5;')
 let ansi_reset = (ansi reset)
-echo $nl $nl | str collect
+$"($nl)($nl)"
 
 # This prints the row headers
 let row_header = '   0  '
-let row_data = (seq 0 15 | each {
-    build-string $ansi_bg $it 'm' '  ' $ansi_reset ' '
+let row_data = (seq 0 15 | each { |row|
+    $"($ansi_bg)($row)m   ($ansi_reset)"
 } | str collect)
-echo [$row_header $row_data $nl $nl] | str collect
+$"($row_header)($row_data)($nl)($nl)"
 
 # This is the meat of the script that prints the little squares of color
-seq 0 6 | each {
-    let math_str = (build-string $it ' * 36 + 16')
-    let i = (echo $math_str | math eval)
-    let row_header = (echo $i | str from -d 0 | str lpad -c ' ' -l 4)
-    let row_data = (seq 0 35 | each {
-        let math_str2 = (build-string $i + $it)
-        let val = (echo $math_str2 | math eval | str from -d 0)
-        echo [$ansi_bg $val 'm' '  ' (ansi -e 'm') ' ']
+seq 0 6 | each { |row_idx|
+    let r = ($"($row_idx) * 36 + 16" | math eval)
+    let row_header = (echo $r | str from -d 0 | str lpad -c ' ' -l 4)
+    let row_data = (seq 0 35 | each { |row|
+        let val = ($"($r + $row)" | math eval | str from -d 0)
+        $"($ansi_bg)($val)m  (ansi -e 'm') "
     } | str collect)
-    build-string $row_header '  ' $row_data $nl $nl
+    $"($row_header)  ($row_data)($nl)($nl)"
 } | str collect
 

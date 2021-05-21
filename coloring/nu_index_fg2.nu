@@ -3,14 +3,15 @@
 # different color
 def show_index_colors [] {
     let prefix = "38;5;"
-    echo 1..256 | each {
-        let cr = (echo (build-string $it % 16) | math eval)
-        let color = (echo [(ansi -e $prefix) (build-string $it) 'm'] | str collect)
-        let padded_number = (echo (build-string $it | str lpad -l 3 -c '0'))
+    echo 1..256 | each { |idx|
+        let cr = ($"($idx) % 16" | math eval)
+        let color = ($"(ansi -e $prefix)($idx)m")
+        let padded_number = ($"($idx)" | str lpad -l 3 -c '0')
+
         if $cr == 0 {
-            echo [$color $padded_number ' ' (char newline)]
+            $"($color)($padded_number) (char newline)"
         } {
-            echo [$color $padded_number ' ']
+            $"($color)($padded_number) "
         }
     } | str collect
 }
@@ -21,4 +22,4 @@ show_index_colors
 # it all on one line which wraps in
 # your terminal
 
-#echo 1..256 | each {echo [(ansi -e '38;5;') (build-string $it) 'm' (build-string $it) ' ']} | str collect
+#echo 1..256 | each { |idx| echo [(ansi -e '38;5;') (build-string $idx) 'm' (build-string $idx) ' ']} | str collect
