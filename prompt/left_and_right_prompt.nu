@@ -25,25 +25,25 @@ def construct_prompt [] {
 
     # let's construct the left and right prompt
     # the left side of the prompt with ansi colors
-    let left_colored = (build-string (ansi gb) $current_dir (ansi cb) '(' $git_info ')' (ansi reset))
+    let left_colored = $"(ansi gb)($current_dir)(ansi cb)(char lparen)($git_info)(char rparen)(ansi reset)"
 
     # the left prompt length without the ansi escapes
-    let left_len = (echo $left_colored | ansi strip | str length)
+    let left_len = ($left_colored | ansi strip | str length)
 
     # the right side of the prompt with ansi colors
-    let right_colored = (build-string (ansi blue) (echo $nu.env.CMD_DURATION) '|' (ansi dark_gray) $current_time (ansi reset))
+    let right_colored = $"(ansi blue)($nu.env.CMD_DURATION)|(ansi dark_gray)($current_time)(ansi reset)"
 
     # the right prompt length *with* ansi escapes (need this to determine how many escape chars there are)
-    let right_colored_len = (echo $right_colored | str length)
+    let right_colored_len = ( $right_colored | str length)
 
     # the right prompt length without the ansi escapes
-    let right_len = (echo $right_colored | ansi strip | str length)
+    let right_len = ($right_colored | ansi strip | str length)
 
     # let's calcuate the length of the right prompt so we know how much to pad the left prompt
     let calculated_right_len = ($term_width - $left_len + ($right_colored_len - $right_len))
 
     # finally, let's make the prompt
-    let the_prompt = (build-string $left_colored (echo $right_colored | str lpad -c ' ' -l $calculated_right_len) (char newline) $decorator ' ')
+    let the_prompt = $"($left_colored)($right_colored | str lpad -c ' ' -l $calculated_right_len)(char newline)($decorator) "
 
     # let's update the title bar now
     echo $title_bar
@@ -60,30 +60,32 @@ def construct_prompt [] {
 
 # Abbreviate home path
 def home_abbrev [] {
-    let is_home_in_path = (echo (pwd) | str starts-with $nu.home-dir)
+    let is_home_in_path = (pwd | into string | str starts-with $nu.home-dir)
     if $is_home_in_path {
-        let lin-home = (echo $nu.home-dir | str find-replace -a '\\' '/' | str downcase)
-        let lin-pwd = (echo (pwd) | str find-replace -a '\\' '/' | str downcase)
-        echo $lin-pwd | str find-replace $lin-home '~'
+        let lin-home = ($nu.home-dir | into string | str find-replace -a '\\' '/' | str downcase)
+        let lin-pwd = (pwd | into string | str find-replace -a '\\' '/' | str downcase)
+        $lin-pwd | str find-replace $lin-home '~'
     } {
-        echo (pwd)
+        pwd
     }
 }
 
 # Get Git Info custom commands
 
 def git_br [] {
-    echo [ (ansi gb) (pwd) (ansi reset) '(' (ansi cb) (do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect ) (ansi reset) ')' (char newline) (ansi yb) (date now | date format '%m/%d/%Y %I:%M:%S%.3f %p') (ansi reset) ' ¯\\_(ツ)_/¯ ' (char prompt) ' '] | str collect
+    $"(ansi gb)(pwd)(ansi reset)(char lparen)(ansi cb)(do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect)(ansi reset)(char rparen)(char newline)(ansi yb)(date now | date format '%m/%d/%Y %I:%M:%S%.3f %p')(ansi reset)¯\\_(ツ)_/¯(char prompt) "
 }
 
 # Set Title String custom commands
 
 def set_title_str [str-arg] {
-    echo [(ansi title) ' ' $str-arg ' ' (char bel)] | str collect
+    $"(ansi title) ($str-arg) (char bel)"
 }
-def get_abbrev_pwd_win [] {
-    echo [(pwd | split row '\' | first (pwd | split row '\' | length | each { $it - 1} ) |  str substring '0,1' | format '{$it}/' | append (pwd | split row '\' | last ) | str collect)] | str collect
-}
+
+# def get_abbrev_pwd_win [] {
+#     echo [(pwd | split row '\' | first (pwd | split row '\' | length | each { $it - 1} ) |  str substring '0,1' | format '{$it}/' | append (pwd | split row '\' | last ) | str collect)] | str collect
+# }
+
 def get_abbrev_pwd_lin [] {
     # echo [(pwd | split row '/' | first (pwd | split row '/' | length | each { $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append (pwd | split row '/' | last ) | str collect)] | str collect
     echo [(home_abbrev | split row '/' | first (home_abbrev | split row '/' | length | each { $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append (home_abbrev | split row '/' | last ) | str collect)] | str collect

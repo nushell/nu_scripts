@@ -26,17 +26,20 @@ def run_ls [
     path:string
     columns:int
     ] {
-    let max_fname_size = (ls $path | get name | str from | str length | math max)
-    let max_fsize_size = (ls $path | get size | str from | str length | math max)
+    let max_fname_size = (ls $path | get name | into string | str length | math max)
+    let max_fsize_size = (ls $path | get size | into string | str length | math max)
 
-    ls $path | each -n {
-        build-string (echo $it.item.name | str rpad -c ' ' -l $max_fname_size) ' ' (echo (build-string $it.item.size) | str lpad -c ' ' -l $max_fsize_size) ' '
+    ls $path | each -n { |file|
+        let the_file = ($file.item.name | into string | str rpad -c ' ' -l $max_fname_size)
+        let the_size = ($file.item.size | into string | str lpad -c ' ' -l $max_fsize_size)
+        $"($the_file) ($the_size) " | autoview
+
         if $is_columns_empty {
-            if ($it.index + 1) mod 3 == 0 {
+            if ($file.index + 1) mod 3 == 0 {
                 echo (char newline) | autoview
             } {}
         } {
-            if ($it.index + 1) mod $columns == 0 {
+            if ($file.index + 1) mod $columns == 0 {
                 echo (char newline) | autoview
             } {}
         }
@@ -44,11 +47,8 @@ def run_ls [
 }
 
 # This is a first attempt and some type of logging
-def log [
-    message:any # Some log message
-    ] {
+def log [message:any] {
     let now = (date now | date format '%Y%m%d_%H%M%S.%f')
-    let mess = (build-string $now '|DBG|' $message (char newline))
+    let mess = $"($now)|DBG|($message)(char nl)"
     echo $mess | autoview
 }
-

@@ -6,7 +6,7 @@ def ls-less [
     if $is_empty {
         nu -c 'ls' | less -r
     } {
-        let command = (build-string 'ls ' $dir)
+        let command = $"ls ($dir)"
         nu -c $command | less -r
     }
 }
