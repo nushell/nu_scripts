@@ -1,8 +1,8 @@
 # A Script to try and create the table for the readme.md file
 # | Category         | File                                                      | Nu Version | Description |
 # | ---------------- | --------------------------------------------------------- | ---------- | ----------- |
-# | coloring         | [color_table.nu](./coloring/color_table.nu)               | 0.26       | desc        |
-# | coloring         | [color_tables.nu](./coloring/color_tables.nu)             | 0.26       | desc        |
+# | coloring         | [color_table.nu](./coloring/color_table.nu)               | 0.32      | desc        |
+# | coloring         | [color_tables.nu](./coloring/color_tables.nu)             | 0.32       | desc        |
 
 # Right now there is still manual manipulation in order to update the README.md
 # Hopefully, in the future someone will contribute a script to make this automatic.
