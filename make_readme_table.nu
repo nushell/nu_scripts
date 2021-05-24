@@ -13,8 +13,8 @@ let nu_files = (ls **/*.nu)
 let nu_table = (echo $nu_files |
     get name |
     wrap File |
-    insert Category {
-        let cat = (get File | path dirname)
+    insert Category { |it|
+        let cat = (echo $it.File | path dirname)
         if $cat == "" {
             echo "not assigned yet"
         } {
@@ -23,8 +23,8 @@ let nu_table = (echo $nu_files |
     } | where Category !~ ".git" | select Category File | sort-by Category)
 
 # Let's fix the file now
-let nu_table = (echo $nu_table | update File {
-    let file_path = (get File)
+let nu_table = (echo $nu_table | update File { |it|
+    let file_path = (echo $it.File)
     let file_name = (echo $file_path | path basename)
     let file_link = (build-string "[" $file_name "]" "(./" $file_path ")")
     echo $file_link

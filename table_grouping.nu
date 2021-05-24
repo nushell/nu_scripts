@@ -10,24 +10,27 @@ let table = (echo [
 ])
 
 # Show what the table looks like
-echo $table
+$"This is an example table (char nl)"
+$table
 
+$"This is markdown created from the example table (char nl)"
 # Now show what the table in Markdown looks like
-build-string '## Nushell' (char nl) (char nl)
-echo $table | group-by user_login | pivot user prs | each {
-    let user_name = $it.user
-    let pr_count = (echo $it.prs | length)
+$"## Nushell(char nl)(char nl)"
+$table | group-by user_login | pivot user prs | each { |row|
+    let user_name = $row.user
+    let pr_count = (echo $row.prs | length)
 
     # only print the comma if there's another item
-    let user_prs = (echo $it.prs | each -n {
-        if $pr_count == ($it.index + 1) {
-            build-string '[' $it.item.title '](' $it.item.url ')'
+    let user_prs = ($row.prs | each -n { |pr|
+        if $pr_count == ($pr.index + 1) {
+            build-string '[' $pr.item.title '](' $pr.item.url ')'
         } {
-            build-string '[' $it.item.title '](' $it.item.url '), and '
+            build-string '[' $pr.item.title '](' $pr.item.url '), and '
         }
     } | str collect)
 
-    build-string '- ' $user_name ' created ' $user_prs (char nl)
+    $"- ($user_name) created ($user_prs) (char nl)"
+
 } | str collect
 
 # ╭───┬──────────────────────────────────────────────────────────┬─────────────────┬───────────────────────────────────────────────────────╮

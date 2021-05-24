@@ -92,19 +92,19 @@ def bg_from_rgb [
     green:int # green component 0-255
     blue:int # blue component 0-255
     ] {
-        echo [(ansi -e '48;2;') $red ';' $green ';' $blue 'm'] | str collect
+        $"(ansi -e '48;2;')($red);($green);($blue)m"
     }
 
 # Get a foreground color from an index value 0-255
 def fg_from_index [
     idx:int # index value 0-255
 ] {
-    echo [(ansi -e '38;5;') $idx 'm'] | str collect
+    $"(ansi -e '38;5;')($idx)m"
 }
 
 # Get a background color from an index value 0-255
 def bg_from_index [
     idx:int # index value 0-255
 ] {
-    echo [(ansi -e '48;5;') $idx 'm'] | str collect
+    $"(ansi -e '48;5;')($idx)m"
 }

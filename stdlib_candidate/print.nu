@@ -5,18 +5,18 @@ def print [
     ...rest                 # All of the parameters
     ] {
     let is_empty = ($separator | empty?)
-    let num_of_rest = (echo $rest | length)
-    echo $rest | each --numbered {
+    let num_of_rest = ($rest | length)
+    $rest | each --numbered { |param|
         if $is_empty {
-            build-string $it.item
+            $param.item
         } {
-            if $num_of_rest > ($it.index + 1) {
-                build-string $it.item $separator
+            if $num_of_rest > ($param.index + 1) {
+                $"($param.item)($separator)"
             } {
-                build-string $it.item
+                $param.item
             }
         }
-    } | str collect
+    } | into string | str collect
 }
 
 # > print 1 2 3 "four" -s '--'
@@ -33,11 +33,11 @@ def print2 [
     ...rest                 # All of the parameters
     ] {
     let is_empty = ($separator | empty?)
-    let num_of_rest = (echo $rest | length)
+    let num_of_rest = ($rest | length)
     if $is_empty {
-        echo $rest | str from | str collect
+        $rest | into string | str collect
     } {
-        echo $rest | str from | str collect $separator
+        $rest | into string | str collect $separator
     }
 }
 
@@ -53,33 +53,33 @@ def print3 [
     ...rest                 # All of the parameters
     ] {
     let sep_empty = ($separator | empty?)
-    let num_of_rest = (echo $rest | length)
+    let num_of_rest = ($rest | length)
     let flat = ($flat | empty?)
-    echo $rest | each --numbered {
+    $rest | each --numbered { |param|
         if $sep_empty {
             #log 'sep is empty'
-            if (echo $it.item | length) > 1 && $flat {
+            if (echo $param.item | length) > 1 && $flat {
                 #log 'flatten please'
-                let flatter = (echo $it.item | flatten | str from | str collect)
-                build-string $flatter
+                let flatter = ($param.item | flatten | into string | str collect)
+                $flatter
             } {
                 #log 'no flat'
-                build-string $it.item
+                $param.item
             }
         } {
-            if $num_of_rest > ($it.index + 1) {
-                if (echo $it.item | length) > 1 && $flat {
-                    let flatter = (echo $it.item | flatten | str from | str collect $separator)
-                    build-string $flatter $separator
+            if $num_of_rest > ($param.index + 1) {
+                if ($param.item | length) > 1 && $flat {
+                    let flatter = ($param.item | flatten | into string | str collect $separator)
+                    $"($flatter)($separator)"
                 } {
-                    build-string $it.item $separator
+                    $"($param.item)($separator)"
                 }
             } {
-                if (echo $it.item | length) > 1 && $flat {
-                    let flatter = (echo $it.item | flatten | str from | str collect $separator)
-                    build-string $flatter
+                if ($param.item | length) > 1 && $flat {
+                    let flatter = ($param.item | flatten | into string | str collect $separator)
+                    $flatter
                 } {
-                    build-string $it.item
+                    $param.item
                 }
             }
         }
