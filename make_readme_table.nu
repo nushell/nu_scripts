@@ -7,27 +7,24 @@
 # Right now there is still manual manipulation in order to update the README.md
 # Hopefully, in the future someone will contribute a script to make this automatic.
 
-let nu_files = $(ls **/*.nu)
-let nu_table = $(echo $nu_files | 
+let nu_files = (ls **/*.nu)
+let nu_table = ($nu_files | 
     get name |
     wrap File | 
-    insert 'Nu Version' 0.26 | 
+    insert 'Nu Version' 0.32 | 
     insert Description desc | 
-    insert Category { 
-        let cat = $(get File | path dirname)
+    insert Category { |it| 
+        let cat = ($it.File | path dirname)
         if $cat == "" {
-            echo "not assigned yet"
+            "not assigned yet"
         } {
-            echo $cat
+            $cat
         }
     } | select Category File 'Nu Version' Description)
-
 # Let's fix the file now
-let nu_table = $(echo $nu_table | update File {
-    let file_path = $(get File)
-    let file_name = $(echo $file_path | path basename)
-    let file_link = $(build-string "[" $file_name "]" "(./" $file_path ")")
-    echo $file_link
+let nu_table = ($nu_table | update File { |it|
+    let file_path = $it.File
+    let file_name = ($file_path | path basename)
+    $"[($file_name)](char lparen)./($file_path)(char rparen)"
 })
-
-echo $nu_table | to md --pretty
+$nu_table | to md --pretty
