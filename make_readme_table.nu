@@ -23,9 +23,9 @@ let nu_table = ($nu_files |
     } | where Category !~ ".git" | select Category File | sort-by Category)
 
 # Let's fix the file now
-let nu_table = (echo $nu_table | update File { |it|
-    let file_path = (echo $it.File  | into string | str find-replace '\\' '/')
-    let file_name = (echo $file_path | path basename)
+let nu_table = ($nu_table | update File { |it|
+    let file_path = ($it.File  | into string | str find-replace '\\' '/')
+    let file_name = ($file_path | path basename)
     $"[($file_name)](char lparen)./($file_path)(char rparen)"
 })
 
