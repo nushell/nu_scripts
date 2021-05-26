@@ -10,12 +10,11 @@
 # Hopefully, in the future someone will contribute a script to make this automatic.
 
 let nu_files = (ls **/*.nu)
-let nu_table = (echo $nu_files |
+let nu_table = ($nu_files |
     get name |
     wrap File |
     insert Category { |it|
-        let cat = (echo $it.File | path dirname)
-
+        let cat = ($it.File | path dirname)
         if $cat == "" {
             "not assigned yet"
         } {
@@ -25,9 +24,9 @@ let nu_table = (echo $nu_files |
 
 # Let's fix the file now
 let nu_table = (echo $nu_table | update File { |it|
-    let file_path = (echo $it.File)
+    let file_path = (echo $it.File  | into string | str find-replace '\\' '/')
     let file_name = (echo $file_path | path basename)
-    let file_link = (build-string "[" $file_name "]" "(./" $file_path ")")
-    echo $file_link
+    $"[($file_name)](char lparen)./($file_path)(char rparen)"
 })
-$nu_table | to md --pretty
+
+echo $nu_table | to md --pretty
