@@ -15,10 +15,11 @@ let nu_table = (echo $nu_files |
     wrap File |
     insert Category { |it|
         let cat = (echo $it.File | path dirname)
+
         if $cat == "" {
-            echo "not assigned yet"
+            "not assigned yet"
         } {
-            echo $cat
+            $cat
         }
     } | where Category !~ ".git" | select Category File | sort-by Category)
 
@@ -29,5 +30,4 @@ let nu_table = (echo $nu_table | update File { |it|
     let file_link = (build-string "[" $file_name "]" "(./" $file_path ")")
     echo $file_link
 })
-
-echo $nu_table | to md --pretty
+$nu_table | to md --pretty
