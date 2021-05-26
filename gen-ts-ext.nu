@@ -1,7 +1,6 @@
 def gen-ts-cmds-begin [] {
     # hooray for multi-line strings
     build-string "import * as vscode from 'vscode';
-
 export function activate(context: vscode.ExtensionContext) {
   const keywordsWithSubCommandsProvider = vscode.languages.registerCompletionItemProvider(
     'nushell',
@@ -12,7 +11,6 @@ export function activate(context: vscode.ExtensionContext) {
         token: vscode.CancellationToken,
         context: vscode.CompletionContext
     ) {
-
 "
 }
 
@@ -26,7 +24,7 @@ def gen-ts-cmds [] {
     each {
         let line1 = (build-string "      const " $it.camel " = new vscode.CompletionItem('" $it.name "');" (char newline))
         let line2 = (build-string "      " $it.camel ".commitCharacters = [' '];" (char newline) (char newline))
-        build-string $line1 $line2
+        $line1 + $line2
     } | str collect)
 
     build-string (echo $ts) (char nl) "      return [ " (echo $updated_cmds | get camel | str collect ', ') " ];" (char nl) '      },' (char nl) '    }' (char nl) '  );' (char nl) (char nl) | str collect
@@ -42,7 +40,6 @@ def gen-ts-subs [] {
     let ts = (echo $subs_collection |
     each {
         let preamble = (get sub_cmds | each --numbered {
-            # echo `index={{$it.index}} base={{$it.item.base}} sub={{$it.item.sub}}`
             let method = (build-string $it.item.name | str camel-case)
             let camel = (build-string $it.item.base 'SubCommandsProvider' | str camel-case)
             if $it.index == 0 {
@@ -54,28 +51,30 @@ def gen-ts-subs [] {
                 let line06 = (build-string "                if (linePrefix.endsWith('" $it.item.base " ')) {" (char nl) (char nl))
                 let line07 = (build-string "                    const " $method " = new vscode.CompletionItem('" $it.item.sub "', vscode.CompletionItemKind.Method);" (char nl))
                 let line08 = (build-string '                    ' $method '.detail = "' $it.item.description '";' (char nl) (char nl))
-                build-string $line01 $line02 $line03 $line04 $line05 $line06 $line07 $line08
+                $line01 + $line02 + $line03 + $line04 + $line05 + $line06 + $line07 + $line08
             } {
                 let line07 = (build-string "                    const " $method " = new vscode.CompletionItem('" $it.item.sub "', vscode.CompletionItemKind.Method);" (char nl))
                 let line08 = (build-string '                    ' $method '.detail = "' $it.item.description '";' (char nl) (char nl))
-                build-string $line07 $line08
+                $line07 + $line08
             }
         } | str collect)
 
         let methods = (echo $it.sub_cmds.name | str camel-case | str collect ', ')
 
-        let line09 = (build-string "                    return [" (char nl))
-        let line10 = (build-string "                         " $methods (char nl))
-        let line11 = (build-string "                    ];" (char nl))
-        let line12 = (build-string "                } else {" (char nl))
-        let line13 = (build-string "                    return undefined;" (char nl))
-        let line14 = (build-string "                }" (char nl))
-        let line15 = (build-string "            }" (char nl))
-        let line16 = (build-string "        }," (char nl))
-        let line17 = (build-string "        ' '" (char nl))
-        let line18 = (build-string "    );" (char nl) (char nl))
+        let lines = $"
+                    return [
+                        ($methods)
+                    ];
+                } else {
+                    return undefined;
+                }
+            }
+        },
+        ' '
+    );
+    "
 
-        build-string $preamble $line09 $line10 $line11 $line12 $line13 $line14 $line15 $line16 $line17 $line18
+        build-string $preamble $lines
     } | str collect)
 
     echo $subs_collection |
