@@ -46,7 +46,7 @@ def print2 [
 
 # A print command that concatenates arguments together with an optional separator.
 # This print command will also concatenate tables like [1 2 3] as well as most other primitives
-# since the str from command has been updated with wider support.
+# since the into string command has been updated with wider support.
 def print3 [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
     --flat(-f)              # If tables are found, flatten them
