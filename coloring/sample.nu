@@ -1,9 +1,7 @@
 # Background Colors
-echo 40..47 100..107 49 | each {
-    let clbg = $it
+echo 40..47 100..107 49 | each { |clbg|
     # Foreground Colors
-    echo 30..37 90..97 39 | each {
-        let clfg = $it
+    echo 30..37 90..97 39 | each { |clfg|
         # 0 Normal
         # 1 Bold or increased intensity
         # 2 Faint or decreased intensity
@@ -14,18 +12,13 @@ echo 40..47 100..107 49 | each {
         # 7 Reverse Video
         # 8 Conceal (not widely supported)
         # 9 Strike-through
-        let row = $(echo 0..9 | each {
-            let attr = $it
-            let ansi_str = $(echo [$(make-str $attr) ';' $(make-str $clbg) ';' $(make-str $clfg) 'm'] | str collect)
-            echo [$(ansi -e $ansi_str) ' ' $ansi_str ' ' $(ansi reset)] | str collect
+        let row = (echo 0..9 | each { |attr|
+            let ansi_str = $"($attr);($clbg);($clfg)m"
+            $"(ansi -e $ansi_str) ($ansi_str) (ansi reset)"
             } | str collect)
-        echo [$row $(char newline)] | str collect | autoview
+        $"($row)(char newline)" | autoview
     } | str collect
 } | str collect
-
-def make-str [item] {
-    echo $item | str from
-}
 
 # Bash Script
 # for clbg in {40..47} {100..107} 49 ; do

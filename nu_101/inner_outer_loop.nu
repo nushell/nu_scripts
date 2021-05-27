@@ -2,10 +2,10 @@
 # $it in and inner loop and an outer loop at
 # the same time, each having different values
 
-seq 30 39 | each {
-    let row = $(echo [$it ' '] | str collect)
-    let data = $(seq 40 49 | each {
-        echo [$it ' '] | str collect
+seq 30 39 | each { |outer|
+    let row = $"($outer) "
+    let data = (seq 40 49 | each { |inner|
+        $"($inner) "
     } | str collect)
-    echo [$row $data $(char newline)] | str collect
+    $"($row)($data)(char newline)"
 } | str collect

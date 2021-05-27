@@ -5,9 +5,10 @@
 def ls-incorrect-dirs [] {
     ls | where type == 'Dir' && name != 'scripts'| match -v name '(\d+\.){2,}\d$'
 }
-let incorrect_count = $(ls-incorrect-dirs | length);
+let incorrect_count = (ls-incorrect-dirs | length);
 if $incorrect_count > 0 {
-  echo `The following directories are named incorrectly: {{$(char newline)}}`
+#   echo `The following directories are named incorrectly: {{(char newline)}}`
+  $"The following directories are named incorrectly: (char newline)"
 	ls-incorrect-dirs
 	exit 1
 } {

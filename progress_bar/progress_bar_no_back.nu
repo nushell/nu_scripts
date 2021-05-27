@@ -1,17 +1,16 @@
 let blocks = ["▏" "▎" "▍" "▌" "▋" "▊" "▉" "█"]
 let pb_size = 25
-echo $(ansi cursor_off)
-echo 1..<$pb_size | each {
-    let cur_size = $it
-    echo 0..7 | each {
-        let idx = $(= $it mod 8)
-        let cur_block = $(echo $blocks | nth $idx)
-        echo $cur_block | str lpad -c $blocks.7 -l $cur_size | autoview
-        echo $(ansi -e '1000D') | autoview
-        sleep 50ms
+ansi cursor_off
+echo 1..<$pb_size | each { |cur_size|
+    echo 0..7 | each { |tick|
+        let idx = ($tick mod 8)
+        let cur_block = (echo $blocks | nth $idx)
+        $"($cur_block | str lpad -c $blocks.7 -l $cur_size)" | autoview
+        $"(ansi -e '1000D')" | autoview
+        sleep 5ms
     }
 }
-echo $(char newline)
-echo 'Done'
-echo $(ansi cursor_on)
+char newline
+'Done'
+ansi cursor_on
 

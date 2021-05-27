@@ -1,4 +1,4 @@
-let table = $(echo [
+let table = (echo [
     [url user_login title
     ]; [https://api.github.com/repos/nushell/nushell/issues/3382 ammkrn 'Dont unwrap rustyline helper in cli'
     ] [https://api.github.com/repos/nushell/nushell/issues/3379 jonathandturner 'Simplify down to one type of context'
@@ -9,23 +9,28 @@ let table = $(echo [
     ] [https://api.github.com/repos/nushell/nushell/issues/3367 fdncred 'tweaked the error handling to show specific errors']
 ])
 
-echo $table
+# Show what the table looks like
+$"This is an example table (char nl)"
+$table
 
-build-string '## Nushell' $(char nl) $(char nl)
-echo $table | group-by user_login | pivot user prs | each {
-    let user_name = $it.user
-    let pr_count = $(echo $it.prs | length)
+$"This is markdown created from the example table (char nl)"
+# Now show what the table in Markdown looks like
+$"## Nushell(char nl)(char nl)"
+$table | group-by user_login | pivot user prs | each { |row|
+    let user_name = $row.user
+    let pr_count = (echo $row.prs | length)
 
     # only print the comma if there's another item
-    let user_prs = $(echo $it.prs | each -n {
-        if $pr_count == $(= $it.index + 1) {
-            build-string '[' $it.item.title '](' $it.item.url ')'
+    let user_prs = ($row.prs | each -n { |pr|
+        if $pr_count == ($pr.index + 1) {
+            build-string '[' $pr.item.title '](' $pr.item.url ')'
         } {
-            build-string '[' $it.item.title '](' $it.item.url '), and '
+            build-string '[' $pr.item.title '](' $pr.item.url '), and '
         }
     } | str collect)
 
-    build-string '- ' $user_name ' created ' $user_prs $(char nl)
+    $"- ($user_name) created ($user_prs) (char nl)"
+
 } | str collect
 
 # ╭───┬──────────────────────────────────────────────────────────┬─────────────────┬───────────────────────────────────────────────────────╮
@@ -41,7 +46,7 @@ echo $table | group-by user_login | pivot user prs | each {
 # ╰───┴──────────────────────────────────────────────────────────┴─────────────────┴───────────────────────────────────────────────────────╯
 
 def log [message:any] {
-    let now = $(date now | date format '%Y%m%d_%H%M%S.%f')
-    let mess = $(build-string $now '|DBG|' $message $(char newline))
+    let now = (date now | date format '%Y%m%d_%H%M%S.%f')
+    let mess = (build-string $now '|DBG|' $message (char newline))
     echo $mess | autoview
 }

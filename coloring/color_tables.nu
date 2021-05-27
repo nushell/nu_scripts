@@ -10,16 +10,13 @@
 # done
 # echo ""
 
-echo 0..8 | each {
-    let x = $it
-    let row = $(echo 30..37 | each {
-        let i = $it
-        let row = $(echo 40..47 | each {
-            let a = $it
-            let color = $(build-string $x ';' $i ';' $a 'm')
-            echo [$(ansi -e $color) $color $(ansi reset) '  ']
+echo 0..8 | each { |style|
+    let row = (echo 30..37 | each { |fg|
+        let row = (echo 40..47 | each { |bg|
+            let color = $"($style);($fg);($bg)m"
+            $"(ansi -e $color)($color)(ansi reset)  "
         } | str collect)
-        echo [$row $(char newline)] | str collect
+        $"($row)(char newline)"
     } | str collect)
-    echo [$row $(char newline)] | str collect
+    $"($row)(char newline)"
 } | str collect

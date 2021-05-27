@@ -1,40 +1,41 @@
 # this script will print a blue gradient on the screen
 
+# We can get the terminal width and height now with term size
+# but we like to use the script as a benchmark, so let's keep
+# it a constant size for now
 let height = 40 # really need to get the terminal height here
 let width = 160  # really need to get the terminal width here
-
+let stamp = 'Nu'
 seq 0 $height | each {
-    let row_data = $(seq 0 $width | each {
-        let fgcolor = $(iter_inc 2 2 $(echo $it | str to-int))
+    let row_data = (seq 0 $width | each { |col|
+        let fgcolor = (iter_inc 2 2 $col)
         if $fgcolor > 200 && $fgcolor < 210 {
-            echo [$(ansi -e '48;2;0;0;') $(build-string $fgcolor m) 'Nu' $(ansi -e '0m')] | str collect
+            $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
         } {
-            echo [$(ansi -e '48;2;0;0;') $(build-string $fgcolor m) ' ' $(ansi -e '0m')] | str collect
+            $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
         }
     } | str collect)
-    echo [$row_data $(char newline)] | str collect | autoview
+    $"($row_data)(char newline)" | autoview
 } | str collect
 
 def iter_inc [incr mult iter] {
-    # echo $(build-string $incr + $mult * $iter) | math eval | math round
-    = $incr + $mult * $iter
+    $incr + $mult * $iter
 }
 
-# ╭────┬────────────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
-# │ #  │ key                │ value                                                                                │
-# ├────┼────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
-# │  0 │ version            │ 0.25.2                                                                               │
-# │  1 │ branch             │ main                                                                                 │
-# │  2 │ short_commit       │ d06f457b                                                                             │
-# │  3 │ commit_hash        │ d06f457b2a7dee3acc71ecd0dc8b6a34afbfc5d8                                             │
-# │  4 │ commit_date        │ 2021-01-11 22:59:53                                                                  │
-# │  5 │ build_os           │ windows-x86_64                                                                       │
-# │  6 │ rust_version       │ rustc 1.49.0 (e1884a8e3 2020-12-29)                                                  │
-# │  7 │ rust_channel       │ stable (default)                                                                     │
-# │  8 │ cargo_version      │ cargo 1.49.0 (d00d64df9 2020-12-05)                                                  │
-# │  9 │ pkg_version        │ 0.25.2                                                                               │
-# │ 10 │ build_time         │ 2021-01-12 07:29:22                                                                  │
-# │ 11 │ build_rust_channel │ release                                                                              │
-# │ 12 │ features           │ clipboard-cli, ctrlc, default, directories, dirs, git, ichwh, ptree, rich-benchmark, │
-# │    │                    │ rustyline, term, trash, uuid, which, zip                                             │
-# ╰────┴────────────────────┴──────────────────────────────────────────────────────────────────────────────────────╯
+# ╭────┬────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │ #  │ key                │ value                                                                                             │
+# ├────┼────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+# │  0 │ version            │ 0.31.1                                                                                            │
+# │  1 │ branch             │ main                                                                                              │
+# │  2 │ short_commit       │ 751de20f                                                                                          │
+# │  3 │ commit_hash        │ 751de20f938ed200ae6128a30d06a5dd24a4fd33                                                          │
+# │  4 │ commit_date        │ 2021-05-21 02:04:27                                                                               │
+# │  5 │ build_os           │ windows-x86_64                                                                                    │
+# │  6 │ rust_version       │ rustc 1.52.1 (9bc8c42bb 2021-05-09)                                                               │
+# │  7 │ rust_channel       │ stable (default)                                                                                  │
+# │  8 │ cargo_version      │ cargo 1.52.0 (69767412a 2021-04-21)                                                               │
+# │  9 │ pkg_version        │ 0.31.1                                                                                            │
+# │ 10 │ build_time         │ 2021-05-21 07:20:25                                                                               │
+# │ 11 │ build_rust_channel │ release                                                                                           │
+# │ 12 │ features           │ clipboard-cli, ctrlc, default, directories, dirs, ptree, rustyline, term, trash, uuid, which, zip │
+# ╰────┴────────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────╯
