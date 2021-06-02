@@ -1,8 +1,7 @@
 let term_cols = ((term size -w) - 1)
 
 # let's itertate through each of the columns of our terminal
-echo 0..$term_cols |
-each { |col|
+for col inc 0..$term_cols {
     let r = (255 - ($col * 255 / $term_cols) | math round)
     let g = ($col * 510 / $term_cols | math round)
     let b = ($col * 255 / $term_cols | math round)
