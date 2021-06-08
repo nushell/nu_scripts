@@ -31,7 +31,7 @@ def construct_prompt [] {
     let left_len = ($left_colored | ansi strip | str length)
 
     # the right side of the prompt with ansi colors
-    let right_colored = $"(ansi blue)($nu.env.CMD_DURATION)|(ansi dark_gray)($current_time)(ansi reset)"
+    let right_colored = $"(ansi blue)($nu.env.CMD_DURATION_MS)|(ansi dark_gray)($current_time)(ansi reset)"
 
     # the right prompt length *with* ansi escapes (need this to determine how many escape chars there are)
     let right_colored_len = ( $right_colored | str length)
