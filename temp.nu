@@ -58,6 +58,28 @@ def "temp k-to-c" [
     $"($kelvin) °K is ($celcius) °C"
 }
 
+def temp [] {
+    $"temperature conversions(char nl)"
+    char nl
+    $"Usage:(char nl)"
+    $"    > temp ...args <subcommand> {flags}(char nl)"
+    char nl
+    $"Subcommands:(char nl)"
+    $"  temp f-to-c - converts Fahrenheit to Celcius(char nl)"
+    $"  temp f-to-k - converts Fahrenheit to Kelvin(char nl)"
+    $"  temp c-to-f - converts Celcius to Fahrenheit(char nl)"
+    $"  temp c-to-k - converts Celcius to Kelvin(char nl)"
+    $"  temp k-to-f - converts Kelvin to Fahrenheit(char nl)"
+    $"  temp k-to-c - converts Kelvin to Celcius(char nl)"
+    char nl
+    $"Parameters:(char nl)"
+    $"  ...args: optionally convert by column paths(char nl)"
+    char nl
+    $"Flags:(char nl)"
+    $"  -h, --help: Display this help message(char nl)"
+    char nl    
+}
+
 temp f-to-c 100
 char nl
 temp f-to-k 100
