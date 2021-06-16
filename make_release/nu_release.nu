@@ -4,7 +4,7 @@ let first-wave = [nu-ansi-term, nu-pretty-hex, nu-source, nu-errors, nu-protocol
 
 echo $first-wave | each { enter $it; cargo publish; exit; sleep 1min }
 
-let second-wave = [nu-command, nu-cli]
+let second-wave = [nu-command, nu-completion, nu-cli]
 
 echo $second-wave | each { enter $it; cargo publish --no-verify; exit; sleep 1min }
 
