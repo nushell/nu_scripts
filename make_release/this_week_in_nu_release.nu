@@ -15,11 +15,19 @@ def do-work [] {
   ]
 
   let query_prefix = "https://api.github.com/search/issues?q=repo:nushell/"
-  let query_date = (seq date --days 7 -r | last)
-  let query_suffix = $"+is:pr+is:merged+merged:%3E%3D($query_date)"
+  let query_date = (seq date --days 21 -r | last)
+  # We're looking for something like "is:pr is:merged merged:>=2021-05-31&per_page=100&page=1"
+  let per_page = "100"
+  let page_num = "1" # need to implement iterating pages
+  let colon = "%3A"
+  let gt = "%3E"
+  let eq = "%3D"
+  let amp = "%26"
+  let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
 
   let entries = ($site_table | each {
       let query_string = $"($query_prefix)($it.repo)($query_suffix)"
+      echo $query_string
       let site_json = (fetch $query_string | get items | select html_url user.login title body)
       $"## ($it.site)(char nl)(char nl)"
       if ($site_json | all? ($it | empty?)) {
