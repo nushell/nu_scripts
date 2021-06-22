@@ -58,7 +58,7 @@ let img_name = (list_images $img_dir | select_random | get name)
 
 # Resize the image to the monitor height, draw the caption and save it
 let res_str = (build-string 'x' $resolution_y)
-convert -resize $res_str -pointsize 15 -fill "rgb(255,200,150)" -draw (draw_str $img_name) $img_name $tmp_image
+convert -resize $res_str -pointsize 15 -fill "rgb\(255,200,150\)" -draw (draw_str $img_name) $img_name $tmp_image
 
 # Set the created image as a background
 feh --no-fehbg --bg-max $tmp_image
