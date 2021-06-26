@@ -4,13 +4,13 @@
 
 def do-work [] {
   let site_table = [
-    [site repo
-    ]; [Nushell nushell
-    ] [Extension vscode-nushell-lang
-    ] [Documentation nushell.github.io
-    ] [Wasm demo
-    ] [Nu_Scripts nu_scripts
-    ] [RFCs rfcs]
+    [site repo]; 
+    [Nushell nushell] 
+    [Extension vscode-nushell-lang] 
+    [Documentation nushell.github.io] 
+    [Wasm demo] 
+    [Nu_Scripts nu_scripts] 
+    [RFCs rfcs]
     # ] [Jupyter jupyter]
   ]
 

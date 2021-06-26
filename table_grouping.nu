@@ -1,12 +1,12 @@
 let table = (echo [
-    [url user_login title
-    ]; [https://api.github.com/repos/nushell/nushell/issues/3382 ammkrn 'Dont unwrap rustyline helper in cli'
-    ] [https://api.github.com/repos/nushell/nushell/issues/3379 jonathandturner 'Simplify down to one type of context'
-    ] [https://api.github.com/repos/nushell/nushell/issues/3377 kubouch 'Port range to engine-p'
-    ] [https://api.github.com/repos/nushell/nushell/issues/3375 fdncred 'added check for endian-ness, added a bytes and skip'
-    ] [https://api.github.com/repos/nushell/nushell/issues/3374 fdncred 'added ability to change "#" color using header_color'
-    ] [https://api.github.com/repos/nushell/nushell/issues/3370 fdncred 'add nu-pretty-hex, add into binary, update binaryview'
-    ] [https://api.github.com/repos/nushell/nushell/issues/3367 fdncred 'tweaked the error handling to show specific errors']
+    [url user_login title]; 
+    [https://api.github.com/repos/nushell/nushell/issues/3382 ammkrn 'Dont unwrap rustyline helper in cli']
+    [https://api.github.com/repos/nushell/nushell/issues/3379 jonathandturner 'Simplify down to one type of context'] 
+    [https://api.github.com/repos/nushell/nushell/issues/3377 kubouch 'Port range to engine-p']
+    [https://api.github.com/repos/nushell/nushell/issues/3375 fdncred 'added check for endian-ness, added a bytes and skip'] 
+    [https://api.github.com/repos/nushell/nushell/issues/3374 fdncred 'added ability to change "] 
+    [https://api.github.com/repos/nushell/nushell/issues/3370 fdncred 'add nu-pretty-hex, add into binary, update binaryview'] 
+    [https://api.github.com/repos/nushell/nushell/issues/3367 fdncred 'tweaked the error handling to show specific errors']
 ])
 
 # Show what the table looks like
