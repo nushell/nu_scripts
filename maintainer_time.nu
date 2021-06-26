@@ -1,5 +1,14 @@
 let m_table = (
-    [['name', 'tz', 'time']; ['andres' 'US/Eastern' ' '] ['fdncred' 'US/Central' ' '] ['gedge' 'US/Eastern' ' '] ['jturner' 'NZ' ' '] ['wycats' 'US/Pacific' ' ']]
+    [
+    ['name', 'tz', 'time']; 
+    ['andres' 'US/Eastern' ' '] 
+    ['fdncred' 'US/Central' ' '] 
+    ['gedge' 'US/Eastern' ' '] 
+    ['jturner' 'NZ' ' '] 
+    ['wycats' 'US/Pacific' ' '] 
+    ['kubouch' 'Europe/Helsinki' ' '] 
+    ['elferherrera' 'Europe/London' ' ']
+    ]
 )
 let now = (date now)
 $m_table | update time {
