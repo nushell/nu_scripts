@@ -1,12 +1,12 @@
 let m_table = (
     [
-    ['name', 'tz', 'time']; 
-    ['andres' 'US/Eastern' ' '] 
-    ['fdncred' 'US/Central' ' '] 
-    ['gedge' 'US/Eastern' ' '] 
-    ['jturner' 'NZ' ' '] 
-    ['wycats' 'US/Pacific' ' '] 
-    ['kubouch' 'Europe/Helsinki' ' '] 
+    ['name', 'tz', 'time'];
+    ['andres' 'US/Eastern' ' ']
+    ['fdncred' 'US/Central' ' ']
+    ['gedge' 'US/Eastern' ' ']
+    ['jt' 'NZ' ' ']
+    ['wycats' 'US/Pacific' ' ']
+    ['kubouch' 'Europe/Helsinki' ' ']
     ['elferherrera' 'Europe/London' ' ']
     ]
 )
