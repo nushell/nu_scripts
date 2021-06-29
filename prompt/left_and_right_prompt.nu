@@ -12,7 +12,7 @@ def construct_prompt [] {
 
     # the current bit branch
     # let git_status = (git -c core.quotepath=false -c color.status=false status -uall --short --branch)
-    let git_info = (do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect )
+    let git_info = (do -i { git rev-parse --abbrev-ref HEAD  } | str trim -c (char nl) | str collect )
 
     # what to put in the title
     let title_bar = (set_title)
@@ -73,7 +73,7 @@ def home_abbrev [] {
 # Get Git Info custom commands
 
 def git_br [] {
-    $"(ansi gb)(pwd)(ansi reset)(char lparen)(ansi cb)(do -i { git rev-parse --abbrev-ref HEAD  } | str trim | str collect)(ansi reset)(char rparen)(char newline)(ansi yb)(date now | date format '%m/%d/%Y %I:%M:%S%.3f %p')(ansi reset)¯\\_(ツ)_/¯(char prompt) "
+    $"(ansi gb)(pwd)(ansi reset)(char lparen)(ansi cb)(do -i { git rev-parse --abbrev-ref HEAD  } | str trim -c (char nl) | str collect)(ansi reset)(char rparen)(char newline)(ansi yb)(date now | date format '%m/%d/%Y %I:%M:%S%.3f %p')(ansi reset)¯\\_(char lparen)ツ)_/¯(char prompt) "
 }
 
 # Set Title String custom commands
