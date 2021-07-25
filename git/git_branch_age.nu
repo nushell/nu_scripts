@@ -10,6 +10,6 @@ def "git age" [] {
             git show $it --no-patch --format=%as | str to-datetime
         }
     } |
-    sort-by date
+    sort-by last_commit
 }
 
