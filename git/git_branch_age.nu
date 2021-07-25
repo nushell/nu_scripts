@@ -4,7 +4,7 @@ def "git age" [] {
     lines |
     str substring 2, |
     wrap name |
-    insert date {
+    insert last_commit {
         get name |
         each {
             git show $it --no-patch --format=%as | str to-datetime
