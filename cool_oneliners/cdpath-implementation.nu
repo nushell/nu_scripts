@@ -5,7 +5,6 @@
 #Written by skelly37
 
 startup = [
-  "let cdpath = [. /place/your /cdpath/here]",
-
-  "def c [dir] { let wd = (pwd); for element in $cdpath {if (pwd) == $wd {cd $element; for directory in (ls -d -a */ | get name) {if $dir == $directory {cd $dir} {}}; if (pwd) == $element {cd $wd} {}} {}}; if (pwd) == $wd {cd $wd; echo \"No such path!\"} {}}",
+	"let cdpath = [. /data /data/it /data/games]", 
+	"def c [dir] { let wd = (pwd); for element in $cdpath {if (pwd) == $wd {cd $element; for directory in (ls -a | select name type | each { if $it.type == Dir {echo $it.name} {} }  ) {if $dir == $directory {cd $dir} {}}; if (pwd) == $element {cd $wd} {}} {}}; if (pwd) == $wd {cd $wd; echo \"No such path!\"} {}}",
 ]
