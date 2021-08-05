@@ -5,16 +5,18 @@ def conda-env [env-name] {
     let old-path = ($nu.path | str collect (path-sep))
     let new-path = (if (windows?) { (conda-create-path-windows $env-dir) } { (conda-create-path-unix $env-dir) })
     let new-env = [[name, value];
-     [CONDA_DEFAULT_ENV $env-name]
-     [CONDA_PREFIX $env-dir]
-     [CONDA_PROMPT_MODIFIER $"[($env-name)]"]
-     [CONDA_SHLVL "1"]
-     [CONDA_OLD_PATH $old-path]]
+                   [CONDA_DEFAULT_ENV $env-name]
+                   [CONDA_PREFIX $env-dir]
+                   [CONDA_PROMPT_MODIFIER $"[($env-name)]"]
+                   [CONDA_SHLVL "1"]
+                   [CONDA_OLD_PATH $old-path]]
      
     $new-env | append $new-path
 }
 
 def conda-create-path-windows [env-dir] {
+    # 1. Conda on Windows needs a few additional Path elements
+    # 2. The path env var on Windows is called Path (not PATH)
     let env-path = [
         $env-dir
         ([$env-dir "Scripts"] | path join)
