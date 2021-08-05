@@ -35,3 +35,5 @@ You can run nushell scripts in a few different ways.
 | prompt           | [git_status_prompt.nu](./prompt/git_status_prompt.nu)     | 0.28       | Creates a prompt which includes short working directory and current git status.        |
 | stdlib_candidate | [nu_style.nu](./stdlib_candidate/nu_style.nu)             | 0.26       | Define colors as names.        |
 | stdlib_candidate | [print.nu](./stdlib_candidate/print.nu)                   | 0.26       | Examples of a print statement.        |
+| virtual_envs     | [conda.nu](./virtual_environments/conda.nu)               | 0.32       | Activates a Conda environment. |
+| virtual_envs     | [venv.nu](./virtual_environments/venv.nu)                 | 0.32       | Activates a Python venv. |
