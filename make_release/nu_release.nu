@@ -1,6 +1,6 @@
 cd crates
 
-let first-wave = [nu-ansi-term, nu-pretty-hex, nu-source, nu-errors, nu-protocol, nu-value-ext, nu-test-support, nu-table, nu-parser, nu-plugin, nu-data, nu-stream, nu-engine, nu-json]
+let first-wave = [nu-ansi-term, nu-pretty-hex, nu-source, nu-errors, nu-protocol, nu-value-ext, nu-test-support, nu-table, nu-parser, nu-plugin, nu-data, nu-stream, nu-engine, nu-json, nu-serde]
 
 echo $first-wave | each { enter $it; cargo publish; exit; sleep 1min }
 
