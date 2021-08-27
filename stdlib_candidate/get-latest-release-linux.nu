@@ -1,6 +1,6 @@
 # A small script to auto-update nushell in linux
-# WIP - Not finished yet
-def get-latest [] {
+# requires nushell 0.36.0 or greater
+def get-latest-linux [] {
     # fetch the information about the latest release
     let metadata = (fetch https://api.github.com/repos/nushell/nushell/releases/latest)
     let release_name = ($metadata | get name | split row ' ' | nth 0)
@@ -13,15 +13,11 @@ def get-latest [] {
     let file_name = ($asset_info | get name)
     # tell you what i'm doing
     $"Release name is ($release_name)(char newline)(char newline)"
-    $"($body)(char newline)(char newline)Downloading..."
-    # fetch doesn't appear to follow redirects so get the actual download url
-    let redirected_url = (fetch $download_url --raw)
-    # pull the download url out with xpath, thank you!
-    let real_download_url = ($redirected_url | xpath '//@href' | get '//@href')
-    # now do the real download of the archive
-    fetch $real_download_url | save $file_name
+    $"($body)(char newline)(char newline)Downloading and following redirects ..."
+    # fetch follows redirects now
+    fetch $download_url | save $file_name
     # tell you what i'm doing
-    $"Extracting ($file_name) to /tmp(char newline)"
+    $"(char newline)Extracting ($file_name) to /tmp(char newline)"
     # extract the tar file to the temp folder
     tar -xf ($file_name) -C /tmp
     # parse the $file_name to get the folder
