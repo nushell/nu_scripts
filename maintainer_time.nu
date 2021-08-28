@@ -1,7 +1,7 @@
 let m_table = (
     [
     ['name', 'tz', 'time'];
-    ['andres' 'US/Eastern' ' ']
+    ['andres' 'America/Guayaquil' ' ']
     ['fdncred' 'US/Central' ' ']
     ['gedge' 'US/Eastern' ' ']
     ['jt' 'NZ' ' ']
