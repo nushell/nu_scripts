@@ -4,12 +4,12 @@
 
 def do-work [] {
   let site_table = [
-    [site repo]; 
-    [Nushell nushell] 
-    [Extension vscode-nushell-lang] 
-    [Documentation nushell.github.io] 
-    [Wasm demo] 
-    [Nu_Scripts nu_scripts] 
+    [site repo];
+    [Nushell nushell]
+    [Extension vscode-nushell-lang]
+    [Documentation nushell.github.io]
+    [Wasm demo]
+    [Nu_Scripts nu_scripts]
     [RFCs rfcs]
     # ] [Jupyter jupyter]
   ]
@@ -26,7 +26,9 @@ def do-work [] {
 
   let entries = ($site_table | each {
       let query_string = $"($query_prefix)($it.repo)($query_suffix)"
-      let site_json = (fetch $query_string | get items | select html_url user.login title)
+      # this is for debugging the rate limit. comment it out if things are working well
+      # fetch -u $nu.env.GITHUB_USERNAME -p $nu.env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
+      let site_json = (fetch -u $nu.env.GITHUB_USERNAME -p $nu.env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
       $"## ($it.site)(char nl)(char nl)"
       if ($site_json | all? ($it | empty?)) {
           $"none found this week(char nl)(char nl)"
@@ -48,9 +50,6 @@ def do-work [] {
         } | str collect
         char nl
       }
-
-      # We need 2 seconds between fetches or github's api limiting will limit us
-      sleep 2sec
   })
 
   if ($entries | all? ($it | empty?)) {
@@ -62,4 +61,9 @@ def do-work [] {
 # 2019-08-23 was the release of 0.2.0, the first public release
 let week_num = (seq date -b '2019-08-23' -n 7 | length)
 $"# This week in Nushell #($week_num)(char nl)(char nl)"
-do-work | str collect
+
+if ($nu.env | select GITHUB_USERNAME | empty?) || ($nu.env | select GITHUB_PASSWORD | empty?) {
+    echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $nu.env to use this script'
+} {
+    do-work | str collect
+}
