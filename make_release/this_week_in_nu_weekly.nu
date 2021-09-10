@@ -11,6 +11,7 @@ def do-work [] {
     [Wasm demo]
     [Nu_Scripts nu_scripts]
     [RFCs rfcs]
+    [engine-q engine-q]
     # ] [Jupyter jupyter]
   ]
 
