@@ -12,6 +12,7 @@ def do-work [] {
     [Nu_Scripts nu_scripts]
     [RFCs rfcs]
     [engine-q engine-q]
+    [reedline reedline]
     # ] [Jupyter jupyter]
   ]
 
