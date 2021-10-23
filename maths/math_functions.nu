@@ -19,7 +19,7 @@ def aroot [ scaler: number, denominator: number, num: number ] {
 
 #discriminant of a quadratic equation
 def delta [ a: number, b: number, c: number ] {
-	( $b | math sqrt ) - ( 4 * $a * $c)
+	( $b ** 2 ) - ( 4 * $a * $c)
 }
 
 #TODO:
