@@ -16,3 +16,8 @@ def root [ denominator: number, num: number ] {
 def aroot [ scaler: number, denominator: number, num: number ] {
 	$num ** ($scaler / $denominator) | math round
 }
+
+#TODO:
+# -sin, cos, tan table for 0-90 degrees
+# -radians to degrees and reversed
+# -sin, cos, tan, ctg, sec, cosec functions
