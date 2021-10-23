@@ -17,6 +17,11 @@ def aroot [ scaler: number, denominator: number, num: number ] {
 	$num ** ($scaler / $denominator) | math round
 }
 
+#discriminant of a quadratic equation
+def delta [ a: number, b: number, c: number ] {
+	( $b | math sqrt ) - ( 4 * $a * $c)
+}
+
 #TODO:
 # -sin, cos, tan table for 0-90 degrees
 # -radians to degrees and reversed
