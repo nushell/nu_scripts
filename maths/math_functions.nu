@@ -1,20 +1,24 @@
 #!/usr/bin/nu
-
+# made by @skelly37 for everyone :)
+#
 # (sqrt skipped because of math module from nushell)
+#
+# BE CAREFUL WITH ROOTS MADE ON BIG NUMBERS (10 digits and more) — the result is rounded so you may get wrong result.
+# just modify the round -p or calculate it manually
 
 # cube root
 def croot [num: number] {
-	$num ** ( 1 / 3 ) | math round -p 4
+	$num ** ( 1 / 3 ) | math round -p 10
 }
 
 # root with custom denominator, e.g. 2 ** 1/4
 def root [ denominator: number, num: number ] {
-	$num ** ( 1 / $denominator ) | math round -p 4
+	$num ** ( 1 / $denominator ) | math round -p 10
 }
 
 # totally custom root, e.g. 2 ** 3/8
 def aroot [ scaler: number, denominator: number, num: number ] {
-	$num ** ($scaler / $denominator) | math round -p 4
+	$num ** ($scaler / $denominator) | math round -p 10
 }
 
 #discriminant of a quadratic equation
