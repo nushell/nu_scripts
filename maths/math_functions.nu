@@ -22,6 +22,11 @@ def delta [ a: number, b: number, c: number ] {
 	( $b ** 2 ) - ( 4 * $a * $c)
 }
 
+#factorial of a given number, works fine only for n<21 (integer range)
+def fact [num:number] {
+	if $num >= 0 { if $num < 2 {$num} {seq 2 $num | math product} } { echo 'Error: can only calculate non-negative integers'}
+}
+
 #TODO:
 # -sin, cos, tan table for 0-90 degrees
 # -radians to degrees and reversed
