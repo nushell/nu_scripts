@@ -6,7 +6,11 @@
 
 def dict [word: string] {
   let link = (build-string 'https://api.dictionaryapi.dev/api/v2/entries/en/' ($word|str find-replace ' ' '%20'))
-  fetch $link |
-  get meanings.definitions|
+  let output = (fetch $link |
+  rename word)
+  
+  if $output.word == "No Definitions Found" {echo $output.word} {echo $output | 
+  get meanings.definitions |
   select definition example
+  }
 }
