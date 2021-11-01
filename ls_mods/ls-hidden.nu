@@ -1,0 +1,1 @@
+ls -a | where | { each { echo $it.name | str starts-with '.'} }
