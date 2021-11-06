@@ -8,8 +8,9 @@ def dict [word: string] {
   let link = (build-string 'https://api.dictionaryapi.dev/api/v2/entries/en/' ($word|str find-replace ' ' '%20'))
   let output = (fetch $link |
   rename word)
-  
-  if $output.word == "No Definitions Found" {echo $output.word} {echo $output | 
+  let w = ($output.word | first)  
+
+  if $w == "No Definitions Found" {echo $output.word} {echo $output | 
   get meanings.definitions |
   select definition example
   }
