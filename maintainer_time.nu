@@ -8,6 +8,7 @@ let m_table = (
     ['wycats' 'US/Pacific' ' ']
     ['kubouch' 'Europe/Helsinki' ' ']
     ['elferherrera' 'Europe/London' ' ']
+    ['storm' 'US/Pacific' ' ']
     ]
 )
 let now = (date now)
