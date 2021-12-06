@@ -100,7 +100,6 @@ for i in 0..512 {
             let dx = ($x - $mx)
             let a = (math eval $"atan2(char lparen)($dy * 2), ($dx)(char rparen) + ($pi)")
             let c = ((($a / ($pi) * 127) + ($i)) mod 256 | math round)
-            #$"38;2;($c);($c);($c)m*)"
             $"(ansi -e '38;2;')($c);($c);($c)m*" | autoview
         }
         char nl | autoview
