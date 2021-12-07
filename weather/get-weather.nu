@@ -119,21 +119,43 @@ def get_weather [
     let with_loc_no_unit = ($is_loc_empty == $false && $is_units_empty == $true)
     let with_loc_with_unit = ($is_loc_empty == $false && $is_units_empty == $false)
 
+    # This is a cautionary tale, the commented out code below is returning
+    # and autoview is viewing the data, so no structured data is being returned.
+    # The ramification to this is you can't do get_weather | select Temperature Emoji
+    # like you should be able to. The following uncommented section below fixes it.
+
+    # Hopefully we'll be able to fix this somehow because it's easy to fall into
+    # this hole without knowing.
+
+    # if $no_loc_no_unit {
+    #     echo "no_loc_no_unit"
+    #     (get_weather_by_ip 0 "f")
+    # } { }
+
+    # if $no_loc_with_unit {
+    #     echo "no_loc_with_unit"
+    #     (get_weather_by_ip 0 $units)
+    # } { }
+
+    # if $with_loc_no_unit {
+    #     echo "with_loc_no_unit"
+    #     (get_weather_by_ip $locIdx "f")
+    # } { }
+
+    # if $with_loc_with_unit {
+    #     echo "with_loc_with_unit"
+    #     (get_weather_by_ip $locIdx $units)
+    # } { }
+
     if $no_loc_no_unit {
         (get_weather_by_ip 0 "f")
-    } { }
-
-    if $no_loc_with_unit {
+    } { if $no_loc_with_unit {
         (get_weather_by_ip 0 $units)
-    } { }
-
-    if $with_loc_no_unit {
+    } { if $with_loc_no_unit {
         (get_weather_by_ip $locIdx "f")
-    } { }
-
-    if $with_loc_with_unit {
+    } { if $with_loc_with_unit {
         (get_weather_by_ip $locIdx $units)
-    } { }
+    } { } }}}
 }
 
 def state_abbrev_lookup [state_name: string] {
