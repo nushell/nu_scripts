@@ -4,9 +4,7 @@
 #
 # It fethes all definitions and environment variables from the `init` module.
 
-use ~/.config/nushell/init.nu
-
-use init *
+use ~/.config/nushell/init.nu *
 
 let config = build-config
 
