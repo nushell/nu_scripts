@@ -2,7 +2,7 @@
 def docker [
   ...args:string # command to be passed to the real docker command
   ] {
-  ^docker $args --format='{{json .}}'|
+  ^docker $args --format={{json .}}|
   lines|
   each {
     $it|
