@@ -2,12 +2,17 @@
 def docker [
   ...args:string # command to be passed to the real docker command
   ] {
-  ^docker $args --format={{json .}}|
-  lines|
-  each {
-    $it|
-    from json
-    }|
+  let data = (^docker $args --format={{json .}}|lines|each {$it|from json})
+  if Labels in ($data|get) {
+    $data|docker labels
+  } {
+    $data
+  }
+  
+}
+
+# subcommand used to reformat docker labels into their own table
+def 'docker labels' [] {
   update Labels {
     get Labels|
     split row ','|
