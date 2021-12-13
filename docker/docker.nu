@@ -7,5 +7,11 @@ def docker [
   each {
     $it|
     from json
+    }|
+  update Labels {
+    get Labels|
+    split row ','|
+    where ($it|str starts-with ' ') == $false|
+    split column '=' name value
   }
 }
