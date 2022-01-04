@@ -27,7 +27,7 @@ def home_abbrev [os] {
             $nu.cwd | str find-replace $nu.home-path '~'
         }
     } else {
-        $nu.cwd
+        $nu.cwd | str find-replace -a '\\' '/'
     }
 }
 
@@ -41,16 +41,19 @@ def path_abbrev_if_needed [apath term_width] {
 
     if (($apath | str length) > ($term_width / 2)) {
         # split out by path separator into tokens
-        let splits = ($apath | split row (char psep))
-        
+        # don't use psep here because in home_abbrev we're making them all '/'
+        let splits = ($apath | split row '/')
+
+        let splits_len = ($splits | length)
+        let subtractor = (if ($splits_len <= 2) { 1 } else { 2 })
         # get all the tokens except the last
-        let tokens = (for x in 1..(($splits | length) - 2) {
+        let tokens = (for x in 1..($splits_len - $subtractor) {
             $"($T)((($splits) | get $x | split chars) | get 0)($R)"
         })
 
         # need an insert command
         let tokens = ($tokens | prepend $"($T)~")
-        
+
         # append the last part of the path
         let tokens = ($tokens | append $"($PB)($splits | last | get 0)($R)")
 
@@ -60,7 +63,7 @@ def path_abbrev_if_needed [apath term_width] {
         # $"($P)($apath)($R)"
 
         # FIXME: This is close but it fails with folder with space. I'm not sure why.
-        # let splits = ($apath | split row (char psep))
+        # let splits = ($apath | split row '/')
         # let splits_len = ($splits | length)
         # let tokens = (for x in 0..($splits_len - 1) {
         #     if ($x < ($splits_len - 1)) {
@@ -72,14 +75,18 @@ def path_abbrev_if_needed [apath term_width] {
 
         # FIXME: This is close but it fails with folder with space. I'm not sure why.
         # cd "/Applications/Hex Fiend.app/"
-        #    ~/H/A/Hex Fiend.app  
+        #    ~/H/A/Hex Fiend.app 
         # should be
-        #    ~/A/Hex Fiend.app  
-        let splits = ($apath | split row (char psep))
+        #    ~/A/Hex Fiend.app 
+        let splits = ($apath | split row '/')
         let splits_len = ($splits | length)
         if ($splits_len == 0) {
             # We're at / on the file system
             $"/($T)"
+        } else if ($splits_len == 1) {
+            let top_part = ($splits | first)
+            let tokens = $"($PB)($top_part)($R)"
+            $tokens | str collect $"($T)"
         } else {
             let top_part = ($splits | first ($splits_len - 1))
             let end_part = ($splits | last)
@@ -205,9 +212,9 @@ def git_prompt [] {
     let conflicted_cnt = (get_conflicted_count $gs)
     let untracked_cnt = (get_untracked_count $gs)
     let has_no_changes = (
-        if ($index_change_cnt <= 0) && 
-            ($wt_change_cnt <= 0) && 
-            ($conflicted_cnt <= 0) && 
+        if ($index_change_cnt <= 0) &&
+            ($wt_change_cnt <= 0) &&
+            ($conflicted_cnt <= 0) &&
             ($untracked_cnt <= 0) {
                 $true
         } else {
