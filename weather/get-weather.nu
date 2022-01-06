@@ -23,18 +23,18 @@ def get_my_location [index: int] {
     if ($city_column | str length) > 1 {
         if ($state_column | str length) > 1 {
             if ($country_column | str length) > 1 {
-                let lookup_state = ($loc_json | get ($state_column | into column_path))
+                let lookup_state = ($loc_json | get ($state_column | into column-path))
                 if ($lookup_state | str length) > 2 {
                     let state = (state_abbrev_lookup $lookup_state)
-                    $"($loc_json | get ($city_column | into column_path)),($state),($loc_json | get ($country_column | into column_path))"
+                    $"($loc_json | get ($city_column | into column-path)),($state),($loc_json | get ($country_column | into column-path))"
                 } {
-                    $"($loc_json | get ($city_column | into column_path)),($loc_json | get ($state_column | into column_path)),($loc_json | get ($country_column | into column_path))"
+                    $"($loc_json | get ($city_column | into column-path)),($loc_json | get ($state_column | into column-path)),($loc_json | get ($country_column | into column-path))"
                 }
             } {
-                $"($loc_json | get ($city_column | into column_path)),($loc_json | get ($state_column | into column_path))"
+                $"($loc_json | get ($city_column | into column-path)),($loc_json | get ($state_column | into column-path))"
             }
         } {
-            $"($loc_json | get ($city_column | into column_path))"
+            $"($loc_json | get ($city_column | into column-path))"
         }
     } {
         "No City Found"
