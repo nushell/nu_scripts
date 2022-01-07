@@ -169,16 +169,17 @@ def get_icon_by_name [name] {
 
 def get_os_icon [os] {
     # f17c = tux, f179 = apple, f17a = windows
-    if ($os == Darwin) {
+    if ($os =~ Darwin) {
         (char -u f179)
     } else if ($os =~ Linux) {
         (char -u f17c)
-    } else if ($os == Windows) {
+    } else if ($os =~ Windows) {
         (char -u f17a)
     } else {
         ''
     }
 }
+
 # ╭─────────────────────┬───────────────╮
 # │ idx_added_staged    │ 0             │ #INDEX_NEW
 # │ idx_modified_staged │ 0             │ #INDEX_MODIFIED
@@ -195,13 +196,13 @@ def get_os_icon [os] {
 # │ ahead               │ 0             │
 # │ behind              │ 0             │
 # │ stashes             │ 0             │
+# │ repo_name           │ engine-q      │
+# │ tag                 │ no_tag        │
 # │ branch              │ main          │
 # │ remote              │ upstream/main │
 # ╰─────────────────────┴───────────────╯
 
-def git_prompt [] {
-    let gs = (gstat)
-    let os = ((sys).host.name)
+def get_repo_status [gs os] {
     # replace this 30 with whatever the width of the terminal is
     let display_path = (path_abbrev_if_needed (home_abbrev $os) 30)
     let branch_name = (get_branch_name $gs)
@@ -222,21 +223,9 @@ def git_prompt [] {
         }
     )
 
-    # when reduce is available
-    # echo "one" "two" "three" | reduce { if ($acc | str starts-with 't') { $acc + $it } { $it }}
-
-    # some icons and the unicode char
-    # e0b0
-    # e0b1
-    # e0b2
-    # e0b3
-    # f1d3
-    # f07c or  f115
-    # f015 or  f7db
-
     let GIT_BG = "#C4A000"
     let GIT_FG = "#000000"
-    let TERM_BG = "#0C0C0C"
+    # let TERM_BG = "#0C0C0C"
 
     # The multi-color fg colors are good if you just have a black background
 
@@ -296,6 +285,33 @@ def git_prompt [] {
         )"
     )
 
+    $repo_status
+}
+
+def git_left_prompt [gs os] {
+    # replace this 30 with whatever the width of the terminal is
+    let display_path = (path_abbrev_if_needed (home_abbrev $os) 30)
+    let branch_name = (get_branch_name $gs)
+    let R = (ansi reset)
+
+    # when reduce is available
+    # echo "one" "two" "three" | reduce { if ($acc | str starts-with 't') { $acc + $it } { $it }}
+
+    # some icons and the unicode char
+    # e0b0
+    # e0b1
+    # e0b2
+    # e0b3
+    # f1d3
+    # f07c or  f115
+    # f015 or  f7db
+
+    let GIT_BG = "#C4A000"
+    let GIT_FG = "#000000"
+    let TERM_BG = "#0C0C0C"
+
+    let repo_status = (get_repo_status $gs $os)
+
     # build segments and then put together the segments for the prompt
     let os_segment = ([
         (ansi { fg: "#080808" bg: "#CED7CF"})  # os bg color
@@ -312,7 +328,7 @@ def git_prompt [] {
         [
         (char -u f015)                         #  home icon
         (char space)                           # space
-        ($display_path)                        # ~/src/forks/nushell
+        $display_path                        # ~/src/forks/nushell
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color just to color the next space
         (char space)                           # space
         ] | str collect
@@ -320,7 +336,7 @@ def git_prompt [] {
         [
         (char -u f07c)                         #  folder icon
         (char space)                           # space
-        ($display_path)                        # ~/src/forks/nushell
+        $display_path                        # ~/src/forks/nushell
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color just to color the next space
         (char space)                           # space
         ] | str collect
@@ -331,29 +347,30 @@ def git_prompt [] {
         (ansi { fg: "#3465A4" bg: "#4E9A06"})  # color
         (char -u e0b0)                         # 
         (char space)                           # space
-        (ansi { fg: ($TERM_BG) bg: "#4E9A06"}) # color
+        (ansi { fg: $TERM_BG bg: "#4E9A06"}) # color
         # (char -u f1d3)                         # 
         (char -u e0a0)                         # 
         (char space)                           # space
         ($branch_name)                         # main
         (char space)                           # space
-        (ansi { fg: "#4E9A06" bg: ($GIT_BG)})  # color
+        (ansi { fg: "#4E9A06" bg: $GIT_BG})  # color
         (char -u e0b0)                         # 
         (char space)                           # space
         ($R)                                   # reset color
-        ($repo_status)                         # repo status
+        $repo_status                         # repo status
         ] | str collect
     })
 
-    let indicator_segment = (if ($branch_name == "") {
+    let git_right = $true
+    let indicator_segment = (if ($branch_name == "" || $git_right == $true) {
         [
-        (ansi { fg: "#3465A4" bg: ($TERM_BG)}) # color
+        (ansi { fg: "#3465A4" bg: $TERM_BG}) # color
         (char -u e0b0)                         # 
         ($R)                                   # reset color
         ] | str collect
     } else {
         [
-        (ansi { fg: ($GIT_BG) bg: ($TERM_BG)}) # color
+        (ansi { fg: $GIT_BG bg: $TERM_BG}) # color
         (char -u e0b0)                         # 
         ($R)                                   # reset color
         ] | str collect
@@ -361,9 +378,111 @@ def git_prompt [] {
 
     # assemble all segments for final prompt printing
     [
-        ($os_segment)
-        ($path_segment)
-        ($git_segment)
-        ($indicator_segment)
+        $os_segment
+        $path_segment
+        (if ($git_right == $false) {
+            $git_segment
+        })
+        $indicator_segment
     ] | str collect
+}
+
+def git_right_prompt [gs os] {
+    # right prompt ideas
+    # 1. just the time on the right
+    # 2. date and time on the right
+    # 3. git information on the right
+    # 4. maybe git and time
+    # 5. would like to get CMD_DURATION_MS going there too when it's implemented
+    # 6. all of the above, chosen by def parameters
+
+    let branch_name = (get_branch_name $gs)
+    let repo_status = (get_repo_status $gs $os)
+    let R = (ansi reset)
+    let TIME_BG = "#D3D7CF"
+    let TERM_FG = "#0C0C0C"
+    let GIT_BG = "#C4A000"
+    let GIT_FG = "#000000"
+    let TERM_BG = "#0C0C0C"
+
+    let datetime_segment = ([
+        (ansi { fg: $TIME_BG bg: $TERM_FG})
+        (char -u e0b2)     # 
+        (ansi { fg: $TERM_FG bg: $TIME_BG})
+        (char space)
+        (date now | date format '%m/%d/%Y %I:%M:%S%.3f')
+        (char space)
+        ($R)
+    ] | str collect)
+
+    let time_segment = ([
+        (ansi { fg: $TIME_BG bg: $TERM_FG})
+        (char -u e0b2)     # 
+        (ansi { fg: $TERM_FG bg: $TIME_BG})
+        (char space)
+        (date now | date format '%I:%M:%S %p')
+        (char space)
+        ($R)
+    ] | str collect)
+
+    let git_segment = (if ($branch_name != "") {
+        [
+        (ansi { fg: $GIT_BG bg: $TERM_BG}) # color
+        (char -u e0b2)                         # 
+        (ansi { fg: $TERM_FG bg: $GIT_BG}) # color
+        (char space)                           # space
+        $repo_status                         # repo status
+        (ansi { fg: "#4E9A06" bg: $GIT_BG }) # color
+        (char -u e0b2)                         # 
+        (ansi { fg: $TERM_BG bg: "#4E9A06"}) # color
+        (char space)                           # space
+        # (char -u f1d3)                       # 
+        (char -u e0a0)                         # 
+        (char space)                           # space
+        $branch_name                         # main
+        (char space)                           # space
+        ($R)                                   # reset color
+        ] | str collect
+    })
+
+    # 1. datetime - working
+    # $datetime_segment
+
+    # 2. time only - working
+    $time_segment
+
+    # 3. git only - working
+    # $git_segment
+
+    # 4. git + time -> need to fix the transition
+    # [
+    #     $git_segment
+    #     $time_segment
+    # ] | str collect
+
+    # 5. fernando wants this on the left prompt
+    # [
+    #     $os_segment
+    #     $time_segment
+    #     $path_segment
+    # ]
+}
+
+def git_prompt [] {
+    let gs = (gstat)
+    let os = ((sys).host.name)
+    let left_prompt = (git_left_prompt $gs $os)
+    let right_prompt = (git_right_prompt $gs $os)
+
+    # return in record literal syntax to be used kind of like a tuple
+    # so we don't have to run this script more than once per prompt
+    {
+        left_prompt: $left_prompt
+        right_prompt: $right_prompt
+    }
+    #
+    # in the config.nu you would do something like
+    # let-env PROMPT_COMMAND = { (git_prompt).left_prompt }
+    # let-env PROMPT_COMMAND_RIGHT = { (git_prompt).right_prompt }
+    # let-env PROMPT_INDICATOR = " "
 }
