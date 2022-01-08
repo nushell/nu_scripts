@@ -145,19 +145,18 @@ def get_behind_count [gs] {
 
 def get_icons_list [] {
     {
-        AHEAD_ICON: "↑", # 2191
-        BEHIND_ICON: "↓", # 2193
-        NO_CHANGE_ICON: "✔",
+        AHEAD_ICON: (char branch_ahead), # "↑" 2191
+        BEHIND_ICON: (char branch_behind), # "↓" 2193
+        NO_CHANGE_ICON: (char branch_identical) # ≣ 2263
         HAS_CHANGE_ICON: "*",
         INDEX_CHANGE_ICON: "♦",
         WT_CHANGE_ICON: "✚",
         CONFLICTED_CHANGE_ICON: "✖",
-        UNTRACKED_CHANGE_ICON: "…",
+        UNTRACKED_CHANGE_ICON: (char branch_untracked) # ≢ 2262
         INSERT_SYMBOL_ICON: "❯",
-        HAMBURGER_ICON: "≡", # 2261
-        NOT_HAMBURGER_ICON: "≢", # 2262
+        HAMBURGER_ICON: (char hamburger) # "≡" 2261
         GITHUB_ICON: "", # f408
-        BRANCH_ICON: "", # e0a0
+        BRANCH_ICON: (char nf-branch) # "" e0a0
         REBASE_ICON: "", # e728
         TAG_ICON: "" # f412
     }
@@ -427,21 +426,24 @@ def git_right_prompt [gs os] {
 
     let git_segment = (if ($branch_name != "") {
         [
-        (ansi { fg: $GIT_BG bg: $TERM_BG}) # color
-        (char -u e0b2)                         # 
-        (ansi { fg: $TERM_FG bg: $GIT_BG}) # color
-        (char space)                           # space
+        (ansi { fg: $GIT_BG bg: $TERM_BG})   # color
+        (char -u e0b2)                       # 
+        (ansi { fg: $TERM_FG bg: $GIT_BG})   # color
+        (char space)                         # space
         $repo_status                         # repo status
+        (ansi { fg: $TERM_FG bg: $GIT_BG})   # color
+        (char space)
         (ansi { fg: "#4E9A06" bg: $GIT_BG }) # color
-        (char -u e0b2)                         # 
+        (char -u e0b2)                       # 
         (ansi { fg: $TERM_BG bg: "#4E9A06"}) # color
-        (char space)                           # space
+        (char space)                         # space
         # (char -u f1d3)                       # 
-        (char -u e0a0)                         # 
-        (char space)                           # space
+        # (char -u e0a0)                       # 
+        (char nf-git-branch)                 # 
+        (char space)                         # space
         $branch_name                         # main
-        (char space)                           # space
-        ($R)                                   # reset color
+        (char space)                         # space
+        ($R)                                 # reset color
         ] | str collect
     })
 
