@@ -55,11 +55,11 @@ export def build-nu-config [base-txt: path] {
 
 # Generate Alacritty color config to be included in the main Alacritty config
 #
-# It injects the base16 colors into the Alacritty sonfig template
+# It injects the base16 colors into the Alacritty config template
 export def build-alacritty-config [base-txt: path] {
     let base16 = (from-file-table $base-txt)
     let template = (
-        open "~/.config/nushell/alacritty_colors.template" |
+        open "~/.config/nushell/alacritty_colors.mustache" |
         decode utf-8
     )
 
