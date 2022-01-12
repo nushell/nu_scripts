@@ -41,26 +41,17 @@ def get_my_location [index: int] {
     }
 }
 
-# we should be able to put these here but there's a bug in e-q where
-# they're not visible
-# let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
-# let TOKEN = "85a4e3c55b73909f42c6a23ec35b7147"
-# let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
+let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
+let TOKEN = "85a4e3c55b73909f42c6a23ec35b7147"
+let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
 
 def get_location_by_ip [locIdx: int] {
-    let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
-    let TOKEN = "85a4e3c55b73909f42c6a23ec35b7147"
-
     let location = (get_my_location $locIdx)
     let url = $"($URL_QUERY_LOCATION)?q=($location)&limit=5&appid=($TOKEN)"
     fetch $url
 }
 
-
 def get_weather_by_ip [locIdx: int, units: string] {
-    let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
-    let TOKEN = "85a4e3c55b73909f42c6a23ec35b7147"
-
     # units
     # f = imperial aka Fahrenheit
     # c = metric aka Celcius
