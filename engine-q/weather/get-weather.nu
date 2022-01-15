@@ -44,6 +44,7 @@ def get_my_location [index: int] {
 let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
 let TOKEN = "85a4e3c55b73909f42c6a23ec35b7147"
 let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
+let URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily"
 
 def get_location_by_ip [locIdx: int] {
     let location = (get_my_location $locIdx)
@@ -66,7 +67,24 @@ def get_weather_by_ip [locIdx: int, units: string] {
     if $units == "f" {
         let units = "imperial"
         let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
+        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
         let weather = (fetch $url)
+        let forecast_data = (fetch $url_forecast)
+        let forecast = (for day in $forecast_data.list {
+                    {
+                        id: ($day.weather.0.id)
+                        dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
+                        high: ($day.temp.max) 
+                        low: ($day.temp.min)
+                    }
+                })
+        let day1 = $"($forecast | get 0.dt) (get_emoji_by_id ($forecast | get 0.id | into string)) high: ($forecast | get 0.high | into string -d 1) low: ($forecast | get 0.low | into string -d 1)"
+        let day2 = $"($forecast | get 1.dt) (get_emoji_by_id ($forecast | get 1.id | into string)) high: ($forecast | get 1.high | into string -d 1) low: ($forecast | get 1.low | into string -d 1)"
+        let day3 = $"($forecast | get 2.dt) (get_emoji_by_id ($forecast | get 2.id | into string)) high: ($forecast | get 2.high | into string -d 1) low: ($forecast | get 2.low | into string -d 1)"
+        let day4 = $"($forecast | get 3.dt) (get_emoji_by_id ($forecast | get 3.id | into string)) high: ($forecast | get 3.high | into string -d 1) low: ($forecast | get 3.low | into string -d 1)"
+        let day5 = $"($forecast | get 4.dt) (get_emoji_by_id ($forecast | get 4.id | into string)) high: ($forecast | get 4.high | into string -d 1) low: ($forecast | get 4.low | into string -d 1)"
+        let day6 = $"($forecast | get 5.dt) (get_emoji_by_id ($forecast | get 5.id | into string)) high: ($forecast | get 5.high | into string -d 1) low: ($forecast | get 5.low | into string -d 1)"
+        let day7 = $"($forecast | get 6.dt) (get_emoji_by_id ($forecast | get 6.id | into string)) high: ($forecast | get 6.high | into string -d 1) low: ($forecast | get 6.low | into string -d 1)"
         {
             'Weather Location': $"($weather.name), ($weather.sys.country)"
             Longitude: $weather.coord.lon
@@ -76,11 +94,35 @@ def get_weather_by_ip [locIdx: int, units: string] {
             Humidity: $weather.main.humidity
             Pressure: $weather.main.pressure
             Emoji: (get_icon_from_table $weather.weather.main.0)
+            'Forecast Day 1': $day1
+            'Forecast Day 2': $day2
+            'Forecast Day 3': $day3
+            'Forecast Day 4': $day4
+            'Forecast Day 5': $day5
+            'Forecast Day 6': $day6
+            'Forecast Day 7': $day7
         }
     } else {
         let units = "metric"
         let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
+        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
         let weather = (fetch $url)
+        let forecast_data = (fetch $url_forecast)
+        let forecast = (for day in $forecast_data.list {
+                    {
+                        id: ($day.weather.0.id)
+                        dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
+                        high: ($day.temp.max) 
+                        low: ($day.temp.min)
+                    }
+                })
+        let day1 = $"($forecast | get 0.dt) (get_emoji_by_id ($forecast | get 0.id | into string)) high: ($forecast | get 0.high | into string -d 1) low: ($forecast | get 0.low | into string -d 1)"
+        let day2 = $"($forecast | get 1.dt) (get_emoji_by_id ($forecast | get 1.id | into string)) high: ($forecast | get 1.high | into string -d 1) low: ($forecast | get 1.low | into string -d 1)"
+        let day3 = $"($forecast | get 2.dt) (get_emoji_by_id ($forecast | get 2.id | into string)) high: ($forecast | get 2.high | into string -d 1) low: ($forecast | get 2.low | into string -d 1)"
+        let day4 = $"($forecast | get 3.dt) (get_emoji_by_id ($forecast | get 3.id | into string)) high: ($forecast | get 3.high | into string -d 1) low: ($forecast | get 3.low | into string -d 1)"
+        let day5 = $"($forecast | get 4.dt) (get_emoji_by_id ($forecast | get 4.id | into string)) high: ($forecast | get 4.high | into string -d 1) low: ($forecast | get 4.low | into string -d 1)"
+        let day6 = $"($forecast | get 5.dt) (get_emoji_by_id ($forecast | get 5.id | into string)) high: ($forecast | get 5.high | into string -d 1) low: ($forecast | get 5.low | into string -d 1)"
+        let day7 = $"($forecast | get 6.dt) (get_emoji_by_id ($forecast | get 6.id | into string)) high: ($forecast | get 6.high | into string -d 1) low: ($forecast | get 6.low | into string -d 1)"
         {
             'Weather Location': $"($weather.name), ($weather.sys.country)"
             Longitude: $weather.coord.lon
@@ -90,6 +132,13 @@ def get_weather_by_ip [locIdx: int, units: string] {
             Humidity: $weather.main.humidity
             Pressure: $weather.main.pressure
             Emoji: (get_icon_from_table $weather.weather.main.0)
+            'Forecast Day 1': $day1
+            'Forecast Day 2': $day2
+            'Forecast Day 3': $day3
+            'Forecast Day 4': $day4
+            'Forecast Day 5': $day5
+            'Forecast Day 6': $day6
+            'Forecast Day 7': $day7
         }
     }
 }
@@ -223,6 +272,27 @@ def state_abbrev_lookup [state_name: string] {
     }
 
     $lookup_table | get $state_name
+}
+
+def get_emoji_by_id [id] {
+        let emoji_dict = ({
+        "200": "⚡", "201": "⚡", "202": "⚡", "210": "⚡", "211": "⚡", "212": "⚡", "221": "⚡", "230": "⚡",
+        "231": "⚡", "232": "⚡",
+        "300": "☔", "301": "☔", "302": "☔", "310": "☔", "311": "☔",
+        "312": "☔", "313": "☔", "314": "☔", "321": "☔",
+        "500": "☔", "501": "☔", "502": "☔", "503": "☔", "504": "☔",
+        "511": "☔", "520": "☔", "521": "☔", "522": "☔", "531": "☔",
+        "600": "❄️", "601": "❄️", "602": "❄️", "611": "❄️", "612": "❄️",
+        "613": "❄️", "615": "❄️", "616": "❄️", "620": "❄️", "621": "❄️",
+        "622": "❄️",
+        "701": "🌫️", "711": "🌫️", "721": "🌫️", "731": "🌫️", "741": "🌫️", "751": "🌫️", "761": "🌫️", "762": "🌫️",
+        "771": "🌫️",
+        "781": "🌀",
+        "800": "☀️",
+        "801": "🌤️", "802": "🌤️", "803": "☁️", "804": "☁️",
+    })
+
+    ($emoji_dict | get $id)
 }
 
 # To run this call
