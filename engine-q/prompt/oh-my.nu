@@ -447,11 +447,25 @@ def git_right_prompt [gs os] {
         ] | str collect
     })
 
+    let execution_time_segment = (
+        [
+            (ansi { fg: "#606060" bg: $TERM_BG})
+            (char -u e0b3)
+            (char space)
+            $env.CMD_DURATION_MS
+            (char space)
+            ($R)
+        ] | str collect
+    )
+
     # 1. datetime - working
     # $datetime_segment
 
     # 2. time only - working
-    $time_segment
+    [
+        $execution_time_segment
+        $time_segment
+    ] | str collect
 
     # 3. git only - working
     # $git_segment
@@ -470,7 +484,7 @@ def git_right_prompt [gs os] {
     # ]
 }
 
-def git_prompt [] {
+export def git_prompt [] {
     let gs = (gstat)
     let os = ((sys).host.name)
     let left_prompt = (git_left_prompt $gs $os)
@@ -484,6 +498,7 @@ def git_prompt [] {
     }
     #
     # in the config.nu you would do something like
+    # use "c:\some\path\to\nu_scripts\engine-q\prompt\oh-my.nu" git_prompt
     # let-env PROMPT_COMMAND = { (git_prompt).left_prompt }
     # let-env PROMPT_COMMAND_RIGHT = { (git_prompt).right_prompt }
     # let-env PROMPT_INDICATOR = " "
