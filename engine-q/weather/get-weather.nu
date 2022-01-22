@@ -160,16 +160,13 @@ def get_icon_from_table [w] {
     weather_emoji_table | get $w
 }
 
-# i don't think this syntax works yet
-# def get_weather [
-#     --locIdx?(-l): int # The location id 0-3
-#     --units?(-u): string # The units "f" or "c"
-#     ] {
-
 # Get the local weather by ip address
-def get_weather [l?:int u?:string] {
-    let is_loc_empty = ($l == $nothing)
-    let is_units_empty = ($u == $nothing)
+def get_weather [
+    --locIdx(-l): int # The location id 0-3
+    --units(-u): string # The units "f" or "c"
+    ] {
+    let is_loc_empty = ($locIdx == $nothing)
+    let is_units_empty = ($units == $nothing)
 
     let no_loc_no_unit = ($is_loc_empty == $true && $is_units_empty == $true)
     let no_loc_with_unit = ($is_loc_empty == $true && $is_units_empty == $false)
@@ -207,11 +204,11 @@ def get_weather [l?:int u?:string] {
     if $no_loc_no_unit {
         (get_weather_by_ip 0 "f")
     } else if $no_loc_with_unit {
-        (get_weather_by_ip 0 $u)
+        (get_weather_by_ip 0 $units)
     } else if $with_loc_no_unit {
-        (get_weather_by_ip $l "f")
+        (get_weather_by_ip $locIdx "f")
     } else if $with_loc_with_unit {
-        (get_weather_by_ip $l $u)
+        (get_weather_by_ip $locIdx $units)
     }
 }
 
@@ -298,9 +295,9 @@ def get_emoji_by_id [id] {
 # To run this call
 # > get_weather
 # it will default to location 0 and Fahrenheit degrees
-# > get_weather 1
+# > get_weather -l 1
 # This changes to location 1. Locations are listed in the locations custom command above
-# > get_weather 2 c
+# > get_weather -l 2 -u c
 # This uses location 2 and Celcius degrees. f = Fahrenheit, c = Celcius
 
 # Since I live in the USA I have not tested outside the country.
