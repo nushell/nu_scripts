@@ -36,7 +36,11 @@ def timed_weather_run [
                 # $"interval not met. last_runtime: [($last_runtime)](char nl)"
                 let temp = ($last_runtime_data.Temperature)
                 let emoji = ($last_runtime_data.Emoji)
-                $"Cached Temp: ($temp) Cached Emoji: ($emoji)"
+                {
+                    Temperature: ($temp)
+                    Source: "cache"
+                    Emoji: ($emoji)
+                }
             } else {
                 # save the run time and run the command
                 # $"interval met, running command: [($command)](char nl)"
@@ -46,15 +50,23 @@ def timed_weather_run [
                 let weather_table = (if $command == "get_weather" {(get_weather)})
                 let temp = ($weather_table.Temperature)
                 let emoji = ($weather_table.Emoji)
-                $"Temp: ($temp) Emoji: ($emoji)"
+                {
+                    Temperature: ($temp)
+                    Source: "expired-cache"
+                    Emoji: ($emoji)
+                }
                 $weather_table | update last_run_time {(date now | date format '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
             }
         } else {
-            $"Unable to find [($weather_runtime_file)], creating it(char nl)"
+            # $"Unable to find [($weather_runtime_file)], creating it(char nl)"
             let weather_table = (get_weather)
             let temp = ($weather_table.Temperature)
             let emoji = ($weather_table.Emoji)
-            $"Created Temp: ($temp) Created Emoji: ($emoji)"
+            {
+                Temperature: ($temp)
+                Source: "initial"
+                Emoji: ($emoji)
+            }
             $weather_table | update last_run_time {(date now | date format '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
         }
     } else {
