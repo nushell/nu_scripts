@@ -1,11 +1,15 @@
-def wolfram [...query] {
+#Fetch simple anwser from WolframAlpha API
+def wolfram [...query #Your query
+] {
     let appID = #YOUR APP_ID
     let query_string = ($query | str collect " ")
     let result = (fetch ("https://api.wolframalpha.com/v1/result?" + ([[appid i]; [$appID $query_string]] | to url)))
     $result + ""
 }
 
-def wolframimg [...query] {
+#Fetch image with full anwser from WolframAlpha API
+def wolframimg [...query #Your query
+] {
     let appID = #YOUR APP_ID
     let query_string = ($query | str collect " ")
     let filename = ($query_string + ".png")
