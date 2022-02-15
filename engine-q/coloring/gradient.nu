@@ -1,9 +1,5 @@
 # this script will print a blue gradient on the screen
 
-def iter_inc [incr mult iter] {
-    $incr + $mult * $iter
-}
-
 # We can get the terminal width and height now with term size
 # but we like to use the script as a benchmark, so let's keep
 # it a constant size for now
@@ -21,6 +17,10 @@ seq 0 $height | each {
     } | str collect)
     $"($row_data)(char newline)"
 } | str collect
+
+def iter_inc [incr mult iter] {
+    $incr + $mult * $iter
+}
 
 
 # ╭────────────────────┬──────────────────────────────────────────────────────╮
