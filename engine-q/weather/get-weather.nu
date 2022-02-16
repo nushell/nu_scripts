@@ -12,12 +12,12 @@ def locations [] {
 }
 
 def get_my_location [index: int] {
-    let loc_json = (fetch (locations | nth $index).0.location)
-    let city_column = (locations | nth $index).0.city_column
-    let state_column = (locations | nth $index).0.state_column
-    let country_column = (locations | nth $index).0.country_column
-    let lat_column = (locations | nth $index).0.lat_column
-    let lon_column = (locations | nth $index).0.lon_column
+    let loc_json = (fetch (locations | select $index).0.location)
+    let city_column = (locations | select $index).0.city_column
+    let state_column = (locations | select $index).0.state_column
+    let country_column = (locations | select $index).0.country_column
+    let lat_column = (locations | select $index).0.lat_column
+    let lon_column = (locations | select $index).0.lon_column
 
     # echo $loc_json
     if ($city_column | str length) > 1 {
@@ -74,7 +74,7 @@ def get_weather_by_ip [locIdx: int, units: string] {
                     {
                         id: ($day.weather.0.id)
                         dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
-                        high: ($day.temp.max) 
+                        high: ($day.temp.max)
                         low: ($day.temp.min)
                     }
                 })
@@ -112,7 +112,7 @@ def get_weather_by_ip [locIdx: int, units: string] {
                     {
                         id: ($day.weather.0.id)
                         dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
-                        high: ($day.temp.max) 
+                        high: ($day.temp.max)
                         low: ($day.temp.min)
                     }
                 })

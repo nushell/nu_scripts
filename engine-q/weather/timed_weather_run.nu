@@ -70,6 +70,7 @@ def timed_weather_run [
             $weather_table | update last_run_time {(date now | date format '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
         }
     } else {
+        echo "Your command did not run because you are not on Windows..."
         # ToDo: refactor the info in the Windows section into another def. The only real difference
         # is where the temp file will be located. Mac & Linux probably should be in /tmp I guess.
         # everything else is linux or mac
