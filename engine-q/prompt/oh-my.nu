@@ -360,7 +360,7 @@ def git_left_prompt [gs os] {
         ] | str collect
     })
 
-    let git_right = $true
+    let git_right = $false
     let indicator_segment = (if ($branch_name == "" || $git_right == $true) {
         [
         (ansi { fg: "#3465A4" bg: $TERM_BG}) # color
@@ -449,7 +449,7 @@ def git_right_prompt [gs os] {
 
     let execution_time_segment = (
         [
-            (ansi { fg: "#606060" bg: $TERM_BG})
+            (ansi { fg: "#606060" bg: "#191323"})
             (char -u e0b3)
             (char space)
             $env.CMD_DURATION_MS
