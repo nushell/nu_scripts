@@ -6,7 +6,7 @@
 let height = 40 # really need to get the terminal height here
 let width = 160  # really need to get the terminal width here
 let stamp = 'Nu'
-seq 0 $height | each {
+seq 0 $height | each { |row|
     let row_data = (seq 0 $width | each { |col|
         let fgcolor = (iter_inc 2 2 $col)
         if $fgcolor > 200 && $fgcolor < 210 {
