@@ -3,61 +3,61 @@
 # Repos to monitor
 
 def do-work [] {
-  let site_table = [
-    [site repo];
-    [Nushell nushell]
-    [Extension vscode-nushell-lang]
-    [Documentation nushell.github.io]
-    [Wasm demo]
-    [Nu_Scripts nu_scripts]
-    [RFCs rfcs]
-    [engine-q engine-q]
-    [reedline reedline]
-    # ] [Jupyter jupyter]
-  ]
+    let site_table = [
+        [site repo];
+        [Nushell nushell]
+        [Extension vscode-nushell-lang]
+        [Documentation nushell.github.io]
+        [Wasm demo]
+        [Nu_Scripts nu_scripts]
+        [RFCs rfcs]
+        [reedline reedline]
+        # ] [Jupyter jupyter]
+    ]
 
-  let query_prefix = "https://api.github.com/search/issues?q=repo:nushell/"
-  let query_date = (seq date --days 7 -r | get 6)
-  let per_page = "100"
-  let page_num = "1" # need to implement iterating pages
-  let colon = "%3A"
-  let gt = "%3E"
-  let eq = "%3D"
-  let amp = "%26"
-  let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
+    let query_prefix = "https://api.github.com/search/issues?q=repo:nushell/"
+    let query_date = (seq date --days 7 -r | get 6)
+    let per_page = "100"
+    let page_num = "1" # need to implement iterating pages
+    let colon = "%3A"
+    let gt = "%3E"
+    let eq = "%3D"
+    let amp = "%26"
+    let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
 
-  let entries = ($site_table | each { |row|
-      let query_string = $"($query_prefix)($row.repo)($query_suffix)"
-      # this is for debugging the rate limit. comment it out if things are working well
-      # fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
-      let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
-      $"## ($row.site)(char nl)(char nl)"
-      if ($site_json | all? ($it | empty?)) {
-          $"none found this week(char nl)(char nl)"
-      } else {
-          $site_json | group-by user.login | transpose user prs | each { |row|
-          let user_name = $row.user
-          let pr_count = ($row.prs | length)
+    let entries = ($site_table | each { |row|
+        let query_string = $"($query_prefix)($row.repo)($query_suffix)"
+        # this is for debugging the rate limit. comment it out if things are working well
+        # fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
+        let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
+        $"## ($row.site)(char nl)(char nl)"
+        if ($site_json | all? ($it | empty?)) {
+            $"none found this week(char nl)(char nl)"
+        } else {
+            $site_json | group-by user.login | transpose user prs | each { |row|
+                let user_name = $row.user
+                let pr_count = ($row.prs | length)
 
-          # only print the comma if there's another item
-          let user_prs = ($row.prs | each -n { |pr|
-              if $pr_count == ($pr.index + 1) {
-                  $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
-              } else {
-                  $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
-              }
-          } | str collect)
+                # only print the comma if there's another item
+                let user_prs = ($row.prs | each -n { |pr|
+                    if $pr_count == ($pr.index + 1) {
+                        $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
+                    } else {
+                        $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
+                    }
+                } | str collect)
 
-          $"- ($user_name) created ($user_prs) (char nl)"
-        } | str collect
-        char nl
-      }
-  })
+                $"- ($user_name) created ($user_prs) (char nl)"
+            } | str collect
+            char nl
+        }
+    })
 
-  if ($entries | all? ($it | empty?)) {
-  } else {
-      $entries | str collect
-  }
+    if ($entries | all? ($it | empty?)) {
+        # do nothing
+    } else {
+        $entries | str collect
+    }
 }
 
 # 2019-08-23 was the release of 0.2.0, the first public release
