@@ -69,12 +69,12 @@ function main4 {
     $row = [System.Text.StringBuilder]""
     for ($y = 0; $y -le 39; $y++) {
         $Color = 25
-        $row.Clear()
+        $row.Clear() | out-null
         for ($x = 0; $x -le 159; $x++) {
-            $row.Append("`e[48;2;0;0;$Color`m{0}" -f (Get-Character -Index $x))
+            $row.Append("`e[48;2;0;0;$Color`m{0}" -f (Get-Character -Index $x)) | out-null
             $Color += 2
         }
-        $row.Append("`e[0m")
+        $row.Append("`e[0m") | out-null
         Write-Host $row.ToString()
     }
 }
