@@ -26,12 +26,12 @@ def do-work [] {
   let amp = "%26"
   let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
 
-  let entries = ($site_table | each {
-      let query_string = $"($query_prefix)($it.repo)($query_suffix)"
+  let entries = ($site_table | each { |row|
+      let query_string = $"($query_prefix)($row.repo)($query_suffix)"
       # this is for debugging the rate limit. comment it out if things are working well
       # fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
       let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
-      $"## ($it.site)(char nl)(char nl)"
+      $"## ($row.site)(char nl)(char nl)"
       if ($site_json | all? ($it | empty?)) {
           $"none found this week(char nl)(char nl)"
       } else {

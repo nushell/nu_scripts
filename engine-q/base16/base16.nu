@@ -79,7 +79,7 @@ export def build-lscolors [base-txt: path] {
 
 # Show the current base16 colors
 export def show [base-txt: path] {
-    from-file $base-txt | each {
+    from-file $base-txt | each { |it|
         { $it.column: $"(ansi -e { fg: ($it.value) bg: ($it.value) })($it.value)(ansi reset)" }
     }
 }

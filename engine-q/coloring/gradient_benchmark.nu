@@ -14,7 +14,7 @@ if ($is_release | str downcase | str trim) == "y" {
         let height = 40
         let width = 160
         let stamp = 'Nu'
-        seq 0 $height | each {
+        seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
                 if $fgcolor > 200 && $fgcolor < 210 {
@@ -34,7 +34,7 @@ if ($is_release | str downcase | str trim) == "y" {
         let height = 40
         let width = 160
         let stamp = 'Nu'
-        seq 0 $height | each {
+        seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
                 if $fgcolor > 200 && $fgcolor < 210 {
@@ -53,7 +53,7 @@ if ($is_release | str downcase | str trim) == "y" {
         let height = 40
         let width = 160
         let stamp = 'Nu'
-        seq 0 $height | each {
+        seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
                 if $fgcolor > 200 && $fgcolor < 210 {
@@ -74,7 +74,7 @@ if ($is_release | str downcase | str trim) == "y" {
         let stamp = 'Nu'
         let ansi1 = ansi -e '48;2;0;0;'
         let ansi2 = ansi -e '0m'
-        seq 0 $height | each {
+        seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
                 if $fgcolor > 200 && $fgcolor < 210 {
@@ -93,7 +93,7 @@ if ($is_release | str downcase | str trim) == "y" {
         let height = 40
         let width = 160
         let stamp = 'Nu'
-        seq 0 $height | each {
+        seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = 2 + 2 * $col
                 if $fgcolor > 200 && $fgcolor < 210 {
@@ -112,7 +112,7 @@ if ($is_release | str downcase | str trim) == "y" {
         let height = 40
         let width = 160
         let stamp = 'Nu'
-        seq 0 $height | each {
+        seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = 2 + 2 * $col
                 if $fgcolor > 200 && $fgcolor < 210 {
@@ -131,7 +131,7 @@ if ($is_release | str downcase | str trim) == "y" {
         let height = 40
         let width = 160
         let stamp = 'Nu'
-        seq 0 $height | par-each {
+        seq 0 $height | par-each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = 2 + 2 * $col
                 if $fgcolor > 200 && $fgcolor < 210 {
