@@ -156,7 +156,7 @@ def get_icons_list [] {
         INSERT_SYMBOL_ICON: "❯",
         HAMBURGER_ICON: (char hamburger) # "≡" 2261
         GITHUB_ICON: "", # f408
-        BRANCH_ICON: (char nf-branch) # "" e0a0
+        BRANCH_ICON: (char nf_branch) # "" e0a0
         REBASE_ICON: "", # e728
         TAG_ICON: "" # f412
     }
@@ -439,7 +439,7 @@ def git_right_prompt [gs os] {
         (char space)                         # space
         # (char -u f1d3)                       # 
         # (char -u e0a0)                       # 
-        (char nf-git-branch)                 # 
+        (char nf_git_branch)                 # 
         (char space)                         # space
         $branch_name                         # main
         (char space)                         # space
