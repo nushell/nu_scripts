@@ -3,6 +3,6 @@
 
 def cls [] {
 ansi cls
-ansi home
 ansi clsb
+ansi home
 }
