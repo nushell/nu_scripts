@@ -6,36 +6,36 @@
 let height = 40 # really need to get the terminal height here
 let width = 160  # really need to get the terminal width here
 let stamp = 'Nu'
-seq 0 $height | each {
+seq 0 $height | each { |row|
     let row_data = (seq 0 $width | each { |col|
         let fgcolor = (iter_inc 2 2 $col)
         if $fgcolor > 200 && $fgcolor < 210 {
             $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
-        } {
+        } else {
             $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
         }
     } | str collect)
-    $"($row_data)(char newline)" | autoview
+    $"($row_data)(char newline)"
 } | str collect
 
 def iter_inc [incr mult iter] {
     $incr + $mult * $iter
 }
 
-# ╭────┬────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────╮
-# │ #  │ key                │ value                                                                                             │
-# ├────┼────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
-# │  0 │ version            │ 0.31.1                                                                                            │
-# │  1 │ branch             │ main                                                                                              │
-# │  2 │ short_commit       │ 751de20f                                                                                          │
-# │  3 │ commit_hash        │ 751de20f938ed200ae6128a30d06a5dd24a4fd33                                                          │
-# │  4 │ commit_date        │ 2021-05-21 02:04:27                                                                               │
-# │  5 │ build_os           │ windows-x86_64                                                                                    │
-# │  6 │ rust_version       │ rustc 1.52.1 (9bc8c42bb 2021-05-09)                                                               │
-# │  7 │ rust_channel       │ stable (default)                                                                                  │
-# │  8 │ cargo_version      │ cargo 1.52.0 (69767412a 2021-04-21)                                                               │
-# │  9 │ pkg_version        │ 0.31.1                                                                                            │
-# │ 10 │ build_time         │ 2021-05-21 07:20:25                                                                               │
-# │ 11 │ build_rust_channel │ release                                                                                           │
-# │ 12 │ features           │ clipboard-cli, ctrlc, default, directories, dirs, ptree, rustyline, term, trash, uuid, which, zip │
-# ╰────┴────────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+# ╭────────────────────┬──────────────────────────────────────────────────────╮
+# │ version            │ 0.1.0                                                │
+# │ branch             │ main                                                 │
+# │ short_commit       │ ec94ca46                                             │
+# │ commit_hash        │ ec94ca46bb64f3aa95f1366d76d60da2ddc53782             │
+# │ commit_date        │ 2022-01-24 19:45:20 +00:00                           │
+# │ build_os           │ windows-x86_64                                       │
+# │ rust_version       │ rustc 1.58.1 (db9d1b20b 2022-01-20)                  │
+# │ rust_channel       │ stable-x86_64-pc-windows-msvc                        │
+# │ cargo_version      │ cargo 1.58.0 (f01b232bc 2022-01-19)                  │
+# │ pkg_version        │ 0.1.0                                                │
+# │ build_time         │ 2022-01-24 15:04:00 -06:00                           │
+# │ build_rust_channel │ debug                                                │
+# │ features           │ dataframe, default, which, zip                       │
+# │ installed_plugins  │ gstat, inc, nu-example-1, nu-example-2, nu-example-3 │
+# ╰────────────────────┴──────────────────────────────────────────────────────╯

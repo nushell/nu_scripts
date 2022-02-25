@@ -1,4 +1,4 @@
-#!/usr/bin/env engine-q
+#!/usr/bin/env nu
 #
 # ~/.fehbg.nu
 #
@@ -9,7 +9,7 @@
 # The procedure is as follows::
 # * Select a random image from a directory (recursively entering all
 #   subdirectories)
-# * Print the path of the image on top of the selected image
+# * Print the path of the image as an overlay on top of the selected image
 # * Save the result in a temporary file
 # * Set the temporary image as a wallpaper.
 #
@@ -20,50 +20,45 @@
 # xinitrc.
 #
 # Dependencies;
-# * new Nushell engine (https://github.com/nushell/engine-q)
+# * nu version  >=0.32.0 (tested on 0.36.0)
 # * feh
 # * imagemagick
 
 # Path definitions
-let img-dir = $env.WALLPAPER_DIR
-let tmp-image = ([ $env.TMP_DIR "wallpaper.jpg" ] | path join)
+let img_dir = $nu.env.WALLPAPER_DIR
+let tmp_image = (echo [ $nu.env.TMP_DIR "wallpaper.jpg" ] | path join)
 
 # Monitor resolution
-let resolution-y = 1440
-let res-str = ($"x($resolution-y)")
+let resolution_y = 1440
 
 # Position of the caption
-let pos-x = 5
-let pos-y = (0.995 * $resolution-y | into int)
+let pos_x = 5
+let pos_y = 0.995 * $resolution_y
 
-# Select random item from input
-def select-random [] {
-    shuffle | first
-}
+# Helper commands
+def select_random [] { shuffle | first }
 
 # List all images in a directory and all its subdirectories
-def list-images [dir: path] {
-    ls $"($dir)/**/*" |
-    where type == file |
-    str downcase name |
-    where name =~ jpg || name =~ jpeg || name =~ tif || name =~ tiff || name =~ png
+def list_images [dir] {
+    ls (build-string $dir /**/*) | where type == File | where name =~ jpg || name =~ jpeg || name =~ tif || name =~ tiff
 }
 
 # Set the caption text (just filename for now)
-def caption [img-f: string] {
-    echo $img-f
+def caption [img_f] {
+    echo $img_f
 }
 
 # Build the argument for the '-draw' command of the 'convert' utility
-def draw-str [img-f: string] {
-    $"text ($pos-x), ($pos-y) (char dq)(caption $img-f)(char dq) "
+def draw_str [img_f] {
+    build-string 'text ' $pos_x ',' $pos_y ' "' (caption $img_f) '" '
 }
 
 # Select random image
-let img-name = (list-images $img-dir | select-random | get name) # TODO: change the env var to $img-dir
+let img_name = (list_images $img_dir | select_random | get name)
 
 # Resize the image to the monitor height, draw the caption and save it
-convert -resize $res-str -pointsize 15 -fill 'rgb(255,200,150)' -draw (draw-str $img-name) $img-name $tmp-image
+let res_str = (build-string 'x' $resolution_y)
+convert -resize $res_str -pointsize 15 -fill 'rgb(255,200,150)' -draw (draw_str $img_name) $img_name $tmp_image
 
 # Set the created image as a background
-feh --no-fehbg --bg-max $tmp-image
+feh --no-fehbg --bg-max $tmp_image

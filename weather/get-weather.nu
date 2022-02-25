@@ -12,46 +12,45 @@ def locations [] {
 }
 
 def get_my_location [index: int] {
-    let loc_json = (fetch (locations | nth $index).location)
-    let city_column = (locations | nth $index).city_column
-    let state_column = (locations | nth $index).state_column
-    let country_column = (locations | nth $index).country_column
-    let lat_column = (locations | nth $index).lat_column
-    let lon_column = (locations | nth $index).lon_column
+    let loc_json = (fetch (locations | select $index).0.location)
+    let city_column = (locations | select $index).0.city_column
+    let state_column = (locations | select $index).0.state_column
+    let country_column = (locations | select $index).0.country_column
+    let lat_column = (locations | select $index).0.lat_column
+    let lon_column = (locations | select $index).0.lon_column
 
     # echo $loc_json
     if ($city_column | str length) > 1 {
         if ($state_column | str length) > 1 {
             if ($country_column | str length) > 1 {
-                let lookup_state = ($loc_json | get ($state_column | into column-path))
+                let lookup_state = ($loc_json | get ($state_column))
                 if ($lookup_state | str length) > 2 {
                     let state = (state_abbrev_lookup $lookup_state)
-                    $"($loc_json | get ($city_column | into column-path)),($state),($loc_json | get ($country_column | into column-path))"
-                } {
-                    $"($loc_json | get ($city_column | into column-path)),($loc_json | get ($state_column | into column-path)),($loc_json | get ($country_column | into column-path))"
+                    $"($loc_json | get ($city_column)),($state),($loc_json | get ($country_column))"
+                } else {
+                    $"($loc_json | get ($city_column)),($loc_json | get ($state_column)),($loc_json | get ($country_column))"
                 }
-            } {
-                $"($loc_json | get ($city_column | into column-path)),($loc_json | get ($state_column | into column-path))"
+            } else {
+                $"($loc_json | get ($city_column)),($loc_json | get ($state_column))"
             }
-        } {
-            $"($loc_json | get ($city_column | into column-path))"
+        } else {
+            $"($loc_json | get ($city_column))"
         }
-    } {
+    } else {
         "No City Found"
     }
 }
 
 let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
 let TOKEN = "85a4e3c55b73909f42c6a23ec35b7147"
+let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
+let URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily"
 
 def get_location_by_ip [locIdx: int] {
     let location = (get_my_location $locIdx)
     let url = $"($URL_QUERY_LOCATION)?q=($location)&limit=5&appid=($TOKEN)"
-    # echo $url
     fetch $url
 }
-
-let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
 
 def get_weather_by_ip [locIdx: int, units: string] {
     # units
@@ -63,47 +62,102 @@ def get_weather_by_ip [locIdx: int, units: string] {
             [msg, labels, span];
             ["Error getting location", "There were more than one locations found", ([[start, end]; [0, 1]])]
         ] | error make
-    } { }
+    }
 
     if $units == "f" {
         let units = "imperial"
-        let url = $"($URL_WEATHER)?lat=($coords.lat)&lon=($coords.lon)&units=($units)&appid=($TOKEN)"
-        # echo $url (char nl)
+        let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
+        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
         let weather = (fetch $url)
-        # echo $weather | pivot | flatten | flatten
-        [
-        ['Weather Location' Longitude Latitude Temperature 'Feels Like' Humidity Pressure Emoji];
-        [$"($weather.name), ($weather.sys.country)" ($weather.coord.lon) ($weather.coord.lat) $"($weather.main.temp | into string -d 1) °F" $"($weather.main.feels_like | into string -d 1) °F" ($weather.main.humidity) ($weather.main.pressure) (get_icon_from_table $weather.weather.main.0)]
-        ]
-    } {
+        let forecast_data = (fetch $url_forecast)
+        let forecast = (for day in $forecast_data.list {
+                    {
+                        id: ($day.weather.0.id)
+                        dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
+                        high: ($day.temp.max)
+                        low: ($day.temp.min)
+                    }
+                })
+        let day1 = $"($forecast | get 0.dt) (get_emoji_by_id ($forecast | get 0.id | into string)) high: ($forecast | get 0.high | into string -d 1) low: ($forecast | get 0.low | into string -d 1)"
+        let day2 = $"($forecast | get 1.dt) (get_emoji_by_id ($forecast | get 1.id | into string)) high: ($forecast | get 1.high | into string -d 1) low: ($forecast | get 1.low | into string -d 1)"
+        let day3 = $"($forecast | get 2.dt) (get_emoji_by_id ($forecast | get 2.id | into string)) high: ($forecast | get 2.high | into string -d 1) low: ($forecast | get 2.low | into string -d 1)"
+        let day4 = $"($forecast | get 3.dt) (get_emoji_by_id ($forecast | get 3.id | into string)) high: ($forecast | get 3.high | into string -d 1) low: ($forecast | get 3.low | into string -d 1)"
+        let day5 = $"($forecast | get 4.dt) (get_emoji_by_id ($forecast | get 4.id | into string)) high: ($forecast | get 4.high | into string -d 1) low: ($forecast | get 4.low | into string -d 1)"
+        let day6 = $"($forecast | get 5.dt) (get_emoji_by_id ($forecast | get 5.id | into string)) high: ($forecast | get 5.high | into string -d 1) low: ($forecast | get 5.low | into string -d 1)"
+        let day7 = $"($forecast | get 6.dt) (get_emoji_by_id ($forecast | get 6.id | into string)) high: ($forecast | get 6.high | into string -d 1) low: ($forecast | get 6.low | into string -d 1)"
+        {
+            'Weather Location': $"($weather.name), ($weather.sys.country)"
+            Longitude: $weather.coord.lon
+            Latitude: $weather.coord.lat
+            Temperature: $"($weather.main.temp | into string -d 1) °F"
+            'Feels Like': $"($weather.main.feels_like | into string -d 1) °F"
+            Humidity: $weather.main.humidity
+            Pressure: $weather.main.pressure
+            Emoji: (get_icon_from_table $weather.weather.main.0)
+            'Forecast Day 1': $day1
+            'Forecast Day 2': $day2
+            'Forecast Day 3': $day3
+            'Forecast Day 4': $day4
+            'Forecast Day 5': $day5
+            'Forecast Day 6': $day6
+            'Forecast Day 7': $day7
+        }
+    } else {
         let units = "metric"
-        let url = $"($URL_WEATHER)?lat=($coords.lat)&lon=($coords.lon)&units=($units)&appid=($TOKEN)"
-        # echo $url (char nl)
+        let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
+        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
         let weather = (fetch $url)
-        # echo $weather | pivot | flatten | flatten
-        [
-        ['Weather Location' Longitude Latitude Temperature 'Feels Like' Humidity Pressure Emoji];
-        [$"($weather.name), ($weather.sys.country)" ($weather.coord.lon) ($weather.coord.lat) $"($weather.main.temp | into string -d 1) °C" $"($weather.main.feels_like | into string -d 1) °C" ($weather.main.humidity) ($weather.main.pressure) (get_icon_from_table $weather.weather.main.0)]
-        ]
+        let forecast_data = (fetch $url_forecast)
+        let forecast = (for day in $forecast_data.list {
+                    {
+                        id: ($day.weather.0.id)
+                        dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
+                        high: ($day.temp.max)
+                        low: ($day.temp.min)
+                    }
+                })
+        let day1 = $"($forecast | get 0.dt) (get_emoji_by_id ($forecast | get 0.id | into string)) high: ($forecast | get 0.high | into string -d 1) low: ($forecast | get 0.low | into string -d 1)"
+        let day2 = $"($forecast | get 1.dt) (get_emoji_by_id ($forecast | get 1.id | into string)) high: ($forecast | get 1.high | into string -d 1) low: ($forecast | get 1.low | into string -d 1)"
+        let day3 = $"($forecast | get 2.dt) (get_emoji_by_id ($forecast | get 2.id | into string)) high: ($forecast | get 2.high | into string -d 1) low: ($forecast | get 2.low | into string -d 1)"
+        let day4 = $"($forecast | get 3.dt) (get_emoji_by_id ($forecast | get 3.id | into string)) high: ($forecast | get 3.high | into string -d 1) low: ($forecast | get 3.low | into string -d 1)"
+        let day5 = $"($forecast | get 4.dt) (get_emoji_by_id ($forecast | get 4.id | into string)) high: ($forecast | get 4.high | into string -d 1) low: ($forecast | get 4.low | into string -d 1)"
+        let day6 = $"($forecast | get 5.dt) (get_emoji_by_id ($forecast | get 5.id | into string)) high: ($forecast | get 5.high | into string -d 1) low: ($forecast | get 5.low | into string -d 1)"
+        let day7 = $"($forecast | get 6.dt) (get_emoji_by_id ($forecast | get 6.id | into string)) high: ($forecast | get 6.high | into string -d 1) low: ($forecast | get 6.low | into string -d 1)"
+        {
+            'Weather Location': $"($weather.name), ($weather.sys.country)"
+            Longitude: $weather.coord.lon
+            Latitude: $weather.coord.lat
+            Temperature: $"($weather.main.temp | into string -d 1) °C"
+            'Feels Like': $"($weather.main.feels_like | into string -d 1) °C"
+            Humidity: $weather.main.humidity
+            Pressure: $weather.main.pressure
+            Emoji: (get_icon_from_table $weather.weather.main.0)
+            'Forecast Day 1': $day1
+            'Forecast Day 2': $day2
+            'Forecast Day 3': $day3
+            'Forecast Day 4': $day4
+            'Forecast Day 5': $day5
+            'Forecast Day 6': $day6
+            'Forecast Day 7': $day7
+        }
     }
 }
 
 def weather_emoji_table [] {
-    [
-        [name, icon];
-        ['Clear', (char sun)]
-        ['Clouds', (char clouds)]
-        ['Rain', (char rain)]
-        ['Fog', (char fog)]
-        ['Mist', (char mist)]
-        ['Haze', (char haze)]
-        ['Snow', (char snow)]
-        ['Thunderstorm', (char thunderstorm)]
-    ]
+    {
+        Clear: (char sun)
+        Clouds: (char clouds)
+        Rain: (char rain)
+        Fog: (char fog)
+        Mist: (char mist)
+        Haze: (char haze)
+        Snow: (char snow)
+        Thunderstorm: (char thunderstorm)
+    }
 }
 
 def get_icon_from_table [w] {
-    weather_emoji_table | where name == $w | get icon
+    weather_emoji_table | get $w
 }
 
 # Get the local weather by ip address
@@ -111,8 +165,8 @@ def get_weather [
     --locIdx(-l): int # The location id 0-3
     --units(-u): string # The units "f" or "c"
     ] {
-    let is_loc_empty = ($locIdx | empty?)
-    let is_units_empty = ($units | empty?)
+    let is_loc_empty = ($locIdx == $nothing)
+    let is_units_empty = ($units == $nothing)
 
     let no_loc_no_unit = ($is_loc_empty == $true && $is_units_empty == $true)
     let no_loc_with_unit = ($is_loc_empty == $true && $is_units_empty == $false)
@@ -149,75 +203,93 @@ def get_weather [
 
     if $no_loc_no_unit {
         (get_weather_by_ip 0 "f")
-    } { if $no_loc_with_unit {
+    } else if $no_loc_with_unit {
         (get_weather_by_ip 0 $units)
-    } { if $with_loc_no_unit {
+    } else if $with_loc_no_unit {
         (get_weather_by_ip $locIdx "f")
-    } { if $with_loc_with_unit {
+    } else if $with_loc_with_unit {
         (get_weather_by_ip $locIdx $units)
-    } { } }}}
+    }
 }
 
 def state_abbrev_lookup [state_name: string] {
     # Weather Location 3 does not return state name abbreviations
     # so we have to convert a state full name to a state abbreviation
-    let lookup_table = (
-        [
-            [state abbrev];
-            ["Alabama" "AL"]
-            ["Alaska" "AK"]
-            ["Arizona" "AZ"]
-            ["Arkansas" "AR"]
-            ["California" "CA"]
-            ["Colorado" "CO"]
-            ["Connecticut" "CT"]
-            ["Delaware" "DE"]
-            ["Florida" "FL"]
-            ["Georgia" "GA"]
-            ["Hawaii" "HI"]
-            ["Idaho" "ID"]
-            ["Illinois" "IL"]
-            ["Indiana" "IN"]
-            ["Iowa" "IA"]
-            ["Kansas" "KS"]
-            ["Kentucky" "KY"]
-            ["Louisiana" "LA"]
-            ["Maine" "ME"]
-            ["Maryland" "MD"]
-            ["Massachusetts" "MA"]
-            ["Michigan" "MI"]
-            ["Minnesota" "MN"]
-            ["Mississippi" "MS"]
-            ["Missouri" "MO"]
-            ["Montana" "MT"]
-            ["Nebraska" "NE"]
-            ["Nevada" "NV"]
-            ["New Hampshire" "NH"]
-            ["New Jersey" "NJ"]
-            ["New Mexico" "NM"]
-            ["New York" "NY"]
-            ["North Carolina" "NC"]
-            ["North Dakota" "ND"]
-            ["Ohio" "OH"]
-            ["Oklahoma" "OK"]
-            ["Oregon" "OR"]
-            ["Pennsylvania" "PA"]
-            ["Rhode Island" "RI"]
-            ["South Carolina" "SC"]
-            ["South Dakota" "SD"]
-            ["Tennessee" "TN"]
-            ["Texas" "TX"]
-            ["Utah" "UT"]
-            ["Vermont" "VT"]
-            ["Virginia" "VA"]
-            ["Washington" "WA"]
-            ["West Virginia" "WV"]
-            ["Wisconsin" "WI"]
-            ["Wyoming" "WY"]
-        ]
-    )
+    let lookup_table = {
+        Alabama: AL
+        Alaska: AK
+        Arizona: AZ
+        Arkansas: AR
+        California: CA
+        Colorado: CO
+        Connecticut: CT
+        Delaware: DE
+        Florida: FL
+        Georgia: GA
+        Hawaii: HI
+        Idaho: ID
+        Illinois: IL
+        Indiana: IN
+        Iowa: IA
+        Kansas: KS
+        Kentucky: KY
+        Louisiana: LA
+        Maine: ME
+        Maryland: MD
+        Massachusetts: MA
+        Michigan: MI
+        Minnesota: MN
+        Mississippi: MS
+        Missouri: MO
+        Montana: MT
+        Nebraska: NE
+        Nevada: NV
+        'New Hampshire': NH
+        'New Jersey': NJ
+        'New Mexico': NM
+        'New York': NY
+        'North Carolina': NC
+        'North Dakota': ND
+        Ohio: OH
+        Oklahoma: OK
+        Oregon: OR
+        Pennsylvania: PA
+        'Rhode Island': RI
+        'South Carolina': SC
+        'South Dakota': SD
+        Tennessee: TN
+        Texas: TX
+        Utah: UT
+        Vermont: VT
+        Virginia: VA
+        Washington: WA
+        'West Virginia': WV
+        Wisconsin: WI
+        Wyoming: WY
+    }
 
-    $lookup_table | where state == $state_name | get abbrev
+    $lookup_table | get $state_name
+}
+
+def get_emoji_by_id [id] {
+        let emoji_dict = ({
+        "200": "⚡", "201": "⚡", "202": "⚡", "210": "⚡", "211": "⚡", "212": "⚡", "221": "⚡", "230": "⚡",
+        "231": "⚡", "232": "⚡",
+        "300": "☔", "301": "☔", "302": "☔", "310": "☔", "311": "☔",
+        "312": "☔", "313": "☔", "314": "☔", "321": "☔",
+        "500": "☔", "501": "☔", "502": "☔", "503": "☔", "504": "☔",
+        "511": "☔", "520": "☔", "521": "☔", "522": "☔", "531": "☔",
+        "600": "❄️", "601": "❄️", "602": "❄️", "611": "❄️", "612": "❄️",
+        "613": "❄️", "615": "❄️", "616": "❄️", "620": "❄️", "621": "❄️",
+        "622": "❄️",
+        "701": "🌫️", "711": "🌫️", "721": "🌫️", "731": "🌫️", "741": "🌫️", "751": "🌫️", "761": "🌫️", "762": "🌫️",
+        "771": "🌫️",
+        "781": "🌀",
+        "800": "☀️",
+        "801": "🌤️", "802": "🌤️", "803": "☁️", "804": "☁️",
+    })
+
+    ($emoji_dict | get $id)
 }
 
 # To run this call
