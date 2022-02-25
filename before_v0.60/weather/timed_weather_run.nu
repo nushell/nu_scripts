@@ -9,9 +9,6 @@
 # 2. if the interval has not expired yet, it prints the Cached information
 # 3. if the interval has expired, it runs the weather command again and caches the info
 
-# this script is depenedent on get-weather
-source get-weather.nu
-
 #command to run at interval
 def timed_weather_run [
     --command(-c): string # The command to run
@@ -24,57 +21,45 @@ def timed_weather_run [
     if $system_name == "Windows" {
         # $"The system is Windows(char nl)"
         # generate temp file name
-        let weather_runtime_file = (($env.TMP) | path join weather_runtime_file.json)
+        let weather_runtime_file = (($nu.env.TMP) | path join weather_runtime_file.json)
         # does the temp file already exist, meaning we've written it previously
         if ($weather_runtime_file | path exists) == $true {
             # $"Weather path exists [($weather_runtime_file)](char nl)"
             # open the file and get the last weather data and run time out of it
             let last_runtime_data = (open $weather_runtime_file)
             # get the last runtime and add my timezone difference
-            let last_runtime = ($last_runtime_data | get last_run_time | into datetime)
+            let last_runtime = ($last_runtime_data | get last_run_time | str to-datetime)
             if $last_runtime + $interval > (date now) {
                 # $"interval not met. last_runtime: [($last_runtime)](char nl)"
-                let temp = ($last_runtime_data.Temperature)
-                let emoji = ($last_runtime_data.Emoji)
-                {
-                    Temperature: ($temp)
-                    Source: "cache"
-                    Emoji: ($emoji)
-                }
-            } else {
+                let temp = ($last_runtime_data | get Temperature)
+                let emoji = ($last_runtime_data | get Emoji)
+                $"Cached Temp: ($temp) Cached Emoji: ($emoji)"
+            } {
                 # save the run time and run the command
                 # $"interval met, running command: [($command)](char nl)"
 
-                # it would be nice to run a dynamic command here but doesn't appear to be possible
+                # it would be nice to run a dynamic command here but i'm not sure it's possible yet
                 # let weather_table = (do { $command })
-                let weather_table = (if $command == "get_weather" {(get_weather)})
-                let temp = ($weather_table.Temperature)
-                let emoji = ($weather_table.Emoji)
-                {
-                    Temperature: ($temp)
-                    Source: "expired-cache"
-                    Emoji: ($emoji)
-                }
-                $weather_table | update last_run_time {(date now | date format '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
+                let weather_table = (if $command == "get_weather" {(get_weather)} {})
+                let temp = ($weather_table | get Temperature)
+                let emoji = ($weather_table | get Emoji)
+                $"Temp: ($temp) Emoji: ($emoji)"
+                $weather_table | insert last_run_time {(date now | date format -t '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
             }
-        } else {
+        } {
             # $"Unable to find [($weather_runtime_file)], creating it(char nl)"
             let weather_table = (get_weather)
-            let temp = ($weather_table.Temperature)
-            let emoji = ($weather_table.Emoji)
-            {
-                Temperature: ($temp)
-                Source: "initial"
-                Emoji: ($emoji)
-            }
-            $weather_table | update last_run_time {(date now | date format '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
+            let temp = ($weather_table | get Temperature)
+            let emoji = ($weather_table | get Emoji)
+            $"Created Temp: ($temp) Created Emoji: ($emoji)"
+            $weather_table | insert last_run_time {(date now | date format -t '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
         }
-    } else {
-        echo "Your command did not run because you are not on Windows..."
+    } {
         # ToDo: refactor the info in the Windows section into another def. The only real difference
         # is where the temp file will be located. Mac & Linux probably should be in /tmp I guess.
         # everything else is linux or mac
     }
 }
 
+source get-weather.nu
 timed_weather_run --command "get_weather" --interval 1min

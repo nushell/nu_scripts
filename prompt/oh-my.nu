@@ -449,7 +449,7 @@ def git_right_prompt [gs os] {
 
     let execution_time_segment = (
         [
-            (ansi { fg: "#606060" bg: "#191323"})
+            (ansi { fg: "#606060" bg: "#000000"}) #191323
             (char -u e0b3)
             (char space)
             $env.CMD_DURATION_MS

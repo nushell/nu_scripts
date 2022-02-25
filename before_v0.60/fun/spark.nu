@@ -18,6 +18,6 @@ def spark [v: any] {
     let scale = (($max - $min) / 7.)
     for e in $v {
         let i = (($e - $min) / $scale | into int)
-        $"($TICKS | get $i)"
+        $"($TICKS | nth $i)"
     } | str collect
 }
