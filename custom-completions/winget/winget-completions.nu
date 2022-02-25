@@ -120,24 +120,24 @@ extern "winget search" [
 ]
 
 # Display installed packages
-extern "winget list" [
-    query?: string,
-    --query(-q): string, # The query used to search for a package
-    --id: string, # Filter results by id
-    --name: string, # Filter results by name
-    --moniker: string, # Filter results by moniker
-    --tag: string, # Filter results by tag
-    --command: string, # Filter results by command
-    --source(-s): string@"nu-complete winget install source", # Find package using the specified source
-    --count(-n): int, # Show no more than specified number of results
-    --exact(-e): bool, # Find package using exact match
-    --header: string, # Optional Windows-Package-Manager REST source HTTP header
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
-    --help(-?): bool # Display the help for this command
-]
+#extern "winget list" [
+#    query?: string,
+#    --query(-q): string, # The query used to search for a package
+#    --id: string, # Filter results by id
+#    --name: string, # Filter results by name
+#    --moniker: string, # Filter results by moniker
+#    --tag: string, # Filter results by tag
+#    --command: string, # Filter results by command
+#    --source(-s): string@"nu-complete winget install source", # Find package using the specified source
+#    --count(-n): int, # Show no more than specified number of results
+#    --exact(-e): bool, # Find package using exact match
+#    --header: string, # Optional Windows-Package-Manager REST source HTTP header
+#    --accept-source-agreements: bool, # Accept all source agreements during source operations
+#    --help(-?): bool # Display the help for this command
+#]
 
-# Display installed packages in a structured way. This works most of the time
-def "winget list structured" [
+# Display installed packages in a structured way.
+def "winget list" [
     pos_query?: string,
     --query(-q): string, # The query used to search for a package
     --id: string, # Filter results by id
@@ -173,11 +173,44 @@ def "winget list structured" [
     if $help {
         ^winget list -?
     } else {
-        (
-            ^$"($command)"
-            | lines | skip 2
-            | parse -r "(?P<Name>.{42})(?P<Id>.{43})(?P<Version>.{18})(?P<Available>.{10})?(?P<Source>.{6})?"
+        let output = (^$command | lines)
+        let header = (
+            $output | first
+            | parse -r "(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)(?P<available>Available\s+)?(?P<source>Source\s*)?"
+            | first
         )
+        let lengths = {
+            name: ($header.name | str length),
+            id: ($header.id | str length),
+            version: ($header.version | str length),
+            available: ($header.available | str length),
+            source: ($header.source | str length)
+        }
+        $output | skip 2 | each { |it|
+            let it = ($it | split chars)
+
+            let available = if $lengths.available > 0 {
+                (
+                    $it | skip ($lengths.name + $lengths.id + $lengths.version)
+                    | first $lengths.available | str collect | str trim
+                )
+            } else { "" }
+
+            let source = if $lengths.source > 0 {
+                (
+                    $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.available)
+                    | str collect | str trim
+                )
+            } else { "" }
+
+            {
+                name: ($it | first $lengths.name | str collect),
+                id: ($it | skip $lengths.name | first $lengths.id | str collect | str trim),
+                version: ($it | skip ($lengths.name + $lengths.id) | first $lengths.version | str collect | str trim),
+                available: $available,
+                source: $source
+            }
+        }
     }
 }
 
