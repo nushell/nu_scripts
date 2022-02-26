@@ -9,11 +9,11 @@ extern winget [
 
 # Installs the given package
 extern "winget install" [
-    query?: string,
-    --query(-q): string, # The query used to search for a package
+    query?: string@"nu-complete winget install name",
+    --query(-q): string@"nu-complete winget install name", # The query used to search for a package
     --manifest(-m): path, # The path to the manifest of the package
-    --id: string, # Filter results by id
-    --name: string, # Filter results by name
+    --id: string@"nu-complete winget install id", # Filter results by id
+    --name: string@"nu-complete winget install name", # Filter results by name
     --moniker: string, # Filter results by moniker
     --version(-v): string, # Use the specified version; default is the latest version
     --source(-s): string@"nu-complete winget install source", # Find package using the specified source
@@ -32,16 +32,15 @@ extern "winget install" [
     --help(-?): bool # Display the help for this command
 ]
 
-# Shows information about a package
-extern "winget show" [
-    query?: string,
+def "winget show" [
+    pos_query?: string,
     --query(-q): string, # The query used to search for a package
     --id: string, # Filter results by id
     --name: string, # Filter results by name
     --moniker: string, # Filter results by moniker
     --version(-v): string, # Use the specified version; default is the latest version
     --source(-s): string@"nu-complete winget install source", # Find package using the specified source
-    --scope: string@"nu-complete winget install scope", # Select install scope (user or machine)
+    --scope: string@"nu-complete winget install scope", # Select install scope (user or machine). Doesn't work rn, use ^winget
     --exact(-e): bool, # Find package using exact match
     --interactive(-i): bool, # Request interactive installation; user input may be needed
     --silent(-h): bool, # Request silent installation
@@ -53,8 +52,51 @@ extern "winget show" [
     --accept-package-agreements: bool, # Accept all licence agreements for packages
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
     --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --raw: bool, # Output the raw CLI output instead of structured data
     --help(-?): bool, # Display the help for this command
-]
+] {
+    let flagify = { |name, value| nu-complete winget flagify $name $value }
+
+    let command = ([
+        "winget show"
+        $pos_query,
+        (do $flagify query $query)
+        (do $flagify id $id)
+        (do $flagify name $name)
+        (do $flagify moniker $moniker)
+        (do $flagify version $version)
+        (do $flagify source $source)
+        #(do $flagify scope $scope)
+        (do $flagify exact $exact)
+        (do $flagify interactive $interactive)
+        (do $flagify silent $silent)
+        (do $flagify locale $locale)
+        (do $flagify log $log)
+        (do $flagify override $override)
+        (do $flagify location $location)
+        (do $flagify force $force)
+        (do $flagify accept-package-agreements $accept-package-agreements)
+        (do $flagify header $header)
+        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify help $help)
+    ] | str collect ' ')
+
+    if $raw || $help {
+        ^$command
+    } else {
+        let output = (^$command | lines)
+        if ($output | first) =~ "Multiple packages found matching input criteria." {
+            $"(ansi yellow)($output | first | str trim)(ansi reset)"
+            nu-complete winget parse table ($output | skip 1) | select name id source
+        } else if ($output | first) =~ "No package found matching input criteria." {
+            $"(ansi yellow)($output | first | str trim)(ansi reset)"
+        } else {
+            let header = ($output | first | parse -r "Found (?P<Name>.+) \[(?P<Id>.+)\]")
+            let manifest = ($output | skip 1 | str collect (char newline) | from yaml)
+            $header | first | merge { $manifest }
+        }
+    }
+}
 
 # Manage sources of packages
 extern "winget source" [
@@ -72,10 +114,32 @@ extern "winget source add" [
 ]
 
 # List current sources
-extern "winget source list" [
+def "winget source list" [
+    pos_name?: string, # Name of the source
     --name(-n): string, # Name of the source
+    --raw: bool, # Output the raw CLI output instead of structured data
     --help(-?): bool # Display the help for this command
-]
+] {
+    let flagify = { |name, value| nu-complete winget flagify $name $value }
+
+    let command = ([
+        "winget source list"
+        $pos_name
+        (do $flagify name $name)
+        (do $flagify help $help)
+    ] | str collect ' ')
+
+    if $raw || $help {
+        ^$command
+    } else {
+        let output = (^$command | lines)
+        if ($output | length) == 1 {
+            $"(ansi light_red)($output | first)(ansi reset)"
+        } else {
+            $output | skip 2 | split column -c ' ' | rename Name Argument
+        }
+    }
+}
 
 # Update current sources
 extern "winget source update" [
@@ -103,8 +167,8 @@ extern "winget source export" [
 ]
 
 # Find and show basic info of packages
-extern "winget search" [
-    query?: string,
+def "winget search" [
+    pos_query?: string,
     --query(-q): string, # The query used to search for a package
     --id: string, # Filter results by id
     --name: string, # Filter results by name
@@ -116,25 +180,39 @@ extern "winget search" [
     --exact(-e): bool, # Find package using exact match
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
     --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --raw: bool, # Output the raw CLI output instead of structured data
     --help(-?): bool # Display the help for this command
-]
+] {
+    let flagify = { |name, value| nu-complete winget flagify $name $value }
 
-# Display installed packages
-#extern "winget list" [
-#    query?: string,
-#    --query(-q): string, # The query used to search for a package
-#    --id: string, # Filter results by id
-#    --name: string, # Filter results by name
-#    --moniker: string, # Filter results by moniker
-#    --tag: string, # Filter results by tag
-#    --command: string, # Filter results by command
-#    --source(-s): string@"nu-complete winget install source", # Find package using the specified source
-#    --count(-n): int, # Show no more than specified number of results
-#    --exact(-e): bool, # Find package using exact match
-#    --header: string, # Optional Windows-Package-Manager REST source HTTP header
-#    --accept-source-agreements: bool, # Accept all source agreements during source operations
-#    --help(-?): bool # Display the help for this command
-#]
+    let command = ([
+        "winget search"
+        $pos_query
+        (do $flagify query $query)
+        (do $flagify id $id)
+        (do $flagify name $name)
+        (do $flagify moniker $moniker)
+        (do $flagify tag $tag)
+        (do $flagify command $command)
+        (do $flagify source $source)
+        (do $flagify count $count)
+        (do $flagify exact $exact)
+        (do $flagify header $header)
+        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify help $help)
+    ] | str collect ' ')
+
+    if $raw || $help {
+        ^$command
+    } else {
+        let output = (^$command | lines)
+        if ($output | length) == 1 {
+            $"(ansi light_red)($output | first)(ansi reset)"
+        } else {
+            nu-complete winget parse table $output | select name id version
+        }
+    }
+}
 
 # Display installed packages in a structured way.
 def "winget list" [
@@ -150,6 +228,7 @@ def "winget list" [
     --exact(-e): bool, # Find package using exact match
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
     --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --raw: bool, # Output the raw CLI output instead of structured data
     --help(-?): bool # Display the help for this command
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
@@ -168,48 +247,17 @@ def "winget list" [
         (do $flagify exact $exact)
         (do $flagify header $header)
         (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify help $help)
     ] | str collect ' ')
 
-    if $help {
-        ^winget list -?
+    if $help || $raw {
+        ^$command
     } else {
         let output = (^$command | lines)
-        let header = (
-            $output | first
-            | parse -r "(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)(?P<available>Available\s+)?(?P<source>Source\s*)?"
-            | first
-        )
-        let lengths = {
-            name: ($header.name | str length),
-            id: ($header.id | str length),
-            version: ($header.version | str length),
-            available: ($header.available | str length),
-            source: ($header.source | str length)
-        }
-        $output | skip 2 | each { |it|
-            let it = ($it | split chars)
-
-            let available = if $lengths.available > 0 {
-                (
-                    $it | skip ($lengths.name + $lengths.id + $lengths.version)
-                    | first $lengths.available | str collect | str trim
-                )
-            } else { "" }
-
-            let source = if $lengths.source > 0 {
-                (
-                    $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.available)
-                    | str collect | str trim
-                )
-            } else { "" }
-
-            {
-                name: ($it | first $lengths.name | str collect),
-                id: ($it | skip $lengths.name | first $lengths.id | str collect | str trim),
-                version: ($it | skip ($lengths.name + $lengths.id) | first $lengths.version | str collect | str trim),
-                available: $available,
-                source: $source
-            }
+        if ($output | length) == 1 {
+            $"(ansi light_red)($output | first)(ansi reset)"
+        } else {
+            nu-complete winget parse table $output
         }
     }
 }
@@ -344,4 +392,77 @@ def "nu-complete winget uninstall package id" [] {
 
 def "nu-complete winget uninstall package name" [] {
     winget list structured | get Name | str trim | str find-replace "…" "..."
+}
+
+def "nu-complete winget install name" [] {
+    let path = ($env.TMP | path join winget-packages.csv)
+
+    if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
+        open $path | get name | each { |it| $"(char dq)($it)(char dq)" } | str find-replace "…" ""
+    } else {
+        # Chinese characters break parsing, filter broken entries with `where source == winget`
+        let data = (winget search | where source == winget | select name id)
+        $data | save $path | ignore
+        $data | get name | each { |it| $"(char dq)($it)(char dq)" } | str find-replace "…" ""
+    }
+}
+
+def "nu-complete winget install id" [] {
+    let path = ($env.TMP | path join winget-packages.csv)
+
+    if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
+        open $path | get id | str find-replace "…" ""
+    } else {
+        # Chinese characters break parsing, filter broken entries with `where source == winget`
+        let data = (winget search | where source == winget | select name id)
+        $data | save $path | ignore
+        $data | get id | str find-replace "…" ""
+    }
+}
+
+def "nu-complete winget parse table" [lines: any] {
+    let header = (
+        $lines | first
+        | parse -r "(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<available>Available\s+)?(?P<source>Source\s*)?"
+        | first
+    )
+    let lengths = {
+        name: ($header.name | str length),
+        id: ($header.id | str length),
+        version: ($header.version | str length),
+        available: ($header.available | str length),
+        source: ($header.source | str length)
+    }
+    $lines | skip 2 | each { |it|
+        let it = ($it | split chars)
+
+        let version = if $lengths.version > 0 {
+            (
+                $it | skip ($lengths.name + $lengths.id)
+                | first $lengths.version | str collect | str trim
+            )
+        } else { "" }
+
+        let available = if $lengths.available > 0 {
+            (
+                $it | skip ($lengths.name + $lengths.id + $lengths.version)
+                | first $lengths.available | str collect | str trim
+            )
+        } else { "" }
+
+        let source = if $lengths.source > 0 {
+            (
+                $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.available)
+                | str collect | str trim
+            )
+        } else { "" }
+
+        {
+            name: ($it | first $lengths.name | str collect | str trim),
+            id: ($it | skip $lengths.name | first $lengths.id | str collect | str trim),
+            version: $version,
+            available: $available,
+            source: $source
+        }
+    }
 }
