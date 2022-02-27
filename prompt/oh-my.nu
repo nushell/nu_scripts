@@ -449,7 +449,7 @@ def git_right_prompt [gs os] {
 
     let execution_time_segment = (
         [
-            (ansi { fg: "#606060" bg: "#000000"}) #191323
+            (ansi { fg: "#606060" bg: "#191323"})
             (char -u e0b3)
             (char space)
             $env.CMD_DURATION_MS
@@ -458,11 +458,33 @@ def git_right_prompt [gs os] {
         ] | str collect
     )
 
+    let status_bg_color_24 = (ansi -e { fg: "#2E3436" })
+    let status_bg_color_failure_24 = (ansi -e { fg: "#CC0000" })
+    let status_color_24 = (ansi -e { fg: "#4E9A06" })
+    let status_color_failure_24 = (ansi -e { fg: "#FFFF00" })
+
+    let status_segment = (
+        [
+            (if $env.LAST_EXIT_CODE != 0 {
+                (ansi { fg: "#CC0000" bg: "#191323"})
+            } else {
+                (ansi { fg: "#606060" bg: "#191323"})
+            })
+            (char -u e0b3)
+            (char space)
+            $env.LAST_EXIT_CODE
+            (char space)
+            ($R)
+        ] | str collect
+    )
     # 1. datetime - working
     # $datetime_segment
 
     # 2. time only - working
     [
+        (if $env.LAST_EXIT_CODE != 0 {
+            $status_segment
+        })
         $execution_time_segment
         $time_segment
     ] | str collect
