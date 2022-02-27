@@ -458,11 +458,6 @@ def git_right_prompt [gs os] {
         ] | str collect
     )
 
-    let status_bg_color_24 = (ansi -e { fg: "#2E3436" })
-    let status_bg_color_failure_24 = (ansi -e { fg: "#CC0000" })
-    let status_color_24 = (ansi -e { fg: "#4E9A06" })
-    let status_color_failure_24 = (ansi -e { fg: "#FFFF00" })
-
     let status_segment = (
         [
             (if $env.LAST_EXIT_CODE != 0 {
