@@ -9,12 +9,12 @@ def "nu-complete git remotes" [] {
 }
 
 # Top leve git command
-extern "git" [
+# extern "git" [
 
-]
+# ]
 
-# Check out git branches ans files
-extern "git co" [
+# Check out git branches and files
+extern "git checkout" [
   branch?: string@"nu-complete git branches" # name of the branch to checkout
   -b: string                                 # create and checkout a new branch
   -B: string                                 # create/reset and checkout a branch
@@ -40,7 +40,7 @@ extern "git co" [
 ]
 
 # Push changes
-extern "git pu" [
+extern "git push" [
   remote?: string@"nu-complete git remotes", # the name of the remote
   refspec?: string@"nu-complete git branches"# the branch / refspec
   --verbose(-v)                              # be more verbose
