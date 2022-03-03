@@ -91,7 +91,7 @@ def "winget show" [
         } else if ($output | first) =~ "No package found matching input criteria." {
             $"(ansi yellow)($output | first | str trim)(ansi reset)"
         } else {
-            let header = ($output | first | parse -r "Found (?P<Name>.+) \[(?P<Id>.+)\]")
+            let header = ($output | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]')
             let manifest = ($output | skip 1 | str collect (char newline) | from yaml)
             $header | first | merge { $manifest }
         }
@@ -209,7 +209,7 @@ def "winget search" [
         if ($output | length) == 1 {
             $"(ansi light_red)($output | first)(ansi reset)"
         } else {
-            nu-complete winget parse table $output | select name id version
+            nu-complete winget parse table $output | select name id version source
         }
     }
 }
@@ -361,11 +361,11 @@ def "nu-complete winget install locale" [] {
 }
 
 def "nu-complete winget install source" [] {
-  ^winget source list | lines | skip 2 | split column ' ' | get column1
+    ^winget source list | lines | skip 2 | split column ' ' | get column1
 }
 
 def "nu-complete winget install scope" [] {
-  ["user", "machine"]
+    ["user", "machine"]
 }
 
 def "nu-complete winget source type" [] {
@@ -391,19 +391,26 @@ def "nu-complete winget uninstall package id" [] {
 }
 
 def "nu-complete winget uninstall package name" [] {
-    winget list structured | get Name | str trim | str find-replace "…" "..."
+    winget list | get name | str trim | str find-replace "…" "..."
 }
 
 def "nu-complete winget install name" [] {
     let path = ($env.TMP | path join winget-packages.csv)
 
-    if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
+    let completions = if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
         open $path | get name | each { |it| $"(char dq)($it)(char dq)" } | str find-replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
         let data = (winget search | where source == winget | select name id)
         $data | save $path | ignore
         $data | get name | each { |it| $"(char dq)($it)(char dq)" } | str find-replace "…" ""
+    }
+    {
+        completions: $completions
+        options: {
+            case_sensitive: $false
+            positional: $false
+        }
     }
 }
 
@@ -423,7 +430,7 @@ def "nu-complete winget install id" [] {
 def "nu-complete winget parse table" [lines: any] {
     let header = (
         $lines | first
-        | parse -r "(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<available>Available\s+)?(?P<source>Source\s*)?"
+        | parse -r '(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<available>Available\s+)?(?P<source>Source\s*)?'
         | first
     )
     let lengths = {
