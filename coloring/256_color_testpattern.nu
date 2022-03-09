@@ -20,12 +20,6 @@ def contrast_colour [ colour:int ] {
         let g = (($colour - 16) mod 36) / 6
         let b = ($colour - 16) mod 6
 
-        # if $g > 2 {
-        #     0
-        # } {
-        #     15
-        # }
-
         let luminance = ($r * 299) + ($g * 587) + ($b * 114)
         if $luminance > 2500 {
             0
@@ -65,11 +59,11 @@ def print_blocks [start:int, end:int, block-cols:int, block-rows:int, blocks-per
         print_run ($start + $block * $block-length + $row * $block-cols + $i * $block-length * $blocks-per-line) $block-cols
       } | append (char nl) | str collect
     } | str collect
-    # char nl
   } | str collect
 }
 
 print_run 0 16 # The first 16 colours are spread over the whole spectrum
-char nl
-print_blocks 16 231 6 6 3 # 6x6x6 colour cube between 16 and 231 inclusive
+print ""             # Single line
+print_blocks 16 123 6 6 3 # 6x6x6 colour cube between 16 and 231 inclusive
+print_blocks 124 231 6 6 3 # 6x6x6 colour cube between 16 and 231 inclusive
 print_blocks 232 255 12 2 1 # Not 50, but 24 Shades of Grey
