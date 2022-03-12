@@ -29,5 +29,5 @@ def build-colorstr [
         $'\(ansi reset)'
     })
     $"($bg)($fg)($slash_str)"
-    sleep 10ms | ignore
+    # sleep 10ms | ignore
 }
