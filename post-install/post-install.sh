@@ -1,41 +1,83 @@
-echo "Installing mimetypes and their icons..." # this is continuously adding the same entries to /etc/mime.types and have to be fixed
-$maysudo cat >> /etc/mime.types <<EOF
-application/x-html5			        html5
-application/x-apps			        apps
-application/x-game			        game
+#!/bin/sh
+
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+flouser=$(logname)
+
+echo "Installing mimetypes for .nu files..." # this is continuously adding the same entries to /etc/mime.types and have to be fixed
+#sudo
+#sudo update-mime-database /usr/share/mime
+#sudo cat >> /etc/mime.types <<EOF
+cat >> /etc/mime.types <<EOF
+application/x-nu			        nu
 EOF
-$maysudo cat > /usr/share/mime/packages/x-html5.xml <<EOF
+#sudo cat > /usr/share/mime/application/x-nu.xml <<EOF
+cat > /usr/share/mime/packages/x-nu.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
-  <mime-type type="application/x-html5">
-    <comment>HTML5 application</comment>
-    <generic-icon name="application-x-html5"/>
-    <glob pattern="*.html5"/>
+  <mime-type type="application/x-nu">
+    <comment>Nushell script</comment>
+    <generic-icon name="application-x-nu"/>
+    <glob pattern="*.nu"/>
   </mime-type>
 </mime-info>
 
 EOF
-$maysudo cat > /usr/share/mime/packages/x-apps.xml <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
-  <mime-type type="application/x-apps">
-    <comment>Floflis application</comment>
-    <generic-icon name="application-x-apps"/>
-    <glob pattern="*.apps"/>
-  </mime-type>
-</mime-info>
+sudo update-mime-database /usr/share/mime
+sudo gtk-update-icon-cache /usr/share/icons/gnome/ -f
 
-EOF
-$maysudo cat > /usr/share/mime/packages/x-game.xml <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
-  <mime-type type="application/x-game">
-    <comment>Floflis game</comment>
-    <generic-icon name="application-x-game"/>
-    <glob pattern="*.game"/>
-  </mime-type>
-</mime-info>
+echo "Installing icons for .nu files..."
 
+#cp rsc/img/icons/. 
+
+if [ ! -e /usr/share/icons/Floflis ]; then
+   #echo "install"
+   cd rsc/img/icons
+   #cp rsc/img/icons/. /usr/share/icons/Yaru
+   cp -r -f --preserve=all . /usr/share/icons/Yaru/
+   cd "$SCRIPTPATH"
+else
+   #echo "don't install"
+   cd rsc/img/icons
+   #cp rsc/img/icons/. /usr/share/icons/ubuntu/Yaru
+   cp -r -f --preserve=all . /usr/share/icons/ubuntu/Yaru/
+   cd "$SCRIPTPATH"
+fi
+
+echo "Installing handler for .nu files..."
+
+echo "Installing nu-script-handler..."
+
+sudo cp -f nu-script-handler /usr/bin/nu-script-handler
+
+#sudo mkdir /usr/lib/nu-script-handler
+
+echo "Installing shortcut in /usr/share/applications..."
+cat > /usr/share/applications/nu-script-handler.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=Nu Script Handler
+Exec=nu-script-handler %f
+Icon=application-x-executable
+StartupNotify=false
+MimeType=application-x-nu;
 EOF
-$maysudo update-mime-database /usr/share/mime
-$maysudo gtk-update-icon-cache /usr/share/icons/gnome/ -f
+
+echo "Turning nu-script-handler into the default program (to user $flouser) for .nu scripts..."
+#cat >> $flouser/.config/mimeapps.list <<EOF
+cat >> /home/$flouser/.config/mimeapps.list <<EOF
+application/x-nu=nu-script-handler.desktop
+EOF
+
+installfail(){
+   echo "Installation has failed."
+   exit 1
+}
+
+if [ -f /usr/bin/nu-script-handler ];then
+   echo "- Turning nu-script-handler into an executable..."
+   sudo chmod +x /usr/bin/nu-script-handler
+   if nu-script-handler babyisalive; then echo "Done! Running 'nu-script-handler' command as example to use it:" && (nu-script-handler &);exit 0; else installfail; fi
+   else
+      installfail
+fi

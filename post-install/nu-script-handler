@@ -1,0 +1,15 @@
+#!/bin/sh
+
+script_name="$(basename "$1")"
+
+if [ "$(echo ${script_name##*.})" = "nu" ]; then
+   gnome-terminal --tab --title="Nu Script Handler" -- /bin/nu -c "nu $1; exec nu"
+else
+   echo "---- Nu Script Handler ----"
+   echo "The file you tried to open isn't an nu script."
+   echo "Nu scripts are .nu files."
+fi
+
+if [ "$1" = "babyisalive" ]; then
+   exit 0
+fi
