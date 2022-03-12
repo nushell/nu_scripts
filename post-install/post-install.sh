@@ -5,13 +5,9 @@ SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 flouser=$(logname)
 
 echo "Installing mimetypes for .nu files..." # this is continuously adding the same entries to /etc/mime.types and have to be fixed
-#sudo
-#sudo update-mime-database /usr/share/mime
-#sudo cat >> /etc/mime.types <<EOF
 cat >> /etc/mime.types <<EOF
 application/x-nu			        nu
 EOF
-#sudo cat > /usr/share/mime/application/x-nu.xml <<EOF
 cat > /usr/share/mime/packages/x-nu.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
@@ -28,20 +24,27 @@ sudo gtk-update-icon-cache /usr/share/icons/gnome/ -f
 
 echo "Installing icons for .nu files..."
 
-#cp rsc/img/icons/. 
+git clone https://github.com/DaniellMesquita/linux-icon-builder.git
+#git clone https://github.com/floflis/linux-icon-builder.git
 
 if [ ! -e /usr/share/icons/Floflis ]; then
-   #echo "install"
-   cd rsc/img/icons
-   #cp rsc/img/icons/. /usr/share/icons/Yaru
+   #cd linux-icon-builder/icons
+   cd linux-icon-builder
+   sh ./script.sh "$SCRIPTPATH/rsc/img/application-x-nu.png" "mimetypes" "application-x-nu.png"
+   #cd linux-icon-builder/icons
+   cd icons
    cp -r -f --preserve=all . /usr/share/icons/Yaru/
    cd "$SCRIPTPATH"
+   rm -f linux-icon-builder
 else
-   #echo "don't install"
-   cd rsc/img/icons
-   #cp rsc/img/icons/. /usr/share/icons/ubuntu/Yaru
+   #cd linux-icon-builder/icons
+   cd linux-icon-builder
+   sh ./script.sh "$SCRIPTPATH/rsc/img/application-x-nu.png" "mimetypes" "application-x-nu.png"
+   #cd linux-icon-builder/icons
+   cd icons
    cp -r -f --preserve=all . /usr/share/icons/ubuntu/Yaru/
    cd "$SCRIPTPATH"
+   rm -f linux-icon-builder
 fi
 
 echo "Installing handler for .nu files..."
@@ -49,8 +52,6 @@ echo "Installing handler for .nu files..."
 echo "Installing nu-script-handler..."
 
 sudo cp -f nu-script-handler /usr/bin/nu-script-handler
-
-#sudo mkdir /usr/lib/nu-script-handler
 
 echo "Installing shortcut in /usr/share/applications..."
 cat > /usr/share/applications/nu-script-handler.desktop <<EOF
@@ -64,7 +65,6 @@ MimeType=application-x-nu;
 EOF
 
 echo "Turning nu-script-handler into the default program (to user $flouser) for .nu scripts..."
-#cat >> $flouser/.config/mimeapps.list <<EOF
 cat >> /home/$flouser/.config/mimeapps.list <<EOF
 application/x-nu=nu-script-handler.desktop
 EOF
