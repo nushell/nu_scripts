@@ -27,25 +27,18 @@ echo "Installing icons for .nu files..."
 git clone https://github.com/DaniellMesquita/linux-icon-builder.git
 #git clone https://github.com/floflis/linux-icon-builder.git
 
+cd linux-icon-builder
+sh ./linux-icon-builder "$SCRIPTPATH/rsc/img/application-x-nu.png" "mimetypes" "application-x-nu.png"
+cd icons
+
 if [ ! -e /usr/share/icons/Floflis ]; then
-   #cd linux-icon-builder/icons
-   cd linux-icon-builder
-   sh ./script.sh "$SCRIPTPATH/rsc/img/application-x-nu.png" "mimetypes" "application-x-nu.png"
-   #cd linux-icon-builder/icons
-   cd icons
    cp -r -f --preserve=all . /usr/share/icons/Yaru/
-   cd "$SCRIPTPATH"
-   rm -f linux-icon-builder
 else
-   #cd linux-icon-builder/icons
-   cd linux-icon-builder
-   sh ./script.sh "$SCRIPTPATH/rsc/img/application-x-nu.png" "mimetypes" "application-x-nu.png"
-   #cd linux-icon-builder/icons
-   cd icons
    cp -r -f --preserve=all . /usr/share/icons/ubuntu/Yaru/
-   cd "$SCRIPTPATH"
-   rm -f linux-icon-builder
 fi
+
+cd "$SCRIPTPATH"
+rm -rf linux-icon-builder
 
 echo "Installing handler for .nu files..."
 
