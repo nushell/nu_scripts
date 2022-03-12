@@ -1,0 +1,3 @@
+- Use a lib (if it don't exist we'll make one) to detect current/available terminal app, instead of hardcoding Gnome only
+
+- Like Java does for .jar files, detect if the .nu file is executable and display warning dialog about downloaded scripts
