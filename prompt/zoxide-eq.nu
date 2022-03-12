@@ -12,7 +12,7 @@ def __zoxide_prompt [] {
     # let git = (if ($git | str length) == 0 { '' } else {
     #     build-string (char lp) (ansi cb) $git (ansi reset) (char rp)
     # })
-    # build-string (ansi gb) ($nu.cwd) (ansi reset) $git '> '
+    # build-string (ansi gb) ($env.PWD) (ansi reset) $git '> '
 
     #if we really want the default prompt, we just need to hide the prompt to be sure
     hide PROMPT_COMMAND
@@ -81,7 +81,7 @@ def-env __zoxide_z [...rest:string] {
         # if ($rest | length) <= 1 && ($arg0 == '-' || ($arg0 | path expand | path exists)) {
         #     cd $arg0
         # } else {
-            cd (zoxide query --exclude ($nu.cwd) -- $rest.0 | str collect | str trim)
+            cd (zoxide query --exclude ($env.PWD) -- $rest.0 | str collect | str trim)
         # }
     # }
 }

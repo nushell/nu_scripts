@@ -17,17 +17,17 @@
 
 # Abbreviate home path
 def home_abbrev [os] {
-    let is_home_in_path = ($nu.cwd | str starts-with $nu.home-path)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     if ($is_home_in_path == $true) {
         if ($os == "Windows") {
             let home = ($nu.home-path | str find-replace -a '\\' '/')
-            let pwd = ($nu.cwd | str find-replace -a '\\' '/')
+            let pwd = ($env.PWD | str find-replace -a '\\' '/')
             $pwd | str find-replace $home '~'
         } else {
-            $nu.cwd | str find-replace $nu.home-path '~'
+            $env.PWD | str find-replace $nu.home-path '~'
         }
     } else {
-        $nu.cwd | str find-replace -a '\\' '/'
+        $env.PWD | str find-replace -a '\\' '/'
     }
 }
 
@@ -322,7 +322,7 @@ def git_left_prompt [gs os] {
         (char space)                           # space
     ] | str collect)
 
-    let is_home_in_path = ($nu.cwd | str starts-with $nu.home-path)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     let path_segment = (if (($is_home_in_path) && ($branch_name == "")) {
         [
         (char -u f015)                         #  home icon
