@@ -16,10 +16,10 @@
 
 
 # Abbreviate home path
-def home_abbrev [os] {
+def home_abbrev [os_name] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     if ($is_home_in_path == $true) {
-        if ($os == "Windows") {
+        if ($os_name == "Windows") {
             let home = ($nu.home-path | str find-replace -a '\\' '/')
             let pwd = ($env.PWD | str find-replace -a '\\' '/')
             $pwd | str find-replace $home '~'
@@ -168,12 +168,14 @@ def get_icon_by_name [name] {
 
 def get_os_icon [os] {
     # f17c = tux, f179 = apple, f17a = windows
-    if ($os =~ Darwin) {
+    if ($os.name =~ Darwin) {
         (char -u f179)
-    } else if ($os =~ Linux) {
+    } else if ($os.name =~ Linux) {
         (char -u f17c)
-    } else if ($os =~ Windows) {
+    } else if ($os.name =~ Windows) {
         (char -u f17a)
+    } else if ($os.'kernel version' =~ WSL) {
+        $'(char -u f17a)(char -u f17c)'
     } else {
         ''
     }
@@ -203,7 +205,7 @@ def get_os_icon [os] {
 
 def get_repo_status [gs os] {
     # replace this 30 with whatever the width of the terminal is
-    let display_path = (path_abbrev_if_needed (home_abbrev $os) 30)
+    let display_path = (path_abbrev_if_needed (home_abbrev $os.name) 30)
     let branch_name = (get_branch_name $gs)
     let ahead_cnt = (get_ahead_count $gs)
     let behind_cnt = (get_behind_count $gs)
@@ -289,7 +291,7 @@ def get_repo_status [gs os] {
 
 def git_left_prompt [gs os] {
     # replace this 30 with whatever the width of the terminal is
-    let display_path = (path_abbrev_if_needed (home_abbrev $os) 30)
+    let display_path = (path_abbrev_if_needed (home_abbrev $os.name) 30)
     let branch_name = (get_branch_name $gs)
     let R = (ansi reset)
 
@@ -503,7 +505,7 @@ def git_right_prompt [gs os] {
 
 export def git_prompt [] {
     let gs = (gstat)
-    let os = ((sys).host.name)
+    let os = ((sys).host)
     let left_prompt = (git_left_prompt $gs $os)
     let right_prompt = (git_right_prompt $gs $os)
 
