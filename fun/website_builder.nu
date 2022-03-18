@@ -50,7 +50,7 @@ for $markdown in $markdown_files {
         <html>
           <head>
             <meta charset="utf-8">
-            <title>My test page</title>
+            <title>($header.title)</title>
             <style>
               img {
                   max-width: 600px
