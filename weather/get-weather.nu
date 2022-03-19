@@ -41,22 +41,20 @@ def get_my_location [index: int] {
     }
 }
 
-let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
-let TOKEN = "85a4e3c55b73909f42c6a23ec35b7147"
-let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
-let URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily"
-
-def get_location_by_ip [locIdx: int] {
+def get_location_by_ip [locIdx: int, token: string] {
+    let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
     let location = (get_my_location $locIdx)
-    let url = $"($URL_QUERY_LOCATION)?q=($location)&limit=5&appid=($TOKEN)"
+    let url = $"($URL_QUERY_LOCATION)?q=($location)&limit=5&appid=($token)"
     fetch $url
 }
 
-def get_weather_by_ip [locIdx: int, units: string] {
+def get_weather_by_ip [locIdx: int, units: string, token: string] {
     # units
     # f = imperial aka Fahrenheit
     # c = metric aka Celcius
-    let coords = (get_location_by_ip $locIdx)
+    let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
+    let URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily"
+    let coords = (get_location_by_ip $locIdx $token)
     if ($coords | length) > 1 {
         [
             [msg, labels, span];
@@ -66,8 +64,8 @@ def get_weather_by_ip [locIdx: int, units: string] {
 
     if $units == "f" {
         let units = "imperial"
-        let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
-        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
+        let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
+        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
         let weather = (fetch $url)
         let forecast_data = (fetch $url_forecast)
         let forecast = (for day in $forecast_data.list {
@@ -104,8 +102,8 @@ def get_weather_by_ip [locIdx: int, units: string] {
         }
     } else {
         let units = "metric"
-        let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
-        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($TOKEN)"
+        let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
+        let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
         let weather = (fetch $url)
         let forecast_data = (fetch $url_forecast)
         let forecast = (for day in $forecast_data.list {
@@ -161,10 +159,12 @@ def get_icon_from_table [w] {
 }
 
 # Get the local weather by ip address
-def get_weather [
+export def get_weather [
     --locIdx(-l): int # The location id 0-3
     --units(-u): string # The units "f" or "c"
     ] {
+    let token = "85a4e3c55b73909f42c6a23ec35b7147"
+
     let is_loc_empty = ($locIdx == $nothing)
     let is_units_empty = ($units == $nothing)
 
@@ -202,13 +202,13 @@ def get_weather [
     # } { }
 
     if $no_loc_no_unit {
-        (get_weather_by_ip 0 "f")
+        (get_weather_by_ip 0 "f" $token)
     } else if $no_loc_with_unit {
-        (get_weather_by_ip 0 $units)
+        (get_weather_by_ip 0 $units $token)
     } else if $with_loc_no_unit {
-        (get_weather_by_ip $locIdx "f")
+        (get_weather_by_ip $locIdx "f" $token)
     } else if $with_loc_with_unit {
-        (get_weather_by_ip $locIdx $units)
+        (get_weather_by_ip $locIdx $units $token)
     }
 }
 
@@ -302,3 +302,10 @@ def get_emoji_by_id [id] {
 
 # Since I live in the USA I have not tested outside the country.
 # We'll take PRs for things that are broke or augmentations.
+
+# HOW TO USE
+# put this in your config.nu file
+# use /path/to/get-weather.nu get_weather
+# 
+# then from the nushell commmand prompt type
+# get_weather
