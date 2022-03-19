@@ -36,7 +36,7 @@ def signatures [] {
                 long: "help"
                 short: "h"
                 arg: None
-                required: $false
+                required: false
                 desc: "display this help message"
                 var_id: None
             }
@@ -44,7 +44,7 @@ def signatures [] {
                 long: "flag"
                 short: "f"
                 arg: None
-                required: $false
+                required: false
                 desc: "a flag for the signature"
                 var_id: None
             }
@@ -52,13 +52,13 @@ def signatures [] {
                 long: "named"
                 short: "n"
                 arg: "String"
-                required: $false
+                required: false
                 desc: "named string"
                 var_id: None
             }
         ]
-        is_filter: $false
-        creates_scope: $false
+        is_filter: false
+        creates_scope: false
         category: "Experimental"
       }
   ])
