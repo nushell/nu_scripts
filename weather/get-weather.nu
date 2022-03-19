@@ -168,10 +168,10 @@ export def get_weather [
     let is_loc_empty = ($locIdx == $nothing)
     let is_units_empty = ($units == $nothing)
 
-    let no_loc_no_unit = ($is_loc_empty == $true && $is_units_empty == $true)
-    let no_loc_with_unit = ($is_loc_empty == $true && $is_units_empty == $false)
-    let with_loc_no_unit = ($is_loc_empty == $false && $is_units_empty == $true)
-    let with_loc_with_unit = ($is_loc_empty == $false && $is_units_empty == $false)
+    let no_loc_no_unit = ($is_loc_empty == true && $is_units_empty == true)
+    let no_loc_with_unit = ($is_loc_empty == true && $is_units_empty == false)
+    let with_loc_no_unit = ($is_loc_empty == false && $is_units_empty == true)
+    let with_loc_with_unit = ($is_loc_empty == false && $is_units_empty == false)
 
     # This is a cautionary tale, the commented out code below is returning
     # and autoview is viewing the data, so no structured data is being returned.

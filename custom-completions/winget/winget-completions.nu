@@ -374,9 +374,9 @@ def "nu-complete winget source type" [] {
 
 def "nu-complete winget flagify" [name: string, value: any, --short(-s): bool] {
   let flag_start = if $short { '-' } else { '--' }
-  if $value == $nothing || $value == $false {
+  if $value == $nothing || $value == false {
     ""
-  } else if $value == $true {
+  } else if $value == true {
     $"($flag_start)($name)"
   } else {
     $"($flag_start)($name) ($value)"
@@ -408,8 +408,8 @@ def "nu-complete winget install name" [] {
     {
         completions: $completions
         options: {
-            case_sensitive: $false
-            positional: $false
+            case_sensitive: false
+            positional: false
         }
     }
 }

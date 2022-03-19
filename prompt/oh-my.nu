@@ -18,7 +18,7 @@
 # Abbreviate home path
 def home_abbrev [os_name] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
-    if ($is_home_in_path == $true) {
+    if $is_home_in_path {
         if ($os_name == "Windows") {
             let home = ($nu.home-path | str find-replace -a '\\' '/')
             let pwd = ($env.PWD | str find-replace -a '\\' '/')
@@ -218,9 +218,9 @@ def get_repo_status [gs os] {
             ($wt_change_cnt <= 0) &&
             ($conflicted_cnt <= 0) &&
             ($untracked_cnt <= 0) {
-                $true
+                true
         } else {
-            $false
+            false
         }
     )
 
@@ -282,7 +282,7 @@ def get_repo_status [gs os] {
         )(
             if ($untracked_cnt > 0) { $'($U_COLOR)($UNTRACKED_CHANGE_ICON)($untracked_cnt)($R)' }
         )(
-            if ($has_no_changes == $true) { $'($N_COLOR)($NO_CHANGE_ICON)($R)' } else { $'($H_COLOR)($HAS_CHANGE_ICON)($R)' }
+            if $has_no_changes { $'($N_COLOR)($NO_CHANGE_ICON)($R)' } else { $'($H_COLOR)($HAS_CHANGE_ICON)($R)' }
         )"
     )
 
@@ -362,8 +362,8 @@ def git_left_prompt [gs os] {
         ] | str collect
     })
 
-    let git_right = $false
-    let indicator_segment = (if ($branch_name == "" || $git_right == $true) {
+    let git_right = false
+    let indicator_segment = (if ($branch_name == "" || $git_right) {
         [
         (ansi { fg: "#3465A4" bg: $TERM_BG}) # color
         (char -u e0b0)                         # 
@@ -381,7 +381,7 @@ def git_left_prompt [gs os] {
     [
         $os_segment
         $path_segment
-        (if ($git_right == $false) {
+        (if ($git_right == false) {
             $git_segment
         })
         $indicator_segment

@@ -42,10 +42,10 @@ def get_flag [
     let is_int_empty = ($test_int == $nothing)
     let is_string_empty = ($test_string == $nothing)
 
-    let no_int_no_string = ($is_int_empty == $true && $is_string_empty == $true)
-    let no_int_with_string = ($is_int_empty == $true && $is_string_empty == $false)
-    let with_int_no_string = ($is_int_empty == $false && $is_string_empty == $true)
-    let with_int_with_string = ($is_int_empty == $false && $is_string_empty == $false)
+    let no_int_no_string = ($is_int_empty == true && $is_string_empty == true)
+    let no_int_with_string = ($is_int_empty == true && $is_string_empty == false)
+    let with_int_no_string = ($is_int_empty == false && $is_string_empty == true)
+    let with_int_with_string = ($is_int_empty == false && $is_string_empty == false)
 
     echo 'no int and no string ' $no_int_no_string | str collect
     echo 'no int with string ' $no_int_with_string | str collect

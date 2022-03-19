@@ -18,7 +18,7 @@
 # Abbreviate home path
 def home_abbrev [os] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
-    if ($is_home_in_path == $true) {
+    if ($is_home_in_path == true) {
         if ($os == "Windows") {
             let home = ($nu.home-path | str find-replace -a '\\' '/')
             let pwd = ($env.PWD | str find-replace -a '\\' '/')
@@ -102,7 +102,7 @@ def path_abbrev_if_needed [apath term_width] {
 
 def get_os_icon [os use_nerd_fonts] {
     # f17c = tux, f179 = apple, f17a = windows
-    if ($use_nerd_fonts == $true) {
+    if $use_nerd_fonts {
         if ($os =~ Darwin) {
             (char -u f179)
         } else if ($os =~ Linux) {
@@ -157,7 +157,7 @@ def get_left_prompt [os use_nerd_fonts] {
         (get_os_icon $os $use_nerd_fonts)      # os icon
         (char space)                           # space
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color transition
-        (if ($use_nerd_fonts == $true) {
+        (if $use_nerd_fonts {
             $right_transition_nf               # 
         } else {
             $right_transition
@@ -168,7 +168,7 @@ def get_left_prompt [os use_nerd_fonts] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     let path_segment = (if $is_home_in_path {
         [
-        (if ($use_nerd_fonts == $true) {
+        (if $use_nerd_fonts {
             $home_nf                         #  home icon
         } else {
             $home
@@ -180,7 +180,7 @@ def get_left_prompt [os use_nerd_fonts] {
         ] | str collect
     } else {
         [
-        (if ($use_nerd_fonts == $true) {
+        (if $use_nerd_fonts {
             $folder_nf                        #  folder icon
         } else {
             $folder
@@ -195,7 +195,7 @@ def get_left_prompt [os use_nerd_fonts] {
     let indicator_segment = (
         [
         (ansi { fg: "#3465A4" bg: $TERM_BG}) # color
-        (if ($use_nerd_fonts == $true) {
+        (if $use_nerd_fonts {
             $right_transition_nf             # 
         } else {
             # $right_transition
@@ -231,7 +231,7 @@ def get_right_prompt [os use_nerd_fonts] {
 
     let datetime_segment = ([
         (ansi { fg: $TIME_BG bg: $TERM_FG})
-        (if ($use_nerd_fonts == $true) {
+        (if $use_nerd_fonts {
             $left_transition_nf     # 
         } else {
             $left_transition
@@ -245,7 +245,7 @@ def get_right_prompt [os use_nerd_fonts] {
 
     let time_segment = ([
         (ansi { fg: $TIME_BG bg: $TERM_FG})
-        (if ($use_nerd_fonts == $true) {
+        (if $use_nerd_fonts {
             $left_transition_nf # 
         } else {
             $left_transition

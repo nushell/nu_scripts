@@ -27,16 +27,16 @@ def __zoxide_prompt [] {
 
 # Hook to add new entries to the database.
 def __zoxide_hook [] {
-    # shells | where active == $true | get path | each {
+    # shells | where active == true | get path | each {
     #     zoxide add -- $it
     # }
-    zoxide add -- (shells | where active == $true | get path | get 0)
+    zoxide add -- (shells | where active == true | get path | get 0)
 }
 
 # Initialize hook.
 
 export env ZOXIDE_INITIALIZED { (if ("ZOXIDE_INITIALIZED" not-in (env).name) {
-        $false
+        false
     } else {
         $env.ZOXIDE_INITIALIZED
     })
@@ -73,7 +73,7 @@ export env PROMPT_COMMAND {
 # Jump to a directory using only keywords.
 # export def-env __zoxide_z [...rest:string] {
 export def-env z [...rest:string] {
-# if (shells | where active == $true) {
+# if (shells | where active == true) {
     #     if ($rest | length) > 1 {
     #         $'zoxide: can only jump in active shells(char nl)'
     #     } else {
@@ -92,7 +92,7 @@ export def-env z [...rest:string] {
 # Jump to a directory using interactive search.
 # export def-env __zoxide_zi  [...rest:string] {
 export def-env zi  [...rest:string] {
-    # if (shells | where active == $false) {
+    # if (shells | where active == false) {
     #     $'zoxide: can only jump in active shells(char nl)'
     # } else {
         # cd $'(zoxide query -i -- $rest.0)'
@@ -120,7 +120,7 @@ export def-env zi  [...rest:string] {
 
 # If everything went fine, set a flag that zoxide is initialized to avoid
 # recursively calling _OLD_PROMPT_COMMAND
-export env ZOXIDE_INITIALIZED { $true }
+export env ZOXIDE_INITIALIZED { true }
 
 
 # HOW TO
