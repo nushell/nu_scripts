@@ -35,24 +35,26 @@ def __zoxide_hook [] {
 
 # Initialize hook.
 
-let-env ZOXIDE_INITIALIZED = (if ("ZOXIDE_INITIALIZED" not-in (env).name) {
-    $false
-} else {
-    $env.ZOXIDE_INITIALIZED
-})
+export env ZOXIDE_INITIALIZED { (if ("ZOXIDE_INITIALIZED" not-in (env).name) {
+        $false
+    } else {
+        $env.ZOXIDE_INITIALIZED
+    })
+}
 
-let-env _OLD_PROMPT_COMMAND = (if $env.ZOXIDE_INITIALIZED {
-    $env._OLD_PROMPT_COMMAND
-} else {
-    $env.PROMPT_COMMAND
-})
+export env _OLD_PROMPT_COMMAND { (if $env.ZOXIDE_INITIALIZED {
+        $env._OLD_PROMPT_COMMAND
+    } else {
+        $env.PROMPT_COMMAND
+    })
+}
 
 # TODO
 # the prompt hook I think will need to test the current prompt to see if it's
 # a string or a block. If it's a string, prepend, if's a block, then wrap the
 # call to that block in another block
 
-let-env PROMPT_COMMAND = {
+export env PROMPT_COMMAND {
     __zoxide_hook  # gets executed in both cases
 
     if ("PROMPT_COMMAND" not-in (env).name)  {
@@ -69,8 +71,9 @@ let-env PROMPT_COMMAND = {
 #
 
 # Jump to a directory using only keywords.
-def-env __zoxide_z [...rest:string] {
-    # if (shells | where active == $true) {
+# export def-env __zoxide_z [...rest:string] {
+export def-env z [...rest:string] {
+# if (shells | where active == $true) {
     #     if ($rest | length) > 1 {
     #         $'zoxide: can only jump in active shells(char nl)'
     #     } else {
@@ -87,7 +90,8 @@ def-env __zoxide_z [...rest:string] {
 }
 
 # Jump to a directory using interactive search.
-def-env __zoxide_zi  [...rest:string] {
+# export def-env __zoxide_zi  [...rest:string] {
+export def-env zi  [...rest:string] {
     # if (shells | where active == $false) {
     #     $'zoxide: can only jump in active shells(char nl)'
     # } else {
@@ -101,8 +105,8 @@ def-env __zoxide_zi  [...rest:string] {
 # Convenient aliases for zoxide. Disable these using --no-aliases.
 #
 
-alias z = __zoxide_z
-alias zi = __zoxide_zi
+# alias z = __zoxide_z
+# alias zi = __zoxide_zi
 
 # =============================================================================
 #
@@ -116,4 +120,11 @@ alias zi = __zoxide_zi
 
 # If everything went fine, set a flag that zoxide is initialized to avoid
 # recursively calling _OLD_PROMPT_COMMAND
-let-env ZOXIDE_INITIALIZED = $true
+export env ZOXIDE_INITIALIZED { $true }
+
+
+# HOW TO
+# To use this as your zoxide script you must first have zoxide installed
+# cargo install zoxide
+# Then you need to edit your config.nu file similar to this
+# use /Users/fdncred/src/forks/nu_scripts/prompt/zoxide-eq.nu [z, zi]
