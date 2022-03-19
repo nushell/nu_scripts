@@ -509,6 +509,24 @@ export def git_prompt [] {
     let left_prompt = (git_left_prompt $gs $os)
     let right_prompt = (git_right_prompt $gs $os)
 
+    # set the title of the window/tab
+    # Wezterm accepts:
+    # osc0 \x1b]0;
+    # osc1 \x1b]1;
+    # osc2 \x1b]2;
+    # the typical way to set the terminal title is:
+    # osc2 some_string bel aka (char osc)2;($some_string)(char bel) or "\u001b]2;($some_string)\a"
+    # bel is escape \a or \x7 or \u0007
+    # but i've also seen it as
+    # osc2 some_string string_terminator aka (char osc)2;($some_string)(ansi st) or "\u001b];($some_string)\\"
+    # where string_terminator is \
+    # so you might want to play around with these settings a bit
+    let abbrev = ((path_abbrev_if_needed (home_abbrev $os.name) 30) | ansi strip)
+    # $"\u001b]0;($abbrev)"
+    # note that this isn't ending properly with a bel or a st, that's 
+    # because it makes the string echo to the screen as an empty line
+    $"(ansi osc)2;($abbrev)"
+
     # return in record literal syntax to be used kind of like a tuple
     # so we don't have to run this script more than once per prompt
     {
