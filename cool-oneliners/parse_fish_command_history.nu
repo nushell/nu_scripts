@@ -1,0 +1,1 @@
+open ~/.config/fish/fish_history | from yaml | get cmd | find --regex '^git .*' | split column ' ' command subcommand
