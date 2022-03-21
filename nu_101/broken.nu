@@ -34,3 +34,13 @@
 ### {
 ### echo $arg
 ### }
+
+### This breaks because you need a space between
+### between foo and the left bracket
+### def foo[] {
+###  "bar"
+### }
+### This works
+### def foo [] {
+### "bar"
+### }
