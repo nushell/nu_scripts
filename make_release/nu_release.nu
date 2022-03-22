@@ -1,17 +1,53 @@
 cd crates
 
-let first-wave = [nu-system, nu-term-grid, nu-path, nu-ansi-term, nu-pretty-hex, nu-json, nu-protocol, nu-engine, nu-plugin, nu-table, nu-color-config, 
-nu-parser, nu-test-support, nu-cli]
+let subcrates_wave_1 = [
+    # components
+    nu-utils,
+    nu-glob,
+    nu-term-grid,
+    nu-pretty-hex,
+    nu-system,
+    nu-path,
+    nu-json,
+    nu-protocol,
+    nu-engine,
+    nu-table,
+    nu-color-config,
+    nu-test-support,
+    nu-plugin,
+    nu-parser,
+]
 
-echo $first-wave | each { |cratedir| enter $cratedir; cargo publish; exit; sleep 1min }
+let subcrates_wave_2 = [
+    nu-command,
+]
 
-let second-wave = [nu-command]
+let subcrates_wave_3 = [
+    nu-cli,
 
-echo $second-wave | each { |cratedir| enter $cratedir; cargo publish --no-verify; exit; sleep 1min }
+    # plugins
+    nu_plugin_query,
+    nu_plugin_inc,
+    nu_plugin_gstat
+]
 
-ls nu_plugin_* | each { |plugin| enter $plugin.name; cargo publish; exit }
+for subcrate in $subcrates_wave_1 {
+    cd $subcrate
+    cargo publish
+    sleep 1min
+}
 
-sleep 1min
+for subcrate in $subcrates_wave_2 {
+    cd $subcrate
+    cargo publish --no-verify
+    sleep 1min
+}
+
+for subcrate in $subcrates_wave_3 {
+    cd $subcrate
+    cargo publish
+    sleep 1min
+}
 
 cd ..
 
