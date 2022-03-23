@@ -1,4 +1,4 @@
-# Make Custom Completions
+# NPM Custom Completions
 
 ### Definition
 
