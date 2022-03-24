@@ -7,8 +7,11 @@ def dict [...word #word(s) to query the dictionary API but they have to make sen
   rename word)
   let w = ($output.word | first)
 
-  if $w == "No Definitions Found" {echo $output.word} else {echo $output |
-  get meanings.definitions |
-  select definition example
+  if $w == "No Definitions Found" {
+  	echo $output.word
+  } else {
+  	echo $output.meanings.definitions |
+  	flatten | flatten |
+  	select definition example
   }
 }
