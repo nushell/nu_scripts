@@ -8,6 +8,10 @@ def "nu-complete git remotes" [] {
   ^git remote | lines | each { |line| $line | str trim }
 }
 
+def "nu-complete git log" [] {
+  ^git log --pretty=%h | lines | each { |line| $line | str trim }
+}
+
 # Top leve git command
 # extern "git" [
 
@@ -68,4 +72,25 @@ extern "git push" [
   --push-option(-o): string                  # option to transmit
   --ipv4(-4)                                 # use IPv4 addresses only
   --ipv6(-6)                                 # use IPv6 addresses only
+]
+
+# Switch between branches and commits
+export extern "git switch" [
+  switch?: string@"nu-complete git branches" # name of branch to switch to
+  --create(-c): string                       # create a new branch
+  --force-create(-C): string                 # forces creation of new branch, if it exists then the existing branch will be reset to starting point
+  --detach(-d): string@"nu-complete git log" # switch to a commit in a detatched state
+  --guess                                    # if there is no local branch which matches then name but there is a remote one then this is checked out
+  --no-guess                                 # do not attempt to match remote branch names
+  --force(-f)                                # alias for --discard-changes
+  --merge(-m)                                # attempts to merge changes when switching branches if there are local changes
+  --quiet(-q)                                # suppress feedback messages
+  --progress                                 # report progress status
+  --no-progress                              # do not report progress
+  --track(-t)                                # set "upstream" configuration
+  --no-track                                 # do not set "upstream" configuration
+  --orphan: string                           # create a new orphaned branch
+  --ignore-other-worktrees                   # switch even if the ref is held by another worktree
+  --recurse-submodules                       # update the contents of sub-modules
+  --no-recurse-submodules                    # do not update the contents of sub-modules
 ]
