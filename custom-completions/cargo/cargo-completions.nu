@@ -15,7 +15,7 @@ def "nu-complete cargo examples" [] {
 }
 
 def "nu-complete cargo packages" [] {
-  let metadata = (cargo metadata --format-version=1)
+  let metadata = (cargo metadata --format-version=1 --offline --no-deps)
   if $metadata == '' {
     []
   } else {
