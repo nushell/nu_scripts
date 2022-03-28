@@ -1,5 +1,3 @@
-# Written by JT
-
 def "nu-complete git branches" [] {
   ^git branch | lines | each { |line| $line | str find-replace '\* ' "" | str trim }
 }
@@ -12,13 +10,8 @@ def "nu-complete git log" [] {
   ^git log --pretty=%h | lines | each { |line| $line | str trim }
 }
 
-# Top leve git command
-# extern "git" [
-
-# ]
-
 # Check out git branches and files
-extern "git checkout" [
+export extern "git checkout" [
   branch?: string@"nu-complete git branches" # name of the branch to checkout
   -b: string                                 # create and checkout a new branch
   -B: string                                 # create/reset and checkout a branch
@@ -44,7 +37,7 @@ extern "git checkout" [
 ]
 
 # Push changes
-extern "git push" [
+export extern "git push" [
   remote?: string@"nu-complete git remotes", # the name of the remote
   refspec?: string@"nu-complete git branches"# the branch / refspec
   --verbose(-v)                              # be more verbose
