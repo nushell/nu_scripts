@@ -1,18 +1,10 @@
 ## Written by lukexor
 
-def "nu-complete cargo bins" [] {
-  let $bins = (ls src | where name =~ bin | each { |f| ls -s $f.name } | flatten | where name =~ .rs || type == dir)
-  if ($bins | length) > 0 {
-    echo $bins | upsert name { |file| $file.name | str find-replace ".rs" "" } | get name
-  }
+def "nu-complete cargo targets" [type: string] {
+  cargo metadata --format-version=1 --offline --no-deps | from json | get packages.targets | flatten | where ($type in $it.kind) | get name
 }
-
-def "nu-complete cargo examples" [] {
-  let $examples = (ls | where name =~ examples | each { |f| ls -s $f.name } | flatten | where name =~ .rs || type == dir)
-  if ($examples | length) > 0 {
-    echo $examples | upsert name { |file| $file.name | str find-replace ".rs" "" } | get name
-  }
-}
+def "nu-complete cargo bin" [] { nu-complete cargo targets bin }
+def "nu-complete cargo example" [] { nu-complete cargo targets example }
 
 def "nu-complete cargo packages" [] {
   let metadata = (cargo metadata --format-version=1 --offline --no-deps)
