@@ -3,8 +3,8 @@
 def "nu-complete cargo targets" [type: string] {
   cargo metadata --format-version=1 --offline --no-deps | from json | get packages.targets | flatten | where ($type in $it.kind) | get name
 }
-def "nu-complete cargo bin" [] { nu-complete cargo targets bin }
-def "nu-complete cargo example" [] { nu-complete cargo targets example }
+def "nu-complete cargo bins" [] { nu-complete cargo targets bin }
+def "nu-complete cargo examples" [] { nu-complete cargo targets example }
 
 def "nu-complete cargo packages" [] {
   let metadata = (cargo metadata --format-version=1 --offline --no-deps)
