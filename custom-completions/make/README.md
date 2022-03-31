@@ -1,5 +1,10 @@
 # Make Custom Completions
 
-### Definition
+This script provides custom completions for make.
+It can be used by importing its exported commands via:
 
-These scripts should be used to demonstrate how create custom completions for make.
+```
+use path/to/make/make-completions.nu *
+```
+
+With `path/to` being either the relative path of the file to your current working directory or its absolute path. 

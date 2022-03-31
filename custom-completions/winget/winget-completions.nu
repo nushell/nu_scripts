@@ -1,14 +1,14 @@
 # Written by Genna
 
 # Windows Package Manager
-extern winget [
+export extern winget [
     --version(-v): bool, # Display the version of the tool
     --info: bool, # Display general info of the tool
     --help(-?): bool, # Display the help for this command
 ]
 
 # Installs the given package
-extern "winget install" [
+export extern "winget install" [
     query?: string@"nu-complete winget install name",
     --query(-q): string@"nu-complete winget install name", # The query used to search for a package
     --manifest(-m): path, # The path to the manifest of the package
@@ -99,12 +99,12 @@ def "winget show" [
 }
 
 # Manage sources of packages
-extern "winget source" [
+export extern "winget source" [
     --help(-?): bool # Display the help for this command
 ]
 
 # Add a new source
-extern "winget source add" [
+export extern "winget source add" [
     --name(-n): string, # Name of the source
     --arg(-a): string, # Argument given to the source
     --type(-t): string@"nu-complete winget source type", # Type of the source
@@ -142,26 +142,26 @@ def "winget source list" [
 }
 
 # Update current sources
-extern "winget source update" [
+export extern "winget source update" [
     --name(-n): string, # Name of the source
     --help(-?): bool # Display the help for this command
 ]
 
 # Remove current sources
-extern "winget source remove" [
+export extern "winget source remove" [
     --name(-n): string, # Name of the source
     --help(-?): bool # Display the help for this command
 ]
 
 # Reset sources
-extern "winget source reset" [
+export extern "winget source reset" [
     --name(-n): string, # Name of the source
     --force: bool, # Forces the reset of the sources
     --help(-?): bool # Display the help for this command
 ]
 
 # Export current sources
-extern "winget source export" [
+export extern "winget source export" [
     --name(-n): string, # Name of the source
     --help(-?): bool # Display the help for this command
 ]
@@ -263,7 +263,7 @@ def "winget list" [
 }
 
 # Upgrades the given package
-extern "winget upgrade" [
+export extern "winget upgrade" [
     query?: string,
     --query(-q): string, # The query used to search for a package
     --manifest(-m): path, # The path to the manifest of the package
@@ -287,7 +287,7 @@ extern "winget upgrade" [
 ]
 
 # Uninstalls the given package
-extern "winget uninstall" [
+export extern "winget uninstall" [
     query?: string@"nu-complete winget uninstall package name",
     --query(-q): string@"nu-complete winget uninstall package name", # The query used to search for a package
     --manifest(-m): path, # The path to the manifest of the package
@@ -304,7 +304,7 @@ extern "winget uninstall" [
 ]
 
 # Helper to hash installer files
-extern "winget hash" [
+export extern "winget hash" [
     file?: path, # File to be hashed
     --file(-f): path, # File to be hashed
     --msix(-m): bool, # Input file will be treated as msix; signature hash will be provided if signed
@@ -312,26 +312,26 @@ extern "winget hash" [
 ]
 
 # Validates a manifest file
-extern "winget validate" [
+export extern "winget validate" [
     manifest?: path, # The path to the manifest to be validated
     --manifest: path,  # The path to the manifest to be validated
     --help(-?): bool # Display the help for this command
 ]
 
 # Open settings or set administrator settings
-extern "winget settings" [
+export extern "winget settings" [
     --enable: string, # Enables the specific administrator setting
     --disable: string, # Disables the specific administrator setting
     --help(-?): bool # Display the help for this command
 ]
 
 # Shows the status of experimental features
-extern "winget features" [
+export extern "winget features" [
     --help(-?): bool # Display the help for this command
 ]
 
 # Exports a list of the installed packages
-extern "winget export" [
+export extern "winget export" [
     output?: path, # File where the result is to be written
     --output(-o): path, # File where the result is to be written
     --source(-s): string@"nu-complete winget install source", # Export packages from the specified source
@@ -340,7 +340,7 @@ extern "winget export" [
     --help(-?): bool # Display the help for this command
 ]
 
-extern "winget import" [
+export extern "winget import" [
     import-file?: path, # File describing the packages to install
     --import-file(-i): path, # File describing the packages to install
     --ignore-unavailable: bool, # Ignore unavailable packages

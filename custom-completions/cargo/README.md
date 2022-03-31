@@ -1,5 +1,10 @@
 # Cargo Custom Completions
 
-### Definition
+This script provides custom completions for cargo.
+It can be used by importing its exported commands via:
 
-These scripts should be used to demonstrate how create custom completions for cargo.
+```
+use path/to/cargo/cargo-completions.nu *
+```
+
+With `path/to` being either the relative path of the file to your current working directory or its absolute path. 
