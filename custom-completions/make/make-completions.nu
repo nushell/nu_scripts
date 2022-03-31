@@ -14,7 +14,7 @@ def "nu-complete make" [] {
     ls **/*|where type == dir|get name
   }
 
-  extern "make" [
+  export extern "make" [
     command: string@"nu-complete make"
     --always-make(-B)                                 # Unconditionally make all targets.
     --directory(-C): string@"nu-complete make dirs"   # Change to DIRECTORY before doing anything.

@@ -23,7 +23,7 @@ def "nu-complete cargo features" [] {
   open Cargo.toml | get features | transpose | get column0
 }
 
-extern "cargo run" [
+export extern "cargo run" [
   ...args: any                                      # arguments
   --bin: string@"nu-complete cargo bins"            # Name of the bin target to run
   --example: string@"nu-complete cargo examples"    # Name of the example target to run
