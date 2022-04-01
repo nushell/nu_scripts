@@ -56,7 +56,7 @@ def path_abbrev_if_needed [apath term_width] {
         let tokens = ($tokens | prepend $"($T)~")
 
         # append the last part of the path
-        let tokens = ($tokens | append $"($PB)($splits | last | get 0)($R)")
+        let tokens = ($tokens | append $"($PB)($splits | last)($R)")
 
         # collect
         $tokens | str collect $"($T)/"
@@ -94,7 +94,7 @@ def path_abbrev_if_needed [apath term_width] {
             let tokens = (for x in $top_part {
                 $"/($T)(($x | split chars).0)($R)"
             })
-            let tokens = ($tokens | append $"/($PB)($end_part.0)($R)")
+            let tokens = ($tokens | append $"/($PB)($end_part)($R)")
             $tokens | str collect $"($T)"
         }
     }
