@@ -1,29 +1,24 @@
 def-env c [dir = ""] {
-    let CDPATH = [(build-string $env.HOME "/"), "/", "/home/skelly37/it/", (build-string $env.HOME "/.config/"), (build-string $env.PWD "/")]
-    let TMP_FILENAME = "/tmp/cdpath-cache-nu"
+    let default = $env.HOME
 
-		if ($dir == "") {
-			if ($TMP_FILENAME | path exists) {
-				rm -q $TMP_FILENAME
-			}
-
-			echo $env.HOME | save $TMP_FILENAME
-
-		} else {
-    		for p in $CDPATH {
-        	let destination = (build-string $p $dir)
-        	if ($destination | path exists) {
-        			if ($TMP_FILENAME | path exists) {
-            		rm -q $TMP_FILENAME
- 							}
-        	    echo $destination | save $TMP_FILENAME
-      	  }
-    	}
+    let complete_dir = if $dir == "" {
+        $default
+    } else {
+        $env.CDPATH
+        | reduce -f "" { |$it, $acc| if $acc == "" {
+            let new_path = ([$it $dir] | path join)
+            if ($new_path | path exists) {
+                $new_path
+            } else {
+                ""
+            }
+        } else { $acc }}
     }
-   if ($TMP_FILENAME | path exists) {} else {
-			error make {msg: "No such path"}
-    }
-   let d = open $TMP_FILENAME
-	 let-env PWD = $d
-   rm -q $TMP_FILENAME
+
+    let complete_dir = if $complete_dir == "" { error make {msg: "No such path"} } else { $complete_dir }
+
+    let-env PWD = $complete_dir
 }
+
+# You need to have $env.CDPATH variable declared, my suggestion from config.nu:
+# let-env CDPATH = [$env.HOME, "/", ([$env.HOME, ".config"] | path join)]
