@@ -2,7 +2,7 @@ def conda-env [env-name] {
     let conda-info = (conda info --envs --json | from json)
     let suffix = (if $env-name == "base" {""} else {(["envs" $env-name] | path join)})
     let env-dir = ([$conda-info.root_prefix $suffix] | path join)
-    let old-path = ($env.PATH | str collect (path-sep))
+    let old-path = ((system-path) | str collect (path-sep))
     let new-path = (if (windows?) { (conda-create-path-windows $env-dir) } else { (conda-create-path-unix $env-dir) })
     let new-env = {
         CONDA_DEFAULT_ENV: $env-name
@@ -15,8 +15,7 @@ def conda-env [env-name] {
 }
 
 def conda-create-path-windows [env-dir] {
-    # 1. Conda on Windows needs a few additional Path elements
-    # 2. The path env var on Windows is called Path (not PATH)
+    # Conda on Windows needs a few additional Path elements
     let env-path = [
         $env-dir
         ([$env-dir "Scripts"] | path join)
@@ -24,7 +23,7 @@ def conda-create-path-windows [env-dir] {
         ([$env-dir "Library" "bin"] | path join)
         ([$env-dir "Library" "usr" "bin"] | path join)
     ]
-    let new-path = ([$env-path $env.PATH] | flatten | str collect (path-sep))
+    let new-path = ([$env-path $env.Path] | flatten | str collect (path-sep))
     {
         PATH: $new-path
     }
@@ -40,8 +39,14 @@ def conda-create-path-unix [env-dir] {
     }
 }
 
+
 def windows? [] {
     (sys).host.name == "Windows"
+}
+
+def system-path [] {
+    # The path env var on Windows is called Path (not PATH)
+    if (windows?) { $env.Path } else { $env.PATH }
 }
 
 def path-sep [] {
