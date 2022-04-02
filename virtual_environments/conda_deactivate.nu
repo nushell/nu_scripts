@@ -1,4 +1,4 @@
-let path-name = (if ((sys).host.name == "Windows") { "Path" } else { "PATH" })
+let path-name = (if "PATH" in (env).name { "PATH" } else { "Path" })
 let-env $path-name = $env.CONDA_OLD_PATH
 hide CONDA_PROMPT_MODIFIER
 hide CONDA_PREFIX
