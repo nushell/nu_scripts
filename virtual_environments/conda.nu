@@ -23,7 +23,7 @@ def conda-create-path-windows [env-dir] {
         ([$env-dir "Library" "bin"] | path join)
         ([$env-dir "Library" "usr" "bin"] | path join)
     ]
-    let new-path = ([$env-path $env.Path] | flatten | str collect (path-sep))
+    let new-path = ([$env-path (system-path)] | flatten | str collect (path-sep))
     {
         PATH: $new-path
     }
@@ -45,8 +45,7 @@ def windows? [] {
 }
 
 def system-path [] {
-    # The path env var on Windows is called Path (not PATH)
-    if (windows?) { $env.Path } else { $env.PATH }
+    if "PATH" in (env).name { $env.PATH } else { $env.Path }
 }
 
 def path-sep [] {
