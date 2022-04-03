@@ -1,3 +1,5 @@
+# needs to be placed in config.nu otherwise it doesn't work?
+
 def up_inner [limit: int] {
   (for $e in 0..$limit { "../" } | str collect | str substring ",-3")
 }
@@ -6,5 +8,6 @@ def up_inner [limit: int] {
 def-env up [
     limit: int # The number of directories to go up
   ] {
-  cd (up_inner $limit)
+    echo $limit  
+    cd (up_inner $limit)
 }
