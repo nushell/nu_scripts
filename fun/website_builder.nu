@@ -11,7 +11,7 @@ for $markdown in $markdown_files {
     if $first_line == "---" {
         let $header = ($content_lines
                        | skip 1
-                       | keep while {|x| ($x | str trim) != "---"}
+                       | take while {|x| ($x | str trim) != "---"}
                        | str collect "\n"
                        | from yaml)
 
