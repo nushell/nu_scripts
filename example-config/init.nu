@@ -42,7 +42,7 @@ export def build-prompt [] {
     })
 
     let pwd-str = (if (pwd | str starts-with $env.HOME).0 {
-        (pwd | str find-replace $env.HOME '~' | str trim).0
+        (pwd | str replace $env.HOME '~' | str trim).0
     } else {
         pwd
     })

@@ -9,14 +9,14 @@ for $markdown in $markdown_files {
     let $first_line = ($content_lines | first | str trim)
 
     if $first_line == "---" {
-        let $header = ($content_lines 
-                       | skip 1 
+        let $header = ($content_lines
+                       | skip 1
                        | keep while {|x| ($x | str trim) != "---"}
                        | str collect "\n"
                        | from yaml)
 
-        let $post = ($content_lines 
-                     | skip 1 
+        let $post = ($content_lines
+                     | skip 1
                      | skip while {|x| ($x | str trim) != "---"}
                      | skip 1)
 
@@ -25,22 +25,22 @@ for $markdown in $markdown_files {
         let $html_post = ($post
                           | each {|line|
                               if ($line | str starts-with "#") {
-                                let $line = ($line | str find-replace "^# (.*)$" "<h1>$1</h1>")
-                                let $line = ($line | str find-replace "^## (.*)$" "<h2>$1</h2>")
-                                let $line = ($line | str find-replace "^### (.*)$" "<h3>$1</h3>")
+                                let $line = ($line | str replace "^# (.*)$" "<h1>$1</h1>")
+                                let $line = ($line | str replace "^## (.*)$" "<h2>$1</h2>")
+                                let $line = ($line | str replace "^### (.*)$" "<h3>$1</h3>")
 
                                 $line
                               } else if $line != "" {
                                 # Otherwise, it's a paragraph
                                 # Convert images
-                                let $line = ($line | str find-replace --all '!\[(.+)\]\((.+)\)' '<img src="$2" alt="$1"/>')
-                                let $line = ($line | str find-replace --all 'src="../assets' 'src="assets')
+                                let $line = ($line | str replace --all '!\[(.+)\]\((.+)\)' '<img src="$2" alt="$1"/>')
+                                let $line = ($line | str replace --all 'src="../assets' 'src="assets')
 
-                                # Convert links 
-                                let $line = ($line | str find-replace --all '\[(.+?)\]\((.+?)\)' '<a href="$2">$1</a>')
+                                # Convert links
+                                let $line = ($line | str replace --all '\[(.+?)\]\((.+?)\)' '<a href="$2">$1</a>')
 
                                 # Convert code
-                                let $line = ($line | str find-replace --all '`(.+?)`' '<code>$1</code>')
+                                let $line = ($line | str replace --all '`(.+?)`' '<code>$1</code>')
                                 $"<p>($line)</p>"
                               }
                           })
@@ -85,12 +85,12 @@ for $markdown in $markdown_files {
           <body>
             ($html_post)
           </body>
-        </html>" 
+        </html>"
 
         # print $html_post
 
         let $name = ($markdown.name | path parse | update extension "html" | path join)
 
-        $html_post | save --raw $name                 
-    } 
+        $html_post | save --raw $name
+    }
 }

@@ -145,6 +145,6 @@ def apply-base16-mustache [template: string] {
     reduce -f $template {
         let subs = $"\{\{($it.item.name)-hex\}\}"  # regex
         let color = $it.item.color
-        $it.acc | str find-replace -a $subs $color
+        $it.acc | str replace -a $subs $color
     }
 }
