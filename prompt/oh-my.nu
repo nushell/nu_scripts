@@ -20,14 +20,14 @@ def home_abbrev [os_name] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     if $is_home_in_path {
         if ($os_name == "Windows") {
-            let home = ($nu.home-path | str find-replace -a '\\' '/')
-            let pwd = ($env.PWD | str find-replace -a '\\' '/')
-            $pwd | str find-replace $home '~'
+            let home = ($nu.home-path | str replace -a '\\' '/')
+            let pwd = ($env.PWD | str replace -a '\\' '/')
+            $pwd | str replace $home '~'
         } else {
-            $env.PWD | str find-replace $nu.home-path '~'
+            $env.PWD | str replace $nu.home-path '~'
         }
     } else {
-        $env.PWD | str find-replace -a '\\' '/'
+        $env.PWD | str replace -a '\\' '/'
     }
 }
 
@@ -523,7 +523,7 @@ export def git_prompt [] {
     # so you might want to play around with these settings a bit
     let abbrev = ((path_abbrev_if_needed (home_abbrev $os.name) 30) | ansi strip)
     # $"\u001b]0;($abbrev)"
-    # note that this isn't ending properly with a bel or a st, that's 
+    # note that this isn't ending properly with a bel or a st, that's
     # because it makes the string echo to the screen as an empty line
     $"(ansi osc)2;($abbrev)"
 

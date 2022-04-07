@@ -1,5 +1,5 @@
 def "nu-complete make" [] {
-    open ./Makefile|lines|find ':'|where ($it|str starts-with '.') == false|split column ' '|get column1|find ':'|str find-replace ':' ''
+    open ./Makefile|lines|find ':'|where ($it|str starts-with '.') == false|split column ' '|get column1|find ':'|str replace ':' ''
   }
 
   def "nu-complete make jobs" [] {
@@ -30,27 +30,27 @@ def "nu-complete make" [] {
     --load-average(-l): int@"nu-complete make jobs"   # Don't start multiple jobs unless load is below N.
     --check-symlink-times(-L)                         # Use the latest mtime between symlinks and target.
     --just-print(-n)                                  # Don't actually run any recipe; just print them.
-    --dry-run                                         
-    --recon                                           
+    --dry-run
+    --recon
     --assume-old: string@"nu-complete make files"     # Consider FILE to be very old and don't remake it.
-    --old-file(-o): string@"nu-complete make files"   
+    --old-file(-o): string@"nu-complete make files"
     --output-sync(-O)                                 # Synchronize output of parallel jobs by TYPE.
     --print-data-base(-p)                             # Print make's internal database.
     --question(-q)                                    # Run no recipe; exit status says if up to date.
     --no-builtin-rules(-r)                            # Disable the built-in implicit rules.
     --no-builtin-variables(-R)                        # Disable the built-in variable settings.
     --silent(-s)                                      # Don't echo recipes.
-    --quiet                                           
+    --quiet
     --no-silent                                       # Echo recipes (disable --silent mode).
     --stop(-S)                                        # Turns off -k.
-    --no-keep-going                                   
+    --no-keep-going
     --touch(-t)                                       # Touch targets instead of remaking them.
     --trace                                           # Print tracing information.
     --version(-v)                                     # Print the version number of make and exit.
     --print-directory(-w)                             # Print the current directory.
     --no-print-directory                              # Turn off -w, even if it was turned on implicitly.
     --what-if(-W): string@"nu-complete files"         # Consider FILE to be infinitely new.
-    --new-file: string@"nu-complete files"            
-    --assume-new: string@"nu-complete files"          
+    --new-file: string@"nu-complete files"
+    --assume-new: string@"nu-complete files"
     --warn-undefined-variables                        # Warn when an undefined variable is referenced.
   ]

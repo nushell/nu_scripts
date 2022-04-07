@@ -8,7 +8,7 @@ def "nu-complete npm" [] {
   |str trim
   |split column -c ' '
   |get column4
-  |str find-replace '"' ''
+  |str replace '"' ''
 }
 
 def "nu-complete npm run" [] {
