@@ -49,8 +49,8 @@ def "nu-complete make" [] {
     --version(-v)                                     # Print the version number of make and exit.
     --print-directory(-w)                             # Print the current directory.
     --no-print-directory                              # Turn off -w, even if it was turned on implicitly.
-    --what-if(-W): string@"nu-complete files"         # Consider FILE to be infinitely new.
-    --new-file: string@"nu-complete files"
-    --assume-new: string@"nu-complete files"
+    --what-if(-W): string@"nu-complete make files"    # Consider FILE to be infinitely new.
+    --new-file: string@"nu-complete make files"
+    --assume-new: string@"nu-complete make files"
     --warn-undefined-variables                        # Warn when an undefined variable is referenced.
   ]
