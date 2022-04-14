@@ -12,78 +12,78 @@ def "nu-complete git log" [] {
 
 # Check out git branches and files
 export extern "git checkout" [
-  branch?: string@"nu-complete git branches" # name of the branch to checkout
-  -b: string                                 # create and checkout a new branch
-  -B: string                                 # create/reset and checkout a branch
-  -l                                         # create reflog for new branch
-  --guess                                    # second guess 'git checkout <no-such-branch>' (default)
-  --overlay                                  # use overlay mode (default)
-  --quiet(-q)                                # suppress progress reporting
-  --recurse-submodules: string               # control recursive updating of submodules
-  --progress                                 # force progress reporting
-  --merge(-m)                                # perform a 3-way merge with the new branch
-  --conflict: string                         # conflict style (merge or diff3)
-  --detach(-d)                               # detach HEAD at named commit
-  --track(-t)                                # set upstream info for new branch
-  --force(-f)                                # force checkout (throw away local modifications)
-  --orphan: string                           # new unparented branch
-  --overwrite-ignore                         # update ignored files (default)
-  --ignore-other-worktrees                   # do not check if another worktree is holding the given ref
-  --ours(-2)                                 # checkout our version for unmerged files
-  --theirs(-3)                               # checkout their version for unmerged files
-  --patch(-p)                                # select hunks interactively
-  --ignore-skip-worktree-bits                # do not limit pathspecs to sparse entries only
-  --pathspec-from-file: string               # read pathspec from file
+  ...targets: string@"nu-complete git branches"   # name of the branch or files to checkout
+  --conflict: string                              # conflict style (merge or diff3)
+  --detach(-d)                                    # detach HEAD at named commit
+  --force(-f)                                     # force checkout (throw away local modifications)
+  --guess                                         # second guess 'git checkout <no-such-branch>' (default)
+  --ignore-other-worktrees                        # do not check if another worktree is holding the given ref
+  --ignore-skip-worktree-bits                     # do not limit pathspecs to sparse entries only
+  --merge(-m)                                     # perform a 3-way merge with the new branch
+  --orphan: string                                # new unparented branch
+  --ours(-2)                                      # checkout our version for unmerged files
+  --overlay                                       # use overlay mode (default)
+  --overwrite-ignore                              # update ignored files (default)
+  --patch(-p)                                     # select hunks interactively
+  --pathspec-from-file: string                    # read pathspec from file
+  --progress                                      # force progress reporting
+  --quiet(-q)                                     # suppress progress reporting
+  --recurse-submodules: string                    # control recursive updating of submodules
+  --theirs(-3)                                    # checkout their version for unmerged files
+  --track(-t)                                     # set upstream info for new branch
+  -b: string                                      # create and checkout a new branch
+  -B: string                                      # create/reset and checkout a branch
+  -l                                              # create reflog for new branch
 ]
 
 # Push changes
 export extern "git push" [
-  remote?: string@"nu-complete git remotes", # the name of the remote
-  refspec?: string@"nu-complete git branches"# the branch / refspec
-  --verbose(-v)                              # be more verbose
-  --quiet(-q)                                # be more quiet
-  --repo: string                             # repository
-  --all                                      # push all refs
-  --mirror                                   # mirror all refs
-  --delete(-d)                               # delete refs
-  --tags                                     # push tags (can't be used with --all or --mirror)
-  --dry-run(-n)                              # dry run
-  --porcelain                                # machine-readable output
-  --force(-f)                                # force updates
-  --force-with-lease: string                 # require old value of ref to be at this value
-  --recurse-submodules: string               # control recursive pushing of submodules
-  --thin                                     # use thin pack
-  --receive-pack: string                     # receive pack program
-  --exec: string                             # receive pack program
-  --set-upstream(-u)                         # set upstream for git pull/status
-  --progress                                 # force progress reporting
-  --prune                                    # prune locally removed refs
-  --no-verify                                # bypass pre-push hook
-  --follow-tags                              # push missing but relevant tags
-  --signed: string                           # GPG sign the push
-  --atomic                                   # request atomic transaction on remote side
-  --push-option(-o): string                  # option to transmit
-  --ipv4(-4)                                 # use IPv4 addresses only
-  --ipv6(-6)                                 # use IPv6 addresses only
+  remote?: string@"nu-complete git remotes",      # the name of the remote
+  ...refs: string@"nu-complete git branches"      # the branch / refspec
+  --all                                           # push all refs
+  --atomic                                        # request atomic transaction on remote side
+  --delete(-d)                                    # delete refs
+  --dry-run(-n)                                   # dry run
+  --exec: string                                  # receive pack program
+  --follow-tags                                   # push missing but relevant tags
+  --force-with-lease: string                      # require old value of ref to be at this value
+  --force(-f)                                     # force updates
+  --ipv4(-4)                                      # use IPv4 addresses only
+  --ipv6(-6)                                      # use IPv6 addresses only
+  --mirror                                        # mirror all refs
+  --no-verify                                     # bypass pre-push hook
+  --porcelain                                     # machine-readable output
+  --progress                                      # force progress reporting
+  --prune                                         # prune locally removed refs
+  --push-option(-o): string                       # option to transmit
+  --quiet(-q)                                     # be more quiet
+  --receive-pack: string                          # receive pack program
+  --recurse-submodules: string                    # control recursive pushing of submodules
+  --repo: string                                  # repository
+  --set-upstream(-u)                              # set upstream for git pull/status
+  --signed: string                                # GPG sign the push
+  --tags                                          # push tags (can't be used with --all or --mirror)
+  --thin                                          # use thin pack
+  --verbose(-v)                                   # be more verbose
 ]
 
 # Switch between branches and commits
 export extern "git switch" [
-  switch?: string@"nu-complete git branches" # name of branch to switch to
-  --create(-c): string                       # create a new branch
-  --force-create(-C): string                 # forces creation of new branch, if it exists then the existing branch will be reset to starting point
-  --detach(-d): string@"nu-complete git log" # switch to a commit in a detatched state
-  --guess                                    # if there is no local branch which matches then name but there is a remote one then this is checked out
-  --no-guess                                 # do not attempt to match remote branch names
-  --force(-f)                                # alias for --discard-changes
-  --merge(-m)                                # attempts to merge changes when switching branches if there are local changes
-  --quiet(-q)                                # suppress feedback messages
-  --progress                                 # report progress status
-  --no-progress                              # do not report progress
-  --track(-t)                                # set "upstream" configuration
-  --no-track                                 # do not set "upstream" configuration
-  --orphan: string                           # create a new orphaned branch
-  --ignore-other-worktrees                   # switch even if the ref is held by another worktree
-  --recurse-submodules                       # update the contents of sub-modules
-  --no-recurse-submodules                    # do not update the contents of sub-modules
+  switch?: string@"nu-complete git branches"      # name of branch to switch to
+  --create(-c): string                            # create a new branch
+  --detach(-d): string@"nu-complete git log"      # switch to a commit in a detatched state
+  --force-create(-C): string                      # forces creation of new branch, if it exists then the existing branch will be reset to starting point
+  --force(-f)                                     # alias for --discard-changes
+  --guess                                         # if there is no local branch which matches then name but there is a remote one then this is checked out
+  --ignore-other-worktrees                        # switch even if the ref is held by another worktree
+  --merge(-m)                                     # attempts to merge changes when switching branches if there are local changes
+  --no-guess                                      # do not attempt to match remote branch names
+  --no-progress                                   # do not report progress
+  --no-recurse-submodules                         # do not update the contents of sub-modules
+  --no-track                                      # do not set "upstream" configuration
+  --orphan: string                                # create a new orphaned branch
+  --progress                                      # report progress status
+  --quiet(-q)                                     # suppress feedback messages
+  --recurse-submodules                            # update the contents of sub-modules
+  --track(-t)                                     # set "upstream" configuration
 ]
