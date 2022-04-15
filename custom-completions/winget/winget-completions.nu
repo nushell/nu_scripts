@@ -391,19 +391,19 @@ def "nu-complete winget uninstall package id" [] {
 }
 
 def "nu-complete winget uninstall package name" [] {
-    winget list | get name | str trim | str replace "…" "..."
+    winget list | get name | str trim | str find-replace "…" "..."
 }
 
 def "nu-complete winget install name" [] {
     let path = ($env.TMP | path join winget-packages.csv)
 
     let completions = if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
-        open $path | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
+        open $path | get name | each { |it| $"(char dq)($it)(char dq)" } | str find-replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
         let data = (winget search | where source == winget | select name id)
         $data | save $path | ignore
-        $data | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
+        $data | get name | each { |it| $"(char dq)($it)(char dq)" } | str find-replace "…" ""
     }
     {
         completions: $completions
@@ -418,12 +418,12 @@ def "nu-complete winget install id" [] {
     let path = ($env.TMP | path join winget-packages.csv)
 
     if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
-        open $path | get id | str replace "…" ""
+        open $path | get id | str find-replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
         let data = (winget search | where source == winget | select name id)
         $data | save $path | ignore
-        $data | get id | str replace "…" ""
+        $data | get id | str find-replace "…" ""
     }
 }
 
