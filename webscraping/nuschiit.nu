@@ -5,16 +5,16 @@ let pages = ['headphone-amps' 'dacs' 'schiit-gaming-products' 'power-amplifiers'
 # Simple script to check stock of https://schiit.co.uk store
 def main [] {
   $pages|par-each {|page|
-  fetch $"($baseurl)($page)"
-  |query web -q 'div.caption' -m
-  |par-each {|item|
-    $item
-    |query web -q 'p.stock, h5'
-    |rotate --ccw name availability
+    fetch $"($baseurl)($page)"
+    |query web -q '.price, .stock, .product-item h5'
+    |group 3
+    |each {
+      str trim
+      |rotate --ccw name availability price
+    }
+    |flatten
   }
   |flatten
-}
-|flatten
-|uniq
-|sort-by availability
+  |uniq
+  |sort-by availability
 }
