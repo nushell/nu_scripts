@@ -11,7 +11,7 @@ def "nu-complete git log" [] {
 }
 
 # Check out git branches and files
-export extern "git checkout" [
+ extern "git checkout" [
   ...targets: string@"nu-complete git branches"   # name of the branch or files to checkout
   --conflict: string                              # conflict style (merge or diff3)
   --detach(-d)                                    # detach HEAD at named commit
@@ -37,7 +37,7 @@ export extern "git checkout" [
 ]
 
 # Download objects and refs from another repository
-export extern "git fetch" [
+ extern "git fetch" [
   repository?: string@"nu-complete git remotes" # name of the branch to fetch
   --all                                         # Fetch all remotes
   --append(-a)                                  # Append ref names and object names to .git/FETCH_HEAD
@@ -85,7 +85,7 @@ export extern "git fetch" [
 ]
 
 # Push changes
-export extern "git push" [
+ extern "git push" [
   remote?: string@"nu-complete git remotes",      # the name of the remote
   ...refs: string@"nu-complete git branches"      # the branch / refspec
   --all                                           # push all refs
@@ -116,7 +116,7 @@ export extern "git push" [
 ]
 
 # Switch between branches and commits
-export extern "git switch" [
+ extern "git switch" [
   switch?: string@"nu-complete git branches"      # name of branch to switch to
   --create(-c): string                            # create a new branch
   --detach(-d): string@"nu-complete git log"      # switch to a commit in a detatched state
