@@ -168,13 +168,13 @@ def get_icon_by_name [name] {
 
 def get_os_icon [os] {
     # f17c = tux, f179 = apple, f17a = windows
-    if ($os.name =~ Darwin) {
+    if ($os.name =~ macos) {
         (char -u f179)
-    } else if ($os.name =~ Linux) {
-        (char -u f17c)
-    } else if ($os.name =~ Windows) {
+    } else if ($os.name =~ windows) {
         (char -u f17a)
-    } else if ($os.'kernel version' =~ WSL) {
+    } else if ($os.family =~ unix) {
+        (char -u f17c)
+    } else if ($os.kernel_version =~ WSL) {
         $'(char -u f17a)(char -u f17c)'
     } else {
         ''
@@ -505,7 +505,7 @@ def git_right_prompt [gs os] {
 
 export def git_prompt [] {
     let gs = (gstat)
-    let os = ((sys).host)
+    let os = $nu.os-info
     let left_prompt = (git_left_prompt $gs $os)
     let right_prompt = (git_right_prompt $gs $os)
 
