@@ -19,7 +19,7 @@
 def home_abbrev [os_name] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     if $is_home_in_path {
-        if ($os_name == "Windows") {
+        if ($os_name =~ "windows") {
             let home = ($nu.home-path | str replace -a '\\' '/')
             let pwd = ($env.PWD | str replace -a '\\' '/')
             $pwd | str replace $home '~'
