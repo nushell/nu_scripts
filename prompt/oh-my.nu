@@ -172,10 +172,10 @@ def get_os_icon [os] {
         (char -u f179)
     } else if ($os.name =~ windows) {
         (char -u f17a)
-    } else if ($os.family =~ unix) {
-        (char -u f17c)
     } else if ($os.kernel_version =~ WSL) {
         $'(char -u f17a)(char -u f17c)'
+    } else if ($os.family =~ unix) {
+        (char -u f17c)
     } else {
         ''
     }
