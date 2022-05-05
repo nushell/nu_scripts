@@ -521,11 +521,15 @@ export def git_prompt [] {
     # osc2 some_string string_terminator aka (char osc)2;($some_string)(ansi st) or "\u001b];($some_string)\\"
     # where string_terminator is \
     # so you might want to play around with these settings a bit
-    let abbrev = ((path_abbrev_if_needed (home_abbrev $os.name) 30) | ansi strip)
+
+    #let abbrev = ((path_abbrev_if_needed (home_abbrev $os.name) 30) | ansi strip)
+
     # $"\u001b]0;($abbrev)"
     # note that this isn't ending properly with a bel or a st, that's
     # because it makes the string echo to the screen as an empty line
-    $"(ansi osc)2;($abbrev)"
+    
+    # turning off now since a similar thing is built into nushell + it breaks kitty
+    #$"(ansi osc)2;($abbrev)"
 
     # return in record literal syntax to be used kind of like a tuple
     # so we don't have to run this script more than once per prompt
