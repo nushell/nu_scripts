@@ -5,6 +5,7 @@ def-env c [dir = ""] {
         $default
     } else {
         $env.CDPATH
+        | path expand
         | reduce -f "" { |$it, $acc| if $acc == "" {
             let new_path = ([$it $dir] | path join)
             if ($new_path | path exists) {
@@ -21,4 +22,4 @@ def-env c [dir = ""] {
 }
 
 # You need to have $env.CDPATH variable declared, my suggestion from config.nu:
-# let-env CDPATH = [$env.HOME, "/", ([$env.HOME, ".config"] | path join)]
+# let-env CDPATH = [".", $env.HOME, "/", ([$env.HOME, ".config"] | path join)]
