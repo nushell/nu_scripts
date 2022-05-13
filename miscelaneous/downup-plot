@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#requieres fast-cli
+fast --single-line --upload |  stdbuf -o0 awk '{print $2 " " $6}' | ttyplot -2 -t "Download/Upload speed" -u Mbps 

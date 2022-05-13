@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ping 1.1.1.1 | sed -u 's/^.*time=//g; s/ ms//g' | ttyplot -t \"ping to 1.1.1.1\" -u ms
