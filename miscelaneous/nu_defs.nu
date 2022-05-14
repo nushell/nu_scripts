@@ -365,14 +365,14 @@ def get-phone-number [search:string] {
   goobook dquery $search | from ssv | rename results | where results =~ '(?P<plus>\+)(?P<nums>\d+)'
 }
 
-#ping with plot (requires bash png-plot using ttyplot)
+#ping with plot (requires ttyplot)
 def nu-png-plot [] {
-  bash -c png-plot
+  bash -c "ping 1.1.1.1 | sed -u 's/^.*time=//g; s/ ms//g' | ttyplot -t \'ping to 1.1.1.1\' -u ms"
 }
 
-#plot download-upload speed (requires bash downup-plot using ttyplot)
+#plot download-upload speed (requires ttyplot and fast-cli)
 def nu-downup-plot [] {
-  bash -c downup-plot
+  bash -c "fast --single-line --upload |  stdbuf -o0 awk '{print $2 \" \" $6}' | ttyplot -2 -t 'Download/Upload speed' -u Mbps" 
 }
 
 #plot data table using gnuplot
