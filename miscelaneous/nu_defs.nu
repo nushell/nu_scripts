@@ -16,10 +16,10 @@ def mcx [file] {
   bash -c $'mcomix "($file)" 2>/dev/null &'
 }
 
-#open file 
+#open file
 def openf [file?] {
   let file = if ($file | empty?) {$in} else {$file}
-   
+
   bash -c $'xdg-open "($file)" 2>/dev/null &'
 }
 
@@ -61,15 +61,15 @@ def post_to_discord [message] {
   let weburl = "webhook_url"
 
   post $weburl $content --content-type "application/json"
-}  
+}
 
 #select column of a table (to table)
-def column [n] { 
+def column [n] {
   transpose | select $n | transpose | select column1 | headers
 }
 
 #get column of a table (to list)
-def column2 [n] { 
+def column2 [n] {
   transpose | get $n | transpose | get column1 | skip 1
 }
 
@@ -79,8 +79,8 @@ def pwd-short [] {
 }
 
 #string repeat
-def "str repeat" [count: int] { 
-  each {|it| let str = $it; echo 1..$count | each { echo $str } } 
+def "str repeat" [count: int] {
+  each {|it| let str = $it; echo 1..$count | each { echo $str } }
 }
 
 #join 2 lists
@@ -129,7 +129,7 @@ def-env goto-bash [] {
 }
 
 #cd to the folder where a binary is located
-def-env which-cd [program] { 
+def-env which-cd [program] {
   let dir = (which $program | get path | path dirname | str trim)
   cd $dir.0
 }
@@ -139,7 +139,7 @@ def git-push [m: string] {
   git add -A
   git status
   git commit -am $"($m)"
-  git push origin main  
+  git push origin main
 }
 
 #get help for custom commands
@@ -155,15 +155,15 @@ def gg [...search: string] {
 #habitipy dailies done all (requires habitipy)
 def hab-dailies-done [] {
   let to_do = (habitipy dailies | grep ✖ | awk {print $1} | tr '.\n' ' ' | split row ' ' | into int)
-  habitipy dailies done $to_do 
+  habitipy dailies done $to_do
 }
 
 #update aliases backup file from config.nu
 def update-aliases [] {
   let nlines = (open $nu.config-path | lines | length)
- 
+
   let from = ((grep "## aliases" $nu.config-path -n | split row ':').0 | into int)
-  
+
   open $nu.config-path | lines | last ($nlines - $from + 1) | save /path/to/backup/file.nu
 }
 
@@ -184,13 +184,13 @@ def countdown [
     let muted = (pacmd list-sinks | awk '/muted/ { print $2 }' | tr '\n' ' ' | split row ' ' | last)
 
     if $muted == 'no' {
-      termdown $n;mpv --no-terminal $BEEP  
+      termdown $n;mpv --no-terminal $BEEP
     } else {
       termdown $n
       unmute
       mpv --no-terminal $BEEP
       mute
-    }   
+    }
 }
 
 #get aliases
@@ -234,7 +234,7 @@ def addtogcal [
   let when = if $when == null {echo $"\nwhen: ";input } else {$when}
   let where = if $where == null {echo $"\nwhere: ";input } else {$where}
   let duration = if $duration == null {echo $"\nduration: ";input } else {$duration}
-  
+
   gcalcli --calendar $"($calendar)" add --title $"($title)" --when $"($when)" --where $"($where)" --duration $"($duration)" --default-reminders
 }
 
@@ -244,7 +244,7 @@ def agenda [
   ...rest      #extra flags for gcalcli between quotes (specified full needed)
   #
   # Examples
-  # agenda 
+  # agenda
   # agenda --full true
   # agenda "--details=all"
   # agenda --full true "--details=all"
@@ -265,14 +265,14 @@ def semana [
   ...rest      #extra flags for gcalcli between quotes (specified full needed)
   #
   # Examples
-  # semana 
+  # semana
   # semana --full true
   # semana "--details=all"
   # semana --full true "--details=all"
 ] {
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
-  
+
   if ($full | empty?) || ($full == 0) {
     gcalcli --calendar $"($calendars)" calw $rest --military --monday
   } else {
@@ -286,14 +286,14 @@ def mes [
   ...rest      #extra flags for gcalcli between quotes (specified full needed)
   #
   # Examples
-  # mes 
+  # mes
   # mes --full true
   # mes "--details=all"
   # mes --full true "--details=all"
 ] {
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
-  
+
   if ($full | empty?) || ($full == 0) {
     gcalcli --calendar $"($calendars)" calm $rest --military --monday
   } else {
@@ -365,14 +365,14 @@ def get-phone-number [search:string] {
   goobook dquery $search | from ssv | rename results | where results =~ '(?P<plus>\+)(?P<nums>\d+)'
 }
 
-#ping with plot (requires bash png-plot using ttyplot)
+#ping with plot (requires ttyplot)
 def nu-png-plot [] {
-  bash -c png-plot
+  bash -c "ping 1.1.1.1 | sed -u 's/^.*time=//g; s/ ms//g' | ttyplot -t \'ping to 1.1.1.1\' -u ms"
 }
 
-#plot download-upload speed (requires bash downup-plot using ttyplot)
+#plot download-upload speed (requires ttyplot and fast-cli)
 def nu-downup-plot [] {
-  bash -c downup-plot
+  bash -c "fast --single-line --upload |  stdbuf -o0 awk '{print $2 \" \" $6}' | ttyplot -2 -t 'Download/Upload speed' -u Mbps"
 }
 
 #plot data table using gnuplot
@@ -396,10 +396,10 @@ def gnu-plot [
 
   let title = if ($title | empty?) {if $n_cols == 1 {$ylabel | str upcase} else {$"($ylabel) vs ($xlabel)"}} else {$title}
 
-  $x | to tsv | save data0.txt 
+  $x | to tsv | save data0.txt
   sed 1d data0.txt | save data.txt
-  
+
   gnuplot -e $"set terminal dumb; unset key;set title '($title)';plot 'data.txt' w l lt 0;"
 
   rm data*.txt | ignore
-} 
+}

@@ -50,9 +50,9 @@ def q_roots [
 		let s = ($d | math sqrt)
 		let r1 = (($s - $b) / (2 * $a))
 		let r2 = (0 - (($s + $b) / (2 * $a)))
-		
+
 		echo $"root #1: ($r1)"
-		echo $"root #2: ($r2)"		
+		echo $"root #2: ($r2)"
 	} else {
 		let s = ((0 - $d) | math sqrt)
 		let r = ((0 - $b) / (2 * $a))
@@ -66,7 +66,7 @@ def q_roots [
 #Check if integer is prime
 def isprime [n: int] {
 	let max = ($n | math sqrt | math ceil)
-	
+
 	let flag = ([[isPrime];[true]] | update isPrime {if ($n mod 2) == 0 { false } else { seq 3 1 $max | each { |it| if ($n mod $it) == 0 { false }}}})
 
 	if ($flag.isPrime.0 | empty?) { echo 'prime' } else { echo 'not prime' }
@@ -93,12 +93,12 @@ def isleap [year: int] {
 
 #Greatest common divisior (gcd) between 2 integers
 def gcd [a: int, b:int] {
-	if $a < $b { 
-		gcd $b $a 
-	} else if $b == 0 { 
-		$a 
-	} else { 
-		gcd $b ($a mod $b) 
+	if $a < $b {
+		gcd $b $a
+	} else if $b == 0 {
+		$a
+	} else {
+		gcd $b ($a mod $b)
 	}
 }
 
@@ -126,14 +126,14 @@ def dec2base [
 	let number = ($n | into int)
 
 	let chars = ['0' '1' '2' '3' '4' '5' '6' '7' '8' '9' 'A' 'B' 'C' 'D' 'E' 'F']
-	
-	if $number == 0 { 
-		'' 
+
+	if $number == 0 {
+		''
 	} else {
 		let newNumber = (($number - ($number mod $base)) / $base)
 
 		[(dec2base $newNumber $base) ($chars | get ($number mod $base))] | str collect
-	}	
+	}
 }
 
 # Scale list to [a,b] interval
@@ -151,7 +151,7 @@ def scale-minmax-table [a, b,input?] {
 	let x = if ($input | empty?) {$in} else {$input}
 	let n_cols = ($x | transpose | length)
 	let name_cols = ($x | transpose | column2 0)
-	
+
 	for $i in 0..($n_cols - 1) {
 		($x | column2 $i) | scale-minmax $a $b | wrap ($name_cols | get $i)
 	} | reduce {|it, acc| $acc | merge {$it}}
@@ -176,4 +176,3 @@ def "math ln" [ ] {
 def "math exp" [ ] {
     each {|x| "e(" + $"($x)" + ")\n" | bc -l | into decimal }
 }
-
