@@ -1,7 +1,7 @@
 
 
 def parse-help [] {
-    $in | lines | parse -r '^\s+(?:-(?P<short>\w)[,\s]+)?(?:--(?P<long>[^\s]+))\s*(?:<(?P<format>.*)>)?\s*(?P<description>.*)?$'
+    $in | parse -r '\s\s+(?:-(?P<short>\w)[,\s]+)?(?:--(?P<long>[^\s]+))\s*(?:<(?P<format>.*)>)?\s*(?P<description>.*)?'
 }
 
 def test-cargo [] {
@@ -32,18 +32,18 @@ def test-cargo [] {
 def test-nu [] {
     let expect = [
         [short long format description];
-        [h help '' '']
-        ['' stdin '' '']
-        [l login '' '']
-        [i interactive '' '']
-        [v version '' '']
-        [p perf '' '']
-        ['' testbin 'String' '']
-        ['c' commands 'String' '']
-        ['' config 'String' '']
-        ['' env-config 'String' '']
-        ['' log-level 'String' '']
-        ['t' threads 'Int' '']
+        [h help '' 'Display this help message']
+        ['' stdin '' 'redirect the stdin']
+        [l login '' 'start as a login shell']
+        [i interactive '' 'start as an interactive shell']
+        [v version '' 'print the version']
+        [p perf '' 'start and print performance metrics during startup']
+        ['' testbin 'String' 'run internal test binary']
+        [c commands 'String' 'run the given commands and then exit']
+        ['' config 'String' 'start with an alternate config file']
+        ['' env-config 'String' 'start with an alternate environment config file']
+        ['' log-level 'String' 'log level for performance logs']
+        ['t' threads 'Int' 'threads to use for parallel commands']
 ]
 
     let result = (nu --help | parse-help)
