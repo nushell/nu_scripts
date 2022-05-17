@@ -1,0 +1,67 @@
+# completions
+
+basic helper to parse --help information from cli commands and export nu completions source
+
+currently only parses flags out, not arguments
+
+## usage
+
+A basic example in [usage.nu](usage.nu)
+
+generate and print source to tty
+
+```nu
+cargo --help | parse-help | make-completion cargo | nu-highlight
+``` 
+
+## example
+
+This can be saved to a file and sourced. Example of output
+
+```nu
+extern "cargo" [
+	--version(-V)		#Print version info and exit
+	--list		#List installed commands
+	--explain		#Run `rustc --explain CODE`
+	--verbose(-v)		#Use verbose output (-vv very verbose/build.rs output)
+	--quiet(-q)		#Do not print cargo log messages
+	--color		#Coloring: auto, always, never
+	--frozen		#Require Cargo.lock and cache are up to date
+	--locked		#Require Cargo.lock is up to date
+	--offline		#Run without accessing the network
+	--config		#Override a configuration value (unstable)
+	--help(-h)		#Print help information
+]
+
+extern "nu" [
+	--help(-h)		#Display this help message
+	--stdin		#redirect the stdin
+	--login(-l)		#start as a login shell
+	--interactive(-i)		#start as an interactive shell
+	--version(-v)		#print the version
+	--perf(-p)		#start and print performance metrics during startup
+	--testbin		#run internal test binary
+	--commands(-c)		#run the given commands and then exit
+	--config		#start with an alternate config file
+	--env-config		#start with an alternate environment config file
+	--log-level		#log level for performance logs
+	--threads(-t)		#threads to use for parallel commands
+]
+```
+
+Which outputs like so on tab completion for `cargo --`
+```
+❯ | cargo --
+--color    Coloring: auto, always, never
+--config   Override a configuration value (unstable)
+--explain  Run `rustc --explain CODE`
+--frozen   Require Cargo.lock and cache are up to date
+--help     Display this help message
+--help     Print help information
+--list     List installed commands
+--locked   Require Cargo.lock is up to date
+--offline  Run without accessing the network
+--quiet    Do not print cargo log messages
+--verbose  Use verbose output (-vv very verbose/build.rs output)
+--version  Print version info and exit
+```

@@ -4,6 +4,12 @@ def parse-help [] {
     $in | parse -r '\s\s+(?:-(?P<short>\w)[,\s]+)?(?:--(?P<long>[^\s]+))\s*(?:<(?P<format>.*)>)?\s*(?P<description>.*)?'
 }
 
+def make-completion [command-name: string] {
+    build-string "extern \"" $command-name "\" [\n" ($in | each { |it|
+        build-string "\t--" $it.long (if ($it.short | empty?) == false { build-string "(-" $it.short ")" }) "\t\t#" $it.description
+    } | str collect "\n") "\n]"
+}
+
 def test-cargo [] {
     let expect = [
         [short long format description];
