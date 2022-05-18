@@ -4,7 +4,6 @@ def hosts [] {
     # Put your config here
   ]
 }
-
 def "nu-complete wol" [] {
   hosts
   |where mac != ''
@@ -25,26 +24,29 @@ def "nu-complete hosts" [] {
 def "nu-complete scripts" [] {
   $nu.scope.commands
   |where is_custom
-  |get command
+  |get -i command
 }
+
 # Returns ssh connection as url to be consumed by original ssh command
 def get-url [
     host: record
 ] {
-    if $host.ip == '' {
-        echo $"ssh://($host.username)@($host.name).($host.domain):($host.port)"  
-    } else {
+    if 'ip' in ($host|columns) {
         echo $"ssh://($host.username)@($host.ip):($host.port)"
+    } else {
+        echo $"ssh://($host.username)@($host.name).($host.domain):($host.port)"  
     }
 }
+
 # Returns all mandatory function arguments, used for input validation in ssh script
 def get-required-args [
     command: record                # command for which arguments should be returned
 ] {
     $command.signature
     |where not is_optional
-    |get parameter_name
+    |get -i parameter_name
 }
+
 # Connect over ssh to one of predefined hosts, execute nushell commands and parse them on the host
 export def ssh [
     hostname: string@"nu-complete hosts"                 # name of the host you want to connect to
@@ -53,12 +55,12 @@ export def ssh [
     let host = (hosts|where name == $hostname|get -i 0)
     if ($host.nu) {
         if ($args|length) > 0 {
-            ^ssh (get_url $host) (build-string ($args|str collect ' ') '|to json -r')|from json
+            ^ssh (get-url $host) (build-string ($args|str collect ' ') '|to json -r')|from json
         } else {
-            ^ssh (get_url $host)
+            ^ssh (get-url $host)
         }
     } else {
-        ^ssh (get_url $host) $args
+        ^ssh (get-url $host) $args
     }
 }
 
@@ -73,8 +75,8 @@ export def "ssh script" [
     let args = ($args|split column '=' key value)
     
     if ((get-required-args $command)|all? ($it in ($args|get key))) {
-        let full_command = (build-string ($args|format "let {key} = '{value}'"|str collect '; ') '; do ' (view-source $command.command) '|to json -r')
-        ^ssh (get-url $host) $full_command|from json
+        let full-command = (build-string ($args|format "let {key} = '{value}'"|str collect '; ') '; do ' (view-source $command.command) '|to json -r')
+        ^ssh (get-url $host) $full-command|from json
     } else {
         error make {
             msg: $"($command.command) requires following arguments: (get-required-args $command) you provided: ($args|get -i key)"
