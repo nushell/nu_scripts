@@ -2,7 +2,11 @@
 
 basic helper to parse --help information from cli commands and export nu completions source
 
-currently only parses flags out, not arguments
+# current limitations
+
+- Only flags are parsed, arguments are not parsed and ...args is injected at the end to catch all
+- Some examples of `--flags` in descriptions can throw off the regex and get included in the parsed flags
+- `<format>` (types) to flags are parsed, but not added to the nu shell completion type hints
 
 ## usage
 
@@ -31,6 +35,7 @@ extern "cargo" [
 	--offline		#Run without accessing the network
 	--config		#Override a configuration value (unstable)
 	--help(-h)		#Print help information
+	...args
 ]
 
 extern "nu" [
@@ -46,6 +51,7 @@ extern "nu" [
 	--env-config		#start with an alternate environment config file
 	--log-level		#log level for performance logs
 	--threads(-t)		#threads to use for parallel commands
+	...args
 ]
 ```
 

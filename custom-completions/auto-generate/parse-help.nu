@@ -1,13 +1,20 @@
 
 
+# parses a input string in --help format and returns a table of parsed flags
 def parse-help [] {
-    $in | parse -r '\s\s+(?:-(?P<short>\w)[,\s]+)?(?:--(?P<long>[^\s]+))\s*(?:<(?P<format>.*)>)?\s*(?P<description>.*)?'
+    # help format  '        -s,                      --long                   <format>                 description   '
+    $in | parse -r '\s\s+(?:-(?P<short>\w)[,\s]+)?(?:--(?P<long>[\w-]+))\s*(?:<(?P<format>.*)>)?\s*(?P<description>.*)?'
 }
 
+# takes a table of parsed help commands in format [short? long format? description]
 def make-completion [command-name: string] {
     build-string "extern \"" $command-name "\" [\n" ($in | each { |it|
-        build-string "\t--" $it.long (if ($it.short | empty?) == false { build-string "(-" $it.short ")" }) "\t\t#" $it.description
-    } | str collect "\n") "\n]"
+        build-string "\t--" $it.long (if ($it.short | empty?) == false {
+            build-string "(-" $it.short ")" 
+        }) (if ($it.description | empty?) == false {
+            build-string "\t\t# " $it.description
+        })
+    } | str collect "\n") "\n\t...args\n]"
 }
 
 module tests {
