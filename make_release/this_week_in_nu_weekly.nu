@@ -30,11 +30,12 @@ def do-work [] {
         # this is for debugging the rate limit. comment it out if things are working well
         # fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
         let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
+
         $"## ($row.site)(char nl)(char nl)"
         if ($site_json | all? ($it | empty?)) {
             $"none found this week(char nl)(char nl)"
         } else {
-            $site_json | group-by user.login | transpose user prs | each { |row|
+            $site_json | group-by user_login | transpose user prs | each { |row|
                 let user_name = $row.user
                 let pr_count = ($row.prs | length)
 
