@@ -1,5 +1,6 @@
 # !! WARNING !!
 # This is for yarn v2(berry) and higher, which is not installed by default. see https://yarnpkg.com/getting-started/migration for a migration guide
+# Before running any command after this is installed, please run `refresh-cache` to update the NPM registry and yarn plugin cache
 
 export extern "yarn" [
 ]
