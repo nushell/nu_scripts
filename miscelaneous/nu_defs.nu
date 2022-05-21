@@ -413,3 +413,9 @@ def ymd [] {
 def dmy [] {
   (date now | date format %d-%m-%Y)
 }
+
+# create directory and cd into it.
+def-env md [dir] {
+  mkdir $dir
+  cd $dir
+}
