@@ -419,3 +419,43 @@ def-env md [dir] {
   mkdir $dir
   cd $dir
 }
+
+# Fuzzy finds a value in a newline-separated-string or a list, using an
+# optional preview. If the string or the list contains only one item,
+# it is returned immediately.
+# Requires the external binary 'skim'.
+#
+# Examples:
+# > "a\nb\n" | skim
+# > ls | get name | skim --preview 'ls --color {}'
+def skim [
+  --preview (-p) = '' # command to use for the sk preview
+] {
+  let lst = $in
+  let type = ($lst | describe)
+  let s = (if ($type | str starts-with 'list<') {
+             $lst | str collect (char nl)
+           } else if ($type == 'string') {
+             $lst
+           })
+  if ($s | empty?) {
+    null
+  } else {
+    if ($preview | empty? ) {
+      ($s
+      | sk
+        --layout reverse
+        --preview-window down:65%
+        --select-1
+      | str trim)
+      } else {
+        ($s
+        | sk
+          --layout reverse
+          --preview-window down:65%
+          --select-1
+          --preview $preview
+        | str trim)
+      }
+  }
+}
