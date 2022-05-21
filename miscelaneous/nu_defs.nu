@@ -403,3 +403,111 @@ def gnu-plot [
 
   rm data*.txt | ignore
 }
+
+# date string YYYY-MM-DD
+def ymd [] {
+  (date now | date format %Y-%m-%d)
+}
+
+# date string DD-MM-YYYY
+def dmy [] {
+  (date now | date format %d-%m-%Y)
+}
+
+# create directory and cd into it.
+def-env md [dir] {
+  mkdir $dir
+  cd $dir
+}
+
+# Fuzzy finds a value in a newline-separated-string or a list, using an
+# optional preview. If the string or the list contains only one item,
+# it is returned immediately.
+# Requires the external binary 'skim'.
+#
+# Examples:
+# > "a\nb\n" | skim
+# > ls | get name | skim --preview 'ls --color {}'
+def skim [
+  --preview (-p) = '' # command to use for the sk preview
+] {
+  let lst = $in
+  let type = ($lst | describe)
+  let s = (if ($type | str starts-with 'list<') {
+             $lst | str collect (char nl)
+           } else if ($type == 'string') {
+             $lst
+           })
+  if ($s | empty?) {
+    null
+  } else {
+    if ($preview | empty? ) {
+      ($s
+      | sk
+        --layout reverse
+        --preview-window down:65%
+        --select-1
+      | str trim)
+      } else {
+        ($s
+        | sk
+          --layout reverse
+          --preview-window down:65%
+          --select-1
+          --preview $preview
+        | str trim)
+      }
+  }
+}
+
+# Group list values that match the next-group regex.
+# This function is a useful helper to quick and dirty parse data
+# that contains line-wise a 'header', followed by a variable number
+# of data entries. The return value is a table of header-keys with
+# a list of values in the second column. Values before a header-key
+# and header-keys without values are ignored.
+#
+# Example:
+#   [id_a 1 2 id_b 3] | group-list '^id_'
+def group-list [
+  regex # on match, a new group is created
+] {
+  let lst = $in
+  def make-group [v, buf, ret, key] {
+    let new_group = ($'($v)' =~ $regex)
+    if $new_group {
+      let is_key = (not ($key | empty?))
+      let is_buf = (not ($buf | empty?))
+      if ($is_buf && $is_key) {
+        let ret = ($ret | append {key: $key, values: $buf})
+        {buf: [], ret: $ret, key: $v}
+      } else {
+        {buf: [], ret: $ret, key: $v}
+      }
+    } else {
+      let buf = ($buf | append $v)
+      {buf: $buf, ret: $ret, key: $key}
+    }
+  }
+  def loop [lst, buf=[], ret=[], key=''] {
+    if ($lst | empty?) {
+      {ret: $ret, buf: $buf, key: $key}
+    } else {
+      let v = ($lst | first)
+      let obj = (make-group $v $buf $ret $key)
+      let rest = ($lst | skip)
+      loop $rest $obj.buf $obj.ret $obj.key
+    }
+  }
+  let obj = (loop $lst)
+  let ret = $obj.ret
+  let buf = $obj.buf
+  let key = $obj.key
+  let is_key = (not ($key | empty?))
+  let is_buf = (not ($buf | empty?))
+  if ($is_buf && $is_key) {
+    $ret | append {key: $key, values: $buf}
+  } else {
+    $ret
+  }
+}
