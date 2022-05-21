@@ -403,3 +403,13 @@ def gnu-plot [
 
   rm data*.txt | ignore
 }
+
+# date string YYYY-MM-DD
+def ymd [] {
+  (date now | date format %Y-%m-%d)
+}
+
+# date string DD-MM-YYYY
+def dmy [] {
+  (date now | date format %d-%m-%Y)
+}
