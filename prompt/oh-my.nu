@@ -405,6 +405,8 @@ def git_right_prompt [gs os] {
     let GIT_BG = "#C4A000"
     let GIT_FG = "#000000"
     let TERM_BG = "#0C0C0C"
+    let TERM_FG_DEFAULT = "\e[39m"
+    let TERM_BG_DEFAULT = "\e[49m"
 
     let datetime_segment = ([
         (ansi { fg: $TIME_BG bg: $TERM_FG})
@@ -451,7 +453,9 @@ def git_right_prompt [gs os] {
 
     let execution_time_segment = (
         [
-            (ansi { fg: "#606060" bg: "#191323"})
+            # (ansi { fg: "#606060" bg: "#191323"})
+            (ansi { fg: "#606060"})
+            $TERM_BG_DEFAULT
             (char -u e0b3)
             (char space)
             $env.CMD_DURATION_MS
@@ -527,7 +531,7 @@ export def git_prompt [] {
     # $"\u001b]0;($abbrev)"
     # note that this isn't ending properly with a bel or a st, that's
     # because it makes the string echo to the screen as an empty line
-    
+
     # turning off now since a similar thing is built into nushell + it breaks kitty
     #$"(ansi osc)2;($abbrev)"
 
