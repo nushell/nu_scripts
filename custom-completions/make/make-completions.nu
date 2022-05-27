@@ -15,7 +15,7 @@ def "nu-complete make" [] {
   }
 
   export extern "make" [
-    command: string@"nu-complete make"
+    command?: string@"nu-complete make"
     --always-make(-B)                                 # Unconditionally make all targets.
     --directory(-C): string@"nu-complete make dirs"   # Change to DIRECTORY before doing anything.
     --debug(-d)                                       # Print various types of debugging information.
