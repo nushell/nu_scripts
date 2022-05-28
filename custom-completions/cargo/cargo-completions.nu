@@ -58,6 +58,7 @@ export extern "cargo"  [
   --config: string   # Override a configuration value
   -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   -h, --help         # Print help information
+  ...args
 ]
 
 #*> Common Commands (Sorted by order shown by running the `cargo` command) <*#
