@@ -42,6 +42,7 @@ def "nu-complete cargo vcs" [] {
   ]
 }
 
+#*> Core <*#
 
 # Rust's package manager
 export extern "cargo"  [
@@ -58,6 +59,8 @@ export extern "cargo"  [
   -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   -h, --help         # Print help information
 ]
+
+#*> Common Commands (Sorted by order shown by running the `cargo` command) <*#
 
 # Compile the current package
 export extern "cargo build" [
@@ -99,6 +102,16 @@ export extern "cargo build" [
   --future-incompat-report # Displays a future-incompat report for any future-incompatible warnings
 ]
 
+# # Check the current package
+# export extern "cargo check" [
+  
+# ]
+
+# # Analyze the current package
+# export extern "cargo doc" [
+  
+# ]
+
 # Create a new cargo package
 export extern "cargo new" [
   path: path # The directory that will contain the project
@@ -130,6 +143,81 @@ export extern "cargo init" [
   -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   -h, --help         # Print help information
 ]
+
+# Run the current cargo package
+export extern "cargo run" [
+  ...args: any                                      # Arguments to be passed to your program
+  --bin: string@"nu-complete cargo bins"            # Name of the bin target to run
+  --example: string@"nu-complete cargo examples"    # Name of the example target to run
+  --quiet(-q)                                       # Do not print cargo log messages
+  --package(-p): string@"nu-complete cargo packages"# Package with the target to run
+  --jobs(-j): number                                # Number of parallel jobs, defaults to # of CPUs
+  --release                                         # Build artifacts in release mode, with optimizations
+  --profile: string@"nu-complete cargo profiles"    # Build artifacts with the specified profile
+  --features: string@"nu-complete cargo features"   # Space or comma separated list of features to activate
+  --all-features                                    # Activate all available features
+  --no-default-features                             # Do not activate the `default` feature
+  --target: string                                  # Build for the target triple
+  --target-dir: path                                # Directory for all generated artifacts
+  --manifest-path: path                             # Path to Cargo.toml
+  --message-format: string                          # Error format
+  --unit-graph                                      # Output build graph in JSON (unstable)
+  --ignore-rust-version                             # Ignore `rust-version` specification in packages
+  --verbose(-v)                                     # Use verbose output (-vv very verbose/build.rs output)
+  --color: string@"nu-complete cargo color"         # Control when colored output is used
+  --frozen                                          # Require Cargo.lock and cache are up to date
+  --locked                                          # Require Cargo.lock is up to date
+  --offline                                         # Run without accessing the network
+  --config: string                                  # Override a configuration value (unstable)
+  -Z: string                                        # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  --help(-h)                                        # Prints help information
+]
+
+# # Run the tests
+# export extern "cargo test" [
+  
+# ]
+
+# # Run the benchmarks
+# export extern "cargo bench" [
+  
+# ]
+
+# # Update dependencies listed in Cargo.lock
+# export extern "cargo update" [
+  
+# ]
+
+# Search packages in crates.io
+export extern "cargo search" [
+  query: string # The thing to search
+  --limit: number # Limit the number of results. (default: 10, max: 100)
+  --index: string # The URL of the registry index to use
+  --registry: string # Name of the registry to use
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --help(-h) # Prints help information
+  -Z: any          # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+]
+
+# Search packages in crates.io
+export extern "cargo search" [
+  query: string # The thing to search
+  --limit: number # Limit the number of results. (default: 10, max: 100)
+  --index: string # The URL of the registry index to use
+  --registry: string # Name of the registry to use
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --help(-h) # Prints help information
+  -Z: any          # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+]
+
+# # Package and upload this package to the registry
+# export extern "cargo publish" [
+  
+# ]
 
 # Build and install a Rust binary
 export extern "cargo install" [
@@ -171,6 +259,7 @@ export extern "cargo install" [
   -h, --help         # Print help information
 ]
 
+# Remove a Rust binary
 export extern "cargo uninstall" [
   package?: string # Package to uninstall
   --package(-p) # Package to uninstall
@@ -182,6 +271,8 @@ export extern "cargo uninstall" [
   -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   -h, --help         # Print help information
 ]
+
+#*> Other Commands <*#
 
 # Output the resolved dependencies of a package in machine-readable format
 export extern "cargo metadata"  [
@@ -212,46 +303,4 @@ export extern "cargo help" [
   --offline        # Run without accessing the network
   --verbose(-v)    # Use verbose output. May be specified twice for "very verbose" output
   -Z: any          # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-]
-
-# Search packages in crates.io
-export extern "cargo search" [
-  query: string # The thing to search
-  --limit: number # Limit the number of results. (default: 10, max: 100)
-  --index: string # The URL of the registry index to use
-  --registry: string # Name of the registry to use
-  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
-  --quiet(-q) # Do not print cargo log messages
-  --color: string@"nu-complete cargo color" # Control when colored output is used
-  --help(-h) # Prints help information
-  -Z: any          # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-]
-
-# Run the current cargo package
-export extern "cargo run" [
-  ...args: any                                      # Arguments to be passed to your program
-  --bin: string@"nu-complete cargo bins"            # Name of the bin target to run
-  --example: string@"nu-complete cargo examples"    # Name of the example target to run
-  --quiet(-q)                                       # Do not print cargo log messages
-  --package(-p): string@"nu-complete cargo packages"# Package with the target to run
-  --jobs(-j): number                                # Number of parallel jobs, defaults to # of CPUs
-  --release                                         # Build artifacts in release mode, with optimizations
-  --profile: string@"nu-complete cargo profiles"    # Build artifacts with the specified profile
-  --features: string@"nu-complete cargo features"   # Space or comma separated list of features to activate
-  --all-features                                    # Activate all available features
-  --no-default-features                             # Do not activate the `default` feature
-  --target: string                                  # Build for the target triple
-  --target-dir: path                                # Directory for all generated artifacts
-  --manifest-path: path                             # Path to Cargo.toml
-  --message-format: string                          # Error format
-  --unit-graph                                      # Output build graph in JSON (unstable)
-  --ignore-rust-version                             # Ignore `rust-version` specification in packages
-  --verbose(-v)                                     # Use verbose output (-vv very verbose/build.rs output)
-  --color: string@"nu-complete cargo color"         # Control when colored output is used
-  --frozen                                          # Require Cargo.lock and cache are up to date
-  --locked                                          # Require Cargo.lock is up to date
-  --offline                                         # Run without accessing the network
-  --config: string                                  # Override a configuration value (unstable)
-  -Z: string                                        # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-  --help(-h)                                        # Prints help information
 ]
