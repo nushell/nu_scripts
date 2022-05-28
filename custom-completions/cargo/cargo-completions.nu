@@ -115,6 +115,22 @@ export extern "cargo new" [
   -h, --help         # Print help information
 ]
 
+# Create a new cargo package in an existing directory
+export extern "cargo init" [
+  path: path # The directory that will contain the project
+  --bin # Create a package with a binary target (src/main.rs) (default)
+  --lib # Create a package with a library target (src/lib.rs)
+  --edition: number # Specify the Rust edition to use (default: 2021)
+  --name: string # Set the package name. Defaults to the directory name.
+  --vcs: string@"nu-complete cargo vcs" # Initialize a new VCS repository for the given version control system
+  --registry: string # Name of the registry to use
+  --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q)        # Do not print cargo log messages
+  --color: string@"nu-complete cargo color"  # Control when colored output is used
+  -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help         # Print help information
+]
+
 # Output the resolved dependencies of a package in machine-readable format
 export extern "cargo metadata"  [
   --no-deps # Output information only about the workspace members and don't fetch dependencies
