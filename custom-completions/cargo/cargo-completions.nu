@@ -102,10 +102,49 @@ export extern "cargo build" [
   --future-incompat-report # Displays a future-incompat report for any future-incompatible warnings
 ]
 
-# # Check the current package
-# export extern "cargo check" [
+# Check the current package
+export extern "cargo check" [
+  --package(-p): string #Check only the specified packages
+  --workspace # Check all members in the workspace
+  --exclude: string # Exclude the specified packages
+  --lib # Check the package's library
+  --bin: string # Check the specified binary
+  --example: string # Check the specified example
+  --examples # Check all example targets
+  --test: string # Check the specified integration test
+  --tests # Check all targets in test mode that have the test = true manifest flag set
+  --bench: string # Check the specified benchmark
+  --benches # Check all targets in benchmark mode that have the bench = true manifest flag set
+  --all-targets # Check all targets
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --all-features # Activate all available features
+  --no-default-features # Do not activate the `default` feature
+  --target: string # Check for the given architecture
+  --release(-r) # Check optimized artifacts with the release profile
+  --profile: string@"nu-complete cargo profiles" # Check with the given profile
+  --ignore-rust-version # Ignore the required rust version as configured in the project
+  --timing: string    # Output information how long each compilation takes
+  --target-dir: path  # Directory for all generated artifacts and intermediate files
+  --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q)        # Do not print cargo log messages
+  --color: string@"nu-complete cargo color"  # Control when colored output is used
+  --message-format: string # The output format for diagnostic messages
+  --manifest-path: path  # Path to the Cargo.toml file
+  --frozen           # Require Cargo.lock and cache are up to date
+  --locked           # Require Cargo.lock is up to date
+  --offline          # Run without accessing the network
+  -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help         # Print help information
+  --jobs(-j): number # Number of parallel jobs to run
+  --keep-going # Build as many crates in the dependency graph as possible
+  --future-incompat-report # Displays a future-incompat report for any future-incompatible warnings
+]
+
+# # Remove the target directory
+# export extern "cargo clean" [
   
 # ]
+
 
 # # Analyze the current package
 # export extern "cargo doc" [
@@ -187,19 +226,6 @@ export extern "cargo run" [
 # export extern "cargo update" [
   
 # ]
-
-# Search packages in crates.io
-export extern "cargo search" [
-  query: string # The thing to search
-  --limit: number # Limit the number of results. (default: 10, max: 100)
-  --index: string # The URL of the registry index to use
-  --registry: string # Name of the registry to use
-  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
-  --quiet(-q) # Do not print cargo log messages
-  --color: string@"nu-complete cargo color" # Control when colored output is used
-  --help(-h) # Prints help information
-  -Z: any          # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-]
 
 # Search packages in crates.io
 export extern "cargo search" [
