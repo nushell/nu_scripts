@@ -131,6 +131,58 @@ export extern "cargo init" [
   -h, --help         # Print help information
 ]
 
+# Build and install a Rust binary
+export extern "cargo install" [
+  crate?: string # The crate to install
+  --version: string # Specify a version to install
+  --vers: string    # Specify a version to install
+  --git: string # Git URL to install the specified crate from
+  --branch: string # Branch to use when installing from git
+  --tag: string # Tag to use when installing from git
+  --rev: string # Specific commit to use when installing from git
+  --path: path # Filesystem path to local crate to install
+  --list # List all installed packages and their versions
+  --force(-f) # Force overwriting existing crates or binaries
+  --no-track # Don't keep track of this package
+  --bin: string # Install only the specified binary
+  --bins # Install all binaries
+  --example: string # Install only the specified example
+  --examples # Install all examples
+  --root: path # Directory to install packages into
+  --registry: string # Name of the registry to use
+  --index: string # The URL of the registry index to use
+  --features: string # Space or comma separated list of features to activate
+  --all-features # Activate all available features of all selected packages
+  --no-default-features # Do not activate the default feature of the selected packages
+  --target: string # Install for the given architecture
+  --target-dir: path # Directory for all generated artifacts and intermediate files
+  --debug # Build with the dev profile instead the release profile
+  --profile: string@"nu-complete cargo profiles"    # Build artifacts with the specified profile
+  --timing: string # Output information how long each compilation takes
+  --frozen # Require Cargo.lock and cache are up to date
+  --locked  # Require Cargo.lock is up to date
+  --offline # Run without accessing the network
+  --jobs(-j): number # Number of parallel jobs to run
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --message-format: string # The output format for diagnostic messages
+  -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help         # Print help information
+]
+
+export extern "cargo uninstall" [
+  package?: string # Package to uninstall
+  --package(-p) # Package to uninstall
+  --bin: string # Only uninstall the binary name
+  --root: path # Directory to uninstall packages from
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help         # Print help information
+]
+
 # Output the resolved dependencies of a package in machine-readable format
 export extern "cargo metadata"  [
   --no-deps # Output information only about the workspace members and don't fetch dependencies
