@@ -58,7 +58,7 @@ export extern "cargo"  [
   --config: string   # Override a configuration value
   -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   -h, --help         # Print help information
-  ...args
+  ...args: any
 ]
 
 #*> Common Commands (Sorted by order shown by running the `cargo` command) <*#
@@ -67,7 +67,7 @@ export extern "cargo"  [
 export extern "cargo build" [
   --package(-p): any  # Build only the specified packages
   --workspace         # Build all members in the workspace
-  --exclude: any      # Exclude the specified packages
+  --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
   --lib               # Build the package's library
   --bin: string@"nu-complete cargo bins" # Build the specified binary
   --bins              # Build all binary targets
@@ -107,7 +107,7 @@ export extern "cargo build" [
 export extern "cargo check" [
   --package(-p): string@"nu-complete cargo packages" #Check only the specified packages
   --workspace # Check all members in the workspace
-  --exclude: string # Exclude the specified packages
+  --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
   --lib # Check the package's library
   --bin: string@"nu-complete cargo bins" # Check the specified binary
   --example: string@"nu-complete cargo examples" # Check the specified example
@@ -168,7 +168,7 @@ export extern "cargo doc" [
   --document-private-items  # Include non-public items in the documentation
   --package(-p): string@"nu-complete cargo packages" # Document only the specified packages
   --workspace               # Document all members in the workspace
-  --exclude: string         # Exclude the specified packages
+  --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
   --lib: string             # Document the package's library
   --bin: string@"nu-complete cargo bins" # Document the specified binary
   --bins                    # Document all binary targets
@@ -231,37 +231,76 @@ export extern "cargo init" [
 
 # Run the current cargo package
 export extern "cargo run" [
-  ...args: any                                      # Arguments to be passed to your program
-  --bin: string@"nu-complete cargo bins"            # Name of the bin target to run
-  --example: string@"nu-complete cargo examples"    # Name of the example target to run
-  --quiet(-q)                                       # Do not print cargo log messages
-  --package(-p): string@"nu-complete cargo packages"# Package with the target to run
-  --jobs(-j): number                                # Number of parallel jobs, defaults to # of CPUs
-  --release                                         # Build artifacts in release mode, with optimizations
-  --profile: string@"nu-complete cargo profiles"    # Build artifacts with the specified profile
-  --features: string@"nu-complete cargo features"   # Space or comma separated list of features to activate
-  --all-features                                    # Activate all available features
-  --no-default-features                             # Do not activate the `default` feature
-  --target: string                                  # Build for the target triple
-  --target-dir: path                                # Directory for all generated artifacts
-  --manifest-path: path                             # Path to Cargo.toml
-  --message-format: string                          # Error format
-  --unit-graph                                      # Output build graph in JSON (unstable)
-  --ignore-rust-version                             # Ignore `rust-version` specification in packages
-  --verbose(-v)                                     # Use verbose output (-vv very verbose/build.rs output)
-  --color: string@"nu-complete cargo color"         # Control when colored output is used
-  --frozen                                          # Require Cargo.lock and cache are up to date
-  --locked                                          # Require Cargo.lock is up to date
-  --offline                                         # Run without accessing the network
-  --config: string                                  # Override a configuration value (unstable)
-  -Z: string                                        # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-  --help(-h)                                        # Prints help information
+  ...args: any                              # Arguments to be passed to your program
+  --bin: string@"nu-complete cargo bins"    # Name of the bin target to run
+  --example: string@"nu-complete cargo examples" # Name of the example target to run
+  --quiet(-q)                               # Do not print cargo log messages
+  --package(-p): string@"nu-complete cargo packages" # Package with the target to run
+  --jobs(-j): number                        # Number of parallel jobs, defaults to # of CPUs
+  --release                                 # Build artifacts in release mode, with optimizations
+  --profile: string@"nu-complete cargo profiles" # Build artifacts with the specified profile
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --all-features                            # Activate all available features
+  --no-default-features                     # Do not activate the `default` feature
+  --target: string                          # Build for the target triple
+  --target-dir: path                        # Directory for all generated artifacts
+  --manifest-path: path                     # Path to Cargo.toml
+  --message-format: string                  # Error format
+  --unit-graph                              # Output build graph in JSON (unstable)
+  --ignore-rust-version                     # Ignore `rust-version` specification in packages
+  --verbose(-v)                             # Use verbose output (-vv very verbose/build.rs output)
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --frozen                                  # Require Cargo.lock and cache are up to date
+  --locked                                  # Require Cargo.lock is up to date
+  --offline                                 # Run without accessing the network
+  --config: string                          # Override a configuration value (unstable)
+  -Z: string                                # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  --help(-h)                                # Prints help information
 ]
 
-# # Run the tests
-# export extern "cargo test" [
-  
-# ]
+# Run the tests
+export extern "cargo test" [
+  test-arg-seperator?: string
+  ...args?: any        # Arguments to be passed to the tests
+  --no-run       # Compile, but don't run tests
+  --no-fail-fast # Run all tests regardless of failure
+  --package(-p): string@"nu-complete cargo packages" # Test only the specified packages
+  --workspace # Test all members in the workspace
+  --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
+  --lib # Test the package's library
+  --bin: string@"nu-complete cargo bins" # Test only the specified binary
+  --bins # Test all binaries
+  --example: string@"nu-complete cargo examples" # Test only the specified example
+  --examples # Test all examples
+  --test: string # Test the specified integration test # ayo
+  --tests # Test all targets in test mode that have the test = true manifest flag set
+  --bench: string # Test the specified benchmark
+  --benches # Test all targets in benchmark mode that have the bench = true manifest flag set
+  --all-targets # Test all targets
+  --doc # Test ONLY the library's documentation
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --all-features # Activate all available features of all selected packages
+  --no-default-features # Do not activate the default feature of the selected packages
+  --target: string # Test for the given architecture
+  --release(-r) # Test optimized artifacts with the release profile
+  --profile: string@"nu-complete cargo profiles" # Test with the given profile
+  --ignore-rust-version # Ignore `rust-version` specification in packages
+  --timings: string # Output information how long each compilation takes
+  --target-dir: path # Directory for all generated artifacts and intermediate files
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --message-format: string # The output format for diagnostic messages
+  --manifest-path: path # Path to the Cargo.toml file
+  --frozen # Require Cargo.lock and cache are up to date
+  --locked  # Require Cargo.lock is up to date
+  --offline # Run without accessing the network
+  --help(-h) # Prints help information
+  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  --jobs(-j): number # Number of parallel jobs to run
+  --keep-going # Build as many crates in the dependency graph as possible
+  --future-incompat-report # Displays a future-incompat report for any future-incompatible warnings
+]
 
 # # Run the benchmarks
 # export extern "cargo bench" [
