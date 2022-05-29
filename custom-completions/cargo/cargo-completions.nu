@@ -69,23 +69,23 @@ export extern "cargo build" [
   --workspace         # Build all members in the workspace
   --exclude: any      # Exclude the specified packages
   --lib               # Build the package's library
-  --bin: string       # Build the specified binary
+  --bin: string@"nu-complete cargo bins" # Build the specified binary
   --bins              # Build all binary targets
-  --example: string   # Build the specified example
+  --example: string@"nu-complete cargo examples" # Build the specified example
   --examples          # Build all example targets
   --test: string      # Build the specified integration test
   --tests             # Build all targets in test mode that have the test = true manifest flag set
   --bench: string     # Build the specified benchmark
   --benches           # Build all targets in benchmark mode that have the bench = true manifest flag set
   --all-targets       # Build all targets
-  --features: string  # pace or comma separated list of features to activate
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features      # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --target: string    # Build for the given architecture.
   --release(-r)       # Build optimized artifacts with the release profile
   --profile: string@"nu-complete cargo profiles" # Build with the given profile
-  --ignore-rust-version # Ignore the required rust version as configured in the project
-  --timing: string    # Output information how long each compilation takes
+  --ignore-rust-version # Ignore `rust-version` specification in packages
+  --timings: string    # Output information how long each compilation takes
   --target-dir: path  # Directory for all generated artifacts and intermediate files
   --out-dir: path     # Copy final artifacts to this directory
   --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
@@ -105,12 +105,12 @@ export extern "cargo build" [
 
 # Check the current package
 export extern "cargo check" [
-  --package(-p): string #Check only the specified packages
+  --package(-p): string@"nu-complete cargo packages" #Check only the specified packages
   --workspace # Check all members in the workspace
   --exclude: string # Exclude the specified packages
   --lib # Check the package's library
-  --bin: string # Check the specified binary
-  --example: string # Check the specified example
+  --bin: string@"nu-complete cargo bins" # Check the specified binary
+  --example: string@"nu-complete cargo examples" # Check the specified example
   --examples # Check all example targets
   --test: string # Check the specified integration test
   --tests # Check all targets in test mode that have the test = true manifest flag set
@@ -123,8 +123,8 @@ export extern "cargo check" [
   --target: string # Check for the given architecture
   --release(-r) # Check optimized artifacts with the release profile
   --profile: string@"nu-complete cargo profiles" # Check with the given profile
-  --ignore-rust-version # Ignore the required rust version as configured in the project
-  --timing: string    # Output information how long each compilation takes
+  --ignore-rust-version # Ignore `rust-version` specification in packages
+  --timings: string    # Output information how long each compilation takes
   --target-dir: path  # Directory for all generated artifacts and intermediate files
   --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q)        # Do not print cargo log messages
@@ -143,7 +143,7 @@ export extern "cargo check" [
 
 # Remove the target directory
 export extern "cargo clean" [
-  --package(-p): string    # Clean only the specified packages
+  --package(-p): string@"nu-complete cargo packages"    # Clean only the specified packages
   --doc                    # Remove only the doc directory in the target directory
   --release                # Remove all artifacts in the release directory
   --profile                # Remove all artifacts in the directory with the given profile name
@@ -161,25 +161,56 @@ export extern "cargo clean" [
   -h, --help               # Print help information
 ]
 
-# # Analyze the current package
-# export extern "cargo doc" [
-  
-# ]
+# Build a package's documentation
+export extern "cargo doc" [
+  --open                    # Open the docs in a browser after building them
+  --no-deps                 # Do not build documentation for dependencie
+  --document-private-items  # Include non-public items in the documentation
+  --package(-p): string@"nu-complete cargo packages" # Document only the specified packages
+  --workspace               # Document all members in the workspace
+  --exclude: string         # Exclude the specified packages
+  --lib: string             # Document the package's library
+  --bin: string@"nu-complete cargo bins" # Document the specified binary
+  --bins                    # Document all binary targets
+  --example: string@"nu-complete cargo examples" # Document the specified example
+  --examples                # Document all example targets
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --all-features            # Activate all available features of all selected packages
+  --no-default-features     # Do not activate the default feature of the selected packages
+  --target: string          # Document for the given architecture
+  --release(-r)             # Document optimized artifacts with the release profile
+  --profile: string@"nu-complete cargo profiles" # Document with the given profile
+  --ignore-rust-version     # Ignore `rust-version` specification in packages
+  --timings: string         # Output information how long each compilation takes
+  --target-dir: path        # Directory for all generated artifacts and intermediate files
+  --verbose(-v)             # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q)               # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --message-format: string  # The output format for diagnostic messages
+  --manifest-path: path     # Path to the Cargo.toml file
+  --frozen                  # Require Cargo.lock and cache are up to date
+  --locked                  # Require Cargo.lock is up to date
+  --offline                 # Run without accessing the network
+  -Z: any                   # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help                # Print help information
+  --jobs(-j): number        # Number of parallel jobs to run
+  --keep-going              # Build as many crates in the dependency graph as possible
+]
 
 # Create a new cargo package
 export extern "cargo new" [
-  path: path # The directory that will contain the project
-  --bin # Create a package with a binary target (src/main.rs) (default)
-  --lib # Create a package with a library target (src/lib.rs)
-  --edition: number # Specify the Rust edition to use (default: 2021)
-  --name: string # Set the package name. Defaults to the directory name.
+  path: path          # The directory that will contain the project
+  --bin               # Create a package with a binary target (src/main.rs) (default)
+  --lib               # Create a package with a library target (src/lib.rs)
+  --edition: number   # Specify the Rust edition to use (default: 2021)
+  --name: string      # Set the package name. Defaults to the directory name.
   --vcs: string@"nu-complete cargo vcs" # Initialize a new VCS repository for the given version control system
-  --registry: string # Name of the registry to use
-  --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
-  --quiet(-q)        # Do not print cargo log messages
+  --registry: string  # Name of the registry to use
+  --verbose(-v)       # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q)         # Do not print cargo log messages
   --color: string@"nu-complete cargo color"  # Control when colored output is used
-  -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-  -h, --help         # Print help information
+  -Z: any             # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help          # Print help information
 ]
 
 # Create a new cargo package in an existing directory
@@ -273,21 +304,21 @@ export extern "cargo install" [
   --list # List all installed packages and their versions
   --force(-f) # Force overwriting existing crates or binaries
   --no-track # Don't keep track of this package
-  --bin: string # Install only the specified binary
+  --bin: string@"nu-complete cargo bins" # Install only the specified binary
   --bins # Install all binaries
-  --example: string # Install only the specified example
+  --example: string@"nu-complete cargo examples" # Install only the specified example
   --examples # Install all examples
   --root: path # Directory to install packages into
   --registry: string # Name of the registry to use
   --index: string # The URL of the registry index to use
-  --features: string # Space or comma separated list of features to activate
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --target: string # Install for the given architecture
   --target-dir: path # Directory for all generated artifacts and intermediate files
   --debug # Build with the dev profile instead the release profile
   --profile: string@"nu-complete cargo profiles"    # Build artifacts with the specified profile
-  --timing: string # Output information how long each compilation takes
+  --timings: string # Output information how long each compilation takes
   --frozen # Require Cargo.lock and cache are up to date
   --locked  # Require Cargo.lock is up to date
   --offline # Run without accessing the network
@@ -304,7 +335,7 @@ export extern "cargo install" [
 export extern "cargo uninstall" [
   package?: string # Package to uninstall
   --package(-p) # Package to uninstall
-  --bin: string # Only uninstall the binary name
+  --bin: string@"nu-complete cargo bins" # Only uninstall the binary name
   --root: path # Directory to uninstall packages from
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q) # Do not print cargo log messages
@@ -320,7 +351,7 @@ export extern "cargo metadata"  [
   --no-deps # Output information only about the workspace members and don't fetch dependencies
   --format-version: number # Specify the version of the output format to use. Currently 1 is the only possible value
   --filter-platform: string  # This filters the resolve output to only include dependencies for the iven target triple
-  --features: string # Space or comma separated list of features to activate
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
