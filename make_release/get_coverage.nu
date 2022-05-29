@@ -16,6 +16,7 @@ def main [
        headers | 
        reject 'column1' | 
        get 0 | 
+       str trim |
        load-env
    
    cargo llvm-cov clean --workspace 
