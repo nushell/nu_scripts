@@ -141,11 +141,25 @@ export extern "cargo check" [
   --future-incompat-report # Displays a future-incompat report for any future-incompatible warnings
 ]
 
-# # Remove the target directory
-# export extern "cargo clean" [
-  
-# ]
-
+# Remove the target directory
+export extern "cargo clean" [
+  --package(-p): string    # Clean only the specified packages
+  --doc                    # Remove only the doc directory in the target directory
+  --release                # Remove all artifacts in the release directory
+  --profile                # Remove all artifacts in the directory with the given profile name
+  --target-dir: path       # Directory for all generated artifacts and intermediate files
+  --target: string         # Clean for the given architecture
+  --verbose(-v)            # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q)              # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --message-format: string # The output format for diagnostic messages
+  --manifest-path: path    # Path to the Cargo.toml file
+  --frozen                 # Require Cargo.lock and cache are up to date
+  --locked                 # Require Cargo.lock is up to date
+  --offline                # Run without accessing the network
+  -Z: any                  # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help               # Print help information
+]
 
 # # Analyze the current package
 # export extern "cargo doc" [
