@@ -272,7 +272,7 @@ export extern "cargo test" [
   --bins # Test all binaries
   --example: string@"nu-complete cargo examples" # Test only the specified example
   --examples # Test all examples
-  --test: string # Test the specified integration test # ayo
+  --test: string # Test the specified integration test
   --tests # Test all targets in test mode that have the test = true manifest flag set
   --bench: string # Test the specified benchmark
   --benches # Test all targets in benchmark mode that have the bench = true manifest flag set
@@ -302,10 +302,47 @@ export extern "cargo test" [
   --future-incompat-report # Displays a future-incompat report for any future-incompatible warnings
 ]
 
-# # Run the benchmarks
-# export extern "cargo bench" [
-  
-# ]
+# Execute benchmarks of a package
+export extern "cargo bench" [
+  bench-option-seperator?: string
+  ...options?: any # Options to be passed to the benchmarks
+  --no-run # Compile, but don't run benchmarks
+  --no-fail-fast # Run all benchmarks regardless of failure
+  --package(-p): string@"nu-complete cargo packages" # Benchmark only the specified packages
+  --workspace # Benchmark all members in the workspace
+  --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
+  --lib # Benchmark the package's library
+  --bin: string@"nu-complete cargo bins" # Benchmark only the specified binary
+  --bins # Benchmark all binary targets
+  --example: string@"nu-complete cargo examples" # Benchmark only the specified example
+  --examples # Benchmark all example targets
+  --test: string # Benchmark the specified integration test
+  --tests # Benchmark all targets in test mode that have the test = true
+  --bench: string # Benchmark the specified benchmark
+  --benches # Benchmark all targets in benchmark mode that have the bench = true manifest flag set
+  --all-targets # Benchmark all targets
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --all-features # Activate all available features of all selected packages
+  --no-default-features # Do not activate the default feature of the selected packages
+  --target: string # Benchmark for the given architecture
+  --profile: string@"nu-complete cargo profiles" # Build artifacts with the specified profile
+  --ignore-rust-version # Ignore `rust-version` specification in packages
+  --timings: string # Output information how long each compilation takes
+  --target-dir: path# Directory for all generated artifacts and intermediate files
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color"  # Control when colored output is used
+  --message-format: string # The output format for diagnostic messages
+  --build-plan # Outputs a series of JSON messages to stdout that indicate the commands to run the build
+  --manifest-path: path  # Path to the Cargo.toml file
+  --frozen # Require Cargo.lock and cache are up to date
+  --locked # Require Cargo.lock is up to date
+  --offline# Run without accessing the network
+  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help # Print help information
+  --jobs(-j): number # Number of parallel jobs to run
+  --keep-going # Build as many crates in the dependency graph as possible
+]
 
 # # Update dependencies listed in Cargo.lock
 # export extern "cargo update" [
@@ -356,7 +393,7 @@ export extern "cargo install" [
   --target: string # Install for the given architecture
   --target-dir: path # Directory for all generated artifacts and intermediate files
   --debug # Build with the dev profile instead the release profile
-  --profile: string@"nu-complete cargo profiles"    # Build artifacts with the specified profile
+  --profile: string@"nu-complete cargo profiles" # Build artifacts with the specified profile
   --timings: string # Output information how long each compilation takes
   --frozen # Require Cargo.lock and cache are up to date
   --locked  # Require Cargo.lock is up to date
