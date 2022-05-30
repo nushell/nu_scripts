@@ -65,7 +65,7 @@ export extern "cargo"  [
 
 # Compile the current package
 export extern "cargo build" [
-  --package(-p): any  # Build only the specified packages
+  --package(-p): string@"nu-complete cargo packages"  # Build only the specified packages
   --workspace         # Build all members in the workspace
   --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
   --lib               # Build the package's library
@@ -344,10 +344,23 @@ export extern "cargo bench" [
   --keep-going # Build as many crates in the dependency graph as possible
 ]
 
-# # Update dependencies listed in Cargo.lock
-# export extern "cargo update" [
-  
-# ]
+# Update dependencies listed in Cargo.lock
+export extern "cargo update" [
+  --package(-p): string@"nu-complete cargo packages" # Update only the specified packages
+  --aggressive # Dependencies of the specified packages are forced to update as well
+  --precise: any # Allows you to specify a specific version number to set the package to
+  --workspace(-w) # Attempt to update only packages defined in the workspace
+  --dry-run # Displays what would be updated but doesn't write the lockfile
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --manifest-path: path # Path to the Cargo.toml file
+  --frozen # Require Cargo.lock and cache are up to date
+  --locked  # Require Cargo.lock is up to date
+  --offline # Run without accessing the network
+  --help(-h) # Prints help information
+  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+]
 
 # Search packages in crates.io
 export extern "cargo search" [
@@ -409,8 +422,8 @@ export extern "cargo install" [
 
 # Remove a Rust binary
 export extern "cargo uninstall" [
-  package?: string # Package to uninstall
-  --package(-p) # Package to uninstall
+  package?: string@"nu-complete cargo packages" # Package to uninstall
+  --package(-p): string@"nu-complete cargo packages" # Package to uninstall
   --bin: string@"nu-complete cargo bins" # Only uninstall the binary name
   --root: path # Directory to uninstall packages from
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
