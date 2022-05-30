@@ -1,0 +1,41 @@
+# Display document using only black and white
+extern "gv" [
+	--monochrome					# Display document using only black and white
+	--grayscale					# Display document without colors
+	--color					# Display document as usual
+	--safer					# Start ghostscript in safe mode
+	--nosafer					# Do not start ghostscript in safe mode
+	--safedir					# Start ghostscript from a safe diretory
+	--nosafedir					# Do not start ghostscript from a safe diretory
+	--quiet					# Start ghostscript with the -dQUIET option
+	--noquiet					# Do not start ghostscript with the -dQUIET option
+	--infoSilent					# Do not show any messages in the info popup window
+	--infoErrors					# Do not show warning messages in the info popup window
+	--infoAll					# Do show all messages in the info popup window
+	--center					# The page should be centered automatically
+	--nocenter					# The page should not be centered automatically
+	--media					# Selects the paper size to be used
+	--orientation					# Sets the orientation of the page
+	--swap					# Interchange the meaning of the orientations landscape and seascape
+	--noswap					# Do not interchange the meaning of the orientation landscape and seascape
+	--antialias					# Use antialiasing
+	--noantialias					# Do not use antialiasing
+	--dsc					# Dsc comments are respected
+	--nodsc					# Dsc comments are not respected
+	--eof					# Ignore the postscript EOF comment while scanning documents
+	--noeof					# Do not ignore the postscript EOF comment while scanning documents
+	--pixmap					# Use backing pixmap
+	--nopixmap					# Do not use backing pixmap
+	--watch					# Watch the document file for changes
+	--nowatch					# Do not watch the document file for changes
+	--help					# Print a help message and exit
+	--usage					# Print a usage message and exit
+	--resize					# Fit the size of the window to the size of the page
+	--noresize					# Do not fit the size of the window to the size of the page
+	--spartan					# Shortcut for --style=gv_spartan.dat
+	--widgetless					# Shortcut for --style=gv_widgetless.dat
+	--fullscreen					# Start in fullscreen mode (needs support from WM)
+	--presentation					# Presentation mode 
+	--version					# Show gv version and exit
+	...args
+]

@@ -1,0 +1,59 @@
+# Display version and exit
+extern "wget" [
+	--version(-V)					# Display version and exit
+	--help(-h)					# Display help and exit
+	--background(-b)					# Go to background immediately after startup
+	--append-output(-a)					# Append all messages to logfile
+	--debug(-d)					# Turn on debug output
+	--quiet(-q)					# Quiet mode
+	--verbose(-v)					# Verbose mode
+	--non-verbose					# Turn off verbose without being completely quiet
+	--force-html(-F)					# Force input to be treated as HTML
+	--bind-address					# Bind address on local machine
+	--tries(-t)					# Set number of retries to number
+	--no-clobber					# Never overwrite files with same name
+	--continue(-c)					# Continue getting a partially-downloaded file
+	--progress					# Select progress meter type
+	--timestamping(-N)					# Turn on time-stamping
+	--server-response(-S)					# Print the headers/responses sent by servers
+	--spider					# Do not download the pages, just check that they are there
+	--random-wait					# Wait random amount of time between retrievals
+	--proxy(-Y)					# Toggle proxy support
+	--dns-cache					# Turn off caching of DNS lookups
+	--restrict-file-names					# Change which characters found in remote URLs may show up in local file names
+	--no-directories					# Do not create a hierarchy of directories
+	--force-directories(-x)					# Force creation of a hierarchy of directories
+	--no-host-directories					# Disable generation of host-prefixed directories
+	--protocal-directories					# Use the protocol name as a directory component
+	--cut-dirs					# Ignore specified number of directory components
+	--html-extension(-E)					# Force html files to have html extension
+	--http-user					# Specify the http username
+	--no-cache					# Disable server-side cache
+	--no-cookies					# Disable the use of cookies
+	--save-cookies					# Save cookies to file
+	--keep-session-cookies					# Save session cookies
+	--ignore-length					# Ignore 'Content-Length' header
+	--proxy-user					# Specify the proxy username
+	--save-headers					# Save the headers sent by the HTTP server
+	--no-http-keep-alive					# Turn off keep-alive for http downloads
+	--https-only					# Only follow secure HTTPS links
+	--no-check-certificate					# Don't validate the server's certificate
+	--no-hsts					# Disable HSTS
+	--hsts-file					# Path of HSTS database
+	--no-remove-listing					# Don't remove the temporary .listing files generated
+	--no-glob					# Turn off FTP globbing
+	--passive-ftp					# Use the passive FTP retrieval scheme
+	--retr-symlinks					# Traverse symlinks and retrieve pointed-to files
+	--recursive(-r)					# Turn on recursive retrieving
+	--delete-after					# Delete every single file downloaded
+	--convert-links(-k)					# Convert the links in the document to make them suitable for local viewing
+	--backup-converted(-K)					# Back up the original version
+	--mirror(-m)					# Turn on options suitable for mirroring
+	--page-requisites(-p)					# Download all the files that are necessary to properly display a given HTML page
+	--strict-comments					# Turn on strict parsing of HTML comments
+	--follow-ftp					# Follow FTP links from HTML documents
+	--span-hosts(-H)					# Enable spanning across hosts
+	--relative(-L)					# Follow relative links only
+	--no-parent					# Do not ever ascend to the parent directory
+	...args
+]

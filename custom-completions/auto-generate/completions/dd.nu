@@ -1,0 +1,5 @@
+# 
+extern "dd" [
+
+	...args
+]

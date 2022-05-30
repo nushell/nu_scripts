@@ -1,0 +1,42 @@
+# Show help
+extern "mocha" [
+	--help(-h)					# Show help
+	--version(-V)					# output the version number
+	--async-only(-A)					# force all tests to take a callback (async) or return a promise
+	--colors(-c)					# force enabling of colors
+	--no-colors(-C)					# force disabling of colors
+	--growl(-G)					# enable growl notification support
+	--reporter-options(-O)					# <k=v,k2=v2,...>  reporter-specific options
+	--sort(-S)					# sort test files
+	--bail(-b)					# bail after first test failure
+	--debug(-d)					# enable node's debugger, synonym for node --debug
+	--expose-gc(-g)					# expose gc extension
+	--invert(-i)					# inverts --grep and --fgrep matches
+	--watch(-w)					# watch files for changes
+	--check-leaks					# check for global variable leaks
+	--full-trace					# display the full stack trace
+	--debug-brk					# enable node's debugger breaking on thefirst line
+	--es_staging					# enable all staged features
+	--harmony					# all node --harmony* flags are available
+	--preserve-symlinks					# Preserve symbolic links when loading modules
+	--icu-data-dir					# include ICU data
+	--inline-diffs					# display actual/expected differences inline within each string
+	--interfaces					# display available interfaces
+	--no-deprecation					# silence deprecation warnings
+	--no-exit					# require a clean shutdown of the event loop: mocha will not call process.exit
+	--no-timeouts					# disables timeouts, given implicitly with --debug
+	--opts					# specify opts path
+	--perf-basic-prof					# enable perf linux profiler (basic support)
+	--prof					# log statistical profiling information
+	--log-timer-events					# Time events including external callbacks
+	--recursive					# include sub directories
+	--reporters					# display available reporters
+	--retries					# set numbers of time to retry a failed test case
+	--throw-deprecation					# throw an exception anytime a deprecated function is used
+	--trace					# trace function calls
+	--trace-deprecation					# show stack traces on deprecations
+	--use_strict					# enforce strict mode
+	--watch-extensions					# additional extensions to monitor with --watch
+	--delay					# wait for async suite definition
+	...args
+]

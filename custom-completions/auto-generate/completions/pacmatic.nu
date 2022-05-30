@@ -1,0 +1,4 @@
+extern "pacmatic" [
+
+	...args
+]

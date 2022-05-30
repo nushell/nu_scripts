@@ -1,0 +1,41 @@
+# Ignore missing or incomplete arch field
+extern "makepkg" [
+	--ignorearch(-A)					# Ignore missing or incomplete arch field
+	--clean(-c)					# Clean up work files after build
+	--config					# Use alternate config <file>
+	--nodeps(-d)					# Do not perform dependency checks
+	--noextract(-e)					# Do not extract source files
+	--verifysource					# Only perform integrity checks
+	--force(-f)					# Force rebuild of the package
+	--geninteg(-g)					# Generate integrity checks
+	--skipinteg					# Do not perform integrity checks
+	--skipchecksums					# Do not verify checksums
+	--skippgpcheck					# Do not verify PGP signatures
+	--help(-h)					# Display syntax and command line options
+	--holdver					# No automatic bump of pkgver
+	--install(-i)					# Install the package after build
+	--log(-L)					# Enable makepkg build logging
+	--nocolor(-m)					# Disable color in output messages
+	--nobuild(-o)					# Only download and extract files
+	--rmdeps(-r)					# Remove installed deps after build
+	--repackage(-R)					# Repackage without rebuilding
+	--syncdeps(-s)					# Install missing dependencies
+	--source(-S)					# Build a source-only tarball for AUR
+	--version(-V)					# Display the version and exit
+	--cleanbuild(-C)					# Remove the srcdir before building the package
+	--allsource					# Build a source-only GPL tarball for AUR
+	--pkg					# Only build <packages> from a split package
+	--check					# Run the check function in the PKGBUILD
+	--noarchive					# Do not create the archive
+	--nocheck					# Do not run the check function in the PKGBUILD
+	--sign					# Sign the resulting package with gpg
+	--nosign					# Do not create a signature for the package
+	--key					# Specify a <key> to use when signing
+	--noconfirm					# Passed to pacman: Do not ask for confirmation
+	--needed					# Passed to pacman: Only install what is needed
+	--asdeps					# Passed to pacman: Install as dependencies
+	--noprogressbar					# Passed to pacman: Do not display a progress bar
+	--packagelist					# List all packages that would be built
+	--printsrcinfo					# Print SRCINFO to stdout
+	...args
+]

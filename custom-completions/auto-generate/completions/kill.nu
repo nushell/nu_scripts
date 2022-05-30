@@ -1,0 +1,4 @@
+extern "kill" [
+
+	...args
+]

@@ -1,0 +1,48 @@
+# Zoom pictures to screen size
+extern "feh" [
+	--auto-zoom(-Z)					# Zoom pictures to screen size
+	--borderless(-x)					# Create borderless window
+	--cache-thumbnails(-P)					# Enable thumbnail caching
+	--cycle-once					# Exit feh after one loop through slideshow
+	--draw-actions(-G)					# Draw defined actions
+	--draw-exif					# Display EXIF information
+	--draw-filename(-d)					# Draw filename
+	--draw-tinted					# Show overlay texts on semi-transparent background
+	--font(-e)					# Set global font
+	--force-aliasing					# Disable antialiasing
+	--fullindex(-I)
+	--fullscreen(-F)					# Make window fullscreen
+	--hide-pointer(-Y)					# Hide pointer
+	--index(-i)					# Enable index mode
+	--keep-http(-k)					# Keep files fetched using HTTP
+	--insecure					# Disable strict hostname and peer checking with HTTPS
+	--keep-zoom-vp					# When switching images, keep zoom and viewport settings
+	--list(-l)					# Don't display images. Display an ls style listing
+	--loadable(-U)					# Print out image names
+	--montage(-m)					# Enable montage mode
+	--multiwindow(-w)					# Disable slideshow mode
+	--no-jump-on-resort					# Don't jump to first image after resorting filelist
+	--no-menus(-N)					# Don't load or show any menus
+	--no-screen-clip					# Don't limit window to screen size
+	--no-xinerama					# Disable Xinerama support
+	--preload(-p)					# Preload images
+	--quiet(-q)					# Don't report non-fatal errors
+	--randomize(-z)					# Randomize file list before displaying
+	--recursive(-r)					# Recursively expand directory
+	--no-recursive					# Don't recursively expand directory
+	--reverse(-n)					# Reverse sort order
+	--scale-down(-.)					# Scale image to fit window geometry
+	--thumbnails(-t)
+	--unloadable(-u)					# Print names of images that can't be loaded by imlib2
+	--verbose(-V)					# Verbose mode
+	--version(-v)					# Print version and exit
+	--ignore-aspect(-X)					# Don't retain thumbnails' aspect ratios
+	--stretch(-s)					# Enlarge if image smaller than given thumbnail size
+	--bg-center					# Center file on background
+	--bg-fill					# Set as background by zooming until image fits
+	--bg-max					# Set as backround by zooming with black borders on one side
+	--bg-scale					# Set as background without tiling, trimming or borders
+	--bg-tile					# Tile image if too small for screen
+	--no-fehbg					# Do not write a ~/.fehbg file
+	...args
+]

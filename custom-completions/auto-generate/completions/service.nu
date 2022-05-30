@@ -1,0 +1,5 @@
+# Service
+extern "service" [
+
+	...args
+]

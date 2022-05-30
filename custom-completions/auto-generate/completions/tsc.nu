@@ -1,0 +1,81 @@
+# Allow JavaScript files to be compiled
+extern "tsc" [
+	--allowJs					# Allow JavaScript files to be compiled
+	--allowSyntheticDefaultImports					# Allow default imports from modules with no default export
+	--allowUmdGlobalAccess					# Allow accessing UMD globals from modules
+	--allowUnreachableCode					# Do not report errors on unreachable code
+	--allowUnusedLabels					# Do not report errors on unused labels
+	--baseUrl					# Base directory to resolve non-relative module names
+	--build(-b)					# Builds this project and all of its dependencies specified by Project References
+	--charset					# The character set of the input files
+	--checkJs					# Report errors in .js files
+	--composite					# Ensure TypeScript can determine where to find the outputs of the referenced project to compile project
+	--declaration(-d)					# Generates corresponding .d.ts file
+	--declarationDir					# Output directory for generated declaration files
+	--declarationMap					# Generates a sourcemap for each corresponding ‘.d.ts’ file
+	--diagnostics					# Show diagnostic information
+	--disableSizeLimit					# Disable size limitation on JavaScript project
+	--downlevelIteration					# Provide full support for iterables in for..of, spread and destructuring when targeting ES5 or ES3
+	--emitBOM					# Emit a UTF-8 Byte Order Mark (BOM) in the beginning of output files
+	--emitDeclarationOnly					# Only emit ‘.d.ts’ declaration files
+	--emitDecoratorMetadata					# Emit design-type metadata for decorated declarations in source
+	--esModuleInterop					# Emit __importStar and __importDefault helpers for runtime babel ecosystem compatibility and enable --allowSyntheticDefaultImports for typesystem compatibility
+	--experimentalDecorators					# Enables experimental support for ES decorators
+	--extendedDiagnostics					# Show verbose diagnostic information
+	--forceConsistentCasingInFileNames					# Disallow inconsistently-cased references to the same file
+	--help(-h)					# Print help message
+	--importHelpers					# Import emit helpers (e.g. __extends, __rest, etc..) from tslib
+	--incremental					# Enable incremental compilation by reading/writing information from prior compilations to a file on disk
+	--inlineSourceMap					# Emit a single file with source maps instead of having a separate file
+	--inlineSources					# Emit the source alongside the sourcemaps within a single file
+	--init					# Initializes a TypeScript project and creates a tsconfig.json file
+	--isolatedModules					# Transpile each file as a separate module (similar to “ts.transpileModule”)
+	--jsx					# Support JSX in .tsx files: \"react\", \"preserve\", \"react-native\
+	--jsxFactory					# Specify the JSX factory function to use when targeting react JSX emit, e.g. React.createElement or h
+	--keyofStringsOnly					# Resolve keyof to string valued property names only (no numbers or symbols)
+	--listEmittedFiles					# Print names of generated files part of the compilation
+	--listFiles					# Print names of files part of the compilation
+	--mapRoot					# Specifies the location where debugger should locate map files instead of generated locations
+	--maxNodeModuleJsDepth					# The maximum dependency depth to search under node_modules and load JavaScript files
+	--noEmit					# Do not emit outputs
+	--noEmitHelpers					# Do not generate custom helper functions like __extends in compiled output
+	--noEmitOnError					# Do not emit outputs if any errors were reported
+	--noErrorTruncation					# Do not truncate error messages
+	--noFallthroughCasesInSwitch					# Report errors for fallthrough cases in switch statement
+	--noImplicitAny					# Raise error on expressions and declarations with an implied any type
+	--noImplicitReturns					# Report an error when not all code paths in function return a value
+	--noImplicitThis					# Raise error on this expressions with an implied any type
+	--noLib					# Do not include the default library file (lib.d.ts)
+	--noResolve					# Do not add triple-slash references or module import targets to the list of compiled files
+	--noStrictGenericChecks					# Disable strict checking of generic signatures in function types
+	--noUnusedLocals					# Report errors on unused locals
+	--noUnusedParameters					# Report errors on unused parameters
+	--outDir					# Redirect output structure to the directory
+	--outFile					# Concatenate and emit output to single file
+	--preserveConstEnums					# Do not erase const enum declarations in generated code
+	--preserveSymlinks					# Do not resolve symlinks to their real path; treat a symlinked file like a real one
+	--preserveWatchOutput					# Keep outdated console output in watch mode instead of clearing the screen
+	--pretty					# Stylize errors and messages using color and context
+	--project(-p)					# Compile a project given a valid configuration file
+	--removeComments					# Remove all comments except copy-right header comments beginning with /*!
+	--resolveJsonModule					# Include modules imported with .json extension
+	--rootDir					# Specifies the root directory of input files
+	--showConfig					# Rather than actually execute a build with the other input options and config files, show the final implied config file in the output
+	--skipLibCheck					# Skip type checking of all declaration files (*.d.ts)
+	--sourceMap					# Generates corresponding .map file
+	--sourceRoot					# Specifies the location where debugger should locate TypeScript files instead of source locations
+	--strict					# Enable all strict type checking options
+	--strictBindCallApply					# Enable stricter checking of the bind, call, and apply methods on functions
+	--strictFunctionTypes					# Disable bivariant parameter checking for function types
+	--strictPropertyInitialization					# Ensure non-undefined class properties are initialized in the constructor
+	--strictNullChecks					# In strict null checking mode, the null and undefined values are not in the domain of every type and are only assignable to themselves and any (the one exception being that undefined is also assignable to void)
+	--suppressExcessPropertyErrors					# Suppress excess property checks for object literals
+	--suppressImplicitAnyIndexErrors					# Suppress --noImplicitAny errors for indexing objects lacking index signatures
+	--traceResolution					# Report module resolution log messages
+	--tsBuildInfoFile					# Specify what file to store incremental build information in
+	--types					# List of names of type definitions to include
+	--typeRoots					# List of folders to include type definitions from
+	--version(-v)					# Print the compiler’s version
+	--watch(-w)					# Run the compiler in watch mode
+	...args
+]

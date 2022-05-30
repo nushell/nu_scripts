@@ -1,0 +1,4 @@
+extern "colordiff" [
+
+	...args
+]
