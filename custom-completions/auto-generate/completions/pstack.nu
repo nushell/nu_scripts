@@ -1,0 +1,4 @@
+extern "pstack" [
+
+	...args
+]

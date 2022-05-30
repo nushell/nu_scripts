@@ -1,0 +1,5 @@
+# 
+extern "xdg-mime" [
+
+	...args
+]

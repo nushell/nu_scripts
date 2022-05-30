@@ -1,0 +1,90 @@
+# Override device autodetection of dm device to be reencrypted
+extern "cryptsetup" [
+	--active-name					# Override device autodetection of dm device to be reencrypted
+	--align-payload					# Align payload at <n> sector boundaries - for luksFormat
+	--allow-discards					# Allow discards (aka TRIM) requests for device
+	--batch-mode(-q)					# Do not ask for confirmation
+	--cipher(-c)					# The cipher used to encrypt the disk (see /proc/crypto)
+	--debug					# Show debug messages
+	--debug-json					# Show debug messages including JSON metadata
+	--decrypt					# Decrypt LUKS2 device (remove encryption)
+	--deferred					# Device removal is deferred until the last user closes it
+	--device-size					# Use only specified device size (ignore rest of device) DANGEROUS!
+	--disable-keyring					# Disable loading volume keys via kernel keyring
+	--disable-locks					# Disable locking of on-disk metadata
+	--dump-master-key					# Dump volume (master) key instead of keyslots info
+	--encrypt					# Encrypt LUKS2 device (in-place encryption)
+	--force-password					# Disable password quality check (if enabled)
+	--hash(-h)					# The hash used to create the encryption key from the passphrase
+	--header					# Device or file with separated LUKS header
+	--header-backup-file					# File with LUKS header and keyslots backup
+	--help(-?)					# Show this help message
+	--hotzone-size					# Maximal reencryption hotzone size
+	--init-only					# Initialize LUKS2 reencryption in metadata only
+	--integrity(-I)					# Data integrity algorithm (LUKS2 only)
+	--integrity-legacy-padding					# Use inefficient legacy padding (old kernels)
+	--integrity-no-journal					# Disable journal for integrity device
+	--integrity-no-wipe					# Do not wipe device after format
+	--iter-time(-i)					# PBKDF iteration time for LUKS (in ms)
+	--iv-large-sectors					# Use IV counted in sector size (not in 512 bytes)
+	--json-file					# Read or write the json from or to a file
+	--key-description					# Key description
+	--key-file(-d)					# Read the key from a file
+	--key-size(-s)					# The size of the encryption key
+	--key-slot(-S)					# Slot number for new key (default is first free)
+	--keyfile-offset					# Number of bytes to skip in keyfile
+	--keyfile-size(-l)					# Limits the read from keyfile
+	--keyslot-cipher					# LUKS2 keyslot: The cipher used for keyslot encryption
+	--keyslot-key-size					# LUKS2 keyslot: The size of the encryption key
+	--label					# Set label for the LUKS2 device
+	--luks2-keyslots-size					# LUKS2 header keyslots area size
+	--luks2-metadata-size					# LUKS2 header metadata area size
+	--master-key-file					# Read the volume (master) key from file
+	--new-keyfile-offset					# Number of bytes to skip in newly added keyfile
+	--new-keyfile-size					# Limits the read from newly added keyfile
+	--offset(-o)					# The start offset in the backend device
+	--pbkdf					# PBKDF algorithm (for LUKS2): argon2i, argon2id, pbkdf2
+	--pbkdf-force-iterations					# PBKDF iterations cost (forced, disables benchmark)
+	--pbkdf-memory					# PBKDF memory cost limit
+	--pbkdf-parallel					# PBKDF parallel cost
+	--perf-no_read_workqueue					# Bypass dm-crypt workqueue and process read requests synchronously
+	--perf-no_write_workqueue					# Bypass dm-crypt workqueue and process write requests synchronously
+	--perf-same_cpu_crypt					# Use dm-crypt same_cpu_crypt performance compatibility option
+	--perf-submit_from_crypt_cpus					# Use dm-crypt submit_from_crypt_cpus performance compatibility option
+	--persistent					# Set activation flags persistent for device
+	--priority					# Keyslot priority: ignore, normal, prefer
+	--progress-frequency					# Progress line update (in seconds)
+	--readonly(-r)					# Create a readonly mapping
+	--reduce-device-size					# Reduce data device size (move data offset) DANGEROUS!
+	--refresh					# Refresh (reactivate) device with new parameters
+	--resilience					# Reencryption hotzone resilience type (checksum,journal,none)
+	--resilience-hash					# Reencryption hotzone checksums hash
+	--resume-only					# Resume initialized LUKS2 reencryption only
+	--sector-size					# Encryption sector size (default: 512 bytes)
+	--serialize-memory-hard-pbkdf					# Use global lock to serialize memory hard PBKDF (OOM workaround)
+	--shared					# Share device with another non-overlapping crypt segment
+	--size(-b)					# The size of the device
+	--skip(-p)					# How many sectors of the encrypted data to skip at the beginning
+	--subsystem					# Set subsystem label for the LUKS2 device
+	--tcrypt-backup					# Use backup (secondary) TCRYPT header
+	--tcrypt-hidden					# Use hidden header (hidden TCRYPT device)
+	--tcrypt-system					# Device is system TCRYPT drive (with bootloader)
+	--test-passphrase					# Do not activate device, just check passphrase
+	--timeout(-t)					# Timeout for interactive passphrase prompt (in seconds)
+	--token-id					# Token number (default: any)
+	--token-only					# Do not ask for passphrase if activation by token fails
+	--tries(-T)					# How often the input of the passphrase can be retried
+	--type(-M)					# Type of device metadata: luks, luks1, luks2, plain, loopaes, tcrypt, bitlk
+	--unbound					# Create or dump unbound (no assigned data segment) LUKS2 keyslot
+	--usage					# Display brief usage
+	--use-random					# Use /dev/random for generating volume key
+	--use-urandom					# Use /dev/urandom for generating volume key
+	--uuid					# UUID for device to use
+	--veracrypt					# Scan also for VeraCrypt compatible device
+	--veracrypt-pim					# Personal Iteration Multiplier for VeraCrypt compatible device
+	--veracrypt-query-pim					# Query Personal Iteration Multiplier for VeraCrypt compatible device
+	--verbose(-v)					# Shows more detailed error messages
+	--verify-passphrase(-y)					# Verifies the passphrase by asking for it twice
+	--version(-V)					# Print package version
+	...args
+]

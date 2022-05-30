@@ -1,0 +1,44 @@
+# Show help
+extern "monodis" [
+	--help(-h)					# Show help
+	--mscorlib					# Use mscorlib as the assembly name for non-corlib assemblies
+	--show-method-tokens					# Show tokens for disassembled methods
+	--show-tokens					# Show tokens for strings, types, methods, fields, ...
+	--assembly					# Include Assembly table contents
+	--assemblyref					# Include AssemblyRef table contents
+	--classlayout					# Include ClassLayout table contents
+	--constant					# Include Constant table contents
+	--customattr					# Include CustomAttribute table contents
+	--declsec					# Include DeclSec table contents
+	--event					# Include Event table contents
+	--exported					# Include ExportedType table contents
+	--fields					# Include Field table contents
+	--file					# Include File table contents
+	--forward-decls					# Include forward declarations for classes
+	--genericpar					# Include GenericParam table contents
+	--implmap					# Include ImplMap table contents
+	--interface					# Include InterfaceImpl table contents
+	--manifest					# Include ManifestResource table contents
+	--marshal					# Include FieldMarshal table contents
+	--numberref					# Include MemberRef table contents
+	--method					# Include MethodRef table contents
+	--methodimpl					# Include MethodImpl table contents
+	--methodspec					# Include MethodSpec table contents
+	--methodsem					# Include MethodSemantics table contents
+	--module					# Include Module table contents
+	--moduleref					# Include ModuleRef table contents
+	--mresources					# Save all the managed resources embedded in the assembly into the current directory
+	--presources					# Show offsets and names of manifest resources embedded in the assembly
+	--nested					# Include NestedClass table contents
+	--param					# Include Param table contents
+	--parconst					# Include GenericParameterConstraint table contents
+	--property					# Include Property table contents
+	--propertymap					# Include PropertyMap table contents
+	--standalonesig					# Include StandAloneSig table contents
+	--typedef					# Include TypeDef table contents
+	--typespec					# Include TypeRef table contents
+	--blob					# Use hex for entire contents of the blob stream
+	--strings					# Include Strings table contents
+	--userstrings					# Include User-Strings heap contents
+	...args
+]

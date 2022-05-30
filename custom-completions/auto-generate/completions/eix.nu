@@ -1,0 +1,43 @@
+# Show a help screen and exit
+extern "eix" [
+	--help(-h)					# Show a help screen and exit
+	--version(-V)					# Show version and exit
+	--dump					# Dump variables to stdout
+	--dump-defaults					# Dump default values of variables to stdout
+	--test-non-matching(-t)					# Print non-matching entries first
+	--quick(-Q)					# Don't read unguessable slots of installed packages (toggle)
+	--care					# Always read slots of installed packages
+	--quiet(-q)					# (no) output (toggle)
+	--nocolor(-n)					# Don't use ANSI color codes
+	--force-color(-F)					# Force colorful output
+	--compact(-c)					# Compact search results (toggle)
+	--verbose(-v)					# Verbose search results (toggle)
+	--versionsort(-x)					# Sort output by slots/versions (toggle)
+	--versionlines(-l)					# Print available versions line-by-line (toggle)
+	--format					# Format string for normal output
+	--format-compact					# Format string for compact output
+	--format-verbose					# Format string for verbose output
+	--installed(-I)					# Next expression only matches installed packages
+	--multi-installed(-i)					# Match packages installed in several versions
+	--dup-packages(-d)					# Match duplicated packages
+	--dup-versions(-D)					# Match packages with duplicated versions
+	--slotted(-1)					# Match packages with a nontrivial slot
+	--slots(-2)					# Match packages with two different slots
+	--update(-u)					# Match packages without best slotted version
+	--overlay(-o)					# Match packages from overlays
+	--test-obsolete(-T)					# Match packages with obsolete entries
+	--not(-!)					# Invert the expression (toggle)
+	--pipe(-|)					# Use input from pipe of emerge -pv
+	--description(-S)					# Search the description field
+	--category-name(-A)					# Search the category and name fields
+	--category(-C)					# Search the category field
+	--name(-s)					# Search the name field (default)
+	--homepage(-H)					# Search the homepage field
+	--license(-L)					# Search the license field
+	--provides(-P)					# Search the provides field
+	--regex(-r)					# Pattern is a regexp (default)
+	--exact(-e)					# Pattern is the exact string
+	--pattern(-p)					# Pattern is a wildcards-pattern
+	--fuzzy(-f)					# Use fuzzy-search with the given max. levenshtein-distance (default: 2)
+	...args
+]

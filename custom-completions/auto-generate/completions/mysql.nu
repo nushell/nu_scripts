@@ -1,0 +1,117 @@
+# Display a help message
+extern "mysql" [
+	--help(-\?)					# Display a help message
+	--abort-source-on-error					# Abort source filename operations in case of errors
+	--auto-rehash					# Enable automatic rehashing
+	--auto-vertical-output					# Automatically switch to vertical output
+	--batch(-B)					# Batch mode results
+	--binary-mode					# Binary input mode
+	--column-names					# Write column names in results
+	--column-type-info(-m)					# Display result set metadata
+	--comments(-c)					# Preserve comments in statements
+	--skip-comments					# Discard comments in statements
+	--compress(-C)					# Compress all information
+	--debug(-\#)					# Write a debugging log
+	--debug-check					# Print some debugging information
+	--debug-info(-T)					# Prints debugging information and memory and CPU usage
+	--disable-named-commands					# Disable named commands
+	--force(-f)					# Continue even if an SQL error occurs
+	--html(-H)					# Produce HTML output
+	--ignore-spaces(-i)					# Ignore spaces after function names
+	--line-numbers					# Write line numbers for errors
+	--local-infile					# Enable or disable LOCAL capability for LOAD DATA INFILE
+	--named-commands(-G)					# Enable named mysql commands
+	--skip-named-commands					# Disable named commands
+	--disable-auto-rehash(-A)					# Disable automatic rehashing
+	--no-beep(-b)					# Do not beep when errors occur
+	--no-defaults					# Do not read default options from any option file
+	--one-database(-o)					# Ignore statements for other databases than the chosen one
+	--pager					# Use the given command for paging query output
+	--skip-pager					# Disable paging
+	--password(-p)					# Password to use when connecting (empty for prompt)
+	--pipe(-W)					# Connect to the server via a named pipe
+	--print-defaults					# Print the program argument list
+	--progress-reports					# Get progress reports for long running commands
+	--skip-progress-reports					# Disable progress reports for long running commands
+	--quick(-q)					# Print each row as it is received
+	--raw(-r)					# Disables character escaping
+	--reconnect					# Try to reconnect when connection gets lost
+	--disable-reconnect					# Do not try to reconnect when connection gets lost
+	--i-am-a-dummy(-U)					# Allow only those statements that specify which rows to modify
+	--secure-auth					# Do not send passwords to the server in old format
+	--show-warnings					# Cause warnings to be shown
+	--sigint-ignore					# Ignore SIGINT signals
+	--silent(-s)					# Silent mode
+	--skip-column-names(-N)					# Do not write column names in results
+	--skip-line-numbers(-L)					# Do not write line numbers for errors
+	--ssl					# Enable SSL for connection
+	--skip-ssl					# Disable SSL for connection
+	--ssl-verify-server-cert					# Verify servers "Common Name
+	--table(-t)					# Display output in table format
+	--unbuffered(-n)					# Flush the buffer after each query
+	--verbose(-v)					# Verbose mode
+	--version(-V)					# Display version information
+	--vertical(-E)					# Print query output rows vertically
+	--wait(-w)					# If the connection cannot be established, wait and retry
+	--xml(-X)					# Produce XML output
+	...args
+]
+
+# Enable or disable LOCAL capability for LOAD DATA INFILE
+extern "mysql 0 1" [
+	--help(-\?)					# Display a help message
+	--abort-source-on-error					# Abort source filename operations in case of errors
+	--auto-rehash					# Enable automatic rehashing
+	--auto-vertical-output					# Automatically switch to vertical output
+	--batch(-B)					# Batch mode results
+	--binary-mode					# Binary input mode
+	--column-names					# Write column names in results
+	--column-type-info(-m)					# Display result set metadata
+	--comments(-c)					# Preserve comments in statements
+	--skip-comments					# Discard comments in statements
+	--compress(-C)					# Compress all information
+	--debug(-\#)					# Write a debugging log
+	--debug-check					# Print some debugging information
+	--debug-info(-T)					# Prints debugging information and memory and CPU usage
+	--disable-named-commands					# Disable named commands
+	--force(-f)					# Continue even if an SQL error occurs
+	--html(-H)					# Produce HTML output
+	--ignore-spaces(-i)					# Ignore spaces after function names
+	--line-numbers					# Write line numbers for errors
+	--local-infile					# Enable or disable LOCAL capability for LOAD DATA INFILE
+	--named-commands(-G)					# Enable named mysql commands
+	--skip-named-commands					# Disable named commands
+	--disable-auto-rehash(-A)					# Disable automatic rehashing
+	--no-beep(-b)					# Do not beep when errors occur
+	--no-defaults					# Do not read default options from any option file
+	--one-database(-o)					# Ignore statements for other databases than the chosen one
+	--pager					# Use the given command for paging query output
+	--skip-pager					# Disable paging
+	--password(-p)					# Password to use when connecting (empty for prompt)
+	--pipe(-W)					# Connect to the server via a named pipe
+	--print-defaults					# Print the program argument list
+	--progress-reports					# Get progress reports for long running commands
+	--skip-progress-reports					# Disable progress reports for long running commands
+	--quick(-q)					# Print each row as it is received
+	--raw(-r)					# Disables character escaping
+	--reconnect					# Try to reconnect when connection gets lost
+	--disable-reconnect					# Do not try to reconnect when connection gets lost
+	--i-am-a-dummy(-U)					# Allow only those statements that specify which rows to modify
+	--secure-auth					# Do not send passwords to the server in old format
+	--show-warnings					# Cause warnings to be shown
+	--sigint-ignore					# Ignore SIGINT signals
+	--silent(-s)					# Silent mode
+	--skip-column-names(-N)					# Do not write column names in results
+	--skip-line-numbers(-L)					# Do not write line numbers for errors
+	--ssl					# Enable SSL for connection
+	--skip-ssl					# Disable SSL for connection
+	--ssl-verify-server-cert					# Verify servers "Common Name
+	--table(-t)					# Display output in table format
+	--unbuffered(-n)					# Flush the buffer after each query
+	--verbose(-v)					# Verbose mode
+	--version(-V)					# Display version information
+	--vertical(-E)					# Print query output rows vertically
+	--wait(-w)					# If the connection cannot be established, wait and retry
+	--xml(-X)					# Produce XML output
+	...args
+]

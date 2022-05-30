@@ -1,0 +1,54 @@
+# 
+extern "ethtool" [
+	--help(-h)					# Shows help message
+	--version					# Shows ethtool version
+	--json					# Output results in JSON
+	--include-statistics(-I)					# Include statistics in output
+	--show-pause(-a)					# Shows pause parameters
+	--pause(-A)					# Changes pause parameters
+	--show-coalesce(-c)					# Shows coalescing information
+	--coalesce(-C)					# Changes coalescing settings
+	--show-ring(-g)					# Shows rx/tx ring parameters
+	--set-ring(-G)					# Changes rx/tx ring parameters
+	--driver(-i)					# Shows associated driver information
+	--register-dump(-d)					# Prints a register dump
+	--eeprom-dump(-e)					# Prints an EEPROM dump
+	--change-eeprom(-E)					# Changes EEPROM byte
+	--show-offload(-k)					# Shows state of protocol offload and features
+	--offload(-K)					# Changes offload parameters and features
+	--identify(-p)					# Initiate identify action (blinking)
+	--show-permaddr(-P)					# Shows permanent hardware address
+	--negotiate(-r)					# Restarts auto-negotiation
+	--statistics(-S)					# Shows statistics
+	--phy-statistics					# Shows PHY specific statistics
+	--test(-t)					# Executes adapter selftest
+	--change(-s)					# Changes settings
+	--show-ntuple(-u)					# Shows rx flow classification options or rules
+	--config-ntuple(-U)					# Sets rx flow classification options or rules
+	--get-dump(-w)					# Prints firmware dump
+	--set-dump(-W)					# Sets dump flag
+	--show-time-stamping(-T)					# Show time stamping capabilities and PTP hardware clock
+	--show-rxfh(-x)					# Shows rx flow hash indirection table / RSS hash key
+	--rxfh(-X)					# Configures rx flow hash indirection table / RSS hash key
+	--flash(-f)					# Write a firmware image
+	--show-channels(-l)					# Shows numbers of channels
+	--set-channels(-L)					# Changes the numbers of channels
+	--module-info(-m)					# Shows EEPROM from plugin modules
+	--show-priv-flags					# Shows private flags
+	--set-priv-flags					# Sets private flags
+	--show-eee					# Shows support of Energy-Efficient Ethernet
+	--set-eee					# Sets EEE behaviour
+	--set-phy-tunable					# Sets PHY tunable parameters
+	--get-phy-tunable					# Gets PHY tunable parameters
+	--get-tunable					# Get tunable parameters
+	--set-tunable					# Set tunable parameters
+	--reset					# Reset hardware components
+	--show-fec					# Shows support of Forward Error Correction
+	--set-fec					# Configures Forward Error Correction
+	--per-queue(-Q)					# Applies provided sub command to specific queues
+	--cable-test					# Perform a cable test and report results
+	--cable-test-tdr					# Perform a cable test and report raw Time Domain Reflectometer data
+	--monitor					# Listens to netlink notification and displays them
+	--show-tunnels					# Show tunnel-related capabilities and state
+	...args
+]

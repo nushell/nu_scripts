@@ -1,0 +1,51 @@
+# print usage summary
+extern "john" [
+	--help					# print usage summary
+	--single					# single crack mode
+	--single-retest-guess					# enable SingleRetestGuess
+	--no-single-retest-guess					# disable SingleRetestGuess
+	--no-single-pair					# disable single word pair generation
+	--stdin					# read wordlist from stdin
+	--pipe					# read wordlist from stdin but with bulk reads and allows rules
+	--dupe-suppression					# suppress all dupes in wordlist
+	--prince-wl-dist-len					# calculate length distribution from wordlist
+	--prince-case-permute					# permute case of first letter
+	--prince-mmap					# memory-map infile
+	--prince-keyspace					# just show total keyspace that would be produced
+	--input-encoding					# input encoding
+	--rules					# enable word mangling rules
+	--rules-stack					# stacked rules
+	--rules-skip-nop					# skip any NOP rules
+	--incremental					# incremental mode
+	--mask					# mask mode
+	--markov					# Markov mode
+	--external					# external mode or word filter
+	--subsets					# subsets mode
+	--stdout					# just output candidate passwords
+	--restore					# restore an interrupted session
+	--status					# print status of a session
+	--reject-printable					# reject printable binaries
+	--show					# show cracked passwords
+	--test					# run tests and benchmarks for TIME seconds each
+	--stress-test					# loop self tests forever
+	--no-mask					# used with --test for alternate benchmark w/o mask
+	--skip-self-tests					# skip self tests
+	--save-memory					# enable memory saving
+	--subformat					# pick a benchmark format for --format=crypt
+	--log-stderr					# log to screen instead of file
+	--no-loader-dupecheck					# disable the dupe checking when loading hashes
+	--verbosity					# change verbosity
+	--no-log					# disables creation and writing to john.log file
+	--bare-always-valid					# treat bare hashes as valid
+	--crack-status					# emit a status line whenever a password is cracked
+	--no-crack-status					# don't emit a status line whenever a password is cracked
+	--keep-guessing					# try finding plaintext collisions
+	--no-keep-guessing					# don't try finding plaintext collisions
+	--list					# list capabilities
+	--internal-codepage					# codepage used in rules/masks
+	--target-encoding					# output encoding
+	--tune					# tuning options
+	--force-tty					# set up terminal for reading keystrokes
+	--format					# force hash type
+	...args
+]

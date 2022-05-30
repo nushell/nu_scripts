@@ -1,0 +1,455 @@
+# (HTTP) Connect through an abstract Unix domain socket
+extern "curl" [
+	--abstract-unix-socket					# (HTTP) Connect through an abstract Unix domain socket
+	--anyauth					# (HTTP) Use most secure authentication method automatically
+	--append(-a)					# (FTP SFTP) Upload: append to the target file
+	--basic					# (HTTP) Use HTTP Basic authentication
+	--cacert					# (TLS) Use the specified certificate file
+	--capath					# (TLS) Use the specified certificate directory
+	--cert-status					# (TLS) Use Certificate Status Request (aka OCSP stapling)
+	--cert-type					# (TLS) Set type of the provided client certificate
+	--cert(-E)					# (TLS) Use this cert
+	--ciphers					# (TLS) Specifies which ciphers to use
+	--compressed-ssh					# (SCP SFTP) Enables built-in SSH compression
+	--compressed					# (HTTP) Request a compressed response
+	--config(-K)					# Specify a text file to read curl arguments from
+	--connect-timeout					# Maximum time in seconds you allow connection to take
+	--connect-to					# For a request to the given HOST1:PORT1 pair, connect to HOST2:PORT2 instead
+	--continue-at(-C)					# Continue/Resume a previous file transfer at the given offset
+	--cookie-jar(-c)					# (HTTP) Write all cookies to this file
+	--cookie(-b)					# (HTTP) Pass the data to the HTTP server in the Cookie header
+	--create-dirs					# Create dirs for -o/--output
+	--crlf					# (FTP SMTP) Convert LF to CRLF in upload.  Useful for MVS (OS/390)
+	--crlfile					# (TLS) Provide a file using PEM format with a Certificate Revocation List
+	--data-ascii					# (HTTP) Alias for -d, --data
+	--data-binary					# (HTTP) Post data exactly as specified with no processing
+	--data-raw					# (HTTP) Post data like --data but without interpeting "@
+	--data-urlencode					# (HTTP) Post data URL-encoded
+	--data(-d)					# (HTTP) Sends the specified data in a POST request to the HTTP server
+	--delegation					# (GSS/kerberos) Tell the server how much it can delegate for user creds
+	--digest					# (HTTP) Enables HTTP Digest authentication
+	--disable-eprt					# (FTP) Dont use EPRT and LPRT commands in active FTP
+	--disable-epsv					# (FTP) Dont use EPSV in passive FTP
+	--disable(-q)					# Disable curlrc
+	--disallow-username-in-url					# (HTTP) Exit if passed a url containing a username
+	--dns-interface					# (DNS) Send outgoing DNS requests through <interface>
+	--dns-ipv4-addr					# (DNS) Bind to <ip-address> when making IPv4 DNS requests
+	--dns-ipv6-addr					# (DNS) Bind to <ip-address> when making IPv6 DNS requests
+	--dns-servers					# Set the list of DNS servers to use
+	--doh-url					# (all) Specify which DNS-over-HTTPS (DOH) server to use to resolve hostnames
+	--dump-header(-D)					# (HTTP FTP) Write the received protocol headers to the specified file
+	--egd-file					# (TLS) Specify the path name to the Entropy Gathering Daemon socket
+	--engine					# (TLS) Select the OpenSSL crypto engine to use for cipher operations
+	--expect100-timeout					# (HTTP) Maximum time in seconds to wait for a 100-continue
+	--fail-early					# Fail and exit on the first detected transfer error
+	--fail(-f)					# (HTTP) Fail silently (no output at all) on server errors
+	--false-start					# (TLS) Use false start during the TLS handshake
+	--form-string					# (HTTP SMTP IMAP) Like --form except using value string literally
+	--form(-F)					# (HTTP SMTP IMAP) Emulate pressing submit on filled-in form
+	--ftp-account					# (FTP) Data for the ACCT command
+	--ftp-alternative-to-user					# (FTP) If USER and PASS commands fail, send this command
+	--ftp-create-dirs					# (FTP SFTP) Create missing dirs with ftp
+	--ftp-method					# (FTP) Control what method curl should use to reach a file on an FTP(S) server
+	--ftp-pasv					# (FTP) Use passive mode for the data connection
+	--ftp-port(-P)					# (FTP) Reverses the default initiator/listener roles when connecting with FTP
+	--ftp-pret					# (FTP) Tell curl to send a PRET command before PASV (and EPSV)
+	--ftp-skip-pasv-ip					# (FTP) Use same IP instead of IP the server suggests in response to PASV
+	--ftp-ssl-ccc-mode					# (FTP) Sets the CCC mode
+	--ftp-ssl-ccc					# (FTP) Use CCC (Clear Command Channel) Shuts down the SSL/TLS layer after auth
+	--ftp-ssl-control					# (FTP) Require SSL/TLS for the FTP login, clear for transfer
+	--get(-G)					# Use GET instead of POST
+	--globoff(-g)					# This option switches off the "URL globbing parser
+	--happy-eyeballs-timeout-ms					# Attempt to connect to both IPv4 and IPv6 in parallel
+	--haproxy-protocol					# (HTTP) Use HAProxy PROXY protocol
+	--head(-I)					# (HTTP FTP FILE) Fetch the headers only
+	--header(-H)					# (HTTP) Extra header to include in the request when sending HTTP to a server
+	--help(-h)					# Usage help
+	--hostpubmd5					# (SFTP SCP) Pass a string containing 32 hexadecimal digits
+	--http0.9					# (HTTP) Accept HTTP version 0.9 response
+	--http1.0(-0)					# (HTTP) Use HTTP version 1
+	--http1.1					# (HTTP) Use HTTP version 1.1
+	--http2-prior-knowledge					# (HTTP) Use HTTP/2 immediately (without trying HTTP1)
+	--http2					# (HTTP) Use HTTP version 2
+	--ignore-content-length					# (FTP HTTP) Ignore the Content-Length header
+	--include(-i)					# Include the HTTP response headers in the output
+	--insecure(-k)					# (TLS)  Allow insecure connections
+	--interface					# Perform an operation using a specified interface
+	--ipv4(-4)					# Use IPv4 only
+	--ipv6(-6)					# Use IPv6 only
+	--junk-session-cookies(-j)					# (HTTP) Discard all session cookies
+	--keepalive-time					# Specify idle time before keepalive is sent
+	--key-type					# (TLS) Private key file type
+	--key					# (TLS SSH) Private key file name
+	--krb					# (FTP) Enable Kerberos authentication and use
+	--libcurl					# Write C-code equivalent to the invocation to the given file
+	--limit-rate					# Limit bandwidth (Examples: 200K, 3m and 1G)
+	--list-only(-l)					# (FTP POP3) (FTP) Use name-only view when listing
+	--local-port					# Set a preferred single number or range (FROM-TO) of local ports to use
+	--location-trusted					# (HTTP) Like -L, --location, but allow sending the name + password
+	--location(-L)					# (HTTP) Follow redirects
+	--login-options					# (IMAP POP3 SMTP) Specify the login options
+	--mail-auth					# (SMTP) Specify a single address
+	--mail-from					# (SMTP) Specify a single address that the given mail should get sent from
+	--mail-rcpt					# (SMTP) Specify a single address, user name or mailing list name
+	--manual(-M)					# Manual.  Display the huge help text
+	--max-filesize					# Specify the maximum size (in bytes) of a file to download
+	--max-redirs					# (HTTP) Set maximum number of redirection-followings allowed
+	--max-time(-m)					# Maximum time in seconds that you allow the whole operation to take
+	--metalink					# Process URI as Metalink file
+	--negotiate					# (HTTP) Enables Negotiate (SPNEGO) authentication
+	--netrc-file					# Use this netrc file
+	--netrc-optional					# Make netrc optional
+	--netrc(-n)					# Use ~/.netrc
+	--next					# Use a separate operation for the following URL
+	--no-alpn					# (HTTPS) Disable the ALPN TLS extension
+	--no-buffer(-N)					# Disable the buffering of the output stream
+	--no-keepalive					# Disable use of keepalive messages on the TCP connection
+	--no-npn					# (HTTPS) Disable NPN TLS extension
+	--no-sessionid					# (TLS) Disable use of SSL session-ID caching
+	--noproxy					# Comma-separated list of hosts which do not use a proxy
+	--ntlm-wb					# (HTTP) Enable NTLM, but hand over auth to separate ntlmauth binary
+	--ntlm					# (HTTP) Enable NTLM authentication
+	--oauth2-bearer					# (IMAP POP3 SMTP) Specify the Bearer Token for OAUTH 2
+	--output(-o)					# Write output to <file> instead of stdout
+	--pass					# (SSH TLS) Passphrase for the private key
+	--path-as-is					# Do not handle sequences of /../ or /./ in the given URL path
+	--pinnedpubkey					# (TLS) Use the specified public key file (or hashes)
+	--post301					# (HTTP) Respect RFC 7231/6.4
+	--post302					# (HTTP) Respect RFC 7231/6.4
+	--post303					# (HTTP) Violate RFC 7231/6.4
+	--preproxy					# Use the specified SOCKS proxy before connecting to HTTP(S) proxy
+	--progress-bar(-#)					# Display progress as a simple progress bar
+	--proto-default					# Use this protocol for any URL missing a scheme name
+	--proto-redir					# Limit what protocols it may use on redirect
+	--proto					# Limit what protocols it may use in the transfer
+	--proxy-anyauth					# Like --anyauth but for the proxy
+	--proxy-basic					# Use HTTP Basic authentication to communicate with proxy
+	--proxy-cacert					# Same as --cacert but used in HTTPS proxy context
+	--proxy-capath					# Same as --capath but used in HTTPS proxy context
+	--proxy-cert-type					# Same as --cert-type but used in HTTPS proxy context
+	--proxy-cert					# Same as -E, --cert but used in HTTPS proxy context
+	--proxy-ciphers					# Same as --ciphers but used in HTTPS proxy context
+	--proxy-crlfile					# Same as --crlfile but used in HTTPS proxy context
+	--proxy-digest					# Use HTTP Digest authentication to communicate with proxy
+	--proxy-header					# (HTTP) Extra header to include in the request when sending HTTP to a proxy
+	--proxy-insecure					# Same as -k, --insecure but used in HTTPS proxy context
+	--proxy-key-type					# Same as --key-type but used in HTTPS proxy context
+	--proxy-key					# Same as --key but used in HTTPS proxy context
+	--proxy-negotiate					# Use HTTP Negotiate authentication to communicate with proxy
+	--proxy-ntlm					# Use HTTP NTLM authentication when to communicate with proxy
+	--proxy-pass					# Same as --pass but used in HTTPS proxy context
+	--proxy-pinnedpubkey					# (TLS) Use specified public key file or hashes to verify proxy
+	--proxy-service-name					# This option allows you to change the service name for proxy negotiation
+	--proxy-ssl-allow-beast					# Same as --ssl-allow-beast but used in HTTPS proxy context
+	--proxy-tls13-ciphers					# (TLS) Specify cipher suites for TLS 1.3 proxy connection
+	--proxy-tlsauthtype					# Same as --tlsauthtype but used in HTTPS proxy context
+	--proxy-tlspassword					# Same as --tlspassword but used in HTTPS proxy context
+	--proxy-tlsuser					# Same as --tlsuser but used in HTTPS proxy context
+	--proxy-tlsv1					# Same as -1, --tlsv1 but used in HTTPS proxy context
+	--proxy-user(-U)					# Specify the user name and password to use for proxy authentication
+	--proxy(-x)					# Use the specified proxy
+	--proxy1.0					# Use the specified HTTP 1.0 proxy
+	--proxytunnel(-p)					# If HTTP proxy is used, make curl tunnel through it
+	--pubkey					# (SFTP SCP) Public key file name
+	--quote(-Q)					# (FTP SFTP)  Send an arbitrary command to the remote FTP or SFTP server
+	--random-file					# Specify file containing random data
+	--range(-r)					# (HTTP FTP SFTP FILE) Retrieve a byte range
+	--raw					# (HTTP) Pass raw data (no HTTP decoding or transfer encoding)
+	--referer(-e)					# (HTTP) Sends the "Referrer Page" information to the HTTP server
+	--remote-header-name(-J)					# (HTTP) Save output to filename from Content-Disposition
+	--remote-name-all					# For every URL write output to local file by default
+	--remote-name(-O)					# Write output to a local file named like the remote file we get
+	--remote-time(-R)					# Use timestamp of remote file on output
+	--request-target					# (HTTP) Use an alternative request target
+	--request(-X)					# (HTTP) Specifies a custom HTTP method
+	--resolve					# Provide a custom address for a specific host and port pair
+	--retry-connrefused					# Consider ECONNREFUSED a transient error
+	--retry-delay					# Time to wait between transfer retries
+	--retry-max-time					# The retry timer is reset before the first transfer attempt
+	--retry					# Number of retries when transient error occurs
+	--sasl-ir					# Enable initial response in SASL authentication
+	--service-name					# This option allows you to change the service name for SPNEGO
+	--show-error(-S)					# When used with -s, --silent, it makes curl show an error message if it fails
+	--silent(-s)					# Silent or quiet mode.  Dont show progress meter or error messages
+	--socks4					# Use the specified SOCKS4 proxy
+	--socks4a					# Use the specified SOCKS4a proxy
+	--socks5-basic					# Use username/password authentication to connect to SOCKS5 proxy
+	--socks5-gssapi-nec					# As part of the GSS-API negotiation a protection mode is negotiated
+	--socks5-gssapi-service					# The default service name for a socks server is rcmd/server-fqdn
+	--socks5-gssapi					# Tells curl to use GSS-API authentication when connecting to a SOCKS5 proxy
+	--socks5-hostname					# Use the specified SOCKS5 proxy (and let the proxy resolve the host name)
+	--socks5					# Use the specified SOCKS5 proxy - but resolve the host name locally
+	--speed-limit(-Y)					# Abort download if its slower than given speed (Bps) for speed-time
+	--speed-time(-y)					# Abort download if its slower than speed for given speed-time (s)
+	--ssl-allow-beast					# Dont work around BEAST security flaw in SSL3 and TLS1.0
+	--ssl-no-revoke					# (Schannel) This option tells curl to disable certificate revocation checks
+	--ssl-reqd					# (FTP IMAP POP3 SMTP) Require SSL/TLS for the connection
+	--ssl					# (FTP IMAP POP3 SMTP)  Try to use SSL/TLS for the connection
+	--sslv2(-2)					# (SSL) Use SSL version 2
+	--sslv3(-3)					# (SSL) Use SSL version 3
+	--stderr					# Redirect all writes to stderr to the specified file instead
+	--styled-output					# Use bold font styles when writing HTTP headers to terminal
+	--suppress-connect-headers					# Dont print response headers for CONNECT request if -p is set
+	--tcp-fastopen					# Enable use of TCP Fast Open
+	--tcp-nodelay					# Turn on the TCP_NODELAY option
+	--telnet-option(-t)					# Pass options to the telnet protocol
+	--tftp-blksize					# (TFTP) Set TFTP BLKSIZE option (must be >512)
+	--tftp-no-options					# (TFTP) Tells curl not to send TFTP options requests
+	--time-cond(-z)					# (HTTP FTP) Request file modified before or later than given time
+	--tls-max					# (SSL) VERSION defines maximum supported TLS version
+	--tls13-ciphers					# (TLS) Specifies cipher suites to use for TLS 1.3
+	--tlsauthtype					# Set TLS authentication type
+	--tlspassword					# Set password for use with the TLS authentication method
+	--tlsuser					# Set username for use with the TLS authentication method
+	--tlsv1.0					# (TLS) Forces curl to use TLS version 1.0
+	--tlsv1.1					# (TLS) Forces curl to use TLS version 1.1
+	--tlsv1.2					# (TLS) Forces curl to use TLS version 1.2
+	--tlsv1.3					# (TLS) Forces curl to use TLS version 1.3
+	--tlsv1					# (SSL) Tells curl to use at least TLS version 1
+	--tr-encoding					# (HTTP) Request compressed Transfer-Encoding, uncompress on receive
+	--trace-ascii					# Enables a full trace dump of all incoming and outgoing data
+	--trace-time					# Prepends a time stamp to each trace or verbose line that curl displays
+	--trace					# Enables a full trace dump of all incoming and outgoing data
+	--unix-socket					# (HTTP) Connect through this Unix domain socket, instead of using the network
+	--upload-file(-T)					# This transfers the specified local file to the remote URL
+	--url					# Specify a URL to fetch
+	--use-ascii(-B)					# (FTP LDAP) Enable ASCII transfer
+	--user-agent(-A)					# (HTTP)  Specify the User-Agent string to send to the HTTP server
+	--user(-u)					# Specify the user name and password to use for server authentication
+	--verbose(-v)					# Makes curl verbose during the operation
+	--version(-V)					# Displays information about curl and the libcurl version it uses
+	--write-out(-w)					# Make curl display information on stdout after a completed transfer
+	--no-eprt					# for --disable-eprt
+	--no-epsv					# for --disable-epsv
+	--max-redir					# Set maximum number of redirects
+	--xattr					# Store metadata in xattrs (like origin URL)
+	...args
+]
+
+# (TLS) Set type of the provided client certificate
+extern "curl PEM, DER ENG P12" [
+	--abstract-unix-socket					# (HTTP) Connect through an abstract Unix domain socket
+	--anyauth					# (HTTP) Use most secure authentication method automatically
+	--append(-a)					# (FTP SFTP) Upload: append to the target file
+	--basic					# (HTTP) Use HTTP Basic authentication
+	--cacert					# (TLS) Use the specified certificate file
+	--capath					# (TLS) Use the specified certificate directory
+	--cert-status					# (TLS) Use Certificate Status Request (aka OCSP stapling)
+	--cert-type					# (TLS) Set type of the provided client certificate
+	--cert(-E)					# (TLS) Use this cert
+	--ciphers					# (TLS) Specifies which ciphers to use
+	--compressed-ssh					# (SCP SFTP) Enables built-in SSH compression
+	--compressed					# (HTTP) Request a compressed response
+	--config(-K)					# Specify a text file to read curl arguments from
+	--connect-timeout					# Maximum time in seconds you allow connection to take
+	--connect-to					# For a request to the given HOST1:PORT1 pair, connect to HOST2:PORT2 instead
+	--continue-at(-C)					# Continue/Resume a previous file transfer at the given offset
+	--cookie-jar(-c)					# (HTTP) Write all cookies to this file
+	--cookie(-b)					# (HTTP) Pass the data to the HTTP server in the Cookie header
+	--create-dirs					# Create dirs for -o/--output
+	--crlf					# (FTP SMTP) Convert LF to CRLF in upload.  Useful for MVS (OS/390)
+	--crlfile					# (TLS) Provide a file using PEM format with a Certificate Revocation List
+	--data-ascii					# (HTTP) Alias for -d, --data
+	--data-binary					# (HTTP) Post data exactly as specified with no processing
+	--data-raw					# (HTTP) Post data like --data but without interpeting "@
+	--data-urlencode					# (HTTP) Post data URL-encoded
+	--data(-d)					# (HTTP) Sends the specified data in a POST request to the HTTP server
+	--delegation					# (GSS/kerberos) Tell the server how much it can delegate for user creds
+	--digest					# (HTTP) Enables HTTP Digest authentication
+	--disable-eprt					# (FTP) Dont use EPRT and LPRT commands in active FTP
+	--disable-epsv					# (FTP) Dont use EPSV in passive FTP
+	--disable(-q)					# Disable curlrc
+	--disallow-username-in-url					# (HTTP) Exit if passed a url containing a username
+	--dns-interface					# (DNS) Send outgoing DNS requests through <interface>
+	--dns-ipv4-addr					# (DNS) Bind to <ip-address> when making IPv4 DNS requests
+	--dns-ipv6-addr					# (DNS) Bind to <ip-address> when making IPv6 DNS requests
+	--dns-servers					# Set the list of DNS servers to use
+	--doh-url					# (all) Specify which DNS-over-HTTPS (DOH) server to use to resolve hostnames
+	--dump-header(-D)					# (HTTP FTP) Write the received protocol headers to the specified file
+	--egd-file					# (TLS) Specify the path name to the Entropy Gathering Daemon socket
+	--engine					# (TLS) Select the OpenSSL crypto engine to use for cipher operations
+	--expect100-timeout					# (HTTP) Maximum time in seconds to wait for a 100-continue
+	--fail-early					# Fail and exit on the first detected transfer error
+	--fail(-f)					# (HTTP) Fail silently (no output at all) on server errors
+	--false-start					# (TLS) Use false start during the TLS handshake
+	--form-string					# (HTTP SMTP IMAP) Like --form except using value string literally
+	--form(-F)					# (HTTP SMTP IMAP) Emulate pressing submit on filled-in form
+	--ftp-account					# (FTP) Data for the ACCT command
+	--ftp-alternative-to-user					# (FTP) If USER and PASS commands fail, send this command
+	--ftp-create-dirs					# (FTP SFTP) Create missing dirs with ftp
+	--ftp-method					# (FTP) Control what method curl should use to reach a file on an FTP(S) server
+	--ftp-pasv					# (FTP) Use passive mode for the data connection
+	--ftp-port(-P)					# (FTP) Reverses the default initiator/listener roles when connecting with FTP
+	--ftp-pret					# (FTP) Tell curl to send a PRET command before PASV (and EPSV)
+	--ftp-skip-pasv-ip					# (FTP) Use same IP instead of IP the server suggests in response to PASV
+	--ftp-ssl-ccc-mode					# (FTP) Sets the CCC mode
+	--ftp-ssl-ccc					# (FTP) Use CCC (Clear Command Channel) Shuts down the SSL/TLS layer after auth
+	--ftp-ssl-control					# (FTP) Require SSL/TLS for the FTP login, clear for transfer
+	--get(-G)					# Use GET instead of POST
+	--globoff(-g)					# This option switches off the "URL globbing parser
+	--happy-eyeballs-timeout-ms					# Attempt to connect to both IPv4 and IPv6 in parallel
+	--haproxy-protocol					# (HTTP) Use HAProxy PROXY protocol
+	--head(-I)					# (HTTP FTP FILE) Fetch the headers only
+	--header(-H)					# (HTTP) Extra header to include in the request when sending HTTP to a server
+	--help(-h)					# Usage help
+	--hostpubmd5					# (SFTP SCP) Pass a string containing 32 hexadecimal digits
+	--http0.9					# (HTTP) Accept HTTP version 0.9 response
+	--http1.0(-0)					# (HTTP) Use HTTP version 1
+	--http1.1					# (HTTP) Use HTTP version 1.1
+	--http2-prior-knowledge					# (HTTP) Use HTTP/2 immediately (without trying HTTP1)
+	--http2					# (HTTP) Use HTTP version 2
+	--ignore-content-length					# (FTP HTTP) Ignore the Content-Length header
+	--include(-i)					# Include the HTTP response headers in the output
+	--insecure(-k)					# (TLS)  Allow insecure connections
+	--interface					# Perform an operation using a specified interface
+	--ipv4(-4)					# Use IPv4 only
+	--ipv6(-6)					# Use IPv6 only
+	--junk-session-cookies(-j)					# (HTTP) Discard all session cookies
+	--keepalive-time					# Specify idle time before keepalive is sent
+	--key-type					# (TLS) Private key file type
+	--key					# (TLS SSH) Private key file name
+	--krb					# (FTP) Enable Kerberos authentication and use
+	--libcurl					# Write C-code equivalent to the invocation to the given file
+	--limit-rate					# Limit bandwidth (Examples: 200K, 3m and 1G)
+	--list-only(-l)					# (FTP POP3) (FTP) Use name-only view when listing
+	--local-port					# Set a preferred single number or range (FROM-TO) of local ports to use
+	--location-trusted					# (HTTP) Like -L, --location, but allow sending the name + password
+	--location(-L)					# (HTTP) Follow redirects
+	--login-options					# (IMAP POP3 SMTP) Specify the login options
+	--mail-auth					# (SMTP) Specify a single address
+	--mail-from					# (SMTP) Specify a single address that the given mail should get sent from
+	--mail-rcpt					# (SMTP) Specify a single address, user name or mailing list name
+	--manual(-M)					# Manual.  Display the huge help text
+	--max-filesize					# Specify the maximum size (in bytes) of a file to download
+	--max-redirs					# (HTTP) Set maximum number of redirection-followings allowed
+	--max-time(-m)					# Maximum time in seconds that you allow the whole operation to take
+	--metalink					# Process URI as Metalink file
+	--negotiate					# (HTTP) Enables Negotiate (SPNEGO) authentication
+	--netrc-file					# Use this netrc file
+	--netrc-optional					# Make netrc optional
+	--netrc(-n)					# Use ~/.netrc
+	--next					# Use a separate operation for the following URL
+	--no-alpn					# (HTTPS) Disable the ALPN TLS extension
+	--no-buffer(-N)					# Disable the buffering of the output stream
+	--no-keepalive					# Disable use of keepalive messages on the TCP connection
+	--no-npn					# (HTTPS) Disable NPN TLS extension
+	--no-sessionid					# (TLS) Disable use of SSL session-ID caching
+	--noproxy					# Comma-separated list of hosts which do not use a proxy
+	--ntlm-wb					# (HTTP) Enable NTLM, but hand over auth to separate ntlmauth binary
+	--ntlm					# (HTTP) Enable NTLM authentication
+	--oauth2-bearer					# (IMAP POP3 SMTP) Specify the Bearer Token for OAUTH 2
+	--output(-o)					# Write output to <file> instead of stdout
+	--pass					# (SSH TLS) Passphrase for the private key
+	--path-as-is					# Do not handle sequences of /../ or /./ in the given URL path
+	--pinnedpubkey					# (TLS) Use the specified public key file (or hashes)
+	--post301					# (HTTP) Respect RFC 7231/6.4
+	--post302					# (HTTP) Respect RFC 7231/6.4
+	--post303					# (HTTP) Violate RFC 7231/6.4
+	--preproxy					# Use the specified SOCKS proxy before connecting to HTTP(S) proxy
+	--progress-bar(-#)					# Display progress as a simple progress bar
+	--proto-default					# Use this protocol for any URL missing a scheme name
+	--proto-redir					# Limit what protocols it may use on redirect
+	--proto					# Limit what protocols it may use in the transfer
+	--proxy-anyauth					# Like --anyauth but for the proxy
+	--proxy-basic					# Use HTTP Basic authentication to communicate with proxy
+	--proxy-cacert					# Same as --cacert but used in HTTPS proxy context
+	--proxy-capath					# Same as --capath but used in HTTPS proxy context
+	--proxy-cert-type					# Same as --cert-type but used in HTTPS proxy context
+	--proxy-cert					# Same as -E, --cert but used in HTTPS proxy context
+	--proxy-ciphers					# Same as --ciphers but used in HTTPS proxy context
+	--proxy-crlfile					# Same as --crlfile but used in HTTPS proxy context
+	--proxy-digest					# Use HTTP Digest authentication to communicate with proxy
+	--proxy-header					# (HTTP) Extra header to include in the request when sending HTTP to a proxy
+	--proxy-insecure					# Same as -k, --insecure but used in HTTPS proxy context
+	--proxy-key-type					# Same as --key-type but used in HTTPS proxy context
+	--proxy-key					# Same as --key but used in HTTPS proxy context
+	--proxy-negotiate					# Use HTTP Negotiate authentication to communicate with proxy
+	--proxy-ntlm					# Use HTTP NTLM authentication when to communicate with proxy
+	--proxy-pass					# Same as --pass but used in HTTPS proxy context
+	--proxy-pinnedpubkey					# (TLS) Use specified public key file or hashes to verify proxy
+	--proxy-service-name					# This option allows you to change the service name for proxy negotiation
+	--proxy-ssl-allow-beast					# Same as --ssl-allow-beast but used in HTTPS proxy context
+	--proxy-tls13-ciphers					# (TLS) Specify cipher suites for TLS 1.3 proxy connection
+	--proxy-tlsauthtype					# Same as --tlsauthtype but used in HTTPS proxy context
+	--proxy-tlspassword					# Same as --tlspassword but used in HTTPS proxy context
+	--proxy-tlsuser					# Same as --tlsuser but used in HTTPS proxy context
+	--proxy-tlsv1					# Same as -1, --tlsv1 but used in HTTPS proxy context
+	--proxy-user(-U)					# Specify the user name and password to use for proxy authentication
+	--proxy(-x)					# Use the specified proxy
+	--proxy1.0					# Use the specified HTTP 1.0 proxy
+	--proxytunnel(-p)					# If HTTP proxy is used, make curl tunnel through it
+	--pubkey					# (SFTP SCP) Public key file name
+	--quote(-Q)					# (FTP SFTP)  Send an arbitrary command to the remote FTP or SFTP server
+	--random-file					# Specify file containing random data
+	--range(-r)					# (HTTP FTP SFTP FILE) Retrieve a byte range
+	--raw					# (HTTP) Pass raw data (no HTTP decoding or transfer encoding)
+	--referer(-e)					# (HTTP) Sends the "Referrer Page" information to the HTTP server
+	--remote-header-name(-J)					# (HTTP) Save output to filename from Content-Disposition
+	--remote-name-all					# For every URL write output to local file by default
+	--remote-name(-O)					# Write output to a local file named like the remote file we get
+	--remote-time(-R)					# Use timestamp of remote file on output
+	--request-target					# (HTTP) Use an alternative request target
+	--request(-X)					# (HTTP) Specifies a custom HTTP method
+	--resolve					# Provide a custom address for a specific host and port pair
+	--retry-connrefused					# Consider ECONNREFUSED a transient error
+	--retry-delay					# Time to wait between transfer retries
+	--retry-max-time					# The retry timer is reset before the first transfer attempt
+	--retry					# Number of retries when transient error occurs
+	--sasl-ir					# Enable initial response in SASL authentication
+	--service-name					# This option allows you to change the service name for SPNEGO
+	--show-error(-S)					# When used with -s, --silent, it makes curl show an error message if it fails
+	--silent(-s)					# Silent or quiet mode.  Dont show progress meter or error messages
+	--socks4					# Use the specified SOCKS4 proxy
+	--socks4a					# Use the specified SOCKS4a proxy
+	--socks5-basic					# Use username/password authentication to connect to SOCKS5 proxy
+	--socks5-gssapi-nec					# As part of the GSS-API negotiation a protection mode is negotiated
+	--socks5-gssapi-service					# The default service name for a socks server is rcmd/server-fqdn
+	--socks5-gssapi					# Tells curl to use GSS-API authentication when connecting to a SOCKS5 proxy
+	--socks5-hostname					# Use the specified SOCKS5 proxy (and let the proxy resolve the host name)
+	--socks5					# Use the specified SOCKS5 proxy - but resolve the host name locally
+	--speed-limit(-Y)					# Abort download if its slower than given speed (Bps) for speed-time
+	--speed-time(-y)					# Abort download if its slower than speed for given speed-time (s)
+	--ssl-allow-beast					# Dont work around BEAST security flaw in SSL3 and TLS1.0
+	--ssl-no-revoke					# (Schannel) This option tells curl to disable certificate revocation checks
+	--ssl-reqd					# (FTP IMAP POP3 SMTP) Require SSL/TLS for the connection
+	--ssl					# (FTP IMAP POP3 SMTP)  Try to use SSL/TLS for the connection
+	--sslv2(-2)					# (SSL) Use SSL version 2
+	--sslv3(-3)					# (SSL) Use SSL version 3
+	--stderr					# Redirect all writes to stderr to the specified file instead
+	--styled-output					# Use bold font styles when writing HTTP headers to terminal
+	--suppress-connect-headers					# Dont print response headers for CONNECT request if -p is set
+	--tcp-fastopen					# Enable use of TCP Fast Open
+	--tcp-nodelay					# Turn on the TCP_NODELAY option
+	--telnet-option(-t)					# Pass options to the telnet protocol
+	--tftp-blksize					# (TFTP) Set TFTP BLKSIZE option (must be >512)
+	--tftp-no-options					# (TFTP) Tells curl not to send TFTP options requests
+	--time-cond(-z)					# (HTTP FTP) Request file modified before or later than given time
+	--tls-max					# (SSL) VERSION defines maximum supported TLS version
+	--tls13-ciphers					# (TLS) Specifies cipher suites to use for TLS 1.3
+	--tlsauthtype					# Set TLS authentication type
+	--tlspassword					# Set password for use with the TLS authentication method
+	--tlsuser					# Set username for use with the TLS authentication method
+	--tlsv1.0					# (TLS) Forces curl to use TLS version 1.0
+	--tlsv1.1					# (TLS) Forces curl to use TLS version 1.1
+	--tlsv1.2					# (TLS) Forces curl to use TLS version 1.2
+	--tlsv1.3					# (TLS) Forces curl to use TLS version 1.3
+	--tlsv1					# (SSL) Tells curl to use at least TLS version 1
+	--tr-encoding					# (HTTP) Request compressed Transfer-Encoding, uncompress on receive
+	--trace-ascii					# Enables a full trace dump of all incoming and outgoing data
+	--trace-time					# Prepends a time stamp to each trace or verbose line that curl displays
+	--trace					# Enables a full trace dump of all incoming and outgoing data
+	--unix-socket					# (HTTP) Connect through this Unix domain socket, instead of using the network
+	--upload-file(-T)					# This transfers the specified local file to the remote URL
+	--url					# Specify a URL to fetch
+	--use-ascii(-B)					# (FTP LDAP) Enable ASCII transfer
+	--user-agent(-A)					# (HTTP)  Specify the User-Agent string to send to the HTTP server
+	--user(-u)					# Specify the user name and password to use for server authentication
+	--verbose(-v)					# Makes curl verbose during the operation
+	--version(-V)					# Displays information about curl and the libcurl version it uses
+	--write-out(-w)					# Make curl display information on stdout after a completed transfer
+	--no-eprt					# for --disable-eprt
+	--no-epsv					# for --disable-epsv
+	--max-redir					# Set maximum number of redirects
+	--xattr					# Store metadata in xattrs (like origin URL)
+	...args
+]

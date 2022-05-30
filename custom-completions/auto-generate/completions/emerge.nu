@@ -1,0 +1,58 @@
+# 
+extern "emerge" [
+	--check-news
+	--clean
+	--config
+	--depclean(-c)
+	--deselect
+	--help(-h)
+	--info
+	--list-sets
+	--metadata
+	--prune(-P)
+	--regen
+	--resume(-r)
+	--search(-s)
+	--searchdesc(-S)
+	--sync
+	--unmerge(-C)
+	--version(-V)
+	--alert(-A)					# Add a terminal bell character ('\a') to all interactive prompts
+	--ask(-a)					# Prompt the user before peforming the merge
+	--backtrack
+	--buildpkg(-b)					# Build a binary pkg additionally
+	--buildpkgonly(-B)					# Only build a binary pkg
+	--changed-use(-U)
+	--changelog(-l)					# Show changelog of pkg. Use with --pretend
+	--columns					# Align output. Use with --pretend
+	--complete-graph
+	--debug(-d)					# Run in debug mode
+	--deep(-D)					# Consider the whole dependency tree
+	--emptytree(-e)					# Reinstall all world pkgs
+	--exclude
+	--fetchonly(-f)					# Only download the pkgs but don't install them
+	--fetch-all-uri(-F)					# Same as --fetchonly and grab all potential files
+	--getbinpkg(-g)					# Download infos from each binary pkg. Implies -k
+	--getbinpkgonly(-G)					# As -g but don't use local infos
+	--ignore-default-opts					# Ignore EMERGE_DEFAULT_OPTS
+	--jobs
+	--keep-going
+	--newuse(-N)					# Include installed pkgs with changed USE flags
+	--noconfmem					# Disregard merge records
+	--nodeps(-O)					# Don't merge dependencies
+	--noreplace(-n)					# Skip already installed pkgs
+	--nospinner					# Disable the spinner
+	--oneshot(-1)					# Don't add pkgs to world
+	--onlydeps(-o)					# Only merge dependencies
+	--pretend(-p)					# Display what would be done without doing it
+	--quiet(-q)					# Use a condensed output
+	--select(-w)
+	--skipfirst					# Remove first pkg in resume list. Use with --resume
+	--tree(-t)					# Show the dependency tree
+	--update(-u)
+	--usepkg(-k)					# Use binary pkg if available
+	--usepkgonly(-K)					# Only use binary pkgs
+	--verbose(-v)					# Run in verbose mode
+	--verbose-conflicts					# Verbose slot conflicts
+	...args
+]

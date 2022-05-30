@@ -1,0 +1,71 @@
+# Show the flac version number
+extern "flac" [
+	--version(-v)					# Show the flac version number
+	--help(-h)					# Show this screen
+	--explain(-H)					# Show detailed explanation of usage and options
+	--decode(-d)					# Decode (the default behavior is to encode)
+	--test(-t)					# Same as -d except no decoded file is written
+	--analyze(-a)					# Same as -d except an analysis file is written
+	--stdout(-c)					# Write output to stdout
+	--silent(-s)					# Do not write runtime encode/decode statistics
+	--totally-silent					# Do not print anything including errors
+	--force(-f)					# Force overwriting of output files
+	--output-prefix					# Prepend STRING to output names
+	--delete-input-file					# Deletes after a successful encode/decode
+	--skip					# Skip the given initial samples for each input {#|mm:ss.ss}
+	--until					# Stop at the given sample for each input file {#|[+|-]mm:ss.ss}
+	--ogg					# Use Ogg as transport layer
+	--serial-number					# Serial number to use for the FLAC stream
+	--residual-text					# Include residual signal in text output
+	--residual-gnuplot					# Generate gnuplot files of residual distribution
+	--decode-through-errors(-F)					# Continue decoding through stream errors
+	--cue					# Set the beginning and ending cuepoints to decode [#.#][-[#.#]]
+	--verify(-V)					# Verify a correct encoding
+	--lax					# Allow encoder to generate non-Subset files
+	--sector-align					# Align multiple files on sector boundaries
+	--replay-gain					# Calculate ReplayGain & store in Vorbis comments
+	--cuesheet					# Import cuesheet and store in CUESHEET block
+	--compression-level-0(-0)					# Synonymous with -l 0 -b 1152 -r 22
+	--fast					# Synonymous with -l 0 -b 1152 -r 22
+	--compression-level-1(-1)					# Synonymous with -l 0 -b 1152 -M -r 2,2
+	--compression-level-2(-2)					# Synonymous with -l 0 -b 1152 -m -r 3
+	--compression-level-3(-3)					# Synonymous with -l 6 -b 4608 -r 3,3
+	--compression-level-4(-4)					# Synonymous with -l 8 -b 4608 -M -r 3,3
+	--compression-level-5(-5)					# Synonymous with -l 8 -b 4608 -m -r 3,3
+	--compression-level-6(-6)					# Synonymous with -l 8 -b 4608 -m -r 4
+	--compression-level-7(-7)					# Synonymous with -l 8 -b 4608 -m -e -r 6
+	--compression-level-8(-8)					# Synonymous with -l 12 -b 4608 -m -e -r 6
+	--best					# Synonymous with -l 12 -b 4608 -m -e -r 6
+	--mid-side(-m)					# Try mid-side coding for each frame
+	--adaptive-mid-side(-M)					# Adaptive mid-side coding for all frames
+	--exhaustive-model-search(-e)					# Do exhaustive model search (expensive!)
+	--qlp-coeff-precision-search(-p)					# Exhaustively search LP coeff quantization
+	--endian=big					# Set byte order for samples
+	--endian=little					# Set byte order for samples
+	--channels					# Number of channels
+	--bps					# Number of bits per sample
+	--sample-rate					# Sample rate in Hz
+	--sign=unsigned					# Sign of samples
+	--sign=signed					# Sign of samples
+	--input-size					# Size of the raw input in bytes
+	--force-aiff-format					# Force decoding to AIFF format
+	--force-raw-format					# Treat input or output as raw samples
+	--no-adaptive-mid-side					# No adaptive mid-side coding for all frames
+	--no-decode-through-errors					# Don't continue decoding through stream errors
+	--no-delete-input-file					# Don't delete after a successful encode/decode
+	--no-exhaustive-model-search					# No exhaustive model search
+	--no-lax					# Don't allow encoder to generate non-Subset files
+	--no-mid-side					# Don't try mid-side coding for each frame
+	--no-ogg					# Don't use Ogg as transport layer
+	--no-padding					# Don't write a PADDING block of length #
+	--no-qlp-coeff-prec-search					# Don't exhaustively search LP coeff quantization
+	--no-replay-gain					# Don't calculate ReplayGain & store in Vorbis comments
+	--no-residual-gnuplot					# Don't generate gnuplot files of residual distribution
+	--no-residual-text					# Don't include residual signal in text output
+	--no-sector-align					# Don't align multiple files on sector boundaries
+	--no-seektable
+	--no-silent					# Write runtime encode/decode statistics
+	--no-force					# Don't force overwriting of output files
+	--no-verify					# Don't verify a correct encoding
+	...args
+]

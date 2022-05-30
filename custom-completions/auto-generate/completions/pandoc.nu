@@ -1,0 +1,32 @@
+extern "pandoc" [
+	--preserve-tabs(-p)
+	--file-scope
+	--standalone(-s)
+	--strip-comments
+	--table-of-contents
+	--no-highlight
+	--self-contained
+	--html-q-tags
+	--ascii
+	--reference-links
+	--atx-headers
+	--number-sections(-N)
+	--listings
+	--incremental(-i)
+	--section-divs
+	--biblatex
+	--dump-args
+	--ignore-args
+	--verbose
+	--quiet
+	--fail-if-warnings
+	--bash-completion
+	--list-input-formats
+	--list-output-formats
+	--list-extensions
+	--list-highlight-languages
+	--list-highlight-styles
+	--version(-v)
+	--help(-h)
+	...args
+]

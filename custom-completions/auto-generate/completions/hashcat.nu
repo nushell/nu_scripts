@@ -1,0 +1,56 @@
+# Hash-type
+extern "hashcat" [
+	--hash-type(-m)					# Hash-type
+	--attack-mode(-a)					# Attack-mode
+	--version(-V)					# Print version
+	--help(-h)					# Print help
+	--quiet					# Suppress output
+	--hex-charset					# Assume charset is given in hex
+	--hex-salt					# Assume salt is given in hex
+	--hex-wordlist					# Assume words in wordlist are given in hex
+	--force					# Ignore warnings
+	--status					# Enable automatic update of the status screen
+	--status-json					# Enable JSON format for status ouput
+	--machine-readable					# Display the status view in a machine-readable format
+	--keep-guessing					# Keep guessing the hash after it has been cracked
+	--self-test-disable					# Disable self-test functionality on startup
+	--loopback					# Add new plains to induct directory
+	--markov-disable					# Disables markov-chains, emulates classic brute-force
+	--markov-classic					# Enables classic markov-chains, no per-position
+	--restore					# Restore session from --session
+	--restore-disable					# Do not write restore file
+	--outfile-format					# Outfile formats to use
+	--outfile-autohex-disable					# Disable the use of \$HEX[] in output plains
+	--wordlist-autohex-disable					# Disable the conversion of \$HEX[] from the wordlist
+	--stdout					# Do not crack a hash, instead print candidates only
+	--show					# Compare hashlist with potfile; show cracked hashes
+	--left					# Compare hashlist with potfile; show uncracked hashes
+	--username					# Enable ignoring of usernames in hashfile
+	--remove					# Enable removal of hashes once they are cracked
+	--potfile-disable					# Do not write potfile
+	--debug-mode					# Defines the debug mode
+	--induction-dir					# Specify the induction directory to use for loopback
+	--outfile-check-dir					# Specify the outfile directory to monitor for plains
+	--logfile-disable					# Disable the logfile
+	--benchmark(-b)					# Run benchmark of selected hash-modes
+	--benchmark-all					# Run benchmark of all hash-modes (requires -b)
+	--speed-only					# Return expected speed of the attack, then quit
+	--progress-only					# Return ideal progress step size and time to process
+	--hash-info					# Show information for each hash-mode
+	--example-hashes					# Alias of --hash-info
+	--backend-ignore-cuda					# Do not try to open CUDA interface on startup
+	--backend-ignore-opencl					# Do not try to open OpenCL interface on startup
+	--backend-info(-I)					# Show info about detected backend API devices
+	--opencl-device-types(-D)					# OpenCL device-types to use
+	--optimized-kernel-enable(-O)					# Enable optimized kernels (limits password length)
+	--workload-profile(-w)					# Enable a specific workload profile
+	--hwmon-disable					# Disable temperature and fanspeed reads and triggers
+	--keyspace					# Show keyspace base:mod values and quit
+	--increment(-i)					# Enable mask increment mode
+	--slow-candidates(-S)					# Enable slower (but advanced) candidate generators
+	--brain-server					# Enable brain server
+	--brain-client(-z)					# Enable brain client, activates -S
+	--brain-client-features					# Define brain client features
+	--brain-host					# Brain server host (IP or domain)
+	...args
+]
