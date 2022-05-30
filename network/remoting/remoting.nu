@@ -61,11 +61,24 @@ export def "ssh script" [
     script: string@"nu-complete scripts"                        # name of the script 
   ...args                                                       # arguments you wish to pass to the script in key=value format
 ] {
-    let host = (hosts|where name == $hostname|get 0)
-    let full-command = (build-string (view-source $script) '; ' $script ' ' ($args|str collect ' ') '|to json -r')
-    ^ssh (get-url $host) ($full-command)|from json
-}
+    let span = (metadata $script).span
+    if $script in ($nu.scope.commands|where is_custom|get command) {
 
+        let host = (hosts|where name == $hostname|get 0)
+        let full-command = (build-string (view-source $script) '; ' $script ' ' ($args|str collect ' ') '|to json -r')
+        ^ssh (get-url $host) ($full-command)|from json
+
+    } else {
+        error make {
+            msg: $"($script) is not a custom command, use regular ssh command instead"
+            label: {
+                text: "Not a custom command",
+                start: $span.start,
+                end: $span.end
+            }
+        }
+    }
+}
 # Turns on specified hosts using Wake on Lan
 export def wake [
     ...names: string@"nu-complete wol" # list of host names to wake
