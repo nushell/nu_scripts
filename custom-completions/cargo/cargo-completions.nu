@@ -375,10 +375,32 @@ export extern "cargo search" [
   -Z: any          # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 ]
 
-# # Package and upload this package to the registry
-# export extern "cargo publish" [
-  
-# ]
+# Package and upload a package to the registry
+export extern "cargo publish" [
+  --dry-run # Perform all checks without uploading
+  --token: any # API token to use when authenticating
+  --no-verify # Don't verify the contents by building them
+  --allow-dirty # Allow working directories with uncommitted VCS changes to be packaged
+  --index: string # The URL of the registry index to use
+  --registry: string # Name of the registry to publish to
+  --package(-p): string@"nu-complete cargo packages" # The package to publish
+  --target: string # Publish for the given architecture
+  --target-dir: path # Directory for all generated artifacts and intermediate files
+  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --all-features # Activate all available features of all selected packages
+  --no-default-features # Do not activate the default feature of the selected packages
+  --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q) # Do not print cargo log messages
+  --color: string@"nu-complete cargo color" # Control when colored output is used
+  --manifest-path: path # Path to the Cargo.toml file
+  --frozen # Require Cargo.lock and cache are up to date
+  --locked  # Require Cargo.lock is up to date
+  --offline # Run without accessing the network
+  --help(-h) # Prints help information
+  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details  
+  --jobs(-j): number # Number of parallel jobs to run
+  --keep-going # Build as many crates in the dependency graph as possible
+]
 
 # Build and install a Rust binary
 export extern "cargo install" [
