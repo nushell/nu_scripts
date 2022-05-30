@@ -18,13 +18,17 @@ A good one is
 `git clone https://github.com/fish-shell/fish-shell`
 `cd fish-shell/share/completions`
 
-Run `build-completions-from-pwd`
+To build all .fish files in the current directory `build-completions-from-pwd`
 
 ```nu
 build-completions-from-pwd
 ls *.nu
 ```
 
+To build a single .fish file and choose the output file
+```nu
+build-completion cargo.fish cargo.nu
+```
 # parse-help
 
 ## current limitations

@@ -78,25 +78,42 @@ def make-commands-completion [] {
     }
 }
 
-# make-subcommands-completion
+let quote = '"' # "
+
+# make the action nu completion string from subcommand and args
+# subcommand can be empty which will be the root command
 def make-subcommands-completion [parents: list] {
     let fishes = $in
     $fishes
     | group-by a                               # group by sub command (a flag)
     | transpose name args                      # turn it into a table of name to arguments
     | each {|subcommand|
-        build-string (if (not ($subcommand.args.d | empty?)) {               # build each sub command, flags and descriptions. note: this block is sensitive to whitespace
+        build-string (
+            if (not ($subcommand.args.d | empty?)) {               # build each sub command, flags and descriptions. note: this block is sensitive to whitespace
                 build-string "# " ($subcommand.args.d.0) "\n"
-            }) "extern \"" ($parents | str collect " ") " " $subcommand.name "\" [\n" (
-            $fishes | where ($it.n | str ends-with $subcommand.name) | each { |subargs|
-                if $subargs.l != "" { 
-                    build-string "\t--" $subargs.l (if $subargs.s != "" { 
-                        build-string "(-" $subargs.s ")" (if $subargs.d != "" {
-                            build-string "\t\t\t# " $subargs.d
-                        })
-                    })
-                }
-            } | str collect "\n"
-        ) "\n\t...args\n]"
+            }) "extern " $quote ($parents | str collect " ") (
+            if $subcommand.name != "" { 
+                build-string " " $subcommand.name
+            }) $quote " [\n" (
+            $fishes
+            | if ('n' in ($in | columns)) && ($subcommand.name != "") {
+                where ($it.n | str contains $subcommand.name) | build-flags
+            } else { 
+                where ($it.n == "__fish_use_subcommand") && ($it.a == "") | build-flags
+            }
+            | str collect "\n"
+        ) (if ($fishes | length) > 0 { "\n" }) "\t...args\n]"
+    }
+}
+
+def build-flags [] {
+    each { |subargs|  
+        if $subargs.l != "" { 
+            build-string "\t--" $subargs.l (if $subargs.s != "" { 
+                build-string "(-" $subargs.s ")" (if $subargs.d != "" {
+                    build-string "\t\t\t# " $subargs.d
+                })
+            })
+        }
     }
 }
