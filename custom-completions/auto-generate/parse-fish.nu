@@ -64,7 +64,8 @@ def pair-args [] {
 }
 
 def unquote [] {
-    str trim -c "\'"  # trim '
+    str trim -c "\'"   # trim '
+    | str trim -c "\"" # trim "
 }
 
 # remove any entries which contain things in subcommands that may be fish functions or incorrect parses
@@ -90,25 +91,25 @@ let quote = '"' # "
 def make-subcommands-completion [parents: list] {
     let fishes = $in
     $fishes
-    | group-by a                                                                # group by sub command (a flag)
-    | transpose name args                                                       # turn it into a table of name to arguments
+    | group-by a                                                                      # group by sub command (a flag)
+    | transpose name args                                                             # turn it into a table of name to arguments
     | each {|subcommand|
         build-string (
-            if (not ($subcommand.args.d | empty?)) {                            # (sub)command description
-                build-string "# " ($subcommand.args.d.0) "\n"
+            if ('d' in ($subcommand.args | columns)) && ($subcommand.args.d != "") { 
+                build-string "# " ($subcommand.args.d.0) "\n"                         # (sub)command description
             }) "extern " $quote ($parents | str collect " ") (
             if $subcommand.name != "" {
-                build-string " " $subcommand.name                               # sub command if present
+                build-string " " $subcommand.name                                     # sub command if present
             }) $quote " [\n" (
             $fishes
             | if ('n' in ($in | columns)) {
                 if ($subcommand.name != "") {
-                    where ($it.n | str contains $subcommand.name)               # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
+                    where ($it.n | str contains $subcommand.name)                     # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
                 } else {
-                    where ($it.n == "__fish_use_subcommand") && ($it.a == "")   # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
+                    where ($it.n == "__fish_use_subcommand") && ($it.a == "")         # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
                 }
             } else { 
-                $fishes                                                         # catch all
+                $fishes                                                               # catch all
             }
             | build-flags
             | str collect "\n"
