@@ -5,8 +5,9 @@
 # parse every .fish file in the current directory and make a .nu completions file of it
 def build-completions-from-pwd [] {
     ls *.fish | par-each { |f|
-        print $"generating for ($f.name)"
-        build-completion $f.name (build-string $f.name ".nu")
+        let out = ($f.name | str replace ".fish" ".nu")
+        print $"building nushell completions from ($f.name)"
+        build-completion $f.name $out
     }
 }
 
@@ -89,22 +90,27 @@ let quote = '"' # "
 def make-subcommands-completion [parents: list] {
     let fishes = $in
     $fishes
-    | group-by a                                                                                        # group by sub command (a flag)
-    | transpose name args                                                                               # turn it into a table of name to arguments
+    | group-by a                                                                # group by sub command (a flag)
+    | transpose name args                                                       # turn it into a table of name to arguments
     | each {|subcommand|
         build-string (
-            if (not ($subcommand.args.d | empty?)) {                                                    # (sub)command description
+            if (not ($subcommand.args.d | empty?)) {                            # (sub)command description
                 build-string "# " ($subcommand.args.d.0) "\n"
             }) "extern " $quote ($parents | str collect " ") (
             if $subcommand.name != "" {
-                build-string " " $subcommand.name                                                       # sub command if present
+                build-string " " $subcommand.name                               # sub command if present
             }) $quote " [\n" (
             $fishes
-            | if ('n' in ($in | columns)) && ($subcommand.name != "") {
-                where ($it.n | str contains $subcommand.name) | build-flags                             # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
+            | if ('n' in ($in | columns)) {
+                if ($subcommand.name != "") {
+                    where ($it.n | str contains $subcommand.name)               # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
+                } else {
+                    where ($it.n == "__fish_use_subcommand") && ($it.a == "")   # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
+                }
             } else { 
-                where ($it.n == "__fish_use_subcommand") && ($it.a == "") | build-flags                 # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
+                $fishes                                                         # catch all
             }
+            | build-flags
             | str collect "\n"
         ) "\n\t...args\n]"
     }
@@ -113,12 +119,14 @@ def make-subcommands-completion [parents: list] {
 # build the list of flag string in nu syntax
 def build-flags [] {
     each { |subargs|  
-        if $subargs.l != "" { 
-            build-string "\t--" $subargs.l (if $subargs.s != "" { 
-                build-string "(-" $subargs.s ")" (if $subargs.d != "" {
-                    build-string "\t\t\t# " $subargs.d
+        if ('l' in ($subargs | columns)) && ($subargs.l != "") { 
+            build-string "\t--" $subargs.l (build-string
+                (if ('s' in ($subargs | columns)) && ($subargs.s != "") { 
+                    build-string "(-" $subargs.s ")" 
+                }) (if ('d' in ($subargs | columns)) && ($subargs.d != "") {
+                    build-string "\t\t\t\t\t# " $subargs.d
                 })
-            })
+            )
         }
     }
 }
