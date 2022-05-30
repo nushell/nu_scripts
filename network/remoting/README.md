@@ -19,7 +19,7 @@ This function executes a nushell script on a client that has nushell configured.
 Function accepts following arguments:
 * name - Name of the client as specified in the config. This parameter is required (autocompletion enabled)
 * script - Name of the script to be executed on the client. This parameter is required The script must be available in current scope in order to be used (autocompletion enabled)
-* args - Arguments passed to the script in key=value format. This parameter is optional however if selected scripts has arguments marked as required and none were provided an error will be raised.
+* args - Arguments to be passed to the script. Named parameters should be put in quotes to avoid parsing errors like this: `ssh script my-host my-script '--arg value'`
 
 ## `wake` function
 This function wakes specified clients via Wake on Lan.

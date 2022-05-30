@@ -38,19 +38,10 @@ def get-url [
     }
 }
 
-# Returns all mandatory function arguments, used for input validation in ssh script
-def get-required-args [
-    command: record                # command for which arguments should be returned
-] {
-    $command.signature
-    |where not is_optional
-    |get -i parameter_name
-}
-
 # Connect over ssh to one of predefined hosts, execute nushell commands and parse them on the host
 export def ssh [
     hostname: string@"nu-complete hosts"                 # name of the host you want to connect to
-    ...args                                                # commands you wish to run on the hosts
+    ...args                                                 # commands you wish to run on the host
 ] {
     let host = (hosts|where name == $hostname|get -i 0)
     if ($host.nu) {
@@ -71,17 +62,8 @@ export def "ssh script" [
   ...args                                                       # arguments you wish to pass to the script in key=value format
 ] {
     let host = (hosts|where name == $hostname|get 0)
-    let command = ($nu.scope.commands|where command == $script|get 0)
-    let args = ($args|split column '=' key value)
-    
-    if ((get-required-args $command)|all? ($it in ($args|get key))) {
-        let full-command = (build-string ($args|format "let {key} = '{value}'"|str collect '; ') '; do ' (view-source $command.command) '|to json -r')
-        ^ssh (get-url $host) $full-command|from json
-    } else {
-        error make {
-            msg: $"($command.command) requires following arguments: (get-required-args $command) you provided: ($args|get -i key)"
-        }
-    }
+    let full-command = (build-string (view-source $script) '; ' $script ' ' ($args|str collect ' ') '|to json -r')
+    ^ssh (get-url $host) ($full-command)|from json
 }
 
 # Turns on specified hosts using Wake on Lan
