@@ -1,8 +1,37 @@
-# completions
+# auto-generate completions
 
-basic helper to parse --help information from cli commands and export nu completions source
+- basic helpers to parse --help information from cli commands and export nu completions source
+- basic helpers tp parse .fish complete files and export nu completions source
 
-# current limitations
+# parse-fish
+
+## current
+- only parses out simple complete's with no complete's boolean arguments like -f
+- does not map fish autocomplete helpers to nu-complete helps (a nu library of autocomplete utils would be neat)
+
+## usage
+
+be in a directory with one or more .fish completion scripts
+
+A good one is 
+
+`git clone https://github.com/fish-shell/fish-shell`
+`cd fish-shell/share/completions`
+
+To build all .fish files in the current directory `build-completions-from-pwd`
+
+```nu
+build-completions-from-pwd
+ls *.nu
+```
+
+To build a single .fish file and choose the output file
+```nu
+build-completion cargo.fish cargo.nu
+```
+# parse-help
+
+## current limitations
 
 - Only flags are parsed, arguments are not parsed and ...args is injected at the end to catch all
 - Some examples of `--flags` in descriptions can throw off the regex and get included in the parsed flags
@@ -10,12 +39,10 @@ basic helper to parse --help information from cli commands and export nu complet
 
 ## usage
 
-A basic example in [usage.nu](usage.nu)
-
-generate and print source to tty
+generate and save source to a file
 
 ```nu
-cargo --help | parse-help | make-completion cargo | nu-highlight
+cargo --help | parse-help | make-completion cargo | save cargo.nu
 ``` 
 
 ## example
