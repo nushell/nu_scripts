@@ -3,14 +3,14 @@
 #
 # Quick Start:
 # - Download this script (panache-git.nu)
-# - In your Nushell config file:
+# - In your Nushell config:
 #   - Source this script
 #   - Set panache-git as your prompt command
 #   - Disable the separate prompt indicator by setting it to an empty string
 # - For example, with this script in your home directory:
 #     source ~/panache-git.nu
 #     let-env PROMPT_COMMAND = { panache-git }
-#     let-env PROMPT_INDICATOR = ""
+#     let-env PROMPT_INDICATOR = { "" }
 # - Restart Nushell
 #
 # For more documentation or to file an issue, see https://github.com/ehdevries/panache-git
@@ -38,20 +38,18 @@ module panache-plumbing {
     $'(ansi reset)($current-dir-abbreviated)'
   }
 
-  # Get repository status as raw text
-  export def "panache-git raw" [] {
-    do --ignore-errors { git --no-optional-locks status --porcelain=2 --branch } | str collect
-  }
-
   # Get repository status as structured data
   export def "panache-git structured" [] {
-    let status = (panache-git raw)
+    let in-git-repo = (do --ignore-errors { git rev-parse --abbrev-ref HEAD } | empty? | nope)
 
-    let in-git-repo = ($status | empty? | nope)
+    let status = (if $in-git-repo {
+      git --no-optional-locks status --porcelain=2 --branch | lines
+    } else {
+      []
+    })
 
     let on-named-branch = (if $in-git-repo {
       $status
-      | lines
       | where ($it | str starts-with '# branch.head')
       | first
       | str contains '(detached)'
@@ -62,7 +60,6 @@ module panache-plumbing {
 
     let branch-name = (if $on-named-branch {
       $status
-      | lines
       | where ($it | str starts-with '# branch.head')
       | split column ' ' col1 col2 branch
       | get branch
@@ -73,7 +70,6 @@ module panache-plumbing {
 
     let commit-hash = (if $in-git-repo {
       $status
-      | lines
       | where ($it | str starts-with '# branch.oid')
       | split column ' ' col1 col2 full_hash
       | get full_hash
@@ -85,7 +81,6 @@ module panache-plumbing {
 
     let tracking-upstream-branch = (if $in-git-repo {
       $status
-      | lines
       | where ($it | str starts-with '# branch.upstream')
       | str collect
       | empty?
@@ -96,7 +91,6 @@ module panache-plumbing {
 
     let upstream-exists-on-remote = (if $in-git-repo {
       $status
-      | lines
       | where ($it | str starts-with '# branch.ab')
       | str collect
       | empty?
@@ -107,7 +101,6 @@ module panache-plumbing {
 
     let ahead-behind-table = (if $upstream-exists-on-remote {
       $status
-      | lines
       | where ($it | str starts-with '# branch.ab')
       | split column ' ' col1 col2 ahead behind
     } else {
@@ -135,7 +128,6 @@ module panache-plumbing {
 
     let has-staging-or-worktree-changes = (if $in-git-repo {
       $status
-      | lines
       | where ($it | str starts-with '1') || ($it | str starts-with '2')
       | str collect
       | empty?
@@ -146,7 +138,6 @@ module panache-plumbing {
 
     let has-untracked-files = (if $in-git-repo {
       $status
-      | lines
       | where ($it | str starts-with '?')
       | str collect
       | empty?
@@ -157,7 +148,6 @@ module panache-plumbing {
 
     let has-unresolved-merge-conflicts = (if $in-git-repo {
       $status
-      | lines
       | where ($it | str starts-with 'u')
       | str collect
       | empty?
@@ -168,7 +158,6 @@ module panache-plumbing {
 
     let staging-worktree-table = (if $has-staging-or-worktree-changes {
       $status
-      | lines
       | where ($it | str starts-with '1') || ($it | str starts-with '2')
       | split column ' '
       | get column2
@@ -203,7 +192,6 @@ module panache-plumbing {
 
     let untracked-count = (if $has-untracked-files {
       $status
-      | lines
       | where ($it | str starts-with '?')
       | length
     } else {
@@ -228,7 +216,6 @@ module panache-plumbing {
 
     let merge-conflict-count = (if $has-unresolved-merge-conflicts {
       $status
-      | lines
       | where ($it | str starts-with 'u')
       | length
     } else {
