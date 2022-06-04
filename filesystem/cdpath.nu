@@ -5,7 +5,6 @@ def-env c [dir = ""] {
         $default
     } else {
         $env.CDPATH
-        | path expand
         | reduce -f "" { |$it, $acc| if $acc == "" {
             let new_path = ([$it $dir] | path join)
             if ($new_path | path exists) {
@@ -15,8 +14,14 @@ def-env c [dir = ""] {
             }
         } else { $acc }}
     }
-
-    let complete_dir = if $complete_dir == "" { error make {msg: "No such path"} } else { $complete_dir }
+    
+    let complete_dir = if $complete_dir == "" { 
+        error make {msg: "No such path"} 
+    } else if (($complete_dir | path expand | path type) != "dir") {
+        error make {msg: "Not a directory"}
+    } else { 
+        ($complete_dir | path expand)
+    }
 
     let-env PWD = $complete_dir
 }
