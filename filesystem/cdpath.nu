@@ -1,5 +1,9 @@
 def-env c [dir = ""] {
-    let default = $env.HOME
+    let default = if $env.OS == "Windows_NT" {
+        $env.USERPROFILE
+    } else {
+        $env.HOME
+    }
 
     let complete_dir = if $dir == "" {
         $default
