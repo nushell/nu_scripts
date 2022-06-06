@@ -1,5 +1,5 @@
 def-env c [dir = ""] {
-    let default = if $env.OS == "Windows_NT" {
+    let default = if $nu.os-info.name == "windows" {
         $env.USERPROFILE
     } else {
         $env.HOME
@@ -31,4 +31,7 @@ def-env c [dir = ""] {
 }
 
 # You need to have $env.CDPATH variable declared, my suggestion from config.nu:
+# UNIX:
 # let-env CDPATH = [".", $env.HOME, "/", ([$env.HOME, ".config"] | path join)]
+# WINDOWS:
+# let-env CDPATH = ["", $env.USERPROFILE, ([$env.USERPROFILE, "AppData\\Roaming\\"] | path join)]
