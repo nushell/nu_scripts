@@ -38,12 +38,15 @@ def main [] {
 
 	# Add more data and convert the list to markdown
 	let scripts_md = ($scripts 
-		| par-each {|it| { # This code turns the filepath of the scripts to a table of script data
+		| par-each {|it| 
+			let metadata = (get-script-data $it)
+			{ # This code turns the filepath of the scripts to a table of script data
 				Name: $"[($it | path basename)]\((build-string 'https://github.com/nushell/nu_scripts/blob/main/' ($it | path relative-to $env.PWD | str replace '\' '/' -a -s))\)", 
 				Length: $'(open $it | size | get lines) lines',
 				Dir: (if (($it | path dirname | path relative-to $env.PWD | str replace (char separator) '/' -a -s) | empty?) {
-					"x"
-				} else { ($it | path dirname | path relative-to $env.PWD | str replace (char separator) '/' -a -s) })
+					' '
+				} else { ($it | path dirname | path relative-to $env.PWD | str replace (char separator) '/' -a -s) }),
+				Description: (if ($metadata | get description | empty?) {' '} else {$metadata | get description})
 			}
 		} | sort-by Name | to md)
 
@@ -51,12 +54,12 @@ def main [] {
 	open './README_template.md'
 		| str replace '{{scripts_list}}' $scripts_md -s # Add Script list
 		| str replace '{{scriptcount}}' ($scripts | length | into string) -s -a # Add script count
-		# Add some text to the top of the file
 		| prepend $'<!-- ⚠️ This README has been automatically generated on (date to-timezone UTC | date format "%Y-%m-%d %H:%M:%S UTC") ⚠️ -->' 
 		| str collect "\n\n" 
-
 		| str trim -r -c "\n" # Don't question this
 		| save ($file_loc) # Save the file
+
+	''
 }
 
 
@@ -69,7 +72,7 @@ def main [] {
 # Get's the data of a script.
 def get-script-data [
 	script-path: path # The path of the script
-	scripts-root: path # The location of the nu_scripts folder
+	scripts-root: path = "." # The location of the nu_scripts folder
 	#
 	# Format info:
 	#
@@ -128,7 +131,7 @@ def get-auto-script-data [
 	{
 		name: ($data.path | path basename),
 		script-url: ($'https://github.com/nushell/nu_scripts/blob/main/($data.path)'),
-		author: (do {
+		authors: (do {
 			let apidata = ([
 				[path]; 
 				[(($script-path 
