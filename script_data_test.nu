@@ -4,6 +4,7 @@
 # Get's the data of a script.
 def get-script-data [
 	script-path: path # The path of the script
+	scripts-root: path # The location of the nu_scripts folder
 	#
 	# Format info:
 	#
@@ -44,7 +45,45 @@ def get-script-data [
 	})
 
 	# Add the description to the data and your done!
-	$data | merge {{"description": $description}}
+	{ "path": ($script-path | path relative-to ($scripts-root | path expand) 
+		| str replace (char separator) '/' -a -s) } 
+		| merge { $data } 
+		| merge {{"description": $description}}
+}
+
+# Like `get-script-data` but auto-fills some data
+def get-auto-script-data [
+	script-path: path
+	scripts-root: path = "."
+] {
+	let data = get-script-data $script-path $scripts-root
+
+	
+
+	{
+		name: ($data.path | path basename),
+		script-url: ($'https://github.com/nushell/nu_scripts/blob/main/($data.path)'),
+		author: (do {
+			let apidata = ([
+				[path]; 
+				[(($script-path 
+					| path expand 
+					| path relative-to ($scripts-root | path expand)) 
+					| str replace (char separator) '/' -s -a)
+				]
+			] | to url)
+			let res = fetch $'http://api.github.com/repos/nushell/nu_scripts/commits?($apidata)'
+
+			
+			let authors = ($res | each {|c|
+				if (($c | get author) != $nothing) {
+					$c | get author
+				}
+			})
+
+			$authors
+		})
+	}  | merge {($data | reject name)}
 }
 
 #! This is just a temporary file to test how script data would work. !#
