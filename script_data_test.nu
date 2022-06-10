@@ -4,7 +4,7 @@
 # Get's the data of a script.
 def get-script-data [
 	script-path: path # The path of the script
-	scripts-root: path # The location of the nu_scripts folder
+	scripts-root: path = "." # The location of the nu_scripts folder
 	#
 	# Format info:
 	#
@@ -63,7 +63,7 @@ def get-auto-script-data [
 	{
 		name: ($data.path | path basename),
 		script-url: ($'https://github.com/nushell/nu_scripts/blob/main/($data.path)'),
-		author: (do {
+		authors: (do {
 			let apidata = ([
 				[path]; 
 				[(($script-path 
@@ -83,7 +83,7 @@ def get-auto-script-data [
 
 			$authors
 		})
-	}  | merge {($data | reject name)}
+	}  | merge {($data | reject name script-url author)}
 }
 
 #! This is just a temporary file to test how script data would work. !#
