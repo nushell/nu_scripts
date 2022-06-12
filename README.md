@@ -1,4 +1,4 @@
-<!-- ⚠️ This README has been automatically generated on 2022-06-10 20:05:34 UTC ⚠️ -->
+<!-- ⚠️ This README has been automatically generated on 2022-06-11 13:14:48 UTC ⚠️ -->
 
 <h1 align="center">Nushell Scripts</h1>
 <div align="center">
@@ -10,12 +10,12 @@
 	</a>
 	<img src="https://img.shields.io/github/stars/nushell/nu_scripts?color=yellow&label=Stars">
 	<a href="#excluded-scripts">
-		<img src="https://img.shields.io/badge/Scripts-62*-blue" title="Some scripts are excluded. Click for more info." alt="Badge that shows there are 62 scripts">
+		<img src="https://img.shields.io/badge/Scripts-61*-blue" title="Some scripts are excluded. Click for more info." alt="Badge that shows there are 61 scripts">
 	</a>
 </div>
 <br>
 
-This is a place to share Nushell scripts with each other. If you'd like to share your scripts, create a PR that adds it to the repo.
+This is a place to share nushell scripts with each other. If you'd like to share your scripts, create a PR that adds it to the repo.
 
 ## Running Scripts
 
@@ -32,7 +32,7 @@ This is an automatically generated list of all the scripts in the repo.
 |-|-|-|-|
 |[24bit-1.nu](https://github.com/nushell/nu_scripts/blob/main/coloring/24bit-1.nu)|33 lines|coloring| |
 |[256_color_testpattern.nu](https://github.com/nushell/nu_scripts/blob/main/coloring/256_color_testpattern.nu)|69 lines|coloring| |
-|[README_generator.nu](https://github.com/nushell/nu_scripts/blob/main/README_generator.nu)|155 lines| | |
+|[README_generator.nu](https://github.com/nushell/nu_scripts/blob/main/script-managment/README_generator.nu)|163 lines|script-managment|Generates a README using a templ|
 |[auto_base16.nu](https://github.com/nushell/nu_scripts/blob/main/base16/auto_base16.nu)|21 lines|base16| |
 |[base16.nu](https://github.com/nushell/nu_scripts/blob/main/base16/base16.nu)|150 lines|base16| |
 |[broken.nu](https://github.com/nushell/nu_scripts/blob/main/nu_101/broken.nu)|46 lines|nu_101| |
@@ -79,7 +79,6 @@ This is an automatically generated list of all the scripts in the repo.
 |[pwd-short.nu](https://github.com/nushell/nu_scripts/blob/main/cool-oneliners/pwd-short.nu)|4 lines|cool-oneliners| |
 |[remoting.nu](https://github.com/nushell/nu_scripts/blob/main/network/remoting/remoting.nu)|98 lines|network/remoting| |
 |[run-c-cpp.nu](https://github.com/nushell/nu_scripts/blob/main/helpers/run-c-cpp.nu)|27 lines|helpers| |
-|[script_data_test.nu](https://github.com/nushell/nu_scripts/blob/main/script_data_test.nu)|90 lines| | |
 |[sg.nu](https://github.com/nushell/nu_scripts/blob/main/coloring/sg.nu)|102 lines|coloring| |
 |[spark.nu](https://github.com/nushell/nu_scripts/blob/main/fun/spark.nu)|23 lines|fun| |
 |[this_week_in_nu_weekly.nu](https://github.com/nushell/nu_scripts/blob/main/make_release/this_week_in_nu_weekly.nu)|72 lines|make_release| |
@@ -92,6 +91,13 @@ This is an automatically generated list of all the scripts in the repo.
 |[wolframalpha.nu](https://github.com/nushell/nu_scripts/blob/main/api_wrappers/wolframalpha.nu)|19 lines|api_wrappers| |
 |[yarn-completion.nu](https://github.com/nushell/nu_scripts/blob/main/custom-completions/yarn/yarn-completion.nu)|560 lines|custom-completions/yarn| |
 |[zoxide-eq.nu](https://github.com/nushell/nu_scripts/blob/main/prompt/zoxide-eq.nu)|130 lines|prompt| |
+
+<!-- TODO: Finish this part
+
+### Help Improve This List
+
+Most of these scripts don't have descriptions, it will be great if you could help out with adding descriptions to these scripts.
+-->
 
 ### Excluded scripts
 

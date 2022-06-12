@@ -1,8 +1,14 @@
-#! REMOVE FILE BEFORE MERGE !#
-#! This is just a temporary file to test how script data would work. !#
+#?type: libary
+#?version: 0.1.0
+#?short-desc: The API for getting the manifest of a script
+#
+#?description: >
+#? 	This script is a API for getting the manifest of a script.
+#? 	The way manifests are used is still a work in progress please go 
+#? 	to https://github.com/nushell/nu_scripts/pull/246 for more info.
 
 # Get's the data of a script.
-def get-script-data [
+def get-script-manifest [
 	script-path: path # The path of the script
 	scripts-root: path = "." # The location of the nu_scripts folder
 	#
@@ -34,6 +40,10 @@ def get-script-data [
 			let key = ($line | str replace '^#\?' '' | str replace ':.*$' '' | str trim)
 			let value = ($line | str replace '^#\?[a-z\-]+?:' '' | str trim)
 
+			let value = if ($key == 'short-desc') {
+				$value | str trim -r -c '.'
+			} else { $value }
+
 			# Output the result as a table of keys and values.
 			{
 				"key": $key
@@ -51,12 +61,12 @@ def get-script-data [
 		| merge {{"description": $description}}
 }
 
-# Like `get-script-data` but auto-fills some data
+# Like `get-script-manifest` but auto-fills some data
 def get-auto-script-data [
-	script-path: path
-	scripts-root: path = "."
+	script-path: path # The location of the nu_scripts folder
+	scripts-root: path = "." # The path of the script
 ] {
-	let data = get-script-data $script-path $scripts-root
+	let data = get-script-manifest $script-path $scripts-root
 
 	
 
@@ -83,8 +93,5 @@ def get-auto-script-data [
 
 			$authors
 		})
-	}  | merge {($data | reject name script-url author)}
+	}  | merge {($data | reject name)}
 }
-
-#! This is just a temporary file to test how script data would work. !#
-#! REMOVE FILE BEFORE MERGE !#
