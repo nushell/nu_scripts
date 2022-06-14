@@ -1,4 +1,4 @@
-!/usr/bin/env nu
+#!/usr/bin/env nu
 let protections = {
     required_status_checks: {
         strict: true
