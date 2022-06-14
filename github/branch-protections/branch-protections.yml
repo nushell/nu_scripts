@@ -1,0 +1,25 @@
+---
+name: Add branch protections to all repositories
+'on':
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: nu {0}
+
+jobs:
+  set-branch-restrictions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Nu
+        uses: hustcer/setup-nu@main
+        with:
+          version: '0.63.0'
+      - run: ./branch-protections.nu
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
