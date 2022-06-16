@@ -30,7 +30,7 @@ def fact [num: int] {
 			seq 2 $num | math product
 		}
 	} else {
-		echo 'Error: can only calculate non-negative integers'
+		error make {msg: "can only calculate non-negative integers"}
 	}
 }
 
@@ -46,20 +46,24 @@ def q_roots [
 	c 	# independent term
 ] {
 	let d = $b ** 2 - 4 * $a * $c
-	if $d >= 0 {
+	if $d > 0 {
 		let s = ($d | math sqrt)
 		let r1 = (($s - $b) / (2 * $a))
 		let r2 = (0 - (($s + $b) / (2 * $a)))
 
-		echo $"root #1: ($r1)"
-		echo $"root #2: ($r2)"
+		print $"root #1: ($r1)"
+		print $"root #2: ($r2)"
+	} else if $d == 0 {
+		let s = ($d | math sqrt)
+		let r = (($s - $b) / (2 * $a))
+		print $"root:    ($r)"
 	} else {
 		let s = ((0 - $d) | math sqrt)
 		let r = ((0 - $b) / (2 * $a))
 		let i = ($s / (2 * $a))
 
-		echo $"root #1: ($r) + ($i)*i"
-		echo $"root #2: ($r) - ($i)*i"
+		print $"root #1: ($r) + ($i)*i"
+		print $"root #2: ($r) - ($i)*i"
 	}
 }
 
@@ -69,7 +73,7 @@ def isprime [n: int] {
 
 	let flag = ([[isPrime];[true]] | update isPrime {if ($n mod 2) == 0 { false } else { seq 3 1 $max | each { |it| if ($n mod $it) == 0 { false }}}})
 
-	if ($flag.isPrime.0 | empty?) { echo 'prime' } else { echo 'not prime' }
+	if ($flag.isPrime.0 | empty?) { print 'prime' } else { print 'not prime' }
 }
 
 #Prime list <= n
@@ -83,12 +87,12 @@ def primelist [n: int] {
 
 #Multiplication table of n till max
 def mtable [n: int, max: int] {
-	seq 1 $max | each {|it| echo $"($it)*($n) = ($n * $it)"}
+	seq 1 $max | each {|it| print $"($it)*($n) = ($n * $it)"}
 }
 
 #Check if year is leap
 def isleap [year: int] {
-	if ( (($year mod 4) == 0 && ($year mod 100) != 0) || ($year mod 400) == 0 ) { echo "It is a leap year." } else { echo "It is not a leap year."}
+	if ( (($year mod 4) == 0 && ($year mod 100) != 0) || ($year mod 400) == 0 ) { print "It is a leap year." } else { print "It is not a leap year."}
 }
 
 #Greatest common divisior (gcd) between 2 integers
@@ -117,7 +121,7 @@ def dec2base [
 	b: string	#base in [2,16]
 ] {
 	let base = if ( ($b | into int) < 2 || ($b | into int) > 16 ) {
-		echo "Wrong base, it must be an integer between 2 and 16"
+		print "Wrong base, it must be an integer between 2 and 16"
 		10
 	} else {
 		$b | into int
