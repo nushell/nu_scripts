@@ -30,7 +30,7 @@ def fact [num: int] {
 			seq 2 $num | math product
 		}
 	} else {
-		echo 'Error: can only calculate non-negative integers'
+		error make {msg: "can only calculate non-negative integers"}
 	}
 }
 
@@ -46,13 +46,18 @@ def q_roots [
 	c 	# independent term
 ] {
 	let d = $b ** 2 - 4 * $a * $c
-	if $d >= 0 {
+	if $d > 0 {
 		let s = ($d | math sqrt)
 		let r1 = (($s - $b) / (2 * $a))
 		let r2 = (0 - (($s + $b) / (2 * $a)))
 
 		echo $"root #1: ($r1)"
 		echo $"root #2: ($r2)"
+	} else if $d == 0 {
+		let s = ($d | math sqrt)
+		let r = (($s - $b) / (2 * $a))
+
+		echo $"root:   ($r)"
 	} else {
 		let s = ((0 - $d) | math sqrt)
 		let r = ((0 - $b) / (2 * $a))
