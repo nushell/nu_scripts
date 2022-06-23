@@ -1,5 +1,5 @@
 ---
-name: Add branch protections to all repositories
+name: Delete merged branches from all repositories
 'on':
   schedule:
     - cron: '0 * * * *'
@@ -10,7 +10,7 @@ defaults:
     shell: nu {0}
 
 jobs:
-  set-branch-restrictions:
+  delete-merged-branches:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,7 +19,7 @@ jobs:
         uses: hustcer/setup-nu@main
         with:
           version: '0.64.0'
-      - run: ./branch-protections.nu
+      - run: ./merged-branches.nu
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
