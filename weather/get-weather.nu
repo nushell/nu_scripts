@@ -6,7 +6,7 @@ def locations [] {
         [location city_column state_column country_column lat_column lon_column];
         ["http://ip-api.com/json/" city region countryCode lat lon]
         ["https://ipapi.co/json/" city region_code country_code latitude longitude]
-        ["https://freegeoip.app/json/" city region_code country_code latitude longitude]
+        # ["https://freegeoip.app/json/" city region_code country_code latitude longitude] # doesn't appear to be free any longer
         ["https://ipwhois.app/json/" city region country_code  latitude longitude]
     ]
 }
@@ -48,6 +48,11 @@ def get_location_by_ip [locIdx: int, token: string] {
     fetch $url
 }
 
+def show-error [msg label err] {                                                                            07/02/2022 09:24:44 AM
+    let span = (metadata $err).span;
+    error make {msg: $msg, label: {text: $label, start: $span.start, end: $span.end } }
+}
+
 def get_weather_by_ip [locIdx: int, units: string, token: string] {
     # units
     # f = imperial aka Fahrenheit
@@ -56,10 +61,7 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
     let URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily"
     let coords = (get_location_by_ip $locIdx $token)
     if ($coords | length) > 1 {
-        [
-            [msg, labels, span];
-            ["Error getting location", "There were more than one locations found", ([[start, end]; [0, 1]])]
-        ] | error make
+        show-error "Error getting location" "There were more than one locations found" $coords 
     }
 
     if $units == "f" {
@@ -160,7 +162,7 @@ def get_icon_from_table [w] {
 
 # Get the local weather by ip address
 export def get_weather [
-    --locIdx(-l): int # The location id 0-3
+    --locIdx(-l): int # The location id 0-2
     --units(-u): string # The units "f" or "c"
     ] {
     let token = "85a4e3c55b73909f42c6a23ec35b7147"
