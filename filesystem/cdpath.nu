@@ -20,9 +20,9 @@ def-env c [dir = ""] {
     }
     
     let complete_dir = if $complete_dir == "" { 
-        error make {msg: "No such path"} 
+        error make -u {msg: "No such path"} 
     } else if (($complete_dir | path expand | path type) != "dir") {
-        error make {msg: "Not a directory"}
+        error make -u {msg: "Not a directory"}
     } else { 
         ($complete_dir | path expand)
     }
