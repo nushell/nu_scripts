@@ -11,15 +11,15 @@ def 'nu-complete yarn mode' [] {
 
 export def "refresh-cache" [] {
   npm i -g all-the-package-names
-  let npmCacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
+  let npmCacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
   all-the-package-names | each { |i| $i | split column "\n" | transpose col0 package | reject col0 } | flatten | to csv | save $npmCacheFilePath
 
-  let yarnPluginCacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
+  let yarnPluginCacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
   ^yarn plugin list --json | lines | each { |it| from json } | to csv | save $yarnPluginCacheFilePath
 }
 
 def "nu-complete yarn add" [] {
-  let cacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
+  let cacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
   # TODO switch to dataframes
   open $cacheFilePath | $in.package
 }
@@ -126,7 +126,7 @@ def 'nu-complete yarn dedupe strategy' [] {
 ]
 
 def "nu-complete yarn dlx" [] {
-  let cacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
+  let cacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
   # TODO switch to dataframes
   open $cacheFilePath | $in.package
 }
@@ -145,7 +145,7 @@ export extern "yarn exec" [
 ]
 
 def "nu-complete yarn explain peer-requirements" [] {
-  let cacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"(open ./package.json | get name)-peerReqs.json")
+  let cacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"(open ./package.json | get name)-peerReqs.json")
 
   if ($cacheFilePath | path exists) {
     let cache = open $cacheFilePath
@@ -334,7 +334,7 @@ export extern "yarn plugin import from sources" [
 ]
 
 def "nu-complete yarn plugin import" [] {
-  let yarnPluginCacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
+  let yarnPluginCacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
   open $yarnPluginCacheFilePath | get name
 }
 

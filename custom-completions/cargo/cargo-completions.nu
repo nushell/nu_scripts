@@ -397,7 +397,7 @@ export extern "cargo publish" [
   --locked  # Require Cargo.lock is up to date
   --offline # Run without accessing the network
   --help(-h) # Prints help information
-  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details  
+  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   --jobs(-j): number # Number of parallel jobs to run
   --keep-going # Build as many crates in the dependency graph as possible
 ]

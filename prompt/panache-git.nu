@@ -24,7 +24,7 @@ module panache-plumbing {
     let current_dir = ($env.PWD)
 
     let current_dir_relative_to_home = (
-      do --ignore-errors { $current_dir | path relative-to $nu.home_path } | str collect
+      do --ignore-errors { $current_dir | path relative-to $nu.home-path } | str collect
     )
 
     let in_sub_dir_of_home = ($current_dir_relative_to_home | empty? | nope)
