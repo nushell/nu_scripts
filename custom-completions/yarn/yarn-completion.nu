@@ -11,15 +11,15 @@ def 'nu-complete yarn mode' [] {
 
 export def "refresh-cache" [] {
   npm i -g all-the-package-names
-  let npmCacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
+  let npmCacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
   all-the-package-names | each { |i| $i | split column "\n" | transpose col0 package | reject col0 } | flatten | to csv | save $npmCacheFilePath
 
-  let yarnPluginCacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
+  let yarnPluginCacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
   ^yarn plugin list --json | lines | each { |it| from json } | to csv | save $yarnPluginCacheFilePath
 }
 
 def "nu-complete yarn add" [] {
-  let cacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
+  let cacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
   # TODO switch to dataframes
   open $cacheFilePath | $in.package
 }
@@ -126,7 +126,7 @@ def 'nu-complete yarn dedupe strategy' [] {
 ]
 
 def "nu-complete yarn dlx" [] {
-  let cacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
+  let cacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"npmCache.csv")
   # TODO switch to dataframes
   open $cacheFilePath | $in.package
 }
@@ -145,7 +145,7 @@ export extern "yarn exec" [
 ]
 
 def "nu-complete yarn explain peer-requirements" [] {
-  let cacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"(open ./package.json | get name)-peerReqs.json")
+  let cacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"(open ./package.json | get name)-peerReqs.json")
 
   if ($cacheFilePath | path exists) {
     let cache = open $cacheFilePath
@@ -266,7 +266,7 @@ export extern "yarn npm logout" [
 export extern "yarn npm publish" [
   --access: string # The access level of the published package (public or restricted)
   --tag: string # The tag on the registry that the package should be attached to
-  --tolerate-republish # Warn and exit when republishing an already existing version of a package 
+  --tolerate-republish # Warn and exit when republishing an already existing version of a package
   --opt: string # The OTP token to use with the command
 ]
 
@@ -327,14 +327,14 @@ export extern "yarn plugin" []
 export extern "yarn plugin import from sources" [
   --path: string # The path where the repository should be cloned to
   --repository: string # The repository that should be cloned
-  --branch: string # The branch of the repository that should be cloned 
+  --branch: string # The branch of the repository that should be cloned
   --no-minify # Build a plugin for development (debugging) - non-minified and non-mangled
   --force(-f) # Always clone the repository instead of trying to fetch the latest commits
   plugin: string
 ]
 
 def "nu-complete yarn plugin import" [] {
-  let yarnPluginCacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
+  let yarnPluginCacheFilePath = ($nu.config_path | path dirname | path join "yarnCache" | path join $"yarnPluginCache.csv")
   open $yarnPluginCacheFilePath | get name
 }
 
@@ -419,7 +419,7 @@ export extern "yarn set resolution" [
 export extern "yarn set version from sources" [
   --path: string # The path where the repository should be cloned to
   --repository: string # The repository that should be cloned
-  --branch: string # The branch of the repository that should be cloned 
+  --branch: string # The branch of the repository that should be cloned
   --no-minify # Build a plugin for development (debugging) - non-minified and non-mangled
   --force(-f) # Always clone the repository instead of trying to fetch the latest commits
   --skip-plugins # Skip updating the contrib plugins
@@ -506,7 +506,7 @@ def "nu-complete yarn why" [] {
 
 # Display the reason why a package is needed.
 export extern "yarn why" [
-  --recursive(-R) # List, for each workspace, what are all the paths that lead to the dependency 
+  --recursive(-R) # List, for each workspace, what are all the paths that lead to the dependency
   --json # Format the output as an NDJSON stream
   --peers # Also print the peer dependencies that match the specified name
   package: string@"nu-complete yarn why"

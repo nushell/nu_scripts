@@ -30,7 +30,7 @@ export env SHOW_USR { "true" }
 # prompt
 export env PROMPT_COMMAND { "build-prompt" }
 export def build-prompt [] {
-    let usr-str = (if $env.SHOW_USR == "true" {
+    let usr_str = (if $env.SHOW_USR == "true" {
         [
             $env.USER
             '@'
@@ -41,11 +41,11 @@ export def build-prompt [] {
         ''
     })
 
-    let pwd-str = (if (pwd | str starts-with $env.HOME).0 {
+    let pwd_str = (if (pwd | str starts-with $env.HOME).0 {
         (pwd | str replace $env.HOME '~' | str trim).0
     } else {
         pwd
     })
 
-    [ $usr-str $pwd-str ' ' ] | str collect
+    [ $usr_str $pwd_str ' ' ] | str collect
 }

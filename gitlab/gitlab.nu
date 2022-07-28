@@ -17,8 +17,8 @@ def main [
   --branch: string # branch to scan
 ] {
     # /projects endpoint can return up to $page_size items which is why we need multiple calls to retrieve full list
-  let num-of-pages = ((call-gitlab --query 'page=1&per_page=1&order_by=id&simple=true'|get id.0|into int) / $page_size|math round)
-  seq 1 $num-of-pages|par-each {|page|
+  let num_of_pages = ((call-gitlab --query 'page=1&per_page=1&order_by=id&simple=true'|get id.0|into int) / $page_size|math round)
+  seq 1 $num_of_pages|par-each {|page|
     call-gitlab --query $"page=($page)&per_page=($page_size)"|select name id
   }
   |flatten

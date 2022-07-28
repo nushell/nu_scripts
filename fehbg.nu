@@ -25,16 +25,16 @@
 # * imagemagick
 
 # Path definitions
-let img-dir = $env.WALLPAPER_DIR
-let tmp-image = ([ $env.TMP_DIR "wallpaper.jpg" ] | path join)
+let img_dir = $env.WALLPAPER_DIR
+let tmp_image = ([ $env.TMP_DIR "wallpaper.jpg" ] | path join)
 
 # Monitor resolution
-let resolution-y = 1440
-let res-str = ($"x($resolution-y)")
+let resolution_y = 1440
+let res_str = ($"x($resolution-y)")
 
 # Position of the caption
-let pos-x = 5
-let pos-y = (0.995 * $resolution-y | into int)
+let pos_x = 5
+let pos_y = (0.995 * $resolution_y | into int)
 
 # Select random item from input
 def select-random [] {
@@ -50,20 +50,20 @@ def list-images [dir: path] {
 }
 
 # Set the caption text (just filename for now)
-def caption [img-f: string] {
-    echo $img-f
+def caption [img_f: string] {
+    echo $img_f
 }
 
 # Build the argument for the '-draw' command of the 'convert' utility
-def draw-str [img-f: string] {
-    $"text ($pos-x), ($pos-y) (char dq)(caption $img-f)(char dq) "
+def draw-str [img_f: string] {
+    $"text ($pos_x), ($pos_y) (char dq)(caption $img_f)(char dq) "
 }
 
 # Select random image
-let img-name = (list-images $img-dir | select-random | get name) # TODO: change the env var to $img-dir
+let img_name = (list-images $img_dir | select-random | get name) # TODO: change the env var to $img-dir
 
 # Resize the image to the monitor height, draw the caption and save it
-convert -resize $res-str -pointsize 15 -fill 'rgb(255,200,150)' -draw (draw-str $img-name) $img-name $tmp-image
+convert -resize $res_str -pointsize 15 -fill 'rgb(255,200,150)' -draw (draw-str $img_name) $img_name $tmp_image
 
 # Set the created image as a background
 feh --no-fehbg --bg-max $tmp-image

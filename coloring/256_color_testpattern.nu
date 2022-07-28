@@ -50,13 +50,13 @@ def print_run [start:int, amount:int] {
   } | append "  " | str collect
 }
 
-def print_blocks [start:int, end:int, block-cols:int, block-rows:int, blocks-per-line:int] {
-  let block-length = ($block-cols * $block-rows)
-  let end = (($end - $start) / (($blocks-per-line) * $block-length))
+def print_blocks [start:int, end:int, block_cols:int, block_rows:int, blocks_per_line:int] {
+  let block_length = ($block_cols * $block_rows)
+  let end = (($end - $start) / (($blocks_per_line) * $block_length))
   for i in 0..<$end {
-    for row in 0..<$block-rows {
-      for block in 0..<$blocks-per-line {
-        print_run ($start + $block * $block-length + $row * $block-cols + $i * $block-length * $blocks-per-line) $block-cols
+    for row in 0..<$block_rows {
+      for block in 0..<$blocks_per_line {
+        print_run ($start + $block * $block_length + $row * $block_cols + $i * $block_length * $blocks_per_line) $block_cols
       } | append (char nl) | str collect
     } | str collect
   } | str collect

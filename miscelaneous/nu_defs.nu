@@ -75,7 +75,7 @@ def column2 [n] {
 
 #short pwd
 def pwd-short [] {
-  $env.PWD | str replace $nu.home-path '~' -s
+  $env.PWD | str replace $nu.home_path '~' -s
 }
 
 #string repeat
@@ -160,19 +160,19 @@ def hab-dailies-done [] {
 
 #update aliases backup file from config.nu
 def update-aliases [] {
-  let nlines = (open $nu.config-path | lines | length)
+  let nlines = (open $nu.config_path | lines | length)
 
-  let from = ((grep "## aliases" $nu.config-path -n | split row ':').0 | into int)
+  let from = ((grep "## aliases" $nu.config_path -n | split row ':').0 | into int)
 
-  open $nu.config-path | lines | last ($nlines - $from + 1) | save /path/to/backup/file.nu
+  open $nu.config_path | lines | last ($nlines - $from + 1) | save /path/to/backup/file.nu
 }
 
 #update config.nu from aliases backup
 def update-config [] {
-  let from = ((grep "## aliases" $nu.config-path -n | split row ':').0 | into int)
+  let from = ((grep "## aliases" $nu.config_path -n | split row ':').0 | into int)
   let aliases = "/path/to/backup/file.nu"
 
-  open $nu.config-path | lines | first ($from - 1) | append (open $aliases | lines) | save temp.nu
+  open $nu.config_path | lines | first ($from - 1) | append (open $aliases | lines) | save temp.nu
   mv temp.nu $nu.config-path
 }
 
@@ -195,7 +195,7 @@ def countdown [
 
 #get aliases
 def get-aliases [] {
-  open $nu.config-path | lines | find alias | find -v aliases | split column '=' | select column1 column2 | rename Alias Command | update Alias {|f| $f.Alias | split row ' ' | last} | sort-by Alias
+  open $nu.config_path | lines | find alias | find -v aliases | split column '=' | select column1 column2 | rename Alias Command | update Alias {|f| $f.Alias | split row ' ' | last} | sort-by Alias
 }
 
 #compress every subfolder into separate files and delete them

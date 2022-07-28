@@ -1,5 +1,5 @@
 def-env c [dir = ""] {
-    let default = if $nu.os-info.name == "windows" {
+    let default = if $nu.os_info.name == "windows" {
         $env.USERPROFILE
     } else {
         $env.HOME
