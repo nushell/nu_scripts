@@ -49,14 +49,14 @@ module hosts {
                     if ($env.LAST_EXIT_CODE == 0) {
                         echo "Done!"
                     } else {
-                        error make {msg: "Something went wrong while overwriting the /etc/hosts file"}
+                        error make -u {msg: "Something went wrong while overwriting the /etc/hosts file"}
                     }       
                 }       
             } else {
                 echo "No updates available."
             }
         } else {
-            error make {msg: "Failed downloading the hosts file, try again."}
+            error make -u {msg: "Failed downloading the hosts file, try again."}
         }    
     }
 }

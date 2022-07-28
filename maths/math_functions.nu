@@ -30,7 +30,7 @@ def fact [num: int] {
 			seq 2 $num | math product
 		}
 	} else {
-		error make {msg: "can only calculate non-negative integers"}
+		error make -u {msg: "can only calculate non-negative integers"}
 	}
 }
 
