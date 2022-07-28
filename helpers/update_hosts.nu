@@ -45,8 +45,9 @@ module hosts {
 
                     let TMP_FILE = ($TMP_FILE | append $BLACKLIST)
 
-                    $TMP_FILE | save $OLD_FILE
+                    $TMP_FILE | save /tmp/temphostsfile
                     if ($env.LAST_EXIT_CODE == 0) {
+			sudo mv /tmp/temphostsfile $OLD_FILE
                         echo "Done!"
                     } else {
                         error make -u {msg: "Something went wrong while overwriting the /etc/hosts file"}
