@@ -75,9 +75,9 @@ def "winget show" [
         (do $flagify override $override)
         (do $flagify location $location)
         (do $flagify force $force)
-        (do $flagify accept-package-agreements $accept-package-agreements)
+        (do $flagify accept_package_agreements $accept_package_agreements)
         (do $flagify header $header)
-        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
     ] | str collect ' ')
 
@@ -198,7 +198,7 @@ def "winget search" [
         (do $flagify count $count)
         (do $flagify exact $exact)
         (do $flagify header $header)
-        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
     ] | str collect ' ')
 
@@ -246,7 +246,7 @@ def "winget list" [
         (do $flagify count $count)
         (do $flagify exact $exact)
         (do $flagify header $header)
-        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
     ] | str collect ' ')
 
@@ -341,7 +341,7 @@ export extern "winget export" [
 ]
 
 export extern "winget import" [
-    import-file?: path, # File describing the packages to install
+    import_file?: path, # File describing the packages to install
     --import-file(-i): path, # File describing the packages to install
     --ignore-unavailable: bool, # Ignore unavailable packages
     --ignore-versions: bool, # Ignore package versions
