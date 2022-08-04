@@ -260,8 +260,8 @@ export extern "cargo run" [
 
 # Run the tests
 export extern "cargo test" [
-  test-arg-seperator?: string
-  ...args?: any        # Arguments to be passed to the tests
+  test_arg_seperator?: string
+   ...args: any        # Arguments to be passed to the tests
   --no-run       # Compile, but don't run tests
   --no-fail-fast # Run all tests regardless of failure
   --package(-p): string@"nu-complete cargo packages" # Test only the specified packages
@@ -304,8 +304,8 @@ export extern "cargo test" [
 
 # Execute benchmarks of a package
 export extern "cargo bench" [
-  bench-option-seperator?: string
-  ...options?: any # Options to be passed to the benchmarks
+  bench_option_seperator?: string
+  # ...options?: any # Options to be passed to the benchmarks
   --no-run # Compile, but don't run benchmarks
   --no-fail-fast # Run all benchmarks regardless of failure
   --package(-p): string@"nu-complete cargo packages" # Benchmark only the specified packages
@@ -397,7 +397,7 @@ export extern "cargo publish" [
   --locked  # Require Cargo.lock is up to date
   --offline # Run without accessing the network
   --help(-h) # Prints help information
-  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details  
+  -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   --jobs(-j): number # Number of parallel jobs to run
   --keep-going # Build as many crates in the dependency graph as possible
 ]
