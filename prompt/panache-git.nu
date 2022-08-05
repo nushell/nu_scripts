@@ -471,6 +471,6 @@ module panache-plumbing {
 # An opinionated Git prompt for Nushell, styled after posh-git
 def panache-git [] {
   use panache-plumbing *
-  let prompt = ($'(panache-git dir) (panache-git styled)' | str trim)
+  let prompt = ($'(panache_git dir) (panache-git styled)' | str trim)
   $'($prompt)> '
 }

@@ -34,7 +34,7 @@ def get-url [
     if 'ip' in ($host|columns) {
         echo $"ssh://($host.username)@($host.ip):($host.port)"
     } else {
-        echo $"ssh://($host.username)@($host.name).($host.domain):($host.port)"  
+        echo $"ssh://($host.username)@($host.name).($host.domain):($host.port)"
     }
 }
 
@@ -58,15 +58,15 @@ export def ssh [
 # Connect over ssh to one of predefined hosts, execute nushell script with arguments passed from the host
 export def "ssh script" [
     hostname: string@"nu-complete nu"                           # name of the host you want to connect to
-    script: string@"nu-complete scripts"                        # name of the script 
+    script: string@"nu-complete scripts"                        # name of the script
   ...args                                                       # arguments you wish to pass to the script in key=value format
 ] {
     let span = (metadata $script).span
     if $script in ($nu.scope.commands|where is_custom|get command) {
 
         let host = (hosts|where name == $hostname|get 0)
-        let full-command = (build-string (view-source $script) '; ' $script ' ' ($args|str collect ' ') '|to json -r')
-        ^ssh (get-url $host) ($full-command)|from json
+        let full_command = (build-string (view-source $script) '; ' $script ' ' ($args|str collect ' ') '|to json -r')
+        ^ssh (get-url $host) ($full_command)|from json
 
     } else {
         error make {

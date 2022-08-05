@@ -7,10 +7,10 @@ def parse-help [] {
 }
 
 # takes a table of parsed help commands in format [short? long format? description]
-def make-completion [command-name: string] {
-    build-string "extern \"" $command-name "\" [\n" ($in | each { |it|
+def make-completion [command_name: string] {
+    build-string "extern \"" $command_name "\" [\n" ($in | each { |it|
         build-string "\t--" $it.long (if ($it.short | empty?) == false {
-            build-string "(-" $it.short ")" 
+            build-string "(-" $it.short ")"
         }) (if ($it.description | empty?) == false {
             build-string "\t\t# " $it.description
         })
@@ -33,16 +33,16 @@ module tests {
             ['' config 'KEY=VALUE' 'Override a configuration value (unstable)']
             [h help '' 'Print help information']
     ]
-    
+
         let result = (cargo --help | parse-help)
-    
+
         if $result == $expect {
             "passed"
         } else {
             $result
         }
     }
-    
+
     def test-nu [] {
         let expect = [
             [short long format description];
@@ -59,16 +59,16 @@ module tests {
             ['' log-level 'String' 'log level for performance logs']
             ['t' threads 'Int' 'threads to use for parallel commands']
     ]
-    
+
         let result = (nu --help | parse-help)
-    
+
         if $result == $expect {
             "passed"
         } else {
             $result
         }
     }
-    
+
     export def run-tests [] {
         [
             [test result];
