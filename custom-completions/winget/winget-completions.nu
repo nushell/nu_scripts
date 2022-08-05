@@ -26,9 +26,9 @@ export extern "winget install" [
     --override: string, # Override arguments to be passed on to the installer
     --location(-l): path, # Location to install to (if supported)
     --force: bool, # Override the installer hash check
-    --accept-package-agreements: bool, # Accept all licence agreements for packages
+    --accept_package_agreements: bool, # Accept all licence agreements for packages
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --accept_source_agreements: bool, # Accept all source agreements during source operations
     --help(-?): bool # Display the help for this command
 ]
 
@@ -49,9 +49,9 @@ def "winget show" [
     --override: string, # Override arguments to be passed on to the installer
     --location(-l): path, # Location to install to (if supported)
     --force: bool, # Override the installer hash check
-    --accept-package-agreements: bool, # Accept all licence agreements for packages
+    --accept_package_agreements: bool, # Accept all licence agreements for packages
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --accept_source_agreements: bool, # Accept all source agreements during source operations
     --raw: bool, # Output the raw CLI output instead of structured data
     --help(-?): bool, # Display the help for this command
 ] {
@@ -75,9 +75,9 @@ def "winget show" [
         (do $flagify override $override)
         (do $flagify location $location)
         (do $flagify force $force)
-        (do $flagify accept-package-agreements $accept-package-agreements)
+        (do $flagify accept_package_agreements $accept_package_agreements)
         (do $flagify header $header)
-        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
     ] | str collect ' ')
 
@@ -109,7 +109,7 @@ export extern "winget source add" [
     --arg(-a): string, # Argument given to the source
     --type(-t): string@"nu-complete winget source type", # Type of the source
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --accept_source_agreements: bool, # Accept all source agreements during source operations
     --help(-?): bool # Display the help for this command
 ]
 
@@ -179,7 +179,7 @@ def "winget search" [
     --count(-n): int, # Show no more than specified number of results
     --exact(-e): bool, # Find package using exact match
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --accept_source_agreements: bool, # Accept all source agreements during source operations
     --raw: bool, # Output the raw CLI output instead of structured data
     --help(-?): bool # Display the help for this command
 ] {
@@ -198,7 +198,7 @@ def "winget search" [
         (do $flagify count $count)
         (do $flagify exact $exact)
         (do $flagify header $header)
-        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
     ] | str collect ' ')
 
@@ -227,7 +227,7 @@ def "winget list" [
     --count(-n): int, # Show no more than specified number of results
     --exact(-e): bool, # Find package using exact match
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --accept_source_agreements: bool, # Accept all source agreements during source operations
     --raw: bool, # Output the raw CLI output instead of structured data
     --help(-?): bool # Display the help for this command
 ] {
@@ -246,7 +246,7 @@ def "winget list" [
         (do $flagify count $count)
         (do $flagify exact $exact)
         (do $flagify header $header)
-        (do $flagify accept-source-agreements $accept-source-agreements)
+        (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
     ] | str collect ' ')
 
@@ -279,9 +279,9 @@ export extern "winget upgrade" [
     --override: string, # Override arguments to be passed on to the installer
     --location(-l): path, # Location to install to (if supported)
     --force: bool, # Override the installer hash check
-    --accept-package-agreements: bool, # Accept all licence agreements for packages
+    --accept_package_agreements: bool, # Accept all licence agreements for packages
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --accept_source_agreements: bool, # Accept all source agreements during source operations
     --all: bool, # Update all installed packages to latest if available
     --help(-?): bool # Display the help for this command
 ]
@@ -336,17 +336,17 @@ export extern "winget export" [
     --output(-o): path, # File where the result is to be written
     --source(-s): string@"nu-complete winget install source", # Export packages from the specified source
     --include-versions: bool, # Include package versions in produced file
-    --accept-source-agreements: bool, # Accept all source agreements during source operations
+    --accept_source_agreements: bool, # Accept all source agreements during source operations
     --help(-?): bool # Display the help for this command
 ]
 
 export extern "winget import" [
-    import-file?: path, # File describing the packages to install
+    import_file?: path, # File describing the packages to install
     --import-file(-i): path, # File describing the packages to install
     --ignore-unavailable: bool, # Ignore unavailable packages
     --ignore-versions: bool, # Ignore package versions
-    --accept-package-agreements: bool, # Accept all licence agreements for packages
-    --accept-source-agreements: bool # Accept all source agreements during source operations
+    --accept_package_agreements: bool, # Accept all licence agreements for packages
+    --accept_source_agreements: bool # Accept all source agreements during source operations
 ]
 
 def "nu-complete winget install locale" [] {

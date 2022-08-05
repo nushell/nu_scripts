@@ -30,12 +30,12 @@ module panache-plumbing {
     let in_sub_dir_of_home = ($current_dir_relative_to_home | empty? | nope)
 
     let current_dir_abbreviated = (if $in_sub_dir_of_home {
-      $'~(char separator)($current-dir-relative-to-home)'
+      $'~(char separator)($current_dir_relative_to_home)'
     } else {
-      $current-dir
+      $current_dir
     })
 
-    $'(ansi reset)($current-dir-abbreviated)'
+    $'(ansi reset)($current_dir_abbreviated)'
   }
 
   # Get repository status as structured data
@@ -108,7 +108,7 @@ module panache-plumbing {
     })
 
     let commits_ahead = (if $upstream_exists_on_remote {
-      $ahead-behind-table
+      $ahead_behind_table
       | get ahead
       | first
       | into int
@@ -117,7 +117,7 @@ module panache-plumbing {
     })
 
     let commits_behind = (if $upstream_exists_on_remote {
-      $ahead-behind-table
+      $ahead_behind_table
       | get behind
       | first
       | into int
@@ -167,7 +167,7 @@ module panache-plumbing {
     })
 
     let staging_added_count = (if $has_staging_or_worktree_changes {
-      $staging-worktree-table
+      $staging_worktree_table
       | where staging == 'A'
       | length
     } else {
@@ -175,7 +175,7 @@ module panache-plumbing {
     })
 
     let staging_modified_count = (if $has_staging_or_worktree_changes {
-      $staging-worktree-table
+      $staging_worktree_table
       | where staging in ['M', 'R']
       | length
     } else {
@@ -183,7 +183,7 @@ module panache-plumbing {
     })
 
     let staging_deleted_count = (if $has_staging_or_worktree_changes {
-      $staging-worktree-table
+      $staging_worktree_table
       | where staging == 'D'
       | length
     } else {
@@ -199,7 +199,7 @@ module panache-plumbing {
     })
 
     let worktree_modified_count = (if $has_staging_or_worktree_changes {
-      $staging-worktree-table
+      $staging_worktree_table
       | where worktree in ['M', 'R']
       | length
     } else {
@@ -207,7 +207,7 @@ module panache-plumbing {
     })
 
     let worktree_deleted_count = (if $has_staging_or_worktree_changes {
-      $staging-worktree-table
+      $staging_worktree_table
       | where worktree == 'D'
       | length
     } else {
@@ -223,21 +223,21 @@ module panache-plumbing {
     })
 
     {
-      in_git_repo: $in-git-repo,
-      on_named_branch: $on-named-branch,
-      branch_name: $branch-name,
-      commit_hash: $commit-hash,
-      tracking_upstream_branch: $tracking-upstream-branch,
-      upstream_exists_on_remote: $upstream-exists-on-remote,
-      commits_ahead: $commits-ahead,
-      commits_behind: $commits-behind,
-      staging_added_count: $staging-added-count,
-      staging_modified_count: $staging-modified-count,
-      staging_deleted_count: $staging-deleted-count,
-      untracked_count: $untracked-count,
-      worktree_modified_count: $worktree-modified-count,
-      worktree_deleted_count: $worktree-deleted-count,
-      merge_conflict_count: $merge-conflict-count
+      in_git_repo: $in_git_repo,
+      on_named_branch: $on_named_branch,
+      branch_name: $branch_name,
+      commit_hash: $commit_hash,
+      tracking_upstream_branch: $tracking_upstream_branch,
+      upstream_exists_on_remote: $upstream_exists_on_remote,
+      commits_ahead: $commits_ahead,
+      commits_behind: $commits_behind,
+      staging_added_count: $staging_added_count,
+      staging_modified_count: $staging_modified_count,
+      staging_deleted_count: $staging_deleted_count,
+      untracked_count: $untracked_count,
+      worktree_modified_count: $worktree_modified_count,
+      worktree_deleted_count: $worktree_deleted_count,
+      merge_conflict_count: $merge_conflict_count
     }
   }
 
@@ -288,9 +288,9 @@ module panache-plumbing {
 
     let branch_styled = (if $status.in_git_repo {
       (if $is_local_only {
-        (branch-local-only $branch-name)
+        (branch-local-only $branch_name)
       } else if $is_up_to_date {
-        (branch-up-to-date $branch-name)
+        (branch-up-to-date $branch_name)
       } else if $is_ahead {
         (branch-ahead $branch_name $status.commits_ahead)
       } else if $is_behind {
@@ -298,9 +298,9 @@ module panache-plumbing {
       } else if $is_ahead_and_behind {
         (branch-ahead-and-behind $branch_name $status.commits_ahead $status.commits_behind)
       } else if $upstream_deleted {
-        (branch-upstream-deleted $branch-name)
+        (branch-upstream-deleted $branch_name)
       } else {
-        $branch-name
+        $branch_name
       })
     } else {
       ''
@@ -369,7 +369,7 @@ module panache-plumbing {
     let right_bracket = (']' | bright-yellow)
 
     (if $status.in_git_repo {
-      $'($left-bracket)($repo-summary)($right-bracket)'
+      $'($left_bracket)($repo_summary)($right_bracket)'
     } else {
       ''
     })
