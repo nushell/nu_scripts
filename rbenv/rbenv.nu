@@ -1,0 +1,34 @@
+# rbenv
+export env PATH { $env.PATH | split row (char esep) | prepend [$"($env.HOME)/.rbenv/bin" $"($env.HOME)/.rbenv/shims"] }
+export env RBENV_SHELL { "nu" }
+export env RBENV_VERSION { "" }
+export env RBENV_VERSION_OLD { "" }
+
+export def-env rbenv [
+	command?: string@'nu-complete rbenv',
+	...args
+] {
+    let new-env = if $command in ["rehash", "shell"] {
+        # implement each on indiviudaly e.g.
+        if $command == "shell" {
+            { RBENV_VERSION_OLD: $env.RBENV_VERSION RBENV_VERSION: $args.0 }
+        } else {
+            error make { msg: $"`($command)` command is not supported yet" }
+        }
+    } else {
+    	if ($command | empty?) {
+    		^rbenv
+    	} else {
+        	^rbenv $command $args
+    	}
+        {}
+    }
+    load-env $new-env
+}
+
+def 'nu-complete rbenv' [] {
+    ^rbenv help
+    | lines
+    | where ($it | str starts-with "   ")
+    | each {|entry| $entry | split row ' ' | get 0 }
+}
