@@ -8,7 +8,7 @@ export def-env rbenv [
 	command?: string@'nu-complete rbenv',
 	...args
 ] {
-    let new-env = if $command in ["rehash", "shell"] {
+    let new_env = if $command in ["rehash", "shell"] {
         # implement each on indiviudaly e.g.
         if $command == "shell" {
             { RBENV_VERSION_OLD: $env.RBENV_VERSION RBENV_VERSION: $args.0 }
@@ -23,7 +23,7 @@ export def-env rbenv [
     	}
         {}
     }
-    load-env $new-env
+    load-env $new_env
 }
 
 def 'nu-complete rbenv' [] {
