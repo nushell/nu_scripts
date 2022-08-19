@@ -6,7 +6,7 @@ def main [twitter_username: string] {
      withSafetyModeUserFields: true,
      withSuperFollowsUserFields: true
  }
-#declaring tokens
+#declaring tokens and endpoints
  let bearer = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
  let token_endpoint = 'https://api.twitter.com/1.1/guest/activate.json'
  let user_endpoint = 'https://twitter.com/i/api/graphql/gr8Lk09afdgWo7NvzP89iQ/UserByScreenName'
