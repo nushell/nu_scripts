@@ -22,7 +22,7 @@ for $twitter_username in $usernames {
                 withSuperFollowsUserFields: true
         }
 
-        post $user_endpoint -t application/x-www-form-urlencoded [ variables ($variables|to json -r) ] -H [ Authorization $bearer,  x-guest-token $token ] | get data.user.result | flatten | select name screen_name description protected verified created_at followers_count rest_id has_nft_avatar
+        post $user_endpoint -t application/x-www-form-urlencoded [ variables ($variables|to json -r) ] -H [ Authorization $bearer,  x-guest-token $token ] | get data.user.result | flatten | select name screen_name description protected verified created_at followers_count rest_id has_nft_avatar | get 0
 }
 
 }
