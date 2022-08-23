@@ -242,142 +242,142 @@ export extern "scoop home" [
 
 # Get or set configuration values
 export extern "scoop config" [
-  --help(-h)                  # Show help for this command.
+  --help(-h) # Show help for this command.
 ]
 
 # External 7zip (from path) will be used for archives extraction.
 export extern "scoop config 7ZIPEXTRACT_USE_EXTERNAL" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Prefer lessmsi utility over native msiexec.
 export extern "scoop config MSIEXTRACT_USE_LESSMSI" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # The 'current' version alias will not be used. Shims and shortcuts will point to specific version instead.
 export extern "scoop config NO_JUNCTIONS" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Git repository containining scoop source code.
 export extern "scoop config SCOOP_REPO" [
-  value: string@scoopRepos
+  value?: string@scoopRepos
 ]
 
 # Allow to use different branch than master.
 export extern "scoop config SCOOP_BRANCH" [
-  value: string@scoopBranches
+  value?: string@scoopBranches
 ]
 
 # [username:password@]host:port
 export extern "scoop config proxy" [
-  value: string
+  value?: string
 ]
 
 # Allow to configure preferred architecture for application installation. If not specified, architecture is determined be system.
 export extern "scoop config default_architecture" [
-  value: string@scoopArches
+  value?: string@scoopArches
 ]
 
 # Additional and detailed output will be shown.
 export extern "scoop config debug" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Force apps updating to bucket's version.
 export extern "scoop config force_update" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Do not show changed commits on 'scoop update'
 export extern "scoop config show_update_log" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Displays the manifest of every app that's about to be installed, then asks user if they wish to proceed.
 export extern "scoop config manifest_review" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Choose scoop shim build.
 export extern "scoop config shim" [
-  value: string@scoopShimBuilds
+  value?: string@scoopShimBuilds
 ]
 
 # Path to Scoop root directory.
 export extern "scoop config rootPath" [
-  value: directory
+  value?: directory
 ]
 
 # Path to Scoop root directory for global apps.
 export extern "scoop config globalPath" [
-  value: directory
+  value?: directory
 ]
 
 # For downloads, defaults to 'cache' folder under Scoop root directory.
 export extern "scoop config cachePath" [
-  value: directory
+  value?: directory
 ]
 
 # GitHub API token used to make authenticated requests.
 export extern "scoop config gh_token" [
-  value: string
+  value?: string
 ]
 
 # API key used for uploading/scanning files using virustotal.
 export extern "scoop config virustotal_api_key" [
-  value: string
+  value?: string
 ]
 
 # "scoop cat" display style. requires "bat" to be installed.
 export extern "scoop config cat_style" [
-  value: string@batStyles
+  value?: string@batStyles
 ]
 
 # Discard application running messages when reset, uninstall or update
 export extern "scoop config ignore_running_processes" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Array of private hosts that need additional authentication.
 export extern "scoop config private_hosts" [
-  value: string
+  value?: string
 ]
 
 # Aria2c will be used for downloading of artifacts.
 export extern "scoop config aria2-enabled" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Disable Aria2c warning which is shown while downloading.
 export extern "scoop config aria2-warning-enabled" [
-  value: string@scoopBooleans
+  value?: string@scoopBooleans
 ]
 
 # Number of seconds to wait between retries.
 export extern "scoop config aria2-retry-wait" [
-  value: number
+  value?: number
 ]
 
 # Number of connections used for downlaod.
 export extern "scoop config aria2-split" [
-  value: number
+  value?: number
 ]
 
 # The maximum number of connections to one server for each download.
 export extern "scoop config aria2-max-connection-per-server" [
-  value: number
+  value?: number
 ]
 
 # Downloaded files will be splitted by this configured size and downloaded using multiple connections.
 export extern "scoop config aria2-min-split-size" [
-  value: string
+  value?: string
 ]
 
 # Array of additional aria2 options.
 export extern "scoop config aria2-options" [
-  value: string
+  value?: string
 ]
 
 # Remove a configuration setting
