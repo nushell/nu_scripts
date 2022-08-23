@@ -1,8 +1,12 @@
 # author: e2dk4r
 
+################################################################
+# FUNCTIONS
+################################################################
+
 # list of supported architecture
 def scoopArches [] {
-  [ "32bit", "64bit", "arm64" ]
+  [ "32bit", "64bit" ]
 }
 
 # list of all installed apps
@@ -38,13 +42,85 @@ def scoopAvailableApps [] {
   $all | where not $it in $installed
 }
 
-# List installed applications.
-export extern "scoop list" [
-  --help(-h)      # Show help for this command.
-  --installed(-i) # Applicaitons will be sorted by installed date.
-  --reverse(-r)   # Applications will be listed in descending order. In case of Installed or Updated, apps will be listed from newest to oldest.
-  --updated(-u)   # Applications will be sorted by update time.
+# list of all config options
+def scoopConfigs [] {
+  [
+    '7ZIPEXTRACT_USE_EXTERNAL',
+    'MSIEXTRACT_USE_LESSMSI',
+    'NO_JUNCTIONS',
+    'SCOOP_REPO',
+    'SCOOP_BRANCH',
+    'proxy',
+    'default_architecture',
+    'debug',
+    'force_update',
+    'show_update_log',
+    'manifest_review',
+    'shim',
+    'rootPath',
+    'globalPath',
+    'cachePath',
+    'gh_token',
+    'virustotal_api_key',
+    'cat_style',
+    'ignore_running_processes',
+    'private_hosts',
+    'aria2-enabled',
+    'aria2-warning-enabled',
+    'aria2-retry-wait',
+    'aria2-split',
+    'aria2-max-connection-per-server',
+    'aria2-min-split-size',
+    'aria2-options',
+  ]
+}
+
+# boolean as strings
+def scoopBooleans [] {
+  ["'true'", "'false'"]
+}
+
+def scoopRepos [] {
+  [
+    'https://github.com/ScoopInstaller/Scoop',
+  ]
+}
+
+def scoopBranches [] {
+  ['master', 'develop']
+}
+
+def scoopShimBuilds [] {
+  [ 'kiennq', 'scoopcs', '71']
+}
+
+def batStyles [] {
+  [ 'default', 'auto', 'full', 'plain', 'changes', 'header', 'header-filename', 'header-filesize', 'grid', 'rule', 'numbers', 'snip' ]
+}
+
+################################################################
+# scoop
+################################################################
+
+# Windows command line installer
+export extern "scoop" [
+  --help(-h)    # Show help for this command.
+  --version(-v) # Show current scoop and added buckets versions
 ]
+
+################################################################
+# scoop list
+################################################################
+
+# Lists all installed apps, or the apps matching the supplied query.
+export extern "scoop list" [
+  query: string@scoopInstalledApps # string that will be matched
+  --help(-h) # Show help for this command.
+]
+
+################################################################
+# scoop uninstall
+################################################################
 
 # Uninstall specified application(s).
 export extern "scoop uninstall" [
@@ -54,20 +130,33 @@ export extern "scoop uninstall" [
   --purge(-p)  # Persisted data will be removed. Normally when application is being uninstalled, the data defined in persist property/manually persisted are kept.
 ]
 
+################################################################
+# scoop cleanup
+################################################################
+
 # Perform cleanup on specified installed application(s) by removing old/not actively used versions.
 export extern "scoop cleanup" [
   ...app: string@scoopInstalledAppsWithStar # app that will be cleaned
   --help(-h)   # Show help for this command.
+  --all(-a)    # Cleanup all apps (alternative to '*')
   --global(-g) # Perform cleanup on globally installed application(s). (Include them if '*' is used)
   --cache(-k)  # Remove outdated download cache. This will keep only the latest version cached.
 ]
 
+################################################################
+# scoop info
+################################################################
+
 # Display information about an application.
 export extern "scoop info" [
   app: string@scoopAllApps # app that will be questioned
-  --arch(-a): string@scoopArches # Use the specified architecture, if the application's manifest supports it.
-  --help(-h)   # Show help for this command.
+  --verbose(-v) # Show full paths and URLs
+  --help(-h)    # Show help for this command.
 ]
+
+################################################################
+# scoop update
+################################################################
 
 # Update installed application(s), or scoop itself.
 export extern "scoop update" [
@@ -79,7 +168,12 @@ export extern "scoop update" [
   --no-cache(-k)    # Do not use the download cache.
   --skip(-s)        # Skip hash validation (use with caution!).
   --quiet(-q)       # Hide extraneous messages.
+  --all(-a)         # Update all apps (alternative to '*')
 ]
+
+################################################################
+# scoop install
+################################################################
 
 # Install specific application(s).
 export extern "scoop install" [
@@ -90,4 +184,203 @@ export extern "scoop install" [
   --independent(-i)              # Do not install dependencies automatically.
   --no-cache(-k)                 # Do not use the download cache.
   --skip(-s)                     # Skip hash validation (use with caution!).
+  --no-update-scoop(-u)          # Don't update Scoop before installing if it's outdated
+]
+
+################################################################
+# scoop status
+################################################################
+
+# Show status and check for new app versions.
+export extern "scoop status" [
+  --help(-h)  # Show help for this command.
+  --local(-l) # Checks the status for only the locally installed apps, and disables remote fetching/checking for Scoop and buckets
+]
+
+################################################################
+# scoop which
+################################################################
+
+# Locate the path to a shim/executable that was installed with Scoop (similar to 'which' on Linux)
+export extern "scoop which" [
+  command: string # executable name with .exe
+  --help(-h)      # Show help for this command.
+]
+
+################################################################
+# scoop cat
+################################################################
+
+# Show content of specified manifest.
+export extern "scoop cat" [
+  app: string@scoopAllApps # app that will be shown
+  --help(-h)               # Show help for this command.
+]
+
+################################################################
+# scoop checkup
+################################################################
+
+# Performs a series of diagnostic tests to try to identify things that may cause problems with Scoop.
+export extern "scoop checkup" [
+  --help(-h)  # Show help for this command.
+]
+
+################################################################
+# scoop home
+################################################################
+
+# Opens the app homepage
+export extern "scoop home" [
+  app: string@scoopAllApps # app that will be shown
+  --help(-h)               # Show help for this command.
+]
+
+################################################################
+# scoop config ...
+################################################################
+
+# Get or set configuration values
+export extern "scoop config" [
+  --help(-h) # Show help for this command.
+]
+
+# External 7zip (from path) will be used for archives extraction.
+export extern "scoop config 7ZIPEXTRACT_USE_EXTERNAL" [
+  value?: string@scoopBooleans
+]
+
+# Prefer lessmsi utility over native msiexec.
+export extern "scoop config MSIEXTRACT_USE_LESSMSI" [
+  value?: string@scoopBooleans
+]
+
+# The 'current' version alias will not be used. Shims and shortcuts will point to specific version instead.
+export extern "scoop config NO_JUNCTIONS" [
+  value?: string@scoopBooleans
+]
+
+# Git repository containining scoop source code.
+export extern "scoop config SCOOP_REPO" [
+  value?: string@scoopRepos
+]
+
+# Allow to use different branch than master.
+export extern "scoop config SCOOP_BRANCH" [
+  value?: string@scoopBranches
+]
+
+# [username:password@]host:port
+export extern "scoop config proxy" [
+  value?: string
+]
+
+# Allow to configure preferred architecture for application installation. If not specified, architecture is determined be system.
+export extern "scoop config default_architecture" [
+  value?: string@scoopArches
+]
+
+# Additional and detailed output will be shown.
+export extern "scoop config debug" [
+  value?: string@scoopBooleans
+]
+
+# Force apps updating to bucket's version.
+export extern "scoop config force_update" [
+  value?: string@scoopBooleans
+]
+
+# Do not show changed commits on 'scoop update'
+export extern "scoop config show_update_log" [
+  value?: string@scoopBooleans
+]
+
+# Displays the manifest of every app that's about to be installed, then asks user if they wish to proceed.
+export extern "scoop config manifest_review" [
+  value?: string@scoopBooleans
+]
+
+# Choose scoop shim build.
+export extern "scoop config shim" [
+  value?: string@scoopShimBuilds
+]
+
+# Path to Scoop root directory.
+export extern "scoop config rootPath" [
+  value?: directory
+]
+
+# Path to Scoop root directory for global apps.
+export extern "scoop config globalPath" [
+  value?: directory
+]
+
+# For downloads, defaults to 'cache' folder under Scoop root directory.
+export extern "scoop config cachePath" [
+  value?: directory
+]
+
+# GitHub API token used to make authenticated requests.
+export extern "scoop config gh_token" [
+  value?: string
+]
+
+# API key used for uploading/scanning files using virustotal.
+export extern "scoop config virustotal_api_key" [
+  value?: string
+]
+
+# "scoop cat" display style. requires "bat" to be installed.
+export extern "scoop config cat_style" [
+  value?: string@batStyles
+]
+
+# Discard application running messages when reset, uninstall or update
+export extern "scoop config ignore_running_processes" [
+  value?: string@scoopBooleans
+]
+
+# Array of private hosts that need additional authentication.
+export extern "scoop config private_hosts" [
+  value?: string
+]
+
+# Aria2c will be used for downloading of artifacts.
+export extern "scoop config aria2-enabled" [
+  value?: string@scoopBooleans
+]
+
+# Disable Aria2c warning which is shown while downloading.
+export extern "scoop config aria2-warning-enabled" [
+  value?: string@scoopBooleans
+]
+
+# Number of seconds to wait between retries.
+export extern "scoop config aria2-retry-wait" [
+  value?: number
+]
+
+# Number of connections used for downlaod.
+export extern "scoop config aria2-split" [
+  value?: number
+]
+
+# The maximum number of connections to one server for each download.
+export extern "scoop config aria2-max-connection-per-server" [
+  value?: number
+]
+
+# Downloaded files will be splitted by this configured size and downloaded using multiple connections.
+export extern "scoop config aria2-min-split-size" [
+  value?: string
+]
+
+# Array of additional aria2 options.
+export extern "scoop config aria2-options" [
+  value?: string
+]
+
+# Remove a configuration setting
+export extern "scoop config rm" [
+  name: string@scoopConfigs # app that will be removed
 ]
