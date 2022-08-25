@@ -384,3 +384,190 @@ export extern "scoop config aria2-options" [
 export extern "scoop config rm" [
   name: string@scoopConfigs # app that will be removed
 ]
+
+################################################################
+# scoop hold
+################################################################
+
+# Hold an app to disable updates
+export extern "scoop hold" [
+  app: string@scoopInstalledApps # app that will be hold back
+  --global(-g) # Hold globally installed apps
+  --help(-h)   # Show help for this command.
+]
+
+################################################################
+# scoop unhold
+################################################################
+
+# Unhold an app to enable updates
+export extern "scoop unhold" [
+  app: string@scoopInstalledApps # app that will be unhold back
+  --global(-g) # Unhold globally installed apps
+  --help(-h)   # Show help for this command.
+]
+
+################################################################
+# scoop depends
+################################################################
+
+# List dependencies for an app, in the order they'll be installed
+export extern "scoop depends" [
+  app: string@scoopAllApps       # app in question
+  --arch(-a): string@scoopArches # Use the specified architecture, if the application's manifest supports it.
+  --help(-h)                     # Show help for this command.
+]
+
+################################################################
+# scoop export
+################################################################
+
+# Exports installed apps, buckets (and optionally configs) in JSON format
+export extern "scoop export" [
+  --config(-c) # Export the Scoop configuration file too
+  --help(-h)   # Show help for this command.
+]
+
+################################################################
+# scoop import
+################################################################
+
+# Imports apps, buckets and configs from a Scoopfile in JSON format
+export extern "scoop import" [
+  file: path # path to Scoopfile
+  --help(-h) # Show help for this command.
+]
+
+################################################################
+# scoop reset
+################################################################
+
+# Reset an app to resolve conflicts
+export extern "scoop reset" [
+  app: string@scoopInstalledAppsWithStar # app that will be reset
+  --all(-a)  # Reset all apps. (alternative to '*')
+  --help(-h) # Show help for this command.
+]
+
+################################################################
+# scoop prefix
+################################################################
+
+# Returns the path to the specified app
+export extern "scoop prefix" [
+  app: string@scoopInstalledApps # app in question
+  --help(-h) # Show help for this command.
+]
+
+################################################################
+# scoop create
+################################################################
+
+# Create a custom app manifest
+export extern "scoop create" [
+  url: string # url of manifest
+  --help(-h)  # Show help for this command.
+]
+
+################################################################
+# scoop search
+################################################################
+
+# Search available apps
+export extern "scoop search" [
+  query?: string # Show app names that match the query
+  --help(-h)     # Show help for this command.
+]
+
+################################################################
+# scoop cache ...
+################################################################
+
+# Show the download cache
+export extern "scoop cache show" [
+  ...?apps: string@scoopInstalledAppsWithStar # apps in question
+]
+
+# Clear the download cache
+export extern "scoop cache rm" [
+  ...?apps: string@scoopInstalledAppsWithStar # apps in question
+  --all(-a)  # Clear all apps (alternative to '*')
+]
+
+################################################################
+# scoop download
+################################################################
+
+# Download apps in the cache folder and verify hashes
+export extern "scoop download" [
+  app?: string@scoopAvailableApps # apps in question
+  --help(-h)                      # Show help for this command.
+  --force(-f)                     # Force download (overwrite cache)
+  --no-hash-check(-h)             # Skip hash verification (use with caution!)
+  --no-update-scoop(-u)           # Don't update Scoop before downloading if it's outdated
+  --arch(-a): string@scoopArches  # Use the specified architecture, if the app supports it
+]
+
+################################################################
+# scoop bucket ...
+################################################################
+
+def scoopKnownBuckets [] {
+ [ "main", "extras", "versions", "nirsoft", "php", "nerd-fonts", "nonportable", "java", "games" ]
+}
+
+def scoopInstalledBuckets [] {
+  let bucketsDir = if (env | any? $it.name == 'SCOOP') { $"($env.SCOOP)\\buckets" } else { $"($env.USERPROFILE)\\scoop\\buckets" }
+  let buckets    = (ls $bucketsDir | get name | path basename)
+  $buckets
+}
+
+def scoopAvailableBuckets [] {
+  let known     = (scoopKnownBuckets)
+  let installed = (scoopInstalledBuckets)
+
+  $known | where not $it in $installed
+}
+
+# Add, list or remove buckets.
+export extern "scoop bucket" [
+  --help(-h) # Show help for this command.
+]
+
+# add a bucket
+export extern "scoop bucket add" [
+  name:  string@scoopAvailableBuckets # name of the bucket
+  repo?: string                       # url of git repo
+  --help(-h)                          # Show help for this command.
+]
+
+# list installed buckets
+export extern "scoop bucket list" [
+  --help(-h) # Show help for this command.
+]
+
+# list known buckets
+export extern "scoop bucket known" [
+  --help(-h) # Show help for this command.
+]
+
+# remove installed buckets
+export extern "scoop bucket rm" [
+  name: string@scoopInstalledBuckets # bucket to be removed
+  --help(-h) # Show help for this command.
+]
+
+################################################################
+# scoop virustotal
+################################################################
+
+# Look for app's hash or url on virustotal.com
+export extern "scoop virustotal" [
+  ...apps: string@scoopInstalledAppsWithStar # app to be scanned
+  --all(-a)             # Check for all installed apps
+  --scan(-s)            # Send download URL for analysis (and future retrieval).
+  --no-depends(-n)      # By default, all dependencies are checked too. This flag avoids it.
+  --no-update-scoop(-u) # Don't update Scoop before checking if it's outdated
+  --passthru(-p)        # Return reports as objects
+  --help(-h)            # Show help for this command.
+]
