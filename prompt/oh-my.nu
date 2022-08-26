@@ -1,6 +1,3 @@
-# NOTE: This is meant to run with engine-q and not nushell yet
-# It's still being tested. There will be bugs. :)
-
 # REQUIREMENTS #
 # you definitely need nerd fonts https://www.nerdfonts.com
 # nerd fonts repo https://github.com/ryanoasis/nerd-fonts
@@ -197,7 +194,7 @@ def get_os_icon [os] {
 # │ ahead               │ 0             │
 # │ behind              │ 0             │
 # │ stashes             │ 0             │
-# │ repo_name           │ engine-q      │
+# │ repo_name           │ nushell       │
 # │ tag                 │ no_tag        │
 # │ branch              │ main          │
 # │ remote              │ upstream/main │
@@ -543,7 +540,7 @@ export def git_prompt [] {
     }
     #
     # in the config.nu you would do something like
-    # use "c:\some\path\to\nu_scripts\engine-q\prompt\oh-my.nu" git_prompt
+    # use "c:\some\path\to\nu_scripts\prompt\oh-my.nu" git_prompt
     # let-env PROMPT_COMMAND = { (git_prompt).left_prompt }
     # let-env PROMPT_COMMAND_RIGHT = { (git_prompt).right_prompt }
     # let-env PROMPT_INDICATOR = " "
