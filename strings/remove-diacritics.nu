@@ -6,6 +6,7 @@ def remove-diacritics [
     arg: string
 ] {
     let diacritics_map = {
+    # Polish
     "Ą": "A",
     "ą": "a",
     "Ć": "C",
@@ -23,7 +24,15 @@ def remove-diacritics [
     "Ż": "Z",
     "ż": "z",
     "Ź": "Z",
-    "ź": "z"
+    "ź": "z",
+    # German
+    "ä": "ae",
+    "Ä": "Ae",
+    "ö": "oe",
+    "Ö": "Oe",
+    "ü": "ue",
+    "Ü": "Ue",
+    "ß": "ss"
 }
     $arg
     |split chars
