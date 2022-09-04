@@ -1,4 +1,13 @@
 export def humanoid_light [] {
+    # extra desired values for the humanoid_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f8f8f2"
+    # foreground: "#232629"
+    # cursor: "#232629"
+
     {
         # color for nushell primitives
         separator: "#070708"

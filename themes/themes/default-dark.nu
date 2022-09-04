@@ -1,4 +1,13 @@
 export def default_dark [] {
+    # extra desired values for the default_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#181818"
+    # foreground: "#d8d8d8"
+    # cursor: "#d8d8d8"
+
     {
         # color for nushell primitives
         separator: "#f8f8f8"

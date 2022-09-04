@@ -1,4 +1,13 @@
 export def atelier_heath [] {
+    # extra desired values for the atelier_heath theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b181b"
+    # foreground: "#ab9bab"
+    # cursor: "#ab9bab"
+
     {
         # color for nushell primitives
         separator: "#f7f3f7"

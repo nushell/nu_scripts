@@ -1,4 +1,13 @@
 export def hybrid [] {
+    # extra desired values for the hybrid theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#141414"
+    # foreground: "#94a3a5"
+    # cursor: "#94a3a5"
+
     {
         # color for nushell primitives
         separator: "#c5c8c6"

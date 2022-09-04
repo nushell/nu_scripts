@@ -1,4 +1,13 @@
 export def falcon [] {
+    # extra desired values for the falcon theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#020221"
+    # foreground: "#b4b4b9"
+    # cursor: "#ffe8c0"
+
     {
         # color for nushell primitives
         separator: "#f8f8ff"

@@ -1,4 +1,13 @@
 export def frontend_delight [] {
+    # extra desired values for the frontend_delight theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b1c1d"
+    # foreground: "#adadad"
+    # cursor: "#adadad"
+
     {
         # color for nushell primitives
         separator: "#8c735b"

@@ -1,4 +1,13 @@
 export def vag [] {
+    # extra desired values for the vag theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#191f1d"
+    # foreground: "#d9e6f2"
+    # cursor: "#d9e6f2"
+
     {
         # color for nushell primitives
         separator: "#cfcfcf"

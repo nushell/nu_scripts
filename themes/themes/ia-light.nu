@@ -1,4 +1,13 @@
 export def ia_light [] {
+    # extra desired values for the ia_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f6f6f6"
+    # foreground: "#181818"
+    # cursor: "#181818"
+
     {
         # color for nushell primitives
         separator: "#f8f8f8"

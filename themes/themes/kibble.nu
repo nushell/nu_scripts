@@ -1,4 +1,13 @@
 export def kibble [] {
+    # extra desired values for the kibble theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0e100a"
+    # foreground: "#f7f7f7"
+    # cursor: "#f7f7f7"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

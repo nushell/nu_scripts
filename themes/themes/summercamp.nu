@@ -1,4 +1,13 @@
 export def summercamp [] {
+    # extra desired values for the summercamp theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1810"
+    # foreground: "#736e55"
+    # cursor: "#736e55"
+
     {
         # color for nushell primitives
         separator: "#f8f5de"

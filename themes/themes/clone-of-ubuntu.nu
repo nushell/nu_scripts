@@ -1,4 +1,13 @@
 export def clone_of-ubuntu [] {
+    # extra desired values for the clone_of-ubuntu theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#300a24"
+    # foreground: "#ffffff"
+    # cursor: "#ffffff"
+
     {
         # color for nushell primitives
         separator: "#eeeeec"

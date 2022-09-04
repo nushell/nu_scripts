@@ -1,4 +1,13 @@
 export def tokyo_storm [] {
+    # extra desired values for the tokyo_storm theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#24283b"
+    # foreground: "#c0caf5"
+    # cursor: "#c0caf5"
+
     {
         # color for nushell primitives
         separator: "#c0caf5"

@@ -1,4 +1,13 @@
 export def solarized_dark [] {
+    # extra desired values for the solarized_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#002b36"
+    # foreground: "#93a1a1"
+    # cursor: "#93a1a1"
+
     {
         # color for nushell primitives
         separator: "#fdf6e3"

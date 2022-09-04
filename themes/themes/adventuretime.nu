@@ -1,4 +1,13 @@
 export def adventuretime [] {
+    # extra desired values for the adventuretime theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f1d45"
+    # foreground: "#f8dcc0"
+    # cursor: "#f8dcc0"
+
     {
         # color for nushell primitives
         separator: "#f6f5fb"

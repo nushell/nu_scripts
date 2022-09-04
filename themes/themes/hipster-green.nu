@@ -1,4 +1,13 @@
 export def hipster_green [] {
+    # extra desired values for the hipster_green theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#100b05"
+    # foreground: "#84c138"
+    # cursor: "#84c138"
+
     {
         # color for nushell primitives
         separator: "#e5e5e5"

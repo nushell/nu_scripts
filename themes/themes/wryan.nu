@@ -1,4 +1,13 @@
 export def wryan [] {
+    # extra desired values for the wryan theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#101010"
+    # foreground: "#999993"
+    # cursor: "#999993"
+
     {
         # color for nushell primitives
         separator: "#c0c0c0"

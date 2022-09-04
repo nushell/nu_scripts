@@ -1,4 +1,13 @@
 export def ic_orange-ppl [] {
+    # extra desired values for the ic_orange-ppl theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#262626"
+    # foreground: "#ffcb83"
+    # cursor: "#ffcb83"
+
     {
         # color for nushell primitives
         separator: "#fafaff"

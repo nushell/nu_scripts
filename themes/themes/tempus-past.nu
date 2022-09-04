@@ -1,4 +1,13 @@
 export def tempus_past [] {
+    # extra desired values for the tempus_past theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f3f2f4"
+    # foreground: "#53545b"
+    # cursor: "#53545b"
+
     {
         # color for nushell primitives
         separator: "#f3f2f4"

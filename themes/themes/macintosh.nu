@@ -1,4 +1,13 @@
 export def macintosh [] {
+    # extra desired values for the macintosh theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#c0c0c0"
+    # cursor: "#c0c0c0"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

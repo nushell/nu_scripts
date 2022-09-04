@@ -1,4 +1,13 @@
 export def atlas [] {
+    # extra desired values for the atlas theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#002635"
+    # foreground: "#a1a19a"
+    # cursor: "#a1a19a"
+
     {
         # color for nushell primitives
         separator: "#fafaf8"

@@ -1,4 +1,13 @@
 export def spiderman [] {
+    # extra desired values for the spiderman theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b1d1e"
+    # foreground: "#e2e2e2"
+    # cursor: "#2b3fff"
+
     {
         # color for nushell primitives
         separator: "#fefff9"

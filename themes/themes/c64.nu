@@ -1,4 +1,13 @@
 export def c64 [] {
+    # extra desired values for the c64 theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#40318d"
+    # foreground: "#7869c4"
+    # cursor: "#7869c4"
+
     {
         # color for nushell primitives
         separator: "#f7f7f7"

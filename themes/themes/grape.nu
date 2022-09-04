@@ -1,4 +1,13 @@
 export def grape [] {
+    # extra desired values for the grape theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#171423"
+    # foreground: "#9f9fa1"
+    # cursor: "#9f9fa1"
+
     {
         # color for nushell primitives
         separator: "#a288f7"

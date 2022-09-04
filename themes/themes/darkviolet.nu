@@ -1,4 +1,13 @@
 export def darkviolet [] {
+    # extra desired values for the darkviolet theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#b08ae6"
+    # cursor: "#b08ae6"
+
     {
         # color for nushell primitives
         separator: "#a366ff"

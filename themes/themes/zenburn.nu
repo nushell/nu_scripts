@@ -1,4 +1,13 @@
 export def zenburn [] {
+    # extra desired values for the zenburn theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#383838"
+    # foreground: "#dcdccc"
+    # cursor: "#dcdccc"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

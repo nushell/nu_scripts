@@ -1,4 +1,13 @@
 export def monokai_soda [] {
+    # extra desired values for the monokai_soda theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1a1a1a"
+    # foreground: "#c4c5b5"
+    # cursor: "#c4c5b5"
+
     {
         # color for nushell primitives
         separator: "#f6f6ef"

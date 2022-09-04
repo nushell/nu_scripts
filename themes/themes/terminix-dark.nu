@@ -1,4 +1,13 @@
 export def terminix_dark [] {
+    # extra desired values for the terminix_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#091116"
+    # foreground: "#868a8c"
+    # cursor: "#868a8c"
+
     {
         # color for nushell primitives
         separator: "#c5c8c6"

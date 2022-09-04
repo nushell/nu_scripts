@@ -1,4 +1,13 @@
 export def pop [] {
+    # extra desired values for the pop theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#d0d0d0"
+    # cursor: "#d0d0d0"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

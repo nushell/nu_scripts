@@ -1,4 +1,13 @@
 export def novel [] {
+    # extra desired values for the novel theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#dfdbc3"
+    # foreground: "#3b2322"
+    # cursor: "#3b2322"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

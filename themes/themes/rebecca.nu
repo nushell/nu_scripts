@@ -1,4 +1,13 @@
 export def rebecca [] {
+    # extra desired values for the rebecca theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#292a44"
+    # foreground: "#f1eff8"
+    # cursor: "#f1eff8"
+
     {
         # color for nushell primitives
         separator: "#53495d"

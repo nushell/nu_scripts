@@ -1,4 +1,13 @@
 export def one_light [] {
+    # extra desired values for the one_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fafafa"
+    # foreground: "#383a42"
+    # cursor: "#383a42"
+
     {
         # color for nushell primitives
         separator: "#090a0b"

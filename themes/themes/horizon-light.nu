@@ -1,4 +1,13 @@
 export def horizon_light [] {
+    # extra desired values for the horizon_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fdf0ed"
+    # foreground: "#403c3d"
+    # cursor: "#403c3d"
+
     {
         # color for nushell primitives
         separator: "#201c1d"

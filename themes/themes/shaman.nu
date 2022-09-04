@@ -1,4 +1,13 @@
 export def shaman [] {
+    # extra desired values for the shaman theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#001015"
+    # foreground: "#405555"
+    # cursor: "#405555"
+
     {
         # color for nushell primitives
         separator: "#58fbd6"

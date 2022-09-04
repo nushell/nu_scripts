@@ -1,4 +1,13 @@
 export def ashes [] {
+    # extra desired values for the ashes theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c2023"
+    # foreground: "#c7ccd1"
+    # cursor: "#c7ccd1"
+
     {
         # color for nushell primitives
         separator: "#f3f4f5"

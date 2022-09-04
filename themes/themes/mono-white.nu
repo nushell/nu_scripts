@@ -1,4 +1,13 @@
 export def mono_white [] {
+    # extra desired values for the mono_white theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#262626"
+    # foreground: "#fafafa"
+    # cursor: "#fafafa"
+
     {
         # color for nushell primitives
         separator: "#fafafa"

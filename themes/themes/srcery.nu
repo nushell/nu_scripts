@@ -1,4 +1,13 @@
 export def srcery [] {
+    # extra desired values for the srcery theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1b19"
+    # foreground: "#fce8c3"
+    # cursor: "#fbb829"
+
     {
         # color for nushell primitives
         separator: "#fce8c3"

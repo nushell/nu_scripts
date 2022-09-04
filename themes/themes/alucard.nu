@@ -1,4 +1,13 @@
 export def alucard [] {
+    # extra desired values for the alucard theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222330"
+    # foreground: "#cef3ff"
+    # cursor: "#ffffff"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

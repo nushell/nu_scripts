@@ -1,4 +1,13 @@
 export def slate [] {
+    # extra desired values for the slate theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222222"
+    # foreground: "#35b1d2"
+    # cursor: "#35b1d2"
+
     {
         # color for nushell primitives
         separator: "#e0e0e0"

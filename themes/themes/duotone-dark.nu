@@ -1,4 +1,13 @@
 export def duotone_dark [] {
+    # extra desired values for the duotone_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f1c27"
+    # foreground: "#b6a0ff"
+    # cursor: "#ff9738"
+
     {
         # color for nushell primitives
         separator: "#e9e4ff"

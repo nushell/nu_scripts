@@ -1,4 +1,13 @@
 export def cupcake [] {
+    # extra desired values for the cupcake theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fbf1f2"
+    # foreground: "#8b8198"
+    # cursor: "#8b8198"
+
     {
         # color for nushell primitives
         separator: "#585062"

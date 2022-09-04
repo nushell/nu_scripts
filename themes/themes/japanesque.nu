@@ -1,4 +1,13 @@
 export def japanesque [] {
+    # extra desired values for the japanesque theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1e1e1e"
+    # foreground: "#f7f6ec"
+    # cursor: "#f7f6ec"
+
     {
         # color for nushell primitives
         separator: "#b2b5ae"

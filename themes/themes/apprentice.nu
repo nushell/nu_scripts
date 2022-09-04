@@ -1,4 +1,13 @@
 export def apprentice [] {
+    # extra desired values for the apprentice theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#262626"
+    # foreground: "#bcbcbc"
+    # cursor: "#bcbcbc"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

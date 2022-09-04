@@ -1,4 +1,13 @@
 export def harmonic16_light [] {
+    # extra desired values for the harmonic16_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f7f9fb"
+    # foreground: "#405c79"
+    # cursor: "#405c79"
+
     {
         # color for nushell primitives
         separator: "#0b1c2c"

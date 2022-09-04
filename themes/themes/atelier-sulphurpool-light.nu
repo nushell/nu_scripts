@@ -1,4 +1,13 @@
 export def atelier_sulphurpool-light [] {
+    # extra desired values for the atelier_sulphurpool-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f5f7ff"
+    # foreground: "#5e6687"
+    # cursor: "#5e6687"
+
     {
         # color for nushell primitives
         separator: "#202746"

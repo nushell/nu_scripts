@@ -1,4 +1,13 @@
 export def sea_shells [] {
+    # extra desired values for the sea_shells theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#09141b"
+    # foreground: "#deb88d"
+    # cursor: "#deb88d"
+
     {
         # color for nushell primitives
         separator: "#fee4ce"

@@ -1,4 +1,13 @@
 export def snow_dark [] {
+    # extra desired values for the snow_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2c2d30"
+    # foreground: "#afb7c0"
+    # cursor: "#cbd2d9"
+
     {
         # color for nushell primitives
         separator: "#cbd2d9"

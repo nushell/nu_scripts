@@ -1,4 +1,13 @@
 export def brogrammer [] {
+    # extra desired values for the brogrammer theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f1f1f"
+    # foreground: "#4e5ab7"
+    # cursor: "#4e5ab7"
+
     {
         # color for nushell primitives
         separator: "#d6dbe5"

@@ -1,4 +1,13 @@
 export def borland [] {
+    # extra desired values for the borland theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0000a4"
+    # foreground: "#ffff4e"
+    # cursor: "#ffff4e"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

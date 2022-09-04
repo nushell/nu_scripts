@@ -1,4 +1,13 @@
 export def palmtree [] {
+    # extra desired values for the palmtree theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#282a36"
+    # foreground: "#b043d1"
+    # cursor: "#3fdcee"
+
     {
         # color for nushell primitives
         separator: "#bebec1"

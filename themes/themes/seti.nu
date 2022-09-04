@@ -1,4 +1,13 @@
 export def seti [] {
+    # extra desired values for the seti theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#151718"
+    # foreground: "#d6d6d6"
+    # cursor: "#d6d6d6"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def kimber [] {
+    # extra desired values for the kimber theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222222"
+    # foreground: "#dedee7"
+    # cursor: "#dedee7"
+
     {
         # color for nushell primitives
         separator: "#ffffe6"

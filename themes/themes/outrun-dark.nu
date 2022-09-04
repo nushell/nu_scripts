@@ -1,4 +1,13 @@
 export def outrun_dark [] {
+    # extra desired values for the outrun_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#00002a"
+    # foreground: "#d0d0fa"
+    # cursor: "#d0d0fa"
+
     {
         # color for nushell primitives
         separator: "#f5f5ff"

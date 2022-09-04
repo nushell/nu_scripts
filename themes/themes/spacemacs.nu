@@ -1,4 +1,13 @@
 export def spacemacs [] {
+    # extra desired values for the spacemacs theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f2022"
+    # foreground: "#a3a3a3"
+    # cursor: "#a3a3a3"
+
     {
         # color for nushell primitives
         separator: "#f8f8f8"

@@ -1,4 +1,13 @@
 export def material [] {
+    # extra desired values for the material theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#263238"
+    # foreground: "#eeffff"
+    # cursor: "#eeffff"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

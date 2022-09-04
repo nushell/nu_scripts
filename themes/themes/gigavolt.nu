@@ -1,4 +1,13 @@
 export def gigavolt [] {
+    # extra desired values for the gigavolt theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#202126"
+    # foreground: "#e9e7e1"
+    # cursor: "#e9e7e1"
+
     {
         # color for nushell primitives
         separator: "#f2fbff"

@@ -1,4 +1,13 @@
 export def gooey [] {
+    # extra desired values for the gooey theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0d101b"
+    # foreground: "#ebeef9"
+    # cursor: "#ebeef9"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

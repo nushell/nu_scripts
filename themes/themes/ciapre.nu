@@ -1,4 +1,13 @@
 export def ciapre [] {
+    # extra desired values for the ciapre theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#191c27"
+    # foreground: "#aea47a"
+    # cursor: "#aea47a"
+
     {
         # color for nushell primitives
         separator: "#f4f4f4"

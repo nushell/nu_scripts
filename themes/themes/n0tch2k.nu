@@ -1,4 +1,13 @@
 export def n0tch2k [] {
+    # extra desired values for the n0tch2k theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222222"
+    # foreground: "#a0a0a0"
+    # cursor: "#a0a0a0"
+
     {
         # color for nushell primitives
         separator: "#d8c8bb"

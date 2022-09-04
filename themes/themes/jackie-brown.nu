@@ -1,4 +1,13 @@
 export def jackie_brown [] {
+    # extra desired values for the jackie_brown theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2c1d16"
+    # foreground: "#ffcc2f"
+    # cursor: "#ffcc2f"
+
     {
         # color for nushell primitives
         separator: "#e5e5e5"

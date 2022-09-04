@@ -1,4 +1,13 @@
 export def arthur [] {
+    # extra desired values for the arthur theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1c1c"
+    # foreground: "#ddeedd"
+    # cursor: "#ddeedd"
+
     {
         # color for nushell primitives
         separator: "#ddccbb"

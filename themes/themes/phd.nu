@@ -1,4 +1,13 @@
 export def phd [] {
+    # extra desired values for the phd theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#061229"
+    # foreground: "#b8bbc2"
+    # cursor: "#b8bbc2"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

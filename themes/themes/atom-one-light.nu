@@ -1,4 +1,13 @@
 export def atom_one-light [] {
+    # extra desired values for the atom_one-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f8f8f8"
+    # foreground: "#2a2b33"
+    # cursor: "#bbbbbb"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def bright_lights [] {
+    # extra desired values for the bright_lights theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#191919"
+    # foreground: "#b2c8d6"
+    # cursor: "#f34a00"
+
     {
         # color for nushell primitives
         separator: "#c1c8d6"

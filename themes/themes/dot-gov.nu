@@ -1,4 +1,13 @@
 export def dot_gov [] {
+    # extra desired values for the dot_gov theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#252b35"
+    # foreground: "#eaeaea"
+    # cursor: "#d9002f"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

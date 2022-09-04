@@ -1,4 +1,13 @@
 export def vs_code-dark-plus [] {
+    # extra desired values for the vs_code-dark-plus theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1e1e1e"
+    # foreground: "#cccccc"
+    # cursor: "#cccccc"
+
     {
         # color for nushell primitives
         separator: "#d9fbff"

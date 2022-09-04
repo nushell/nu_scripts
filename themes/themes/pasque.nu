@@ -1,4 +1,13 @@
 export def pasque [] {
+    # extra desired values for the pasque theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#271c3a"
+    # foreground: "#dedcdf"
+    # cursor: "#dedcdf"
+
     {
         # color for nushell primitives
         separator: "#bbaadd"

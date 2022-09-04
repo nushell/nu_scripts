@@ -1,4 +1,13 @@
 export def jup [] {
+    # extra desired values for the jup theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#758480"
+    # foreground: "#23476a"
+    # cursor: "#23476a"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

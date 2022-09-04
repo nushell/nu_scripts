@@ -1,4 +1,13 @@
 export def two_firewatch [] {
+    # extra desired values for the two_firewatch theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#282c34"
+    # foreground: "#abb2bf"
+    # cursor: "#abb2bf"
+
     {
         # color for nushell primitives
         separator: "#dcdfe4"

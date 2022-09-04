@@ -1,4 +1,13 @@
 export def mona_lisa [] {
+    # extra desired values for the mona_lisa theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#120b0d"
+    # foreground: "#f7d66a"
+    # cursor: "#f7d66a"
+
     {
         # color for nushell primitives
         separator: "#ffe598"

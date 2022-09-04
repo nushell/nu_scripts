@@ -1,4 +1,13 @@
 export def eighties [] {
+    # extra desired values for the eighties theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2d2d2d"
+    # foreground: "#d3d0c8"
+    # cursor: "#d3d0c8"
+
     {
         # color for nushell primitives
         separator: "#f2f0ec"

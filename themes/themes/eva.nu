@@ -1,4 +1,13 @@
 export def eva [] {
+    # extra desired values for the eva theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2a3b4d"
+    # foreground: "#9fa2a6"
+    # cursor: "#9fa2a6"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

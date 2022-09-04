@@ -1,4 +1,13 @@
 export def spacegray_eighties-dull [] {
+    # extra desired values for the spacegray_eighties-dull theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222222"
+    # foreground: "#c9c6bc"
+    # cursor: "#c9c6bc"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

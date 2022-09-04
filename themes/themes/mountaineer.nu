@@ -1,4 +1,13 @@
 export def mountaineer [] {
+    # extra desired values for the mountaineer theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#050505"
+    # foreground: "#f0f0f0"
+    # cursor: "#b5bd68"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

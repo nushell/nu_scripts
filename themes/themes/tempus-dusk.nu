@@ -1,4 +1,13 @@
 export def tempus_dusk [] {
+    # extra desired values for the tempus_dusk theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f252d"
+    # foreground: "#a2a8ba"
+    # cursor: "#a2a8ba"
+
     {
         # color for nushell primitives
         separator: "#a2a8ba"

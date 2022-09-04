@@ -1,4 +1,13 @@
 export def summerfruit_dark [] {
+    # extra desired values for the summerfruit_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#151515"
+    # foreground: "#d0d0d0"
+    # cursor: "#d0d0d0"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

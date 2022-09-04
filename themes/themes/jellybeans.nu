@@ -1,4 +1,13 @@
 export def jellybeans [] {
+    # extra desired values for the jellybeans theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#121212"
+    # foreground: "#dedede"
+    # cursor: "#dedede"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

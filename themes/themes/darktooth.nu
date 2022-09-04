@@ -1,4 +1,13 @@
 export def darktooth [] {
+    # extra desired values for the darktooth theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1d2021"
+    # foreground: "#a89984"
+    # cursor: "#a89984"
+
     {
         # color for nushell primitives
         separator: "#fdf4c1"

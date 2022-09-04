@@ -1,4 +1,13 @@
 export def terminal_basic [] {
+    # extra desired values for the terminal_basic theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#ffffff"
+    # foreground: "#000000"
+    # cursor: "#000000"
+
     {
         # color for nushell primitives
         separator: "#e5e5e5"

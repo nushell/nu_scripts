@@ -1,4 +1,13 @@
 export def darcula [] {
+    # extra desired values for the darcula theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2b2b2b"
+    # foreground: "#a9b7c6"
+    # cursor: "#a9b7c6"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

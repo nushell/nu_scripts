@@ -1,4 +1,13 @@
 export def horizon_terminal-dark [] {
+    # extra desired values for the horizon_terminal-dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1e26"
+    # foreground: "#cbced0"
+    # cursor: "#cbced0"
+
     {
         # color for nushell primitives
         separator: "#e3e6ee"

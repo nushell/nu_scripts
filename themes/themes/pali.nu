@@ -1,4 +1,13 @@
 export def pali [] {
+    # extra desired values for the pali theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#232e37"
+    # foreground: "#d9e6f2"
+    # cursor: "#d9e6f2"
+
     {
         # color for nushell primitives
         separator: "#a020f0"

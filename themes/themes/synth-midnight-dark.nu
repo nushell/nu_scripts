@@ -1,4 +1,13 @@
 export def synth_midnight-dark [] {
+    # extra desired values for the synth_midnight-dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#050608"
+    # foreground: "#c1c3c4"
+    # cursor: "#c1c3c4"
+
     {
         # color for nushell primitives
         separator: "#dddfe0"

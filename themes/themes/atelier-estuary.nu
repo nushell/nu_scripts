@@ -1,4 +1,13 @@
 export def atelier_estuary [] {
+    # extra desired values for the atelier_estuary theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#22221b"
+    # foreground: "#929181"
+    # cursor: "#929181"
+
     {
         # color for nushell primitives
         separator: "#f4f3ec"

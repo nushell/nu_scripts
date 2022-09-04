@@ -1,4 +1,13 @@
 export def espresso_libre [] {
+    # extra desired values for the espresso_libre theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2a211c"
+    # foreground: "#b8a898"
+    # cursor: "#b8a898"
+
     {
         # color for nushell primitives
         separator: "#eeeeec"

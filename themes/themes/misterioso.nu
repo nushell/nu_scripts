@@ -1,4 +1,13 @@
 export def misterioso [] {
+    # extra desired values for the misterioso theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2d3743"
+    # foreground: "#e1e1e0"
+    # cursor: "#e1e1e0"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

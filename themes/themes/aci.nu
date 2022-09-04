@@ -1,4 +1,13 @@
 export def aci [] {
+    # extra desired values for the aci theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0d1926"
+    # foreground: "#b4e1fd"
+    # cursor: "#b4e1fd"
+
     {
         # color for nushell primitives
         separator: "#c2c2c2"

@@ -1,4 +1,13 @@
 export def flatland [] {
+    # extra desired values for the flatland theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1d1f21"
+    # foreground: "#b8dbef"
+    # cursor: "#b8dbef"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

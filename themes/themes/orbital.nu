@@ -1,4 +1,13 @@
 export def orbital [] {
+    # extra desired values for the orbital theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#e4e4e4"
+    # cursor: "#5fafff"
+
     {
         # color for nushell primitives
         separator: "#0000d7"

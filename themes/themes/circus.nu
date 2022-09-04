@@ -1,4 +1,13 @@
 export def circus [] {
+    # extra desired values for the circus theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#191919"
+    # foreground: "#a7a7a7"
+    # cursor: "#a7a7a7"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

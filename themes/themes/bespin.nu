@@ -1,4 +1,13 @@
 export def bespin [] {
+    # extra desired values for the bespin theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#28211c"
+    # foreground: "#8a8986"
+    # cursor: "#8a8986"
+
     {
         # color for nushell primitives
         separator: "#baae9e"

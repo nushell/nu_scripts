@@ -1,4 +1,13 @@
 export def ffive [] {
+    # extra desired values for the ffive theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1d1e20"
+    # foreground: "#dadadb"
+    # cursor: "#dadadb"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

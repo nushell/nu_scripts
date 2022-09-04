@@ -1,4 +1,13 @@
 export def pnevma [] {
+    # extra desired values for the pnevma theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1c1c"
+    # foreground: "#d0d0d0"
+    # cursor: "#d0d0d0"
+
     {
         # color for nushell primitives
         separator: "#efefef"

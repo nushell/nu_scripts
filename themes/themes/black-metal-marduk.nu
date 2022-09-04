@@ -1,4 +1,13 @@
 export def black_metal-marduk [] {
+    # extra desired values for the black_metal-marduk theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#c1c1c1"
+    # cursor: "#c1c1c1"
+
     {
         # color for nushell primitives
         separator: "#c1c1c1"

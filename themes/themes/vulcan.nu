@@ -1,4 +1,13 @@
 export def vulcan [] {
+    # extra desired values for the vulcan theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#041523"
+    # foreground: "#5b778c"
+    # cursor: "#5b778c"
+
     {
         # color for nushell primitives
         separator: "#214d68"

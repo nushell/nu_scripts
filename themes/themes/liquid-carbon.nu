@@ -1,4 +1,13 @@
 export def liquid_carbon [] {
+    # extra desired values for the liquid_carbon theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#303030"
+    # foreground: "#afc2c2"
+    # cursor: "#afc2c2"
+
     {
         # color for nushell primitives
         separator: "#bccccc"

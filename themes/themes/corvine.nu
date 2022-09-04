@@ -1,4 +1,13 @@
 export def corvine [] {
+    # extra desired values for the corvine theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#262626"
+    # foreground: "#c6c6c6"
+    # cursor: "#c6c6c6"
+
     {
         # color for nushell primitives
         separator: "#eeeeee"

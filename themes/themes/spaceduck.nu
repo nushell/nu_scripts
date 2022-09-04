@@ -1,4 +1,13 @@
 export def spaceduck [] {
+    # extra desired values for the spaceduck theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0f111b"
+    # foreground: "#ecf0c1"
+    # cursor: "#ecf0c1"
+
     {
         # color for nushell primitives
         separator: "#f0f1ce"

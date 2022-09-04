@@ -1,4 +1,13 @@
 export def tube [] {
+    # extra desired values for the tube theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#231f20"
+    # foreground: "#d9d8d8"
+    # cursor: "#d9d8d8"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

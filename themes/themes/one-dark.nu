@@ -1,4 +1,13 @@
 export def one_dark [] {
+    # extra desired values for the one_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1e2127"
+    # foreground: "#5c6370"
+    # cursor: "#5c6370"
+
     {
         # color for nushell primitives
         separator: "#fffefe"

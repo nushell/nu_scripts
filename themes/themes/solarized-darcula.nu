@@ -1,4 +1,13 @@
 export def solarized_darcula [] {
+    # extra desired values for the solarized_darcula theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#3d3f41"
+    # foreground: "#d2d8d9"
+    # cursor: "#d2d8d9"
+
     {
         # color for nushell primitives
         separator: "#d2d8d9"

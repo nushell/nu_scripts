@@ -1,4 +1,13 @@
 export def nightlion_v2 [] {
+    # extra desired values for the nightlion_v2 theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#171717"
+    # foreground: "#bbbbbb"
+    # cursor: "#bbbbbb"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

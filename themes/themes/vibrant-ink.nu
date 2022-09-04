@@ -1,4 +1,13 @@
 export def vibrant_ink [] {
+    # extra desired values for the vibrant_ink theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#ffffff"
+    # cursor: "#ffffff"
+
     {
         # color for nushell primitives
         separator: "#e5e5e5"

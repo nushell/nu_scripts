@@ -1,4 +1,13 @@
 export def atom [] {
+    # extra desired values for the atom theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#161719"
+    # foreground: "#c5c8c6"
+    # cursor: "#c5c8c6"
+
     {
         # color for nushell primitives
         separator: "#e0e0e0"

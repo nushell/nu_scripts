@@ -1,4 +1,13 @@
 export def idle_toes [] {
+    # extra desired values for the idle_toes theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#323232"
+    # foreground: "#ffffff"
+    # cursor: "#ffffff"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

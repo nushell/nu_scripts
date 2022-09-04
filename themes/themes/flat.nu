@@ -1,4 +1,13 @@
 export def flat [] {
+    # extra desired values for the flat theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2c3e50"
+    # foreground: "#e0e0e0"
+    # cursor: "#e0e0e0"
+
     {
         # color for nushell primitives
         separator: "#ecf0f1"

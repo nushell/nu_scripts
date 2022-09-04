@@ -1,4 +1,13 @@
 export def ia_dark [] {
+    # extra desired values for the ia_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1a1a1a"
+    # foreground: "#cccccc"
+    # cursor: "#cccccc"
+
     {
         # color for nushell primitives
         separator: "#f8f8f8"

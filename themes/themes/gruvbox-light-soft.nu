@@ -1,4 +1,13 @@
 export def gruvbox_light-soft [] {
+    # extra desired values for the gruvbox_light-soft theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f2e5bc"
+    # foreground: "#504945"
+    # cursor: "#504945"
+
     {
         # color for nushell primitives
         separator: "#282828"

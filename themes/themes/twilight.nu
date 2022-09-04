@@ -1,4 +1,13 @@
 export def twilight [] {
+    # extra desired values for the twilight theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1e1e1e"
+    # foreground: "#a7a7a7"
+    # cursor: "#a7a7a7"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def nord_light [] {
+    # extra desired values for the nord_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#ebeaf2"
+    # foreground: "#004f7c"
+    # cursor: "#004f7c"
+
     {
         # color for nushell primitives
         separator: "#dedede"

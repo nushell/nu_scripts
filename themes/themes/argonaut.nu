@@ -1,4 +1,13 @@
 export def argonaut [] {
+    # extra desired values for the argonaut theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0e1019"
+    # foreground: "#fffaf4"
+    # cursor: "#fffaf4"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

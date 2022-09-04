@@ -1,4 +1,13 @@
 export def thayer_bright [] {
+    # extra desired values for the thayer_bright theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b1d1e"
+    # foreground: "#f8f8f8"
+    # cursor: "#f8f8f8"
+
     {
         # color for nushell primitives
         separator: "#f8f8f2"

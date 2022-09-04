@@ -1,4 +1,13 @@
 export def everforest [] {
+    # extra desired values for the everforest theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2f383e"
+    # foreground: "#d3c6aa"
+    # cursor: "#d3c6aa"
+
     {
         # color for nushell primitives
         separator: "#d3c6aa"

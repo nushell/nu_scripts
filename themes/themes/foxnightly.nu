@@ -1,4 +1,13 @@
 export def foxnightly [] {
+    # extra desired values for the foxnightly theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2a2a2e"
+    # foreground: "#d7d7db"
+    # cursor: "#d7d7db"
+
     {
         # color for nushell primitives
         separator: "#5c3566"

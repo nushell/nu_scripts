@@ -1,4 +1,13 @@
 export def belafonte_night [] {
+    # extra desired values for the belafonte_night theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#20111b"
+    # foreground: "#968c83"
+    # cursor: "#968c83"
+
     {
         # color for nushell primitives
         separator: "#d5ccba"

@@ -1,4 +1,13 @@
 export def heetch_light [] {
+    # extra desired values for the heetch_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#feffff"
+    # foreground: "#5a496e"
+    # cursor: "#5a496e"
+
     {
         # color for nushell primitives
         separator: "#190134"

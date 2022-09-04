@@ -1,4 +1,13 @@
 export def yachiyo [] {
+    # extra desired values for the yachiyo theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#44515d"
+    # foreground: "#ffb692"
+    # cursor: "#ffb692"
+
     {
         # color for nushell primitives
         separator: "#a0be99"

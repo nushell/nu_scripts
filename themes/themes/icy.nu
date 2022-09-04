@@ -1,4 +1,13 @@
 export def icy [] {
+    # extra desired values for the icy theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#021012"
+    # foreground: "#095b67"
+    # cursor: "#095b67"
+
     {
         # color for nushell primitives
         separator: "#109cb0"

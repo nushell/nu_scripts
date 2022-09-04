@@ -1,4 +1,13 @@
 export def tango [] {
+    # extra desired values for the tango theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2e3436"
+    # foreground: "#d3d7cf"
+    # cursor: "#d3d7cf"
+
     {
         # color for nushell primitives
         separator: "#eeeeec"

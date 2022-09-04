@@ -1,4 +1,13 @@
 export def brewer [] {
+    # extra desired values for the brewer theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0c0d0e"
+    # foreground: "#b7b8b9"
+    # cursor: "#b7b8b9"
+
     {
         # color for nushell primitives
         separator: "#fcfdfe"

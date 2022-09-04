@@ -1,4 +1,13 @@
 export def e_n-c-o-m [] {
+    # extra desired values for the e_n-c-o-m theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#00a595"
+    # cursor: "#bbbbbb"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

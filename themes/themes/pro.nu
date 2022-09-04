@@ -1,4 +1,13 @@
 export def pro [] {
+    # extra desired values for the pro theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#f2f2f2"
+    # cursor: "#f2f2f2"
+
     {
         # color for nushell primitives
         separator: "#e5e5e5"

@@ -1,4 +1,13 @@
 export def decaf [] {
+    # extra desired values for the decaf theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2d2d2d"
+    # foreground: "#cccccc"
+    # cursor: "#cccccc"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

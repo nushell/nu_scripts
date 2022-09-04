@@ -1,4 +1,13 @@
 export def brushtrees [] {
+    # extra desired values for the brushtrees theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#e3efef"
+    # foreground: "#6d828e"
+    # cursor: "#6d828e"
+
     {
         # color for nushell primitives
         separator: "#485867"

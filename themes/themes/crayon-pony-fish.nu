@@ -1,4 +1,13 @@
 export def crayon_pony-fish [] {
+    # extra desired values for the crayon_pony-fish theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#150707"
+    # foreground: "#68525a"
+    # cursor: "#68525a"
+
     {
         # color for nushell primitives
         separator: "#b0949d"

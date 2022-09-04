@@ -1,4 +1,13 @@
 export def ayu [] {
+    # extra desired values for the ayu theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0e1419"
+    # foreground: "#e5e1cf"
+    # cursor: "#f19618"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

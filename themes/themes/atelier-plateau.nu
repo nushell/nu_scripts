@@ -1,4 +1,13 @@
 export def atelier_plateau [] {
+    # extra desired values for the atelier_plateau theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b1818"
+    # foreground: "#8a8585"
+    # cursor: "#8a8585"
+
     {
         # color for nushell primitives
         separator: "#f4ecec"

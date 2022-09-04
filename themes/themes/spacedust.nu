@@ -1,4 +1,13 @@
 export def spacedust [] {
+    # extra desired values for the spacedust theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0a1e24"
+    # foreground: "#ecf0c1"
+    # cursor: "#ecf0c1"
+
     {
         # color for nushell primitives
         separator: "#fefff1"

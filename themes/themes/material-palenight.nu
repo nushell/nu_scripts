@@ -1,4 +1,13 @@
 export def material_palenight [] {
+    # extra desired values for the material_palenight theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#292d3e"
+    # foreground: "#959dcb"
+    # cursor: "#959dcb"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

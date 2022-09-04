@@ -1,4 +1,13 @@
 export def mono_cyan [] {
+    # extra desired values for the mono_cyan theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#00222b"
+    # foreground: "#00ccff"
+    # cursor: "#00ccff"
+
     {
         # color for nushell primitives
         separator: "#00ccff"

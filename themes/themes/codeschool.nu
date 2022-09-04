@@ -1,4 +1,13 @@
 export def codeschool [] {
+    # extra desired values for the codeschool theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#232c31"
+    # foreground: "#9ea7a6"
+    # cursor: "#9ea7a6"
+
     {
         # color for nushell primitives
         separator: "#b5d8f6"

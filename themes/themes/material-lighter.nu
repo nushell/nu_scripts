@@ -1,4 +1,13 @@
 export def material_lighter [] {
+    # extra desired values for the material_lighter theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fafafa"
+    # foreground: "#80cbc4"
+    # cursor: "#80cbc4"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

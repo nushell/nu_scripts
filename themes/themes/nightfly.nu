@@ -1,4 +1,13 @@
 export def nightfly [] {
+    # extra desired values for the nightfly theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#011627"
+    # foreground: "#c3ccdc"
+    # cursor: "#82aaff"
+
     {
         # color for nushell primitives
         separator: "#d6deeb"

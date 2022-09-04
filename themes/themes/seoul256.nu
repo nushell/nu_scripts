@@ -1,4 +1,13 @@
 export def seoul256 [] {
+    # extra desired values for the seoul256 theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#3a3a3a"
+    # foreground: "#d0d0d0"
+    # cursor: "#d0d0d0"
+
     {
         # color for nushell primitives
         separator: "#e4e4e4"

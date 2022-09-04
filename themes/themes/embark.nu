@@ -1,4 +1,13 @@
 export def embark [] {
+    # extra desired values for the embark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1e1c31"
+    # foreground: "#cbe3e7"
+    # cursor: "#cbe3e7"
+
     {
         # color for nushell primitives
         separator: "#8a889d"

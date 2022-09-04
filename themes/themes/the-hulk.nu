@@ -1,4 +1,13 @@
 export def the_hulk [] {
+    # extra desired values for the the_hulk theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b1d1e"
+    # foreground: "#b4b4b4"
+    # cursor: "#15b61a"
+
     {
         # color for nushell primitives
         separator: "#e5e5e0"

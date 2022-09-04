@@ -1,4 +1,13 @@
 export def 3024_night [] {
+    # extra desired values for the 3024_night theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#090300"
+    # foreground: "#a5a2a2"
+    # cursor: "#a5a2a2"
+
     {
         # color for nushell primitives
         separator: "#f7f7f7"

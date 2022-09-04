@@ -1,4 +1,13 @@
 export def cobalt_neon [] {
+    # extra desired values for the cobalt_neon theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#142838"
+    # foreground: "#8ff586"
+    # cursor: "#8ff586"
+
     {
         # color for nushell primitives
         separator: "#8ff586"

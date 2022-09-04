@@ -1,4 +1,13 @@
 export def aco [] {
+    # extra desired values for the aco theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f1305"
+    # foreground: "#b4e1fd"
+    # cursor: "#b4e1fd"
+
     {
         # color for nushell primitives
         separator: "#c4c4c4"

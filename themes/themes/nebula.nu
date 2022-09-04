@@ -1,4 +1,13 @@
 export def nebula [] {
+    # extra desired values for the nebula theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#22273b"
+    # foreground: "#a4a6a9"
+    # cursor: "#a4a6a9"
+
     {
         # color for nushell primitives
         separator: "#8dbdaa"

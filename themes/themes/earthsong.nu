@@ -1,4 +1,13 @@
 export def earthsong [] {
+    # extra desired values for the earthsong theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#292520"
+    # foreground: "#e5c7a9"
+    # cursor: "#e5c7a9"
+
     {
         # color for nushell primitives
         separator: "#f6f7ec"

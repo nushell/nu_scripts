@@ -1,4 +1,13 @@
 export def seafoam_pastel [] {
+    # extra desired values for the seafoam_pastel theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#243435"
+    # foreground: "#d4e7d4"
+    # cursor: "#d4e7d4"
+
     {
         # color for nushell primitives
         separator: "#e0e0e0"

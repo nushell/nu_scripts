@@ -1,4 +1,13 @@
 export def silk_dark [] {
+    # extra desired values for the silk_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0e3c46"
+    # foreground: "#c7dbdd"
+    # cursor: "#c7dbdd"
+
     {
         # color for nushell primitives
         separator: "#d2faff"

@@ -1,4 +1,13 @@
 export def hemisu_dark [] {
+    # extra desired values for the hemisu_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#ffffff"
+    # cursor: "#baffaa"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def equilibrium_gray-light [] {
+    # extra desired values for the equilibrium_gray-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f1f1f1"
+    # foreground: "#474747"
+    # cursor: "#474747"
+
     {
         # color for nushell primitives
         separator: "#1b1b1b"

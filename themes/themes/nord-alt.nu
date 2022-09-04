@@ -1,4 +1,13 @@
 export def nord_alt [] {
+    # extra desired values for the nord_alt theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2e3440"
+    # foreground: "#8fbcbb"
+    # cursor: "#8fbcbb"
+
     {
         # color for nushell primitives
         separator: "#5e81ac"

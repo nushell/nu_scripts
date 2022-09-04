@@ -1,4 +1,13 @@
 export def atelier_cave [] {
+    # extra desired values for the atelier_cave theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#19171c"
+    # foreground: "#8b8792"
+    # cursor: "#8b8792"
+
     {
         # color for nushell primitives
         separator: "#efecf4"

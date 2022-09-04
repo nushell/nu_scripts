@@ -1,4 +1,13 @@
 export def neopolitan [] {
+    # extra desired values for the neopolitan theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#271f19"
+    # foreground: "#ffffff"
+    # cursor: "#ffffff"
+
     {
         # color for nushell primitives
         separator: "#f8f8f8"

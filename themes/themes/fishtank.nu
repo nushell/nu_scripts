@@ -1,4 +1,13 @@
 export def fishtank [] {
+    # extra desired values for the fishtank theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#232537"
+    # foreground: "#ecf0fe"
+    # cursor: "#ecf0fe"
+
     {
         # color for nushell primitives
         separator: "#f6ffec"

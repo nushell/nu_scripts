@@ -1,4 +1,13 @@
 export def miramare [] {
+    # extra desired values for the miramare theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2a2426"
+    # foreground: "#e6d6ac"
+    # cursor: "#d9bb80"
+
     {
         # color for nushell primitives
         separator: "#444444"

@@ -1,4 +1,13 @@
 export def dracula [] {
+    # extra desired values for the dracula theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#282936"
+    # foreground: "#e9e9f4"
+    # cursor: "#e9e9f4"
+
     {
         # color for nushell primitives
         separator: "#f7f7fb"

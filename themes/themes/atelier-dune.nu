@@ -1,4 +1,13 @@
 export def atelier_dune [] {
+    # extra desired values for the atelier_dune theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#20201d"
+    # foreground: "#a6a28c"
+    # cursor: "#a6a28c"
+
     {
         # color for nushell primitives
         separator: "#fefbec"

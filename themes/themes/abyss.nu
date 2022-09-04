@@ -1,4 +1,13 @@
 export def abyss [] {
+    # extra desired values for the abyss theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#040f18"
+    # foreground: "#c0c7ca"
+    # cursor: "#10598b"
+
     {
         # color for nushell primitives
         separator: "#a0cce2"

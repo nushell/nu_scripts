@@ -1,4 +1,13 @@
 export def mono_green [] {
+    # extra desired values for the mono_green theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#022b00"
+    # foreground: "#0bff00"
+    # cursor: "#0bff00"
+
     {
         # color for nushell primitives
         separator: "#0bff00"

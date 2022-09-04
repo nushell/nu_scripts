@@ -1,4 +1,13 @@
 export def hopscotch [] {
+    # extra desired values for the hopscotch theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#322931"
+    # foreground: "#b9b5b8"
+    # cursor: "#b9b5b8"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

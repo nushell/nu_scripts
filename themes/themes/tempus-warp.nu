@@ -1,4 +1,13 @@
 export def tempus_warp [] {
+    # extra desired values for the tempus_warp theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#001514"
+    # foreground: "#a29fa0"
+    # cursor: "#a29fa0"
+
     {
         # color for nushell primitives
         separator: "#a29fa0"

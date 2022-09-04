@@ -1,4 +1,13 @@
 export def wild_cherry [] {
+    # extra desired values for the wild_cherry theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f1726"
+    # foreground: "#dafaff"
+    # cursor: "#dafaff"
+
     {
         # color for nushell primitives
         separator: "#e4838d"

@@ -1,4 +1,13 @@
 export def mono_red [] {
+    # extra desired values for the mono_red theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2b0c00"
+    # foreground: "#ff3600"
+    # cursor: "#ff3600"
+
     {
         # color for nushell primitives
         separator: "#ff3600"

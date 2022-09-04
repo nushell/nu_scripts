@@ -1,4 +1,13 @@
 export def nova [] {
+    # extra desired values for the nova theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#3c4c55"
+    # foreground: "#c5d4dd"
+    # cursor: "#c5d4dd"
+
     {
         # color for nushell primitives
         separator: "#556873"

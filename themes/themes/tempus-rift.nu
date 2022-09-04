@@ -1,4 +1,13 @@
 export def tempus_rift [] {
+    # extra desired values for the tempus_rift theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#162c22"
+    # foreground: "#bbbcbc"
+    # cursor: "#bbbcbc"
+
     {
         # color for nushell primitives
         separator: "#bbbcbc"

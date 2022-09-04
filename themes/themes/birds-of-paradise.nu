@@ -1,4 +1,13 @@
 export def birds_of-paradise [] {
+    # extra desired values for the birds_of-paradise theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2a1f1d"
+    # foreground: "#e0dbb7"
+    # cursor: "#e0dbb7"
+
     {
         # color for nushell primitives
         separator: "#fff9d5"

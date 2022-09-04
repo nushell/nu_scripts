@@ -1,4 +1,13 @@
 export def helios [] {
+    # extra desired values for the helios theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1d2021"
+    # foreground: "#d5d5d5"
+    # cursor: "#d5d5d5"
+
     {
         # color for nushell primitives
         separator: "#e5e5e5"

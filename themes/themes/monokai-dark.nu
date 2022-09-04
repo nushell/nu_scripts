@@ -1,4 +1,13 @@
 export def monokai_dark [] {
+    # extra desired values for the monokai_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#272822"
+    # foreground: "#f8f8f2"
+    # cursor: "#f8f8f2"
+
     {
         # color for nushell primitives
         separator: "#f8f8f2"

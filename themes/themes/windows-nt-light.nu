@@ -1,4 +1,13 @@
 export def windows_nt-light [] {
+    # extra desired values for the windows_nt-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#ffffff"
+    # foreground: "#808080"
+    # cursor: "#808080"
+
     {
         # color for nushell primitives
         separator: "#000000"

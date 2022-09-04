@@ -1,4 +1,13 @@
 export def railscasts [] {
+    # extra desired values for the railscasts theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2b2b2b"
+    # foreground: "#e6e1dc"
+    # cursor: "#e6e1dc"
+
     {
         # color for nushell primitives
         separator: "#f9f7f3"

@@ -1,4 +1,13 @@
 export def fruit_soda [] {
+    # extra desired values for the fruit_soda theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f1ecf1"
+    # foreground: "#515151"
+    # cursor: "#515151"
+
     {
         # color for nushell primitives
         separator: "#2d2c2c"

@@ -1,4 +1,13 @@
 export def mellow_purple [] {
+    # extra desired values for the mellow_purple theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1e0528"
+    # foreground: "#ffeeff"
+    # cursor: "#ffeeff"
+
     {
         # color for nushell primitives
         separator: "#f8c0ff"

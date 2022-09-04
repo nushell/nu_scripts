@@ -1,4 +1,13 @@
 export def darkmoss [] {
+    # extra desired values for the darkmoss theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#171e1f"
+    # foreground: "#c7c7a5"
+    # cursor: "#c7c7a5"
+
     {
         # color for nushell primitives
         separator: "#e1eaef"

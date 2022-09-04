@@ -1,4 +1,13 @@
 export def sandcastle [] {
+    # extra desired values for the sandcastle theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#282c34"
+    # foreground: "#a89984"
+    # cursor: "#a89984"
+
     {
         # color for nushell primitives
         separator: "#fdf4c1"

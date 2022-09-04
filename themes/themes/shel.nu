@@ -1,4 +1,13 @@
 export def shel [] {
+    # extra desired values for the shel theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2a201f"
+    # foreground: "#4882cd"
+    # cursor: "#4882cd"
+
     {
         # color for nushell primitives
         separator: "#f5eeec"

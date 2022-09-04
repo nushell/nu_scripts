@@ -1,4 +1,13 @@
 export def gruvbox_dark-pale [] {
+    # extra desired values for the gruvbox_dark-pale theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#262626"
+    # foreground: "#dab997"
+    # cursor: "#dab997"
+
     {
         # color for nushell primitives
         separator: "#ebdbb2"

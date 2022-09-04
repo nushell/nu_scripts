@@ -1,4 +1,13 @@
 export def ocean_dark [] {
+    # extra desired values for the ocean_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1f27"
+    # foreground: "#979cac"
+    # cursor: "#979cac"
+
     {
         # color for nushell primitives
         separator: "#fefffe"

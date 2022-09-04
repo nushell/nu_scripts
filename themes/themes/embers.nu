@@ -1,4 +1,13 @@
 export def embers [] {
+    # extra desired values for the embers theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#16130f"
+    # foreground: "#a39a90"
+    # cursor: "#a39a90"
+
     {
         # color for nushell primitives
         separator: "#dbd6d1"

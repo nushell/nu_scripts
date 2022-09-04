@@ -1,4 +1,13 @@
 export def default_light [] {
+    # extra desired values for the default_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f8f8f8"
+    # foreground: "#383838"
+    # cursor: "#383838"
+
     {
         # color for nushell primitives
         separator: "#181818"

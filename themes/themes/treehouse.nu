@@ -1,4 +1,13 @@
 export def treehouse [] {
+    # extra desired values for the treehouse theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#191919"
+    # foreground: "#786b53"
+    # cursor: "#786b53"
+
     {
         # color for nushell primitives
         separator: "#ffc800"

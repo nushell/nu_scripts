@@ -1,4 +1,13 @@
 export def windows_highcontrast-light [] {
+    # extra desired values for the windows_highcontrast-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fcfcfc"
+    # foreground: "#545454"
+    # cursor: "#545454"
+
     {
         # color for nushell primitives
         separator: "#000000"

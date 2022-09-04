@@ -1,4 +1,13 @@
 export def windows_10-light [] {
+    # extra desired values for the windows_10-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f2f2f2"
+    # foreground: "#767676"
+    # cursor: "#767676"
+
     {
         # color for nushell primitives
         separator: "#0c0c0c"

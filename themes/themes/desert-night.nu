@@ -1,4 +1,13 @@
 export def desert_night [] {
+    # extra desired values for the desert_night theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#24221c"
+    # foreground: "#d4b07b"
+    # cursor: "#d4b07b"
+
     {
         # color for nushell primitives
         separator: "#87765d"

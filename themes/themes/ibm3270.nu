@@ -1,4 +1,13 @@
 export def ibm3270 [] {
+    # extra desired values for the ibm3270 theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#fdfdfd"
+    # cursor: "#fdfdfd"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def grayscale_dark [] {
+    # extra desired values for the grayscale_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#101010"
+    # foreground: "#b9b9b9"
+    # cursor: "#b9b9b9"
+
     {
         # color for nushell primitives
         separator: "#f7f7f7"

@@ -1,4 +1,13 @@
 export def snow_light [] {
+    # extra desired values for the snow_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fbffff"
+    # foreground: "#535c65"
+    # cursor: "#434951"
+
     {
         # color for nushell primitives
         separator: "#434951"

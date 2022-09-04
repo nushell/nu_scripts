@@ -1,4 +1,13 @@
 export def soft_server [] {
+    # extra desired values for the soft_server theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#242626"
+    # foreground: "#99a3a2"
+    # cursor: "#99a3a2"
+
     {
         # color for nushell primitives
         separator: "#d2e0de"

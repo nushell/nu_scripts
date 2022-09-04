@@ -1,4 +1,13 @@
 export def tempus_summer [] {
+    # extra desired values for the tempus_summer theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#202c3d"
+    # foreground: "#a0abae"
+    # cursor: "#a0abae"
+
     {
         # color for nushell primitives
         separator: "#a0abae"

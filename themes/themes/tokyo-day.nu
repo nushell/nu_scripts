@@ -1,4 +1,13 @@
 export def tokyo_day [] {
+    # extra desired values for the tokyo_day theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#e1e2e7"
+    # foreground: "#3760bf"
+    # cursor: "#3760bf"
+
     {
         # color for nushell primitives
         separator: "#3760bf"

@@ -1,4 +1,13 @@
 export def highway [] {
+    # extra desired values for the highway theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222225"
+    # foreground: "#ededed"
+    # cursor: "#ededed"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

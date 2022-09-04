@@ -1,4 +1,13 @@
 export def batman [] {
+    # extra desired values for the batman theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b1d1e"
+    # foreground: "#6e6e6e"
+    # cursor: "#fcee0b"
+
     {
         # color for nushell primitives
         separator: "#dadad5"

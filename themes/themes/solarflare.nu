@@ -1,4 +1,13 @@
 export def solarflare [] {
+    # extra desired values for the solarflare theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#18262f"
+    # foreground: "#a6afb8"
+    # cursor: "#a6afb8"
+
     {
         # color for nushell primitives
         separator: "#f5f7fa"

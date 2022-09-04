@@ -1,4 +1,13 @@
 export def atelier_forest-light [] {
+    # extra desired values for the atelier_forest-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f1efee"
+    # foreground: "#68615e"
+    # cursor: "#68615e"
+
     {
         # color for nushell primitives
         separator: "#1b1918"

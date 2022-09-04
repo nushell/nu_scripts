@@ -1,4 +1,13 @@
 export def ayu_mirage-simple-cursor [] {
+    # extra desired values for the ayu_mirage-simple-cursor theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#212733"
+    # foreground: "#d9d7ce"
+    # cursor: "#d9d7ce"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

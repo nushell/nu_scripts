@@ -1,4 +1,13 @@
 export def rose_pine-moon [] {
+    # extra desired values for the rose_pine-moon theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#232136"
+    # foreground: "#e0def4"
+    # cursor: "#e0def4"
+
     {
         # color for nushell primitives
         separator: "#d9d7e1"

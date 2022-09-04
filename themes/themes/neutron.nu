@@ -1,4 +1,13 @@
 export def neutron [] {
+    # extra desired values for the neutron theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1e22"
+    # foreground: "#e6e8ef"
+    # cursor: "#e6e8ef"
+
     {
         # color for nushell primitives
         separator: "#ebedf2"

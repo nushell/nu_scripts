@@ -1,4 +1,13 @@
 export def afterglow [] {
+    # extra desired values for the afterglow theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222222"
+    # foreground: "#d0d0d0"
+    # cursor: "#d0d0d0"
+
     {
         # color for nushell primitives
         separator: "#f5f5f5"

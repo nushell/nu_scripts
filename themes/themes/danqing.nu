@@ -1,4 +1,13 @@
 export def danqing [] {
+    # extra desired values for the danqing theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2d302f"
+    # foreground: "#e0f0ef"
+    # cursor: "#e0f0ef"
+
     {
         # color for nushell primitives
         separator: "#fcfefd"

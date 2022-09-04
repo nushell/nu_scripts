@@ -1,4 +1,13 @@
 export def apathy [] {
+    # extra desired values for the apathy theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#031a16"
+    # foreground: "#81b5ac"
+    # cursor: "#81b5ac"
+
     {
         # color for nushell primitives
         separator: "#d2e7e4"

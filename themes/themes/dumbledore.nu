@@ -1,4 +1,13 @@
 export def dumbledore [] {
+    # extra desired values for the dumbledore theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#422553"
+    # foreground: "#c4c8c5"
+    # cursor: "#c4c8c5"
+
     {
         # color for nushell primitives
         separator: "#c9c9c9"

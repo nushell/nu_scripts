@@ -1,4 +1,13 @@
 export def solarized_dark-higher-contrast [] {
+    # extra desired values for the solarized_dark-higher-contrast theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#001e27"
+    # foreground: "#9cc2c3"
+    # cursor: "#9cc2c3"
+
     {
         # color for nushell primitives
         separator: "#fcf4dc"

@@ -1,4 +1,13 @@
 export def neon_night [] {
+    # extra desired values for the neon_night theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#20242d"
+    # foreground: "#c7c8ff"
+    # cursor: "#c7c8ff"
+
     {
         # color for nushell primitives
         separator: "#c9cccd"

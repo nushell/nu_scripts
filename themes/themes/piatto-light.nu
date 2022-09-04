@@ -1,4 +1,13 @@
 export def piatto_light [] {
+    # extra desired values for the piatto_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#ffffff"
+    # foreground: "#414141"
+    # cursor: "#5e76c7"
+
     {
         # color for nushell primitives
         separator: "#f1f1f1"

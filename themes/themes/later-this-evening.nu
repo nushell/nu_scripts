@@ -1,4 +1,13 @@
 export def later_this-evening [] {
+    # extra desired values for the later_this-evening theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222222"
+    # foreground: "#959595"
+    # cursor: "#959595"
+
     {
         # color for nushell primitives
         separator: "#c1c2c2"

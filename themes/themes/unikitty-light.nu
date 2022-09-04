@@ -1,4 +1,13 @@
 export def unikitty_light [] {
+    # extra desired values for the unikitty_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#ffffff"
+    # foreground: "#6c696e"
+    # cursor: "#6c696e"
+
     {
         # color for nushell primitives
         separator: "#322d34"

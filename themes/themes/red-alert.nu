@@ -1,4 +1,13 @@
 export def red_alert [] {
+    # extra desired values for the red_alert theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#762423"
+    # foreground: "#ffffff"
+    # cursor: "#ffffff"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

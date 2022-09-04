@@ -1,4 +1,13 @@
 export def lavandula [] {
+    # extra desired values for the lavandula theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#050014"
+    # foreground: "#736e7d"
+    # cursor: "#736e7d"
+
     {
         # color for nushell primitives
         separator: "#8c91fa"

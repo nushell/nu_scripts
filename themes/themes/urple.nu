@@ -1,4 +1,13 @@
 export def urple [] {
+    # extra desired values for the urple theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1b1b23"
+    # foreground: "#877a9b"
+    # cursor: "#877a9b"
+
     {
         # color for nushell primitives
         separator: "#bfa3ff"

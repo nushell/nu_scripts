@@ -1,4 +1,13 @@
 export def atelier_savanna [] {
+    # extra desired values for the atelier_savanna theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#171c19"
+    # foreground: "#87928a"
+    # cursor: "#87928a"
+
     {
         # color for nushell primitives
         separator: "#ecf4ee"

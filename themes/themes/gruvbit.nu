@@ -1,4 +1,13 @@
 export def gruvbit [] {
+    # extra desired values for the gruvbit theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1d1f21"
+    # foreground: "#ebdbb2"
+    # cursor: "#ebdbb2"
+
     {
         # color for nushell primitives
         separator: "#e9593d"

@@ -1,4 +1,13 @@
 export def pencil_light [] {
+    # extra desired values for the pencil_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f1f1f1"
+    # foreground: "#424242"
+    # cursor: "#424242"
+
     {
         # color for nushell primitives
         separator: "#f1f1f1"

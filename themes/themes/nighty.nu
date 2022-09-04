@@ -1,4 +1,13 @@
 export def nighty [] {
+    # extra desired values for the nighty theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2f2f2f"
+    # foreground: "#dfdfdf"
+    # cursor: "#dfdfdf"
+
     {
         # color for nushell primitives
         separator: "#dfdfdf"

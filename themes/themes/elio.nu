@@ -1,4 +1,13 @@
 export def elio [] {
+    # extra desired values for the elio theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#041a3b"
+    # foreground: "#f2f2f2"
+    # cursor: "#f2f2f2"
+
     {
         # color for nushell primitives
         separator: "#a020f0"

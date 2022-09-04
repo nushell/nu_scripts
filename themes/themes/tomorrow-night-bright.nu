@@ -1,4 +1,13 @@
 export def tomorrow_night-bright [] {
+    # extra desired values for the tomorrow_night-bright theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#e9e9e9"
+    # cursor: "#e9e9e9"
+
     {
         # color for nushell primitives
         separator: "#fffefe"

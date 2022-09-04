@@ -1,4 +1,13 @@
 export def medallion [] {
+    # extra desired values for the medallion theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1d1908"
+    # foreground: "#cac296"
+    # cursor: "#cac296"
+
     {
         # color for nushell primitives
         separator: "#fed698"

@@ -1,4 +1,13 @@
 export def tempus_winter [] {
+    # extra desired values for the tempus_winter theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#202427"
+    # foreground: "#8da3b8"
+    # cursor: "#8da3b8"
+
     {
         # color for nushell primitives
         separator: "#8da3b8"

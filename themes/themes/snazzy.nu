@@ -1,4 +1,13 @@
 export def snazzy [] {
+    # extra desired values for the snazzy theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#282a36"
+    # foreground: "#e2e4e5"
+    # cursor: "#e2e4e5"
+
     {
         # color for nushell primitives
         separator: "#f1f1f0"

@@ -1,4 +1,13 @@
 export def oceanic_next [] {
+    # extra desired values for the oceanic_next theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#121b21"
+    # foreground: "#b3b8c3"
+    # cursor: "#b3b8c3"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

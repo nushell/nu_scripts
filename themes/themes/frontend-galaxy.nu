@@ -1,4 +1,13 @@
 export def frontend_galaxy [] {
+    # extra desired values for the frontend_galaxy theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1d2837"
+    # foreground: "#ffffff"
+    # cursor: "#ffffff"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def atelier_seaside [] {
+    # extra desired values for the atelier_seaside theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#131513"
+    # foreground: "#8ca68c"
+    # cursor: "#8ca68c"
+
     {
         # color for nushell primitives
         separator: "#f4fbf4"

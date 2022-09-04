@@ -1,4 +1,13 @@
 export def xcode_dusk [] {
+    # extra desired values for the xcode_dusk theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#282b35"
+    # foreground: "#939599"
+    # cursor: "#939599"
+
     {
         # color for nushell primitives
         separator: "#bebfc2"

@@ -1,4 +1,13 @@
 export def shapeshifter [] {
+    # extra desired values for the shapeshifter theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#f9f9f9"
+    # foreground: "#102015"
+    # cursor: "#102015"
+
     {
         # color for nushell primitives
         separator: "#000000"

@@ -1,4 +1,13 @@
 export def mocha [] {
+    # extra desired values for the mocha theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#3b3228"
+    # foreground: "#d0c8c6"
+    # cursor: "#d0c8c6"
+
     {
         # color for nushell primitives
         separator: "#f5eeeb"

@@ -1,4 +1,13 @@
 export def alien_blood [] {
+    # extra desired values for the alien_blood theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0f1610"
+    # foreground: "#637d75"
+    # cursor: "#637d75"
+
     {
         # color for nushell primitives
         separator: "#73fa91"

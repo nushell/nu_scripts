@@ -1,4 +1,13 @@
 export def tempus_fugit [] {
+    # extra desired values for the tempus_fugit theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fff5f3"
+    # foreground: "#4d595f"
+    # cursor: "#4d595f"
+
     {
         # color for nushell primitives
         separator: "#fff5f3"

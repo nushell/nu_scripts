@@ -1,4 +1,13 @@
 export def wombat [] {
+    # extra desired values for the wombat theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#171717"
+    # foreground: "#dedacf"
+    # cursor: "#dedacf"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

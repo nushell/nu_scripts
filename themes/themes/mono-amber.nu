@@ -1,4 +1,13 @@
 export def mono_amber [] {
+    # extra desired values for the mono_amber theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2b1900"
+    # foreground: "#ff9400"
+    # cursor: "#ff9400"
+
     {
         # color for nushell primitives
         separator: "#ff9400"

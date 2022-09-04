@@ -1,4 +1,13 @@
 export def floraverse [] {
+    # extra desired values for the floraverse theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0e0c15"
+    # foreground: "#dbd0b9"
+    # cursor: "#bbbbbb"
+
     {
         # color for nushell primitives
         separator: "#fff5db"

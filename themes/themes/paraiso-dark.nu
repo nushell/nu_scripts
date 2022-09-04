@@ -1,4 +1,13 @@
 export def paraiso_dark [] {
+    # extra desired values for the paraiso_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2f1e2e"
+    # foreground: "#a39e9b"
+    # cursor: "#a39e9b"
+
     {
         # color for nushell primitives
         separator: "#e7e9db"

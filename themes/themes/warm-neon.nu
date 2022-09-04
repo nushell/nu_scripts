@@ -1,4 +1,13 @@
 export def warm_neon [] {
+    # extra desired values for the warm_neon theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#404040"
+    # foreground: "#afdab6"
+    # cursor: "#afdab6"
+
     {
         # color for nushell primitives
         separator: "#d8c8bb"

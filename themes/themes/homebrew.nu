@@ -1,4 +1,13 @@
 export def homebrew [] {
+    # extra desired values for the homebrew theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#00ff00"
+    # cursor: "#00ff00"
+
     {
         # color for nushell primitives
         separator: "#e5e5e5"

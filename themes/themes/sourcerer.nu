@@ -1,4 +1,13 @@
 export def sourcerer [] {
+    # extra desired values for the sourcerer theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222222"
+    # foreground: "#c2c2b0"
+    # cursor: "#c2c2b0"
+
     {
         # color for nushell primitives
         separator: "#c1cdc1"

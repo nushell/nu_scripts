@@ -1,4 +1,13 @@
 export def papercolor_dark [] {
+    # extra desired values for the papercolor_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1c1c"
+    # foreground: "#808080"
+    # cursor: "#808080"
+
     {
         # color for nushell primitives
         separator: "#d0d0d0"

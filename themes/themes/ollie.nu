@@ -1,4 +1,13 @@
 export def ollie [] {
+    # extra desired values for the ollie theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#222125"
+    # foreground: "#8a8dae"
+    # cursor: "#8a8dae"
+
     {
         # color for nushell primitives
         separator: "#5b6ea7"

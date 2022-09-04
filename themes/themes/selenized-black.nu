@@ -1,4 +1,13 @@
 export def selenized_black [] {
+    # extra desired values for the selenized_black theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#181818"
+    # foreground: "#b9b9b9"
+    # cursor: "#b9b9b9"
+
     {
         # color for nushell primitives
         separator: "#dedede"

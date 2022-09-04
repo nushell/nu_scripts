@@ -1,4 +1,13 @@
 export def sundried [] {
+    # extra desired values for the sundried theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1a1818"
+    # foreground: "#c9c9c9"
+    # cursor: "#c9c9c9"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

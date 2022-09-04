@@ -1,4 +1,13 @@
 export def tempus_spring [] {
+    # extra desired values for the tempus_spring theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#283a37"
+    # foreground: "#b5b8b7"
+    # cursor: "#b5b8b7"
+
     {
         # color for nushell primitives
         separator: "#b5b8b7"

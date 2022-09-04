@@ -1,4 +1,13 @@
 export def smyck [] {
+    # extra desired values for the smyck theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#242424"
+    # foreground: "#f7f7f7"
+    # cursor: "#f7f7f7"
+
     {
         # color for nushell primitives
         separator: "#f7f7f7"

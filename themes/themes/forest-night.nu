@@ -1,4 +1,13 @@
 export def forest_night [] {
+    # extra desired values for the forest_night theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#3c4c55"
+    # foreground: "#ffebc3"
+    # cursor: "#ffebc3"
+
     {
         # color for nushell primitives
         separator: "#ffebc3"

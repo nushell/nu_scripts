@@ -1,4 +1,13 @@
 export def hemisu_light [] {
+    # extra desired values for the hemisu_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#efefef"
+    # foreground: "#444444"
+    # cursor: "#ff0054"
+
     {
         # color for nushell primitives
         separator: "#bababa"

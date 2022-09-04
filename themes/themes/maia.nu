@@ -1,4 +1,13 @@
 export def maia [] {
+    # extra desired values for the maia theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#272827"
+    # foreground: "#fdf6e3"
+    # cursor: "#16a085"
+
     {
         # color for nushell primitives
         separator: "#e8e8e8"

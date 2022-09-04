@@ -1,4 +1,13 @@
 export def equilibrium_dark [] {
+    # extra desired values for the equilibrium_dark theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0c1118"
+    # foreground: "#afaba2"
+    # cursor: "#afaba2"
+
     {
         # color for nushell primitives
         separator: "#e7e2d9"

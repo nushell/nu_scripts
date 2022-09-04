@@ -1,4 +1,13 @@
 export def dimmed_monokai [] {
+    # extra desired values for the dimmed_monokai theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1f1f1f"
+    # foreground: "#b9bcba"
+    # cursor: "#b9bcba"
+
     {
         # color for nushell primitives
         separator: "#fdffb9"

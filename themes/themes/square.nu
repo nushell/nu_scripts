@@ -1,4 +1,13 @@
 export def square [] {
+    # extra desired values for the square theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0a1e24"
+    # foreground: "#1a1a1a"
+    # cursor: "#1a1a1a"
+
     {
         # color for nushell primitives
         separator: "#e2e2e2"

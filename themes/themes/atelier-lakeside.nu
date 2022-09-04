@@ -1,4 +1,13 @@
 export def atelier_lakeside [] {
+    # extra desired values for the atelier_lakeside theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#161b1d"
+    # foreground: "#7ea2b4"
+    # cursor: "#7ea2b4"
+
     {
         # color for nushell primitives
         separator: "#ebf8ff"

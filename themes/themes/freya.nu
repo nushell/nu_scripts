@@ -1,4 +1,13 @@
 export def freya [] {
+    # extra desired values for the freya theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#252e32"
+    # foreground: "#94a3a5"
+    # cursor: "#839496"
+
     {
         # color for nushell primitives
         separator: "#6c71c4"

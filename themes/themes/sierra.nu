@@ -1,4 +1,13 @@
 export def sierra [] {
+    # extra desired values for the sierra theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c1a14"
+    # foreground: "#cacbb9"
+    # cursor: "#cacbb9"
+
     {
         # color for nushell primitives
         separator: "#c9cbac"

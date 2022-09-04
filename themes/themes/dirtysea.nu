@@ -1,4 +1,13 @@
 export def dirtysea [] {
+    # extra desired values for the dirtysea theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#e0e0e0"
+    # foreground: "#000000"
+    # cursor: "#000000"
+
     {
         # color for nushell primitives
         separator: "#c4d9c4"

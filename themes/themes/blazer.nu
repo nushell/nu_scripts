@@ -1,4 +1,13 @@
 export def blazer [] {
+    # extra desired values for the blazer theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0d1926"
+    # foreground: "#d9e6f2"
+    # cursor: "#d9e6f2"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

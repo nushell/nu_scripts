@@ -1,4 +1,13 @@
 export def pico [] {
+    # extra desired values for the pico theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#5f574f"
+    # cursor: "#5f574f"
+
     {
         # color for nushell primitives
         separator: "#fff1e8"

@@ -1,4 +1,13 @@
 export def irblack [] {
+    # extra desired values for the irblack theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#b5b3aa"
+    # cursor: "#b5b3aa"
+
     {
         # color for nushell primitives
         separator: "#fdfbee"

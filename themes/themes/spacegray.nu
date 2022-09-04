@@ -1,4 +1,13 @@
 export def spacegray [] {
+    # extra desired values for the spacegray theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#20242d"
+    # foreground: "#b3b8c3"
+    # cursor: "#b3b8c3"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

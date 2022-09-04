@@ -1,4 +1,13 @@
 export def glacier [] {
+    # extra desired values for the glacier theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#0c1115"
+    # foreground: "#ffffff"
+    # cursor: "#6c6c6c"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def marrakesh [] {
+    # extra desired values for the marrakesh theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#201602"
+    # foreground: "#948e48"
+    # cursor: "#948e48"
+
     {
         # color for nushell primitives
         separator: "#faf0a5"

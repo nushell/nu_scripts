@@ -1,4 +1,13 @@
 export def toy_chest [] {
+    # extra desired values for the toy_chest theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#24364b"
+    # foreground: "#31d07b"
+    # cursor: "#31d07b"
+
     {
         # color for nushell primitives
         separator: "#d5d5d5"

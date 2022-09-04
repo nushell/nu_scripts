@@ -1,4 +1,13 @@
 export def vaughn [] {
+    # extra desired values for the vaughn theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#25234f"
+    # foreground: "#dcdccc"
+    # cursor: "#dcdccc"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

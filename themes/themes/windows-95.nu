@@ -1,4 +1,13 @@
 export def windows_95 [] {
+    # extra desired values for the windows_95 theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#a8a8a8"
+    # cursor: "#a8a8a8"
+
     {
         # color for nushell primitives
         separator: "#fcfcfc"

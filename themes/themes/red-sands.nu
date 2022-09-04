@@ -1,4 +1,13 @@
 export def red_sands [] {
+    # extra desired values for the red_sands theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#7a251e"
+    # foreground: "#d7c9a7"
+    # cursor: "#d7c9a7"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

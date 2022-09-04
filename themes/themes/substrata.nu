@@ -1,4 +1,13 @@
 export def substrata [] {
+    # extra desired values for the substrata theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#191c25"
+    # foreground: "#b5b4c9"
+    # cursor: "#b5b4c9"
+
     {
         # color for nushell primitives
         separator: "#f0ecfe"

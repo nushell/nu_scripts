@@ -1,4 +1,13 @@
 export def frontend_fun-forrest [] {
+    # extra desired values for the frontend_fun-forrest theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#251200"
+    # foreground: "#dec165"
+    # cursor: "#dec165"
+
     {
         # color for nushell primitives
         separator: "#ffeaa3"

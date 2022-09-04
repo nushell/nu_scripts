@@ -1,4 +1,13 @@
 export def mathias [] {
+    # extra desired values for the mathias theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#bbbbbb"
+    # cursor: "#bbbbbb"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

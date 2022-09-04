@@ -1,4 +1,13 @@
 export def edge_light [] {
+    # extra desired values for the edge_light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#fafafa"
+    # foreground: "#5e646f"
+    # cursor: "#5e646f"
+
     {
         # color for nushell primitives
         separator: "#5e646f"

@@ -1,4 +1,13 @@
 export def one_half-black [] {
+    # extra desired values for the one_half-black theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#dcdfe4"
+    # cursor: "#dcdfe4"
+
     {
         # color for nushell primitives
         separator: "#dcdfe4"

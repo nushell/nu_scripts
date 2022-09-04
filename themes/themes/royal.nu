@@ -1,4 +1,13 @@
 export def royal [] {
+    # extra desired values for the royal theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#100815"
+    # foreground: "#514968"
+    # cursor: "#514968"
+
     {
         # color for nushell primitives
         separator: "#9e8cbd"

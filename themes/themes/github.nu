@@ -1,4 +1,13 @@
 export def github [] {
+    # extra desired values for the github theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#ffffff"
+    # foreground: "#333333"
+    # cursor: "#333333"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

@@ -1,4 +1,13 @@
 export def wez [] {
+    # extra desired values for the wez theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#000000"
+    # foreground: "#b3b3b3"
+    # cursor: "#b3b3b3"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

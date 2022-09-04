@@ -1,4 +1,13 @@
 export def mar [] {
+    # extra desired values for the mar theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#ffffff"
+    # foreground: "#23476a"
+    # cursor: "#23476a"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

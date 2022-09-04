@@ -1,4 +1,13 @@
 export def oceanic_material [] {
+    # extra desired values for the oceanic_material theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#1c262b"
+    # foreground: "#c1c8d6"
+    # cursor: "#b2b8c3"
+
     {
         # color for nushell primitives
         separator: "#fffefe"

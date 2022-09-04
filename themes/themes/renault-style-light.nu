@@ -1,4 +1,13 @@
 export def renault_style-light [] {
+    # extra desired values for the renault_style-light theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#3a3a3a"
+    # foreground: "#e9cb7b"
+    # cursor: "#7f7f7f"
+
     {
         # color for nushell primitives
         separator: "#ffffff"

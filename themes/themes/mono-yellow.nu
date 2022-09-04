@@ -1,4 +1,13 @@
 export def mono_yellow [] {
+    # extra desired values for the mono_yellow theme
+    # which do not fit into any nushell theme
+    # these colors should be handledd by the terminal
+    # emulator itself
+    #
+    # background: "#2b2400"
+    # foreground: "#ffd300"
+    # cursor: "#ffd300"
+
     {
         # color for nushell primitives
         separator: "#ffd300"
