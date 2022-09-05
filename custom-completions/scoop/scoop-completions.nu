@@ -14,10 +14,10 @@ def scoopInstalledApps [] {
   # unoptimized tooks a long time
   # ^scoop list | lines | skip 2 | drop 1 | each { |line| $line | str trim | str replace ' .*' '' }
 
-  let localAppDir = if (env | any? $it.name == 'SCOOP') { $"($env.SCOOP)\\apps" } else { $"($env.USERPROFILE)\\scoop\\apps" }
+  let localAppDir = if (env | any $it.name == 'SCOOP') { $"($env.SCOOP)\\apps" } else { $"($env.USERPROFILE)\\scoop\\apps" }
   let localApps   = (ls $localAppDir | get name | path basename)
 
-  let globalAppDir = if (env | any? $it.name == 'SCOOP_GLOBAL') { "$env.SCOOP_GLOBAL\\apps" } else { $"($env.ProgramData)\\scoop\\apps" }
+  let globalAppDir = if (env | any $it.name == 'SCOOP_GLOBAL') { "$env.SCOOP_GLOBAL\\apps" } else { $"($env.ProgramData)\\scoop\\apps" }
   let globalApps   = if ($globalAppDir | path exists) { ls $globalAppDir | get name | path basename }
 
   $localApps | append $globalApps
@@ -30,7 +30,7 @@ def scoopInstalledAppsWithStar [] {
 
 # list of all manifests from all buckets
 def scoopAllApps [] {
-  let bucketsDir = if (env | any? $it.name == 'SCOOP') { $"($env.SCOOP)\\buckets" } else { $"($env.USERPROFILE)\\scoop\\buckets" }
+  let bucketsDir = if (env | any $it.name == 'SCOOP') { $"($env.SCOOP)\\buckets" } else { $"($env.USERPROFILE)\\scoop\\buckets" }
   for bucket in (ls -s $bucketsDir | get name) { ls ([$bucketsDir, $bucket, 'bucket', '*.json'] | str collect '\')  | get name | path basename | str substring ',-5' } | flatten | uniq
 }
 
@@ -517,7 +517,7 @@ def scoopKnownBuckets [] {
 }
 
 def scoopInstalledBuckets [] {
-  let bucketsDir = if (env | any? $it.name == 'SCOOP') { $"($env.SCOOP)\\buckets" } else { $"($env.USERPROFILE)\\scoop\\buckets" }
+  let bucketsDir = if (env | any $it.name == 'SCOOP') { $"($env.SCOOP)\\buckets" } else { $"($env.USERPROFILE)\\scoop\\buckets" }
   let buckets    = (ls $bucketsDir | get name | path basename)
   $buckets
 }
