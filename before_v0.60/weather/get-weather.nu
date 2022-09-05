@@ -111,8 +111,8 @@ def get_weather [
     --locIdx(-l): int # The location id 0-3
     --units(-u): string # The units "f" or "c"
     ] {
-    let is_loc_empty = ($locIdx | is-empty)
-    let is_units_empty = ($units | is-empty)
+    let is_loc_empty = ($locIdx | empty?)
+    let is_units_empty = ($units | empty?)
 
     let no_loc_no_unit = ($is_loc_empty == $true && $is_units_empty == $true)
     let no_loc_with_unit = ($is_loc_empty == $true && $is_units_empty == $false)

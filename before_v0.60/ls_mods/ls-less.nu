@@ -2,7 +2,7 @@
 def ls-less [
     --dir(-d):any # The directory you want to list
 ] {
-    let is_empty = ($dir | is-empty)
+    let is_empty = ($dir | empty?)
     if $is_empty {
         nu -c 'ls' | less -r
     } {

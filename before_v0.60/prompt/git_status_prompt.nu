@@ -76,7 +76,7 @@ def git-branch-icon [] {
     if ($branch | str length) > 0 {
       let modified = (do -i { git status --porcelain } | split row "\n" | str trim | split column " " status file);
 
-      if ($modified | get | first | is-empty) {
+      if ($modified | get | first | empty?) {
         $"|(ansi green)($branch)(ansi reset):(ansi green)✓(ansi reset)"
       } {
         let modified2 = (do -i { git status --porcelain } | split row "\n" | str substring [0 1])

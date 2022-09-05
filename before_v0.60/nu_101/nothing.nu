@@ -14,7 +14,7 @@ def nada [
 def nada2 [
     --flat(-f)
 ] {
-    let flat = ($flat | is-empty)
+    let flat = ($flat | empty?)
 
     if $flat {
         echo $true

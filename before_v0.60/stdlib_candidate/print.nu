@@ -4,7 +4,7 @@ def print [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
     ...rest                 # All of the parameters
     ] {
-    let is_empty = ($separator | is-empty)
+    let is_empty = ($separator | empty?)
     let num_of_rest = ($rest | length)
     $rest | each --numbered { |param|
         if $is_empty {
@@ -32,7 +32,7 @@ def print2 [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
     ...rest                 # All of the parameters
     ] {
-    let is_empty = ($separator | is-empty)
+    let is_empty = ($separator | empty?)
     let num_of_rest = ($rest | length)
     if $is_empty {
         $rest | into string | str collect
@@ -52,9 +52,9 @@ def print3 [
     --flat(-f)              # If tables are found, flatten them
     ...rest                 # All of the parameters
     ] {
-    let sep_empty = ($separator | is-empty)
+    let sep_empty = ($separator | empty?)
     let num_of_rest = ($rest | length)
-    let flat = ($flat | is-empty)
+    let flat = ($flat | empty?)
     $rest | each --numbered { |param|
         if $sep_empty {
             #log 'sep is empty'

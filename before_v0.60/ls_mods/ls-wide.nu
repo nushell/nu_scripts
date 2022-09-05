@@ -3,8 +3,8 @@ def ls-wide [
     --path(-p):string # The path you want to list
     --columns(-c):int # The number of columns in your output
     ] {
-    let is_columns_empty = ($columns | is-empty)
-    let is_path_empty = ($path | is-empty)
+    let is_columns_empty = ($columns | empty?)
+    let is_path_empty = ($path | empty?)
     let columns_default = 3
 
     if $is_path_empty {
