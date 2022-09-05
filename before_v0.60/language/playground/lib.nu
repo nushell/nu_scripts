@@ -43,7 +43,7 @@ def expect [
 
       $values.0 == $values.1
     }
-  | all? $it) && (($actual | get | length) == ($to-be | get | length));
+  | all $it) && (($actual | get | length) == ($to-be | get | length));
 
   let line = (if $true == $are_equal {
     $"(ansi green)ok(ansi reset)(char newline)"

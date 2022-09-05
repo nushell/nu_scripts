@@ -33,7 +33,7 @@ def do-work [] {
         let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
 
         $"## ($row.site)(char nl)(char nl)"
-        if ($site_json | all? ($it | empty?)) {
+        if ($site_json | all ($it | empty?)) {
             $"none found this week(char nl)(char nl)"
         } else {
             $site_json | group-by user_login | transpose user prs | each { |row|
@@ -55,7 +55,7 @@ def do-work [] {
         }
     })
 
-    if ($entries | all? ($it | empty?)) {
+    if ($entries | all ($it | empty?)) {
         # do nothing
     } else {
         $entries | str collect
