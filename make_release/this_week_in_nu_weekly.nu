@@ -33,7 +33,7 @@ def do-work [] {
         let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
 
         $"## ($row.site)(char nl)(char nl)"
-        if ($site_json | all? ($it | empty?)) {
+        if ($site_json | all ($it | is-empty)) {
             $"none found this week(char nl)(char nl)"
         } else {
             $site_json | group-by user_login | transpose user prs | each { |row|
@@ -55,7 +55,7 @@ def do-work [] {
         }
     })
 
-    if ($entries | all? ($it | empty?)) {
+    if ($entries | all ($it | is-empty)) {
         # do nothing
     } else {
         $entries | str collect
@@ -66,7 +66,7 @@ def do-work [] {
 let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
 $"# This week in Nushell #($week_num)(char nl)(char nl)"
 
-if ($env | select GITHUB_USERNAME | empty?) || ($env | select GITHUB_PASSWORD | empty?) {
+if ($env | select GITHUB_USERNAME | is-empty) || ($env | select GITHUB_PASSWORD | is-empty) {
     echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
 } else {
     do-work | str collect

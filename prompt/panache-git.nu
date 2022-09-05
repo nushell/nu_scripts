@@ -27,7 +27,7 @@ module panache-plumbing {
       do --ignore-errors { $current_dir | path relative-to $nu.home-path } | str collect
     )
 
-    let in_sub_dir_of_home = ($current_dir_relative_to_home | empty? | nope)
+    let in_sub_dir_of_home = ($current_dir_relative_to_home | is-empty | nope)
 
     let current_dir_abbreviated = (if $in_sub_dir_of_home {
       $'~(char separator)($current_dir_relative_to_home)'
@@ -40,7 +40,7 @@ module panache-plumbing {
 
   # Get repository status as structured data
   export def "panache-git structured" [] {
-    let in_git_repo = (do --ignore-errors { git rev-parse --abbrev-ref HEAD } | empty? | nope)
+    let in_git_repo = (do --ignore-errors { git rev-parse --abbrev-ref HEAD } | is-empty | nope)
 
     let status = (if $in_git_repo {
       git --no-optional-locks status --porcelain=2 --branch | lines
@@ -83,7 +83,7 @@ module panache-plumbing {
       $status
       | where ($it | str starts-with '# branch.upstream')
       | str collect
-      | empty?
+      | is-empty
       | nope
     } else {
       false
@@ -93,7 +93,7 @@ module panache-plumbing {
       $status
       | where ($it | str starts-with '# branch.ab')
       | str collect
-      | empty?
+      | is-empty
       | nope
     } else {
       false
@@ -130,7 +130,7 @@ module panache-plumbing {
       $status
       | where ($it | str starts-with '1') || ($it | str starts-with '2')
       | str collect
-      | empty?
+      | is-empty
       | nope
     } else {
       false
@@ -140,7 +140,7 @@ module panache-plumbing {
       $status
       | where ($it | str starts-with '?')
       | str collect
-      | empty?
+      | is-empty
       | nope
     } else {
       false
@@ -150,7 +150,7 @@ module panache-plumbing {
       $status
       | where ($it | str starts-with 'u')
       | str collect
-      | empty?
+      | is-empty
       | nope
     } else {
       false

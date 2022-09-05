@@ -24,7 +24,7 @@ def main [
   |flatten
   |par-each {|repo|
     let payload = (call-gitlab $repo.id '/repository/files/' $file --query $"ref=($branch)")
-    if ($payload|columns|find message|empty?) {
+    if ($payload|columns|find message|is-empty) {
       $payload
       |get content
       |hash base64 --decode

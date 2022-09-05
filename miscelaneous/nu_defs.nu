@@ -18,7 +18,7 @@ def mcx [file] {
 
 #open file
 def openf [file?] {
-  let file = if ($file | empty?) {$in} else {$file}
+  let file = if ($file | is-empty) {$in} else {$file}
 
   bash -c $'xdg-open "($file)" 2>/dev/null &'
 }
@@ -213,7 +213,7 @@ def 7zmax [
   # 7zmax * "-sdel"
 ] {
 
-  if ($rest | empty?) {
+  if ($rest | is-empty) {
     echo "no files to compress specified"
   } else {
      7z a -t7z -m0=lzma2 -mx=9 -ms=on -mmt=on $"($filename).7z" $rest
@@ -252,7 +252,7 @@ def agenda [
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
 
-  if ($full | empty?) || ($full == 0) {
+  if ($full | is-empty) || ($full == 0) {
     gcalcli --calendar $"($calendars)" agenda --military $rest
   } else {
     gcalcli --calendar $"($calendars_full)" agenda --military $rest
@@ -273,7 +273,7 @@ def semana [
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
 
-  if ($full | empty?) || ($full == 0) {
+  if ($full | is-empty) || ($full == 0) {
     gcalcli --calendar $"($calendars)" calw $rest --military --monday
   } else {
     gcalcli --calendar $"($calendars_full)" calw $rest --military --monday
@@ -294,7 +294,7 @@ def mes [
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
 
-  if ($full | empty?) || ($full == 0) {
+  if ($full | is-empty) || ($full == 0) {
     gcalcli --calendar $"($calendars)" calm $rest --military --monday
   } else {
     gcalcli --calendar $"($calendars_full)" calm $rest --military --monday
@@ -303,7 +303,7 @@ def mes [
 
 #get bitly short link (requires xclip)
 def mbitly [longurl] {
-  if ($longurl | empty?) {
+  if ($longurl | is-empty) {
     echo "no url provided"
   } else {
     let Accesstoken = "Token"
@@ -332,14 +332,14 @@ def trans [
   #More in: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 ] {
 
-  if ($search | empty?) {
+  if ($search | is-empty) {
     echo "no search query provided"
   } else {
     let key = "api_kei"
     let user = "user_email"
 
-    let from = if ($from | empty?) {"en-US"} else {$from}
-    let to = if ($to | empty?) {"es-ES"} else {$to}
+    let from = if ($from | is-empty) {"en-US"} else {$from}
+    let to = if ($to | is-empty) {"es-ES"} else {$to}
 
     let to_translate = ($search | str collect "%20")
 
@@ -387,14 +387,14 @@ def gnu-plot [
   #($x | column 0) | gnu-plot --title "My Title"
   #gnu-plot $x --title "My Title"
 ] {
-  let x = if ($data | empty?) {$in} else {$data}
+  let x = if ($data | is-empty) {$in} else {$data}
   let n_cols = ($x | transpose | length)
   let name_cols = ($x | transpose | column2 0)
 
   let ylabel = if $n_cols == 1 {$name_cols | get 0} else {$name_cols | get 1}
   let xlabel = if $n_cols == 1 {""} else {$name_cols | get 0}
 
-  let title = if ($title | empty?) {if $n_cols == 1 {$ylabel | str upcase} else {$"($ylabel) vs ($xlabel)"}} else {$title}
+  let title = if ($title | is-empty) {if $n_cols == 1 {$ylabel | str upcase} else {$"($ylabel) vs ($xlabel)"}} else {$title}
 
   $x | to tsv | save data0.txt
   sed 1d data0.txt | save data.txt
@@ -438,10 +438,10 @@ def skim [
            } else if ($type == 'string') {
              $lst
            })
-  if ($s | empty?) {
+  if ($s | is-empty) {
     null
   } else {
-    if ($preview | empty? ) {
+    if ($preview | is-empty ) {
       ($s
       | sk
         --layout reverse
@@ -476,8 +476,8 @@ def group-list [
   def make-group [v, buf, ret, key] {
     let new_group = ($'($v)' =~ $regex)
     if $new_group {
-      let is_key = (not ($key | empty?))
-      let is_buf = (not ($buf | empty?))
+      let is_key = (not ($key | is-empty))
+      let is_buf = (not ($buf | is-empty))
       if ($is_buf && $is_key) {
         let ret = ($ret | append {key: $key, values: $buf})
         {buf: [], ret: $ret, key: $v}
@@ -490,7 +490,7 @@ def group-list [
     }
   }
   def loop [lst, buf=[], ret=[], key=''] {
-    if ($lst | empty?) {
+    if ($lst | is-empty) {
       {ret: $ret, buf: $buf, key: $key}
     } else {
       let v = ($lst | first)
@@ -503,8 +503,8 @@ def group-list [
   let ret = $obj.ret
   let buf = $obj.buf
   let key = $obj.key
-  let is_key = (not ($key | empty?))
-  let is_buf = (not ($buf | empty?))
+  let is_key = (not ($key | is-empty))
+  let is_buf = (not ($buf | is-empty))
   if ($is_buf && $is_key) {
     $ret | append {key: $key, values: $buf}
   } else {

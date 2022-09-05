@@ -16,7 +16,7 @@ export def-env rbenv [
             error make { msg: $"`($command)` command is not supported yet" }
         }
     } else {
-    	if ($command | empty?) {
+    	if ($command | is-empty) {
     		^rbenv
     	} else {
         	^rbenv $command $args

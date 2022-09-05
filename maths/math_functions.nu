@@ -74,7 +74,7 @@ def isprime [n: int] {
 
 	let flag = ([[isPrime];[true]] | update isPrime {if ($n mod 2) == 0 { false } else { seq 3 1 $max | each { |it| if ($n mod $it) == 0 { false }}}})
 
-	if ($flag.isPrime.0 | empty?) { echo 'prime' } else { echo 'not prime' }
+	if ($flag.isPrime.0 | is-empty) { echo 'prime' } else { echo 'not prime' }
 }
 
 #Prime list <= n
@@ -143,7 +143,7 @@ def dec2base [
 
 # Scale list to [a,b] interval
 def scale-minmax [a, b,input?] {
-	let x = if ($input | empty?) {$in} else {$input}
+	let x = if ($input | is-empty) {$in} else {$input}
 
 	let min = ($x | math min)
 	let max = ($x | math max)
@@ -153,7 +153,7 @@ def scale-minmax [a, b,input?] {
 
 # Scale every column of a table (separately) to [a,b] interval
 def scale-minmax-table [a, b,input?] {
-	let x = if ($input | empty?) {$in} else {$input}
+	let x = if ($input | is-empty) {$in} else {$input}
 	let n_cols = ($x | transpose | length)
 	let name_cols = ($x | transpose | column2 0)
 

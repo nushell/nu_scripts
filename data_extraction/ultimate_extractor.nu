@@ -19,7 +19,7 @@ def extract [name:string #name of the archive to extract
                     ]
 
   let command = ($exten|where $name =~ $it.ex|first)
-  if ($command|empty?) {
+  if ($command|is-empty) {
     echo 'Error! Unsupported file extension'
   } else {
     nu -c (build-string $command.com ' ' $name)

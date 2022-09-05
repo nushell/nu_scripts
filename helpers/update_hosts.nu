@@ -37,7 +37,7 @@ module hosts {
                 echo "Do you want to update the /etc/hosts file? [Y/n]"
                 let choice = (input)
                 if $choice in ["" "Y" "y"] {
-                    let TMP_FILE = if ($WHITELIST|empty?) {
+                    let TMP_FILE = if ($WHITELIST|is-empty) {
                         ($TMP_FILE)
                         } else {
                         ($TMP_FILE | where {|line| $line !~ $pattern})

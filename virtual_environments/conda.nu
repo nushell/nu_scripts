@@ -87,7 +87,7 @@ def 'nu-complete conda envs' [] {
     conda info --envs
     | lines
     | where not ($it | str starts-with '#')
-    | where not ($it | empty?)
+    | where not ($it | is-empty)
     | each {|entry| $entry | split row ' ' | get 0 }
 }
 
