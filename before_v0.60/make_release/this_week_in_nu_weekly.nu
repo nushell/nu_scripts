@@ -32,7 +32,7 @@ def do-work [] {
       # fetch -u $nu.env.GITHUB_USERNAME -p $nu.env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
       let site_json = (fetch -u $nu.env.GITHUB_USERNAME -p $nu.env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
       $"## ($it.site)(char nl)(char nl)"
-      if ($site_json | all ($it | empty?)) {
+      if ($site_json | all ($it | is-empty)) {
           $"none found this week(char nl)(char nl)"
       } {
           $site_json | group-by user_login | pivot user prs | each { |row|
@@ -54,7 +54,7 @@ def do-work [] {
       }
   })
 
-  if ($entries | all ($it | empty?)) {
+  if ($entries | all ($it | is-empty)) {
   } {
       $entries | str collect
   }
@@ -64,7 +64,7 @@ def do-work [] {
 let week_num = (seq date -b '2019-08-23' -n 7 | length)
 $"# This week in Nushell #($week_num)(char nl)(char nl)"
 
-if ($nu.env | select GITHUB_USERNAME | empty?) || ($nu.env | select GITHUB_PASSWORD | empty?) {
+if ($nu.env | select GITHUB_USERNAME | is-empty) || ($nu.env | select GITHUB_PASSWORD | is-empty) {
     echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $nu.env to use this script'
 } {
     do-work | str collect

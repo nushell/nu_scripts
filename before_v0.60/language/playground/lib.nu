@@ -22,7 +22,7 @@ def play [
 ] {
   let title = $topic;
 
-  let is_tag_empty = ($tag | empty?);
+  let is_tag_empty = ($tag | is-empty);
   let should_run_all = ($nu.env | default RUN_ALL $false | get RUN_ALL);
 
   if $is_tag_empty {

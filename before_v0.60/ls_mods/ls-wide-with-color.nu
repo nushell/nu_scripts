@@ -27,8 +27,8 @@ def ls-wide2 [
     --dir(-d):any # The directory you want to list
     --columns(-c):int # The number of columns in your output
     ] {
-    let is_dir_empty = ($dir | empty?)
-    let is_columns_empty = ($columns | empty?)
+    let is_dir_empty = ($dir | is-empty)
+    let is_columns_empty = ($columns | is-empty)
     let ls_data = (if $is_dir_empty { ls } { ls $dir })
     let ansi_size = 9 # \x1b[36m + string + \x1b[0m, ~9 characters are added to each string for coloring
     let max_fname_size = ((echo $ls_data | get name | into string | str length | math max) + $ansi_size)
@@ -55,7 +55,7 @@ def ls-wide2 [
 def colorize [thing:any] {
     let thing_as_string = (echo $thing | into string)
     let ext = (echo $thing_as_string | path parse | get extension)
-    let is_empty = ($ext | empty?)
+    let is_empty = ($ext | is-empty)
 
     if $is_empty {
         # build-string (ansi -e '36m') $thing (ansi -e '0m')
