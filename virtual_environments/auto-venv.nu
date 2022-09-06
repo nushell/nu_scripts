@@ -1,6 +1,14 @@
 
-def log-debug [msg: string] {
-    ($msg + "\n") | save --append D:\Personal\Projects\nushell\nu_scripts\virtual_environments\debug.log
+def log-debug [msg: string, val: any = $nothing] {
+
+    let result = (if $val == $nothing {
+        $msg
+    }
+    else {
+        $msg + "\n> " + ($val | str collect)
+    })
+
+    ($result + "\n") | save --append D:\Personal\Projects\nushell\nu_scripts\virtual_environments\debug.log
 }
 
 module path_extensions {
@@ -37,7 +45,7 @@ module path_extensions {
     
         $list | each -n { |$part| (
             $list | first ($part.index + 1) | path join;
-        )};
+        )}
     
     }
     
@@ -46,7 +54,7 @@ module path_extensions {
         folder:    string, 
         subfolder: string
     ] {
-        
+
         (ls -a $folder
         | where ( 
                 $it | $it.type == 'dir' and ($it.name | path basename) == $subfolder
@@ -70,9 +78,9 @@ module path_extensions {
                 $it | path check-sub $it $subfolder
             )
         );
-    
-        if ($paths | length) > 0 {
-            [ ($paths | first), $subfolder ] | path join;
+
+        if ($paths != $nothing) and ($paths | length) > 0 {
+            [ ($paths | first), $subfolder ] | path join
         }
     }
 }
@@ -87,9 +95,21 @@ module venv_helpers {
     ] {
         not (path find-sub $folder $subfolder | empty?);
     }
+
+    def get-env [
+        name:    string
+        default: any
+    ] {
+        (if ($name in $env) {
+            $env | get $name
+        }
+        else {
+            $default
+        })
+    }
     
     export def venv-is-active [] {
-        'python-venv' in (overlay list)
+        ( 'python-venv' in (overlay list) and (get-env '_VENV_HOOKS_DISABLE' false | into bool) )
     }
     
     export def path-sep [] {
@@ -111,10 +131,6 @@ module venv_helpers {
             false
         }
         else {
-            if (not (venv-is-active)) {
-                log-debug "entered"
-                log-debug ($after | str collect)
-            }
             # if venv is already active, handle it in "venv swap" hook
             not (venv-is-active)
         })
@@ -135,10 +151,6 @@ module venv_helpers {
                 false
             }
             else {
-                if ($env.VIRTUAL_ENV != $target) {
-                    log-debug "swapped"
-                    log-debug ($after | str collect)
-                }
                 $env.VIRTUAL_ENV != $target
             })
 
@@ -153,10 +165,6 @@ module venv_helpers {
             false
         } 
         else {
-            if not (has-sub $after '.venv') {
-                log-debug "exited"
-                log-debug ($after | str collect)
-            }
             not (has-sub $after '.venv')
         })
     }
@@ -173,12 +181,19 @@ let-env config = ($env.config | upsert hooks.env_change.PWD {
             condition: {|before, after| venv_helpers has-entered-venv $after}
             code: '
 
+                let cwd = $env.PWD
+
                 overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
 
+                cd ($cwd)
+                let-env _VENV_HOOKS_DISABLE = false
+                
                 let virtual_env    = (path_extensions path find-sub $env.PWD ".venv")
                 let bin            = ([$virtual_env, "bin"] | path join)
                 let path_sep       = venv_helpers path-sep
                 let virtual_prompt = ""
+
+                log-debug "virtual_env" $virtual_env
                 
                 activate-virtualenv $virtual_env $bin $path_sep $virtual_prompt
 
@@ -186,6 +201,7 @@ let-env config = ($env.config | upsert hooks.env_change.PWD {
                 hide bin
                 hide path_sep
                 hide virtual_prompt
+                hide cwd
             '
         }
 
