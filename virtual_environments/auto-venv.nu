@@ -109,17 +109,9 @@ module venv_helpers {
     }
     
     export def venv-is-active [] {
-        ( 'python-venv' in (overlay list) and (get-env '_VENV_HOOKS_DISABLE' false | into bool) )
+        ( 'python-venv' in (overlay list) and (not (get-env '_VENV_HOOKS_DISABLE' false | into bool)) )
     }
     
-    export def path-sep [] {
-        (if $nu.os-info.name == "windows" {
-            '\'
-        }
-        else {
-            '/'
-        })
-    }
     
     export def has-entered-venv [
         after: path
@@ -181,27 +173,30 @@ let-env config = ($env.config | upsert hooks.env_change.PWD {
             condition: {|before, after| venv_helpers has-entered-venv $after}
             code: '
 
-                let cwd = $env.PWD
+                let _env = $env
+
+                let virtual_env    = (path_extensions path find-sub $_env.PWD ".venv")
+                let bin            = ([$virtual_env, "bin"] | path join)
+                let virtual_prompt = ""
+
+                let-env _VENV_HOOKS_DISABLE = true
 
                 overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
 
-                cd ($cwd)
+                cd ($_env.PWD)
                 let-env _VENV_HOOKS_DISABLE = false
-                
-                let virtual_env    = (path_extensions path find-sub $env.PWD ".venv")
-                let bin            = ([$virtual_env, "bin"] | path join)
-                let path_sep       = venv_helpers path-sep
-                let virtual_prompt = ""
 
-                log-debug "virtual_env" $virtual_env
-                
-                activate-virtualenv $virtual_env $bin $path_sep $virtual_prompt
+                activate-virtualenv $_env $virtual_env $bin $virtual_prompt
 
+                hide _env
                 hide virtual_env
                 hide bin
-                hide path_sep
                 hide virtual_prompt
-                hide cwd
+
+                # because overlays remember their config, we need to do this to enable hooks after we deactivate
+                overlay remove python-venv
+                let-env _VENV_HOOKS_DISABLE = false
+                overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
             '
         }
 
@@ -209,7 +204,6 @@ let-env config = ($env.config | upsert hooks.env_change.PWD {
         {
             condition: {|before, after| venv_helpers has-entered-venv $after}
             code: '
-
                 overlay remove python-venv --keep-env [PWD]
 
                 # re-trigger `on_enter` hook

@@ -2,9 +2,9 @@
 
 # This command prepares the required environment variables
 export def-env activate-virtualenv [
+    _env:           record,
     virtual_env:    string,
     bin:            string,
-    path_sep:       string,
     virtual_prompt: string,
 
 ] {
@@ -13,7 +13,7 @@ export def-env activate-virtualenv [
     }
 
     def has-env [name: string] {
-        $name in (env).name
+        $name in ($_env)
     }
 
     let is_windows = ((sys).host.name | str downcase) == 'windows'
@@ -27,15 +27,22 @@ export def-env activate-virtualenv [
         'PATH'
     }
 
+    let path_sep = (if $nu.os-info.name == "windows" {
+        '\'
+    }
+    else {
+        '/'
+    })
+
     let old_path = (
         if $is_windows {
             if (has-env 'Path') {
-                $env.Path
+                $_env.Path
             } else {
-                $env.PATH
+                $_env.PATH
             }
         } else {
-            $env.PATH
+            $_env.PATH
         } | if (is-string $in) {
             # if Path/PATH is a string, make it a list
             $in | split row $path_sep | path expand
@@ -57,7 +64,7 @@ export def-env activate-virtualenv [
     }
 
     let old_prompt_command = if (has-env 'PROMPT_COMMAND') {
-        $env.PROMPT_COMMAND
+        $_env.PROMPT_COMMAND
     } else {
         ''
     }
@@ -79,9 +86,6 @@ export def-env activate-virtualenv [
         VIRTUAL_ENV    : $virtual_env
         PROMPT_COMMAND : $new_prompt
         VIRTUAL_PROMPT : $virtual_prompt
-
-        # workaround for `$env.PWD` being 'restored' on both `overlay add` and `overlay remove`
-        _VENV_HOOKS_DISABLE: true
     }
 
     # Activate the environment variables
