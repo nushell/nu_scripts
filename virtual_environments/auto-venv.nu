@@ -109,7 +109,7 @@ module venv_helpers {
     }
     
     export def venv-is-active [] {
-        ( 'python-venv' in (overlay list) and (not (get-env '_VENV_HOOKS_DISABLE' false | into bool)) )
+        'python-venv' in (overlay list)
     }
     
     
