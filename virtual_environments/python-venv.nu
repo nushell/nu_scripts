@@ -51,8 +51,6 @@ export def-env activate-virtualenv [
         }
     )
 
-    log-debug "overlay virtual env" $virtual_env
-
     let venv_path = ([$virtual_env $bin] | path join)
     let new_path = ($old_path | prepend $venv_path | str collect $path_sep)
 

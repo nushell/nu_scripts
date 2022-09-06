@@ -210,7 +210,7 @@ let-env config = ($env.config | upsert hooks.env_change.PWD {
         # deactivate on exit
         {
             condition: { |before, after| venv_helpers has-exited-venv $after }
-            code: '
+            code: $'
                 ($on_exit)
             '
         }
