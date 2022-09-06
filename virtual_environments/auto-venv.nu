@@ -1,120 +1,183 @@
 
+def log-debug [msg: string] {
+    ($msg + "\n") | save --append D:\Personal\Projects\nushell\nu_scripts\virtual_environments\debug.log
+}
 
-# Returns a list of full paths starting from root, to the path given
-# 
-# 
-# walk '/home/user/projects';
-# > [
-# >   '/home/',
-# >   '/home/user/',
-# >   '/home/user/projects/',
-# > ]
-# 
-def "path walk" [
-    path: string
-] {
-    let list = ($path | path expand | path split);
+module path_extensions {
 
-    # compensate for bug in `path split`
-    let list = (
-        if $nu.os-info.name == "windows" {
-            let len = ($list | length);
+    # Returns a list of full paths starting from root, to the path given
+    # 
+    # 
+    # walk '/home/user/projects';
+    # > [
+    # >   '/home/',
+    # >   '/home/user/',
+    # >   '/home/user/projects/',
+    # > ]
+    # 
+    export def "path walk" [
+        path: string
+    ] {
+        let list = ($path | path expand | path split);
+    
+        # compensate for bug in `path split`
+        let list = (
+            if $nu.os-info.name == "windows" {
+                let len = ($list | length);
+    
+                [
+                    ($list | first 2 | str collect),
+                    ($list | last ($len - 2))
+                ] | flatten;
+            } 
+            else { $list }
+        );
+    
+        let len = ($list | length);
+    
+        $list | each -n { |$part| (
+            $list | first ($part.index + 1) | path join;
+        )};
+    
+    }
+    
+    # Returns true if 'subfolder' is a folder along the path of 'folder' 
+    export def "path check-sub" [
+        folder:    string, 
+        subfolder: string
+    ] {
+        
+        (ls -a $folder
+        | where ( 
+                $it | $it.type == 'dir' and ($it.name | path basename) == $subfolder
+            )
+            | length 
+        ) > 0;
+    }
+    
+    # Walks the path along 'folder', and returns the path of the first subfolder found, or nothing if the subfolder was not found.
+    # 
+    # path find-sub '/home/user/projects/code' '.venv';
+    # > /home/user/projects/.venv
+    export def "path find-sub" [
+        folder:    string, 
+        subfolder: string
+    ] {
+        let paths = path walk $folder;
+    
+        let paths = ( $paths 
+            | where (
+                $it | path check-sub $it $subfolder
+            )
+        );
+    
+        if ($paths | length) > 0 {
+            [ ($paths | first), $subfolder ] | path join;
+        }
+    }
+}
 
-            [
-                ($list | first 2 | str collect),
-                ($list | last ($len - 2))
-            ] | flatten;
+module venv_helpers {
+
+    use path_extensions *
+
+    def has-sub [
+        folder:    string, 
+        subfolder: string
+    ] {
+        not (path find-sub $folder $subfolder | empty?);
+    }
+    
+    export def venv-is-active [] {
+        'python-venv' in (overlay list)
+    }
+    
+    export def path-sep [] {
+        (if $nu.os-info.name == "windows" {
+            '\'
+        }
+        else {
+            '/'
+        })
+    }
+    
+    export def has-entered-venv [
+        after: path
+    ] {
+        
+        let target = path find-sub $after '.venv'
+        
+        (if ($target | empty?) {
+            false
+        }
+        else {
+            if (not (venv-is-active)) {
+                log-debug "entered"
+                log-debug ($after | str collect)
+            }
+            # if venv is already active, handle it in "venv swap" hook
+            not (venv-is-active)
+        })
+    }
+
+    export def has-swapped-venv [
+        after: path
+    ] {
+
+        
+        (if not (venv-is-active) {
+            false
+        }
+        else {
+            let target = path find-sub $after '.venv'
+                
+            (if ($target | empty?) {
+                false
+            }
+            else {
+                if ($env.VIRTUAL_ENV != $target) {
+                    log-debug "swapped"
+                    log-debug ($after | str collect)
+                }
+                $env.VIRTUAL_ENV != $target
+            })
+
+        })
+    }
+
+    export def has-exited-venv [
+        after: path
+    ] {
+
+        (if not (venv-is-active) {
+            false
         } 
-        else { $list }
-    );
-
-    let len = ($list | length);
-
-    $list | each -n { |$part| (
-        $list | first ($part.index + 1) | path join;
-    )};
-
-}
-
-# Returns true if 'subfolder' is a folder along the path of 'folder' 
-def "path check-sub" [
-    folder:    string, 
-    subfolder: string
-] {
-    
-    (ls -a $folder
-    | where ( 
-            $it | $it.type == 'dir' and ($it.name | path basename) == $subfolder
-        )
-        | length 
-    ) > 0;
-}
-
-# Walks the path along 'folder', and returns the path of the first subfolder found, or nothing if the subfolder was not found.
-# 
-# path find-sub '/home/user/projects/code' '.venv';
-# > /home/user/projects/.venv
-def "path find-sub" [
-    folder:    string, 
-    subfolder: string
-] {
-    let paths = path walk $folder;
-
-    let paths = ( $paths 
-        | where (
-            $it | path check-sub $it $subfolder
-        )
-    );
-
-    if ($paths | length) > 0 {
-        [ ($paths | first), $subfolder ] | path join;
+        else {
+            if not (has-sub $after '.venv') {
+                log-debug "exited"
+                log-debug ($after | str collect)
+            }
+            not (has-sub $after '.venv')
+        })
     }
 }
 
-def has-sub [
-    folder:    string, 
-    subfolder: string
-] {
-    not (path find-sub $folder $subfolder | empty?);
-}
-
-def is-active [] {
-    'VIRTUAL_ENV' in $env
-}
-
-def path-sep [] {
-    if $nu.os-info.name == "windows" {
-        '\'
-    } else {
-        '/'
-    }
-}
-
-let venv = '.venv'
-
-def-env _activate_venv [] {
-
-    let virtual_env    = (path find-sub $env.PWD $venv)
-    let bin            = ([$virtual_env, 'bin'] | path join)
-    let path_sep       = path-sep
-    let virtual_prompt = $venv
-    
-    activate-virtualenv $virtual_env $bin $path_sep $virtual_prompt
-}
-
-
+# must be in 'global' scope when `condition` is called
+use venv_helpers
+use path_extensions
 
 let-env config = ($env.config | upsert hooks.env_change.PWD {
     [
         # activate on entry
         {
-            condition: {|before, after| (has-sub $after $venv) and (not (is-active)) }
+            condition: {|before, after| venv_helpers has-entered-venv $after}
             code: '
-                overlay add ~/.nushell/autovox/python-venv.nu
 
-                let virtual_env    = (path find-sub $env.PWD ".venv")
+                overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
+
+                let virtual_env    = (path_extensions path find-sub $env.PWD ".venv")
                 let bin            = ([$virtual_env, "bin"] | path join)
-                let path_sep       = path-sep
+                let path_sep       = venv_helpers path-sep
                 let virtual_prompt = ""
                 
                 activate-virtualenv $virtual_env $bin $path_sep $virtual_prompt
@@ -123,15 +186,28 @@ let-env config = ($env.config | upsert hooks.env_change.PWD {
                 hide bin
                 hide path_sep
                 hide virtual_prompt
+            '
+        }
+
+        # re-activate on swap
+        {
+            condition: {|before, after| venv_helpers has-entered-venv $after}
+            code: '
+
+                overlay remove python-venv --keep-env [PWD]
+
+                # re-trigger `on_enter` hook
+                cd .
 
             '
         }
 
-
         # deactivate on exit
         {
-            condition: { |before, after| (is-active) and (not (has-sub $after $venv)) }
-            code: 'overlay remove python-venv'
+            condition: { |before, after| venv_helpers has-exited-venv $after }
+            code: '
+                overlay remove python-venv --keep-env [PWD]
+            '
         }
     ]
 })
