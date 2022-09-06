@@ -116,7 +116,7 @@ module venv_helpers {
     export def has-entered-venv [
         after: path
     ] {
-        
+
         let target = path find-sub $after '.venv'
         
         (if ($target | empty?) {
@@ -132,8 +132,7 @@ module venv_helpers {
         after: path
     ] {
 
-        
-        (if not (venv-is-active) {
+    (if not (venv-is-active) {
             false
         }
         else {
@@ -166,57 +165,53 @@ module venv_helpers {
 use venv_helpers
 use path_extensions
 
+let on_enter = '
+    let _env = $env
+
+    let virtual_env    = (path_extensions path find-sub $_env.PWD ".venv")
+    let bin            = ([$virtual_env, "bin"] | path join)
+    let virtual_prompt = ""
+
+    overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
+
+    # hooks dont self-trigger
+    cd ($_env.PWD)
+
+    activate-virtualenv $_env $virtual_env $bin $virtual_prompt
+
+    hide _env
+    hide virtual_env
+    hide bin
+    hide virtual_prompt
+'
+
+let on_exit = '
+    overlay remove python-venv --keep-env [PWD]
+'
+
 let-env config = ($env.config | upsert hooks.env_change.PWD {
     [
         # activate on entry
         {
             condition: {|before, after| venv_helpers has-entered-venv $after}
-            code: '
-
-                let _env = $env
-
-                let virtual_env    = (path_extensions path find-sub $_env.PWD ".venv")
-                let bin            = ([$virtual_env, "bin"] | path join)
-                let virtual_prompt = ""
-
-                let-env _VENV_HOOKS_DISABLE = true
-
-                overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
-
-                cd ($_env.PWD)
-                let-env _VENV_HOOKS_DISABLE = false
-
-                activate-virtualenv $_env $virtual_env $bin $virtual_prompt
-
-                hide _env
-                hide virtual_env
-                hide bin
-                hide virtual_prompt
-
-                # because overlays remember their config, we need to do this to enable hooks after we deactivate
-                overlay remove python-venv
-                let-env _VENV_HOOKS_DISABLE = false
-                overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
-            '
+            code: $'($on_enter)'
         }
 
         # re-activate on swap
         {
-            condition: {|before, after| venv_helpers has-entered-venv $after}
-            code: '
-                overlay remove python-venv --keep-env [PWD]
-
-                # re-trigger `on_enter` hook
-                cd .
-
+            condition: {|before, after| venv_helpers has-swapped-venv $after}
+            code: $'
+                ($on_exit)
+                ($on_enter)
             '
+
         }
 
         # deactivate on exit
         {
             condition: { |before, after| venv_helpers has-exited-venv $after }
             code: '
-                overlay remove python-venv --keep-env [PWD]
+                ($on_exit)
             '
         }
     ]
