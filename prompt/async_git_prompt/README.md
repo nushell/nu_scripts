@@ -26,3 +26,8 @@ To use this module:
    ```
 
 5. To go back to synchronous mode, run `async-git-prompt-delete-cache`.
+
+### TODO
+
+- Automatic cache invalidation
+- Show untracked files (this can be very expensive in large repos)
