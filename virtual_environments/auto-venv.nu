@@ -93,7 +93,7 @@ module venv_helpers {
         folder:    string, 
         subfolder: string
     ] {
-        not (path find-sub $folder $subfolder | empty?);
+        not (path find-sub $folder $subfolder | is-empty);
     }
 
     def get-env [
@@ -119,7 +119,7 @@ module venv_helpers {
 
         let target = path find-sub $after '.venv'
         
-        (if ($target | empty?) {
+        (if ($target | is-empty) {
             false
         }
         else {
@@ -138,7 +138,7 @@ module venv_helpers {
         else {
             let target = path find-sub $after '.venv'
                 
-            (if ($target | empty?) {
+            (if ($target | is-empty) {
                 false
             }
             else {
@@ -172,7 +172,7 @@ let on_enter = '
     let bin            = ([$virtual_env, "bin"] | path join)
     let virtual_prompt = ""
 
-    overlay add D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
+    overlay use D:\Personal\Projects\nushell\nu_scripts\virtual_environments\python-venv.nu
 
     # hooks dont self-trigger
     cd ($_env.PWD)
@@ -186,7 +186,7 @@ let on_enter = '
 '
 
 let on_exit = '
-    overlay remove python-venv --keep-env [PWD]
+    overlay hide python-venv --keep-env [PWD]
 '
 
 let-env config = ($env.config | upsert hooks.env_change.PWD {
