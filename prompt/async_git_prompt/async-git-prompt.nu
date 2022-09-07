@@ -16,7 +16,7 @@ def do-async [commands: string] {
 
 export def async-git-prompt-string [] {
     let cache_path = (cache-path)
-    if ($cache_path | empty?) {
+    if ($cache_path | is-empty) {
         ""
     } else if ($cache_path | path exists) {
         $"(cached-result-symbol)(open $cache_path | str trim)"
@@ -69,7 +69,7 @@ def cache-path [] {
     } else {
         do -i { git rev-parse --show-toplevel | str trim -r }
     }
-    if ($dir | empty?) {
+    if ($dir | is-empty) {
         null
     } else {
         $dir | path join (cache-file)

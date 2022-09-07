@@ -3,7 +3,7 @@ use async-git-prompt.nu *
 
 def prompt-concat [parts: table] {
     $parts
-    | where (not ($it.text | empty?))
+    | where (not ($it.text | is-empty))
     | each { |it| $"($it.color)($it.text)" }
     | str collect ' '
 }
