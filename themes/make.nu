@@ -12,13 +12,20 @@ def make-theme [theme: string] {
         rename name rgb
     )
     let theme_file = $"($THEMES)/($theme).nu"
+
     cp template.nu $theme_file
+
     $colors |
         each {
             |it|
-            sed -i $"s/{{($it.name)}}/($it.rgb)/g" $theme_file
+            open $theme_file --raw |
+            str replace $"{{($it.name)}}" $it.rgb --all |
+            save $theme_file
         }
-    sed -i $"s/{{theme}}/($theme | str replace '-' '_')/" $theme_file
+
+    open $theme_file --raw |
+    str replace "{{theme}}" ($theme | str replace '-' '_') --all |
+    save $theme_file
 }
 
 
