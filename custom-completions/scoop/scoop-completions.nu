@@ -114,7 +114,7 @@ export extern "scoop" [
 
 # Lists all installed apps, or the apps matching the supplied query.
 export extern "scoop list" [
-  query: string@scoopInstalledApps # string that will be matched
+  query?: string@scoopInstalledApps # string that will be matched
   --help(-h) # Show help for this command.
 ]
 
