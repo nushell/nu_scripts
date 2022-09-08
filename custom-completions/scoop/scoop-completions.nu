@@ -4,6 +4,11 @@
 # FUNCTIONS
 ################################################################
 
+# get environment variable
+def getenv [name: string] {
+  env | where name == $name | get value | first
+}
+
 # list of supported architecture
 def scoopArches [] {
   [ "32bit", "64bit" ]
@@ -11,13 +16,10 @@ def scoopArches [] {
 
 # list of all installed apps
 def scoopInstalledApps [] {
-  # unoptimized tooks a long time
-  # ^scoop list | lines | skip 2 | drop 1 | each { |line| $line | str trim | str replace ' .*' '' }
-
-  let localAppDir = if (env | any $it.name == 'SCOOP') { $"($env.SCOOP)\\apps" } else { $"($env.USERPROFILE)\\scoop\\apps" }
+  let localAppDir = if ('SCOOP' in (env).name) { [(getenv 'SCOOP'), 'apps'] | path join } else { [(getenv 'USERPROFILE'), 'scoop', 'apps'] | path join }
   let localApps   = (ls $localAppDir | get name | path basename)
 
-  let globalAppDir = if (env | any $it.name == 'SCOOP_GLOBAL') { "$env.SCOOP_GLOBAL\\apps" } else { $"($env.ProgramData)\\scoop\\apps" }
+  let globalAppDir = if ('SCOOP_GLOBAL' in (env).name) { [(getenv 'SCOOP_GLOBAL'), 'apps'] | path join } else { [(getenv 'ProgramData'), 'scoop', 'apps'] | path join }
   let globalApps   = if ($globalAppDir | path exists) { ls $globalAppDir | get name | path basename }
 
   $localApps | append $globalApps
@@ -30,7 +32,7 @@ def scoopInstalledAppsWithStar [] {
 
 # list of all manifests from all buckets
 def scoopAllApps [] {
-  let bucketsDir = if (env | any $it.name == 'SCOOP') { $"($env.SCOOP)\\buckets" } else { $"($env.USERPROFILE)\\scoop\\buckets" }
+  let bucketsDir = if ('SCOOP' in (env).name) { [ (getenv 'SCOOP'), 'buckets' ] | path join } else { [ (getenv 'USERPROFILE'), 'scoop', 'buckets' ] | path join }
   for bucket in (ls -s $bucketsDir | get name) { ls ([$bucketsDir, $bucket, 'bucket', '*.json'] | str collect '\')  | get name | path basename | str substring ',-5' } | flatten | uniq
 }
 
@@ -517,7 +519,7 @@ def scoopKnownBuckets [] {
 }
 
 def scoopInstalledBuckets [] {
-  let bucketsDir = if (env | any $it.name == 'SCOOP') { $"($env.SCOOP)\\buckets" } else { $"($env.USERPROFILE)\\scoop\\buckets" }
+  let bucketsDir = if ('SCOOP' in (env).name) { [ (getenv 'SCOOP'), 'buckets' ] | path join } else { [ (getenv 'USERPROFILE'), 'scoop', 'buckets' ] | path join }
   let buckets    = (ls $bucketsDir | get name | path basename)
   $buckets
 }
