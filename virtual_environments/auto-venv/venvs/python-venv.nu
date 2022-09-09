@@ -1,10 +1,7 @@
-export def activate [] {'
-    activate-virtualenv $_env $virtual_env $bin $virtual_prompt
 
-    hide virtual_env
-    hide bin
-    hide virtual_prompt
-'}
+###
+# An example auto-venv module.
+# Copy this into `~/your/project/__auto-venv.nu` (or whatever you named your trigger file)
 
 # adapted from https://github.com/pypa/virtualenv/blob/46f68d67c79f2280554f47f3c21265b3a1e899a4/src/virtualenv/activation/nushell/activate.nu
 
