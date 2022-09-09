@@ -10,7 +10,7 @@
 # > ]
 # 
 export def "path walk" [
-    path: string
+    path: any
 ] {
     let list = ($path | path expand | path split);
 
@@ -20,15 +20,17 @@ export def "path walk" [
 
 }
 
-# Returns true if 'subfolder' is a folder along the path of 'folder' 
+# Returns true if 'subfolder' is found along the path of 'folder', with a given type
 export def "path check-sub" [
-    folder:    string, 
-    subfolder: string
+    folder:    any, 
+    subfolder: string,
+    --type:    string
 ] {
 
     (ls -a $folder
-    | where ( 
-            $it | $it.type == 'dir' and ($it.name | path basename) == $subfolder
+        | where ( 
+            ($type == $nothing or $it.type == $type)
+            and ($it.name | path basename) == $subfolder
         )
         | length 
     ) > 0;
@@ -39,14 +41,15 @@ export def "path check-sub" [
 # path find-sub '/home/user/projects/code' '.venv';
 # > /home/user/projects/.venv
 export def "path find-sub" [
-    folder:    string, 
-    subfolder: string
+    folder:    any,
+    subfolder: string,
+    --type:    string
 ] {
     let paths = path walk $folder;
 
     let paths = ( $paths 
         | where (
-            $it | path check-sub $it $subfolder
+            path check-sub $it $subfolder --type $type
         )
     );
 

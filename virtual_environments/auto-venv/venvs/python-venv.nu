@@ -1,15 +1,3 @@
-export def pre-enter [
-    trigger_folder: string
-] {
-    ('
-        let virtual_env    = (path_extensions path find-sub $_env.PWD "__trigger_folder__")
-        let bin            = ([$virtual_env, "bin"] | path join)
-        let virtual_prompt = ""
-    ' 
-        | str replace '__trigger_folder__' $trigger_folder
-    )
-}
-
 export def activate [] {'
     activate-virtualenv $_env $virtual_env $bin $virtual_prompt
 
@@ -20,14 +8,10 @@ export def activate [] {'
 
 # adapted from https://github.com/pypa/virtualenv/blob/46f68d67c79f2280554f47f3c21265b3a1e899a4/src/virtualenv/activation/nushell/activate.nu
 
-# This command prepares the required environment variables
-export def-env activate-virtualenv [
-    _env:           record,
-    virtual_env:    string,
-    bin:            string,
-    virtual_prompt: string,
-
+export def-env auto-venv-on-enter [
+    _env: record,
 ] {
+
     def is-string [x] {
         ($x | describe) == 'string'
     }
@@ -35,6 +19,10 @@ export def-env activate-virtualenv [
     def has-env [name: string] {
         $name in ($_env)
     }
+
+    let virtual_env    = (path_extensions path find-sub ($_env.PWD | into string) '.venv')
+    let bin            = ([$virtual_env, "bin"] | path join)
+    let virtual_prompt = ""
 
     let is_windows = ((sys).host.name | str downcase) == 'windows'
     let path_name = if $is_windows {
