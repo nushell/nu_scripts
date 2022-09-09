@@ -14,21 +14,6 @@ export def "path walk" [
 ] {
     let list = ($path | path expand | path split);
 
-    # compensate for bug in `path split`
-    let list = (
-        if $nu.os-info.name == "windows" {
-            let len = ($list | length);
-
-            [
-                ($list | first 2 | str collect),
-                ($list | last ($len - 2))
-            ] | flatten;
-        } 
-        else { $list }
-    );
-
-    let len = ($list | length);
-
     $list | each -n { |$part| (
         $list | first ($part.index + 1) | path join;
     )}

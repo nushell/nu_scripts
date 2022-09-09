@@ -1,3 +1,23 @@
+export def pre-enter [
+    trigger_folder: string
+] {
+    ('
+        let virtual_env    = (path_extensions path find-sub $_env.PWD "__trigger_folder__")
+        let bin            = ([$virtual_env, "bin"] | path join)
+        let virtual_prompt = ""
+    ' 
+        | str replace '__trigger_folder__' $trigger_folder
+    )
+}
+
+export def activate [] {'
+    activate-virtualenv $_env $virtual_env $bin $virtual_prompt
+
+    hide virtual_env
+    hide bin
+    hide virtual_prompt
+'}
+
 # adapted from https://github.com/pypa/virtualenv/blob/46f68d67c79f2280554f47f3c21265b3a1e899a4/src/virtualenv/activation/nushell/activate.nu
 
 # This command prepares the required environment variables
