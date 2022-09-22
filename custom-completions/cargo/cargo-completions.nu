@@ -487,3 +487,11 @@ export extern "cargo help" [
   --verbose(-v)    # Use verbose output. May be specified twice for "very verbose" output
   -Z: any          # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 ]
+
+# A bunch of lints to catch common mistakes and improve your Rust code
+export extern "cargo clippy" [
+	--no-deps      # Run Clippy only on the given crate, without linting the dependencies
+	--fix          # Automatically apply lint suggestions. This flag implies `--no-deps
+	--version(-V)  # Prints version information
+	--help(-h)     # Prints help information
+]
