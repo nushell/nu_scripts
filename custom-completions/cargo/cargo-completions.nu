@@ -498,15 +498,17 @@ export extern "cargo clippy" [
 
 # Parameters from cargo update
 export extern "cargo install-update" [
-  --cargo-dir(-c)    # The cargo home directory. Default: $CARGO_HOME or $HOME/.cargo
-  --temp-dir(-t)     # The temporary directory. Default: $TEMP/cargo-update
-  --all(-a)          # Update all packages
-  --list(-l)         # Don't update packages, only list and check if they need an update (all packages by default)
-  --force(-f)        # Update all packages regardless if they need updating
-  --downdate(-d)     # Downdate packages to match latest unyanked registry version
+  --all(-a)             # Update all packages
   --allow-no-update(-i) # Allow for fresh-installing packages
+  --downdate(-d)        # Downdate packages to match latest unyanked registry version
+  --force(-f)           # Update all packages regardless if they need updating
   --git(-g)             # Also update git packages
+  --help(-h)            # Prints help information
+  --list(-l)            # Don't update packages, only list and check if they need an update (all packages by default)
   --quiet(-q)           # No output printed to stdout
+  --version(-V)         # Prints version information
+  --cargo-dir(-c)       # The cargo home directory. Default: $CARGO_HOME or $HOME/.cargo
   --filter(-s)          # Specify a filter a package must match to be considered
   --install-cargo(-r)   # Specify an alternative cargo to run for installations
+  --temp-dir(-t)        # The temporary directory. Default: $TEMP/cargo-update
 ]
