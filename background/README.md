@@ -2,8 +2,7 @@
 make nushell "support" background task feature.
 
 # Prerequisite
-Install [puque](https://github.com/Nukesor/pueue#installation) and make sure `pueued` is running with default config.
-
+Install [puque](https://github.com/Nukesor/pueue#installation) and make sure `pueued` is running with default config, and, `pueue` is in `PATH`
 # Usage
 ```nushell
 use job.nu
