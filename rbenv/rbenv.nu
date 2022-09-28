@@ -1,8 +1,12 @@
 # rbenv
-export env PATH { $env.PATH | split row (char esep) | prepend [$"($env.HOME)/.rbenv/bin" $"($env.HOME)/.rbenv/shims"] }
-export env RBENV_SHELL { "nu" }
-export env RBENV_VERSION { "" }
-export env RBENV_VERSION_OLD { "" }
+export-env { 
+    load-env {
+        PATH: ($env.PATH | split row (char esep) | prepend [$"($env.HOME)/.rbenv/bin" $"($env.HOME)/.rbenv/shims"])
+        RBENV_VERSION: ""
+        RBENV_VERSION_OLD: ""
+        RBENV_SHELL: "nu"
+    }
+}
 
 export def-env rbenv [
 	command?: string@'nu-complete rbenv',
