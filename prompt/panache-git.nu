@@ -23,11 +23,11 @@ export def panache-git [] {
 }
 
 # Get the current directory with home abbreviated
-def current-dir [] {
+export def current-dir [] {
   let current_dir = ($env.PWD)
 
   let current_dir_relative_to_home = (
-    do --ignore-errors { $current_dir | path relative-to $nu.home-path } | str collect
+    do --ignore-errors { $current_dir | path relative-to $nu.home-path } | str join
   )
 
   let in_sub_dir_of_home = ($current_dir_relative_to_home | is-empty | nope)
@@ -42,7 +42,7 @@ def current-dir [] {
 }
 
 # Get repository status as structured data
-def repo-structured [] {
+export def repo-structured [] {
   let in_git_repo = (do --ignore-errors { git rev-parse --abbrev-ref HEAD } | is-empty | nope)
 
   let status = (if $in_git_repo {
@@ -85,7 +85,7 @@ def repo-structured [] {
   let tracking_upstream_branch = (if $in_git_repo {
     $status
     | where ($it | str starts-with '# branch.upstream')
-    | str collect
+    | str join
     | is-empty
     | nope
   } else {
@@ -95,7 +95,7 @@ def repo-structured [] {
   let upstream_exists_on_remote = (if $in_git_repo {
     $status
     | where ($it | str starts-with '# branch.ab')
-    | str collect
+    | str join
     | is-empty
     | nope
   } else {
@@ -132,7 +132,7 @@ def repo-structured [] {
   let has_staging_or_worktree_changes = (if $in_git_repo {
     $status
     | where ($it | str starts-with '1') || ($it | str starts-with '2')
-    | str collect
+    | str join
     | is-empty
     | nope
   } else {
@@ -142,7 +142,7 @@ def repo-structured [] {
   let has_untracked_files = (if $in_git_repo {
     $status
     | where ($it | str starts-with '?')
-    | str collect
+    | str join
     | is-empty
     | nope
   } else {
@@ -152,7 +152,7 @@ def repo-structured [] {
   let has_unresolved_merge_conflicts = (if $in_git_repo {
     $status
     | where ($it | str starts-with 'u')
-    | str collect
+    | str join
     | is-empty
     | nope
   } else {
@@ -245,7 +245,7 @@ def repo-structured [] {
 }
 
 # Get repository status as a styled string
-def repo-styled [] {
+export def repo-styled [] {
   let status = (repo-structured)
 
   let is_local_only = ($status.tracking_upstream_branch != true)
@@ -283,7 +283,7 @@ def repo-styled [] {
     (if $status.on_named_branch {
       $status.branch_name
     } else {
-      ['(' $status.commit_hash '...)'] | str collect
+      ['(' $status.commit_hash '...)'] | str join
     })
   } else {
     ''
