@@ -9,9 +9,9 @@ def parse-help [] {
 # takes a table of parsed help commands in format [short? long format? description]
 def make-completion [command_name: string] {
     build-string "extern \"" $command_name "\" [\n" ($in | each { |it|
-        build-string "\t--" $it.long (if ($it.short | is-empty) == false {
+        build-string "\t--" $it.long (if ($it.short | empty?) == false {
             build-string "(-" $it.short ")"
-        }) (if ($it.description | is-empty) == false {
+        }) (if ($it.description | empty?) == false {
             build-string "\t\t# " $it.description
         })
     } | str collect "\n") "\n\t...args\n]"
