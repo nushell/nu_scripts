@@ -20,7 +20,7 @@ export extern "btm" [
   --curent_usage(-u)                        # Set CPU% to current system CPU%
   --default_time_value(-t): int             # Time value for graphs
   --default_widget_count: int               # Sets nth selected widget type to use default widget 
-  --default-widget-type: string@widgetType  # Set default select widget
+  --default_widget_type: string@widgetType  # Set default select widget
   --disable_advanced_kill                   # Hide advanced options
   --disable_click                           # Disables mouse
   --dot_marker(-m)                          # Uses dot marker for graphs
