@@ -105,7 +105,7 @@ def conda-create-path-windows [env_dir: path] {
         | flatten
         | str collect (char esep))
 
-    { PATH: $new_path }
+    { Path: $new_path }
 }
 
 def conda-create-path-unix [env_dir: path] {
