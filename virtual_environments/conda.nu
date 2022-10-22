@@ -57,6 +57,7 @@ export def-env activate [
         | insert PROMPT_COMMAND $new_prompt
     } else {
         $new_env
+        | insert CONDA_OLD_PROMPT_COMMAND $nothing
     }
 
     load-env $new_env
@@ -66,21 +67,20 @@ export def-env activate [
 export def-env deactivate [] {
     let path_name = if "PATH" in (env).name { "PATH" } else { "Path" }
     let-env $path_name = $env.CONDA_OLD_PATH
-    let-env PROMPT_COMMAND = $env.CONDA_OLD_PROMPT_COMMAND
 
-    hide CONDA_PROMPT_MODIFIER
-    hide CONDA_PREFIX
-    hide CONDA_SHLVL
-    hide CONDA_DEFAULT_ENV
-    hide CONDA_OLD_PATH
+    hide-env CONDA_PROMPT_MODIFIER
+    hide-env CONDA_PREFIX
+    hide-env CONDA_SHLVL
+    hide-env CONDA_DEFAULT_ENV
+    hide-env CONDA_OLD_PATH
 
-    let-env PROMPT_COMMAND = if 'CONDA_OLD_PROMPT_COMMAND' in (env).name {
-        $env.CONDA_OLD_PROMPT_COMMAND
-    } else {
+    let-env PROMPT_COMMAND = if $env.CONDA_OLD_PROMPT_COMMAND == $nothing {
         $env.PROMPT_COMMAND
+    } else {
+        $env.CONDA_OLD_PROMPT_COMMAND
     }
 
-    hide CONDA_OLD_PROMPT_COMMAND
+    hide-env CONDA_OLD_PROMPT_COMMAND
 }
 
 def 'nu-complete conda envs' [] {
