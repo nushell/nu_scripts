@@ -6,10 +6,11 @@ ansi cursor_off
         let idx = ($tick mod 8)
         let cur_block = ($blocks | get $idx)
         print -n $"(ansi -e '1000D')($cur_block | str lpad -c $blocks.7 -l $cur_size)"
-        # sleep 1ms
+        sleep 20ms
     }
+    print -n $"(ansi -e '1000D')"
 }
-char newline
+print $"($blocks.7 | str lpad -c $blocks.7 -l $pb_size)"
 'Done'
 ansi cursor_on
 
