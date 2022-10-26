@@ -1,12 +1,16 @@
+def "nu-complete nix log-format" [] {
+  ['raw', 'internal-json', 'bar', 'bar-with-logs']
+}
+
 #a tool for reproducible and declarative configuration management
-export extern "nix " [
+export extern "nix" [
   --help    #Show usage information.
   --offline    #Disable substituters and consider all previously downloaded files up-to-date.
   --option    #Set the Nix configuration setting name to value (overriding nix.conf).
   --refresh    #Consider all previously downloaded files out-of-date.
   --version    #Show version information.
   --debug    #Set the logging verbosity level to 'debug'.
-  --log-format    #Set the format of log output; one of raw, internal-json, bar or bar-with-logs.
+  --log-format: string@'nu-complete nix log-format'    #Set the format of log output; one of raw, internal-json, bar or bar-with-logs.
   --print-build-logs(-L)    #Print full build logs on standard error.
   --quiet    #Decrease the logging verbosity level.
   --verbose(-v)    #Increase the logging verbosity level.
@@ -221,9 +225,7 @@ export extern "nix develop" [
 ]
 
 #manage Nix flakes
-export extern "nix flake" [
-
-]
+export extern "nix flake" [ ]
 
 #copy a flake and all its inputs to a store
 export extern "nix flake archive" [
