@@ -5,7 +5,7 @@ def up_inner [limit: int] {
 
 # Go up a number of directories
 def-env up [
-    limit: int # The number of directories to go up
+    limit = 1: int # The number of directories to go up
   ] {
     cd (
     (up_inner $limit)
