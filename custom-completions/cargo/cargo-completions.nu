@@ -493,10 +493,10 @@ export extern "cargo help" [
 
 # A bunch of lints to catch common mistakes and improve your Rust code
 export extern "cargo clippy" [
-	--no-deps      # Run Clippy only on the given crate, without linting the dependencies
-	--fix          # Automatically apply lint suggestions. This flag implies `--no-deps
-	--version(-V)  # Prints version information
-	--help(-h)     # Prints help information
+  --no-deps      # Run Clippy only on the given crate, without linting the dependencies
+  --fix          # Automatically apply lint suggestions. This flag implies `--no-deps
+  --version(-V)  # Prints version information
+  --help(-h)     # Prints help information
   --warn(-W)     # Set lint warnings
   --allow(-A)    # Set lint allowed
   --deny(-D)     # Set lint denied
