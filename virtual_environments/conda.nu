@@ -28,7 +28,7 @@ export def-env activate [
         CONDA_PROMPT_MODIFIER: $virtual_prompt
         CONDA_SHLVL: "1"
         CONDA_OLD_PATH: $old_path
-    } | merge { $new_path })
+    } | merge $new_path)
 
     let new_env = if not $no_prompt {
         let old_prompt_command = if (has-env CONDA_OLD_PROMPT_COMMAND) {
