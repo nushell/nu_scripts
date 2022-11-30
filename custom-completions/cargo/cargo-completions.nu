@@ -44,22 +44,24 @@ def "nu-complete cargo vcs" [] {
 
 #*> Core <*#
 
-# Rust's package manager
-export extern "cargo"  [
-  --version(-V)      # Print version info and exit
-  --list             # List installed commands
-  --explain: number  # Run `rustc --explain CODE`
-  --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
-  --quiet(-q)        # Do not print cargo log messages
-  --color: string@"nu-complete cargo color"  # Control when colored output is used
-  --frozen           # Require Cargo.lock and cache are up to date
-  --locked           # Require Cargo.lock is up to date
-  --offline          # Run without accessing the network
-  --config: string   # Override a configuration value
-  -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-  -h, --help         # Print help information
-  ...args: any
-]
+# Disabled due to messing with undefined cargo-subcommands
+
+# # Rust's package manager
+# export extern "cargo"  [
+#   --version(-V)      # Print version info and exit
+#   --list             # List installed commands
+#   --explain: number  # Run `rustc --explain CODE`
+#   --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
+#   --quiet(-q)        # Do not print cargo log messages
+#   --color: string@"nu-complete cargo color"  # Control when colored output is used
+#   --frozen           # Require Cargo.lock and cache are up to date
+#   --locked           # Require Cargo.lock is up to date
+#   --offline          # Run without accessing the network
+#   --config: string   # Override a configuration value
+#   -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+#   -h, --help         # Print help information
+#   ...args: any
+# ]
 
 #*> Common Commands (Sorted by order shown by running the `cargo` command) <*#
 
@@ -78,7 +80,7 @@ export extern "cargo build" [
   --bench: string     # Build the specified benchmark
   --benches           # Build all targets in benchmark mode that have the bench = true manifest flag set
   --all-targets       # Build all targets
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features      # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --target: string    # Build for the given architecture.
@@ -107,6 +109,7 @@ export extern "cargo build" [
 export extern "cargo check" [
   --package(-p): string@"nu-complete cargo packages" #Check only the specified packages
   --workspace # Check all members in the workspace
+  --all # Alias for --workspace (deprecated)
   --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
   --lib # Check the package's library
   --bin: string@"nu-complete cargo bins" # Check the specified binary
@@ -117,7 +120,7 @@ export extern "cargo check" [
   --bench: string # Check the specified benchmark
   --benches # Check all targets in benchmark mode that have the bench = true manifest flag set
   --all-targets # Check all targets
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features
   --no-default-features # Do not activate the `default` feature
   --target: string # Check for the given architecture
@@ -174,7 +177,7 @@ export extern "cargo doc" [
   --bins                    # Document all binary targets
   --example: string@"nu-complete cargo examples" # Document the specified example
   --examples                # Document all example targets
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features            # Activate all available features of all selected packages
   --no-default-features     # Do not activate the default feature of the selected packages
   --target: string          # Document for the given architecture
@@ -239,7 +242,7 @@ export extern "cargo run" [
   --jobs(-j): number                        # Number of parallel jobs, defaults to # of CPUs
   --release                                 # Build artifacts in release mode, with optimizations
   --profile: string@"nu-complete cargo profiles" # Build artifacts with the specified profile
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features                            # Activate all available features
   --no-default-features                     # Do not activate the `default` feature
   --target: string                          # Build for the target triple
@@ -260,7 +263,7 @@ export extern "cargo run" [
 
 # Run the tests
 export extern "cargo test" [
-  test_arg_seperator?: string
+  test_arg_separator?: string
    ...args: any        # Arguments to be passed to the tests
   --no-run       # Compile, but don't run tests
   --no-fail-fast # Run all tests regardless of failure
@@ -278,7 +281,7 @@ export extern "cargo test" [
   --benches # Test all targets in benchmark mode that have the bench = true manifest flag set
   --all-targets # Test all targets
   --doc # Test ONLY the library's documentation
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --target: string # Test for the given architecture
@@ -321,7 +324,7 @@ export extern "cargo bench" [
   --bench: string # Benchmark the specified benchmark
   --benches # Benchmark all targets in benchmark mode that have the bench = true manifest flag set
   --all-targets # Benchmark all targets
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --target: string # Benchmark for the given architecture
@@ -386,7 +389,7 @@ export extern "cargo publish" [
   --package(-p): string@"nu-complete cargo packages" # The package to publish
   --target: string # Publish for the given architecture
   --target-dir: path # Directory for all generated artifacts and intermediate files
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
@@ -422,7 +425,7 @@ export extern "cargo install" [
   --root: path # Directory to install packages into
   --registry: string # Name of the registry to use
   --index: string # The URL of the registry index to use
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --target: string # Install for the given architecture
@@ -462,7 +465,7 @@ export extern "cargo metadata"  [
   --no-deps # Output information only about the workspace members and don't fetch dependencies
   --format-version: number # Specify the version of the output format to use. Currently 1 is the only possible value
   --filter-platform: string  # This filters the resolve output to only include dependencies for the iven target triple
-  --features: string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
   --all-features # Activate all available features of all selected packages
   --no-default-features # Do not activate the default feature of the selected packages
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
@@ -490,10 +493,50 @@ export extern "cargo help" [
 
 # A bunch of lints to catch common mistakes and improve your Rust code
 export extern "cargo clippy" [
-	--no-deps      # Run Clippy only on the given crate, without linting the dependencies
-	--fix          # Automatically apply lint suggestions. This flag implies `--no-deps
-	--version(-V)  # Prints version information
-	--help(-h)     # Prints help information
+  --no-deps      # Run Clippy only on the given crate, without linting the dependencies
+  --fix          # Automatically apply lint suggestions. This flag implies `--no-deps
+  --version(-V)  # Prints version information
+  --help(-h)     # Prints help information
+  --warn(-W)     # Set lint warnings
+  --allow(-A)    # Set lint allowed
+  --deny(-D)     # Set lint denied
+  --forbid(-F)   # Set lint forbidden
+  --package(-p): string@"nu-complete cargo packages" #Check only the specified packages
+  --workspace # Check all members in the workspace
+  --all # Alias for --workspace (deprecated)
+  --exclude: string@"nu-complete cargo packages" # Exclude the specified packages
+  --lib # Check the package's library
+  --bin: string@"nu-complete cargo bins" # Check the specified binary
+  --example: string@"nu-complete cargo examples" # Check the specified example
+  --examples # Check all example targets
+  --test: string # Check the specified integration test
+  --tests # Check all targets in test mode that have the test = true manifest flag set
+  --bench: string # Check the specified benchmark
+  --benches # Check all targets in benchmark mode that have the bench = true manifest flag set
+  --all-targets # Check all targets
+  --features(-F): string@"nu-complete cargo features" # Space or comma separated list of features to activate
+  --all-features # Activate all available features
+  --no-default-features # Do not activate the `default` feature
+  --target: string # Check for the given architecture
+  --release(-r) # Check optimized artifacts with the release profile
+  --profile: string@"nu-complete cargo profiles" # Check with the given profile
+  --ignore-rust-version # Ignore `rust-version` specification in packages
+  --timings: string    # Output information how long each compilation takes
+  --target-dir: path  # Directory for all generated artifacts and intermediate files
+  --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
+  --quiet(-q)        # Do not print cargo log messages
+  --color: string@"nu-complete cargo color"  # Control when colored output is used
+  --message-format: string # The output format for diagnostic messages
+  --manifest-path: path  # Path to the Cargo.toml file
+  --frozen           # Require Cargo.lock and cache are up to date
+  --locked           # Require Cargo.lock is up to date
+  --offline          # Run without accessing the network
+  -Z: any            # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+  -h, --help         # Print help information
+  --jobs(-j): number # Number of parallel jobs to run
+  --keep-going # Build as many crates in the dependency graph as possible
+  --future-incompat-report # Displays a future-incompat report for any future-incompatible warnings
+  -Z: any
 ]
 
 # Parameters from cargo update
@@ -511,4 +554,33 @@ export extern "cargo install-update" [
   --filter(-s)          # Specify a filter a package must match to be considered
   --install-cargo(-r)   # Specify an alternative cargo to run for installations
   --temp-dir(-t)        # The temporary directory. Default: $TEMP/cargo-update
+]
+
+# Parameters from cargo add
+export extern "cargo add" [
+  --no-default-features   # Disable the default features
+  --default-features      # Re-enable the default features
+  --features(-F)          # Space or comma separated list of features to activate
+  --optional              # Mark the dependency as optional
+  --verbose(-v)           # Use verbose output (-vv very verbose/build.rs output)
+  --no-optional           # Mark the dependency as required
+  --color: string@"nu-complete cargo color" # Coloring: auto, always, never
+  --rename                # Rename the dependency
+  --locked                # Require Cargo.lock is up to date
+  --package(-p)           # Package to modify
+  --offline               # Run without accessing the network
+  --quiet(-q)             # Do not print cargo log messages
+  --config                # Override a configuration value
+  --dry-run               # Don't actually write the manifest
+  --help(-h)              # Print help information
+  --path                  # Filesystem path to local crate to add
+  --git                   # Git repository location
+  --branch                # Git branch to download the crate from
+  --tag                   # Git tag to download the crate from
+  --rev                   # Git reference to download the crate from
+  --registry              # Package registry for this dependency
+  --dev                   # Add as development dependency
+  --build                 # Add as build dependency
+  --target                # Add as dependency to the given target platform
+  ...args
 ]

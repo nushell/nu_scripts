@@ -70,10 +70,10 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
         let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
         let weather = (fetch $url)
         let forecast_data = (fetch $url_forecast)
-        let forecast = (for day in $forecast_data.list {
+        let forecast = ($forecast_data.list | each {|day|
                     {
                         id: ($day.weather.0.id)
-                        dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
+                        dt: ($day.dt | into string | into datetime -z local | date format '%a, %b %e') #'%Y-%m-%d')
                         high: ($day.temp.max)
                         low: ($day.temp.min)
                     }
@@ -111,7 +111,7 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
         let forecast = (for day in $forecast_data.list {
                     {
                         id: ($day.weather.0.id)
-                        dt: ($day.dt | into string | into datetime -z local | date format '%Y-%m-%d')
+                        dt: ($day.dt | into string | into datetime -z local | date format '%a, %b %e') #'%Y-%m-%d')
                         high: ($day.temp.max)
                         low: ($day.temp.min)
                     }
