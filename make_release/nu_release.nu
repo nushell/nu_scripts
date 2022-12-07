@@ -2,7 +2,7 @@ cd crates
 
 let subcrates_wave_1 = [
     # components
-    # nu-utils,
+    nu-utils,
     nu-glob,
     nu-term-grid,
     nu-pretty-hex,
