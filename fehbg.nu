@@ -46,7 +46,7 @@ def list-images [dir: path] {
     ls $"($dir)/**/*" |
     where type == file |
     str downcase name |
-    where name =~ jpg || name =~ jpeg || name =~ tif || name =~ tiff || name =~ png
+    where name =~ jpg or name =~ jpeg or name =~ tif or name =~ tiff or name =~ png
 }
 
 # Set the caption text (just filename for now)

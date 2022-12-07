@@ -211,9 +211,9 @@ def get_repo_status [gs os] {
     let conflicted_cnt = (get_conflicted_count $gs)
     let untracked_cnt = (get_untracked_count $gs)
     let has_no_changes = (
-        if ($index_change_cnt <= 0) &&
-            ($wt_change_cnt <= 0) &&
-            ($conflicted_cnt <= 0) &&
+        if ($index_change_cnt <= 0) and
+            ($wt_change_cnt <= 0) and
+            ($conflicted_cnt <= 0) and
             ($untracked_cnt <= 0) {
                 true
         } else {
@@ -322,7 +322,7 @@ def git_left_prompt [gs os] {
     ] | str collect)
 
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
-    let path_segment = (if (($is_home_in_path) && ($branch_name == "")) {
+    let path_segment = (if (($is_home_in_path) and ($branch_name == "")) {
         [
         (char -u f015)                         #  home icon
         (char space)                           # space
@@ -360,7 +360,7 @@ def git_left_prompt [gs os] {
     })
 
     let git_right = false
-    let indicator_segment = (if ($branch_name == "" || $git_right) {
+    let indicator_segment = (if ($branch_name == "" or $git_right) {
         [
         (ansi { fg: "#3465A4" bg: $TERM_BG}) # color
         (char -u e0b0)                         # 

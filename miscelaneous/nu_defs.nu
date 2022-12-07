@@ -252,7 +252,7 @@ def agenda [
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
 
-  if ($full | is-empty) || ($full == 0) {
+  if ($full | is-empty) or ($full == 0) {
     gcalcli --calendar $"($calendars)" agenda --military $rest
   } else {
     gcalcli --calendar $"($calendars_full)" agenda --military $rest
@@ -273,7 +273,7 @@ def semana [
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
 
-  if ($full | is-empty) || ($full == 0) {
+  if ($full | is-empty) or ($full == 0) {
     gcalcli --calendar $"($calendars)" calw $rest --military --monday
   } else {
     gcalcli --calendar $"($calendars_full)" calw $rest --military --monday
@@ -294,7 +294,7 @@ def mes [
   let calendars = "your_selected_calendars"
   let calendars_full = "most_calendars"
 
-  if ($full | is-empty) || ($full == 0) {
+  if ($full | is-empty) or ($full == 0) {
     gcalcli --calendar $"($calendars)" calm $rest --military --monday
   } else {
     gcalcli --calendar $"($calendars_full)" calm $rest --military --monday
@@ -478,7 +478,7 @@ def group-list [
     if $new_group {
       let is_key = (not ($key | is-empty))
       let is_buf = (not ($buf | is-empty))
-      if ($is_buf && $is_key) {
+      if ($is_buf and $is_key) {
         let ret = ($ret | append {key: $key, values: $buf})
         {buf: [], ret: $ret, key: $v}
       } else {
@@ -505,7 +505,7 @@ def group-list [
   let key = $obj.key
   let is_key = (not ($key | is-empty))
   let is_buf = (not ($buf | is-empty))
-  if ($is_buf && $is_key) {
+  if ($is_buf and $is_key) {
     $ret | append {key: $key, values: $buf}
   } else {
     $ret

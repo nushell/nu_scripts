@@ -1,9 +1,9 @@
 def gen_keywords [] {
     let cmds = ($nu.scope.commands
                 | where is_extern == false
-                && is_custom == false
-                && category !~ deprecated
-                && ($it.command | str contains -n ' ')
+                and is_custom == false
+                and category !~ deprecated
+                and ($it.command | str contains -n ' ')
                 | get command
                 | str collect '|')
 
@@ -20,9 +20,9 @@ char nl
 def gen_sub_keywords [] {
     let sub_cmds = ($nu.scope.commands
                     | where is_extern == false
-                    && is_custom == false
-                    && category !~ deprecated
-                    && ($it.command | str contains ' ')
+                    and is_custom == false
+                    and category !~ deprecated
+                    and ($it.command | str contains ' ')
                     | get command)
 
     let preamble = '\\b('
@@ -41,9 +41,9 @@ def gen_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
     let cmds = ($nu.scope.commands
                 | where is_extern == false
-                && is_custom == false
-                && category !~ deprecated
-                && ($it.command | str contains -n ' ')
+                and is_custom == false
+                and category !~ deprecated
+                and ($it.command | str contains -n ' ')
                 | get command)
 
     let preamble = '\\b('
@@ -72,9 +72,9 @@ def gen_sub_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
     let sub_cmds = ($nu.scope.commands
                     | where is_extern == false
-                    && is_custom == false
-                    && category !~ deprecated
-                    && ($it.command | str contains ' ')
+                    and is_custom == false
+                    and category !~ deprecated
+                    and ($it.command | str contains ' ')
                     | get command)
 
     let preamble = '\\b('

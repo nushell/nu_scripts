@@ -35,18 +35,21 @@ for subcrate in $subcrates_wave_1 {
     cd $subcrate
     cargo publish
     sleep 1min
+    cd ..
 }
 
 for subcrate in $subcrates_wave_2 {
     cd $subcrate
     cargo publish --no-verify
     sleep 1min
+    cd ..
 }
 
 for subcrate in $subcrates_wave_3 {
     cd $subcrate
     cargo publish
     sleep 1min
+    cd ..
 }
 
 cd ..

@@ -66,7 +66,7 @@ def do-work [] {
 let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
 $"# This week in Nushell #($week_num)(char nl)(char nl)"
 
-if ($env | select GITHUB_USERNAME | is-empty) || ($env | select GITHUB_PASSWORD | is-empty) {
+if ($env | select GITHUB_USERNAME | is-empty) or ($env | select GITHUB_PASSWORD | is-empty) {
     echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
 } else {
     do-work | str collect

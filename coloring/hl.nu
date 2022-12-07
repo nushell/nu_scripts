@@ -3,14 +3,14 @@ export def combine [txt: string, fg: record, bg: record] {
     txt: $txt,
     fg:  $fg.fg,
     bg:  $bg.fg,
-    bli: ($fg.bli || $bg.bli),
-    bol: ($fg.bol || $bg.bol),
-    dim: ($fg.dim || $bg.dim),
-    hid: ($fg.hid || $bg.hid),
-    ita: ($fg.ita || $bg.ita),
-    rev: ($fg.rev || $bg.rev),
-    stk: ($fg.stk || $bg.stk),
-    und: ($fg.und || $bg.und)
+    bli: ($fg.bli or $bg.bli),
+    bol: ($fg.bol or $bg.bol),
+    dim: ($fg.dim or $bg.dim),
+    hid: ($fg.hid or $bg.hid),
+    ita: ($fg.ita or $bg.ita),
+    rev: ($fg.rev or $bg.rev),
+    stk: ($fg.stk or $bg.stk),
+    und: ($fg.und or $bg.und)
   }
 }
 
