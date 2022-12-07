@@ -58,7 +58,7 @@ def print3 [
     $rest | each --numbered { |param|
         if $sep_empty {
             #log 'sep is empty'
-            if (echo $param.item | length) > 1 && $flat {
+            if (echo $param.item | length) > 1 and $flat {
                 #log 'flatten please'
                 let flatter = ($param.item | flatten | into string | str collect)
                 $flatter
@@ -68,14 +68,14 @@ def print3 [
             }
         } {
             if $num_of_rest > ($param.index + 1) {
-                if ($param.item | length) > 1 && $flat {
+                if ($param.item | length) > 1 and $flat {
                     let flatter = ($param.item | flatten | into string | str collect $separator)
                     $"($flatter)($separator)"
                 } {
                     $"($param.item)($separator)"
                 }
             } {
-                if ($param.item | length) > 1 && $flat {
+                if ($param.item | length) > 1 and $flat {
                     let flatter = ($param.item | flatten | into string | str collect $separator)
                     $flatter
                 } {

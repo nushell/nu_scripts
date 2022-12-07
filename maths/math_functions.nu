@@ -93,7 +93,7 @@ def mtable [n: int, max: int] {
 
 #Check if year is leap
 def isleap [year: int] {
-	if ( (($year mod 4) == 0 && ($year mod 100) != 0) || ($year mod 400) == 0 ) { echo "It is a leap year." } else { echo "It is not a leap year."}
+	if ( (($year mod 4) == 0 and ($year mod 100) != 0) or ($year mod 400) == 0 ) { echo "It is a leap year." } else { echo "It is not a leap year."}
 }
 
 #Greatest common divisior (gcd) between 2 integers
@@ -109,7 +109,7 @@ def gcd [a: int, b:int] {
 
 #Least common multiple (lcm) between 2 integers
 def lcm [a: int, b:int] {
-	if $a == $b && $b == 0 {
+	if $a == $b and $b == 0 {
 		0
 	} else {
 		$a * ($b / (gcd $a $b))
@@ -121,7 +121,7 @@ def dec2base [
 	n: string	#decimal number
 	b: string	#base in [2,16]
 ] {
-	let base = if ( ($b | into int) < 2 || ($b | into int) > 16 ) {
+	let base = if ( ($b | into int) < 2 or ($b | into int) > 16 ) {
 		echo "Wrong base, it must be an integer between 2 and 16"
 		10
 	} else {

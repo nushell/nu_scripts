@@ -70,7 +70,7 @@ def unquote [] {
 
 # remove any entries which contain things in subcommands that may be fish functions or incorrect parses
 def cleanup_subcommands [] {
-    where (not ($it.a | str contains "$")) && (not ($it.a | str starts-with "-")) && (not ($it.a starts-with "("))
+    where (not ($it.a | str contains "$")) and (not ($it.a | str starts-with "-")) and (not ($it.a starts-with "("))
 }
 
 # from a parsed fish table, create the completion for it's command and sub commands
@@ -95,7 +95,7 @@ def make-subcommands-completion [parents: list] {
     | transpose name args                                                             # turn it into a table of name to arguments
     | each {|subcommand|
         build-string (
-            if ('d' in ($subcommand.args | columns)) && ($subcommand.args.d != "") {
+            if ('d' in ($subcommand.args | columns)) and ($subcommand.args.d != "") {
                 build-string "# " ($subcommand.args.d.0) "\n"                         # (sub)command description
             }) "extern " $quote ($parents | str collect " ") (
             if $subcommand.name != "" {
@@ -106,7 +106,7 @@ def make-subcommands-completion [parents: list] {
                 if ($subcommand.name != "") {
                     where ($it.n | str contains $subcommand.name)                     # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
                 } else {
-                    where ($it.n == "__fish_use_subcommand") && ($it.a == "")         # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
+                    where ($it.n == "__fish_use_subcommand") and ($it.a == "")         # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
                 }
             } else {
                 $fishes                                                               # catch all
@@ -120,11 +120,11 @@ def make-subcommands-completion [parents: list] {
 # build the list of flag string in nu syntax
 def build-flags [] {
     each { |subargs|
-        if ('l' in ($subargs | columns)) && ($subargs.l != "") {
+        if ('l' in ($subargs | columns)) and ($subargs.l != "") {
             build-string "\t--" $subargs.l (build-string
-                (if ('s' in ($subargs | columns)) && ($subargs.s != "") {
+                (if ('s' in ($subargs | columns)) and ($subargs.s != "") {
                     build-string "(-" $subargs.s ")"
-                }) (if ('d' in ($subargs | columns)) && ($subargs.d != "") {
+                }) (if ('d' in ($subargs | columns)) and ($subargs.d != "") {
                     build-string "\t\t\t\t\t# " $subargs.d
                 })
             )
