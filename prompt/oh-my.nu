@@ -35,6 +35,7 @@ def path_abbrev_if_needed [apath term_width] {
     let P = (ansi { fg: "#E4E4E4" bg: "#3465A4"}) # path
     let PB = (ansi { fg: "#E4E4E4" bg: "#3465A4" attr: b}) # path bold
     let R = (ansi reset)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
 
     if (($apath | str length) > ($term_width / 2)) {
         # split out by path separator into tokens
@@ -42,9 +43,8 @@ def path_abbrev_if_needed [apath term_width] {
         let splits = ($apath | split row '/')
 
         let splits_len = ($splits | length)
-        let subtractor = (if ($splits_len <= 2) { 1 } else { 2 })
         # get all the tokens except the last
-        let tokens = (for x in 1..($splits_len - $subtractor) {
+        let tokens = (1..<$splits_len | each {|x|
             $"($T)((($splits) | get $x | split chars) | get 0)($R)"
         })
 
@@ -87,7 +87,7 @@ def path_abbrev_if_needed [apath term_width] {
         } else {
             let top_part = ($splits | first ($splits_len - 1))
             let end_part = ($splits | last)
-            let tokens = (for x in $top_part {
+            let tokens = ($top_part | each {|x|
                 $"/($T)(($x | split chars).0)($R)"
             })
             let tokens = ($tokens | append $"/($PB)($end_part)($R)")
