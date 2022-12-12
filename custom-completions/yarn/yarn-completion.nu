@@ -372,7 +372,7 @@ def "nu-complete yarn rebuild" [] {
 
 # Rebuild the project's native packages
 export extern "yarn rebuild" [
-  ...packages?: string@"nu-complete yarn rebuild"
+  ...packages: string@"nu-complete yarn rebuild"
 ]
 
 # Remove a dependency from the project.
@@ -441,7 +441,7 @@ export extern "yarn stage" [
 # Disconnect the local project from another one.
 export extern "yarn unlink" [
   --all(-A) # Unlink all workspaces belonging to the target project from the current one
-  ...packages?: string
+  ...packages: string
 ]
 
 # Force the unpacking of a list of packages
@@ -449,7 +449,7 @@ export extern "yarn unplug" [
   --all(-A) #Unplug direct dependencies from the entire project
   --recursive(-R) #Unplug both direct and transitive dependencies
   --json # Format the output as an NDJSON stream
-  ...packages?: string
+  ...packages: string
 ]
 
 # Upgrade dependencies across the project.
@@ -530,7 +530,7 @@ export extern "yarn workspaces focus" [
   --json # Format the output as an NDJSON stream
   --production # Only install regular dependencies by omitting dev dependencies
   --all(-A) # Install the entire project
-  ...packages?: string
+  ...packages: string
 ]
 
 # Run a command on all workspaces. NOTE: requires the workspace-tools plugin to be installed.
