@@ -308,7 +308,7 @@ export extern "cargo test" [
 # Execute benchmarks of a package
 export extern "cargo bench" [
   bench_option_seperator?: string
-  # ...options?: any # Options to be passed to the benchmarks
+  ...options: any # Options to be passed to the benchmarks
   --no-run # Compile, but don't run benchmarks
   --no-fail-fast # Run all benchmarks regardless of failure
   --package(-p): string@"nu-complete cargo packages" # Benchmark only the specified packages
