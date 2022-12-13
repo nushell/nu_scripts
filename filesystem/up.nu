@@ -1,6 +1,7 @@
 def up_inner [limit: int] {
-  for $e in 0..$limit { "." }
-  | str collect
+  mut x = []
+  for $e in 0..$limit { $x = $x ++ "." }
+  $x | str collect
 }
 
 # Go up a number of directories
