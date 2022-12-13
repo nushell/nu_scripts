@@ -9,7 +9,7 @@ let stamp = 'Nu'
 seq 0 $height | par-each { # create these in parallel
     let row_data = (seq 0 $width | each { |col|
         let fgcolor = 2 + 2 * $col
-        if $fgcolor > $stamp_start && $fgcolor < $stamp_end {
+        if $fgcolor > $stamp_start and $fgcolor < $stamp_end {
             $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
         } else {
             $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"

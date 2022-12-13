@@ -9,7 +9,7 @@ let stamp = 'Nu'
 seq 0 $height | each {
     let row_data = (seq 0 $width | each { |col|
         let fgcolor = (iter_inc 2 2 $col)
-        if $fgcolor > 200 && $fgcolor < 210 {
+        if $fgcolor > 200 and $fgcolor < 210 {
             $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
         } {
             $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"

@@ -13,7 +13,7 @@ module update-path {
             $path
             | path split
             | each {|elem|
-                if $elem starts-with '%' && $elem ends-with '%' {
+                if $elem starts-with '%' and $elem ends-with '%' {
                     $env
                     | get ($elem|str trim -c '%')
                 } else {

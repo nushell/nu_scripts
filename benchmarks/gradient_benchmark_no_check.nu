@@ -18,7 +18,7 @@ if ($is_release | str downcase | str trim) == "y" {
         seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
-                if $fgcolor > 200 && $fgcolor < 210 {
+                if $fgcolor > 200 and $fgcolor < 210 {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
@@ -38,7 +38,7 @@ if ($is_release | str downcase | str trim) == "y" {
         seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
-                if $fgcolor > 200 && $fgcolor < 210 {
+                if $fgcolor > 200 and $fgcolor < 210 {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
@@ -57,7 +57,7 @@ if ($is_release | str downcase | str trim) == "y" {
         seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
-                if $fgcolor > 200 && $fgcolor < 210 {
+                if $fgcolor > 200 and $fgcolor < 210 {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"
@@ -78,7 +78,7 @@ if ($is_release | str downcase | str trim) == "y" {
         seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = (iter_inc 2 2 $col)
-                if $fgcolor > 200 && $fgcolor < 210 {
+                if $fgcolor > 200 and $fgcolor < 210 {
                     $"($ansi1)($fgcolor)m($stamp)($ansi2)"
                 } else {
                     $"($ansi1)($fgcolor)m(char sp)($ansi2)"
@@ -97,7 +97,7 @@ if ($is_release | str downcase | str trim) == "y" {
         seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = 2 + 2 * $col
-                if $fgcolor > 200 && $fgcolor < 210 {
+                if $fgcolor > 200 and $fgcolor < 210 {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
@@ -116,7 +116,7 @@ if ($is_release | str downcase | str trim) == "y" {
         seq 0 $height | each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = 2 + 2 * $col
-                if $fgcolor > 200 && $fgcolor < 210 {
+                if $fgcolor > 200 and $fgcolor < 210 {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"
@@ -135,7 +135,7 @@ if ($is_release | str downcase | str trim) == "y" {
         seq 0 $height | par-each { |row|
             let row_data = (seq 0 $width | each { |col|
                 let fgcolor = 2 + 2 * $col
-                if $fgcolor > 200 && $fgcolor < 210 {
+                if $fgcolor > 200 and $fgcolor < 210 {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m($stamp)(ansi -e '0m')"
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"

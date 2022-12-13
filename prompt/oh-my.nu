@@ -35,6 +35,7 @@ def path_abbrev_if_needed [apath term_width] {
     let P = (ansi { fg: "#E4E4E4" bg: "#3465A4"}) # path
     let PB = (ansi { fg: "#E4E4E4" bg: "#3465A4" attr: b}) # path bold
     let R = (ansi reset)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
 
     if (($apath | str length) > ($term_width / 2)) {
         # split out by path separator into tokens
@@ -42,9 +43,8 @@ def path_abbrev_if_needed [apath term_width] {
         let splits = ($apath | split row '/')
 
         let splits_len = ($splits | length)
-        let subtractor = (if ($splits_len <= 2) { 1 } else { 2 })
         # get all the tokens except the last
-        let tokens = (for x in 1..($splits_len - $subtractor) {
+        let tokens = (1..<$splits_len | each {|x|
             $"($T)((($splits) | get $x | split chars) | get 0)($R)"
         })
 
@@ -87,7 +87,7 @@ def path_abbrev_if_needed [apath term_width] {
         } else {
             let top_part = ($splits | first ($splits_len - 1))
             let end_part = ($splits | last)
-            let tokens = (for x in $top_part {
+            let tokens = ($top_part | each {|x|
                 $"/($T)(($x | split chars).0)($R)"
             })
             let tokens = ($tokens | append $"/($PB)($end_part)($R)")
@@ -211,9 +211,9 @@ def get_repo_status [gs os] {
     let conflicted_cnt = (get_conflicted_count $gs)
     let untracked_cnt = (get_untracked_count $gs)
     let has_no_changes = (
-        if ($index_change_cnt <= 0) &&
-            ($wt_change_cnt <= 0) &&
-            ($conflicted_cnt <= 0) &&
+        if ($index_change_cnt <= 0) and
+            ($wt_change_cnt <= 0) and
+            ($conflicted_cnt <= 0) and
             ($untracked_cnt <= 0) {
                 true
         } else {
@@ -322,7 +322,7 @@ def git_left_prompt [gs os] {
     ] | str collect)
 
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
-    let path_segment = (if (($is_home_in_path) && ($branch_name == "")) {
+    let path_segment = (if (($is_home_in_path) and ($branch_name == "")) {
         [
         (char -u f015)                         #  home icon
         (char space)                           # space
@@ -360,7 +360,7 @@ def git_left_prompt [gs os] {
     })
 
     let git_right = false
-    let indicator_segment = (if ($branch_name == "" || $git_right) {
+    let indicator_segment = (if ($branch_name == "" or $git_right) {
         [
         (ansi { fg: "#3465A4" bg: $TERM_BG}) # color
         (char -u e0b0)                         # 

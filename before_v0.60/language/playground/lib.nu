@@ -28,7 +28,7 @@ def play [
   if $is_tag_empty {
     do $block
   } {
-    if $tag == $nu.env.REJECT && $should_run_all {
+    if $tag == $nu.env.REJECT and $should_run_all {
       $"    ($topic) ... (ansi yellow)skipped(ansi reset) (char newline)"
     } { do $block }
   }
@@ -43,7 +43,7 @@ def expect [
 
       $values.0 == $values.1
     }
-  | all? $it) && (($actual | get | length) == ($to-be | get | length));
+  | all? $it) and (($actual | get | length) == ($to-be | get | length));
 
   let line = (if $true == $are_equal {
     $"(ansi green)ok(ansi reset)(char newline)"

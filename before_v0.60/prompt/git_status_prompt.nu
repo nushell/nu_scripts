@@ -80,7 +80,7 @@ def git-branch-icon [] {
         $"|(ansi green)($branch)(ansi reset):(ansi green)✓(ansi reset)"
       } {
         let modified2 = (do -i { git status --porcelain } | split row "\n" | str substring [0 1])
-        let branch-colour = (if (echo $modified2 | each { $it in [A M R C D] } | reduce { $it || $acc }) {
+        let branch-colour = (if (echo $modified2 | each { $it in [A M R C D] } | reduce { $it or $acc }) {
           "yellow"
         } {
           "red"

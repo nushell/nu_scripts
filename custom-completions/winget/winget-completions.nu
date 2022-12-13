@@ -81,7 +81,7 @@ def "winget show" [
         (do $flagify help $help)
     ] | str collect ' ')
 
-    if $raw || $help {
+    if $raw or $help {
         ^$command
     } else {
         let output = (^$command | lines)
@@ -129,7 +129,7 @@ def "winget source list" [
         (do $flagify help $help)
     ] | str collect ' ')
 
-    if $raw || $help {
+    if $raw or $help {
         ^$command
     } else {
         let output = (^$command | lines)
@@ -202,7 +202,7 @@ def "winget search" [
         (do $flagify help $help)
     ] | str collect ' ')
 
-    if $raw || $help {
+    if $raw or $help {
         ^$command
     } else {
         let output = (^$command | lines)
@@ -250,7 +250,7 @@ def "winget list" [
         (do $flagify help $help)
     ] | str collect ' ')
 
-    if $help || $raw {
+    if $help or $raw {
         ^$command
     } else {
         let output = (^$command | lines)
@@ -374,7 +374,7 @@ def "nu-complete winget source type" [] {
 
 def "nu-complete winget flagify" [name: string, value: any, --short(-s): bool] {
   let flag_start = if $short { '-' } else { '--' }
-  if $value == $nothing || $value == false {
+  if $value == $nothing or $value == false {
     ""
   } else if $value == true {
     $"($flag_start)($name)"
@@ -397,7 +397,7 @@ def "nu-complete winget uninstall package name" [] {
 def "nu-complete winget install name" [] {
     let path = ($env.TMP | path join winget-packages.csv)
 
-    let completions = if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
+    let completions = if ($path | path exists) and (ls $path | first | get modified | ((date now) - $in) < 1day) {
         open $path | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
@@ -417,7 +417,7 @@ def "nu-complete winget install name" [] {
 def "nu-complete winget install id" [] {
     let path = ($env.TMP | path join winget-packages.csv)
 
-    if ($path | path exists) && (ls $path | first | get modified | ((date now) - $in) < 1day) {
+    if ($path | path exists) and (ls $path | first | get modified | ((date now) - $in) < 1day) {
         open $path | get id | str replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`

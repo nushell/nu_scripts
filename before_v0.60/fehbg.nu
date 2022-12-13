@@ -40,7 +40,7 @@ def select_random [] { shuffle | first }
 
 # List all images in a directory and all its subdirectories
 def list_images [dir] {
-    ls (build-string $dir /**/*) | where type == File | where name =~ jpg || name =~ jpeg || name =~ tif || name =~ tiff
+    ls (build-string $dir /**/*) | where type == File | where name =~ jpg or name =~ jpeg or name =~ tif or name =~ tiff
 }
 
 # Set the caption text (just filename for now)
