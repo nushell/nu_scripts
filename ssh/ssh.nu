@@ -57,7 +57,7 @@ def "nu-complete ssh" [] {
                     value: $x.Host,
                     uri: $uri,
                     group: $"(fmt-group $x.Group)",
-                    identfile: $x.IdentityFile,
+                    identfile: $"($x.IdentityFile)",
                 }
         })
 
@@ -71,14 +71,13 @@ def "nu-complete ssh" [] {
         {max: $max, completion: $data} | save $cache
     }
 
-    let d = (cat $cache | from json)
+    let data = (cat $cache | from json)
 
-    $d
-    | get completion
+    $data.completion
     | each { |x|
-        let uri = ($x.uri | str lpad -l $d.max.uri -c ' ')
-        let group = ($x.group | str rpad -l $d.max.group -c ' ')
-        let id = ($x.identfile | str rpad -l $d.max.identfile -c ' ')
+        let uri = ($x.uri | str lpad -l $data.max.uri -c ' ')
+        let group = ($x.group | str rpad -l $data.max.group -c ' ')
+        let id = ($x.identfile | str rpad -l $data.max.identfile -c ' ')
         {value: $x.value, description: $"\t($uri) ($group) ($id)" }
     }
 }
