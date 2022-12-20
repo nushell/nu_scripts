@@ -18,9 +18,9 @@
 # display a table with the top 50 rows.
 # Whether you run in debug_csv mode or not, the output is written to csv files in the
 # $repos_root_folder/20k folder
-def get_pr_counts [debug_csv: bool] {
+def get_pr_counts [debug_csv: bool, repos_root_folder = '/Users/fdncred/src/forks'] {
     # let repos_root_folder = 'c:\users\dschroeder\source\repos\forks'
-    let repos_root_folder = '/Users/fdncred/src/forks'
+    # let repos_root_folder = '/Users/fdncred/src/forks'
     let repos = [[name, folder];
         [nushell, $'($repos_root_folder)(char psep)nushell'],
         [reedline, $'($repos_root_folder)(char psep)reedline'],
