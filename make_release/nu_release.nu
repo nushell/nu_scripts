@@ -16,6 +16,7 @@ let subcrates_wave_1 = [
     nu-test-support,
     nu-plugin,
     nu-parser,
+    nu-explore,
 ]
 
 let subcrates_wave_2 = [
