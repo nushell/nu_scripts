@@ -1,9 +1,5 @@
 def-env c [dir = ""] {
-    let default = if $nu.os-info.name == "windows" {
-        $env.USERPROFILE
-    } else {
-        $env.HOME
-    }
+    let default = $env.HOME
 
     let complete_dir = if $dir == "" {
         $default
@@ -20,15 +16,16 @@ def-env c [dir = ""] {
     }
     
     let complete_dir = if $complete_dir == "" { 
-        error make -u {msg: "No such path"} 
+        error make {msg: "No such path"} 
     } else if (($complete_dir | path expand | path type) != "dir") {
-        error make -u {msg: "Not a directory"}
+        error make {msg: "Not a directory"}
     } else { 
         ($complete_dir | path expand)
     }
 
-    let-env PWD = $complete_dir
+    cd $complete_dir
 }
+
 
 # You need to have $env.CDPATH variable declared, my suggestion from config.nu:
 # UNIX:
