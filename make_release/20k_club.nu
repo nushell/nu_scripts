@@ -51,7 +51,7 @@ def get_pr_counts [debug_csv: bool, repos_root_folder = '/Users/fdncred/src/fork
                 split column "»¦«" commit name email date |
                 upsert date {|d| $d.date | into datetime} |
                 to csv |
-                save ($output_file)
+                save -f ($output_file)
         } else {
             git log --pretty=%h»¦«%aN»¦«%aE»¦«%aD |
                 lines |
@@ -64,7 +64,7 @@ def get_pr_counts [debug_csv: bool, repos_root_folder = '/Users/fdncred/src/fork
                 rename name commits |
                 reverse |
                 to csv |
-                save ($output_file)
+                save -f ($output_file)
         }
     }
 
