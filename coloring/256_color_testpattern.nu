@@ -41,7 +41,7 @@ def print_colour [ colour:int ] {
 let printable_colours = 256
 
 def print_run [start:int, amount:int] {
-  for i in $start..<($start + $amount) {
+  $start..<($start + $amount) | each { |i|
     if $i < $printable_colours {
       print_colour $i
     } else {
@@ -53,9 +53,9 @@ def print_run [start:int, amount:int] {
 def print_blocks [start:int, end:int, block_cols:int, block_rows:int, blocks_per_line:int] {
   let block_length = ($block_cols * $block_rows)
   let end = (($end - $start) / (($blocks_per_line) * $block_length))
-  for i in 0..<$end {
-    for row in 0..<$block_rows {
-      for block in 0..<$blocks_per_line {
+    0..<$end | each { |i|
+      0..<$block_rows | each { |row|
+        0..<$blocks_per_line | each { |block|
         print_run ($start + $block * $block_length + $row * $block_cols + $i * $block_length * $blocks_per_line) $block_cols
       } | append (char nl) | str collect
     } | str collect
