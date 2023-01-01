@@ -144,7 +144,7 @@ export alias gsw                   = git switch
 export alias gswc                  = git switch -c
 
 export alias gts                   = git tag -s
-export alias gtv                   = (git tag | sort)
+export alias gtv                   = (git tag | lines | sort)
 
 export alias gunignore             = git update-index --no-assume-unchanged
 export alias gup                   = git pull --rebase
