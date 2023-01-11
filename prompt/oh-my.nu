@@ -77,15 +77,16 @@ def path_abbrev_if_needed [apath term_width] {
         #    ~/A/Hex Fiend.app 
         let splits = ($apath | split row '/')
         let splits_len = ($splits | length)
-        if ($splits_len == 0) {
+        let apath_len = ($apath | str length)
+        if ($splits_len == 2 and $apath_len == 1) {
             # We're at / on the file system
-            $"/($T)"
-        } else if ($splits_len == 1) {
-            let top_part = ($splits | first)
+            $"/($T)($R)"
+        } else if ($splits_len == 2) {
+            let top_part = ($splits | last)
             let tokens = $"($PB)($top_part)($R)"
             $tokens | str collect $"($T)"
         } else {
-            let top_part = ($splits | first ($splits_len - 1))
+            let top_part = ($splits | skip | first ($splits_len - 1))
             let end_part = ($splits | last)
             let tokens = ($top_part | each {|x|
                 $"/($T)(($x | split chars).0)($R)"
