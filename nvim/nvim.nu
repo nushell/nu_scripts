@@ -81,7 +81,7 @@ export def drop [] {
     if 'NVIM' in (env).name {
         let c = $in
         let temp = (mktemp -t nuvim.XXXXXXXX|str trim)
-        $c | save $temp
+        $c | save -f $temp
         nvim --headless --noplugin --server $env.NVIM --remote-send $"<cmd>lua ReadTempDrop\('($temp)')<cr>"
     } else {
         echo $in

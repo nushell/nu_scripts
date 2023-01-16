@@ -1,3 +1,7 @@
+export def has [name] {
+    $name in ($in | columns) and (not ($in | get $name | is-empty))
+}
+
 alias docker = podman
 
 export def dp [] {
@@ -42,8 +46,9 @@ def "nu-complete docker images" [] {
     | each {|x| $"($x.REPOSITORY):($x.TAG)"}
 }
 
-export def dl [ctn: string@"nu-complete docker container"] {
-    docker logs -f $ctn
+export def dl [ctn: string@"nu-complete docker container" -n: int = 100] {
+    let n = if $n == 0 { [] } else { [--tail $n] }
+    docker logs -f $n $ctn
 }
 
 export def da [
@@ -57,9 +62,31 @@ export def da [
     }
 }
 
+def "nu-complete docker cp" [cmd: string, offset: int] {
+    let argv = ($cmd | str substring [0 $offset] | split row ' ')
+    let p = if ($argv | length) > 2 { $argv | get 2 } else { $argv | get 1 }
+    let ctn = (
+        docker ps
+        | from ssv -a
+        | each {|x| {description: $x.'CONTAINER ID' value: $"($x.NAMES):" }}
+    )
+    let n = ($p | split row ':')
+    if $"($n | get 0):" in ($ctn | get value) {
+        docker exec ($n | get 0) sh -c $"ls -dp ($n | get 1)*"
+        | lines
+        | each {|x| $"($n | get 0):($x)"}
+    } else {
+        let files = do -i {
+            ls -a $"($p)*"
+            | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
+        }
+        $files | append $ctn
+    }
+}
+
 export def dcp [
-    lhs: string@"nu-complete docker container",
-    rhs: string@"nu-complete docker container"
+    lhs: string@"nu-complete docker cp",
+    rhs: string@"nu-complete docker cp"
 ] {
     docker cp $lhs $rhs
 }
@@ -252,14 +279,14 @@ def "nu-complete registry list" [cmd: string, offset: int] {
     let reg = do -i { $cmd | get 3 }
     let tag = do -i { $cmd | get 4 }
     if ($reg|is-empty) {
-        if (do -i { $env.REGISTRY_TOKEN } | is-empty) {
-            fetch $"($url)/v2/_catalog"
-        } else {
+        if ($env | has 'REGISTRY_TOKEN') {
             fetch -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/_catalog"
+        } else {
+            fetch $"($url)/v2/_catalog"
         }
         | get repositories
     } else if ($tag|is-empty) {
-        if (do -i { $env.REGISTRY_TOKEN } | is-empty) {
+        if ($env | has 'REGISTRY_TOKEN') {
             fetch $"($url)/v2/($reg)/tags/list"
         } else {
             fetch -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
@@ -273,10 +300,10 @@ export def "registry list" [
     url: string
     reg: string@"nu-complete registry list"
 ] {
-    if (do -i { $env.REGISTRY_TOKEN } | is-empty) {
-        fetch $"($url)/v2/($reg)/tags/list"
-    } else {
+    if ('REGISTRY_TOKEN' in (env).name) {
         fetch -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
+    } else {
+        fetch $"($url)/v2/($reg)/tags/list"
     }
     | get tags
 }

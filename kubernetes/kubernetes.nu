@@ -1,35 +1,25 @@
-export def 'filter index' [...idx] {
-    reduce -f [] -n {|it, acc|
-        if $it.index not-in ($idx|flatten) {
-            $acc.item | append $it.item
-        } else {
-            $acc.item
-        }
-    }
-}
-
 export def "parse cmd" [] {
-    $in
-    | split row ' '
-    | reduce -f { args: [], sw: '' } {|it, acc|
-        if ($acc.sw|is-empty) {
-            if ($it|str starts-with '-') {
-                $acc | upsert sw $it
-            } else {
-                let args = ($acc.args | append $it)
-                $acc | upsert args $args
+    let argv = ($in | split row ' ')
+    mut pos = []
+    mut opt = {}
+    mut sw = ''
+    for i in $argv {
+        if ($i | str starts-with '-') {
+            if not ($sw | is-empty) {
+                $opt = ($opt | upsert $sw true)
             }
+            $sw = $i
         } else {
-            if ($it|str starts-with '-') {
-                $acc
-                | upsert $acc.sw true
-                | upsert sw $it
+            if ($sw | is-empty) {
+                $pos ++= [$i]
             } else {
-                $acc | upsert $acc.sw $it | upsert sw ''
+                $opt = ($opt | upsert $sw $i)
+                $sw = ''
             }
         }
     }
-    | reject sw
+    $opt.args = $pos
+    return $opt
 }
 
 export def index-need-update [index path] {
@@ -43,15 +33,6 @@ export def index-need-update [index path] {
     return false
 }
 
-export def 'str max-length' [] {
-    $in | reduce -f 0 {|x, a|
-        if ($x|is-empty) { return $a }
-        let l = ($x | str length)
-        if $l > $a { $l } else { $a }
-    }
-}
-
-#####
 export-env {
     let-env KUBERNETES_SCHEMA_URL = $"file:///($env.HOME)/.config/kubernetes-json-schema/all.json"
 }
@@ -109,7 +90,7 @@ def "nu-complete kube ctx" [] {
                 | upsert mx_cl (if $max_cl > $a.mx_cl { $max_cl } else $a.mx_cl)
                 | upsert completion ($a.completion | append {value: $x.name, ns: $ns, cluster: $cluster})
             })
-        {completion: $data.completion, max: {ns: $data.mx_ns, cluster: $data.mx_cl}} | save $cache
+        {completion: $data.completion, max: {ns: $data.mx_ns, cluster: $data.mx_cl}} | save -f $cache
     }
 
     let data = (cat $cache | from json)
@@ -174,7 +155,7 @@ export def 'kconf export' [name: string@"nu-complete kube ctx"] {
 export def-env kcconf [name: string@"nu-complete kube ctx"] {
     let dist = $"($env.HOME)/.kube/config.d"
     mkdir $dist
-    kconf export $name | save -r $"($dist)/($name)"
+    kconf export $name | save -fr $"($dist)/($name)"
     let-env KUBECONFIG = $"($dist)/($name)"
 }
 
@@ -374,13 +355,35 @@ export def kpf [
     kubectl port-forward $n $"($res)/($target)" $port
 }
 
+def "nu-complete kube cp" [cmd: string, offset: int] {
+    let ctx = ($cmd | str substring [0 $offset] | parse cmd)
+    let p = ($ctx.args | get (($ctx.args | length) - 1))
+    let ns = do -i { $ctx | get '-n' }
+    let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
+    let c = do -i { $ctx | get '-c' }
+    let c = if ($c|is-empty) { [] } else { [-c $c] }
+    let ctn = (kubectl get pod $ns | from ssv -a | each {|x| {description: $x.READY value: $"($x.NAME):" }})
+    let n = ($p | split row ':')
+    if $"($n | get 0):" in ($ctn | get value) {
+        kubectl exec $ns ($n | get 0) $c -- sh -c $"ls -dp ($n | get 1)*"
+        | lines
+        | each {|x| $"($n | get 0):($x)"}
+    } else {
+        let files = do -i { ls -a $"($p)*"
+            | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
+        }
+        $files | append $ctn
+    }
+}
 export def kcp [
-    lhs: string@"nu-complete kube pods"
-    rhs: string@"nu-complete kube pods"
+    lhs: string@"nu-complete kube cp"
+    rhs: string@"nu-complete kube cp"
+    -c: string@"nu-complete kube ctns"
     -n: string@"nu-complete kube ns"
 ] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl cp $n $lhs $rhs
+    let c = if ($c|is-empty) { [] } else { [-c $c] }
+    kubectl cp $n $lhs $c $rhs
 }
 
 ### service
@@ -440,6 +443,21 @@ export def ksd [
         kubectl scale $n deployments $d --replicas $num
     }
 }
+export def ksdr [
+    d: string@"nu-complete kube deployments"
+    num: int@"nu-complete num9"
+    -n: string@"nu-complete kube ns"
+] {
+    if $num > 9 {
+        "too large"
+    } else if $num <= 0 {
+        "too small"
+    } else {
+        let n = if ($n|is-empty) { [] } else { [-n $n] }
+        kubectl scale $n deployments $d --replicas 0
+        kubectl scale $n deployments $d --replicas $num
+    }
+}
 
 export alias krsd = kubectl rollout status deployment
 export alias kgrs = kubectl get rs
@@ -456,7 +474,7 @@ export def kru [-n: string@"nu-complete kube ns", --revision (-v): int, dpl: str
 export alias ksss = kubectl scale statefulset
 export alias krsss = kubectl rollout status statefulset
 
-### kubecto top pod
+### kubectl top pod
 export def ktp [-n: string@"nu-complete kube ns"] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
     kubectl top pod $n | from ssv -a | rename name cpu mem
