@@ -9,13 +9,14 @@ let subcrates_wave_1 = [
     nu-system,
     nu-path,
     nu-json,
+    nu-test-support,
     nu-protocol,
     nu-engine,
-    nu-table,
     nu-color-config,
-    nu-test-support,
+    nu-table,
     nu-plugin,
     nu-parser,
+    nu-explore,
 ]
 
 let subcrates_wave_2 = [

@@ -2,6 +2,7 @@ export def has [name] {
     $name in ($in | columns) and (not ($in | get $name | is-empty))
 }
 
+
 alias docker = podman
 
 export def dp [] {

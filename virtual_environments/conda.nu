@@ -43,7 +43,7 @@ export def-env activate [
 
 
         let new_prompt = if (has-env 'PROMPT_COMMAND') {
-            if ($old_prompt_command | describe) == 'block' {
+            if 'closure' in ($old_prompt_command | describe) {
                 { $'($virtual_prompt)(do $old_prompt_command)' }
             } else {
                 { $'($virtual_prompt)($old_prompt_command)' }

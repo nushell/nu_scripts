@@ -12,12 +12,11 @@ def do-work [] {
         [Nu_Scripts nu_scripts]
         [RFCs rfcs]
         [reedline reedline]
-        [Nana nana]
         # ] [Jupyter jupyter]
     ]
 
     let query_prefix = "https://api.github.com/search/issues?q=repo:nushell/"
-    let query_date = (seq date --days 7 -r | get 6)
+    let query_date = (seq date --days 21 -r | get 20)
     let per_page = "100"
     let page_num = "1" # need to implement iterating pages
     let colon = "%3A"
@@ -33,7 +32,7 @@ def do-work [] {
         let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
 
         $"## ($row.site)(char nl)(char nl)"
-        if ($site_json | all { |it| $it | is-empty }) {
+        if ($site_json | all {|it| $it | is-empty }) {
             $"none found this week(char nl)(char nl)"
         } else {
             $site_json | group-by user_login | transpose user prs | each { |row|
@@ -55,16 +54,12 @@ def do-work [] {
         }
     })
 
-    if ($entries | all { |it| $it | is-empty }) {
+    if ($entries | all {|it| $it | is-empty}) {
         # do nothing
     } else {
         $entries | str collect
     }
 }
-
-# 2019-08-23 was the release of 0.2.0, the first public release
-let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
-$"# This week in Nushell #($week_num)(char nl)(char nl)"
 
 if ($env | select GITHUB_USERNAME | is-empty) or ($env | select GITHUB_PASSWORD | is-empty) {
     echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'

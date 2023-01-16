@@ -443,6 +443,7 @@ export def ksd [
         kubectl scale $n deployments $d --replicas $num
     }
 }
+
 export def ksdr [
     d: string@"nu-complete kube deployments"
     num: int@"nu-complete num9"
