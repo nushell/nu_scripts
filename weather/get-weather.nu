@@ -48,7 +48,7 @@ def get_location_by_ip [locIdx: int, token: string] {
     fetch $url
 }
 
-def show-error [msg label err] {                                                                            07/02/2022 09:24:44 AM
+def show-error [msg label err] {
     let span = (metadata $err).span;
     error make {msg: $msg, label: {text: $label, start: $span.start, end: $span.end } }
 }
@@ -61,7 +61,7 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
     let URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily"
     let coords = (get_location_by_ip $locIdx $token)
     if ($coords | length) > 1 {
-        show-error "Error getting location" "There were more than one locations found" $coords 
+        show-error "Error getting location" "There were more than one locations found" $coords
     }
 
     if $units == "f" {
@@ -308,6 +308,6 @@ def get_emoji_by_id [id] {
 # HOW TO USE
 # put this in your config.nu file
 # use /path/to/get-weather.nu get_weather
-# 
+#
 # then from the nushell commmand prompt type
 # get_weather
