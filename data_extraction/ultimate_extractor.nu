@@ -1,5 +1,5 @@
 #Function to extract archives with different extensions
-def extract [name:string #name of the archive to extract
+export def extract [name:string #name of the archive to extract
 ] {
   let exten = [ [ex com];
                     ['.tar.bz2' 'tar xjf']
