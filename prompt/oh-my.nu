@@ -24,7 +24,12 @@ def home_abbrev [os_name] {
             $env.PWD | str replace $nu.home-path '~'
         }
     } else {
-        $env.PWD | str replace -a '\\' '/'
+        if ($os_name =~ "windows") {
+            # remove the C: from the path
+            $env.PWD | str replace -a '\\' '/' | str substring '2,'
+        } else {
+            $env.PWD
+        }
     }
 }
 
@@ -44,7 +49,7 @@ def path_abbrev_if_needed [apath term_width] {
 
         let splits_len = ($splits | length)
         # get all the tokens except the last
-        let tokens = (1..<$splits_len | each {|x|
+        let tokens = (1..<($splits_len - 1) | each {|x|
             $"($T)((($splits) | get $x | split chars) | get 0)($R)"
         })
 
@@ -55,44 +60,37 @@ def path_abbrev_if_needed [apath term_width] {
         let tokens = ($tokens | append $"($PB)($splits | last)($R)")
 
         # collect
-        $tokens | str collect $"($T)/"
+        $tokens | str join $"($T)/"
     } else {
-        # $"($P)($apath)($R)"
-
-        # FIXME: This is close but it fails with folder with space. I'm not sure why.
-        # let splits = ($apath | split row '/')
-        # let splits_len = ($splits | length)
-        # let tokens = (for x in 0..($splits_len - 1) {
-        #     if ($x < ($splits_len - 1)) {
-        #         $"/($T)(($splits | get $x | split chars).0)($R)"
-        #     }
-        # })
-        # let tokens = ($tokens | append $"/($PB)(($splits | last).0)($R)")
-        # $tokens | str collect $"($T)"
-
-        # FIXME: This is close but it fails with folder with space. I'm not sure why.
-        # cd "/Applications/Hex Fiend.app/"
-        #    ~/H/A/Hex Fiend.app 
-        # should be
-        #    ~/A/Hex Fiend.app 
         let splits = ($apath | split row '/')
         let splits_len = ($splits | length)
         let apath_len = ($apath | str length)
         if ($splits_len == 2 and $apath_len == 1) {
-            # We're at / on the file system
             $"/($T)($R)"
         } else if ($splits_len == 2) {
             let top_part = ($splits | last)
             let tokens = $"($PB)($top_part)($R)"
-            $tokens | str collect $"($T)"
-        } else {
-            let top_part = ($splits | skip | first ($splits_len - 1))
+            $tokens | str join $"($T)"
+        } else if ($splits.0 | is-empty) {
+            let top_part = ($splits | skip | first ($splits_len - 2))
             let end_part = ($splits | last)
             let tokens = ($top_part | each {|x|
-                $"/($T)(($x | split chars).0)($R)"
+                $"($T)/(($x | split chars).0)($R)"
             })
             let tokens = ($tokens | append $"/($PB)($end_part)($R)")
-            $tokens | str collect $"($T)"
+            $tokens | str join $"($T)"
+        } else {
+            let top_part = ($splits | first ($splits_len - 1))
+            let end_part = ($splits | last)
+            let tokens = ($top_part | each {|x|
+                if $x == '~' {
+                    $"($T)(($x | split chars).0)($R)"
+                } else {
+                    $"/($T)(($x | split chars).0)($R)"
+                }
+            })
+            let tokens = ($tokens | append $"/($PB)($end_part)($R)")
+            $tokens | str join $"($T)"
         }
     }
 }
@@ -203,7 +201,7 @@ def get_os_icon [os] {
 
 def get_repo_status [gs os] {
     # replace this 30 with whatever the width of the terminal is
-    let display_path = (path_abbrev_if_needed (home_abbrev $os.name) 30)
+    let display_path = (path_abbrev_if_needed (home_abbrev $os.name) (term size).columns)
     let branch_name = (get_branch_name $gs)
     let ahead_cnt = (get_ahead_count $gs)
     let behind_cnt = (get_behind_count $gs)
@@ -289,7 +287,7 @@ def get_repo_status [gs os] {
 
 def git_left_prompt [gs os] {
     # replace this 30 with whatever the width of the terminal is
-    let display_path = (path_abbrev_if_needed (home_abbrev $os.name) 30)
+    let display_path = (path_abbrev_if_needed (home_abbrev $os.name) (term size).columns)
     let branch_name = (get_branch_name $gs)
     let R = (ansi reset)
 
@@ -320,7 +318,7 @@ def git_left_prompt [gs os] {
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color transition
         (char -u e0b0)                         # 
         (char space)                           # space
-    ] | str collect)
+    ] | str join)
 
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     let path_segment = (if (($is_home_in_path) and ($branch_name == "")) {
@@ -330,7 +328,7 @@ def git_left_prompt [gs os] {
         $display_path                        # ~/src/forks/nushell
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color just to color the next space
         (char space)                           # space
-        ] | str collect
+        ] | str join
     } else {
         [
         (char -u f07c)                         #  folder icon
@@ -338,7 +336,7 @@ def git_left_prompt [gs os] {
         $display_path                        # ~/src/forks/nushell
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color just to color the next space
         (char space)                           # space
-        ] | str collect
+        ] | str join
     })
 
     let git_segment = (if ($branch_name != "") {
@@ -357,7 +355,7 @@ def git_left_prompt [gs os] {
         (char space)                           # space
         ($R)                                   # reset color
         $repo_status                         # repo status
-        ] | str collect
+        ] | str join
     })
 
     let git_right = false
@@ -366,13 +364,13 @@ def git_left_prompt [gs os] {
         (ansi { fg: "#3465A4" bg: $TERM_BG}) # color
         (char -u e0b0)                         # 
         ($R)                                   # reset color
-        ] | str collect
+        ] | str join
     } else {
         [
         (ansi { fg: $GIT_BG bg: $TERM_BG}) # color
         (char -u e0b0)                         # 
         ($R)                                   # reset color
-        ] | str collect
+        ] | str join
     })
 
     # assemble all segments for final prompt printing
@@ -383,7 +381,7 @@ def git_left_prompt [gs os] {
             $git_segment
         })
         $indicator_segment
-    ] | str collect
+    ] | str join
 }
 
 def git_right_prompt [gs os] {
@@ -414,7 +412,7 @@ def git_right_prompt [gs os] {
         (date now | date format '%m/%d/%Y %I:%M:%S%.3f')
         (char space)
         ($R)
-    ] | str collect)
+    ] | str join)
 
     let time_segment = ([
         (ansi { fg: $TIME_BG bg: $TERM_FG})
@@ -424,7 +422,7 @@ def git_right_prompt [gs os] {
         (date now | date format '%I:%M:%S %p')
         (char space)
         ($R)
-    ] | str collect)
+    ] | str join)
 
     let git_segment = (if ($branch_name != "") {
         [
@@ -446,7 +444,7 @@ def git_right_prompt [gs os] {
         $branch_name                         # main
         (char space)                         # space
         ($R)                                 # reset color
-        ] | str collect
+        ] | str join
     })
 
     let execution_time_segment = (
@@ -459,7 +457,7 @@ def git_right_prompt [gs os] {
             $env.CMD_DURATION_MS
             (char space)
             ($R)
-        ] | str collect
+        ] | str join
     )
 
     let status_segment = (
@@ -474,7 +472,7 @@ def git_right_prompt [gs os] {
             $env.LAST_EXIT_CODE
             (char space)
             ($R)
-        ] | str collect
+        ] | str join
     )
     # 1. datetime - working
     # $datetime_segment
@@ -486,7 +484,7 @@ def git_right_prompt [gs os] {
         })
         $execution_time_segment
         $time_segment
-    ] | str collect
+    ] | str join
 
     # 3. git only - working
     # $git_segment
@@ -495,7 +493,7 @@ def git_right_prompt [gs os] {
     # [
     #     $git_segment
     #     $time_segment
-    # ] | str collect
+    # ] | str join
 
     # 5. fernando wants this on the left prompt
     # [
