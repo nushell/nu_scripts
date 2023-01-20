@@ -46,8 +46,7 @@ def "nu-complete bw organization-user-statuses" [] {
 #
 # Supported settings
 def "nu-complete bw config-settings" [] {
-  [server # On-premises hosted installation URL.
-  ]
+  [{ value: "server", description: "On-premises hosted installation URL." }]
 }
 
 # bw list supported object values
