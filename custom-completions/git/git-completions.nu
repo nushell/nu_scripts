@@ -10,6 +10,10 @@ def "nu-complete git log" [] {
   ^git log --pretty=%h | lines | each { |line| $line | str trim }
 }
 
+def "nu-complete git commits" [] {
+  ^git rev-list --all --remotes --pretty=oneline | lines | parse "{value} {description}"
+}
+
 # Check out git branches and files
 export extern "git checkout" [
   ...targets: string@"nu-complete git branches"   # name of the branch or files to checkout
@@ -135,3 +139,16 @@ export extern "git switch" [
   --recurse-submodules                            # update the contents of sub-modules
   --track(-t)                                     # set "upstream" configuration
 ]
+
+# Apply the change introduced by an existing commit
+extern "git cherry-pick" [
+  commit?: string@"nu-complete git commits"     # The commit ID to be cherry-picked
+  --edit(-e)                                    # Edit the commit message prior to committing
+  --no-commit(-n)                               # Apply changes without making any commit
+  --signoff(-s)                                 # Add Signed-off-by line to the commit message
+  --ff                                          # Fast-forward if possible
+  --continue                                    # Continue the operation in progress
+  --abort                                       # Cancel the operation
+  --skip                                        # Skip the current commit and continue with the rest of the sequence
+]
+
