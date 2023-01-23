@@ -2,6 +2,16 @@ def "nu-complete git branches" [] {
   ^git branch | lines | each { |line| $line | str replace '\* ' "" | str trim }
 }
 
+def "nu-complete git switchable branches" [] {
+   let remotes_regex = (["(", ((nu-complete git remotes | each {|r| ['remotes/', $r, '/'] | str join}) | str join "|"), ")"] | str join)
+   ^git branch -a
+   | lines
+   | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\w+)'] | flatten | str join)
+   | get branch
+   | uniq
+   | where {|branch| $branch != "HEAD"}
+}
+
 def "nu-complete git remotes" [] {
   ^git remote | lines | each { |line| $line | str trim }
 }
@@ -16,7 +26,7 @@ def "nu-complete git commits" [] {
 
 # Check out git branches and files
 export extern "git checkout" [
-  ...targets: string@"nu-complete git branches"   # name of the branch or files to checkout
+  ...targets: string@"nu-complete git switchable branches"   # name of the branch or files to checkout
   --conflict: string                              # conflict style (merge or diff3)
   --detach(-d)                                    # detach HEAD at named commit
   --force(-f)                                     # force checkout (throw away local modifications)
@@ -121,7 +131,7 @@ export extern "git push" [
 
 # Switch between branches and commits
 export extern "git switch" [
-  switch?: string@"nu-complete git branches"      # name of branch to switch to
+  switch?: string@"nu-complete git switchable branches"      # name of branch to switch to
   --create(-c): string                            # create a new branch
   --detach(-d): string@"nu-complete git log"      # switch to a commit in a detatched state
   --force-create(-C): string                      # forces creation of new branch, if it exists then the existing branch will be reset to starting point
