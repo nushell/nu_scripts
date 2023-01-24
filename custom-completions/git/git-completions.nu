@@ -6,7 +6,7 @@ def "nu-complete git switchable branches" [] {
    let remotes_regex = (["(", ((nu-complete git remotes | each {|r| ['remotes/', $r, '/'] | str join}) | str join "|"), ")"] | str join)
    ^git branch -a
    | lines
-   | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\w+)'] | flatten | str join)
+   | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\S+)'] | flatten | str join)
    | get branch
    | uniq
    | where {|branch| $branch != "HEAD"}
