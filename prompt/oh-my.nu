@@ -159,7 +159,7 @@ def get_icons_list [] {
 }
 
 def get_icon_by_name [name] {
-    do -i { get_icons_list | get $name }
+    get_icons_list | get $name
 }
 
 def get_os_icon [os] {
@@ -200,7 +200,6 @@ def get_os_icon [os] {
 # ╰─────────────────────┴───────────────╯
 
 def get_repo_status [gs os] {
-    # replace this 30 with whatever the width of the terminal is
     let display_path = (path_abbrev_if_needed (home_abbrev $os.name) (term size).columns)
     let branch_name = (get_branch_name $gs)
     let ahead_cnt = (get_ahead_count $gs)
