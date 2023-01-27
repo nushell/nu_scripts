@@ -17,7 +17,7 @@
 
 
 # An opinionated Git prompt for Nushell, styled after posh-git
-export def panache-git [] {
+export def prompt-with-panache [] {
   let prompt = ($'(current-dir) (repo-styled)' | str trim)
   $'($prompt)> '
 }
@@ -33,9 +33,9 @@ export def current-dir [] {
   let in_sub_dir_of_home = ($current_dir_relative_to_home | is-empty | nope)
 
   let current_dir_abbreviated = (if $in_sub_dir_of_home {
-    $'~(char separator)($current_dir_relative_to_home)'
+    $'~(char separator)($current_dir_relative_to_home)' | str replace -a '\\' '/'
   } else {
-    $current_dir
+    $current_dir | str replace -a '\\' '/'
   })
 
   $'(ansi reset)($current_dir_abbreviated)'
