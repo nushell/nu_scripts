@@ -1,5 +1,9 @@
-#!/usr/env/bin nu
+# Go through Nushell dependencies in the first wave and find the right ordering
+#
+# Recommended usage is via a module which allows you to process the output
+# further.
 
+# Extract target-specific dependencies from an opened Cargo.toml
 def get-target-dependencies [] {
     let target = ($in | get -i target)
 
@@ -19,8 +23,9 @@ def get-target-dependencies [] {
     $res
 }
 
-# Gather dependencies for each Nushell crate
-def nu-deps [] {
+# For each Nushell crate in the first publishing wave, open its Cargo.toml and
+# gather its dependencies.
+def find-deps [] {
     let second_wave = [ 'nu-command' ]
     let third_wave = [ 'nu-cli' ]
 
@@ -45,8 +50,12 @@ def nu-deps [] {
     }
 }
 
+# Find the right publish ordering of Nushell crates based on their dependencies
+#
+# Returns a list which you can process further, e.g.:
+# > nu_deps | str join (',' + (char nl))
 export def main [] {
-    let deps = nu-deps
+    let deps = find-deps
 
     mut list = []
 
