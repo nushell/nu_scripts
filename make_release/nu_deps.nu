@@ -20,7 +20,7 @@ def get-target-dependencies [] {
 }
 
 # Gather dependencies for each Nushell crate
-export def nu-deps [] {
+def nu-deps [] {
     let second_wave = [ 'nu-command' ]
     let third_wave = [ 'nu-cli' ]
 
@@ -45,7 +45,7 @@ export def nu-deps [] {
     }
 }
 
-def main [] {
+export def main [] {
     let deps = nu-deps
 
     mut list = []
@@ -65,5 +65,5 @@ def main [] {
         }
     }
 
-    $list | table -e
+    $list
 }
