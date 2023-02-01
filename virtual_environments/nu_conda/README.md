@@ -17,10 +17,19 @@ nu_conda activate py36  # activate a Conda environment, e.g. py36
 nu_conda deactivate     # deactivate the activated Conda environment
 ```
 
-## Philosophy
+## How It Works
 This module re-implements the activation and deactivation functionalities of
 the [conda.nu](https://github.com/Neur1n/nu_scripts/blob/main/virtual_environments/conda.nu)
 module while providing a better performance, but not fully replacing it.
+
+This module adds paths of a target Conda environment to `PATH`/`Path` while
+activating the environment, and recover the original `PATH`/`Path` while
+deactivating an environment. Several environment variables are exported:
+
+- `CONDA_BASE_PATH`: The original `PATH`/`Path` before any activation/deactivation.
+- `CONDA_ROOT`: Root directory of Conda installation.
+- `CONDA_ENVS`: Available Conda environments for activation.
+- `CONDA_CURR`: Current activated Conda environments.
 
 
 ## FAQ
@@ -48,5 +57,5 @@ Micromamba.
 easy to change the preference by modifying the source code.
 
 
-**Q**: Auto-completions?\
+**Q**: Completions?\
 **A**: PRs are welcomed.
