@@ -12,7 +12,7 @@ ls ./themes/themes
 To use the `dracula` theme for instance, please run
 ```rust
 use ./themes/themes/dracula.nu *
-let-env config = ($env.config | merge {{color_config: (dracula)}})
+let-env config = ($env.config | merge {color_config: (dracula)})
 ```
 
 The theme should be activated!
