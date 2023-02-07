@@ -16,7 +16,7 @@ def prompt-create-left-prompt [] {
     let pwd = ($env.PWD | str replace $env.HOME '~')
     prompt-concat [
         [text color];
-        [$env.PWD (ansi green_bold)]
+        [pwd (ansi green_bold)]
         [(prompt-git-branch)  (ansi blue_bold)]
         [(async-git-prompt-string) (ansi green_bold)]
     ]
