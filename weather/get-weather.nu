@@ -12,7 +12,7 @@ def locations [] {
 }
 
 def get_my_location [index: int] {
-    let loc_json = (fetch (locations | select $index).0.location)
+    let loc_json = (http get (locations | select $index).0.location)
     let city_column = (locations | select $index).0.city_column
     let state_column = (locations | select $index).0.state_column
     let country_column = (locations | select $index).0.country_column
@@ -45,7 +45,7 @@ def get_location_by_ip [locIdx: int, token: string] {
     let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
     let location = (get_my_location $locIdx)
     let url = $"($URL_QUERY_LOCATION)?q=($location)&limit=5&appid=($token)"
-    fetch $url
+    http get $url
 }
 
 def show-error [msg label err] {
@@ -68,8 +68,8 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
         let units = "imperial"
         let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
         let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
-        let weather = (fetch $url)
-        let forecast_data = (fetch $url_forecast)
+        let weather = (http get $url)
+        let forecast_data = (http get $url_forecast)
         let forecast = ($forecast_data.list | each {|day|
                     {
                         id: ($day.weather.0.id)
@@ -106,8 +106,8 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
         let units = "metric"
         let url = $"($URL_WEATHER)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
         let url_forecast = $"($URL_FORECAST)?lat=($coords.lat.0)&lon=($coords.lon.0)&units=($units)&appid=($token)"
-        let weather = (fetch $url)
-        let forecast_data = (fetch $url_forecast)
+        let weather = (http get $url)
+        let forecast_data = (http get $url_forecast)
         let forecast = ($forecast_data.list | each {|day|
                     {
                         id: ($day.weather.0.id)

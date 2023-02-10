@@ -20,20 +20,20 @@ def locations [] {
 
 def get_location [index: int] {
     let wifi = (iwgetid -r)
-    let loc_json = (fetch (locations | select $index).0.location)
+    let loc_json = (http get (locations | select $index).0.location)
 
     # if ip address in your home isn't precise, you can force a location
     if $wifi =~ "my_wifi" { "your_lat,your_lon" } else { $"($loc_json.lat),($loc_json.lon)" }
 }
 
 # dark sky
-def fetch_api [loc] {
+def http get_api [loc] {
     let apiKey = "ds_api_key"
     let options = "?lang=en&units=si&exclude=minutely,hourly,flags"
 
     let url = $"https://api.darksky.net/forecast/($apiKey)/($loc)($options)"
 
-    fetch $url
+    http get $url
 }
 
 # street address
@@ -41,7 +41,7 @@ def get_address [loc] {
     let mapsAPIkey = "maps_api_key"
     let url = $"https://maps.googleapis.com/maps/api/geocode/json?latlng=($loc)&sensor=true&key=($mapsAPIkey)"
 
-    (fetch $url).results.0.formatted_address
+    (http get $url).results.0.formatted_address
 }
 
 # wind description (adjust to your liking)
@@ -60,7 +60,7 @@ def get_airCond [loc] {
     let lat = (echo $loc | split row ",").0
     let lon = (echo $loc | split row ",").1
     let url = $"https://api.airvisual.com/v2/nearest_city?lat=($lat)&lon=($lon)&key=($apiKey)"
-    let aqius = (fetch $url).data.current.pollution.aqius
+    let aqius = (http get $url).data.current.pollution.aqius
 
     # clasification (standard)
     if $aqius < 51 { "Good" } else if $aqius < 101 { "Moderate" } else if $aqius < 151 { "Unhealthy for some" } else if $aqius < 201 { "Unhealthy" } else if $aqius < 301 { "Very unhealthy" } else { "Hazardous" }
@@ -69,7 +69,7 @@ def get_airCond [loc] {
 # parse all the information
 def get_weather [loc] {
 
-    let response = (fetch_api $loc)
+    let response = (http get_api $loc)
     let address = (get_address $loc)
     let air_cond = (get_airCond $loc)
 
@@ -156,7 +156,7 @@ export def-env get_weather_by_interval [INTERVAL_WEATHER] {
 
 def get_weather_for_prompt [loc] {
 
-    let response = (fetch_api $loc)
+    let response = (http get_api $loc)
 
     ## current conditions
     let cond = $response.currently.summary
