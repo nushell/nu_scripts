@@ -34,6 +34,7 @@ def home_abbrev [os] {
 export def path_abbrev_if_needed [apath term_width] {
     # probably shouldn't do coloring here but since we're coloring
     # only certain parts, it's kind of tricky to do it in another place
+    # if needed, use `ansi strip` to remove coloring
     let T = (ansi { fg: "#BCBCBC" bg: "#3465A4"}) # truncated
     let P = (ansi { fg: "#E4E4E4" bg: "#3465A4"}) # path
     let PB = (ansi { fg: "#E4E4E4" bg: "#3465A4" attr: b}) # path bold
