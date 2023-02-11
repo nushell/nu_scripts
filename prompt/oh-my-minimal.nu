@@ -31,15 +31,18 @@ def home_abbrev [os] {
     }
 }
 
-def path_abbrev_if_needed [apath term_width] {
+export def path_abbrev_if_needed [apath term_width] {
     # probably shouldn't do coloring here but since we're coloring
     # only certain parts, it's kind of tricky to do it in another place
+    # if needed, use `ansi strip` to remove coloring
     let T = (ansi { fg: "#BCBCBC" bg: "#3465A4"}) # truncated
     let P = (ansi { fg: "#E4E4E4" bg: "#3465A4"}) # path
     let PB = (ansi { fg: "#E4E4E4" bg: "#3465A4" attr: b}) # path bold
     let R = (ansi reset)
     let red = (ansi red)
 
+    # replace the home path first
+    let apath = ($apath | str replace $nu.home-path ~)
     if (($apath | str length) > ($term_width / 2)) {
         # split out by path separator into tokens
         # don't use psep here because in home_abbrev we're making them all '/'
@@ -48,12 +51,9 @@ def path_abbrev_if_needed [apath term_width] {
         let splits_len = ($splits | length)
         let subtractor = (if ($splits_len <= 2) { 1 } else { 2 })
         # get all the tokens except the last
-        let tokens = (for x in 1..($splits_len - $subtractor) {
-            $"($T)(($splits | get $x | split chars) | get 0)($R)"
+        let tokens = ($splits | take ($splits_len - $subtractor) | each {|x|
+            $"($T)($x | str substring 0,1)($R)"
         })
-
-        # need an insert command
-        let tokens = ($tokens | prepend $"($T)~")
 
         # append the last part of the path
         let tokens = ($tokens | append $"($PB)($splits | last)($R)")
@@ -66,7 +66,7 @@ def path_abbrev_if_needed [apath term_width] {
         # FIXME: This is close but it fails with folder with space. I'm not sure why.
         # let splits = ($apath | split row '/')
         # let splits_len = ($splits | length)
-        # let tokens = (for x in 0..($splits_len - 1) {
+        # let tokens = (0..($splits_len - 1) | each {|x|
         #     if ($x < ($splits_len - 1)) {
         #         $"/($T)(($splits | get $x | split chars).0)($R)"
         #     }
@@ -91,8 +91,8 @@ def path_abbrev_if_needed [apath term_width] {
         } else {
             let top_part = ($splits | first ($splits_len - 1))
             let end_part = ($splits | last)
-            let tokens = (for x in $top_part {
-                $"/($T)(($x | split chars).0)($R)"
+            let tokens = ($top_part | each {|x|
+                $"/($T)($x | str substring 0,1)($R)"
             })
             let tokens = ($tokens | append $"/($PB)($end_part)($R)")
             $tokens | str collect $"($T)"
