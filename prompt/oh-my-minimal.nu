@@ -51,13 +51,9 @@ export def path_abbrev_if_needed [apath term_width] {
         let splits_len = ($splits | length)
         let subtractor = (if ($splits_len <= 2) { 1 } else { 2 })
         # get all the tokens except the last
-        let tokens = (1..($splits_len - $subtractor) | each {|x|
-            $"($T)(($splits | get $x | split chars) | get 0)($R)"
+        let tokens = ($splits | take ($splits_len - $subtractor) | each {|x|
+            $"($T)($x | str substring 0,1)($R)"
         })
-
-        let tokens = ($splits | take ($splits_len - $subtractor) | 
-			each {|x| $'($T)($x | str substring 0,1)($R)' }
-        )
 
         # append the last part of the path
         let tokens = ($tokens | append $"($PB)($splits | last)($R)")
@@ -96,7 +92,7 @@ export def path_abbrev_if_needed [apath term_width] {
             let top_part = ($splits | first ($splits_len - 1))
             let end_part = ($splits | last)
             let tokens = ($top_part | each {|x|
-                $"/($T)(($x | split chars).0)($R)"
+                $"/($T)($x | str substring 0,1)($R)"
             })
             let tokens = ($tokens | append $"/($PB)($end_part)($R)")
             $tokens | str collect $"($T)"
