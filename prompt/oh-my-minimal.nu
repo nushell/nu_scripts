@@ -43,15 +43,14 @@ export def path_abbrev_if_needed [apath term_width] {
 
     # replace the home path first
     let apath = ($apath | str replace $nu.home-path ~)
-    if (($apath | str length) > ($term_width / 2)) {
-        # split out by path separator into tokens
-        # don't use psep here because in home_abbrev we're making them all '/'
-        let splits = ($apath | split row '/')
+    # split out by path separator into tokens
+    # don't use psep here because in home_abbrev we're making them all '/'
+    let splits = ($apath | split row '/')
+    let splits_len = ($splits | length)
 
-        let splits_len = ($splits | length)
-        let subtractor = (if ($splits_len <= 2) { 1 } else { 2 })
+    if (($apath | str length) > ($term_width / 2)) {
         # get all the tokens except the last
-        let tokens = ($splits | take ($splits_len - $subtractor) | each {|x|
+        let tokens = ($splits | take ($splits_len - 1) | each {|x|
             $"($T)($x | str substring 0,1)($R)"
         })
 
@@ -61,26 +60,6 @@ export def path_abbrev_if_needed [apath term_width] {
         # collect
         $tokens | str collect $"($T)/"
     } else {
-        # $"($P)($apath)($R)"
-
-        # FIXME: This is close but it fails with folder with space. I'm not sure why.
-        # let splits = ($apath | split row '/')
-        # let splits_len = ($splits | length)
-        # let tokens = (0..($splits_len - 1) | each {|x|
-        #     if ($x < ($splits_len - 1)) {
-        #         $"/($T)(($splits | get $x | split chars).0)($R)"
-        #     }
-        # })
-        # let tokens = ($tokens | append $"/($PB)(($splits | last).0)($R)")
-        # $tokens | str collect $"($T)"
-
-        # FIXME: This is close but it fails with folder with space. I'm not sure why.
-        # cd "/Applications/Hex Fiend.app/"
-        #    ~/H/A/Hex Fiend.app 
-        # should be
-        #    ~/A/Hex Fiend.app 
-        let splits = ($apath | split row '/')
-        let splits_len = ($splits | length)
         if ($splits_len == 0) {
             # We're at / on the file system
             $"/($T)"
@@ -95,7 +74,7 @@ export def path_abbrev_if_needed [apath term_width] {
                 $"/($T)($x | str substring 0,1)($R)"
             })
             let tokens = ($tokens | append $"/($PB)($end_part)($R)")
-            $tokens | str collect $"($T)"
+            $tokens | skip 1 | str collect $"($T)"
         }
     }
 }
@@ -125,7 +104,7 @@ def get_os_icon [os use_nerd_fonts] {
     }
 }
 
-def get_left_prompt [os use_nerd_fonts] {
+export def get_left_prompt [os use_nerd_fonts] {
     # replace this 30 with whatever the width of the terminal is
     let display_path = (path_abbrev_if_needed (home_abbrev $os) 30)
     let R = (ansi reset)
@@ -213,7 +192,7 @@ def get_left_prompt [os use_nerd_fonts] {
     ] | str collect
 }
 
-def get_right_prompt [os use_nerd_fonts] {
+export def get_right_prompt [os use_nerd_fonts] {
     # right prompt ideas
     # 1. just the time on the right
     # 2. date and time on the right
