@@ -2,7 +2,7 @@
 
 	{
       # session menu
-      name: fzf_history_menu_fzf_ui_session
+      name: current_session_history_menu
       only_buffer_difference: false
       marker: "# "
       type: {
@@ -28,9 +28,9 @@
 # The part below should be pasted into the 'keybindgs' list of the 'config.nu' file
 
     {
-      name: "fzf_current_session_history_menu"
+      name: "current_session_history_menu"
       modifier: alt
       keycode: char_r
       mode: emacs
-      event: { send: menu name: fzf_current_session_history_menu }
+      event: { send: menu name: current_session_history_menu }
     }
