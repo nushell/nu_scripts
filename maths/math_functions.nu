@@ -162,21 +162,6 @@ export def scale-minmax-table [a, b,input?] {
 	} | reduce {|it, acc| $acc | merge {$it}}
 }
 
-#sin function
-export def "math sin" [ ] {
-    each {|x| "s(" + $"($x)" + ")\n" | bc -l | into decimal }
-}
-
-#cos function
-export def "math cos" [ ] {
-    each {|x| "c(" + $"($x)" + ")\n" | bc -l | into decimal }
-}
-
-#natural log function
-export def "math ln" [ ] {
-    each {|x| "l(" + $"($x)" + ")\n" | bc -l | into decimal }
-}
-
 #exp function
 export def "math exp" [ ] {
     each {|x| "e(" + $"($x)" + ")\n" | bc -l | into decimal }
