@@ -34,11 +34,6 @@ def fact [num: int] {
 	}
 }
 
-### Added by kira
-## constants
-let pi = 3.1415926535897932
-let e  = 2.7182818284590452
-
 #Calculate roots of the quadratic function: ax^2+bx+x
 def q_roots [
 	a 	# x^2
