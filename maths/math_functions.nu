@@ -152,7 +152,8 @@ def scale-minmax-table [a, b,input?] {
 	let n_cols = ($x | transpose | length)
 	let name_cols = ($x | transpose | column2 0)
 
-	for $i in 0..($n_cols - 1) {
+	0..($n_cols - 1)
+	| each {|i|
 		($x | column2 $i) | scale-minmax $a $b | wrap ($name_cols | get $i)
 	} | reduce {|it, acc| $acc | merge {$it}}
 }
