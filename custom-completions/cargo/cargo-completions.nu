@@ -331,7 +331,7 @@ export extern "cargo bench" [
   --profile: string@"nu-complete cargo profiles" # Build artifacts with the specified profile
   --ignore-rust-version # Ignore `rust-version` specification in packages
   --timings: string # Output information how long each compilation takes
-  --target-dir: path# Directory for all generated artifacts and intermediate files
+  --target-dir: path # Directory for all generated artifacts and intermediate files
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q) # Do not print cargo log messages
   --color: string@"nu-complete cargo color"  # Control when colored output is used
@@ -340,7 +340,7 @@ export extern "cargo bench" [
   --manifest-path: path  # Path to the Cargo.toml file
   --frozen # Require Cargo.lock and cache are up to date
   --locked # Require Cargo.lock is up to date
-  --offline# Run without accessing the network
+  --offline # Run without accessing the network
   -Z: any # Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
   -h, --help # Print help information
   --jobs(-j): number # Number of parallel jobs to run
