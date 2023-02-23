@@ -22,6 +22,6 @@ export def extract [name:string #name of the archive to extract
   if ($command|is-empty) {
     echo 'Error! Unsupported file extension'
   } else {
-    nu -c (build-string $command.com ' ' $name)
+    nu -c ($command.com + ' ' + $name)
   }
 }
