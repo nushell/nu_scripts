@@ -95,8 +95,8 @@ def "nu-complete kube ctx" [] {
 
     let data = (cat $cache | from json)
     $data.completion | each {|x|
-        let ns = ($x.ns | str rpad -l $data.max.ns -c ' ')
-        let cl = ($x.cluster | str lpad -l $data.max.cluster -c ' ')
+        let ns = ($x.ns | fill -a r -w $data.max.ns -c ' ')
+        let cl = ($x.cluster | fill -a l -w $data.max.cluster -c ' ')
         {value: $x.value, description: $"\t($ns) ($cl)"}
     }
 }
