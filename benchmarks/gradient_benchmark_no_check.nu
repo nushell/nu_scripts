@@ -11,7 +11,7 @@ if ($is_release | str downcase | str trim) == "y" {
 
     $"running test 0 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 0. this has wrong output
-    let 0 = (seq 10 | benchmark {
+    let 0 = (seq 10 | timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -31,7 +31,7 @@ if ($is_release | str downcase | str trim) == "y" {
 
     $"running test 1 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 1. Fixed newline to fix the output (char cr)
-    let 1 = (seq 10 | benchmark {
+    let 1 = (seq 10 | timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -50,7 +50,7 @@ if ($is_release | str downcase | str trim) == "y" {
 
     $"running test 2 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 2. Replace (char sp) with just space
-    let 2 = (seq 10 | benchmark {
+    let 2 = (seq 10 | timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -69,7 +69,7 @@ if ($is_release | str downcase | str trim) == "y" {
 
     $"running test 3 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 3. Precompute (ansi -e '48;2;0;0;') and (ansi -e '0m') -- seems to be slower
-    let 3 = (seq 10 | benchmark {
+    let 3 = (seq 10 | timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -90,7 +90,7 @@ if ($is_release | str downcase | str trim) == "y" {
 
     $"running test 4 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 4. Inline iter_inc call
-    let 4 = (seq 10 | benchmark {
+    let 4 = (seq 10 | timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -109,7 +109,7 @@ if ($is_release | str downcase | str trim) == "y" {
 
     $"running test 5 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 5. Combine (char sp) substitution and iter_inc inlining
-    let 5 = (seq 10 | benchmark {
+    let 5 = (seq 10 | timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -128,7 +128,7 @@ if ($is_release | str downcase | str trim) == "y" {
 
     $"running test 6 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 6. The above with par-each outer loop (using par-each anywhere else breaks the output)
-    let 6 = (seq 10 | benchmark {
+    let 6 = (seq 10 | timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
