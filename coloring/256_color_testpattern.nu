@@ -34,7 +34,7 @@ def print_colour [ colour:int ] {
     let contrast = (contrast_colour $colour)
     let bg_color = $"(ansi idx_bg)($colour)m" # Start block of colour
     let fg_color = $"(ansi idx_fg)($contrast)m" # In contrast, print number
-    let text = $"($colour | into string | str lpad -c ' ' -l 3)(ansi reset)"
+    let text = $"($colour | into string | fill -c ' ' -w 3 -a r)(ansi reset)"
     $bg_color + $fg_color + $text + " "
 }
 
