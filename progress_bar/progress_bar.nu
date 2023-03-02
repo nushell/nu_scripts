@@ -24,7 +24,7 @@ ansi cursor_off
 # Move cursor all the way to the left
 print -n $"(ansi -e '1000D')"
 # Draw the background for the progress bar
-print -n ($bg_fill | str lpad -c $bg_fill -l $pb_len)
+print -n ($bg_fill | fill -c $bg_fill -w $pb_len -a r)
 
 1..<$pb_len | each { |cur_progress|
     # This is kind of a hack because it's not incrementally drawing a new box
