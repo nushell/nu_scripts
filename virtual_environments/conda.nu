@@ -6,7 +6,7 @@ export def-env activate [
     let conda_info = (conda info --envs --json | from json)
 
     mut env_dir = ($conda_info.envs_dirs | each {|it| $it | path join $env_name })
-    
+
     if $env_name != "base" {
         $env_dir = (check-if-env-exists $env_name $env_dir)
     } else {
@@ -45,12 +45,12 @@ export def-env activate [
 
         let new_prompt = if (has-env 'PROMPT_COMMAND') {
             if 'closure' in ($old_prompt_command | describe) {
-                { $'($virtual_prompt)(do $old_prompt_command)' }
+                {|| $'($virtual_prompt)(do $old_prompt_command)' }
             } else {
-                { $'($virtual_prompt)($old_prompt_command)' }
+                {|| $'($virtual_prompt)($old_prompt_command)' }
             }
         } else {
-            { $'($virtual_prompt)' }
+            {|| $'($virtual_prompt)' }
         }
 
         $new_env
@@ -66,7 +66,7 @@ export def-env activate [
 
 # Deactivate currently active conda environment
 export def-env deactivate [] {
-    let path_name = if "PATH" in (env).name { "PATH" } else { "Path" }
+    let path_name = if "PATH" in $env { "PATH" } else { "Path" }
     let-env $path_name = $env.CONDA_OLD_PATH
 
     hide-env CONDA_PROMPT_MODIFIER
@@ -137,9 +137,9 @@ def windows? [] {
 }
 
 def system-path [] {
-    if "PATH" in (env).name { $env.PATH } else { $env.Path }
+    if "PATH" in $env { $env.PATH } else { $env.Path }
 }
 
 def has-env [name: string] {
-    $name in (env).name
+    $name in $env
 }
