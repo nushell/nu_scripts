@@ -1,5 +1,5 @@
 export extern "npm" [
-  command: string@"nu-complete npm"
+  command?: string@"nu-complete npm"
 ]
 def "nu-complete npm" [] {
   ^npm -l
@@ -18,7 +18,7 @@ def "nu-complete npm run" [] {
 }
 
 export extern "npm run" [
-  command: string@"nu-complete npm run"
+  command?: string@"nu-complete npm run"
   --workspace(-w)
   --include-workspace-root
   --if-present
