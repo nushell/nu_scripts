@@ -53,13 +53,14 @@ export def-env activate [
             {|| $'($virtual_prompt)' }
         }
 
-        $new_env
-        | insert CONDA_OLD_PROMPT_COMMAND $old_prompt_command
-        | insert PROMPT_COMMAND $new_prompt
+        $new_env | merge {
+            CONDA_OLD_PROMPT_COMMAND: $old_prompt_command
+            PROMPT_COMMAND: $new_prompt
+        }
     } else {
-        $new_env
-        | insert CONDA_OLD_PROMPT_COMMAND $nothing
+        $new_env | merge { CONDA_OLD_PROMPT_COMMAND: $nothing }
     }
+
 
     load-env $new_env
 }
