@@ -1,4 +1,4 @@
-export def {{theme}} [] {
+export def main [] {
     # extra desired values for the {{theme}} theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

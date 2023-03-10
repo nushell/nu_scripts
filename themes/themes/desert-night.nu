@@ -1,4 +1,4 @@
-export def desert_night [] {
+export def main [] {
     # extra desired values for the desert_night theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def windows_highcontrast [] {
+export def main [] {
     # extra desired values for the windows_highcontrast theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

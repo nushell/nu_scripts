@@ -1,4 +1,4 @@
-export def pro [] {
+export def main [] {
     # extra desired values for the pro theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

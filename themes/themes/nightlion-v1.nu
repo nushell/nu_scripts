@@ -1,4 +1,4 @@
-export def nightlion_v1 [] {
+export def main [] {
     # extra desired values for the nightlion_v1 theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

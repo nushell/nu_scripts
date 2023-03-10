@@ -1,4 +1,4 @@
-export def jet_brains-darcula [] {
+export def main [] {
     # extra desired values for the jet_brains-darcula theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal
