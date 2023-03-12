@@ -24,6 +24,13 @@ def "nu-complete git commits" [] {
   ^git rev-list --all --remotes --pretty=oneline | lines | parse "{value} {description}"
 }
 
+def "nu-complete git branches and commits" [] {
+  nu-complete git switchable branches
+  | parse "{value}"
+  | insert description Branch
+  | append (nu-complete git commits)
+}
+
 # Check out git branches and files
 export extern "git checkout" [
   ...targets: string@"nu-complete git switchable branches"   # name of the branch or files to checkout
@@ -160,4 +167,16 @@ export extern "git cherry-pick" [
   --continue                                    # Continue the operation in progress
   --abort                                       # Cancel the operation
   --skip                                        # Skip the current commit and continue with the rest of the sequence
+]
+
+# Rebase the current branch
+export extern "git rebase" [
+  branch?: string@"nu-complete git branches and commits"    # name of the branch to rebase onto
+  upstream?: string@"nu-complete git branches and commits"  # upstream branch to compare against
+  --continue                                                # restart rebasing process after editing/resolving a conflict
+  --abort                                                   # abort rebase and reset HEAD to original branch
+  --quit                                                    # abort rebase but do not reset HEAD
+  --interactive(-i)                                         # rebase interactively with list of commits in editor
+  --onto?: string@"nu-complete git branches and commits"    # starting point at which to create the new commits
+  --root                                                    # start rebase from root commit
 ]
