@@ -30,8 +30,8 @@ def flag [
 
 # Write out the flags you entered
 def flag_details [myint: int, mystring: string] {
-  echo "myint is " $myint | str collect
-  echo "mystring is " $mystring | str collect
+  echo "myint is " $myint | str join
+  echo "mystring is " $mystring | str join
 }
 
 # Get the data passed into the flags
@@ -47,10 +47,10 @@ def get_flag [
     let with_int_no_string = ($is_int_empty == false and $is_string_empty == true)
     let with_int_with_string = ($is_int_empty == false and $is_string_empty == false)
 
-    echo 'no int and no string ' $no_int_no_string | str collect
-    echo 'no int with string ' $no_int_with_string | str collect
-    echo 'with int and no string ' $with_int_no_string | str collect
-    echo 'with int and with string ' $with_int_with_string | str collect
+    echo 'no int and no string ' $no_int_no_string | str join
+    echo 'no int with string ' $no_int_with_string | str join
+    echo 'with int and no string ' $with_int_no_string | str join
+    echo 'with int and with string ' $with_int_with_string | str join
 
     if $no_int_no_string {
         (flag_details 1 "blue")
