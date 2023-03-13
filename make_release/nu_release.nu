@@ -20,6 +20,7 @@ let subcrates_wave_1 = [
 ]
 
 let subcrates_wave_2 = [
+    nu-cmd-lang,
     nu-command,
 ]
 
