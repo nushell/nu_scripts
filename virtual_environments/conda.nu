@@ -1,14 +1,19 @@
 # Activate conda environment
 export def-env activate [
-    env_name: string@'nu-complete conda envs' # name of the environment
-    --no-prompt                               # do not update the prompt
+    env_name?: string@'nu-complete conda envs' # name of the environment
+    --no-prompt                                # do not update the prompt
 ] {
     let conda_info = (conda info --envs --json | from json)
 
-    mut env_dir = ($conda_info.envs_dirs | each {|it| $it | path join $env_name })
-
+    mut $env_name = $env_name
+    if $env_name == null {$env_name = "base"}
+    mut env_dir = ""
+    mut env_dirs = []
+    for i in $conda_info.envs_dirs {
+        $env_dirs = ($env_dirs | append ($i | path join $env_name))
+    }
     if $env_name != "base" {
-        $env_dir = (check-if-env-exists $env_name $env_dir)
+        $env_dir = ((check-if-env-exists $env_name $env_dirs) | into string)
     } else {
         $env_dir = $conda_info.root_prefix
         }
