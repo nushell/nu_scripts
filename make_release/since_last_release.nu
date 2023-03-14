@@ -29,7 +29,7 @@ def do-work [] {
         let query_string = $"($query_prefix)($row.repo)($query_suffix)"
         # this is for debugging the rate limit. comment it out if things are working well
         # fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
-        let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
+        let site_json = (http get -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
 
         $"## ($row.site)(char nl)(char nl)"
         if ($site_json | all {|it| $it | is-empty }) {
@@ -40,7 +40,7 @@ def do-work [] {
                 let pr_count = ($row.prs | length)
 
                 # only print the comma if there's another item
-                let user_prs = ($row.prs | each -n { |pr|
+                let user_prs = ($row.prs | enumerate | each { |pr|
                     if $pr_count == ($pr.index + 1) {
                         $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
                     } else {
