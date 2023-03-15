@@ -1,20 +1,19 @@
+export def ensure-index [index path action] {
+    let ts = do -i { ls $path | sort-by modified | reverse | get 0.modified }
+    if ($ts | is-empty) { return false }
+    let tc = do -i { ls $index | get 0.modified }
+    if not (($index | path exists) and ($ts < $tc)) {
+        mkdir (dirname $index)
+        do $action
+    }
+}
+
 export def 'str max-length' [] {
     $in | reduce -f 0 {|x, a|
         if ($x|is-empty) { return $a }
         let l = ($x | str length)
         if $l > $a { $l } else { $a }
     }
-}
-
-export def index-need-update [index path] {
-    let ts = do -i { ls $path | sort-by modified | reverse | get 0.modified }
-    if ($ts | is-empty) { return false }
-    let tc = do -i { ls $index | get 0.modified }
-    if not (($index | path exists) and ($ts < $tc)) {
-        mkdir (dirname $index)
-        return true
-    }
-    return false
 }
 
 def "nu-complete ssh host" [] {
@@ -50,7 +49,7 @@ def fmt-group [p] {
 
 def "ssh-hosts" [] {
     let cache = $'($env.HOME)/.cache/nu-complete/ssh.json'
-    if index-need-update $cache ~/.ssh/**/* {
+    ensure-index $cache ~/.ssh/**/* {
         let data = (ssh-list | each {|x|
                 let uri = $"($x.User)@($x.HostName):($x.Port)"
                 {
@@ -78,14 +77,14 @@ def "nu-complete ssh" [] {
     let data = (ssh-hosts)
     $data.completion
     | each { |x|
-        let uri = ($x.uri | str lpad -l $data.max.uri -c ' ')
-        let group = ($x.group | fill -w $data.max.group -c ' ' -a l)
-        let id = ($x.identfile | fill -w $data.max.identfile -c ' ' -a l)
+        let uri = ($x.uri | fill -a l -w $data.max.uri -c ' ')
+        let group = ($x.group | fill -a l -w $data.max.group -c ' ')
+        let id = ($x.identfile | fill -a l -w $data.max.identfile -c ' ')
         {value: $x.value, description: $"\t($uri) ($group) ($id)" }
     }
 }
 
-export extern ssh [
+export extern main [
     host: string@"nu-complete ssh"      # host
     ...cmd                              # cmd
     -v                                  # verbose
