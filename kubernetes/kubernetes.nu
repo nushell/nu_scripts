@@ -22,15 +22,14 @@ export def "parse cmd" [] {
     | reject sw
 }
 
-export def index-need-update [index path] {
+export def ensure-index [index path action] {
     let ts = do -i { ls $path | sort-by modified | reverse | get 0.modified }
     if ($ts | is-empty) { return false }
     let tc = do -i { ls $index | get 0.modified }
     if not (($index | path exists) and ($ts < $tc)) {
         mkdir (dirname $index)
-        return true
+        do $action
     }
-    return false
 }
 
 export-env {
@@ -76,7 +75,7 @@ export def "kube-config" [] {
 def "nu-complete kube ctx" [] {
     let k = (kube-config)
     let cache = $'($env.HOME)/.cache/nu-complete/k8s/(basename $k.path).json'
-    if index-need-update $cache $k.path {
+    ensure-index $cache $k.path {
         let clusters = ($k.data | get clusters | select name cluster.server)
         let data = ( $k.data
             | get contexts

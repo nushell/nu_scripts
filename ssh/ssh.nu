@@ -1,12 +1,11 @@
-export def index-need-update [index path] {
+export def ensure-index [index path action] {
     let ts = do -i { ls $path | sort-by modified | reverse | get 0.modified }
     if ($ts | is-empty) { return false }
     let tc = do -i { ls $index | get 0.modified }
     if not (($index | path exists) and ($ts < $tc)) {
         mkdir (dirname $index)
-        return true
+        do $action
     }
-    return false
 }
 
 export def 'str max-length' [] {
@@ -50,7 +49,7 @@ def fmt-group [p] {
 
 def "ssh-hosts" [] {
     let cache = $'($env.HOME)/.cache/nu-complete/ssh.json'
-    if index-need-update $cache ~/.ssh/**/* {
+    ensure-index $cache ~/.ssh/**/* {
         let data = (ssh-list | each {|x|
                 let uri = $"($x.User)@($x.HostName):($x.Port)"
                 {
