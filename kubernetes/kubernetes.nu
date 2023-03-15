@@ -1,25 +1,25 @@
 export def "parse cmd" [] {
-    let argv = ($in | split row ' ')
-    mut pos = []
-    mut opt = {}
-    mut sw = ''
-    for i in $argv {
-        if ($i | str starts-with '-') {
-            if not ($sw | is-empty) {
-                $opt = ($opt | upsert $sw true)
-            }
-            $sw = $i
-        } else {
-            if ($sw | is-empty) {
-                $pos ++= [$i]
+    $in
+    | split row ' '
+    | reduce -f { args: [], sw: '' } {|it, acc|
+        if ($acc.sw|is-empty) {
+            if ($it|str starts-with '-') {
+                $acc | upsert sw $it
             } else {
-                $opt = ($opt | upsert $sw $i)
-                $sw = ''
+                let args = ($acc.args | append $it)
+                $acc | upsert args $args
+            }
+        } else {
+            if ($it|str starts-with '-') {
+                $acc
+                | upsert $acc.sw true
+                | upsert sw $it
+            } else {
+                $acc | upsert $acc.sw $it | upsert sw ''
             }
         }
     }
-    $opt.args = $pos
-    return $opt
+    | reject sw
 }
 
 export def index-need-update [index path] {
@@ -69,7 +69,7 @@ export def kk [p: path] {
 
 ### ctx
 export def "kube-config" [] {
-    let file = if 'KUBECONFIG' in (env).name { $env.KUBECONFIG } else { $"($env.HOME)/.kube/config" }
+    let file = if 'KUBECONFIG' in ($env | columns) { $env.KUBECONFIG } else { $"($env.HOME)/.kube/config" }
     { path: $file, data: (cat $file | from yaml)}
 }
 
@@ -95,7 +95,7 @@ def "nu-complete kube ctx" [] {
 
     let data = (cat $cache | from json)
     $data.completion | each {|x|
-        let ns = ($x.ns | fill -a r -w $data.max.ns -c ' ')
+        let ns = ($x.ns | fill -a l -w $data.max.ns -c ' ')
         let cl = ($x.cluster | fill -a l -w $data.max.cluster -c ' ')
         {value: $x.value, description: $"\t($ns) ($cl)"}
     }
@@ -172,7 +172,7 @@ def "nu-complete kube def" [] {
 
 def "nu-complete kube res" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let def = ($ctx | get args | get 1)
+    let def = ($ctx | get args.1)
     let ns = do -i { $ctx | get '-n' }
     let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
     kubectl get $ns $def | from ssv -a | get NAME
@@ -443,7 +443,6 @@ export def ksd [
         kubectl scale $n deployments $d --replicas $num
     }
 }
-
 export def ksdr [
     d: string@"nu-complete kube deployments"
     num: int@"nu-complete num9"
