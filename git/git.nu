@@ -1,3 +1,8 @@
+# Collection of useful git aliases.
+#
+# Use with:
+# `use <repo_root>/git/git.nu`
+
 export def _git_stat [n]  {
     do -i {
         git log -n $n --pretty=»¦«%h --stat

@@ -1,3 +1,3 @@
-# Git branch cleanup
+# Commands and scripts for Git
 
-Remove any local git branch no longer being tracked in origin / remote repo.
+Take a look at the individual files to learn more.
