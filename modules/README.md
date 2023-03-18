@@ -55,7 +55,7 @@ These scripts are used to demonstrate the `ansi` command using `ansi` coloring. 
 
 - [Ultimate Extractor](./data_extraction/ultimate_extractor.nu) - Extract any compressed archive, UE will call the proper program under the hood 😎
 
-## docker
+## [docker](./docker/)
 
 An extensive example of a wrapper for docker operations, with nushell completions.
 
@@ -86,20 +86,37 @@ Examples of input/output formatters:
 
 ## github
 
-- [branch-protections] - Do you have hundreds or thousands of GitHub repositories in your organization? Are you tired of manually managing their branch protection rules? Don't! Let nushell do it for you! see [README](./github/branch-protections/)
-- [merged-branches] - Do your developers often forget to delete their branches after merging PRs? Are you tired of manually going into every repository and deleting them? Don't! Let nushell do it for you! see [README](./github/merged-branches/)
+- [branch-protections](./github/branch-protections/) - Do you have hundreds or thousands of GitHub repositories in your organization? Are you tired of manually managing their branch protection rules? Don't! Let nushell do it for you! see [README](./github/branch-protections/)
+- [merged-branches](./github/merged-branches/) - Do your developers often forget to delete their branches after merging PRs? Are you tired of manually going into every repository and deleting them? Don't! Let nushell do it for you! see [README](./github/merged-branches/)
 
-## gitlab
+## [gitlab](./gitlab/)
+Search files on your GitLab server
 
-- [gitlab] - Search files on your GitLab server
-
-## kubernetes
+## [kubernetes](./kubernetes/)
 ???
  
-## make_release
+## [make_release](./make_release/)
 ???
 
-## maths
+## [maths](./maths/)
+
+- [math_functions] - module with the following commands:
+  - `root` - root with a custom denominator
+  - `croot` - cube root
+  - `aroot` - root with a custom scaler and denominator
+  - `delta` - calculate the delta of the quadratic function
+  - `fact` - factorial of the given number
+  - `q_roots` - calculare roots of the quadratic function: ax^2+bx+x
+  - `isprime` - check if integer is prime
+  - `primelist` - list primes until given number
+  - `mtable` - multiplication table of n till max
+  - `isleap` - check if year is leap
+  - `gcd` - greatest common divisor between 2 integers
+  - `lcm` - least commoin multiple between 2 integers
+  - `dec2base` - decimal number to custom base representation
+  - `scale-minmax` - scale list to `[a,b]` interval
+  - `scale-minmax-table` - Scale every column of a table (separately) to `[a,b]` interval
+  - `math exp` - exp function
 
 ## network
 - [remoting](./network/remoting/) - This module provide convenient way to manage multiple remote clients. see [README](./network/remoting)
@@ -119,26 +136,21 @@ It is basically a join of the tables produced by the `lsof` command, and the nus
   - `ensure-index`
 
 
-## nvim
+## [nvim](./nvim/)
+??? (not sure how universal this is) Mix of hooks, defs and alias wrapper around neovim.
 
-- ??? (not sure how universal this is) Mix of hooks, defs and alias wrapper around neovim.
-
-## progress_bar
-
-- ??? (make a module out of these script?) - Collection of progress bars
+## [progress_bar](./progress_bar/)
+??? (make a module out of these scripts?) - Collection of progress bars
   
-## rbenv
-
+## [rbenv](./rbenv/)
 ??? (not sure how universal this is) This script provides minimal working rbenv setup.
 
-
-
-## virtual_environments
+## [virtual_environments](./virtual_environments/)
 The scripts in this directory activate virtual environments for Conda environments.
 
-## weather
+## [weather](./weather/)
 These scripts should be used to demonstrate how get your local weather and/or weather forecasts.
 
 
-## webscraping
+## [webscraping](./webscraping/)
 Simple scripts to demonstrate how to scrape websites in nushell. Requires `query web` plugin
