@@ -1,4 +1,4 @@
-export def black_metal-marduk [] {
+export def main [] {
     # extra desired values for the black_metal-marduk theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

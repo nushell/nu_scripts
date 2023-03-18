@@ -1,4 +1,4 @@
-export def brushtrees [] {
+export def main [] {
     # extra desired values for the brushtrees theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

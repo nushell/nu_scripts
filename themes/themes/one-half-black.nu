@@ -1,4 +1,4 @@
-export def one_half-black [] {
+export def main [] {
     # extra desired values for the one_half-black theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

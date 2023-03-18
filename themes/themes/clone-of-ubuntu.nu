@@ -1,4 +1,4 @@
-export def clone_of-ubuntu [] {
+export def main [] {
     # extra desired values for the clone_of-ubuntu theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

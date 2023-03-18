@@ -1,4 +1,4 @@
-export def black_metal-nile [] {
+export def main [] {
     # extra desired values for the black_metal-nile theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def terminal_basic [] {
+export def main [] {
     # extra desired values for the terminal_basic theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

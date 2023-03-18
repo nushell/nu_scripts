@@ -1,4 +1,4 @@
-export def wild_cherry [] {
+export def main [] {
     # extra desired values for the wild_cherry theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

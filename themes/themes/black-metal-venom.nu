@@ -1,4 +1,4 @@
-export def black_metal-venom [] {
+export def main [] {
     # extra desired values for the black_metal-venom theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

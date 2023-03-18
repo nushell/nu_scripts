@@ -1,4 +1,4 @@
-export def atelier_seaside [] {
+export def main [] {
     # extra desired values for the atelier_seaside theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

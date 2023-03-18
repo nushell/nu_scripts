@@ -1,4 +1,4 @@
-export def spring [] {
+export def main [] {
     # extra desired values for the spring theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def vibrant_ink [] {
+export def main [] {
     # extra desired values for the vibrant_ink theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal
