@@ -10,7 +10,6 @@
   - [docker](#docker)
   - [filesystem](#filesystem)
   - [formats](#formats)
-  - [formatting](#formatting)
   - [fun](#fun)
   - [github](#github)
   - [gitlab](#gitlab)
@@ -41,19 +40,39 @@ Demo of various API wrappers:
 
 ## background_task
 
+make nushell "support" background task feature.
+see [README](./background_task/)
+
+
 ## base16
+
+Base16 theme generator (for Linux, might work for other OS)
+see [README](./base16/)
 
 ## coloring
 
+These scripts are used to demonstrate the `ansi` command using `ansi` coloring. This is mainly a demo area where we have taken typical `bash` scripts and ported them to nushell scripts. It would be nice if all scripts here showed the "other" version of script and the ported nushell version. We can show "other" flavors of scripts by including them as comments in the nushell scripts or by naming the nushell script and the other script the same basename.
+
+
 ## data_extraction
+
+- [Ultimate Extractor](./data_extraction/ultimate_extractor.nu) - Extract any compressed archive, UE will call the proper program under the hood 😎
 
 ## docker
 
+An extensive example of a wrapper for docker operations, with nushell completions.
+
 ## filesystem
 
-## formats
+- [cdpath](./filesystem/cdpath.nu) - ???
+- [up](./filesystem/up.nu) - Cd up `X` times
 
-## formatting
+## formats
+Examples of input/output formatters:
+- [from-cpuinfo](./formats/from-cpuinfo.nu)
+- [from-dmidecode](./formats/from-dmidecode.nu)
+- [to-ini](./formats/to-ini.nu)
+
 
 ## fun
 
