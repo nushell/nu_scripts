@@ -13,9 +13,9 @@ The activation and deactivation commands are exported from the `conda` module.
 >
 ```
 
-Do disable the prompt changes (e.g., to let [Starship](https://starship.rs) include its own), pass a `--no-prompt` flag to `activate`.
-This can be automated by creating an alias `alias "conda activate" = conda activate --no-prompt` to `$nu.config-path`.
-The `activate` command includes custom completions for the environment names.
+The `activate` command also includes custom completions for the environment names.
+To disable the prompt changes (e.g., to let [Starship](https://starship.rs) include its own), set the environment variable `CONDA_NO_PROMPT`.
+To set it globally, add the line `let-env CONDA_NO_PROMPT = true` to `$nu.config-path`.
 
 ## Limitations
 
