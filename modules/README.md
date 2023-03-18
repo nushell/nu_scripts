@@ -13,7 +13,6 @@
   - [fun](#fun)
   - [github](#github)
   - [gitlab](#gitlab)
-  - [just](#just)
   - [kubernetes](#kubernetes)
   - [make\_release](#make_release)
   - [maths](#maths)
@@ -21,8 +20,6 @@
   - [nvim](#nvim)
   - [progress\_bar](#progress_bar)
   - [rbenv](#rbenv)
-  - [ssh](#ssh)
-  - [strings](#strings)
   - [virtual\_environments](#virtual_environments)
   - [weather](#weather)
   - [webscraping](#webscraping)
@@ -72,36 +69,76 @@ Examples of input/output formatters:
 - [from-cpuinfo](./formats/from-cpuinfo.nu)
 - [from-dmidecode](./formats/from-dmidecode.nu)
 - [to-ini](./formats/to-ini.nu)
+- [remove-diacritics](./strings/remove-diacritics.nu) - Turns `Zażółć gęślą jaźń` into `Zazolc gesla jazn`
 
 
 ## fun
 
+- [spark](./fun/spark.nu) - send an array into spark and get a sparkline out:
+    ```console
+    > let v = [2, 250, 670, 890, 2, 430, 11, 908, 123, 57]
+    > spark $v
+    ▁▂▆▇▁▄▁█▁▁
+    ```
+- [website-builder](./fun/website_builder.nu) - converts markdown into their equivalent html pages
+- [wordle](./fun/wordle.nu) - A Terminal Wordle game. The code is based on this [gist](https://gist.github.com/huytd/6a1a6a7b34a0d0abcac00b47e3d01513), but slightly personalized.
+
+
 ## github
+
+- [branch-protections] - Do you have hundreds or thousands of GitHub repositories in your organization? Are you tired of manually managing their branch protection rules? Don't! Let nushell do it for you! see [README](./github/branch-protections/)
+- [merged-branches] - Do your developers often forget to delete their branches after merging PRs? Are you tired of manually going into every repository and deleting them? Don't! Let nushell do it for you! see [README](./github/merged-branches/)
 
 ## gitlab
 
-## just
+- [gitlab] - Search files on your GitLab server
 
 ## kubernetes
-
+???
+ 
 ## make_release
+???
 
 ## maths
 
 ## network
+- [remoting](./network/remoting/) - This module provide convenient way to manage multiple remote clients. see [README](./network/remoting)
+
+- [sockets](./network/sockets/) - The `sockets` command returns a table containing information on network sockets and the processes they belong to.
+It is basically a join of the tables produced by the `lsof` command, and the nushell `ps` command.
+    
+    <img width="1486" alt="image" src="https://user-images.githubusercontent.com/52205/196287615-00e46f8e-06ed-45ce-8fe7-a5c5f38afaaa.png">
+
+
+- [ssh](./network/ssh.nu) wrapper that provides the following commands:
+  - `ssh`
+  - `scp`
+  - `ssh-list`
+  - `parse-ssh-file`
+  - `str max-length`
+  - `ensure-index`
+
 
 ## nvim
 
+- ??? (not sure how universal this is) Mix of hooks, defs and alias wrapper around neovim.
+
 ## progress_bar
 
+- ??? (make a module out of these script?) - Collection of progress bars
+  
 ## rbenv
 
-## ssh
+??? (not sure how universal this is) This script provides minimal working rbenv setup.
 
-## strings
+
 
 ## virtual_environments
+The scripts in this directory activate virtual environments for Conda environments.
 
 ## weather
+These scripts should be used to demonstrate how get your local weather and/or weather forecasts.
+
 
 ## webscraping
+Simple scripts to demonstrate how to scrape websites in nushell. Requires `query web` plugin
