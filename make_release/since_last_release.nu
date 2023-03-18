@@ -40,7 +40,7 @@ def do-work [] {
                 let pr_count = ($row.prs | length)
 
                 # only print the comma if there's another item
-                let user_prs = ($row.prs | each -n { |pr|
+                let user_prs = ($row.prs | enumerate | each { |pr|
                     if $pr_count == ($pr.index + 1) {
                         $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
                     } else {

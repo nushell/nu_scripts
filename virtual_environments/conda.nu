@@ -1,14 +1,19 @@
 # Activate conda environment
 export def-env activate [
-    env_name: string@'nu-complete conda envs' # name of the environment
-    --no-prompt                               # do not update the prompt
+    env_name?: string@'nu-complete conda envs' # name of the environment
+    --no-prompt                                # do not update the prompt
 ] {
     let conda_info = (conda info --envs --json | from json)
 
-    mut env_dir = ($conda_info.envs_dirs | each {|it| $it | path join $env_name })
-    
+    mut $env_name = $env_name
+    if $env_name == null {$env_name = "base"}
+    mut env_dir = ""
+    mut env_dirs = []
+    for i in $conda_info.envs_dirs {
+        $env_dirs = ($env_dirs | append ($i | path join $env_name))
+    }
     if $env_name != "base" {
-        $env_dir = (check-if-env-exists $env_name $env_dir)
+        $env_dir = ((check-if-env-exists $env_name $env_dirs) | into string)
     } else {
         $env_dir = $conda_info.root_prefix
         }
@@ -45,28 +50,29 @@ export def-env activate [
 
         let new_prompt = if (has-env 'PROMPT_COMMAND') {
             if 'closure' in ($old_prompt_command | describe) {
-                { $'($virtual_prompt)(do $old_prompt_command)' }
+                {|| $'($virtual_prompt)(do $old_prompt_command)' }
             } else {
-                { $'($virtual_prompt)($old_prompt_command)' }
+                {|| $'($virtual_prompt)($old_prompt_command)' }
             }
         } else {
-            { $'($virtual_prompt)' }
+            {|| $'($virtual_prompt)' }
         }
 
-        $new_env
-        | insert CONDA_OLD_PROMPT_COMMAND $old_prompt_command
-        | insert PROMPT_COMMAND $new_prompt
+        $new_env | merge {
+            CONDA_OLD_PROMPT_COMMAND: $old_prompt_command
+            PROMPT_COMMAND: $new_prompt
+        }
     } else {
-        $new_env
-        | insert CONDA_OLD_PROMPT_COMMAND $nothing
+        $new_env | merge { CONDA_OLD_PROMPT_COMMAND: $nothing }
     }
+
 
     load-env $new_env
 }
 
 # Deactivate currently active conda environment
 export def-env deactivate [] {
-    let path_name = if "PATH" in (env).name { "PATH" } else { "Path" }
+    let path_name = if "PATH" in $env { "PATH" } else { "Path" }
     let-env $path_name = $env.CONDA_OLD_PATH
 
     hide-env CONDA_PROMPT_MODIFIER
@@ -137,9 +143,9 @@ def windows? [] {
 }
 
 def system-path [] {
-    if "PATH" in (env).name { $env.PATH } else { $env.Path }
+    if "PATH" in $env { $env.PATH } else { $env.Path }
 }
 
 def has-env [name: string] {
-    $name in (env).name
+    $name in $env
 }

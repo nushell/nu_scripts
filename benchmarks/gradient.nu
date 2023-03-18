@@ -15,7 +15,7 @@ seq 0 $height | each { |row|
             $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
         }
     } | str collect)
-    $"($row_data)(char newline)"
+    print -n $"($row_data)(char newline)"
 } | str collect
 
 def iter_inc [incr mult iter] {

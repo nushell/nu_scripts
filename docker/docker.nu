@@ -1,13 +1,15 @@
-export def has [name] {
-    $name in ($in | columns) and (not ($in | get $name | is-empty))
+export-env {
+    for c in [podman nerdctl docker] {
+        if not (whereis $c | parse -r '.+: (.+)' | is-empty) {
+            let-env docker-cli = $c
+            break
+        }
+    }
 }
 
-
-alias docker = podman
-
 export def dp [] {
-    # docker ps --all --no-trunc --format='{{json .}}' | jq
-    docker ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
+    # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
+    ^$env.docker-cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
     | lines
     | each {|x|
             let r = ($x | from json)
@@ -17,39 +19,52 @@ export def dp [] {
 }
 
 export def di [] {
-    docker images
+    ^$env.docker-cli images
     | from ssv -a
     | rename repo tag id created size
-    | upsert size { |i| $i.size | into filesize }
+    | each {|x|
+        let size = ($x.size | into filesize)
+        let path = ($x.repo | split row '/')
+        let image = ($path | last)
+        let repo = ($path | range ..(($path|length) - 2) | str join '/')
+        {
+            repo: $repo
+            image: $image
+            tag: $x.tag
+            id: $x.id
+            created: $x.created
+            size: $size
+        }
+    }
 }
 
 def "nu-complete docker ps" [] {
-    docker ps
+    ^$env.docker-cli ps
     | from ssv -a
     | each {|x| {description: $x.NAMES value: $x.'CONTAINER ID'}}
 }
 
 def "nu-complete docker container" [] {
-    docker ps
+    ^$env.docker-cli ps
     | from ssv -a
     | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
 }
 
 def "nu-complete docker all container" [] {
-    docker ps -a
+    ^$env.docker-cli ps -a
     | from ssv -a
     | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
 }
 
 def "nu-complete docker images" [] {
-    docker images
+    ^$env.docker-cli images
     | from ssv
     | each {|x| $"($x.REPOSITORY):($x.TAG)"}
 }
 
 export def dl [ctn: string@"nu-complete docker container" -n: int = 100] {
     let n = if $n == 0 { [] } else { [--tail $n] }
-    docker logs -f $n $ctn
+    ^$env.docker-cli logs -f $n $ctn
 }
 
 export def da [
@@ -57,9 +72,9 @@ export def da [
     ...args
 ] {
     if ($args|is-empty) {
-        docker exec -it $ctn /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
+        ^$env.docker-cli exec -it $ctn /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
     } else {
-        docker exec -it $ctn $args
+        ^$env.docker-cli exec -it $ctn $args
     }
 }
 
@@ -67,13 +82,13 @@ def "nu-complete docker cp" [cmd: string, offset: int] {
     let argv = ($cmd | str substring [0 $offset] | split row ' ')
     let p = if ($argv | length) > 2 { $argv | get 2 } else { $argv | get 1 }
     let ctn = (
-        docker ps
+        ^$env.docker-cli ps
         | from ssv -a
         | each {|x| {description: $x.'CONTAINER ID' value: $"($x.NAMES):" }}
     )
     let n = ($p | split row ':')
     if $"($n | get 0):" in ($ctn | get value) {
-        docker exec ($n | get 0) sh -c $"ls -dp ($n | get 1)*"
+        ^$env.docker-cli exec ($n | get 0) sh -c $"ls -dp ($n | get 1)*"
         | lines
         | each {|x| $"($n | get 0):($x)"}
     } else {
@@ -89,50 +104,50 @@ export def dcp [
     lhs: string@"nu-complete docker cp",
     rhs: string@"nu-complete docker cp"
 ] {
-    docker cp $lhs $rhs
+    ^$env.docker-cli cp $lhs $rhs
 }
 
 export def dcr [ctn: string@"nu-complete docker all container"] {
-    docker container rm -f $ctn
+    ^$env.docker-cli container rm -f $ctn
 }
 
 export def dis [img: string@"nu-complete docker images"] {
-    docker inspect $img
+    ^$env.docker-cli inspect $img
 }
 
 export def dh [img: string@"nu-complete docker images"] {
-    docker history --no-trunc $img | from ssv -a
+    ^$env.docker-cli history --no-trunc $img | from ssv -a
 }
 
 export def dsv [...img: string@"nu-complete docker images"] {
-    docker save $img
+    ^$env.docker-cli save $img
 }
 
 export alias dld = podman load
 
 export def dsp [] {
-    docker system prune -f
+    ^$env.docker-cli system prune -f
 }
 
 export alias dspall = podman system prune --all --force --volumes
 
 export def drmi [img: string@"nu-complete docker images"] {
-    docker rmi $img
+    ^$env.docker-cli rmi $img
 }
 
 export def dt [from: string@"nu-complete docker images"  to: string] {
-    docker tag $from $to
+    ^$env.docker-cli tag $from $to
 }
 
 export def dps [img: string@"nu-complete docker images"] {
-    docker push $img
+    ^$env.docker-cli push $img
 }
 
 export alias dpl = podman pull
 
 ### volume
 export def dvl [] {
-    docker volume ls | from ssv -a
+    ^$env.docker-cli volume ls | from ssv -a
 }
 
 def "nu-complete docker volume" [] {
@@ -140,15 +155,15 @@ def "nu-complete docker volume" [] {
 }
 
 export def dvc [name: string] {
-    docker volume create
+    ^$env.docker-cli volume create
 }
 
 export def dvi [name: string@"nu-complete docker volume"] {
-    docker volume inspect $name
+    ^$env.docker-cli volume inspect $name
 }
 
 export def dvr [...name: string@"nu-complete docker volume"] {
-    docker volume rm $name
+    ^$env.docker-cli volume rm $name
 }
 
 ### run
@@ -211,7 +226,7 @@ export def dr [
     let netadmin = if $netadmin { [--cap-add=NET_ADMIN --device /dev/net/tun] } else { [] }
     let clip = if $with_x { [-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix] } else { [] }
     let ssh = if ($ssh|is-empty) { [] } else {
-        let sshkey = (cat ([~/.ssh $ssh] | path join) | split row ' ' | get 1)
+        let sshkey = (cat ([$env.HOME .ssh $ssh] | path join) | split row ' ' | get 1)
         [-e $"ed25519_($sshuser)=($sshkey)"]
     }
     let proxy = if ($proxy|is-empty) { [] } else {
@@ -227,7 +242,7 @@ export def dr [
     if $dry_run {
         echo $"docker run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"
     } else {
-        docker run --name $name $args $img ($cmd | flatten)
+        ^$env.docker-cli run --name $name $args $img ($cmd | flatten)
     }
 }
 
@@ -247,23 +262,25 @@ export def dx [
     ...cmd                                              # command args
 ] {
     let __dx_cache = {
-        hs: 'stack:/opt/stack'
-        rs: 'cargo:/opt/cargo'
-        go: 'gopkg:/opt/gopkg'
-        ng: 'ng:/srv'
-        pg: 'pg:/var/lib/postgresql/data'
-    }
+            hs: 'stack:/opt/stack'
+            rs: 'cargo:/opt/cargo'
+            go: 'gopkg:/opt/go/pkg'
+            ng: 'ng:/srv'
+            pg: 'pg:/var/lib/postgresql/data'
+        }
     let c = do -i {$__dx_cache | transpose k v | where {|x| $dx | str contains $x.k} | get v.0}
-    let c = if ($c|is-empty) { '' } else if $mount_cache {
-        let c = ( $c
-                | split row ':'
-                | each -n {|x| if $x.index == 1 { $"/cache($x.item)" } else { $x.item } }
-                | str join ':'
-                )
-        $"($env.HOME)/.cache/($c)"
-    } else {
-        $"($env.HOME)/.cache/($c)"
-    }
+    let c = if ($c|is-empty) {
+            ''
+        } else if $mount_cache {
+            let c = ( $c
+                    | split row ':'
+                    | each {|x i| if $i == 1 { $"/cache($x)" } else { $x } }
+                    | str join ':'
+                    )
+            $"($env.HOME)/.cache/($c)"
+        } else {
+            $"($env.HOME)/.cache/($c)"
+        }
     let proxy = if ($proxy|is-empty) { [] } else { [--proxy $proxy] }
     if $dry_run {
         print $"cache: ($c)"
@@ -281,16 +298,16 @@ def "nu-complete registry list" [cmd: string, offset: int] {
     let tag = do -i { $cmd | get 4 }
     if ($reg|is-empty) {
         if ($env | has 'REGISTRY_TOKEN') {
-            fetch -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/_catalog"
+            http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/_catalog"
         } else {
-            fetch $"($url)/v2/_catalog"
+            http get $"($url)/v2/_catalog"
         }
         | get repositories
     } else if ($tag|is-empty) {
         if ($env | has 'REGISTRY_TOKEN') {
-            fetch $"($url)/v2/($reg)/tags/list"
+            http get $"($url)/v2/($reg)/tags/list"
         } else {
-            fetch -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
+            http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
         }
         | get tags
     }
@@ -301,10 +318,10 @@ export def "registry list" [
     url: string
     reg: string@"nu-complete registry list"
 ] {
-    if ('REGISTRY_TOKEN' in (env).name) {
-        fetch -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
+    if ('REGISTRY_TOKEN' in ($env | columns)) {
+        http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
     } else {
-        fetch $"($url)/v2/($reg)/tags/list"
+        http get $"($url)/v2/($reg)/tags/list"
     }
     | get tags
 }

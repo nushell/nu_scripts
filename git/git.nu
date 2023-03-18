@@ -80,6 +80,7 @@ export def glgv [
 }
 
 export def gpp! [] {
+    git pull
     git add --all
     git commit -v -a --no-edit --amend
     git push --force
@@ -110,11 +111,6 @@ def "nu-complete git remotes" [] {
 export def gm [branch:string@"nu-complete git branches"] {
     git merge $branch
 }
-
-extern "git reset" [
-    sha?:string@"nu-complete git log"
-    --hard:bool
-]
 
 export alias gp = git push
 export alias gpf! = git push --force
