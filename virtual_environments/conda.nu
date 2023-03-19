@@ -1,7 +1,6 @@
 # Activate conda environment
 export def-env activate [
     env_name?: string@'nu-complete conda envs' # name of the environment
-    --no-prompt                                # do not update the prompt
 ] {
     let conda_info = (conda info --envs --json | from json)
 
@@ -36,7 +35,7 @@ export def-env activate [
         CONDA_OLD_PATH: $old_path
     } | merge $new_path)
 
-    let new_env = if not $no_prompt {
+    let new_env = if not (has-env CONDA_NO_PROMPT) {
         let old_prompt_command = if (has-env CONDA_OLD_PROMPT_COMMAND) {
             $env.CONDA_OLD_PROMPT_COMMAND
         } else {
