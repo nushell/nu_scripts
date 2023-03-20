@@ -1,4 +1,4 @@
-export def ia_dark [] {
+export def main [] {
     # extra desired values for the ia_dark theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

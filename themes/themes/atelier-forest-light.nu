@@ -1,4 +1,4 @@
-export def atelier_forest-light [] {
+export def main [] {
     # extra desired values for the atelier_forest-light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

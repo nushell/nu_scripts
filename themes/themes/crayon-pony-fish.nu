@@ -1,4 +1,4 @@
-export def crayon_pony-fish [] {
+export def main [] {
     # extra desired values for the crayon_pony-fish theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

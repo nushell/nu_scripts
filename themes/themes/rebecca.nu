@@ -1,4 +1,4 @@
-export def rebecca [] {
+export def main [] {
     # extra desired values for the rebecca theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

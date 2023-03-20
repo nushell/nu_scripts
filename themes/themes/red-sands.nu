@@ -1,4 +1,4 @@
-export def red_sands [] {
+export def main [] {
     # extra desired values for the red_sands theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def dark_pastel [] {
+export def main [] {
     # extra desired values for the dark_pastel theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

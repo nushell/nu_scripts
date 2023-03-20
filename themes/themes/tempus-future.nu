@@ -1,4 +1,4 @@
-export def tempus_future [] {
+export def main [] {
     # extra desired values for the tempus_future theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal
