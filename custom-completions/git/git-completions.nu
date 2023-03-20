@@ -12,6 +12,10 @@ def "nu-complete git switchable branches" [] {
    | where {|branch| $branch != "HEAD"}
 }
 
+def "nu-complete git available upstream" [] {
+  ^git branch -a | lines | each { |line| $line | str replace '\* ' "" | str trim }
+}
+
 def "nu-complete git remotes" [] {
   ^git remote | lines | each { |line| $line | str trim }
 }
@@ -29,6 +33,30 @@ def "nu-complete git branches and commits" [] {
   | parse "{value}"
   | insert description Branch
   | append (nu-complete git commits)
+}
+
+def "nu-complete git stash-list" [] {
+  git stash list | lines | parse "{value}: {description}"
+}
+
+def "nu-complete git tags" [] {
+  ^git tag | lines
+}
+
+def "nu-complete git built-in-refs" [] {
+  [HEAD FETCH_HEAD ORIG_HEAD]
+}
+
+def "nu-complete git refs" [] {
+  nu-complete git switchable branches
+  | parse "{value}"
+  | insert description Branch
+  | append (nu-complete git tags | parse "{value}" | insert description Tag)
+  | append (nu-complete git built-in-refs)
+}
+
+def "nu-complete git subcommands" [] {
+  ^git help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
 # Check out git branches and files
@@ -136,6 +164,13 @@ export extern "git push" [
   --verbose(-v)                                   # be more verbose
 ]
 
+# Pull changes
+export extern "git pull" [
+  remote?: string@"nu-complete git remotes",      # the name of the remote
+  ...refs: string@"nu-complete git branches"      # the branch / refspec
+  --rebase                                        # rebase current branch on top of upstream after fetching
+]
+
 # Switch between branches and commits
 export extern "git switch" [
   switch?: string@"nu-complete git switchable branches"      # name of branch to switch to
@@ -177,6 +212,168 @@ export extern "git rebase" [
   --abort                                                   # abort rebase and reset HEAD to original branch
   --quit                                                    # abort rebase but do not reset HEAD
   --interactive(-i)                                         # rebase interactively with list of commits in editor
-  --onto?: string@"nu-complete git branches and commits"    # starting point at which to create the new commits
+  --onto: string@"nu-complete git branches and commits"     # starting point at which to create the new commits
   --root                                                    # start rebase from root commit
+]
+
+# List or change branches
+export extern "git branch" [
+  branch?: string@"nu-complete git branches"                     # name of branch to operate on
+  --abbrev                                                       # use short commit hash prefixes
+  --edit-description                                             # open editor to edit branch description
+  --merged                                                       # list reachable branches
+  --no-merged                                                    # list unreachable branches
+  --set-upstream-to: string@"nu-complete git available upstream" # set upstream for branch
+  --unset-upstream                                               # remote upstream for branch
+  --all                                                          # list both remote and local branches
+  --copy                                                         # copy branch together with config and reflog
+  --format                                                       # specify format for listing branches
+  --move                                                         # rename branch
+  --points-at                                                    # list branches that point at an object
+  --show-current                                                 # print the name of the current branch
+  --verbose                                                      # show commit and upstream for each branch
+  --color                                                        # use color in output
+  --quiet                                                        # suppress messages except errors
+  --delete(-d)                                                   # delete branch
+  --list                                                         # list branches
+  --contains: string@"nu-complete git commits"                   # show only branches that contain the specified commit
+  --no-contains                                                  # show only branches that don't contain specified commit
+  --track(-t)                                                    # when creating a branch, set upstream
+]
+
+# List or change tracked repositories
+export extern "git remote" [
+  --verbose(-v)                            # Show URL for remotes
+]
+
+# Add a new tracked repository
+export extern "git remote add" [
+]
+
+# Rename a tracked repository
+export extern "git remote rename" [
+  remote: string@"nu-complete git remotes"             # remote to rename
+  new_name: string                                     # new name for remote
+]
+
+# Remove a tracked repository
+export extern "git remote remove" [
+  remote: string@"nu-complete git remotes"             # remote to remove
+]
+
+# Get the URL for a tracked repository
+export extern "git remote get-url" [
+  remote: string@"nu-complete git remotes"             # remote to get URL for
+]
+
+# Set the URL for a tracked repository
+export extern "git remote set-url" [
+  remote: string@"nu-complete git remotes"             # remote to set URL for
+  url: string                                          # new URL for remote
+]
+
+# Show changes between commits, working tree etc
+export extern "git diff" [
+  rev1?: string@"nu-complete git refs"
+  rev2?: string@"nu-complete git refs"
+  --cached                                             # show staged changes
+  --name-only                                          # only show names of changed files
+  --name-status                                        # show changed files and kind of change
+  --no-color                                           # disable color output
+]
+
+# Commit changes
+export extern "git commit" [
+  --all(-a)                                           # automatically stage all modified and deleted files
+  --amend                                             # amend the previous commit rather than adding a new one
+  --message(-m): string                               # specify the commit message rather than opening an editor
+  --no-edit                                           # don't edit the commit message (useful with --amend)
+]
+
+# List commits
+export extern "git log" [
+  # Ideally we'd allow completion of revisions here, but that would make completion of filenames not work.
+  -U                                                  # show diffs
+  --follow                                            # show history beyond renames (single file only)
+  --grep: string                                      # show log entries matching supplied regular expression
+]
+
+# Show or change the reflog
+export extern "git reflog" [
+]
+
+# Stage files
+export extern "git add" [
+  --patch(-p)                                         # interactively choose hunks to stage
+]
+
+# Delete file from the working tree and the index
+export extern "git rm" [
+  -r                                                   # recursive
+]
+
+# Show the working tree status
+export extern "git status" [
+  --verbose(-v)                                       # verbose
+]
+
+# Stash changes for later
+export extern "git stash push" [
+  --patch(-p)                                         # interactively choose hunks to stash
+]
+
+# Unstash previously stashed changes
+export extern "git stash pop" [
+]
+
+# List stashed changes
+export extern "git stash list" [
+]
+
+# Show a stashed change
+export extern "git stash show" [
+  stash: string@"nu-complete git stash-list"
+  -U                                                  # show diff
+]
+
+# Drop a stashed change
+export extern "git stash drop" [
+  stash: string@"nu-complete git stash-list"
+]
+
+# Create a new git repository
+export extern "git init" [
+  --initial-branch(-b)                                # initial branch name
+]
+
+# List or manipulate tags
+export extern "git tag" [
+  --delete(-d): string@"nu-complete git tags"         # delete a tag
+]
+
+# Start a binary search to find the commit that introduced a bug
+export extern "git bisect start" [
+  bad?: string                 # a commit that has the bug
+  good?: string                # a commit that doesn't have the bug
+]
+
+# Mark the current (or specified) revision as bad
+export extern "git bisect bad" [
+]
+
+# Mark the current (or specified) revision as good
+export extern "git bisect good" [
+]
+
+# Skip the current (or specified) revision
+export extern "git bisect skip" [
+]
+
+# End bisection
+export extern "git bisect reset" [
+]
+
+# Show help for a git subcommand
+export extern "git help" [
+  command: string@"nu-complete git subcommands"       # subcommand to show help for
 ]
