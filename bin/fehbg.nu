@@ -30,7 +30,7 @@ let tmp_image = ([ $env.TMP_DIR "wallpaper.jpg" ] | path join)
 
 # Monitor resolution
 let resolution_y = 1440
-let res_str = ($"x($resolution-y)")
+let res_str = ($"x($resolution_y)")
 
 # Position of the caption
 let pos_x = 5
@@ -66,4 +66,4 @@ let img_name = (list-images $img_dir | select-random | get name) # TODO: change 
 convert -resize $res_str -pointsize 15 -fill 'rgb(255,200,150)' -draw (draw-str $img_name) $img_name $tmp_image
 
 # Set the created image as a background
-feh --no-fehbg --bg-max $tmp-image
+feh --no-fehbg --bg-max $tmp_image
