@@ -1,4 +1,4 @@
-export def main [] {
+export def toy_chest [] {
     # extra desired values for the toy_chest theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

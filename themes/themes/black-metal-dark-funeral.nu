@@ -1,4 +1,4 @@
-export def main [] {
+export def black_metal-dark-funeral [] {
     # extra desired values for the black_metal-dark-funeral theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

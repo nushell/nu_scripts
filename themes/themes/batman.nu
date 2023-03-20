@@ -1,4 +1,4 @@
-export def main [] {
+export def batman [] {
     # extra desired values for the batman theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

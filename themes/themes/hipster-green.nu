@@ -1,4 +1,4 @@
-export def main [] {
+export def hipster_green [] {
     # extra desired values for the hipster_green theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

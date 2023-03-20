@@ -1,4 +1,4 @@
-export def main [] {
+export def selenized_light [] {
     # extra desired values for the selenized_light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

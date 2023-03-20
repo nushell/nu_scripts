@@ -1,4 +1,4 @@
-export def main [] {
+export def equilibrium_gray-dark [] {
     # extra desired values for the equilibrium_gray-dark theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

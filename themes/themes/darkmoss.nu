@@ -1,4 +1,4 @@
-export def main [] {
+export def darkmoss [] {
     # extra desired values for the darkmoss theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

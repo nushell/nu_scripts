@@ -1,4 +1,4 @@
-export def main [] {
+export def warm_neon [] {
     # extra desired values for the warm_neon theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

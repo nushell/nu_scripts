@@ -1,4 +1,4 @@
-export def main [] {
+export def obsidian [] {
     # extra desired values for the obsidian theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

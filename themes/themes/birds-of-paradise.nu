@@ -1,4 +1,4 @@
-export def main [] {
+export def birds_of-paradise [] {
     # extra desired values for the birds_of-paradise theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

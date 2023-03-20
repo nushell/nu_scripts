@@ -1,4 +1,4 @@
-export def main [] {
+export def foxnightly [] {
     # extra desired values for the foxnightly theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

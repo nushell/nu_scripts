@@ -1,4 +1,4 @@
-export def main [] {
+export def n0tch2k [] {
     # extra desired values for the n0tch2k theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

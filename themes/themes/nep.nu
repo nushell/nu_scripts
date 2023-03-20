@@ -1,4 +1,4 @@
-export def main [] {
+export def nep [] {
     # extra desired values for the nep theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def the_hulk [] {
     # extra desired values for the the_hulk theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

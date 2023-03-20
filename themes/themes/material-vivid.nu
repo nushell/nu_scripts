@@ -1,4 +1,4 @@
-export def main [] {
+export def material_vivid [] {
     # extra desired values for the material_vivid theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

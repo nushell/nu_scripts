@@ -1,4 +1,4 @@
-export def main [] {
+export def cobalt2 [] {
     # extra desired values for the cobalt2 theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

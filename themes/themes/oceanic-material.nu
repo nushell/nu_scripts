@@ -1,4 +1,4 @@
-export def main [] {
+export def oceanic_material [] {
     # extra desired values for the oceanic_material theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

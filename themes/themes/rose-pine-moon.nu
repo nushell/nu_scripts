@@ -1,4 +1,4 @@
-export def main [] {
+export def rose_pine-moon [] {
     # extra desired values for the rose_pine-moon theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

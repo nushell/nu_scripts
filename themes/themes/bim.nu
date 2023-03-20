@@ -1,4 +1,4 @@
-export def main [] {
+export def bim [] {
     # extra desired values for the bim theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

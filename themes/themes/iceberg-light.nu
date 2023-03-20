@@ -1,4 +1,4 @@
-export def main [] {
+export def iceberg_light [] {
     # extra desired values for the iceberg_light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

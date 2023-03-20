@@ -1,4 +1,4 @@
-export def main [] {
+export def atelier_estuary-light [] {
     # extra desired values for the atelier_estuary-light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

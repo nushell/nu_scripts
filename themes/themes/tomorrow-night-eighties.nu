@@ -1,4 +1,4 @@
-export def main [] {
+export def tomorrow_night-eighties [] {
     # extra desired values for the tomorrow_night-eighties theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def bright_lights [] {
     # extra desired values for the bright_lights theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

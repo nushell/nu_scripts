@@ -1,4 +1,4 @@
-export def main [] {
+export def heetch_light [] {
     # extra desired values for the heetch_light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

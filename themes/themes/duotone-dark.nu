@@ -1,4 +1,4 @@
-export def main [] {
+export def duotone_dark [] {
     # extra desired values for the duotone_dark theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

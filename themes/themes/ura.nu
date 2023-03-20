@@ -1,4 +1,4 @@
-export def main [] {
+export def ura [] {
     # extra desired values for the ura theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

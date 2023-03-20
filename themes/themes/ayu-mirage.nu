@@ -1,4 +1,4 @@
-export def main [] {
+export def ayu_mirage [] {
     # extra desired values for the ayu_mirage theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

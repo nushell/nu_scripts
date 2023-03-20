@@ -1,4 +1,4 @@
-export def main [] {
+export def vulcan [] {
     # extra desired values for the vulcan theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

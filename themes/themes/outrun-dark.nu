@@ -1,4 +1,4 @@
-export def main [] {
+export def outrun_dark [] {
     # extra desired values for the outrun_dark theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

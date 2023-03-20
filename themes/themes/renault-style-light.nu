@@ -1,4 +1,4 @@
-export def main [] {
+export def renault_style-light [] {
     # extra desired values for the renault_style-light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

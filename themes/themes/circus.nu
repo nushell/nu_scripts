@@ -1,4 +1,4 @@
-export def main [] {
+export def circus [] {
     # extra desired values for the circus theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

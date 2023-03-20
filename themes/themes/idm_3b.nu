@@ -1,4 +1,4 @@
-export def main [] {
+export def idm_3b [] {
     # extra desired values for the idm_3b theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def fruit_soda [] {
     # extra desired values for the fruit_soda theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

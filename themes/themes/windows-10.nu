@@ -1,4 +1,4 @@
-export def main [] {
+export def windows_10 [] {
     # extra desired values for the windows_10 theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def peppermint [] {
     # extra desired values for the peppermint theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

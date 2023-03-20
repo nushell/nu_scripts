@@ -1,4 +1,4 @@
-export def main [] {
+export def liquid_carbon-transparent [] {
     # extra desired values for the liquid_carbon-transparent theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def goa_base [] {
     # extra desired values for the goa_base theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def ayu_mirage-simple-cursor [] {
     # extra desired values for the ayu_mirage-simple-cursor theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

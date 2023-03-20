@@ -1,4 +1,4 @@
-export def main [] {
+export def 3024_day [] {
     # extra desired values for the 3024_day theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def harmonic16_light [] {
     # extra desired values for the harmonic16_light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def main [] {
+export def atelier_cave-light [] {
     # extra desired values for the atelier_cave-light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

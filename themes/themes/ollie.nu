@@ -1,4 +1,4 @@
-export def main [] {
+export def ollie [] {
     # extra desired values for the ollie theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

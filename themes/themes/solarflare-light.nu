@@ -1,4 +1,4 @@
-export def main [] {
+export def solarflare_light [] {
     # extra desired values for the solarflare_light theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

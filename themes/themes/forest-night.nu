@@ -1,4 +1,4 @@
-export def main [] {
+export def forest_night [] {
     # extra desired values for the forest_night theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

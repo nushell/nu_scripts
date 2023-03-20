@@ -1,4 +1,4 @@
-export def main [] {
+export def tokyo_storm [] {
     # extra desired values for the tokyo_storm theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

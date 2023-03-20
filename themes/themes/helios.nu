@@ -1,4 +1,4 @@
-export def main [] {
+export def helios [] {
     # extra desired values for the helios theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

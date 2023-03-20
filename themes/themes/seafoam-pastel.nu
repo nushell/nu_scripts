@@ -1,4 +1,4 @@
-export def main [] {
+export def seafoam_pastel [] {
     # extra desired values for the seafoam_pastel theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal
