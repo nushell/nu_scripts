@@ -1,4 +1,4 @@
-export def gruvbox_dark-pale [] {
+export def main [] {
     # extra desired values for the gruvbox_dark-pale theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

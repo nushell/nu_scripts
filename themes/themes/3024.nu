@@ -1,4 +1,4 @@
-export def 3024 [] {
+export def main [] {
     # extra desired values for the 3024 theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

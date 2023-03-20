@@ -1,4 +1,4 @@
-export def ir_black [] {
+export def main [] {
     # extra desired values for the ir_black theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

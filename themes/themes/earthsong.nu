@@ -1,4 +1,4 @@
-export def earthsong [] {
+export def main [] {
     # extra desired values for the earthsong theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def espresso_libre [] {
+export def main [] {
     # extra desired values for the espresso_libre theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

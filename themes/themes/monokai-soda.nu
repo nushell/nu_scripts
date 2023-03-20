@@ -1,4 +1,4 @@
-export def monokai_soda [] {
+export def main [] {
     # extra desired values for the monokai_soda theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

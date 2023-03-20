@@ -1,4 +1,4 @@
-export def two_firewatch [] {
+export def main [] {
     # extra desired values for the two_firewatch theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

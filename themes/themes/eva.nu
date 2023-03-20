@@ -1,4 +1,4 @@
-export def eva [] {
+export def main [] {
     # extra desired values for the eva theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

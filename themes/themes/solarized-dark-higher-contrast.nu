@@ -1,4 +1,4 @@
-export def solarized_dark-higher-contrast [] {
+export def main [] {
     # extra desired values for the solarized_dark-higher-contrast theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

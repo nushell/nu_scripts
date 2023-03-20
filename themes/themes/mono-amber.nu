@@ -1,4 +1,4 @@
-export def mono_amber [] {
+export def main [] {
     # extra desired values for the mono_amber theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

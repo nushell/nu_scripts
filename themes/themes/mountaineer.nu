@@ -1,4 +1,4 @@
-export def mountaineer [] {
+export def main [] {
     # extra desired values for the mountaineer theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

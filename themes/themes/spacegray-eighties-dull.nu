@@ -1,4 +1,4 @@
-export def spacegray_eighties-dull [] {
+export def main [] {
     # extra desired values for the spacegray_eighties-dull theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

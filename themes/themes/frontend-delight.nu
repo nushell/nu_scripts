@@ -1,4 +1,4 @@
-export def frontend_delight [] {
+export def main [] {
     # extra desired values for the frontend_delight theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

@@ -1,4 +1,4 @@
-export def synth_midnight-dark [] {
+export def main [] {
     # extra desired values for the synth_midnight-dark theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal

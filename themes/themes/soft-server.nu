@@ -1,4 +1,4 @@
-export def soft_server [] {
+export def main [] {
     # extra desired values for the soft_server theme
     # which do not fit into any nushell theme
     # these colors should be handledd by the terminal
