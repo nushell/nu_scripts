@@ -1,6 +1,6 @@
 export-env {
     for c in [podman nerdctl docker] {
-        if not (whereis $c | parse -r '.+: (.+)' | is-empty) {
+        if not (which $c | is-empty) {
             let-env docker-cli = $c
             break
         }
@@ -9,13 +9,23 @@ export-env {
 
 export def dp [] {
     # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
-    ^$env.docker-cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
-    | lines
-    | each {|x|
-            let r = ($x | from json)
-            let t = ($r.created | str substring ',32' | into datetime ) - 8hr
-            $r | upsert created $t
-           }
+    if $env.docker-cli == 'docker' {
+        ^$env.docker-cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
+        | lines
+        | each {|x|
+                let r = ($x | from json)
+                let t = ($r.created | str substring ',25' | into datetime -f '%Y-%m-%d %H:%M:%S %z' ) - 8hr
+                $r | upsert created $t
+               }
+    } else {
+        ^$env.docker-cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
+        | lines
+        | each {|x|
+                let r = ($x | from json)
+                let t = ($r.created | str substring ',32' | into datetime ) - 8hr
+                $r | upsert created $t
+               }
+    }
 }
 
 export def di [] {
