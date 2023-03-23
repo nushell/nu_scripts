@@ -9,22 +9,27 @@ export-env {
 
 export def dp [] {
     # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
-    if $env.docker-cli == 'docker' {
-        ^$env.docker-cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
+    let cli = $env.docker-cli
+    if $cli == 'docker' {
+        ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
         | lines
         | each {|x|
-                let r = ($x | from json)
-                let t = ($r.created | str substring ',25' | into datetime -f '%Y-%m-%d %H:%M:%S %z' ) - 8hr
-                $r | upsert created $t
-               }
+            let r = ($x | from json)
+            let t = ($r.created | str substring ',25' | into datetime -f '%Y-%m-%d %H:%M:%S %z' ) - 8hr
+            $r | upsert created $t
+        }
+    } else if $cli == 'podman' {
+        ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
+        | lines
+        | each {|x|
+            let r = ($x | from json)
+            let t = ($r.created | str substring ',32' | into datetime ) - 8hr
+            $r | upsert created $t
+        }
     } else {
-        ^$env.docker-cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
-        | lines
-        | each {|x|
-                let r = ($x | from json)
-                let t = ($r.created | str substring ',32' | into datetime ) - 8hr
-                $r | upsert created $t
-               }
+        ^$cli ps -a
+        | from ssv
+        | rename id image cmd created status port name
     }
 }
 
