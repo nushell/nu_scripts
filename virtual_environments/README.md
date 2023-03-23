@@ -27,3 +27,5 @@ _(old text, not tested)_
   activated, new elements will be appended to the PATH, but the other environment
   variables will be overwritten. There's no way to then restore the PATH to the state
   it was in before activating the *first* env (at least not with this script directly).
+
+# This is another test to see if code owners are notified.
