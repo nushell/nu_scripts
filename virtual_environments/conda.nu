@@ -19,7 +19,7 @@ export def-env activate [
 
     let old_path = (system-path | str collect (char esep))
 
-    let new_path = if windows? {
+    let new_path = if (windows?) {
         conda-create-path-windows $env_dir
     } else {
         conda-create-path-unix $env_dir
