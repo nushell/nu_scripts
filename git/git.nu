@@ -112,6 +112,15 @@ export def gm [branch:string@"nu-complete git branches"] {
     git merge $branch
 }
 
+def git_main_branch [] {
+    git remote show origin | lines | str trim | find 'HEAD branch: ' | first | split words | last
+}
+
+export def gmom [] {
+    let main = (git_main_branch)
+    git merge $"origin/($main)"
+}
+
 export alias gp = git push
 export alias gpf! = git push --force
 export alias gl = git pull
