@@ -33,3 +33,5 @@ def build-colorstr [
     $"($bg)($fg)($slash_str)"
     # sleep 10ms | ignore
 }
+
+draw
