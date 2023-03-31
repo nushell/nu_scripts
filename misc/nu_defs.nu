@@ -30,7 +30,7 @@ def psn [name: string] {
 
 #kill specified process in name
 def killn [name: string] {
-  ps | find $name | each {kill -f $in.pid}
+  ps | find $name | each {|| kill -f $in.pid}
 }
 
 #jdownloader downloads info (requires a jdown python script)
@@ -80,7 +80,7 @@ def pwd-short [] {
 
 #string repeat
 def "str repeat" [count: int] {
-  each {|it| let str = $it; echo 1..$count | each { echo $str } }
+  each {|it| let str = $it; echo 1..$count | each {|| echo $str } }
 }
 
 #join 2 lists
@@ -199,12 +199,12 @@ def get-aliases [] {
 }
 
 #compress every subfolder into separate files and delete them
-def 7zfolders [] {
+def `7zfolders` [] {
   ^find . -maxdepth 1 -mindepth 1 -type d -print0 | parallel -0 --eta 7z a -t7z -sdel -bso0 -bsp0 -m0=lzma2 -mx=9 -ms=on -mmt=on {}.7z {}
 }
 
 #compress to 7z using max compression
-def 7zmax [
+def `7zmax` [
   filename: string  #filename without extension
   ...rest:  string  #files to compress and extra flags for 7z (add flags between quotes)
   #
