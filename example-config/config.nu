@@ -2,7 +2,7 @@
 #
 # Nushell-s config file used in engine-q.
 #
-# It fethes all definitions and environment variables from the `init` module.
+# It fetches all definitions and environment variables from the `init` module.
 
 def build-config [] { { footer_mode: "50" } }
 
