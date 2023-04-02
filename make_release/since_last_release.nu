@@ -2,7 +2,7 @@
 # http get https://api.github.com/search/issues?q=repo:nushell/nushell+is:pr+is:merged+merged:%3E2021-05-08 | get items | select html_url user.login title body
 # Repos to monitor
 
-def do-work [] {
+def query-release-span [] {
     let site_table = [
         [site repo];
         [Nushell nushell]
@@ -23,46 +23,36 @@ def do-work [] {
     let gt = "%3E"
     let eq = "%3D"
     let amp = "%26"
-    let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
+    let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=($per_page)&page=($page_num)"
 
-    let entries = ($site_table | each { |row|
-        let query_string = $"($query_prefix)($row.repo)($query_suffix)"
-        # this is for debugging the rate limit. comment it out if things are working well
-        # http get -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
+    for repo in $site_table {
+        let query_string = $"($query_prefix)($repo.repo)($query_suffix)"
         let site_json = (http get -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
 
-        $"## ($row.site)(char nl)(char nl)"
-        if ($site_json | all {|it| $it | is-empty }) {
-            $"none found this week(char nl)(char nl)"
-        } else {
-            $site_json | group-by user_login | transpose user prs | each { |row|
-                let user_name = $row.user
-                let pr_count = ($row.prs | length)
+        if not ($site_json | all { |it| $it | is-empty }) {
+            print $"(char nl)## ($repo.site)(char nl)"
 
-                # only print the comma if there's another item
-                let user_prs = ($row.prs | enumerate | each { |pr|
+            for user in ($site_json | group-by user_login | transpose user prs) {
+                let user_name = $user.user
+                let pr_count = ($user.prs | length)
+
+                print -n $"- ($user_name) created "
+                for pr in ($user.prs | enumerate) {
                     if $pr_count == ($pr.index + 1) {
-                        $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
+                        print -n $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
                     } else {
-                        $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
+                        print -n $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
                     }
-                } | str collect)
+                }
 
-                $"- ($user_name) created ($user_prs) (char nl)"
-            } | str collect
-            char nl
+                print ""
+            }
         }
-    })
-
-    if ($entries | all {|it| $it | is-empty}) {
-        # do nothing
-    } else {
-        $entries | str collect
     }
 }
 
 if ($env | select GITHUB_USERNAME | is-empty) or ($env | select GITHUB_PASSWORD | is-empty) {
-    echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
+    print 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
 } else {
-    do-work | str collect
+    query-release-span
 }
