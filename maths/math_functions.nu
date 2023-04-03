@@ -132,7 +132,7 @@ export def dec2base [
 	} else {
 		let newNumber = (($number - ($number mod $base)) / $base)
 
-		[(dec2base $newNumber $base) ($chars | get ($number mod $base))] | str collect
+		[(dec2base $newNumber $base) ($chars | get ($number mod $base))] | str join
 	}
 }
 

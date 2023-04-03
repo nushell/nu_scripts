@@ -14,9 +14,9 @@ seq 0 $height | each { |row|
         } else {
             $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
         }
-    } | str collect)
+    } | str join)
     print -n $"($row_data)(char newline)"
-} | str collect
+} | str join
 
 def iter_inc [incr mult iter] {
     $incr + $mult * $iter

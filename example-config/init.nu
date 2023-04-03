@@ -15,7 +15,7 @@ export env LS_COLORS {
        "mi=00;40;31"
        "ln=00;36"
        "ex=00;32"
-    ] | str collect (char env_sep)
+    ] | str join (char env_sep)
 }
 export env BROWSER { "firefox" }
 export env CARGO_TARGET_DIR { "~/.cargo/target" }
@@ -36,7 +36,7 @@ export def build-prompt [] {
             '@'
             $env.HOSTNAME
             ':'
-        ] | str collect
+        ] | str join
     } else {
         ''
     })
@@ -47,5 +47,5 @@ export def build-prompt [] {
         pwd
     })
 
-    [ $usr_str $pwd_str ' ' ] | str collect
+    [ $usr_str $pwd_str ' ' ] | str join
 }

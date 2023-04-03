@@ -1,10 +1,10 @@
-let TICKS = [(char -u "2581") 
-              (char -u "2582") 
-              (char -u "2583") 
-              (char -u "2584") 
-              (char -u "2585") 
-              (char -u "2586") 
-              (char -u "2587") 
+let TICKS = [(char -u "2581")
+              (char -u "2582")
+              (char -u "2583")
+              (char -u "2584")
+              (char -u "2585")
+              (char -u "2586")
+              (char -u "2587")
               (char -u "2588")]
 
 # send an array into spark and get a sparkline out
@@ -20,7 +20,7 @@ def spark [v: list] {
     $v | each { |e|
         let i = ((($e - $min) * $ratio) | math round)
         $"($TICKS | get $i)"
-    } | str collect
+    } | str join
 }
 
 def assert_eq [num: int, expected: string, input: list] {
@@ -28,10 +28,10 @@ def assert_eq [num: int, expected: string, input: list] {
     let span = (metadata $expected).span;
     if $actual != $expected {
       error make {
-        msg: "Actual != Expected", 
+        msg: "Actual != Expected",
         label: {
-            text: $"expected ($expected) but got ($actual)", start: $span.start, end: $span.end 
-        } 
+            text: $"expected ($expected) but got ($actual)", start: $span.start, end: $span.end
+        }
       }
     } else {
         print $"Test ($num) (ansi green)passed(ansi reset) ✓"

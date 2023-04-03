@@ -58,7 +58,7 @@ export def path_abbrev_if_needed [apath term_width] {
         let tokens = ($tokens | append $"($PB)($splits | last)($R)")
 
         # collect
-        $tokens | str collect $"($T)/"
+        $tokens | str join $"($T)/"
     } else {
         if ($splits_len == 0) {
             # We're at / on the file system
@@ -66,7 +66,7 @@ export def path_abbrev_if_needed [apath term_width] {
         } else if ($splits_len == 1) {
             let top_part = ($splits | first)
             let tokens = $"($PB)($top_part)($R)"
-            $tokens | str collect $"($T)"
+            $tokens | str join $"($T)"
         } else {
             let top_part = ($splits | first ($splits_len - 1))
             let end_part = ($splits | last)
@@ -74,7 +74,7 @@ export def path_abbrev_if_needed [apath term_width] {
                 $"/($T)($x | str substring 0,1)($R)"
             })
             let tokens = ($tokens | append $"/($PB)($end_part)($R)")
-            $tokens | skip 1 | str collect $"($T)"
+            $tokens | skip 1 | str join $"($T)"
         }
     }
 }
@@ -142,7 +142,7 @@ export def get_left_prompt [os use_nerd_fonts] {
             $right_transition
         })
         (char space)                           # space
-    ] | str collect)
+    ] | str join)
 
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     let path_segment = (if $is_home_in_path {
@@ -156,7 +156,7 @@ export def get_left_prompt [os use_nerd_fonts] {
         $display_path                        # ~/src/forks/nushell
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color just to color the next space
         (char space)                           # space
-        ] | str collect
+        ] | str join
     } else {
         [
         (if $use_nerd_fonts {
@@ -168,7 +168,7 @@ export def get_left_prompt [os use_nerd_fonts] {
         $display_path                        # ~/src/forks/nushell
         (ansi { fg: "#CED7CF" bg: "#3465A4"})  # color just to color the next space
         (char space)                           # space
-        ] | str collect
+        ] | str join
     })
 
     let indicator_segment = (
@@ -181,7 +181,7 @@ export def get_left_prompt [os use_nerd_fonts] {
             " >"
         })
         ($R)                                   # reset color
-        ] | str collect
+        ] | str join
     )
 
     # assemble all segments for final prompt printing
@@ -189,7 +189,7 @@ export def get_left_prompt [os use_nerd_fonts] {
         $os_segment
         $path_segment
         $indicator_segment
-    ] | str collect
+    ] | str join
 }
 
 export def get_right_prompt [os use_nerd_fonts] {
@@ -220,7 +220,7 @@ export def get_right_prompt [os use_nerd_fonts] {
         (date now | date format '%m/%d/%Y %I:%M:%S%.3f')
         (char space)
         ($R)
-    ] | str collect)
+    ] | str join)
 
     let time_segment = ([
         (ansi { fg: $TIME_BG bg: $TERM_FG})
@@ -234,7 +234,7 @@ export def get_right_prompt [os use_nerd_fonts] {
         (date now | date format '%I:%M:%S %p')
         (char space)
         ($R)
-    ] | str collect)
+    ] | str join)
 
     # 1. datetime - working
     # $datetime_segment
@@ -249,7 +249,7 @@ export def get_right_prompt [os use_nerd_fonts] {
     # [
     #     $git_segment
     #     $time_segment
-    # ] | str collect
+    # ] | str join
 
     # 5. fernando wants this on the left prompt
     # [

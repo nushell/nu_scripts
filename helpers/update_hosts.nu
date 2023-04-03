@@ -23,7 +23,7 @@ module hosts {
         let WHITELIST = ["multipasko"]
         let BLACKLIST = ["0.0.0.0 tiktok.com"]
 
-        let whitelisted = "(" + ($WHITELIST | str collect "|") + ")"
+        let whitelisted = "(" + ($WHITELIST | str join "|") + ")"
         let pattern = ($"0.0.0.0.*($whitelisted).*$")
         let OLD_FILE = "/etc/hosts"
         let TMP_FILE = (fetch $LINK | lines)
@@ -51,13 +51,13 @@ module hosts {
                         echo "Done!"
                     } else {
                         error make -u {msg: "Something went wrong while overwriting the /etc/hosts file"}
-                    }       
-                }       
+                    }
+                }
             } else {
                 echo "No updates available."
             }
         } else {
             error make -u {msg: "Failed downloading the hosts file, try again."}
-        }    
+        }
     }
 }

@@ -22,9 +22,9 @@ if ($is_release | str downcase | str trim) == "y" {
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
                 }
-            } | str collect)
+            } | str join)
             $"($row_data)(char newline)"
-        } | str collect
+        } | str join
     } | math avg)
 
 
@@ -42,9 +42,9 @@ if ($is_release | str downcase | str trim) == "y" {
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
                 }
-            } | str collect)
+            } | str join)
             $"($row_data)(char cr)"
-        } | str collect
+        } | str join
     } | math avg)
 
     print $"running test 2 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
@@ -61,9 +61,9 @@ if ($is_release | str downcase | str trim) == "y" {
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"
                 }
-            } | str collect)
+            } | str join)
             $"($row_data)(char cr)"
-        } | str collect
+        } | str join
     } | math avg)
 
     print $"running test 3 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
@@ -82,9 +82,9 @@ if ($is_release | str downcase | str trim) == "y" {
                 } else {
                     $"($ansi1)($fgcolor)m(char sp)($ansi2)"
                 }
-            } | str collect)
+            } | str join)
             $"($row_data)(char cr)"
-        } | str collect
+        } | str join
     } | math avg)
 
     print $"running test 4 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
@@ -101,9 +101,9 @@ if ($is_release | str downcase | str trim) == "y" {
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m(char sp)(ansi -e '0m')"
                 }
-            } | str collect)
+            } | str join)
             $"($row_data)(char cr)"
-        } | str collect
+        } | str join
     } | math avg)
 
     print $"running test 5 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
@@ -120,9 +120,9 @@ if ($is_release | str downcase | str trim) == "y" {
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"
                 }
-            } | str collect)
+            } | str join)
             $"($row_data)(char cr)"
-        } | str collect
+        } | str join
     } | math avg)
 
     print $"running test 6 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
@@ -139,9 +139,9 @@ if ($is_release | str downcase | str trim) == "y" {
                 } else {
                     $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"
                 }
-            } | str collect)
+            } | str join)
             $"($row_data)(char cr)"
-        } | str collect
+        } | str join
     } | math avg)
 
     print 'collating tests'

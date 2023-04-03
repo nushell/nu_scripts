@@ -14,7 +14,7 @@ seq 0 $height | par-each {|| # create these in parallel
         } else {
             $"(ansi -e '48;2;0;0;')($fgcolor)m (ansi -e '0m')"
         }
-    } | str collect)
+    } | str join)
     print -n $"($row_data)" | table
     $nothing
 } | compact
