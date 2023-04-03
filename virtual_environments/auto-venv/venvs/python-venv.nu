@@ -57,7 +57,7 @@ export def-env auto-venv-on-enter [
     )
 
     let venv_path = ([$virtual_env $bin] | path join)
-    let new_path = ($old_path | prepend $venv_path | str collect $path_sep)
+    let new_path = ($old_path | prepend $venv_path | str join $path_sep)
 
     # Creating the new prompt for the session
     let virtual_prompt = if ($virtual_prompt == '') {

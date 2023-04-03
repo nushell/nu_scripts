@@ -287,7 +287,7 @@ def get_os_segment [os color_mode] {
         ($transition_bg_color)
         ($transition_icon)
         (char space)
-    ] | str collect
+    ] | str join
     )
 
     $os_segment
@@ -308,7 +308,7 @@ def get_path_segment [os color_mode] {
             ($pwd_color)
             ($pwd_bg_color)
             (char space)                           # space
-        ] | str collect
+        ] | str join
     )
 
     $path_segment
@@ -325,7 +325,7 @@ def get_indicator_segment [os color_mode] {
         ($indicator_bg_color)
         (char nf_segment)                         # 
         ($R)                                   # reset color
-        ] | str collect
+        ] | str join
     )
 
     $indicator_segment
@@ -344,7 +344,7 @@ def get_time_segment [os color_mode] {
     let R = (ansi reset)
     let time_bg_color = (get_color time_bg_color $color_mode)
     let time_color = (get_color time_color $color_mode)
-    
+
     let time_segment = ([
         (ansi { fg: $time_bg_color bg: $time_color})
         (char nf_right_segment) #(char -u e0b2)     # 
@@ -354,7 +354,7 @@ def get_time_segment [os color_mode] {
         (date now | date format '%I:%M:%S %p')
         (char space)
         ($R)
-    ] | str collect)
+    ] | str join)
 
     $time_segment
 }
@@ -381,7 +381,7 @@ def get_status_segment [os color_mode] {
             $env.LAST_EXIT_CODE
             (char space)
             ($R)
-        ] | str collect
+        ] | str join
     )
 
     $status_segment
@@ -403,7 +403,7 @@ def get_execution_time_segment [os color_mode] {
             $env.CMD_DURATION_MS
             (char space)
             ($R)
-        ] | str collect
+        ] | str join
     )
 
     $execution_time_segment
@@ -415,7 +415,7 @@ def get_right_prompt [os color_mode] {
     let execution_time_segment = (get_execution_time_segment $os $color_mode)
     let time_segment = (get_time_segment $os $color_mode)
     let exit_if = (if $env.LAST_EXIT_CODE != 0 { $status_segment })
-    [$exit_if $execution_time_segment $time_segment] | str collect
+    [$exit_if $execution_time_segment $time_segment] | str join
 }
 
 # constructe the left and right prompt by color_mode (8bit or 24bit)

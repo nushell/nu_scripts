@@ -14,7 +14,7 @@ export alias select-aws-profile = (
     hide AWS_REGION;
     (do {
         let creds = (open ($env.HOME + "/.aws/credentials") | from ini)
-            let selectedProfile = (for it in ($creds | transpose name creds) { echo $it.name } | str collect "\n" | fzf | str trim)
+            let selectedProfile = (for it in ($creds | transpose name creds) { echo $it.name } | str join "\n" | fzf | str trim)
             if $selectedProfile != "" {
                     let out = {
                             AWS_PROFILE: $selectedProfile,

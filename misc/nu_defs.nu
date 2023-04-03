@@ -138,7 +138,7 @@ def-env which-cd [program] {
 def git-push [m: string] {
   git add -A
   git status
-  git commit -am $"($m)"
+  git commit -a -m $"($m)"
   git push origin main
 }
 
@@ -149,7 +149,7 @@ def "help my-commands" [] {
 
 #web search in terminal (requires ddgr)
 def gg [...search: string] {
-  ddgr -n 5 ($search | str collect ' ')
+  ddgr -n 5 ($search | str join ' ')
 }
 
 #habitipy dailies done all (requires habitipy)
@@ -341,7 +341,7 @@ def trans [
     let from = if ($from | is-empty) {"en-US"} else {$from}
     let to = if ($to | is-empty) {"es-ES"} else {$to}
 
-    let to_translate = ($search | str collect "%20")
+    let to_translate = ($search | str join "%20")
 
     let url = $"https://api.mymemory.translated.net/get?q=($to_translate)&langpair=($from)%7C($to)&of=json&key=($key)&de=($user)"
 
@@ -434,7 +434,7 @@ def skim [
   let lst = $in
   let type = ($lst | describe)
   let s = (if ($type | str starts-with 'list<') {
-             $lst | str collect (char nl)
+             $lst | str join (char nl)
            } else if ($type == 'string') {
              $lst
            })

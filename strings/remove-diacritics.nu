@@ -41,5 +41,5 @@ def remove-diacritics [
         |get -i -s $char
         |default $char
     }
-    |str collect ''
+    |str join ''
 }
