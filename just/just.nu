@@ -1,8 +1,3 @@
-export def run [...x: any] {
-    let script = $"($env.PWD)/.nu"
-    nu $script ...$x
-}
-
 export def "nu-complete just recipes" [] {
     ^just --unstable --unsorted --dump --dump-format json
         | from json
@@ -12,7 +7,13 @@ export def "nu-complete just recipes" [] {
             {
                 value: $x.k,
                 description: ( $x.v.parameters
-                             | each {|y| $y.name}
+                             | each {|y|
+                                    if ($y.default|is-empty) {
+                                        $y.name
+                                    } else {
+                                        $'($y.name)="($y.default)"'
+                                    }
+                                }
                              | str join ' '
                              )
             }
@@ -31,7 +32,13 @@ export def "nu-complete just args" [context: string, offset: int] {
 
 }
 
-export extern "main" [
+export def j [
     recipes?: string@"nu-complete just recipes"
     ...args: any@"nu-complete just args"
-]
+] {
+    if ($recipes | is-empty) {
+        ^just
+    } else {
+        ^just $recipes $args
+    }
+}
