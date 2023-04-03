@@ -17,7 +17,7 @@ export def-env activate [
         $env_dir = $conda_info.root_prefix
         }
 
-    let old_path = (system-path | str collect (char esep))
+    let old_path = (system-path | str join (char esep))
 
     let new_path = if (windows?) {
         conda-create-path-windows $env_dir
@@ -120,7 +120,7 @@ def conda-create-path-windows [env_dir: path] {
 
     let new_path = ([$env_path (system-path)]
         | flatten
-        | str collect (char esep))
+        | str join (char esep))
 
     { Path: $new_path }
 }
@@ -132,7 +132,7 @@ def conda-create-path-unix [env_dir: path] {
 
     let new_path = ([$env_path $env.PATH]
         | flatten
-        | str collect (char esep))
+        | str join (char esep))
 
     { PATH: $new_path }
 }
