@@ -36,5 +36,9 @@ export def j [
     recipes?: string@"nu-complete just recipes"
     ...args: any@"nu-complete just args"
 ] {
-    ^just $recipes $args
+    if ($recipes | is-empty) {
+        ^just
+    } else {
+        ^just $recipes $args
+    }
 }
