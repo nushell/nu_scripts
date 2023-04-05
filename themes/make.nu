@@ -10,7 +10,8 @@ let THEMES = "themes"
 def make-theme [name: string] {
     let colors = (
         open ($SOURCE.dir | path join $name)
-        | lines
+        | lines --skip-empty
+        | find --invert --regex '^#'
         | split column " "
         | rename name rgb
         | transpose -r
