@@ -1,41 +1,125 @@
 #!/usr/bin/env nu
 
-let RAW = "lemnos/themes"
+let SOURCE = {
+    dir: ([lemnos themes] | path join)
+    local: "lemnos"
+    remote: "https://github.com/lemnos/theme.sh"
+}
 let THEMES = "themes"
 
-
-def make-theme [theme: string] {
+def make-theme [name: string] {
     let colors = (
-        open $"($RAW)/($theme)" |
-        lines |
-        split column " " |
-        rename name rgb
+        open ($SOURCE.dir | path join $name)
+        | lines --skip-empty
+        | find --invert --regex '^#'
+        | split column " "
+        | rename name rgb
+        | transpose -r
+        | into record
     )
-    let theme_file = $"($THEMES)/($theme).nu"
 
-    cp template.nu $theme_file
+    $'export def main [] { return {
+    separator: "($colors.color7)"
+    leading_trailing_space_bg: { attr: "n" }
+    header: { fg: "($colors.color2)" attr: "b" }
+    empty: "($colors.color4)"
+    bool: {|| if $in { "($colors.color14)" } else { "light_gray" } }
+    int: "($colors.color7)"
+    filesize: {|e|
+      if $e == 0b {
+        "($colors.color7)"
+      } else if $e < 1mb {
+        "($colors.color6)"
+      } else {{ fg: "($colors.color4)" }}
+    }
+    duration: "($colors.color7)"
+    date: {|| (char lparen)date now(char rparen) - $in |
+      if $in < 1hr {
+        { fg: "($colors.color1)" attr: "b" }
+      } else if $in < 6hr {
+        "($colors.color1)"
+      } else if $in < 1day {
+        "($colors.color3)"
+      } else if $in < 3day {
+        "($colors.color2)"
+      } else if $in < 1wk {
+        { fg: "($colors.color2)" attr: "b" }
+      } else if $in < 6wk {
+        "($colors.color6)"
+      } else if $in < 52wk {
+        "($colors.color4)"
+      } else { "dark_gray" }
+    }
+    range: "($colors.color7)"
+    float: "($colors.color7)"
+    string: "($colors.color7)"
+    nothing: "($colors.color7)"
+    binary: "($colors.color7)"
+    cellpath: "($colors.color7)"
+    row_index: { fg: "($colors.color2)" attr: "b" }
+    record: "($colors.color7)"
+    list: "($colors.color7)"
+    block: "($colors.color7)"
+    hints: "dark_gray"
 
-    $colors |
-        each {
-            |it|
-            open $theme_file --raw |
-            str replace $"{{($it.name)}}" $it.rgb --all |
-            save $theme_file
-        }
+    shape_and: { fg: "($colors.color5)" attr: "b" }
+    shape_binary: { fg: "($colors.color5)" attr: "b" }
+    shape_block: { fg: "($colors.color4)" attr: "b" }
+    shape_bool: "($colors.color14)"
+    shape_custom: "($colors.color2)"
+    shape_datetime: { fg: "($colors.color6)" attr: "b" }
+    shape_directory: "($colors.color6)"
+    shape_external: "($colors.color6)"
+    shape_externalarg: { fg: "($colors.color2)" attr: "b" }
+    shape_filepath: "($colors.color6)"
+    shape_flag: { fg: "($colors.color4)" attr: "b" }
+    shape_float: { fg: "($colors.color5)" attr: "b" }
+    shape_garbage: { fg: "#FFFFFF" bg: "#FF0000" attr: "b" }
+    shape_globpattern: { fg: "($colors.color6)" attr: "b" }
+    shape_int: { fg: "($colors.color5)" attr: "b" }
+    shape_internalcall: { fg: "($colors.color6)" attr: "b" }
+    shape_list: { fg: "($colors.color6)" attr: "b" }
+    shape_literal: "($colors.color4)"
+    shape_match_pattern: "($colors.color2)"
+    shape_matching_brackets: { attr: "u" }
+    shape_nothing: "($colors.color14)"
+    shape_operator: "($colors.color3)"
+    shape_or: { fg: "($colors.color5)" attr: "b" }
+    shape_pipe: { fg: "($colors.color5)" attr: "b" }
+    shape_range: { fg: "($colors.color3)" attr: "b" }
+    shape_record: { fg: "($colors.color6)" attr: "b" }
+    shape_redirection: { fg: "($colors.color5)" attr: "b" }
+    shape_signature: { fg: "($colors.color2)" attr: "b" }
+    shape_string: "($colors.color2)"
+    shape_string_interpolation: { fg: "($colors.color6)" attr: "b" }
+    shape_table: { fg: "($colors.color4)" attr: "b" }
+    shape_variable: "($colors.color5)"
 
-    open $theme_file --raw |
-    str replace "{{theme}}" ($theme | str replace '-' '_') --all |
-    save $theme_file
+    background: "($colors.background)"
+    foreground: "($colors.foreground)"
+    cursor: "($colors.cursor)"
+}}'
+    | save --force ({
+        parent: $THEMES
+        stem: $name
+        extension: "nu"
+    } | path join)
 }
 
+def main [] {
+    mkdir $THEMES
 
-mkdir $THEMES
+    try { git clone $SOURCE.remote $SOURCE.local }
 
-ls $RAW |
-    get name |
-    str replace $"($RAW)/" "" |
-    each {
-        |it|
-        print $it
-        make-theme $it
+    ls $SOURCE.dir
+    | get name
+    | path parse
+    | get stem
+    | each {|theme|
+        print -n $"(ansi erase_line)($theme)\r"
+        make-theme $theme
     }
+    | ignore
+
+    print "all done"
+}
