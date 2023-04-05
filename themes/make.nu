@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 let SOURCE = {
-    dir: ([lemnos themes themes] | path join)
+    dir: ([lemnos themes] | path join)
     local: "lemnos"
     remote: "https://github.com/lemnos/theme.sh"
 }
