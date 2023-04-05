@@ -17,7 +17,7 @@ def make-theme [name: string] {
         | into record
     )
 
-    {
+    let theme = ({
         separator: $colors.color15
         leading_trailing_space_bg: { attr: n }
         header: $colors.color10
@@ -69,7 +69,9 @@ def make-theme [name: string] {
         foreground: $colors.foreground
         cursor: $colors.cursor
     }
-    | to nuon -i 4
+    | to nuon -i 4)
+
+    $"export def main [] { return ($theme)}"
     | save --force ({
         parent: $THEMES
         stem: $name
