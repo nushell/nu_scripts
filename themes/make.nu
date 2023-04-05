@@ -30,7 +30,7 @@ def make-theme [name: string] {
         "($colors.color7)"
       } else if $e < 1mb {
         "($colors.color6)"
-      } else { fg: "($colors.color4)" }
+      } else {{ fg: "($colors.color4)" }}
     }
     duration: "($colors.color7)"
     date: {|| (char lparen)date now(char rparen) - $in |
