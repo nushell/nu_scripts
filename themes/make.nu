@@ -35,19 +35,19 @@ def make-theme [name: string] {
     duration: "($colors.color7)"
     date: {|| (char lparen)date now(char rparen) - $in |
       if $in < 1hr {
-        "red3b"
+        { fg: "($colors.color1)" attr: "b" }
       } else if $in < 6hr {
-        "orange3"
+        "($colors.color1)"
       } else if $in < 1day {
-        "yellow3b"
+        "($colors.color3)"
       } else if $in < 3day {
-        "chartreuse2b"
+        "($colors.color2)"
       } else if $in < 1wk {
-        "green3b"
+        { fg: "($colors.color2)" attr: "b" }
       } else if $in < 6wk {
-        "darkturquoise"
+        "($colors.color6)"
       } else if $in < 52wk {
-        "deepskyblue3b"
+        "($colors.color4)"
       } else { "dark_gray" }
     }
     range: "($colors.color7)"
