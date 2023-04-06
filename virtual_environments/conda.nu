@@ -12,7 +12,7 @@ export def-env activate [
         $env_dirs = ($env_dirs | append ($i | path join $env_name))
     }
     if $env_name != "base" {
-        if ($env_name | path exists) and ( ($env_name | path expand) in $conda_info.envs ) {
+        if ($env_name | path exists) and (($env_name | path expand) in $conda_info.envs ) {
             $env_dir = ($env_name | path expand)
         } else {
             $env_dir = ((check-if-env-exists $env_name $env_dirs) | into string)
