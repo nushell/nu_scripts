@@ -1,7 +1,7 @@
 export def ensure-index [index path action] {
-    let ts = do -i { ls $path | sort-by modified | reverse | get 0.modified }
+    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
     if ($ts | is-empty) { return false }
-    let tc = do -i { ls $index | get 0.modified }
+    let tc = (do -i { ls $index | get 0.modified })
     if not (($index | path exists) and ($ts < $tc)) {
         mkdir (dirname $index)
         do $action
@@ -49,7 +49,7 @@ def fmt-group [p] {
 
 def "ssh-hosts" [] {
     let cache = $'($env.HOME)/.cache/nu-complete/ssh.json'
-    ensure-index $cache ~/.ssh/**/* {
+    ensure-index $cache ~/.ssh/**/* { ||
         let data = (ssh-list | each {|x|
                 let uri = $"($x.User)@($x.HostName):($x.Port)"
                 {
@@ -101,7 +101,7 @@ export extern main [
 
 
 def "nu-complete scp" [cmd: string, offset: int] {
-    let argv = ($cmd | str substring [0 $offset] | split row ' ')
+    let argv = ($cmd | str substring ..$offset | split row ' ')
     let p = if ($argv | length) > 2 { $argv | get 2 } else { $argv | get 1 }
     let ssh = (ssh-hosts | get completion
         | each {|x| {value: $"($x.value):" description: $x.uri} }
@@ -112,10 +112,10 @@ def "nu-complete scp" [cmd: string, offset: int] {
         | lines
         | each {|x| $"($n | get 0):($x)"}
     } else {
-        let files = do -i {
+        let files = (do -i {
             ls -a $"($p)*"
             | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
-        }
+        })
         $files | append $ssh
     }
 }
