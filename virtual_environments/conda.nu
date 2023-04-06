@@ -105,11 +105,13 @@ def check-if-env-exists [ env_name: string, env_dir: list ] {
 }
 
 def 'nu-complete conda envs' [] {
-    conda info --envs
+    [ (conda info --envs
     | lines
     | where not ($it | str starts-with '#')
     | where not ($it | is-empty)
-    | each {|entry| $entry | split row ' ' | get 0 }
+    | each {|entry| $entry | split row ' ' | get 0 }) (ls -a | where {|it|
+        (( $it.name | path expand) in (conda info --json | from json | get envs))
+        } | get name ) ] | flatten
 }
 
 def conda-create-path-windows [env_dir: path] {
