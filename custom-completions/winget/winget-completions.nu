@@ -93,7 +93,7 @@ def "winget show" [
         } else {
             let header = ($output | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]')
             let manifest = ($output | skip 1 | str join (char newline) | from yaml)
-            $header | first | merge { $manifest }
+            $header | first | merge {|| $manifest }
         }
     }
 }
