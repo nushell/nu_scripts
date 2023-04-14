@@ -95,7 +95,7 @@ export def-env deactivate [] {
 def check-if-env-exists [ env_name: string, conda_info: record ] {
     let env_dirs = (
         $conda_info.envs_dirs |
-        each { path join $env_name }
+        each { || path join $env_name }
     )
 
     let en = ($env_dirs | each {|en| $conda_info.envs | where $it == $en } | where ($it | length) == 1 | flatten)
