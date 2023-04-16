@@ -33,7 +33,7 @@ def scoopInstalledAppsWithStar [] {
 # list of all manifests from all buckets
 def scoopAllApps [] {
   let bucketsDir = if ('SCOOP' in (env).name) { [ (getenv 'SCOOP'), 'buckets' ] | path join } else { [ (getenv 'USERPROFILE'), 'scoop', 'buckets' ] | path join }
-  (ls -s $bucketsDir | get name) | each {|bucket| ls ([$bucketsDir, $bucket, 'bucket', '*.json'] | str join '\')  | get name | path basename | str substring ',-5' } | flatten | uniq
+  (ls -s $bucketsDir | get name) | each {|bucket| ls ([$bucketsDir, $bucket, 'bucket', '*.json'] | str join '\')  | get name | path basename | str substring ..-5 } | flatten | uniq
 }
 
 # list of all apps that are not installed

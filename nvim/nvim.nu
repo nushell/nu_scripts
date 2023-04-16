@@ -54,7 +54,7 @@ export-env {
 def edit [action file] {
     if 'NVIM' in ($env | columns) {
         let af = ($file | each {|f|
-            if ($f|str substring ',1') in ['/', '~'] {
+            if ($f|str substring ..1) in ['/', '~'] {
                 $f
             } else {
                 $"($env.PWD)/($f)"

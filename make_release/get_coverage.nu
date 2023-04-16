@@ -9,7 +9,7 @@ def main [
    ] {
    cargo llvm-cov show-env --export-prefix | 
        lines | 
-       str substring '7,' | 
+       str substring 7.. | 
        split column '=' | 
        str trim -c '"'  | 
        transpose | 
