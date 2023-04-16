@@ -26,7 +26,7 @@ def home_abbrev [os_name] {
     } else {
         if ($os_name =~ "windows") {
             # remove the C: from the path
-            $env.PWD | str replace -a '\\' '/' | str substring '2,'
+            $env.PWD | str replace -a '\\' '/' | str substring 2..
         } else {
             $env.PWD
         }

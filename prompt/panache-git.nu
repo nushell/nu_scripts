@@ -77,7 +77,7 @@ export def repo-structured [] {
     | split column ' ' col1 col2 full_hash
     | get full_hash
     | first
-    | str substring [0 7]
+    | str substring 0..7
   } else {
     ''
   })
