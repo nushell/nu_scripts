@@ -1,6 +1,6 @@
 # Nushell Password Generator "nupass"
 
-This nushell command gets three words from a dictionary file (English with some Japanese words added by @rickcogley) less than or equal to a given parameter's length, then separates them with some random symbols and numbers.  
+This nushell command randomly retrieves three words from a dictionary file (English with Japanese words added by @rickcogley) less than or equal to a given parameter's length, formats the words randomly with capitalization, then separates the words with some random symbols and numbers to return a password.  
 
 To use:
 
@@ -9,6 +9,8 @@ To use:
 ```
 http get https://raw.githubusercontent.com/RickCogley/jpassgen/master/genpass-dict-jp.txt | save genpass-dict-jp
 ```
+
+...which has also been included in this folder for convenience. 
 
 2. Confirm your `$env.NU_LIB_DIRS` location, and copy the below script `2. nupass.nu` there as `nupass.nu`.
 3. Set the script as executable like `chmod +x nupass.nu`
@@ -59,6 +61,6 @@ This command doesn't let you specify a precise length.
 
 ### Acknowledgements
 
-Thanks everyone on Discord for putting up with and answering my newbie questions @amtoine, @fdncred, @jelle, and for the feedback after try number 1. 
+Thanks everyone on Discord for putting up with and answering my nubie questions @amtoine, @fdncred, @jelle, and for the feedback after try number 1. 
 
 <img width="1041" alt="image" src="https://user-images.githubusercontent.com/512328/231930563-4da63f8c-d9de-4620-901e-a39ed32b049f.png">
