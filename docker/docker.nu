@@ -257,7 +257,7 @@ def "nu-complete docker run proxy" [] {
     [$"http://($hostaddr):7890" $"http://localhost:7890"]
 }
 
-def relative-to-pwd [path] {
+def host-path [path] {
     match ($path | str substring ..1) {
         '/' => { $path }
         '~' => { [ $nu.home-path ($path | str substring 2..) ] | path join }
@@ -275,7 +275,7 @@ export def dr [
     --sshuser: string=root                              # default root
     --cache(-c): string                                 # cache
     --mnt(-m): string@"nu-complete docker run vol"      # mnt
-    --vols(-v): any                                     # { relate: to }
+    --vols(-v): any                                     # { host: container }
     --port(-p): any                                     # { 8080: 80 }
     --envs(-e): any                                     # { FOO: BAR }
     --daemon(-d): bool
@@ -291,7 +291,7 @@ export def dr [
     let entrypoint = if ($entrypoint|is-empty) { [] } else { [--entrypoint $entrypoint] }
     let daemon = if $daemon { [-d] } else { [--rm -it] }
     let mnt = if ($mnt|is-empty) { [] } else { [-v $mnt] }
-    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v (relative-to-pwd $x.k):($x.v)"} }
+    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v (host-path $x.k):($x.v)"} }
     let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
     let port = if ($port|is-empty) { [] } else { $port | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
     let debug = if $debug { [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined] } else { [] }
