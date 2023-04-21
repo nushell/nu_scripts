@@ -237,17 +237,6 @@ def "nu-complete docker run vol" [] {
     ]
 }
 
-def "nu-complete docker run port" [ctx: string, pos: int] {
-    [
-        $"(port 8080):80"
-        $"(port 2222):22"
-        $"(port 3000):3000"
-        $"(port 5000):5000"
-        $"(port 8000):8000"
-        $"(port 9000):9000"
-    ]
-}
-
 def "nu-complete docker run sshkey" [ctx: string, pos: int] {
     (do { cd ~/.ssh; ls **/*.pub } | get name)
 }
@@ -275,9 +264,9 @@ export def dr [
     --sshuser: string=root                              # default root
     --cache(-c): string                                 # cache
     --mnt(-m): string@"nu-complete docker run vol"      # mnt
-    --vol(-v): any                                      # { host: container }
-    --port(-p): any                                     # { 8080: 80 }
-    --env(-e): any                                      # { FOO: BAR }
+    --vols(-v): any                                     # { host: container }
+    --ports(-p): any                                    # { 8080: 80 }
+    --envs(-e): any                                     # { FOO: BAR }
     --daemon(-d): bool
     --attach(-a): string@"nu-complete docker container" # attach
     --entrypoint: string                                # entrypoint
@@ -291,9 +280,9 @@ export def dr [
     let entrypoint = if ($entrypoint|is-empty) { [] } else { [--entrypoint $entrypoint] }
     let daemon = if $daemon { [-d] } else { [--rm -it] }
     let mnt = if ($mnt|is-empty) { [] } else { [-v $mnt] }
-    let vols = if ($vol|is-empty) { [] } else { $vol | transpose k v | each {|x| $"-v (host-path $x.k):($x.v)"} }
-    let envs = if ($env|is-empty) { [] } else { $env | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
-    let port = if ($port|is-empty) { [] } else { $port | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
+    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v (host-path $x.k):($x.v)"} }
+    let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
+    let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
     let debug = if $debug { [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined] } else { [] }
     #let appimage = if $appimage { [--device /dev/fuse --security-opt apparmor:unconfined] } else { [] }
     let appimage = if $appimage { [--device /dev/fuse] } else { [] }
@@ -311,7 +300,7 @@ export def dr [
         [--uts $c --ipc $c --pid $c --network $c]
     }
     let cache = if ($cache|is-empty) { [] } else { [-v $cache] }
-    let args = ([$entrypoint $attach $daemon $envs $ssh $proxy $debug $appimage $netadmin $clip $mnt $vols $port $cache] | flatten)
+    let args = ([$entrypoint $attach $daemon $envs $ssh $proxy $debug $appimage $netadmin $clip $mnt $vols $ports $cache] | flatten)
     let name = $"($img | split row '/' | last | str replace ':' '-')_(date now | date format %m%d%H%M)"
     if $dry_run {
         echo $"docker ($ns | str join ' ') run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"
