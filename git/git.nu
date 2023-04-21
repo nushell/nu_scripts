@@ -57,7 +57,7 @@ def "nu-complete git log" [] {
     | each {|x| $x | update value $"`($x.value)`"}
 }
 
-export def glg [
+export def gl [
     commit?: string@"nu-complete git log"
     --verbose(-v):bool
     --num(-n):int=32
@@ -69,7 +69,7 @@ export def glg [
     }
 }
 
-export def glgv [
+export def glv [
     commit?: string@"nu-complete git log"
     --num(-n):int=32
 ] {
@@ -131,10 +131,10 @@ export def gmom [] {
     git merge $"origin/($main)"
 }
 
-export alias gp = git push
+export alias gps = git push
 export alias gpf! = git push --force
 export alias gpsup = git push --set-upstream origin (git_current_branch)
-export alias gl = git pull
+export alias gpl = git pull
 export alias glo = git log --oneline
 export alias ga = git add
 export alias gaa = git add --all
@@ -242,10 +242,10 @@ export alias gswc = git switch -c
 export alias gts = git tag -s
 
 export alias gunignore = git update-index --no-assume-unchanged
-export alias gup = git pull --rebase
-export alias gupv = git pull --rebase -v
-export alias gupa = git pull --rebase --autostash
-export alias gupav = git pull --rebase --autostash -v
+export alias gpr = git pull --rebase
+export alias gprv = git pull --rebase -v
+export alias gpra = git pull --rebase --autostash
+export alias gprav = git pull --rebase --autostash -v
 export alias glum = git pull upstream (git_main_branch)
 
 # cat ($nu.config-path | path dirname | path join 'scripts' | path join 'a.nu' )
