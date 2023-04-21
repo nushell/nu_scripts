@@ -107,21 +107,21 @@ export def "git_status" [] {
     let r = ($s | split row ' ')
     match $r.0 {
       '#' => {
-        match $r.1 {
-          'branch.oid' => {
+        match ($r.1 | str substring 7..) {
+          'oid' => {
             $status.commit_hash = ($r.2 | str substring 0..8)
           }
-          'branch.head' => {
+          'head' => {
             $status.branch_name = $r.2
             # not contains '(detached)'
             if ($r | length) == 3 {
               $status.on_named_branch = true
             }
           }
-          'branch.upstream' => {
+          'upstream' => {
             $status.tracking_upstream_branch = true
           }
-          'branch.ab' => {
+          'ab' => {
             $status.upstream_exists_on_remote = true
             $status.commits_ahead = ($r.2 | into int)
             $status.commits_behind = ($r.3 | into int | math abs)
