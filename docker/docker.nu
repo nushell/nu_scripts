@@ -7,7 +7,17 @@ export-env {
     }
 }
 
-export def dp [] {
+def "nu-complete docker ns" [] {
+    if $env.docker-cli == 'nerdctl' {
+        ^$env.docker-cli namespace list
+        | from ssv -a
+        | each {|x| { value: $x.NAMES }}
+    } else {
+        []
+    }
+}
+
+export def dp [-n: string@"nu-complete docker ns"] {
     # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
     let cli = $env.docker-cli
     if $cli == 'docker' {
@@ -27,14 +37,16 @@ export def dp [] {
             $r | upsert created $t
         }
     } else {
-        ^$cli ps -a
+        let ns = if ($n|is-empty) { [] } else { [-n $n] }
+        ^$cli $ns ps -a
         | from ssv
         | rename id image cmd created status port name
     }
 }
 
-export def di [] {
-    ^$env.docker-cli images
+export def di [-n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns images
     | from ssv -a
     | rename repo tag id created size
     | each {|x|
@@ -77,19 +89,32 @@ def "nu-complete docker images" [] {
     | each {|x| $"($x.REPOSITORY):($x.TAG)"}
 }
 
-export def dl [ctn: string@"nu-complete docker container" -n: int = 100] {
-    let n = if $n == 0 { [] } else { [--tail $n] }
-    ^$env.docker-cli logs -f $n $ctn
+export def dl [ctn: string@"nu-complete docker container"
+    -l: int = 100 # line
+] {
+    let l = if $l == 0 { [] } else { [--tail $l] }
+    ^$env.docker-cli logs -f $l $ctn
+}
+
+export def dln [ctn: string@"nu-complete docker container"
+    -l: int = 100 # line
+    -n: string@"nu-complete docker ns" # namespace
+] {
+    let l = if $l == 0 { [] } else { [--tail $l] }
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns logs -f $l $ctn
 }
 
 export def da [
     ctn: string@"nu-complete docker container"
+    -n: string@"nu-complete docker ns"
     ...args
 ] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
     if ($args|is-empty) {
-        ^$env.docker-cli exec -it $ctn /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
+        ^$env.docker-cli $ns exec -it $ctn /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
     } else {
-        ^$env.docker-cli exec -it $ctn $args
+        ^$env.docker-cli $ns exec -it $ctn $args
     }
 }
 
@@ -122,63 +147,84 @@ export def dcp [
     ^$env.docker-cli cp $lhs $rhs
 }
 
-export def dcr [ctn: string@"nu-complete docker all container"] {
-    ^$env.docker-cli container rm -f $ctn
+export def dcr [ctn: string@"nu-complete docker all container" -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns container rm -f $ctn
 }
 
-export def dis [img: string@"nu-complete docker images"] {
-    ^$env.docker-cli inspect $img
+export def dis [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns inspect $img
 }
 
-export def dh [img: string@"nu-complete docker images"] {
-    ^$env.docker-cli history --no-trunc $img | from ssv -a
+export def dh [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns history --no-trunc $img | from ssv -a
 }
 
-export def dsv [...img: string@"nu-complete docker images"] {
-    ^$env.docker-cli save $img
+export def dsv [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns save $img
 }
 
-export alias dld = podman load
-
-export def dsp [] {
-    ^$env.docker-cli system prune -f
+export def dld [-n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns load
 }
 
-export alias dspall = podman system prune --all --force --volumes
-
-export def drmi [img: string@"nu-complete docker images"] {
-    ^$env.docker-cli rmi $img
+export def dsp [-n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns system prune -f
 }
 
-export def dt [from: string@"nu-complete docker images"  to: string] {
-    ^$env.docker-cli tag $from $to
+export def dspall [-n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns system prune --all --force --volumes
 }
 
-export def dps [img: string@"nu-complete docker images"] {
-    ^$env.docker-cli push $img
+export def drmi [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns rmi $img
 }
 
-export alias dpl = podman pull
+export def dt [from: string@"nu-complete docker images"  to: string -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns tag $from $to
+}
+
+export def dps [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns push $img
+}
+
+export def dpl [img -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns pull $img
+}
 
 ### volume
-export def dvl [] {
-    ^$env.docker-cli volume ls | from ssv -a
+export def dvl [-n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns volume ls | from ssv -a
 }
 
 def "nu-complete docker volume" [] {
     dvl | get name
 }
 
-export def dvc [name: string] {
-    ^$env.docker-cli volume create
+export def dvc [name: string -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns volume create
 }
 
-export def dvi [name: string@"nu-complete docker volume"] {
-    ^$env.docker-cli volume inspect $name
+export def dvi [name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns volume inspect $name
 }
 
-export def dvr [...name: string@"nu-complete docker volume"] {
-    ^$env.docker-cli volume rm $name
+export def dvr [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
+    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    ^$env.docker-cli $ns volume rm $name
 }
 
 ### run
@@ -211,15 +257,25 @@ def "nu-complete docker run proxy" [] {
     [$"http://($hostaddr):7890" $"http://localhost:7890"]
 }
 
+def relative-to-pwd [path] {
+    match ($path | str substring ..1) {
+        '/' => { $path }
+        '~' => { [ $nu.home-path ($path | str substring 2..) ] | path join }
+        '$' => { ($env | get ($path | str substring 1..)) }
+        _   => { [ $env.PWD $path ] | path join }
+    }
+}
+
 export def dr [
     --debug(-x): bool
     --appimage: bool
-    --netadmin(-n): bool
+    --netadmin: bool
     --proxy: string@"nu-complete docker run proxy"      # proxy
     --ssh(-s): string@"nu-complete docker run sshkey"   # specify ssh key
     --sshuser: string=root                              # default root
     --cache(-c): string                                 # cache
-    --vol(-v): string@"nu-complete docker run vol"      # volume
+    --mnt(-m): string@"nu-complete docker run vol"      # mnt
+    --vols(-v): any                                     # { relate: to }
     --port(-p): any                                     # { 8080: 80 }
     --envs(-e): any                                     # { FOO: BAR }
     --daemon(-d): bool
@@ -227,12 +283,15 @@ export def dr [
     --entrypoint: string                                # entrypoint
     --dry-run: bool
     --with-x: bool
+    --namespace(-n): string@"nu-complete docker ns"
     img: string@"nu-complete docker images"             # image
     ...cmd                                              # command args
 ] {
+    let ns = if ($namespace|is-empty) { [] } else { [-n $namespace] }
     let entrypoint = if ($entrypoint|is-empty) { [] } else { [--entrypoint $entrypoint] }
     let daemon = if $daemon { [-d] } else { [--rm -it] }
-    let mnt = if ($vol|is-empty) { [] } else { [-v $vol] }
+    let mnt = if ($mnt|is-empty) { [] } else { [-v $mnt] }
+    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v (relative-to-pwd $x.k):($x.v)"} }
     let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
     let port = if ($port|is-empty) { [] } else { $port | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
     let debug = if $debug { [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined] } else { [] }
@@ -252,59 +311,14 @@ export def dr [
         [--uts $c --ipc $c --pid $c --network $c]
     }
     let cache = if ($cache|is-empty) { [] } else { [-v $cache] }
-    let args = ([$entrypoint $attach $daemon $envs $ssh $proxy $debug $appimage $netadmin $clip $mnt $port $cache] | flatten)
+    let args = ([$entrypoint $attach $daemon $envs $ssh $proxy $debug $appimage $netadmin $clip $mnt $vols $port $cache] | flatten)
     let name = $"($img | split row '/' | last | str replace ':' '-')_(date now | date format %m%d%H%M)"
     if $dry_run {
-        echo $"docker run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"
+        echo $"docker ($ns | str join ' ') run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"
     } else {
-        ^$env.docker-cli run --name $name $args $img ($cmd | flatten)
+        ^$env.docker-cli $ns run --name $name $args $img ($cmd | flatten)
     }
 }
-
-def "nu-complete docker dev env" [] {
-    [ io io:rs io:hs io:jpl io:go ng ng:pg ]
-}
-
-
-export def dx [
-    --dry-run(-v): bool
-    --mount-cache: bool
-    --attach(-a): string@"nu-complete docker container" # attach
-    --proxy: string@"nu-complete docker run proxy"      # proxy
-    dx: string@"nu-complete docker images"              # image
-    --envs(-e): any                                     # { FOO: BAR }
-    --port(-p): any                                     # { 8080: 80 } # todo: multiple specify parameters(-p 8080:80 -p 8181:81)
-    ...cmd                                              # command args
-] {
-    let __dx_cache = {
-            hs: 'stack:/opt/stack'
-            rs: 'cargo:/opt/cargo'
-            go: 'gopkg:/opt/go/pkg'
-            ng: 'ng:/srv'
-            pg: 'pg:/var/lib/postgresql/data'
-        }
-    let c = (do -i {$__dx_cache | transpose k v | where {|x| $dx | str contains $x.k} | get v.0})
-    let c = if ($c|is-empty) {
-            ''
-        } else if $mount_cache {
-            let c = ( $c
-                    | split row ':'
-                    | each {|x i| if $i == 1 { $"/cache($x)" } else { $x } }
-                    | str join ':'
-                    )
-            $"($env.HOME)/.cache/($c)"
-        } else {
-            $"($env.HOME)/.cache/($c)"
-        }
-    let proxy = if ($proxy|is-empty) { [] } else { [--proxy $proxy] }
-    if $dry_run {
-        print $"cache: ($c)"
-        dr --dry-run --attach $attach --port $port --envs $envs --cache $c -v $"($env.PWD):/world" --debug --proxy $proxy --ssh id_ed25519.pub $dx $cmd
-    } else {
-        dr --attach $attach --port $port --envs $envs --cache $c -v $"($env.PWD):/world" --debug --proxy $proxy --ssh id_ed25519.pub $dx $cmd
-    }
-}
-
 
 def "nu-complete registry list" [cmd: string, offset: int] {
     let cmd = ($cmd | split row ' ')

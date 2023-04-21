@@ -432,10 +432,10 @@ export def ked [d: string@"nu-complete kube deployments", -n: string@"nu-complet
 def "nu-complete num9" [] { [1 2 3] }
 export def ksd [
     d: string@"nu-complete kube deployments"
-    num: int@"nu-complete num9"
+    num: string@"nu-complete num9"
     -n: string@"nu-complete kube ns"
 ] {
-    if $num > 9 {
+    if ($num | into int) > 9 {
         "too large"
     } else {
         let n = if ($n|is-empty) { [] } else { [-n $n] }
