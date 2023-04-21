@@ -275,9 +275,9 @@ export def dr [
     --sshuser: string=root                              # default root
     --cache(-c): string                                 # cache
     --mnt(-m): string@"nu-complete docker run vol"      # mnt
-    --vols(-v): any                                     # { host: container }
+    --vol(-v): any                                      # { host: container }
     --port(-p): any                                     # { 8080: 80 }
-    --envs(-e): any                                     # { FOO: BAR }
+    --env(-e): any                                      # { FOO: BAR }
     --daemon(-d): bool
     --attach(-a): string@"nu-complete docker container" # attach
     --entrypoint: string                                # entrypoint
@@ -291,8 +291,8 @@ export def dr [
     let entrypoint = if ($entrypoint|is-empty) { [] } else { [--entrypoint $entrypoint] }
     let daemon = if $daemon { [-d] } else { [--rm -it] }
     let mnt = if ($mnt|is-empty) { [] } else { [-v $mnt] }
-    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v (host-path $x.k):($x.v)"} }
-    let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
+    let vols = if ($vol|is-empty) { [] } else { $vol | transpose k v | each {|x| $"-v (host-path $x.k):($x.v)"} }
+    let envs = if ($env|is-empty) { [] } else { $env | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
     let port = if ($port|is-empty) { [] } else { $port | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
     let debug = if $debug { [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined] } else { [] }
     #let appimage = if $appimage { [--device /dev/fuse --security-opt apparmor:unconfined] } else { [] }
