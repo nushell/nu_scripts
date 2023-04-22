@@ -56,28 +56,29 @@ export def "git_status styled" [] {
 
   if $status.repo_name == 'no_repository' { return '' }
 
+
   let branch = $'(ansi blue)($status.branch)(ansi reset)'
   let fmt = [
-    [behind (char branch_behind) green]
-    [ahead (char branch_ahead) green]
-    [idx_added_staged + yellow]
-    [idx_modified_staged ~ yellow]
-    [idx_deleted_staged - yellow]
-    [idx_renamed R yellow]
-    [idx_type_changed T yellow]
-    [wt_untracked + red]
-    [wt_modified ~ red]
-    [wt_deleted - red]
-    [wt_renamed R red]
-    [wt_type_changed T red]
-    [ignored i grey]
-    [conflicts ! red]
-    [stashes = green]
+    [behind              (char branch_behind) yellow]
+    [ahead               (char branch_ahead) yellow]
+    [stashes             = blue]
+    [conflicts           ! red]
+    [ignored             _ purple]
+    [idx_added_staged    + green]
+    [idx_modified_staged ~ green]
+    [idx_deleted_staged  - green]
+    [idx_renamed         % green]
+    [idx_type_changed    * green]
+    [wt_untracked        + red]
+    [wt_modified         ~ red]
+    [wt_deleted          - red]
+    [wt_renamed          % red]
+    [wt_type_changed     * red]
   ]
 
   let summary = ($fmt
     | filter {|x| ($status | get $x.0) > 0 }
-    | each {|x| $"(ansi $x.2)($x.1)($status | get $x.0)(ansi reset)" }
+    | each {|x| $"(ansi $'light_($x.2)_dimmed')($x.1)($status | get $x.0)(ansi reset)" }
     | str join
     )
 
