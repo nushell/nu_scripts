@@ -174,11 +174,11 @@ export def "git_status styled" [] {
 
   let summary = ($fmt
     | filter {|x| ($status | get $x.0) > 0 }
-    | each {|x| $"(ansi $'light_($x.2)_dimmed')($x.1)($status | get $x.0)(ansi reset)" }
+    | each {|x| $"(ansi $'light_($x.2)_dimmed')($x.1)($status | get $x.0)" }
     | str join
     )
 
-  $'(sep)($branch)($summary)'
+  $'(sep)($branch)($summary)(ansi reset)'
 }
 
 ### kubernetes

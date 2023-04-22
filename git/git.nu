@@ -50,6 +50,7 @@ export def _git_log [v num] {
     }
 }
 
+# FIXME: number-like
 def "nu-complete git log" [] {
     git log -n 32 --pretty=%h»¦«%s
     | lines
@@ -57,6 +58,7 @@ def "nu-complete git log" [] {
     | each {|x| $x | update value $"`($x.value)`"}
 }
 
+# FIXME: number-like
 def "nu-complete git branches" [] {
     git branch
     | lines
