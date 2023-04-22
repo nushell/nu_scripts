@@ -1,3 +1,9 @@
+def sep [color?: string] {
+    let color = if ($color | is-empty) { 'light_yellow' } else { $color }
+    $"(ansi $color)|(ansi reset)"
+}
+
+### pwd
 def related [sub dir] {
     if $sub == $dir {
         return { related: '=', path: '' }
@@ -23,10 +29,7 @@ export def "pwd_abbr" [] {
       $'~(char separator)($to_home.path)'
   }
 
-  mut dir_comp = ($cwd
-    | str replace $nu.home-path '~'
-    | split row (char separator)
-    )
+  mut dir_comp = ($cwd | split row (char separator))
 
   if ($dir_comp | length) > 5 {
     let first = ($dir_comp | first)
@@ -47,18 +50,14 @@ export def "pwd_abbr" [] {
   $"($style)($dir_comp | str join (char separator))"
 }
 
-def sep [color?: string] {
-    let color = if ($color | is-empty) { 'light_yellow' } else { $color }
-    $"(ansi $color)|(ansi reset)"
-}
-
+### git
 export def git_status [] {
   let status = (do -i { gstat })
   if not ($status | is-empty) {
       return $status
   }
 
-  let raw_status = (git --no-optional-locks status --porcelain=2 --branch | lines)
+  let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
 
   mut status = {
     idx_added_staged    : 0
@@ -81,6 +80,8 @@ export def git_status [] {
     branch              : no_branch
     remote              : no_remote
   }
+
+  if ($raw_status | is-empty) { return $status }
 
   for s in $raw_status {
     let r = ($s | split row ' ')
@@ -207,13 +208,14 @@ export def "kube prompt" [] {
 
 ### proxy
 export def "proxy prompt" [] {
-    if not ($env.https_proxy? | is-empty) {
+    if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
         sep blue
     } else {
         ""
     }
 }
 
+### host
 def host_abbr [] {
     let n = (hostname | str trim)
     let ucl = if (is-admin) {
@@ -225,6 +227,7 @@ def host_abbr [] {
 }
 
 
+### prompt
 def right_prompt [] {
     { ||
         let time_segment = (date now | date format '%y-%m-%d/%H:%M:%S')
@@ -232,7 +235,6 @@ def right_prompt [] {
     }
 }
 
-# An opinionated Git prompt for Nushell, styled after posh-git
 def left_prompt [] {
     { ||
         $"(pwd_abbr)(git_status styled)"
