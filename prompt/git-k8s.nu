@@ -244,7 +244,7 @@ def left_prompt [] {
 def up_prompt [] {
     { ||
         let time_segment = (date now | date format '%y-%m-%d/%H:%M:%S')
-        let left = $"(host_abbr)(pwd_abbr)(gsdfit_status styled)"
+        let left = $"(host_abbr)(pwd_abbr)(git_status styled)"
         let right = $"(proxy prompt)(kube prompt)(ansi purple_bold)($time_segment)"
         # TODO: length of unicode char is 3
         let fl = ((term size).columns
