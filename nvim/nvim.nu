@@ -1,8 +1,8 @@
 ## neovim configurations
-# local vcs_root = require'taberm.vcs'.root
+# local vcs_root = require('lspconfig.util').root_pattern('.git/')
 # function HookPwdChanged(after, before)
 #     vim.b.pwd = after
-#     local git_dir = vcs_root(after, nil)
+#     local git_dir = vcs_root(after)
 #     vim.api.nvim_command('silent tcd! '..(git_dir or after))
 # end
 
