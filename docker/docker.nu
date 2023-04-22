@@ -336,10 +336,10 @@ export def "registry list" [
     url: string
     reg: string@"nu-complete registry list"
 ] {
-    if ('REGISTRY_TOKEN' in ($env | columns)) {
-        http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
-    } else {
+    if ($env.REGISTRY_TOKEN? | is-empty) {
         http get $"($url)/v2/($reg)/tags/list"
+    } else {
+        http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
     }
     | get tags
 }

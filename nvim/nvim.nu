@@ -1,7 +1,7 @@
 ## neovim configurations
 # local vcs_root = require'taberm.vcs'.root
 # function HookPwdChanged(after, before)
-#     vim.b.pwd = after                         
+#     vim.b.pwd = after
 #     local git_dir = vcs_root(after, nil)
 #     vim.api.nvim_command('silent tcd! '..(git_dir or after))
 # end
@@ -18,7 +18,7 @@
 #         end
 #     end
 # end
-                                                       
+
 # function ReadTempDrop(path, action)
 #     vim.api.nvim_command(action or 'botright vnew')
 #     local win = vim.api.nvim_get_current_win()
@@ -32,7 +32,7 @@
 def nvim_tcd [] {
     [
         {|before, after|
-            if 'NVIM' in ($env | columns) {
+            if not ($env.NVIM? | is-empty) {
                 nvim --headless --noplugin --server $env.NVIM --remote-send $"<cmd>lua HookPwdChanged\('($after)', '($before)')<cr>"
             }
         }
@@ -52,7 +52,9 @@ export-env {
 }
 
 def edit [action file] {
-    if 'NVIM' in ($env | columns) {
+    if ($env.NVIM? | is-empty) {
+        nvim $file
+    } else {
         let af = ($file | each {|f|
             if ($f|str substring ..1) in ['/', '~'] {
                 $f
@@ -62,14 +64,12 @@ def edit [action file] {
         })
         let cmd = $"<cmd>($action) ($af|str join ' ')<cr>"
         nvim --headless --noplugin --server $env.NVIM --remote-send $cmd
-    } else {
-        nvim $file
     }
 }
 
 # nvim tcd
 export def tcd [path?: string] {
-    let after = if ($path|is-empty) {
+    let after = if ($path | is-empty) {
         $env.PWD
     } else {
         $path
@@ -111,22 +111,22 @@ export def x [...file: string] {
 
 # drop stdout to nvim buf
 export def drop [] {
-    if 'NVIM' in ($env | columns) {
+    if ($env.NVIM? | is-empty) {
+        echo $in
+    } else {
         let c = $in
         let temp = (mktemp -t nuvim.XXXXXXXX|str trim)
         $c | save -f $temp
         nvim --headless --noplugin --server $env.NVIM --remote-send $"<cmd>lua ReadTempDrop\('($temp)')<cr>"
-    } else {
-        echo $in
     }
 }
 
 export def nvim-lua [...expr: string] {
-    if 'NVIM' in ($env | columns) {
+    if ($env.NVIM? | is-empty) {
+        echo "not found nvim instance"
+    } else {
         nvim --headless --noplugin --server $env.NVIM --remote-send $'<cmd>lua vim.g.remote_expr_lua = ($expr|str join " ")<cr>'
         do -i { nvim --headless --noplugin --server $env.NVIM --remote-expr 'g:remote_expr_lua' } | complete | get stderr
-    } else {
-        echo "not found nvim instance"
     }
 }
 

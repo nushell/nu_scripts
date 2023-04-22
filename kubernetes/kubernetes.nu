@@ -68,7 +68,7 @@ export def kk [p: path] {
 
 ### ctx
 export def "kube-config" [] {
-    let file = if 'KUBECONFIG' in ($env | columns) { $env.KUBECONFIG } else { $"($env.HOME)/.kube/config" }
+    let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
     { path: $file, data: (cat $file | from yaml)}
 }
 
@@ -80,7 +80,7 @@ def "nu-complete kube ctx" [] {
         let data = ($k.data
             | get contexts
             | reduce -f {completion:[], mx_ns: 0, mx_cl: 0} {|x, a|
-                let ns = (if ('namespace' in ($x.context|columns)) { $x.context.namespace } else { '' })
+                let ns = (if ($x.context.namespace? | is-empty) { '' } else { $x.context.namespace })
                 let max_ns = ($ns | str length)
                 let cluster = ($"($x.context.user)@($clusters | where name == $x.context.cluster | get cluster_server.0)")
                 let max_cl = ($cluster | str length)
