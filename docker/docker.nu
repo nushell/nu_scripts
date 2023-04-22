@@ -243,7 +243,7 @@ def "nu-complete docker run sshkey" [ctx: string, pos: int] {
 
 def "nu-complete docker run proxy" [] {
     let hostaddr = (do -i { hostname -I | split row ' ' | get 0 })
-    [$"http://($hostaddr):7890" $"http://localhost:7890"]
+    [ $"http://($hostaddr):7890" $"http://($hostaddr):" ]
 }
 
 def host-path [path] {

@@ -57,6 +57,13 @@ def "nu-complete git log" [] {
     | each {|x| $x | update value $"`($x.value)`"}
 }
 
+def "nu-complete git branches" [] {
+    git branch
+    | lines
+    | filter {|x| not ($x | str starts-with '*')}
+    | each {|x| $"'($x|str trim)'"}
+}
+
 export def gl [
     commit?: string@"nu-complete git log"
     --verbose(-v):bool
@@ -80,6 +87,14 @@ export def glv [
     }
 }
 
+export def gco [branch: string@"nu-complete git branches"] {
+    git checkout $branch
+}
+
+export def gbD [branch: string@"nu-complete git branches"] {
+    git branch -D $branch
+}
+
 export def gpp! [] {
     git pull
     git add --all
@@ -101,16 +116,33 @@ export def gsq [] {
     git gc --prune=now --aggressive
 }
 
-def "nu-complete git branches" [] {
-  ^git branch | lines | each { |line| $line | str replace '[\*\+] ' '' | str trim }
-}
-
 def "nu-complete git remotes" [] {
   ^git remote | lines | each { |line| $line | str trim }
 }
 
+export def gr [remote?: string@"nu-complete git remotes"] {
+    let remote = if ($remote|is-empty) { 'origin' } else { $remote }
+    git remote show $remote
+}
+
+export def grh [commit: string@"nu-complete git log"] {
+    git reset $commit
+}
+
+export def gf [
+    remote: string@"nu-complete git remotes"
+    branch: string@"nu-complete git branches"
+] {
+    let remote = if ($remote|is-empty) { 'origin' } else { $remote }
+    git fetch $remote $branch
+}
+
 export def gm [branch:string@"nu-complete git branches"] {
     git merge $branch
+}
+
+export def grb [branch:string@"nu-complete git branches"] {
+    git rebase (gstat).branch $branch
 }
 
 def git_main_branch [] {
@@ -123,7 +155,7 @@ def git_main_branch [] {
 }
 
 def git_current_branch [] {
-    git rev-parse --abbrev-ref HEAD | str trim -c "\n"
+    (gstat).branch
 }
 
 export def gmom [] {
@@ -148,7 +180,6 @@ export alias gb = git branch
 export alias gba = git branch -a
 export alias gbd = git branch -d
 export alias gbda = 'git branch --no-color --merged | command grep -vE "^(\+|\*|\s*($(git_main_branch)|development|develop|devel|dev)\s*$)" | command xargs -n 1 git branch -d'
-export alias gbD = git branch -D
 export alias gbl = git blame -b -w
 export alias gbnm = git branch --no-merged
 export alias gbr = git branch --remote
@@ -175,7 +206,6 @@ export alias gclean = git clean -id
 export alias gcm = git checkout (git_main_branch)
 export alias gcd = git checkout develop
 export alias gcmsg = git commit -m
-export alias gco = git checkout
 export alias gcount = git shortlog -sn
 export alias gcp = git cherry-pick
 export alias gcpa = git cherry-pick --abort
@@ -190,9 +220,7 @@ export alias gds = git diff --staged
 export alias gdt = git diff-tree --no-commit-id --name-only -r
 export alias gdw = git diff --word-diff
 
-export alias gr = git remote
 export alias gra = git remote add
-export alias grb = git rebase
 export alias grba = git rebase --abort
 export alias grbc = git rebase --continue
 export alias grbd = git rebase develop
@@ -201,7 +229,6 @@ export alias grbm = git rebase (git_main_branch)
 export alias grbo = git rebase --onto
 export alias grbs = git rebase --skip
 export alias grev = git revert
-export alias grh = git reset
 export alias grhh = git reset --hard
 export alias groh = git reset origin/$(git_current_branch) --hard
 export alias grm = git rm
