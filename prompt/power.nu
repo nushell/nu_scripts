@@ -1,21 +1,3 @@
-def _sep [
-    direction?: string
-    color?: string = 'light_yellow'
-    fg?: string
-] {
-    let s = $in
-    if ($env.NU_POWERLINE? | is-empty) {
-        return $"($s)(ansi light_yellow)|"
-    }
-    let fg = if ($fg | is-empty) { $color } else { $fg }
-    match $direction {
-        '>' => { $'(ansi -e {bg: $fg})($s)(ansi $fg)(ansi -e {bg: $color})(char nf_left_segment)' }
-        '>>' => { $'(ansi -e {bg: $fg})($s)(ansi reset)(ansi $fg)(char nf_left_segment)' }
-        '<' => { $'($s)(ansi $color)(char nf_right_segment)(ansi -e {bg: $color})' }
-        _ => { '|' }
-    }
-}
-
 ### pwd
 def related [sub dir] {
     if $sub == $dir {
@@ -30,37 +12,39 @@ def related [sub dir] {
 }
 
 export def "pwd_abbr" [sep: string = '>'] {
-  let pwd = ($env.PWD)
+    {||
+        let pwd = ($env.PWD)
 
-  let to_home = (related $pwd $nu.home-path)
+        let to_home = (related $pwd $nu.home-path)
 
-  let cwd = if $to_home.related == '=' {
-      "~"
-  } else if $to_home.related == '>' {
-      $pwd
-  } else {
-      $'~(char separator)($to_home.path)'
-  }
+        let cwd = if $to_home.related == '=' {
+            "~"
+        } else if $to_home.related == '>' {
+            $pwd
+        } else {
+            $'~(char separator)($to_home.path)'
+        }
 
-  mut dir_comp = ($cwd | split row (char separator))
+        mut dir_comp = ($cwd | split row (char separator))
 
-  if ($dir_comp | length) > 5 {
-    let first = ($dir_comp | first)
-    let last = ($dir_comp | last)
-    let body = (
-      $dir_comp
-      |range 1..-2
-      |each {|x| $x | str substring ..2 }
-      )
-    $dir_comp = ([$first $body $last] | flatten)
-  }
+        if ($dir_comp | length) > 5 {
+            let first = ($dir_comp | first)
+            let last = ($dir_comp | last)
+            let body = (
+                $dir_comp
+                |range 1..-2
+                |each {|x| $x | str substring ..2 }
+                )
+            $dir_comp = ([$first $body $last] | flatten)
+        }
 
-  let style = if $to_home.related == '>' {
-    $'(ansi xterm_gold3b)'
-  } else {
-    $'(ansi light_green_bold)'
-  }
-  $"($style)($dir_comp | str join (char separator) | _sep $sep $env.NU_POWERLINE_THEME.git $env.NU_POWERLINE_THEME.path)"
+        let style = if $to_home.related == '>' {
+            $'(ansi xterm_gold3b)'
+        } else {
+            $'(ansi light_green_bold)'
+        }
+        $"($style)($dir_comp | str join (char separator)
+    }
 }
 
 ### git
@@ -161,87 +145,129 @@ export def git_status [] {
 }
 
 export def "git_status styled" [] {
-  let status = (git_status)
+    {||
+        let status = (git_status)
 
-  if $status.branch == 'no_branch' { return '' }
+        if $status.branch == 'no_branch' { return '' }
 
-  let branch = if ($status.remote | is-empty) {
-    $'(ansi red)($status.branch)'
-  } else {
-    $'(ansi blue)($status.branch)'
-  }
+        let branch = if ($status.remote | is-empty) {
+            $'(ansi red)($status.branch)'
+        } else {
+            $'(ansi blue)($status.branch)'
+        }
 
-  let summary = ($env.NU_PROMPT_GIT_FORMATTER
-    | filter {|x| ($status | get $x.0) > 0 }
-    | each {|x| $"(ansi $'light_($x.2)_dimmed')($x.1)($status | get $x.0)" }
-    | str join
-    )
+        let summary = (
+            $env.NU_PROMPT_GIT_FORMATTER
+            | filter {|x| ($status | get $x.0) > 0 }
+            | each {|x| $"(ansi $'light_($x.2)_dimmed')($x.1)($status | get $x.0)" }
+            | str join
+            )
 
-  $'($branch)($summary)' | _sep '>>' $env.NU_POWERLINE_THEME.git
+        $'($branch)($summary)'
+    }
 }
 
 ### kubernetes
 def "kube ctx" [] {
     do -i {
-       kubectl config get-contexts
-       | from ssv -a
-       | where CURRENT == '*'
-       | get 0
+        kubectl config get-contexts
+        | from ssv -a
+        | where CURRENT == '*'
+        | get 0
     }
 }
 
-export def "kube prompt" [] {
-    let ctx = (kube ctx)
-    if ($ctx | is-empty) {
-        ""
-    } else {
-        let c = if $ctx.AUTHINFO == $ctx.CLUSTER {
+export def kube_prompt [] {
+    {||
+        let ctx = (kube ctx)
+        if ($ctx | is-empty) {
+            ""
+        } else {
+            let c = if $ctx.AUTHINFO == $ctx.CLUSTER {
                     $ctx.CLUSTER
                 } else {
                     $"($ctx.AUTHINFO)@($ctx.CLUSTER)"
                 }
-        let p = $"(ansi red)($c)(ansi yellow)/(ansi cyan_bold)($ctx.NAMESPACE)"
-        $"($p)" | str trim | _sep '<' $env.NU_POWERLINE_THEME.kube
+            let p = $"(ansi red)($c)(ansi yellow)/(ansi cyan_bold)($ctx.NAMESPACE)"
+            $"($p)" | str trim
+        }
     }
 }
 
 ### proxy
-export def "proxy prompt" [] {
-    if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
-        '' | _sep '<' $env.NU_POWERLINE_THEME.proxy
-    } else {
-        ""
+export def proxy_prompt [] {
+    {||
+        if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
+            '' | _sep '<' $env.NU_POWERLINE_THEME.proxy
+        } else {
+            ""
+        }
     }
 }
 
 ### host
 def host_abbr [] {
-    let n = (hostname | str trim)
-    let ucl = if (is-admin) {
-            (ansi yellow)
-        } else {
-            (ansi dark_gray)
-        }
-    $"($ucl)($n | _sep '<' $env.NU_POWERLINE_THEME.host)"
-}
-
-
-### prompt
-def right_prompt [] {
-    { ||
-        let time_segment = (date now | date format '%y-%m-%d/%H:%M:%S')
-        $"(proxy prompt)(host_abbr)(kube prompt)(ansi purple_bold)($time_segment)"
+    {||
+        let n = (hostname | str trim)
+        let ucl = if (is-admin) {
+                (ansi yellow)
+            } else {
+                (ansi dark_gray)
+            }
+        $"($ucl)($n)"
     }
 }
 
-def left_prompt [] {
-    { ||
-        let gs = (git_status styled)
-        if ($gs | is-empty) {
-            $"(pwd_abbr '>>')"
-        } else {
-            $"(pwd_abbr)($gs)"
-        }
+### time
+def time_segment [] {
+    {||
+        $"(ansi purple_bold)(date now | date format '%y-%m-%d/%H:%M:%S')"
+    }
+}
+
+### prompt
+def _sep [
+    direction?: string
+    color?: string = 'light_yellow'
+    fg?: string
+] {
+    let s = $in
+    if ($env.NU_POWERLINE? | is-empty) {
+        return $"($s)(ansi light_yellow)|"
+    }
+    let fg = if ($fg | is-empty) { $color } else { $fg }
+    match $direction {
+        '>' => { $'(ansi -e {bg: $fg})($s)(ansi $fg)(ansi -e {bg: $color})(char nf_left_segment)' }
+        '>>' => { $'(ansi -e {bg: $fg})($s)(ansi reset)(ansi $fg)(char nf_left_segment)' }
+        '<' => { $'($s)(ansi $color)(char nf_right_segment)(ansi -e {bg: $color})' }
+        _ => { '|' }
+    }
+}
+
+def right_prompt [...segment] {
+    {||
+        $segment
+        | each {|x| do $x }
+        | str join
+        #$"(proxy_prompt)(host_abbr)(kube_prompt)(time_segment)"
+        #  | _sep '<' $env.NU_POWERLINE_THEME.kube
+        # | _sep '<' $env.NU_POWERLINE_THEME.host
+    }
+}
+
+def left_prompt [...segment] {
+    {||
+        $segment
+        | each {|x| do $x }
+        | str join
+        #let gs = ((git_status styled))
+        #if ($gs | is-empty) {
+        #    $"((pwd_abbr '>>'))"
+        #} else {
+        #    $"((pwd_abbr))($gs)"
+        #}
+        # pwd abbr  | _sep $sep $env.NU_POWERLINE_THEME.git $env.NU_POWERLINE_THEME.path)"
+        #  | _sep '>>' $env.NU_POWERLINE_THEME.git
     }
 }
 
@@ -254,7 +280,7 @@ def up_prompt [] {
         } else {
             $"(host_abbr)(pwd_abbr)($gs)"
         }
-        let right = $"(proxy prompt)(kube prompt)(ansi purple_bold)($time_segment)"
+        let right = $"(proxy_prompt)(kube_prompt)(ansi purple_bold)($time_segment)"
         # TODO: length of unicode char is 3
         let fl = ((term size).columns
             - ($left  | ansi strip | str length)
@@ -266,35 +292,37 @@ def up_prompt [] {
 
 export-env {
     let-env NU_PROMPT_GIT_FORMATTER = [
-      [behind              (char branch_behind) yellow]
-      [ahead               (char branch_ahead) yellow]
-      [stashes             = blue]
-      [conflicts           ! red]
-      [ignored             _ purple]
-      [idx_added_staged    + green]
-      [idx_modified_staged ~ green]
-      [idx_deleted_staged  - green]
-      [idx_renamed         % green]
-      [idx_type_changed    * green]
-      [wt_untracked        + red]
-      [wt_modified         ~ red]
-      [wt_deleted          - red]
-      [wt_renamed          % red]
-      [wt_type_changed     * red]
+        [behind              (char branch_behind) yellow]
+        [ahead               (char branch_ahead) yellow]
+        [stashes             = blue]
+        [conflicts           ! red]
+        [ignored             _ purple]
+        [idx_added_staged    + green]
+        [idx_modified_staged ~ green]
+        [idx_deleted_staged  - green]
+        [idx_renamed         % green]
+        [idx_type_changed    * green]
+        [wt_untracked        + red]
+        [wt_modified         ~ red]
+        [wt_deleted          - red]
+        [wt_renamed          % red]
+        [wt_type_changed     * red]
     ]
 
     let-env NU_POWERLINE_THEME = {
-        path  : 'dark_gray'
-        git   : 'black'
-        host  : 'black'
-        kube  : 'white'
-        time  : 'black'
         proxy : 'blue'
+        left: [dark_gray black]
+        right: [blue black black white]
+          path  : 'dark_gray'
+          git   : 'black'
+          host  : 'black'
+          kube  : 'white'
+          time  : 'black'
     }
 
     let-env NU_POWERLINE = true
-    let-env PROMPT_COMMAND = (left_prompt)
-    let-env PROMPT_COMMAND_RIGHT = (right_prompt)
+    let-env PROMPT_COMMAND = (left_prompt (git_status styled) (pwd_abbr))
+    let-env PROMPT_COMMAND_RIGHT = (right_prompt (proxy_prompt) (host_abbr) (kube_prompt) (time_segment))
     let-env PROMPT_INDICATOR = {|| if ($env.NU_POWERLINE? | is-empty) { $"> " } else { $' ' } }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
