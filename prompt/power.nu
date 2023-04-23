@@ -231,54 +231,80 @@ def _sep [
     color?: string = 'light_yellow'
     fg?: string
 ] {
-    let s = $in
     if not $env.NU_POWERLINE {
         let r = match $direction {
-            '>' => { $"($s)(ansi light_yellow)|" }
-            '<' => { $"(ansi light_yellow)|($s)" }
-            '<<'|'>>' => { $s }
+            '>' => {
+                let r = $'(ansi light_yellow)|'
+                {|s| $"($s)($r)" }
+            }
+            '<' => {
+                let l = $'(ansi light_yellow)|'
+                {|s| $"($l)($s)" }
+            }
+            '<<'|'>>' => {{|s| $s }}
         }
         return $r
     }
     let fg = if ($fg | is-empty) { $color } else { $fg }
     match $direction {
-        '>' => { $'(ansi -e {bg: $fg})($s)(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)' }
-        '>>' => { $'(ansi -e {bg: $fg})($s)(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)' }
-        '<'|'<<' => { $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})($s)' }
+        '>' => {
+            let l = (ansi -e {bg: $fg})
+            let r = $'(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)'
+            {|s| $'($l)($s)($r)' }
+        }
+        '>>' => {
+            let l = (ansi -e {bg: $fg})
+            let r = $'(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)'
+            {|s| $'($l)($s)($r)' }
+        }
+        '<'|'<<' => {
+            let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
+            {|s| $'($l)($s)' }
+        }
     }
 }
 
 def left_prompt [segment] {
-    {||
-        let stop = ($segment | length) - 1
-        let vs = ($segment | each {|x| [$x.power (do ($env.NU_PROMPT_COMPONENTS | get $x.source))]})
-        let cs = ($vs | each {|x| $x.0})
-        let cs = ($cs | prepend $cs.1?)
-        $vs
+    let stop = ($segment | length) - 1
+    let vs = ($segment | each {|x| [$x.power ($env.NU_PROMPT_COMPONENTS | get $x.source)]})
+    let cs = ($vs | each {|x| $x.0})
+    let cs = ($cs | prepend $cs.1?)
+    let thunk = ($vs
         | zip $cs
         | enumerate
         | each {|x|
             if $x.index == $stop {
-                $x.item.0.1 | _sep '>>' $x.item.0.0 $x.item.1
+                [$x.item.0.1 (_sep '>>' $x.item.0.0 $x.item.1)]
             } else {
-                $x.item.0.1 | _sep '>' $x.item.0.0 $x.item.1
+                [$x.item.0.1 (_sep '>' $x.item.0.0 $x.item.1)]
             }
-        }
+        })
+    {||
+        $thunk
+        | each {|x| do $x.1 (do $x.0) }
         | str join
     }
 }
 
 def right_prompt [segment] {
-    {||
-        $segment
-        | each {|x| [$x.power (do ($env.NU_PROMPT_COMPONENTS | get $x.source))]}
-        | filter {|x| not ($x.1 | is-empty)}
+    let thunk = ( $segment
+        | each {|x| [$x.power ($env.NU_PROMPT_COMPONENTS | get $x.source)]}
         | enumerate
         | each {|x|
             if $x.index == 0 {
-                $x.item.1 | _sep '<<' $x.item.0
+                [$x.item.1 (_sep '<<' $x.item.0)]
             } else {
-                $x.item.1 | _sep '<' $x.item.0
+                [$x.item.1 (_sep '<' $x.item.0)]
+            }
+        })
+    {||
+        $thunk
+        | reduce -f [] {|x, a|
+            let v = (do $x.0)
+            if ($v | is-empty) {
+                $a
+            } else {
+                $a | append (do $x.1 $v)
             }
         }
         | str join
@@ -286,11 +312,14 @@ def right_prompt [segment] {
 }
 
 def up_prompt [segment] {
+    let thunk = ($segment
+        | each {|y| $y | each {|x| $env.NU_PROMPT_COMPONENTS | get $x.source}
+        })
     { ||
-        let ss = ($segment
+        let ss = ($thunk
             | each {|y|
                 $y
-                | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x.source)}
+                | each {|x| do $x }
                 | filter {|x| not ($x | is-empty)}
                 | str join $'(ansi light_yellow)|'
             })
