@@ -295,7 +295,7 @@ def up_prompt [segment] {
                 | str join $'(ansi light_yellow)|'
             })
         # TODO: length of unicode char is 3
-        let fl = ((term size).columns - ($ss | str join ''| ansi strip | str length))
+        let fl = (((term size).columns - ($ss | str join ''| ansi strip | str length)) | math abs)
         $ss | str join $"(ansi xterm_grey)('' | fill -c '-' -w $fl)(ansi reset)"
     }
 }
