@@ -306,6 +306,11 @@ export-env {
         [proxy host kube time]
     ]
 
+    let-env NU_POWERLINE_THEME = {
+        left: ['#504945' '#353230' '#504945' '#353230' '#504945']
+        right: [dark_gray '#353230' '#504945' '#666560' '#504945']
+    }
+
     let-env NU_PROMPT_GIT_FORMATTER = [
         [behind              (char branch_behind) yellow]
         [ahead               (char branch_ahead) yellow]
@@ -323,11 +328,6 @@ export-env {
         [wt_renamed          % red]
         [wt_type_changed     * red]
     ]
-
-    let-env NU_POWERLINE_THEME = {
-        left: ['#504945' '#353230']
-        right: [dark_gray '#353230' '#504945' '#666560']
-    }
 
     let-env NU_POWERLINE = true
 
