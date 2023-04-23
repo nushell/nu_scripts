@@ -9,9 +9,9 @@ def _sep [
     }
     let fg = if ($fg | is-empty) { $color } else { $fg }
     match $direction {
-        '>' => { $'(ansi $"bg_($fg)")($s)(ansi $fg)(ansi $'bg_($color)')(char nf_left_segment)' }
-        '>>' => { $'(ansi $"bg_($fg)")($s)(ansi reset)(ansi $fg)(char nf_left_segment)' }
-        '<' => { $'($s)(ansi $color)(char nf_right_segment)(ansi $"bg_($color)")' }
+        '>' => { $'(ansi -e {bg: $fg})($s)(ansi $fg)(ansi -e {bg: $color})(char nf_left_segment)' }
+        '>>' => { $'(ansi -e {bg: $fg})($s)(ansi reset)(ansi $fg)(char nf_left_segment)' }
+        '<' => { $'($s)(ansi $color)(char nf_right_segment)(ansi -e {bg: $color})' }
         _ => { '|' }
     }
 }
@@ -285,10 +285,10 @@ export-env {
 
     let-env NU_POWERLINE_THEME = {
         path  : 'dark_gray'
-        git   : 'white'
-        host  : 'dark_gray'
-        kube  : 'yellow'
-        time  : 'dark_gray'
+        git   : 'black'
+        host  : 'black'
+        kube  : 'white'
+        time  : 'black'
         proxy : 'blue'
     }
 
