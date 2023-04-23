@@ -316,7 +316,7 @@ export-env {
         NU_PROMPT_SCHEMA
         [
             [
-                {source: pwd,   power: '#504945'}
+                {source: pwd,   power: '#353230'}
                 {source: git,   power: '#504945'}
             ]
             [
