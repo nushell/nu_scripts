@@ -354,6 +354,17 @@ export-env {
         ]
     )
 
+    let-env MENU_MARKER_SCHEMA = (default_env
+        MENU_MARKER_SCHEMA
+        {
+            "| " : 'green'
+            ": " : 'blue'
+            "# " : 'purple'
+            "? " : 'red'
+            "┊ " : 'yellow'
+        }
+    )
+
     let-env NU_PROMPT_GIT_FORMATTER = (default_env
         NU_PROMPT_GIT_FORMATTER
         [
@@ -396,4 +407,11 @@ export-env {
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
     let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+
+    let-env config = ( $env.config | update menus ($env.config.menus
+        | each {|x|
+            let c = ($env.MENU_MARKER_SCHEMA | get $x.marker)
+            $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
+        }
+        ))
 }
