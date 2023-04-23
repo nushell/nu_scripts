@@ -287,15 +287,20 @@ def right_prompt [...segment] {
 
 def up_prompt [...segment] {
     { ||
-        let time_segment = (date now | date format '%y-%m-%d/%H:%M:%S')
-        let left = $"(host_abbr)(pwd_abbr)(git_status styled)"
-        let right = $"(proxy_stat)(kube_stat)(ansi purple_bold)($time_segment)"
+        let ss = ($segment
+            | split list 'sep'
+            | each {|y|
+                $y
+                | each {|x| do $x}
+                | filter {|x| not ($x | is-empty)}
+                | str join $'(ansi light_yellow)|'
+            })
         # TODO: length of unicode char is 3
         let fl = ((term size).columns
-            - ($left  | ansi strip | str length)
-            - ($right | ansi strip | str length)
+            - ($ss.0 | ansi strip | str length)
+            - ($ss.1 | ansi strip | str length)
             )
-        $"($left)(ansi xterm_grey)('' | fill -c '-' -w $fl)(ansi reset)($right)"
+        $"($ss.0)(ansi xterm_grey)('' | fill -c '-' -w $fl)(ansi reset)($ss.1)"
     }
 }
 
@@ -326,6 +331,7 @@ export-env {
     let-env NU_POWERLINE = true
     let-env PROMPT_COMMAND = (left_prompt (pwd_abbr) (git_status styled))
     let-env PROMPT_COMMAND_RIGHT = (right_prompt (proxy_stat) (host_abbr) (kube_stat) (time_segment))
+    #let-env PROMPT_COMMAND = (up_prompt (host_abbr) (pwd_abbr) (git_status styled) 'sep' (proxy_stat) (kube_stat) (time_segment))
     let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { $"> " } else { $'' } }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
