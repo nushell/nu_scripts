@@ -41,5 +41,5 @@ export def main [
         |get -i -s $char
         |default $char
     }
-    |str collect ''
+    |str join ''
 }

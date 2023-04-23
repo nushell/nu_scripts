@@ -30,7 +30,7 @@ def "nu-complete cargo features" [] {
 # `cargo --list` is slow, `open` is faster.
 # TODO: Add caching.
 def "nu-complete cargo subcommands" [] {
-  ^cargo --list | lines | skip 1 | str collect "\n" | from ssv --noheaders | get column1
+  ^cargo --list | lines | skip 1 | str join "\n" | from ssv --noheaders | get column1
 }
 def "nu-complete cargo vcs" [] {
   [

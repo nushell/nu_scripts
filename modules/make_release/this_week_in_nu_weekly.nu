@@ -1,8 +1,8 @@
-# fetch https://api.github.com/repos/nushell/nushell/pulls?q=is%3Apr+merged%3A%3E%3D2021-04-20+ | select html_url user.login title body
-# fetch https://api.github.com/search/issues?q=repo:nushell/nushell+is:pr+is:merged+merged:%3E2021-05-08 | get items | select html_url user.login title body
+# http get https://api.github.com/repos/nushell/nushell/pulls?q=is%3Apr+merged%3A%3E%3D2021-04-20+ | select html_url user.login title body
+# http get https://api.github.com/search/issues?q=repo:nushell/nushell+is:pr+is:merged+merged:%3E2021-05-08 | get items | select html_url user.login title body
 # Repos to monitor
 
-def do-work [] {
+def query-week-span [] {
     let site_table = [
         [site repo];
         [Nushell nushell]
@@ -26,48 +26,38 @@ def do-work [] {
     let amp = "%26"
     let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
 
-    let entries = ($site_table | each { |row|
-        let query_string = $"($query_prefix)($row.repo)($query_suffix)"
-        # this is for debugging the rate limit. comment it out if things are working well
-        # fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD https://api.github.com/rate_limit | get resources | select core.limit core.remaining graphql.limit graphql.remaining integration_manifest.limit integration_manifest.remaining search.limit search.remaining
-        let site_json = (fetch -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
+    for repo in $site_table {
+        let query_string = $"($query_prefix)($repo.repo)($query_suffix)"
+        let site_json = (http get -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
 
-        $"## ($row.site)(char nl)(char nl)"
-        if ($site_json | all { |it| $it | is-empty }) {
-            $"none found this week(char nl)(char nl)"
-        } else {
-            $site_json | group-by user_login | transpose user prs | each { |row|
-                let user_name = $row.user
-                let pr_count = ($row.prs | length)
+        if not ($site_json | all { |it| $it | is-empty }) {
+            print $"(char nl)## ($repo.site)(char nl)"
 
-                # only print the comma if there's another item
-                let user_prs = ($row.prs | each -n { |pr|
+            for user in ($site_json | group-by user_login | transpose user prs) {
+                let user_name = $user.user
+                let pr_count = ($user.prs | length)
+
+                print -n $"- ($user_name) created "
+                for pr in ($user.prs | enumerate) {
                     if $pr_count == ($pr.index + 1) {
-                        $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
+                        print -n $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
                     } else {
-                        $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
+                        print -n $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
                     }
-                } | str collect)
+                }
 
-                $"- ($user_name) created ($user_prs) (char nl)"
-            } | str collect
-            char nl
+                print ""
+            }
         }
-    })
-
-    if ($entries | all { |it| $it | is-empty }) {
-        # do nothing
-    } else {
-        $entries | str collect
     }
 }
 
 # 2019-08-23 was the release of 0.2.0, the first public release
 let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
-$"# This week in Nushell #($week_num)(char nl)(char nl)"
+print $"# This week in Nushell #($week_num)(char nl)"
 
 if ($env | select GITHUB_USERNAME | is-empty) or ($env | select GITHUB_PASSWORD | is-empty) {
-    echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
+    print 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
 } else {
-    do-work | str collect
+    query-week-span
 }

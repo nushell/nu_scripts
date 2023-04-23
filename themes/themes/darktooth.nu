@@ -1,61 +1,81 @@
-export def main [] {
-    # extra desired values for the darktooth theme
-    # which do not fit into any nushell theme
-    # these colors should be handledd by the terminal
-    # emulator itself
-    #
-    # background: "#1d2021"
-    # foreground: "#a89984"
-    # cursor: "#a89984"
-
-    {
-        # color for nushell primitives
-        separator: "#fdf4c1"
-        leading_trailing_space_bg: { attr: n } # no fg, no bg, attr none effectively turns this off
-        header: "#95c085"
-        empty: "#0d6678"
-        bool: "#fdf4c1"
-        int: "#fdf4c1"
-        filesize: "#fdf4c1"
-        duration: "#fdf4c1"
-        date: "#fdf4c1"
-        range: "#fdf4c1"
-        float: "#fdf4c1"
-        string: "#fdf4c1"
-        nothing: "#fdf4c1"
-        binary: "#fdf4c1"
-        cellpath: "#fdf4c1"
-        row_index: "#95c085"
-        record: "#fdf4c1"
-        list: "#fdf4c1"
-        block: "#fdf4c1"
-        hints: "#665c54"
-
-        # shapes are used to change the cli syntax highlighting
-        shape_garbage: { fg: "#FFFFFF" bg: "#FF0000" attr: b}
-        shape_binary: "#8f4673"
-        shape_bool: "#8ba59b"
-        shape_int: "#8f4673"
-        shape_float: "#8f4673"
-        shape_range: "#fac03b"
-        shape_internalcall: "#8ba59b"
-        shape_external: "#8ba59b"
-        shape_externalarg: "#95c085"
-        shape_literal: "#0d6678"
-        shape_operator: "#fac03b"
-        shape_signature: "#95c085"
-        shape_string: "#95c085"
-        shape_string_interpolation: "#8ba59b"
-        shape_datetime: "#8ba59b"
-        shape_list: "#8ba59b"
-        shape_table: "#0d6678"
-        shape_record: "#8ba59b"
-        shape_block: "#0d6678"
-        shape_filepath: "#8ba59b"
-        shape_globpattern: "#8ba59b"
-        shape_variable: "#8f4673"
-        shape_flag: "#0d6678"
-        shape_custom: "#95c085"
-        shape_nothing: "#8ba59b"
+export def main [] { return {
+    separator: "#a89984"
+    leading_trailing_space_bg: { attr: "n" }
+    header: { fg: "#95c085" attr: "b" }
+    empty: "#0d6678"
+    bool: {|| if $in { "#8ba59b" } else { "light_gray" } }
+    int: "#a89984"
+    filesize: {|e|
+      if $e == 0b {
+        "#a89984"
+      } else if $e < 1mb {
+        "#8ba59b"
+      } else {{ fg: "#0d6678" }}
     }
-}
+    duration: "#a89984"
+    date: {|| (date now) - $in |
+      if $in < 1hr {
+        { fg: "#fb543f" attr: "b" }
+      } else if $in < 6hr {
+        "#fb543f"
+      } else if $in < 1day {
+        "#fac03b"
+      } else if $in < 3day {
+        "#95c085"
+      } else if $in < 1wk {
+        { fg: "#95c085" attr: "b" }
+      } else if $in < 6wk {
+        "#8ba59b"
+      } else if $in < 52wk {
+        "#0d6678"
+      } else { "dark_gray" }
+    }
+    range: "#a89984"
+    float: "#a89984"
+    string: "#a89984"
+    nothing: "#a89984"
+    binary: "#a89984"
+    cellpath: "#a89984"
+    row_index: { fg: "#95c085" attr: "b" }
+    record: "#a89984"
+    list: "#a89984"
+    block: "#a89984"
+    hints: "dark_gray"
+
+    shape_and: { fg: "#8f4673" attr: "b" }
+    shape_binary: { fg: "#8f4673" attr: "b" }
+    shape_block: { fg: "#0d6678" attr: "b" }
+    shape_bool: "#8ba59b"
+    shape_custom: "#95c085"
+    shape_datetime: { fg: "#8ba59b" attr: "b" }
+    shape_directory: "#8ba59b"
+    shape_external: "#8ba59b"
+    shape_externalarg: { fg: "#95c085" attr: "b" }
+    shape_filepath: "#8ba59b"
+    shape_flag: { fg: "#0d6678" attr: "b" }
+    shape_float: { fg: "#8f4673" attr: "b" }
+    shape_garbage: { fg: "#FFFFFF" bg: "#FF0000" attr: "b" }
+    shape_globpattern: { fg: "#8ba59b" attr: "b" }
+    shape_int: { fg: "#8f4673" attr: "b" }
+    shape_internalcall: { fg: "#8ba59b" attr: "b" }
+    shape_list: { fg: "#8ba59b" attr: "b" }
+    shape_literal: "#0d6678"
+    shape_match_pattern: "#95c085"
+    shape_matching_brackets: { attr: "u" }
+    shape_nothing: "#8ba59b"
+    shape_operator: "#fac03b"
+    shape_or: { fg: "#8f4673" attr: "b" }
+    shape_pipe: { fg: "#8f4673" attr: "b" }
+    shape_range: { fg: "#fac03b" attr: "b" }
+    shape_record: { fg: "#8ba59b" attr: "b" }
+    shape_redirection: { fg: "#8f4673" attr: "b" }
+    shape_signature: { fg: "#95c085" attr: "b" }
+    shape_string: "#95c085"
+    shape_string_interpolation: { fg: "#8ba59b" attr: "b" }
+    shape_table: { fg: "#0d6678" attr: "b" }
+    shape_variable: "#8f4673"
+
+    background: "#1d2021"
+    foreground: "#a89984"
+    cursor: "#a89984"
+}}

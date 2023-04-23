@@ -4,22 +4,25 @@ export def-env activate [
 ] {
     let conda_info = (conda info --envs --json | from json)
 
-    mut $env_name = $env_name
-    if $env_name == null {$env_name = "base"}
-    mut env_dir = ""
-    mut env_dirs = []
-    for i in $conda_info.envs_dirs {
-        $env_dirs = ($env_dirs | append ($i | path join $env_name))
-    }
-    if $env_name != "base" {
-        $env_dir = ((check-if-env-exists $env_name $env_dirs) | into string)
+    let env_name = if $env_name == null {
+        "base"
     } else {
-        $env_dir = $conda_info.root_prefix
+        $env_name
+    }
+
+    let env_dir = if $env_name != "base" {
+        if ($env_name | path exists) and (($env_name | path expand) in $conda_info.envs ) {
+            ($env_name | path expand)
+        } else {
+            ((check-if-env-exists $env_name $conda_info) | into string)
         }
+    } else {
+        $conda_info.root_prefix
+    }
 
-    let old_path = (system-path | str collect (char esep))
+    let old_path = (system-path | str join (char esep))
 
-    let new_path = if windows? {
+    let new_path = if (windows?) {
         conda-create-path-windows $env_dir
     } else {
         conda-create-path-unix $env_dir
@@ -89,11 +92,16 @@ export def-env deactivate [] {
     hide-env CONDA_OLD_PROMPT_COMMAND
 }
 
-def check-if-env-exists [ env_name: string, env_dir: list ] {
-    let en = ($env_dir | each {|en| ( conda info --envs --json | from json | get envs ) | where $it == $en } | where ($it | length) == 1 | flatten)
+def check-if-env-exists [ env_name: string, conda_info: record ] {
+    let env_dirs = (
+        $conda_info.envs_dirs |
+        each { || path join $env_name }
+    )
+
+    let en = ($env_dirs | each {|en| $conda_info.envs | where $it == $en } | where ($it | length) == 1 | flatten)
     if ($en | length) > 1 {
         error make --unspanned {msg: $"You have enviroments in multiple locations: ($en)"}
-        }
+    }
     if ($en | length) == 0 {
         error make --unspanned {msg: $"Could not find given environment: ($env_name)"}
     }
@@ -120,7 +128,7 @@ def conda-create-path-windows [env_dir: path] {
 
     let new_path = ([$env_path (system-path)]
         | flatten
-        | str collect (char esep))
+        | str join (char esep))
 
     { Path: $new_path }
 }
@@ -132,7 +140,7 @@ def conda-create-path-unix [env_dir: path] {
 
     let new_path = ([$env_path $env.PATH]
         | flatten
-        | str collect (char esep))
+        | str join (char esep))
 
     { PATH: $new_path }
 }

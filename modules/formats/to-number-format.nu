@@ -35,7 +35,7 @@ export def number-format [
         } else {
             $whole_part
         }
-        | str collect ''
+        | str join ''
     )
 
     let whole_part3 = (

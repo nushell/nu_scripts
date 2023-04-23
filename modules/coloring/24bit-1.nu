@@ -12,7 +12,7 @@ export def draw [] {
         } else {
             build-colorstr $r $g $b $col
         }
-    } | str collect
+    } | str join
 }
 
 def build-colorstr [
@@ -33,3 +33,5 @@ def build-colorstr [
     $"($bg)($fg)($slash_str)"
     # sleep 10ms | ignore
 }
+
+draw

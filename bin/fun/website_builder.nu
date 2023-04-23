@@ -12,7 +12,7 @@ for $markdown in $markdown_files {
         let $header = ($content_lines
                        | skip 1
                        | take while {|x| ($x | str trim) != "---"}
-                       | str collect "\n"
+                       | str join "\n"
                        | from yaml)
 
         let $post = ($content_lines
@@ -45,7 +45,7 @@ for $markdown in $markdown_files {
                               }
                           })
 
-        let $html_post = ($html_post | str collect "\n")
+        let $html_post = ($html_post | str join "\n")
         let $html_post = $"<!DOCTYPE html>
         <html>
           <head>

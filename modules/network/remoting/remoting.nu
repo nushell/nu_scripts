@@ -46,7 +46,7 @@ export def ssh [
     let host = (hosts|where name == $hostname|get -i 0)
     if ($host.nu) {
         if ($args|length) > 0 {
-            ^ssh (get-url $host) (build-string ($args|str collect ' ') '|to json -r')|from json
+            ^ssh (get-url $host) (build-string ($args|str join ' ') '|to json -r')|from json
         } else {
             ^ssh (get-url $host)
         }
@@ -65,7 +65,7 @@ export def "ssh script" [
     if $script in ($nu.scope.commands|where is_custom|get command) {
 
         let host = (hosts|where name == $hostname|get 0)
-        let full_command = (build-string (view-source $script) '; ' $script ' ' ($args|str collect ' ') '|to json -r')
+        let full_command = (build-string (view-source $script) '; ' $script ' ' ($args|str join ' ') '|to json -r')
         ^ssh (get-url $host) ($full_command)|from json
 
     } else {

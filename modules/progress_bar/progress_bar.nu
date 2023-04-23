@@ -29,18 +29,18 @@ print -n ($bg_fill | fill -c $bg_fill -w $pb_len -a r)
 1..<$pb_len | each { |cur_progress|
     # This is kind of a hack because it's not incrementally drawing a new box
     # It's drawing the entire row every time with a different padding amount
-    # echo $blocks.7 | str lpad -c $blocks.7 -l $it
+    # echo $blocks.7 | fill --character $blocks.7 --width $it --align right
 
     0..7 | each { |tick|
         let cur_idx = ($tick mod 8)
         let cur_block = (echo $blocks | get $cur_idx)
-        print -n $"(ansi -e '1000D')($cur_block | str lpad -c $blocks.7 -l $cur_progress)"
+        print -n $"(ansi -e '1000D')($cur_block | fill -c $blocks.7 -w $cur_progress -a r)"
         sleep 20ms
     }
     print -n $"(ansi -e '1000D')"
 }
 # Fill in the last background block
-print $"($blocks.7 | str lpad -c $blocks.7 -l $pb_len)"
+print $"($blocks.7 | fill -c $blocks.7 -w $pb_len -a r)"
 "Done"
 ansi cursor_on
 

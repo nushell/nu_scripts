@@ -5,7 +5,7 @@ def gen_keywords [] {
                 and category !~ deprecated
                 and ($it.command | str contains -n ' ')
                 | get command
-                | str collect '|')
+                | str join '|')
 
     let var_with_dash_or_under_regex = '(([a-zA-Z]+[\\-_]){1,}[a-zA-Z]+\\s)'
     let preamble = '\\b('
@@ -30,7 +30,7 @@ def gen_sub_keywords [] {
     let cmds = (for x in $sub_cmds {
         let parts = ($x | split row ' ')
         $'($parts.0)\\s($parts.1)'
-    } | str collect '|')
+    } | str join '|')
     $'"match": "($preamble)($cmds)($postamble)",'
 }
 $"Generating sub keywords(char nl)"
@@ -57,11 +57,11 @@ def gen_keywords_alphabetically [] {
             } else {
                 $nothing
             }
-        } | str collect '|')
+        } | str join '|')
         if ($letter_cmds | str trim | str length) > 0 {
             $'"match": "($preamble)($letter_cmds)($postamble)",'
         }
-    } | str collect "\n"
+    } | str join "\n"
 }
 
 "Generating keywords alphabetically\n"
@@ -89,11 +89,11 @@ def gen_sub_keywords_alphabetically [] {
             } else {
                 $nothing
             }
-        } | str collect '|')
+        } | str join '|')
         if ($letter_cmds | str trim | str length) > 0 {
             $'"match": "($preamble)($letter_cmds)($postamble)",'
         }
-    } | str collect "\n"
+    } | str join "\n"
 }
 
 "Generating sub keywords alphabetically\n"

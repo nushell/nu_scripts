@@ -30,7 +30,7 @@ def psn [name: string] {
 
 #kill specified process in name
 def killn [name: string] {
-  ps | find $name | each {kill -f $in.pid}
+  ps | find $name | each {|| kill -f $in.pid}
 }
 
 #jdownloader downloads info (requires a jdown python script)
@@ -80,7 +80,7 @@ def pwd-short [] {
 
 #string repeat
 def "str repeat" [count: int] {
-  each {|it| let str = $it; echo 1..$count | each { echo $str } }
+  each {|it| let str = $it; echo 1..$count | each {|| echo $str } }
 }
 
 #join 2 lists
@@ -138,7 +138,7 @@ def-env which-cd [program] {
 def git-push [m: string] {
   git add -A
   git status
-  git commit -am $"($m)"
+  git commit -a -m $"($m)"
   git push origin main
 }
 
@@ -149,7 +149,7 @@ def "help my-commands" [] {
 
 #web search in terminal (requires ddgr)
 def gg [...search: string] {
-  ddgr -n 5 ($search | str collect ' ')
+  ddgr -n 5 ($search | str join ' ')
 }
 
 #habitipy dailies done all (requires habitipy)
@@ -199,12 +199,12 @@ def get-aliases [] {
 }
 
 #compress every subfolder into separate files and delete them
-def 7zfolders [] {
+def `7zfolders` [] {
   ^find . -maxdepth 1 -mindepth 1 -type d -print0 | parallel -0 --eta 7z a -t7z -sdel -bso0 -bsp0 -m0=lzma2 -mx=9 -ms=on -mmt=on {}.7z {}
 }
 
 #compress to 7z using max compression
-def 7zmax [
+def `7zmax` [
   filename: string  #filename without extension
   ...rest:  string  #files to compress and extra flags for 7z (add flags between quotes)
   #
@@ -341,7 +341,7 @@ def trans [
     let from = if ($from | is-empty) {"en-US"} else {$from}
     let to = if ($to | is-empty) {"es-ES"} else {$to}
 
-    let to_translate = ($search | str collect "%20")
+    let to_translate = ($search | str join "%20")
 
     let url = $"https://api.mymemory.translated.net/get?q=($to_translate)&langpair=($from)%7C($to)&of=json&key=($key)&de=($user)"
 
@@ -434,7 +434,7 @@ def skim [
   let lst = $in
   let type = ($lst | describe)
   let s = (if ($type | str starts-with 'list<') {
-             $lst | str collect (char nl)
+             $lst | str join (char nl)
            } else if ($type == 'string') {
              $lst
            })

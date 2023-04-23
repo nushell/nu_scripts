@@ -23,9 +23,9 @@ export def "parse cmd" [] {
 }
 
 export def ensure-index [index path action] {
-    let ts = do -i { ls $path | sort-by modified | reverse | get 0.modified }
+    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
     if ($ts | is-empty) { return false }
-    let tc = do -i { ls $index | get 0.modified }
+    let tc = (do -i { ls $index | get 0.modified })
     if not (($index | path exists) and ($ts < $tc)) {
         mkdir (dirname $index)
         do $action
@@ -75,9 +75,9 @@ export def "kube-config" [] {
 def "nu-complete kube ctx" [] {
     let k = (kube-config)
     let cache = $'($env.HOME)/.cache/nu-complete/k8s/(basename $k.path).json'
-    ensure-index $cache $k.path {
+    ensure-index $cache $k.path { ||
         let clusters = ($k.data | get clusters | select name cluster.server)
-        let data = ( $k.data
+        let data = ($k.data
             | get contexts
             | reduce -f {completion:[], mx_ns: 0, mx_cl: 0} {|x, a|
                 let ns = (if ('namespace' in ($x.context|columns)) { $x.context.namespace } else { '' })
@@ -172,7 +172,7 @@ def "nu-complete kube def" [] {
 def "nu-complete kube res" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
     let def = ($ctx | get args.1)
-    let ns = do -i { $ctx | get '-n' }
+    let ns = (do -i { $ctx | get '-n' })
     let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
     kubectl get $ns $def | from ssv -a | get NAME
 }
@@ -251,16 +251,16 @@ export def kgno [] {
 ### pods
 def "nu-complete kube pods" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let ns = do -i { $ctx | get '-n' }
+    let ns = (do -i { $ctx | get '-n' })
     let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
     kubectl get $ns pods | from ssv -a | get NAME
 }
 
 def "nu-complete kube ctns" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let ns = do -i { $ctx | get '-n' }
+    let ns = (do -i { $ctx | get '-n' })
     let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
-    let ctn = do -i { $ctx | get '-c' }
+    let ctn = (do -i { $ctx | get '-c' })
     let ctn = if ($ctn|is-empty) { [] } else { [-c $ctn] }
     let pod = ($ctx | get args.1)
     kubectl get $ns pod $pod -o jsonpath={.spec.containers[*].name} | split row ' '
@@ -355,11 +355,11 @@ export def kpf [
 }
 
 def "nu-complete kube cp" [cmd: string, offset: int] {
-    let ctx = ($cmd | str substring [0 $offset] | parse cmd)
+    let ctx = ($cmd | str substring ..$offset | parse cmd)
     let p = ($ctx.args | get (($ctx.args | length) - 1))
-    let ns = do -i { $ctx | get '-n' }
+    let ns = (do -i { $ctx | get '-n' })
     let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
-    let c = do -i { $ctx | get '-c' }
+    let c = (do -i { $ctx | get '-c' })
     let c = if ($c|is-empty) { [] } else { [-c $c] }
     let ctn = (kubectl get pod $ns | from ssv -a | each {|x| {description: $x.READY value: $"($x.NAME):" }})
     let n = ($p | split row ':')
@@ -368,9 +368,9 @@ def "nu-complete kube cp" [cmd: string, offset: int] {
         | lines
         | each {|x| $"($n | get 0):($x)"}
     } else {
-        let files = do -i { ls -a $"($p)*"
+        let files = (do -i { ls -a $"($p)*"
             | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
-        }
+        })
         $files | append $ctn
     }
 }
@@ -388,7 +388,7 @@ export def kcp [
 ### service
 def "nu-complete kube service" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let ns = do -i { $ctx | get '-n' }
+    let ns = (do -i { $ctx | get '-n' })
     let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
     kubectl get $ns services | from ssv -a | get NAME
 }
@@ -412,7 +412,7 @@ export def kdels [svc: string@"nu-complete kube service", -n: string@"nu-complet
 ### deployments
 def "nu-complete kube deployments" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let ns = do -i { $ctx | get '-n' }
+    let ns = (do -i { $ctx | get '-n' })
     let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
     kubectl get $ns deployments | from ssv -a | get NAME
 }
@@ -479,8 +479,8 @@ export def ktp [-n: string@"nu-complete kube ns"] {
     kubectl top pod $n | from ssv -a | rename name cpu mem
     | each {|x| {
         name: $x.name
-        cpu: ($x.cpu| str substring ',-1' | into decimal)
-        mem: ($x.mem | str substring ',-2' | into decimal)
+        cpu: ($x.cpu| str substring ..-1 | into decimal)
+        mem: ($x.mem | str substring ..-2 | into decimal)
     } }
 }
 
@@ -489,8 +489,8 @@ export def ktpa [] {
     | each {|x| {
         namespace: $x.namespace
         name: $x.name
-        cpu: ($x.cpu| str substring ',-1' | into decimal)
-        mem: ($x.mem | str substring ',-2' | into decimal)
+        cpu: ($x.cpu| str substring ..-1 | into decimal)
+        mem: ($x.mem | str substring ..-2 | into decimal)
     } }
 }
 
@@ -499,10 +499,10 @@ export def ktn [] {
     kubectl top node | from ssv -a | rename name cpu pcpu mem pmem
     | each {|x| {
         name: $x.name
-        cpu: ($x.cpu| str substring ',-1' | into decimal)
-        cpu%: (($x.pcpu| str substring ',-1' | into decimal) / 100)
-        mem: ($x.mem | str substring ',-2' | into decimal)
-        mem%: (($x.pmem | str substring ',-1' | into decimal) / 100)
+        cpu: ($x.cpu| str substring ..-1 | into decimal)
+        cpu%: (($x.pcpu| str substring ..-1 | into decimal) / 100)
+        mem: ($x.mem | str substring ..-2 | into decimal)
+        mem%: (($x.pmem | str substring ..-1 | into decimal) / 100)
     } }
 }
 

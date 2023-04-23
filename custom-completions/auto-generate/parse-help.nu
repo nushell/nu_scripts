@@ -14,7 +14,7 @@ def make-completion [command_name: string] {
         }) (if ($it.description | is-empty) == false {
             build-string "\t\t# " $it.description
         })
-    } | str collect "\n") "\n\t...args\n]"
+    } | str join "\n") "\n\t...args\n]"
 }
 
 module tests {

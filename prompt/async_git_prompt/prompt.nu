@@ -5,7 +5,7 @@ def prompt-concat [parts: table] {
     $parts
     | where (not ($it.text | is-empty))
     | each { |it| $"($it.color)($it.text)" }
-    | str collect ' '
+    | str join ' '
 }
 
 def prompt-git-branch [] {

@@ -1,6 +1,6 @@
 export-env {
     for c in [podman nerdctl docker] {
-        if not (whereis $c | parse -r '.+: (.+)' | is-empty) {
+        if not (which $c | is-empty) {
             let-env docker-cli = $c
             break
         }
@@ -9,13 +9,28 @@ export-env {
 
 export def dp [] {
     # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
-    ^$env.docker-cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
-    | lines
-    | each {|x|
+    let cli = $env.docker-cli
+    if $cli == 'docker' {
+        ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
+        | lines
+        | each {|x|
             let r = ($x | from json)
-            let t = ($r.created | str substring ',32' | into datetime ) - 8hr
+            let t = ($r.created | str substring ..25 | into datetime -f '%Y-%m-%d %H:%M:%S %z' )
             $r | upsert created $t
-           }
+        }
+    } else if $cli == 'podman' {
+        ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
+        | lines
+        | each {|x|
+            let r = ($x | from json)
+            let t = ($r.created | str substring ..32 | into datetime )
+            $r | upsert created $t
+        }
+    } else {
+        ^$cli ps -a
+        | from ssv
+        | rename id image cmd created status port name
+    }
 }
 
 export def di [] {
@@ -79,7 +94,7 @@ export def da [
 }
 
 def "nu-complete docker cp" [cmd: string, offset: int] {
-    let argv = ($cmd | str substring [0 $offset] | split row ' ')
+    let argv = ($cmd | str substring ..$offset | split row ' ')
     let p = if ($argv | length) > 2 { $argv | get 2 } else { $argv | get 1 }
     let ctn = (
         ^$env.docker-cli ps
@@ -92,10 +107,10 @@ def "nu-complete docker cp" [cmd: string, offset: int] {
         | lines
         | each {|x| $"($n | get 0):($x)"}
     } else {
-        let files = do -i {
+        let files = (do -i {
             ls -a $"($p)*"
             | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
-        }
+        })
         $files | append $ctn
     }
 }
@@ -192,7 +207,7 @@ def "nu-complete docker run sshkey" [ctx: string, pos: int] {
 }
 
 def "nu-complete docker run proxy" [] {
-    let hostaddr = do -i {hostname -I | split row ' ' | get 0}
+    let hostaddr = (do -i { hostname -I | split row ' ' | get 0 })
     [$"http://($hostaddr):7890" $"http://localhost:7890"]
 }
 
@@ -268,7 +283,7 @@ export def dx [
             ng: 'ng:/srv'
             pg: 'pg:/var/lib/postgresql/data'
         }
-    let c = do -i {$__dx_cache | transpose k v | where {|x| $dx | str contains $x.k} | get v.0}
+    let c = (do -i {$__dx_cache | transpose k v | where {|x| $dx | str contains $x.k} | get v.0})
     let c = if ($c|is-empty) {
             ''
         } else if $mount_cache {
@@ -293,9 +308,9 @@ export def dx [
 
 def "nu-complete registry list" [cmd: string, offset: int] {
     let cmd = ($cmd | split row ' ')
-    let url = do -i { $cmd | get 2 }
-    let reg = do -i { $cmd | get 3 }
-    let tag = do -i { $cmd | get 4 }
+    let url = (do -i { $cmd | get 2 })
+    let reg = (do -i { $cmd | get 3 })
+    let tag = (do -i { $cmd | get 4 })
     if ($reg|is-empty) {
         if ($env | has 'REGISTRY_TOKEN') {
             http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/_catalog"

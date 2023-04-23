@@ -148,7 +148,7 @@ def "nu-complete yarn explain peer-requirements" [] {
   let cacheFilePath = ($nu.config-path | path dirname | path join "yarnCache" | path join $"(open ./package.json | get name)-peerReqs.json")
 
   if ($cacheFilePath | path exists) {
-    let cache = open $cacheFilePath
+    let cache = (open $cacheFilePath)
 
     let hash = ($cache | get hash)
     let computedHash = (open yarn.lock | hash sha256)
@@ -185,7 +185,7 @@ export extern "yarn explain" [
 
 
 def "nu-complete yarn info" [] {
-  let packagejson = open ./package.json
+  let packagejson = (open ./package.json)
   let deps = ($packagejson | get dependencies | columns)
   let devDeps = ($packagejson | get devDependencies | columns)
 
@@ -308,7 +308,7 @@ export extern "yarn patch-commit" [
 ]
 
 def "nu-complete yarn patch" [] {
-  let packagejson = open ./package.json
+  let packagejson = (open ./package.json)
   let deps = ($packagejson | get dependencies | columns)
   let devDeps = ($packagejson | get devDependencies | columns)
 
@@ -363,7 +363,7 @@ export extern "yarn plugin runtime" [
 ]
 
 def "nu-complete yarn rebuild" [] {
-  let packagejson = open ./package.json
+  let packagejson = (open ./package.json)
   let deps = ($packagejson | get dependencies | columns)
   let devDeps = ($packagejson | get devDependencies | columns)
 
@@ -497,7 +497,7 @@ export extern "yarn version check" [
 ]
 
 def "nu-complete yarn why" [] {
-  let packagejson = open ./package.json
+  let packagejson = (open ./package.json)
   let deps = ($packagejson | get dependencies | columns)
   let devDeps = ($packagejson | get devDependencies | columns)
 

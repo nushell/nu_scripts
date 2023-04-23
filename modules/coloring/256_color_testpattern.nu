@@ -47,7 +47,7 @@ def print_run [start:int, amount:int] {
     } else {
       ""
     }
-  } | append "  " | str collect
+  } | append "  " | str join
 }
 
 def print_blocks [start:int, end:int, block_cols:int, block_rows:int, blocks_per_line:int] {
@@ -57,9 +57,9 @@ def print_blocks [start:int, end:int, block_cols:int, block_rows:int, blocks_per
       0..<$block_rows | each { |row|
         0..<$blocks_per_line | each { |block|
         print_run ($start + $block * $block_length + $row * $block_cols + $i * $block_length * $blocks_per_line) $block_cols
-      } | append (char nl) | str collect
-    } | str collect
-  } | str collect
+      } | append (char nl) | str join
+    } | str join
+  } | str join
 }
 
 print (print_run 0 16) # The first 16 colours are spread over the whole spectrum

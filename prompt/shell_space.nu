@@ -4,9 +4,9 @@ def workspaces [] {
       if $item.active {
         $"(ansi green)($index) "
       } else {
-        $"(ansi blue)($index) " 
+        $"(ansi blue)($index) "
       }
-    }| str collect
+    }| str join
 }
 
 def create_right_prompt [] {
@@ -14,7 +14,7 @@ def create_right_prompt [] {
         (date now | date format '%r'),
         " ",
         (workspaces)
-    ] | str collect)
+    ] | str join)
     $time_segment
 }
 
