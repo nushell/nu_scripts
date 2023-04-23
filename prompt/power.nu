@@ -144,7 +144,7 @@ export def git_status [] {
     return $status
 }
 
-export def "git_status styled" [] {
+export def "git_stat" [] {
     {||
         let status = (git_status)
 
@@ -221,7 +221,7 @@ def host_abbr [] {
 ### time
 def time_segment [] {
     {||
-        $"(ansi xterm_cornsilk1)(date now | date format '%y-%m-%d/%H:%M:%S')"
+        $"(ansi xterm_tan)(date now | date format '%y-%m-%d/%H:%M:%S')"
     }
 }
 
@@ -321,15 +321,15 @@ export-env {
     ]
 
     let-env NU_POWERLINE_THEME = {
-        left: ['#504945' '#333333']
-        right: [dark_gray '#333333' '#504945' '#7c6f64']
+        left: ['#504945' '#353230']
+        right: [dark_gray '#353230' '#504945' '#666560']
     }
 
     let-env NU_POWERLINE = true
     if ($env.NU_UPPROMPT? | is-empty) {
         let-env PROMPT_COMMAND = (left_prompt
             (pwd_abbr)
-            (git_status styled)
+            (git_stat)
         )
         let-env PROMPT_COMMAND_RIGHT = (right_prompt
             (proxy_stat)
@@ -339,7 +339,7 @@ export-env {
         )
     } else {
         let-env PROMPT_COMMAND = (up_prompt
-            (host_abbr) (pwd_abbr) (git_status styled)
+            (host_abbr) (pwd_abbr) (git_stat)
             'sep'
             (proxy_stat) (kube_stat) (time_segment)
         )
