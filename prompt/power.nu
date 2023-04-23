@@ -251,20 +251,17 @@ def _sep [
 def left_prompt [segment] {
     {||
         let stop = ($segment | length) - 1
-        let vs = ($segment
-            | each {|x|
-                $x | upsert value (do ($env.NU_PROMPT_COMPONENTS | get $x.source))
-            })
-        let cs = ($vs | each {|x| $x.power})
+        let vs = ($segment | each {|x| [$x.power (do ($env.NU_PROMPT_COMPONENTS | get $x.source))]})
+        let cs = ($vs | each {|x| $x.0})
         let cs = ($cs | prepend $cs.1?)
         $vs
         | zip $cs
         | enumerate
         | each {|x|
             if $x.index == $stop {
-                $x.item.0.value | _sep '>>' $x.item.0.power $x.item.1
+                $x.item.0.1 | _sep '>>' $x.item.0.0 $x.item.1
             } else {
-                $x.item.0.value | _sep '>' $x.item.0.power $x.item.1
+                $x.item.0.1 | _sep '>' $x.item.0.0 $x.item.1
             }
         }
         | str join
@@ -274,14 +271,14 @@ def left_prompt [segment] {
 def right_prompt [segment] {
     {||
         $segment
-        | each {|x| $x | upsert value (do ($env.NU_PROMPT_COMPONENTS | get $x.source))}
-        | filter {|x| not ($x.value | is-empty)}
+        | each {|x| [$x.power (do ($env.NU_PROMPT_COMPONENTS | get $x.source))]}
+        | filter {|x| not ($x.1 | is-empty)}
         | enumerate
         | each {|x|
             if $x.index == 0 {
-                $x.item.value | _sep '<<' $x.item.power
+                $x.item.1 | _sep '<<' $x.item.0
             } else {
-                $x.item.value | _sep '<' $x.item.power
+                $x.item.1 | _sep '<' $x.item.0
             }
         }
         | str join
