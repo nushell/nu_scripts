@@ -177,7 +177,7 @@ def "kube ctx" [] {
     }
 }
 
-export def kube_prompt [] {
+export def kube_stat [] {
     {||
         let ctx = (kube ctx)
         if ($ctx | is-empty) {
@@ -195,7 +195,7 @@ export def kube_prompt [] {
 }
 
 ### proxy
-export def proxy_prompt [] {
+export def proxy_stat [] {
     {||
         if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
             $'(ansi yellow)'
@@ -212,7 +212,7 @@ def host_abbr [] {
         let ucl = if (is-admin) {
                 (ansi yellow)
             } else {
-                (ansi dark_gray)
+                (ansi blue)
             }
         $"($ucl)($n)"
     }
@@ -221,7 +221,7 @@ def host_abbr [] {
 ### time
 def time_segment [] {
     {||
-        $"(ansi purple_bold)(date now | date format '%y-%m-%d/%H:%M:%S')"
+        $"(ansi xterm_cornsilk1)(date now | date format '%y-%m-%d/%H:%M:%S')"
     }
 }
 
@@ -232,38 +232,19 @@ def _sep [
     fg?: string
 ] {
     let s = $in
-    if ($env.NU_POWERLINE? | is-empty) {
+    if not $env.NU_POWERLINE {
         let r = match $direction {
-            '>>' => { $s }
-            _ => { $"($s)(ansi light_yellow)|" }
+            '>' => { $"($s)(ansi light_yellow)|" }
+            '<' => { $"(ansi light_yellow)|($s)" }
+            '<<'|'>>' => { $s }
         }
         return $r
     }
     let fg = if ($fg | is-empty) { $color } else { $fg }
     match $direction {
-        '>' => { $'(ansi -e {bg: $fg})($s)(ansi $fg)(ansi -e {bg: $color})(char nf_left_segment)' }
-        '>>' => { $'(ansi -e {bg: $fg})($s)(ansi reset)(ansi $fg)(char nf_left_segment)' }
-        '<' => { $'($s)(ansi $color)(char nf_right_segment)(ansi -e {bg: $color})' }
-    }
-}
-
-def select_color [pos idx] {
-    ($env.NU_POWERLINE_THEME | get $pos) | get $idx
-}
-
-def right_prompt [...segment] {
-    {||
-        let stop = ($segment | length) - 1
-        $segment
-        | enumerate
-        | each {|x|
-            if $x.index == $stop {
-                do $x.item
-            } else {
-                do $x.item | _sep '<' (select_color 'right' $x.index)
-            }
-        }
-        | str join
+        '>' => { $'(ansi -e {bg: $fg})($s)(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)' }
+        '>>' => { $'(ansi -e {bg: $fg})($s)(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)' }
+        '<'|'<<' => { $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})($s)' }
     }
 }
 
@@ -271,12 +252,33 @@ def left_prompt [...segment] {
     {||
         let stop = ($segment | length) - 1
         $segment
+        | each {|x| do $x}
+        | zip ( $env.NU_POWERLINE_THEME.left
+                | zip ($env.NU_POWERLINE_THEME.left | prepend $env.NU_POWERLINE_THEME.left.1?))
         | enumerate
         | each {|x|
             if $x.index == $stop {
-                do $x.item | _sep '>>' (select_color 'left' $x.index) (select_color 'left' ($x.index + 1))
+                $x.item.0 | _sep '>>' $x.item.1.1 $x.item.1.0
             } else {
-                do $x.item | _sep '>' (select_color 'left' $x.index) (select_color 'left' ($x.index + 1))
+                $x.item.0 | _sep '>' $x.item.1.1 $x.item.1.0
+            }
+        }
+        | str join
+    }
+}
+
+def right_prompt [...segment] {
+    {||
+        $segment
+        | each {|x| do $x}
+        | zip $env.NU_POWERLINE_THEME.right
+        | filter {|x| not ($x.0 | is-empty)}
+        | enumerate
+        | each {|x|
+            if $x.index == 0 {
+                $x.item.0 | _sep '<<' $x.item.1
+            } else {
+                $x.item.0 | _sep '<' $x.item.1
             }
         }
         | str join
@@ -287,7 +289,7 @@ def up_prompt [...segment] {
     { ||
         let time_segment = (date now | date format '%y-%m-%d/%H:%M:%S')
         let left = $"(host_abbr)(pwd_abbr)(git_status styled)"
-        let right = $"(proxy_prompt)(kube_prompt)(ansi purple_bold)($time_segment)"
+        let right = $"(proxy_stat)(kube_stat)(ansi purple_bold)($time_segment)"
         # TODO: length of unicode char is 3
         let fl = ((term size).columns
             - ($left  | ansi strip | str length)
@@ -317,14 +319,14 @@ export-env {
     ]
 
     let-env NU_POWERLINE_THEME = {
-        left: [black dark_gray black]
-        right: [white black blue]
+        left: ['#504945' '#333333']
+        right: [dark_gray '#333333' '#504945' '#7c6f64']
     }
 
     let-env NU_POWERLINE = true
     let-env PROMPT_COMMAND = (left_prompt (pwd_abbr) (git_status styled))
-    let-env PROMPT_COMMAND_RIGHT = (right_prompt (proxy_prompt) (host_abbr) (kube_prompt) (time_segment))
-    let-env PROMPT_INDICATOR = {|| if ($env.NU_POWERLINE? | is-empty) { $"> " } else { $' ' } }
+    let-env PROMPT_COMMAND_RIGHT = (right_prompt (proxy_stat) (host_abbr) (kube_stat) (time_segment))
+    let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { $"> " } else { $'' } }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
     let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
