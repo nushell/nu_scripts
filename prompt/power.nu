@@ -296,11 +296,8 @@ def up_prompt [...segment] {
                 | str join $'(ansi light_yellow)|'
             })
         # TODO: length of unicode char is 3
-        let fl = ((term size).columns
-            - ($ss.0 | ansi strip | str length)
-            - ($ss.1 | ansi strip | str length)
-            )
-        $"($ss.0)(ansi xterm_grey)('' | fill -c '-' -w $fl)(ansi reset)($ss.1)"
+        let fl = ((term size).columns - ($ss | str join ''| ansi strip | str length))
+        $ss | str join $"(ansi xterm_grey)('' | fill -c '-' -w $fl)(ansi reset)"
     }
 }
 
@@ -329,10 +326,25 @@ export-env {
     }
 
     let-env NU_POWERLINE = true
-    let-env PROMPT_COMMAND = (left_prompt (pwd_abbr) (git_status styled))
-    let-env PROMPT_COMMAND_RIGHT = (right_prompt (proxy_stat) (host_abbr) (kube_stat) (time_segment))
-    #let-env PROMPT_COMMAND = (up_prompt (host_abbr) (pwd_abbr) (git_status styled) 'sep' (proxy_stat) (kube_stat) (time_segment))
-    let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { $"> " } else { $'' } }
+    if ($env.NU_UPPROMPT? | is-empty) {
+        let-env PROMPT_COMMAND = (left_prompt
+            (pwd_abbr)
+            (git_status styled)
+        )
+        let-env PROMPT_COMMAND_RIGHT = (right_prompt
+            (proxy_stat)
+            (host_abbr)
+            (kube_stat)
+            (time_segment)
+        )
+    } else {
+        let-env PROMPT_COMMAND = (up_prompt
+            (host_abbr) (pwd_abbr) (git_status styled)
+            'sep'
+            (proxy_stat) (kube_stat) (time_segment)
+        )
+    }
+    let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { "> " } else { "" } }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
     let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
