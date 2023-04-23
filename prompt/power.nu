@@ -248,11 +248,11 @@ def _sep [
     }
 }
 
-def left_prompt [...segment] {
+def left_prompt [segment] {
     {||
         let stop = ($segment | length) - 1
         $segment
-        | each {|x| do $x}
+        | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x)}
         | zip ( $env.NU_POWERLINE_THEME.left
                 | zip ($env.NU_POWERLINE_THEME.left | prepend $env.NU_POWERLINE_THEME.left.1?))
         | enumerate
@@ -267,10 +267,10 @@ def left_prompt [...segment] {
     }
 }
 
-def right_prompt [...segment] {
+def right_prompt [segment] {
     {||
         $segment
-        | each {|x| do $x}
+        | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x)}
         | zip $env.NU_POWERLINE_THEME.right
         | filter {|x| not ($x.0 | is-empty)}
         | enumerate
@@ -285,13 +285,12 @@ def right_prompt [...segment] {
     }
 }
 
-def up_prompt [...segment] {
+def up_prompt [segment] {
     { ||
         let ss = ($segment
-            | split list 'sep'
             | each {|y|
                 $y
-                | each {|x| do $x}
+                | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x)}
                 | filter {|x| not ($x | is-empty)}
                 | str join $'(ansi light_yellow)|'
             })
@@ -302,6 +301,11 @@ def up_prompt [...segment] {
 }
 
 export-env {
+    let-env NU_PROMPT_SCHEMA = [
+        [pwd git]
+        [proxy host kube time]
+    ]
+
     let-env NU_PROMPT_GIT_FORMATTER = [
         [behind              (char branch_behind) yellow]
         [ahead               (char branch_ahead) yellow]
@@ -326,23 +330,21 @@ export-env {
     }
 
     let-env NU_POWERLINE = true
+
+    let-env NU_PROMPT_COMPONENTS = {
+        pwd: (pwd_abbr)
+        git: (git_stat)
+        proxy: (proxy_stat)
+        host: (host_abbr)
+        kube: (kube_stat)
+        time: (time_segment)
+    }
+
     if ($env.NU_UPPROMPT? | is-empty) {
-        let-env PROMPT_COMMAND = (left_prompt
-            (pwd_abbr)
-            (git_stat)
-        )
-        let-env PROMPT_COMMAND_RIGHT = (right_prompt
-            (proxy_stat)
-            (host_abbr)
-            (kube_stat)
-            (time_segment)
-        )
+        let-env PROMPT_COMMAND = (left_prompt $env.NU_PROMPT_SCHEMA.0)
+        let-env PROMPT_COMMAND_RIGHT = (right_prompt $env.NU_PROMPT_SCHEMA.1)
     } else {
-        let-env PROMPT_COMMAND = (up_prompt
-            (host_abbr) (pwd_abbr) (git_stat)
-            'sep'
-            (proxy_stat) (kube_stat) (time_segment)
-        )
+        let-env PROMPT_COMMAND = (up_prompt $env.NU_PROMPT_SCHEMA)
     }
     let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { "> " } else { "" } }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
