@@ -392,7 +392,7 @@ export-env {
     } else {
         let-env PROMPT_COMMAND = (up_prompt $env.NU_PROMPT_SCHEMA)
     }
-    let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { "> " } else { "" } }
+    let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { "> " } else { " " } }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
     let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
