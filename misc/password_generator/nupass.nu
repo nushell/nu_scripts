@@ -4,6 +4,7 @@
 # Updates: 20230415 - initial version
 #          20230416 - added @amtoine's slick probabilistic "random decimal" char capitalization
 #          20230417 - added script duration output in debug block
+#          20230421 - added length of symbol chars to get-random-symbol function
 
 #======= NUPASS PASSWORD GENERATOR =======
 # Generate password of 3 dictionary file words, numbers and symbols
@@ -27,11 +28,13 @@ export def main [
   let randword3 = ($dictfile | get-random-word $word_length $num_lines | random-format-word)
 
   # Get some symbols to sprinkle like salt bae
-  let symbol_chars = "!@#$%^&*()_-+[]"
-  let symb1 = (get-random-symbol $symbol_chars)
-  let symb2 = (get-random-symbol $symbol_chars)
-  let symb3 = (get-random-symbol $symbol_chars)
-  let symb4 = (get-random-symbol $symbol_chars)
+  # Update symbol chars as needed
+  let symbol_chars = "!@#$%^&()_-+[]{}"
+  let symbol_chars_len = ($symbol_chars | str length)
+  let symb1 = (get-random-symbol $symbol_chars $symbol_chars_len)
+  let symb2 = (get-random-symbol $symbol_chars $symbol_chars_len)
+  let symb3 = (get-random-symbol $symbol_chars $symbol_chars_len)
+  let symb4 = (get-random-symbol $symbol_chars $symbol_chars_len)
 
   # Print some vars if debug flag is set
   if $debug { 
@@ -85,8 +88,9 @@ def random-format-word [] {
 # Function to get random symbol from list of symbols
 def get-random-symbol [
     symbolchars: string
+    symbolcharslen: int
 ] {
     $symbolchars
     | split chars
-    | get (random integer 0..14)
+    | get (random integer 0..($symbolcharslen - 1))
 }
