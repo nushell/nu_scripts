@@ -132,8 +132,8 @@ export def grh [commit: string@"nu-complete git log"] {
 }
 
 export def gf [
-    remote: string@"nu-complete git remotes"
     branch: string@"nu-complete git branches"
+    remote?: string@"nu-complete git remotes"
 ] {
     let remote = if ($remote|is-empty) { 'origin' } else { $remote }
     git fetch $remote $branch
