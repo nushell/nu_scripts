@@ -251,16 +251,20 @@ def _sep [
 def left_prompt [segment] {
     {||
         let stop = ($segment | length) - 1
-        $segment
-        | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x)}
-        | zip ( $env.NU_POWERLINE_THEME.left
-                | zip ($env.NU_POWERLINE_THEME.left | prepend $env.NU_POWERLINE_THEME.left.1?))
+        let vs = ($segment
+            | each {|x|
+                $x | upsert value (do ($env.NU_PROMPT_COMPONENTS | get $x.source))
+            })
+        let cs = ($vs | each {|x| $x.power})
+        let cs = ($cs | prepend 'black')
+        $vs
+        | zip $cs
         | enumerate
         | each {|x|
             if $x.index == $stop {
-                $x.item.0 | _sep '>>' $x.item.1.1 $x.item.1.0
+                $x.item.0.value | _sep '>>' $x.item.0.power $x.item.1
             } else {
-                $x.item.0 | _sep '>' $x.item.1.1 $x.item.1.0
+                $x.item.0.value | _sep '>' $x.item.0.power $x.item.1
             }
         }
         | str join
@@ -270,15 +274,14 @@ def left_prompt [segment] {
 def right_prompt [segment] {
     {||
         $segment
-        | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x)}
-        | zip $env.NU_POWERLINE_THEME.right
-        | filter {|x| not ($x.0 | is-empty)}
+        | each {|x| $x | upsert value (do ($env.NU_PROMPT_COMPONENTS | get $x.source))}
+        | filter {|x| not ($x.value | is-empty)}
         | enumerate
         | each {|x|
             if $x.index == 0 {
-                $x.item.0 | _sep '<<' $x.item.1
+                $x.item.value | _sep '<<' $x.item.power
             } else {
-                $x.item.0 | _sep '<' $x.item.1
+                $x.item.value | _sep '<' $x.item.power
             }
         }
         | str join
@@ -290,7 +293,7 @@ def up_prompt [segment] {
         let ss = ($segment
             | each {|y|
                 $y
-                | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x)}
+                | each {|x| do ($env.NU_PROMPT_COMPONENTS | get $x.source)}
                 | filter {|x| not ($x | is-empty)}
                 | str join $'(ansi light_yellow)|'
             })
@@ -302,14 +305,17 @@ def up_prompt [segment] {
 
 export-env {
     let-env NU_PROMPT_SCHEMA = [
-        [pwd git]
-        [proxy host kube time]
+        [
+            {source: pwd,   power: '#504945'}
+            {source: git,   power: '#504945'}
+        ]
+        [
+            {source: proxy, power: dark_gray}
+            {source: host,  power: '#353230'}
+            {source: kube,  power: '#504945'}
+            {source: time,  power: '#666560'}
+        ]
     ]
-
-    let-env NU_POWERLINE_THEME = {
-        left: ['#504945' '#353230' '#504945' '#353230' '#504945']
-        right: [dark_gray '#353230' '#504945' '#666560' '#504945']
-    }
 
     let-env NU_PROMPT_GIT_FORMATTER = [
         [behind              (char branch_behind) yellow]
