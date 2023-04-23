@@ -11,7 +11,7 @@ def related [sub dir] {
     }
 }
 
-export def "pwd_abbr" [sep: string = '>'] {
+export def "pwd_abbr" [] {
     {||
         let pwd = ($env.PWD)
 
@@ -43,105 +43,105 @@ export def "pwd_abbr" [sep: string = '>'] {
         } else {
             $'(ansi light_green_bold)'
         }
-        $"($style)($dir_comp | str join (char separator)
+        $"($style)($dir_comp | str join (char separator))"
     }
 }
 
 ### git
 export def git_status [] {
-  let status = (do -i { gstat })
-  if not ($status | is-empty) {
-      return $status
-  }
-
-  let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
-
-  mut status = {
-    idx_added_staged    : 0
-    idx_modified_staged : 0
-    idx_deleted_staged  : 0
-    idx_renamed         : 0
-    idx_type_changed    : 0
-    wt_untracked        : 0
-    wt_modified         : 0
-    wt_deleted          : 0
-    wt_type_changed     : 0
-    wt_renamed          : 0
-    ignored             : 0
-    conflicts           : 0
-    ahead               : 0
-    behind              : 0
-    stashes             : 0
-    repo_name           : no_repository
-    tag                 : no_tag
-    branch              : no_branch
-    remote              : ''
-  }
-
-  if ($raw_status | is-empty) { return $status }
-
-  for s in $raw_status {
-    let r = ($s | split row ' ')
-    match $r.0 {
-      '#' => {
-        match ($r.1 | str substring 7..) {
-          'oid' => {
-            $status.commit_hash = ($r.2 | str substring 0..8)
-          }
-          'head' => {
-            $status.branch = $r.2
-          }
-          'upstream' => {
-            $status.remote = $r.2
-          }
-          'ab' => {
-            $status.ahead = ($r.2 | into int)
-            $status.behind = ($r.3 | into int | math abs)
-          }
-        }
-      }
-      '1'|'2' => {
-        match ($r.1 | str substring 0..1) {
-          'A' => {
-            $status.idx_added_staged += 1
-          }
-          'M' => {
-            $status.idx_modified_staged += 1
-          }
-          'R' => {
-            $status.idx_renamed += 1
-          }
-          'D' => {
-            $status.idx_deleted_staged += 1
-          }
-          'T' => {
-            $status.idx_type_changed += 1
-          }
-        }
-        match ($r.1 | str substring 1..2) {
-          'M' => {
-            $status.wt_modified += 1
-          }
-          'R' => {
-            $status.wt_renamed += 1
-          }
-          'D' => {
-            $status.wt_deleted += 1
-          }
-          'T' => {
-            $status.wt_type_changed += 1
-          }
-        }
-      }
-      '?' => {
-        $status.wt_untracked += 1
-      }
-      'u' => {
-        $status.conflicts += 1
-      }
+    let status = (do -i { gstat })
+    if not ($status | is-empty) {
+        return $status
     }
-  }
-  return $status
+
+    let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
+
+    mut status = {
+        idx_added_staged    : 0
+        idx_modified_staged : 0
+        idx_deleted_staged  : 0
+        idx_renamed         : 0
+        idx_type_changed    : 0
+        wt_untracked        : 0
+        wt_modified         : 0
+        wt_deleted          : 0
+        wt_type_changed     : 0
+        wt_renamed          : 0
+        ignored             : 0
+        conflicts           : 0
+        ahead               : 0
+        behind              : 0
+        stashes             : 0
+        repo_name           : no_repository
+        tag                 : no_tag
+        branch              : no_branch
+        remote              : ''
+    }
+
+    if ($raw_status | is-empty) { return $status }
+
+    for s in $raw_status {
+        let r = ($s | split row ' ')
+        match $r.0 {
+            '#' => {
+                match ($r.1 | str substring 7..) {
+                    'oid' => {
+                        $status.commit_hash = ($r.2 | str substring 0..8)
+                    }
+                    'head' => {
+                        $status.branch = $r.2
+                    }
+                    'upstream' => {
+                        $status.remote = $r.2
+                    }
+                    'ab' => {
+                        $status.ahead = ($r.2 | into int)
+                        $status.behind = ($r.3 | into int | math abs)
+                    }
+                }
+            }
+            '1'|'2' => {
+                match ($r.1 | str substring 0..1) {
+                    'A' => {
+                        $status.idx_added_staged += 1
+                    }
+                    'M' => {
+                        $status.idx_modified_staged += 1
+                    }
+                    'R' => {
+                        $status.idx_renamed += 1
+                    }
+                    'D' => {
+                        $status.idx_deleted_staged += 1
+                    }
+                    'T' => {
+                        $status.idx_type_changed += 1
+                    }
+                }
+                match ($r.1 | str substring 1..2) {
+                    'M' => {
+                        $status.wt_modified += 1
+                    }
+                    'R' => {
+                        $status.wt_renamed += 1
+                    }
+                    'D' => {
+                        $status.wt_deleted += 1
+                    }
+                    'T' => {
+                        $status.wt_type_changed += 1
+                    }
+                }
+            }
+            '?' => {
+                $status.wt_untracked += 1
+            }
+            'u' => {
+                $status.conflicts += 1
+            }
+        }
+    }
+    return $status
 }
 
 export def "git_status styled" [] {
@@ -198,9 +198,9 @@ export def kube_prompt [] {
 export def proxy_prompt [] {
     {||
         if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
-            '' | _sep '<' $env.NU_POWERLINE_THEME.proxy
+            $'(ansi yellow)'
         } else {
-            ""
+            ''
         }
     }
 }
@@ -233,53 +233,60 @@ def _sep [
 ] {
     let s = $in
     if ($env.NU_POWERLINE? | is-empty) {
-        return $"($s)(ansi light_yellow)|"
+        let r = match $direction {
+            '>>' => { $s }
+            _ => { $"($s)(ansi light_yellow)|" }
+        }
+        return $r
     }
     let fg = if ($fg | is-empty) { $color } else { $fg }
     match $direction {
         '>' => { $'(ansi -e {bg: $fg})($s)(ansi $fg)(ansi -e {bg: $color})(char nf_left_segment)' }
         '>>' => { $'(ansi -e {bg: $fg})($s)(ansi reset)(ansi $fg)(char nf_left_segment)' }
         '<' => { $'($s)(ansi $color)(char nf_right_segment)(ansi -e {bg: $color})' }
-        _ => { '|' }
     }
+}
+
+def select_color [pos idx] {
+    ($env.NU_POWERLINE_THEME | get $pos) | get $idx
 }
 
 def right_prompt [...segment] {
     {||
+        let stop = ($segment | length) - 1
         $segment
-        | each {|x| do $x }
+        | enumerate
+        | each {|x|
+            if $x.index == $stop {
+                do $x.item
+            } else {
+                do $x.item | _sep '<' (select_color 'right' $x.index)
+            }
+        }
         | str join
-        #$"(proxy_prompt)(host_abbr)(kube_prompt)(time_segment)"
-        #  | _sep '<' $env.NU_POWERLINE_THEME.kube
-        # | _sep '<' $env.NU_POWERLINE_THEME.host
     }
 }
 
 def left_prompt [...segment] {
     {||
+        let stop = ($segment | length) - 1
         $segment
-        | each {|x| do $x }
+        | enumerate
+        | each {|x|
+            if $x.index == $stop {
+                do $x.item | _sep '>>' (select_color 'left' $x.index) (select_color 'left' ($x.index + 1))
+            } else {
+                do $x.item | _sep '>' (select_color 'left' $x.index) (select_color 'left' ($x.index + 1))
+            }
+        }
         | str join
-        #let gs = ((git_status styled))
-        #if ($gs | is-empty) {
-        #    $"((pwd_abbr '>>'))"
-        #} else {
-        #    $"((pwd_abbr))($gs)"
-        #}
-        # pwd abbr  | _sep $sep $env.NU_POWERLINE_THEME.git $env.NU_POWERLINE_THEME.path)"
-        #  | _sep '>>' $env.NU_POWERLINE_THEME.git
     }
 }
 
-def up_prompt [] {
+def up_prompt [...segment] {
     { ||
         let time_segment = (date now | date format '%y-%m-%d/%H:%M:%S')
-        let gs = (git_status styled)
-        let left = if ($gs | is-empty) {
-            $"(host_abbr)(pwd_abbr '>>')"
-        } else {
-            $"(host_abbr)(pwd_abbr)($gs)"
-        }
+        let left = $"(host_abbr)(pwd_abbr)(git_status styled)"
         let right = $"(proxy_prompt)(kube_prompt)(ansi purple_bold)($time_segment)"
         # TODO: length of unicode char is 3
         let fl = ((term size).columns
@@ -310,18 +317,12 @@ export-env {
     ]
 
     let-env NU_POWERLINE_THEME = {
-        proxy : 'blue'
-        left: [dark_gray black]
-        right: [blue black black white]
-          path  : 'dark_gray'
-          git   : 'black'
-          host  : 'black'
-          kube  : 'white'
-          time  : 'black'
+        left: [black dark_gray black]
+        right: [white black blue]
     }
 
     let-env NU_POWERLINE = true
-    let-env PROMPT_COMMAND = (left_prompt (git_status styled) (pwd_abbr))
+    let-env PROMPT_COMMAND = (left_prompt (pwd_abbr) (git_status styled))
     let-env PROMPT_COMMAND_RIGHT = (right_prompt (proxy_prompt) (host_abbr) (kube_prompt) (time_segment))
     let-env PROMPT_INDICATOR = {|| if ($env.NU_POWERLINE? | is-empty) { $"> " } else { $' ' } }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
