@@ -38,4 +38,5 @@ power init
 - [ ] implement `power eject`
 - [ ] `$env.config.menus[].maker` can be restored
 - [ ] support colorschema
+- [ ] refactor: theme/decorator/frame/schema
 
