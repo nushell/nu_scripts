@@ -84,42 +84,46 @@ def _sep [
     color?: string = 'light_yellow'
     fg?: string
 ] {
-    if not $env.NU_POWERLINE {
-        let r = match $direction {
-            '>' => {
-                let r = $'(ansi light_yellow)|'
-                {|s| $"($s)($r)" }
+    match $env.NU_POWER_DECORATOR {
+        'plain' => {
+            let r = match $direction {
+                '>' => {
+                    let r = $'(ansi light_yellow)|'
+                    {|s| $"($s)($r)" }
+                }
+                '<' => {
+                    let l = $'(ansi light_yellow)|'
+                    {|s| $"($l)($s)" }
+                }
+                '<<'|'>>' => {{|s| $s }}
             }
-            '<' => {
-                let l = $'(ansi light_yellow)|'
-                {|s| $"($l)($s)" }
+            return $r
+        }
+        'power' => {
+            let fg = if ($fg | is-empty) { $color } else { $fg }
+            match $direction {
+                '>' => {
+                    let l = (ansi -e {bg: $fg})
+                    let r = $'(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)'
+                    {|s| $'($l)($s)($r)' }
+                }
+                '>>' => {
+                    let l = (ansi -e {bg: $fg})
+                    let r = $'(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)'
+                    {|s| $'($l)($s)($r)' }
+                }
+                '<'|'<<' => {
+                    let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
+                    {|s| $'($l)($s)' }
+                }
             }
-            '<<'|'>>' => {{|s| $s }}
-        }
-        return $r
-    }
-    let fg = if ($fg | is-empty) { $color } else { $fg }
-    match $direction {
-        '>' => {
-            let l = (ansi -e {bg: $fg})
-            let r = $'(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)'
-            {|s| $'($l)($s)($r)' }
-        }
-        '>>' => {
-            let l = (ansi -e {bg: $fg})
-            let r = $'(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)'
-            {|s| $'($l)($s)($r)' }
-        }
-        '<'|'<<' => {
-            let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
-            {|s| $'($l)($s)' }
         }
     }
 }
 
 def left_prompt [segment] {
     let stop = ($segment | length) - 1
-    let vs = ($segment | each {|x| [$x.power ($env.NU_PROMPT_COMPONENTS | get $x.source)]})
+    let vs = ($segment | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]})
     let cs = ($vs | each {|x| $x.0})
     let cs = ($cs | prepend $cs.1?)
     let thunk = ($vs
@@ -141,7 +145,7 @@ def left_prompt [segment] {
 
 def right_prompt [segment] {
     let thunk = ( $segment
-        | each {|x| [$x.power ($env.NU_PROMPT_COMPONENTS | get $x.source)]}
+        | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]}
         | enumerate
         | each {|x|
             if $x.index == 0 {
@@ -191,21 +195,30 @@ export def default_env [name value] {
 }
 
 export def-env init [] {
-    if ($env.NU_UPPROMPT? | is-empty) {
-        let-env PROMPT_COMMAND = (left_prompt $env.NU_PROMPT_SCHEMA.0)
-        let-env PROMPT_COMMAND_RIGHT = (right_prompt $env.NU_PROMPT_SCHEMA.1)
-    } else {
-        let-env PROMPT_COMMAND = (up_prompt $env.NU_PROMPT_SCHEMA)
+    match $env.NU_POWER_FRAME {
+        'default' => {
+            let-env PROMPT_COMMAND = (left_prompt $env.NU_POWER_SCHEMA.0)
+            let-env PROMPT_COMMAND_RIGHT = (right_prompt $env.NU_POWER_SCHEMA.1)
+        }
+        'fill' => {
+            let-env PROMPT_COMMAND = (up_prompt $env.NU_POWER_SCHEMA)
+        }
     }
-    let-env PROMPT_INDICATOR = {|| if not $env.NU_POWERLINE { "> " } else { " " } }
+
+    let-env PROMPT_INDICATOR = {||
+        match $env.NU_POWER_DECORATOR {
+            'plain' => { "> " }
+            'power' => { " " }
+        }
+    }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
     let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
     let-env config = ( $env.config | update menus ($env.config.menus
         | each {|x|
-            if ($x.marker in ($env.MENU_MARKER_SCHEMA | columns)) {
-                let c = ($env.MENU_MARKER_SCHEMA | get $x.marker)
+            if ($x.marker in ($env.NU_MENU_MARKER | columns)) {
+                let c = ($env.NU_MENU_MARKER | get $x.marker)
                 $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
             } else {
                 $x
@@ -223,7 +236,7 @@ export def-env register [name source] {
 }
 
 export def-env inject [pos idx define] {
-    let prev = ($env.NU_PROMPT_SCHEMA | get $pos)
+    let prev = ($env.NU_POWER_SCHEMA | get $pos)
     let next = if $idx == 0 {
         $prev | prepend $define
     } else {
@@ -234,8 +247,8 @@ export def-env inject [pos idx define] {
         ] | flatten
     }
 
-    let-env NU_PROMPT_SCHEMA = (
-        $env.NU_PROMPT_SCHEMA
+    let-env NU_POWER_SCHEMA = (
+        $env.NU_POWER_SCHEMA
         | update $pos $next
     )
 }
@@ -248,30 +261,48 @@ export def-env hook [] {
     let-env config = ( $env.config | upsert hooks.env_change { |config|
         let init = [{|before, after| if not ($before | is-empty) { init } }]
         $config.hooks.env_change
-        | upsert NU_UPPROMPT $init
-        | upsert NU_POWERLINE $init
-        | upsert NU_PROMPT_SCHEMA $init
-        | upsert MENU_MARKER_SCHEMA $init
+        | upsert NU_POWER_SCHEMA $init
+        | upsert NU_POWER_FRAME $init
+        | upsert NU_POWER_DECORATOR $init
+        | upsert NU_MENU_MARKER $init
+        # NU_POWER_THEME
     })
 }
 
 export-env {
-    let-env NU_PROMPT_SCHEMA = (default_env
-        NU_PROMPT_SCHEMA
+    let-env NU_POWER_SCHEMA = (default_env
+        NU_POWER_SCHEMA
         [
             [
-                {source: pwd,   power: '#353230'}
+                {source: pwd,   color: '#353230'}
             ]
             [
-                {source: proxy, power: 'dark_gray'}
-                {source: host,  power: '#353230'}
-                {source: time,  power: '#666560'}
+                {source: proxy, color: 'dark_gray'}
+                {source: host,  color: '#353230'}
+                {source: time,  color: '#666560'}
             ]
         ]
     )
 
-    let-env MENU_MARKER_SCHEMA = (default_env
-        MENU_MARKER_SCHEMA
+    let-env NU_POWER_FRAME = (default_env
+        NU_POWER_FRAME
+        'default' # default | fill
+    )
+
+    let-env NU_POWER_DECORATOR = (default_env
+        NU_POWER_DECORATOR
+        'power' # power | plain
+    )
+
+    let-env NU_POWER_THEME = (default_env
+        NU_POWER_THEME
+        {
+            red: (ansi red)
+        }
+    )
+
+    let-env NU_MENU_MARKER = (default_env
+        NU_MENU_MARKER
         {
             "| " : 'green'
             ": " : 'yellow'
@@ -279,8 +310,6 @@ export-env {
             "? " : 'red'
         }
     )
-
-    let-env NU_POWERLINE = (default_env NU_POWERLINE true)
 
     let-env NU_PROMPT_COMPONENTS = {
         pwd: (pwd_abbr)
