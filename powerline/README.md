@@ -1,6 +1,6 @@
 ### configuration
 ```
-use power.nu *
+use power.nu
     use power_git.nu
     power inject 0 1 {source: git,   power: '#504945'}
     use power_kube.nu
@@ -22,7 +22,7 @@ let-env NU_PROMPT_SCHEMA = [
     ]
 ]
 
-use power.nu *
+use power.nu
     use power_git.nu
     use power_kube.nu
 power init

@@ -190,7 +190,7 @@ export def default_env [name value] {
     }
 }
 
-export def-env "power init" [] {
+export def-env init [] {
     if ($env.NU_UPPROMPT? | is-empty) {
         let-env PROMPT_COMMAND = (left_prompt $env.NU_PROMPT_SCHEMA.0)
         let-env PROMPT_COMMAND_RIGHT = (right_prompt $env.NU_PROMPT_SCHEMA.1)
@@ -213,16 +213,16 @@ export def-env "power init" [] {
         }
         ))
 
-    power hook
+    hook
 }
 
-export def-env "power register" [name source] {
+export def-env register [name source] {
     let-env NU_PROMPT_COMPONENTS = (
         $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
     )
 }
 
-export def-env "power inject" [pos idx define] {
+export def-env inject [pos idx define] {
     let prev = ($env.NU_PROMPT_SCHEMA | get $pos)
     let next = if $idx == 0 {
         $prev | prepend $define
@@ -240,13 +240,13 @@ export def-env "power inject" [pos idx define] {
     )
 }
 
-export def-env "power eject" [] {
+export def-env eject [] {
     "power eject not implement"
 }
 
-export def-env "power hook" [] {
+export def-env hook [] {
     let-env config = ( $env.config | upsert hooks.env_change { |config|
-        let init = [{|before, after| if not ($before | is-empty) { power init } }]
+        let init = [{|before, after| if not ($before | is-empty) { init } }]
         $config.hooks.env_change
         | upsert NU_UPPROMPT $init
         | upsert NU_POWERLINE $init
