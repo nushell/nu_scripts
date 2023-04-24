@@ -274,10 +274,9 @@ export-env {
         MENU_MARKER_SCHEMA
         {
             "| " : 'green'
-            ": " : 'blue'
-            "# " : 'purple'
+            ": " : 'yellow'
+            "# " : 'blue'
             "? " : 'red'
-            "┊ " : 'yellow'
         }
     )
 
