@@ -217,8 +217,8 @@ export def-env init [] {
 
     let-env config = ( $env.config | update menus ($env.config.menus
         | each {|x|
-            if ($x.marker in ($env.NU_MENU_MARKER | columns)) {
-                let c = ($env.NU_MENU_MARKER | get $x.marker)
+            if ($x.marker in ($env.NU_POWER_MENU_MARKER | columns)) {
+                let c = ($env.NU_POWER_MENU_MARKER | get $x.marker)
                 $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
             } else {
                 $x
@@ -264,7 +264,7 @@ export def-env hook [] {
         | upsert NU_POWER_SCHEMA $init
         | upsert NU_POWER_FRAME $init
         | upsert NU_POWER_DECORATOR $init
-        | upsert NU_MENU_MARKER $init
+        | upsert NU_POWER_MENU_MARKER $init
         # NU_POWER_THEME
     })
 }
@@ -301,8 +301,8 @@ export-env {
         }
     )
 
-    let-env NU_MENU_MARKER = (default_env
-        NU_MENU_MARKER
+    let-env NU_POWER_MENU_MARKER = (default_env
+        NU_POWER_MENU_MARKER
         {
             "| " : 'green'
             ": " : 'yellow'
