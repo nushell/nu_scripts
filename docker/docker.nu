@@ -269,6 +269,7 @@ export def dr [
     --envs(-e): any                                     # { FOO: BAR }
     --daemon(-d): bool
     --attach(-a): string@"nu-complete docker container" # attach
+    --workdir(-w): string                               # workdir
     --entrypoint: string                                # entrypoint
     --dry-run: bool
     --with-x: bool
@@ -280,7 +281,8 @@ export def dr [
     let entrypoint = if ($entrypoint|is-empty) { [] } else { [--entrypoint $entrypoint] }
     let daemon = if $daemon { [-d] } else { [--rm -it] }
     let mnt = if ($mnt|is-empty) { [] } else { [-v $mnt] }
-    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v (host-path $x.k):($x.v)"} }
+    let workdir = if ($workdir|is-empty) { [] } else { [-w $workdir] }
+    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v '(host-path $x.k):($x.v)'"} }
     let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
     let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
     let debug = if $debug { [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined] } else { [] }
@@ -300,7 +302,12 @@ export def dr [
         [--uts $c --ipc $c --pid $c --network $c]
     }
     let cache = if ($cache|is-empty) { [] } else { [-v $cache] }
-    let args = ([$entrypoint $attach $daemon $envs $ssh $proxy $debug $appimage $netadmin $clip $mnt $vols $ports $cache] | flatten)
+    let args = ([
+        $entrypoint $attach $daemon
+        $ports $envs $ssh $proxy
+        $debug $appimage $netadmin $clip
+        $mnt $vols $workdir $cache
+    ] | flatten)
     let name = $"($img | split row '/' | last | str replace ':' '-')_(date now | date format %m%d%H%M)"
     if $dry_run {
         echo $"docker ($ns | str join ' ') run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"

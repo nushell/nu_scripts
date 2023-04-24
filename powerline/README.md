@@ -1,3 +1,4 @@
+### configuration
 ```
 use power.nu *
     use power_git.nu
@@ -26,3 +27,14 @@ use power.nu *
     use power_kube.nu
 power init
 ```
+`$env.NU_PROMPT_SCHEMA` support configuring dynamically
+
+## mode
+- `let-env NU_POWERLINE = true|false` power mode and plain mode
+- `let-env NU_UPPROMPT = <no empty>` two line prompt (experimental)
+
+## todo
+- [ ] proxy stat invalid in plain mode
+- [ ] implement `power eject`
+- [ ] `$env.config.menus[].maker` can be restored
+

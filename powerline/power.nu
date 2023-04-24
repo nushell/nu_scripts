@@ -237,6 +237,7 @@ export def-env "power inject" [pos idx define] {
 }
 
 export def-env "power eject" [] {
+    "power eject not implement"
 }
 
 export def-env "power hook" [] {
