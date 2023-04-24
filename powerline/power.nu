@@ -204,8 +204,12 @@ export def-env "power init" [] {
 
     let-env config = ( $env.config | update menus ($env.config.menus
         | each {|x|
-            let c = ($env.MENU_MARKER_SCHEMA | get $x.marker)
-            $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
+            if ($x.marker in ($env.MENU_MARKER_SCHEMA | columns)) {
+                let c = ($env.MENU_MARKER_SCHEMA | get $x.marker)
+                $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
+            } else {
+                $x
+            }
         }
         ))
 
