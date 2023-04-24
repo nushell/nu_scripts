@@ -37,4 +37,5 @@ power init
 - [ ] proxy stat invalid in plain mode
 - [ ] implement `power eject`
 - [ ] `$env.config.menus[].maker` can be restored
+- [ ] support colorschema
 
