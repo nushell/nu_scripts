@@ -26,5 +26,5 @@ def kube_stat [] {
 }
 
 export-env {
-    power reg kube (kube_stat)
+    power register kube (kube_stat)
 }

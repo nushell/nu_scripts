@@ -140,5 +140,5 @@ export-env {
         ]
     )
 
-    power reg git (git_stat)
+    power register git (git_stat)
 }

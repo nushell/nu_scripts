@@ -210,7 +210,7 @@ export def-env "power init" [] {
         ))
 }
 
-export def-env "power reg" [name source] {
+export def-env "power register" [name source] {
     let-env NU_PROMPT_COMPONENTS = (
         $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
     )
@@ -218,7 +218,7 @@ export def-env "power reg" [name source] {
 
 export def-env "power inject" [pos idx define] {
     let prev = ($env.NU_PROMPT_SCHEMA | get $pos)
-    let next = if idx == 0 {
+    let next = if $idx == 0 {
         $prev | prepend $define
     } else {
         [
