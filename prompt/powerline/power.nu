@@ -208,7 +208,7 @@ export def-env init [] {
     let-env PROMPT_INDICATOR = {||
         match $env.NU_POWER_DECORATOR {
             'plain' => { "> " }
-            'power' => { " " }
+            _ => { " " }
         }
     }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
