@@ -208,6 +208,8 @@ export def-env "power init" [] {
             $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
         }
         ))
+
+    power hook
 }
 
 export def-env "power register" [name source] {
@@ -235,11 +237,17 @@ export def-env "power inject" [pos idx define] {
 }
 
 export def-env "power eject" [] {
-
 }
 
 export def-env "power hook" [] {
-
+    let-env config = ( $env.config | upsert hooks.env_change { |config|
+        let init = [{|| power init }]
+        $config.hooks.env_change
+        | upsert NU_UPPROMPT $init
+        | upsert NU_POWERLINE $init
+        | upsert NU_PROMPT_SCHEMA $init
+        | upsert MENU_MARKER_SCHEMA $init
+    })
 }
 
 export-env {
