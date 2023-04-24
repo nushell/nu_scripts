@@ -79,7 +79,7 @@ def time_segment [] {
 }
 
 ### prompt
-def _sep [
+def decorator [
     direction?: string
     color?: string = 'light_yellow'
     fg?: string
@@ -131,9 +131,9 @@ def left_prompt [segment] {
         | enumerate
         | each {|x|
             if $x.index == $stop {
-                [$x.item.0.1 (_sep '>>' $x.item.0.0 $x.item.1)]
+                [$x.item.0.1 (decorator '>>' $x.item.0.0 $x.item.1)]
             } else {
-                [$x.item.0.1 (_sep '>' $x.item.0.0 $x.item.1)]
+                [$x.item.0.1 (decorator '>' $x.item.0.0 $x.item.1)]
             }
         })
     {||
@@ -149,9 +149,9 @@ def right_prompt [segment] {
         | enumerate
         | each {|x|
             if $x.index == 0 {
-                [$x.item.1 (_sep '<<' $x.item.0)]
+                [$x.item.1 (decorator '<<' $x.item.0)]
             } else {
-                [$x.item.1 (_sep '<' $x.item.0)]
+                [$x.item.1 (decorator '<' $x.item.0)]
             }
         })
     {||
@@ -213,7 +213,12 @@ export def-env init [] {
     }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
-    let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+    let-env PROMPT_MULTILINE_INDICATOR = {||
+        match $env.NU_POWER_DECORATOR {
+            'plain' => { "::: " }
+            _ => { $"(char haze) " }
+        }
+    }
 
     let-env config = ( $env.config | update menus ($env.config.menus
         | each {|x|
