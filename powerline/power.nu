@@ -246,7 +246,7 @@ export def-env "power eject" [] {
 
 export def-env "power hook" [] {
     let-env config = ( $env.config | upsert hooks.env_change { |config|
-        let init = [{|| power init }]
+        let init = [{|before, after| if not ($before | is-empty) { power init } }]
         $config.hooks.env_change
         | upsert NU_UPPROMPT $init
         | upsert NU_POWERLINE $init
