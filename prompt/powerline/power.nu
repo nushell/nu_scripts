@@ -38,10 +38,11 @@ export def "pwd_abbr" [] {
             $dir_comp = ([$first $body $last] | flatten)
         }
 
+        let theme = $env.NU_POWER_THEME.pwd
         let style = if $to_home.related == '>' {
-            $'(ansi xterm_gold3b)'
+            $theme.out_home
         } else {
-            $'(ansi light_green_bold)'
+            $theme.default
         }
         $"($style)($dir_comp | str join (char separator))"
     }
@@ -50,10 +51,11 @@ export def "pwd_abbr" [] {
 ### proxy
 export def proxy_stat [] {
     {||
+        let theme = $env.NU_POWER_THEME.proxy
         if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
-            $'(ansi yellow)'
+            $theme.on
         } else {
-            ''
+            $nothing
         }
     }
 }
@@ -61,11 +63,12 @@ export def proxy_stat [] {
 ### host
 def host_abbr [] {
     {||
+        let theme = $env.NU_POWER_THEME.host
         let n = (hostname | str trim)
         let ucl = if (is-admin) {
-                (ansi yellow)
+                $theme.is_admin
             } else {
-                (ansi blue)
+                $theme.default
             }
         $"($ucl)($n)"
     }
@@ -74,33 +77,34 @@ def host_abbr [] {
 ### time
 def time_segment [] {
     {||
-        $"(ansi xterm_tan)(date now | date format '%y-%m-%d/%H:%M:%S')"
+        let theme = $env.NU_POWER_THEME.time
+        $"($theme.now)(date now | date format '%y-%m-%d/%H:%M:%S')"
     }
 }
 
 ### prompt
-def _sep [
+def decorator [
     direction?: string
     color?: string = 'light_yellow'
     fg?: string
 ] {
     match $env.NU_POWER_DECORATOR {
         'plain' => {
-            let r = match $direction {
+            match $direction {
                 '>' => {
                     let r = $'(ansi light_yellow)|'
                     {|s| $"($s)($r)" }
                 }
-                '<' => {
+                '>>' => {
+                    {|s| $s }
+                }
+                '<'|'<<' => {
                     let l = $'(ansi light_yellow)|'
                     {|s| $"($l)($s)" }
                 }
-                '<<'|'>>' => {{|s| $s }}
             }
-            return $r
         }
         'power' => {
-            let fg = if ($fg | is-empty) { $color } else { $fg }
             match $direction {
                 '>' => {
                     let l = (ansi -e {bg: $fg})
@@ -118,7 +122,28 @@ def _sep [
                 }
             }
         }
+        'dynamic' => {
+            match $direction {
+                '>' => {
+                }
+                '>>' => {
+                }
+                '<'|'<<' => {
+                }
+            }
+        }
     }
+}
+
+def squash [thunk] {
+    mut r = ""
+    for t in $thunk {
+        let v = (do $t.0)
+        if ($v != $nothing) {
+            $r += (do $t.1 $v)
+        }
+    }
+    $r
 }
 
 def left_prompt [segment] {
@@ -131,16 +156,12 @@ def left_prompt [segment] {
         | enumerate
         | each {|x|
             if $x.index == $stop {
-                [$x.item.0.1 (_sep '>>' $x.item.0.0 $x.item.1)]
+                [$x.item.0.1 (decorator '>>' $x.item.0.0 $x.item.1)]
             } else {
-                [$x.item.0.1 (_sep '>' $x.item.0.0 $x.item.1)]
+                [$x.item.0.1 (decorator '>' $x.item.0.0 $x.item.1)]
             }
         })
-    {||
-        $thunk
-        | each {|x| do $x.1 (do $x.0) }
-        | str join
-    }
+    {|| squash $thunk }
 }
 
 def right_prompt [segment] {
@@ -149,23 +170,12 @@ def right_prompt [segment] {
         | enumerate
         | each {|x|
             if $x.index == 0 {
-                [$x.item.1 (_sep '<<' $x.item.0)]
+                [$x.item.1 (decorator '<<' $x.item.0)]
             } else {
-                [$x.item.1 (_sep '<' $x.item.0)]
+                [$x.item.1 (decorator '<' $x.item.0)]
             }
         })
-    {||
-        $thunk
-        | reduce -f [] {|x, a|
-            let v = (do $x.0)
-            if ($v | is-empty) {
-                $a
-            } else {
-                $a | append (do $x.1 $v)
-            }
-        }
-        | str join
-    }
+    {|| squash $thunk }
 }
 
 def up_prompt [segment] {
@@ -177,7 +187,7 @@ def up_prompt [segment] {
             | each {|y|
                 $y
                 | each {|x| do $x }
-                | filter {|x| not ($x | is-empty)}
+                | filter {|x| $x != $nothing }
                 | str join $'(ansi light_yellow)|'
             })
         # TODO: length of unicode char is 3
@@ -208,17 +218,22 @@ export def-env init [] {
     let-env PROMPT_INDICATOR = {||
         match $env.NU_POWER_DECORATOR {
             'plain' => { "> " }
-            'power' => { " " }
+            _ => { " " }
         }
     }
     let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
     let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
-    let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+    let-env PROMPT_MULTILINE_INDICATOR = {||
+        match $env.NU_POWER_DECORATOR {
+            'plain' => { "::: " }
+            _ => { $"(char haze) " }
+        }
+    }
 
     let-env config = ( $env.config | update menus ($env.config.menus
         | each {|x|
-            if ($x.marker in ($env.NU_MENU_MARKER | columns)) {
-                let c = ($env.NU_MENU_MARKER | get $x.marker)
+            if ($x.marker in ($env.NU_POWER_MENU_MARKER | columns)) {
+                let c = ($env.NU_POWER_MENU_MARKER | get $x.marker)
                 $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
             } else {
                 $x
@@ -229,13 +244,16 @@ export def-env init [] {
     hook
 }
 
-export def-env register [name source] {
+export def-env register [name source theme] {
     let-env NU_PROMPT_COMPONENTS = (
         $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
     )
+    let-env NU_POWER_THEME = (
+        $env.NU_POWER_THEME | upsert $name $theme
+    )
 }
 
-export def-env inject [pos idx define] {
+export def-env inject [pos idx define theme?] {
     let prev = ($env.NU_POWER_SCHEMA | get $pos)
     let next = if $idx == 0 {
         $prev | prepend $define
@@ -251,6 +269,22 @@ export def-env inject [pos idx define] {
         $env.NU_POWER_SCHEMA
         | update $pos $next
     )
+
+    if not ($theme | is-empty) {
+        let kind = $define.source
+        let prev_theme = ($env.NU_POWER_THEME | get $kind)
+        let prev_cols = ($prev_theme | columns)
+        let next_theme = ($theme | transpose k v)
+        for n in $next_theme {
+            if $n.k in $prev_cols {
+                let-env NU_POWER_THEME = (
+                    $env.NU_POWER_THEME | update $kind {|conf|
+                      $conf | get $kind | update $n.k $n.v
+                    }
+                )
+            }
+        }
+    }
 }
 
 export def-env eject [] {
@@ -264,7 +298,7 @@ export def-env hook [] {
         | upsert NU_POWER_SCHEMA $init
         | upsert NU_POWER_FRAME $init
         | upsert NU_POWER_DECORATOR $init
-        | upsert NU_MENU_MARKER $init
+        | upsert NU_POWER_MENU_MARKER $init
         # NU_POWER_THEME
     })
 }
@@ -294,20 +328,33 @@ export-env {
         'power' # power | plain
     )
 
-    let-env NU_POWER_THEME = (default_env
-        NU_POWER_THEME
-        {
-            red: (ansi red)
-        }
-    )
-
-    let-env NU_MENU_MARKER = (default_env
-        NU_MENU_MARKER
+    let-env NU_POWER_MENU_MARKER = (default_env
+        NU_POWER_MENU_MARKER
         {
             "| " : 'green'
             ": " : 'yellow'
             "# " : 'blue'
             "? " : 'red'
+        }
+    )
+
+    let-env NU_POWER_THEME = (default_env
+        NU_POWER_THEME
+        {
+            pwd: {
+                default: (ansi light_green_bold)
+                out_home: (ansi xterm_gold3b)
+            }
+            proxy: {
+                on: (ansi yellow)
+            }
+            host: {
+                is_admin: (ansi yellow)
+                default: (ansi blue)
+            }
+            time: {
+                now: (ansi xterm_tan)
+            }
         }
     )
 
