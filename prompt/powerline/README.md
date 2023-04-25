@@ -4,7 +4,9 @@ use power.nu
     use power_git.nu
     power inject 0 1 {source: git,   color: '#504945'}
     use power_kube.nu
-    power inject 1 2 {source: kube,  color: '#504945'}
+    power inject 1 2 {source: kube,  color: '#504945'} {
+        context: (ansi magenta)
+    }
 power init
 ```
 or
@@ -37,6 +39,6 @@ power init
 - [ ] proxy stat invalid in plain mode
 - [ ] implement `power eject`
 - [ ] `$env.config.menus[].maker` can be restored
-- [ ] support colorschema
+- [x] support color theme
 - [x] refactor: theme/decorator/frame/schema
 
