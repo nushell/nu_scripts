@@ -90,7 +90,7 @@ def decorator [
 ] {
     match $env.NU_POWER_DECORATOR {
         'plain' => {
-            let r = match $direction {
+            match $direction {
                 '>' => {
                     let r = $'(ansi light_yellow)|'
                     {|s| $"($s)($r)" }
@@ -103,7 +103,6 @@ def decorator [
                     {|s| $"($l)($s)" }
                 }
             }
-            return $r
         }
         'power' => {
             match $direction {
