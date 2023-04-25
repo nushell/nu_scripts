@@ -95,11 +95,13 @@ def decorator [
                     let r = $'(ansi light_yellow)|'
                     {|s| $"($s)($r)" }
                 }
-                '<' => {
+                '>>' => {
+                    {|s| $s }
+                }
+                '<'|'<<' => {
                     let l = $'(ansi light_yellow)|'
                     {|s| $"($l)($s)" }
                 }
-                '<<'|'>>' => {{|s| $s }}
             }
             return $r
         }
@@ -118,6 +120,16 @@ def decorator [
                 '<'|'<<' => {
                     let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
                     {|s| $'($l)($s)' }
+                }
+            }
+        }
+        'dynamic' => {
+            match $direction {
+                '>' => {
+                }
+                '>>' => {
+                }
+                '<'|'<<' => {
                 }
             }
         }
