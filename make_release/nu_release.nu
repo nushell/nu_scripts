@@ -26,6 +26,7 @@ let subcrates_wave_2 = [
 
 let subcrates_wave_3 = [
     nu-cli,
+    nu-std,
 
     # plugins
     nu_plugin_query,
