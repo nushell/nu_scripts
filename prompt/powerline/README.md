@@ -36,6 +36,7 @@ power init
 - `let-env NU_POWER_FRAME = '<default|fill>'` two line prompt (experimental)
 
 ## todo
+- [x] source return `$nothing` for hiding
 - [ ] proxy stat invalid in plain mode
 - [ ] implement `power eject`
 - [ ] `$env.config.menus[].maker` can be restored

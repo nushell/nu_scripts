@@ -55,7 +55,7 @@ export def proxy_stat [] {
         if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
             $theme.on
         } else {
-            ''
+            $nothing
         }
     }
 }
@@ -104,7 +104,6 @@ def decorator [
             return $r
         }
         'power' => {
-            let fg = if ($fg | is-empty) { $color } else { $fg }
             match $direction {
                 '>' => {
                     let l = (ansi -e {bg: $fg})
@@ -125,6 +124,17 @@ def decorator [
     }
 }
 
+def squash [thunk] {
+    mut r = ""
+    for t in $thunk {
+        let v = (do $t.0)
+        if ($v != $nothing) {
+            $r += (do $t.1 $v)
+        }
+    }
+    $r
+}
+
 def left_prompt [segment] {
     let stop = ($segment | length) - 1
     let vs = ($segment | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]})
@@ -140,11 +150,7 @@ def left_prompt [segment] {
                 [$x.item.0.1 (decorator '>' $x.item.0.0 $x.item.1)]
             }
         })
-    {||
-        $thunk
-        | each {|x| do $x.1 (do $x.0) }
-        | str join
-    }
+    {|| squash $thunk }
 }
 
 def right_prompt [segment] {
@@ -158,18 +164,7 @@ def right_prompt [segment] {
                 [$x.item.1 (decorator '<' $x.item.0)]
             }
         })
-    {||
-        $thunk
-        | reduce -f [] {|x, a|
-            let v = (do $x.0)
-            if ($v | is-empty) {
-                $a
-            } else {
-                $a | append (do $x.1 $v)
-            }
-        }
-        | str join
-    }
+    {|| squash $thunk }
 }
 
 def up_prompt [segment] {
@@ -181,7 +176,7 @@ def up_prompt [segment] {
             | each {|y|
                 $y
                 | each {|x| do $x }
-                | filter {|x| not ($x | is-empty)}
+                | filter {|x| $x != $nothing }
                 | str join $'(ansi light_yellow)|'
             })
         # TODO: length of unicode char is 3
