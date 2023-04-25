@@ -1,4 +1,4 @@
-def number-format [
+export def number-format [
     num                             # Number to format
     --thousands_delim (-t) = ' '    # Thousands delimiter: number-format 1000 -t ': 1'000
     --whole_part_length (-w) = 0    # Length of padding whole-part digits: number-format 123 -w 6:    123

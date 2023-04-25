@@ -16,6 +16,8 @@ def hide_cursor [] {
     print $"(ansi -e '?25l')"
 }
 
-hide_cursor
-loading
-show_cursor
+def demo_percent_meter [] {
+    hide_cursor
+    loading
+    show_cursor
+}

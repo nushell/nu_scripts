@@ -2,7 +2,7 @@
 
 # Usage: (remove-diacritics 'Zażółć gęślą jaźń') == Zazolc gesla jazn
 
-def remove-diacritics [
+export def main [
     arg: string
 ] {
     let diacritics_map = {
