@@ -32,15 +32,14 @@ power init
 `$env.NU_POWER_SCHEMA` support configuring dynamically
 
 ## mode
+- `let-env NU_POWER_MODE = '<default|fast>'` fast mode and default mode (experimental)
 - `let-env NU_POWER_DECORATOR = '<power|plain>'` power mode and plain mode
 - `let-env NU_POWER_FRAME = '<default|fill>'` two line prompt (experimental)
 
 ## todo
 - [x] source return `$nothing` for hiding
-    - FRAME can't dynamically, or can't optimize performance
-    - if can't predetermine '<' or '<<', it can't precalculate
-    - so '<<' not longer hide separator
 - [x] proxy stat invalid in plain mode
+    - '<<' not longer hide separator in `fast` mode
 - [ ] implement `power eject`
 - [ ] `$env.config.menus[].maker` can be restored
 - [x] support color theme
