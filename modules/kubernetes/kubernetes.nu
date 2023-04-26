@@ -514,7 +514,7 @@ export def "kclean evicted" [] {
     | each { |x| kdel pod -n $x.NAMESPACE $x.NAME }
 }
 
-### fixme:
+### FIXME:
 export def "kclean stucked ns" [ns: string] {
     kubectl get namespace $ns -o json \
     | tr -d "\n"

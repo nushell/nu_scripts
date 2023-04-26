@@ -50,20 +50,18 @@ export def _git_log [v num] {
     }
 }
 
-# FIXME: number-like
 def "nu-complete git log" [] {
     git log -n 32 --pretty=%h»¦«%s
     | lines
     | split column "»¦«" value description
-    | each {|x| $x | update value $"`($x.value)`"}
+    | each {|x| $x | update value $"($x.value)"}
 }
 
-# FIXME: number-like
 def "nu-complete git branches" [] {
     git branch
     | lines
     | filter {|x| not ($x | str starts-with '*')}
-    | each {|x| $"'($x|str trim)'"}
+    | each {|x| $"($x|str trim)"}
 }
 
 export def gl [
@@ -181,7 +179,6 @@ export alias gapt = git apply --3way
 export alias gb = git branch
 export alias gba = git branch -a
 export alias gbd = git branch -d
-export alias gbda = 'git branch --no-color --merged | command grep -vE "^(\+|\*|\s*($(git_main_branch)|development|develop|devel|dev)\s*$)" | command xargs -n 1 git branch -d'
 export alias gbl = git blame -b -w
 export alias gbnm = git branch --no-merged
 export alias gbr = git branch --remote

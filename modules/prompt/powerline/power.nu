@@ -78,12 +78,138 @@ def host_abbr [] {
 def time_segment [] {
     {||
         let theme = $env.NU_POWER_THEME.time
-        $"($theme.now)(date now | date format '%y-%m-%d/%H:%M:%S')"
+        $"($theme.now)(date now | date format '%y-%m-%d_%H:%M:%S')"
+    }
+}
+
+### utils
+def logtime [msg act] {
+    let start = (date now)
+    let result = (do $act)
+    let period = ((date now) - $start
+        | into duration -c ns
+        | into string
+        | str replace ' ' '')
+
+    echo $'($start | date format '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
+    | save -a ~/.cache/nushell/time.log
+
+    return $result
+}
+
+def-env wraptime [message action] {
+    if $env.NU_POWER_BENCHMARK? == true {
+        {|| logtime $message $action }
+    } else {
+        $action
+    }
+}
+
+export def timelog [] {
+    open ~/.cache/nushell/time.log
+    | from tsv -n
+    | rename start duration message
+    | each {|x|
+        $x
+        | update start ($x.start | into datetime -f '%Y-%m-%d_%H:%M:%S%z')
+        | update duration ($x.duration | into duration)
     }
 }
 
 ### prompt
-def decorator [
+def decorator [ ] {
+    match $env.NU_POWER_DECORATOR {
+        'plain' => {
+            {|s, direction?: string, color?: string = 'light_yellow', fg?: string|
+                match $direction {
+                    '>' => {
+                        let r = $'(ansi light_yellow)|'
+                        $"($s)($r)"
+                    }
+                    '>>'|'<<' => {
+                        $s
+                    }
+                    '<' => {
+                        let l = $'(ansi light_yellow)|'
+                        $"($l)($s)"
+                    }
+                }
+            }
+        }
+        'power' => {
+            {|s, direction?: string, color?: string = 'light_yellow', fg?: string|
+                match $direction {
+                    '>' => {
+                        let l = (ansi -e {bg: $fg})
+                        let r = $'(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)'
+                        $'($l)($s)($r)'
+                    }
+                    '>>' => {
+                        let l = (ansi -e {bg: $fg})
+                        let r = $'(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)'
+                        $'($l)($s)($r)'
+                    }
+                    '<'|'<<' => {
+                        let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
+                        $'($l)($s)'
+                    }
+                }
+            }
+        }
+    }
+}
+
+def left_prompt [segment] {
+    let decorator = (decorator)
+    let segment = ($segment
+        | each {|x|
+            [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]
+        })
+    {||
+        let segment = ($segment
+            | each {|x| [$x.0 (do $x.1)] }
+            | filter {|x| $x.1 != $nothing }
+            )
+        let stop = ($segment | length) - 1
+        let cs = ($segment | each {|x| $x.0 })
+        let cs = ($cs | prepend $cs.1?)
+        $segment
+        | zip $cs
+        | enumerate
+        | each {|x|
+            if $x.index == $stop {
+                do $decorator $x.item.0.1 '>>' $x.item.0.0 $x.item.1
+            } else {
+                do $decorator $x.item.0.1 '>' $x.item.0.0 $x.item.1
+            }
+        }
+        | str join
+    }
+}
+
+def right_prompt [segment] {
+    let decorator = (decorator)
+    let segment = ($segment
+        | each {|x|
+            [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]
+        })
+    {||
+        $segment
+        | each {|x| [$x.0 (do $x.1)] }
+        | filter {|x| $x.1 != $nothing }
+        | enumerate
+        | each {|x|
+            if $x.index == 0 {
+                do $decorator $x.item.1 '<<' $x.item.0
+            } else {
+                do $decorator $x.item.1 '<' $x.item.0
+            }
+        }
+        | str join
+    }
+}
+
+def decorator_gen [
     direction?: string
     color?: string = 'light_yellow'
     fg?: string
@@ -122,16 +248,6 @@ def decorator [
                 }
             }
         }
-        'dynamic' => {
-            match $direction {
-                '>' => {
-                }
-                '>>' => {
-                }
-                '<'|'<<' => {
-                }
-            }
-        }
     }
 }
 
@@ -146,7 +262,7 @@ def squash [thunk] {
     $r
 }
 
-def left_prompt [segment] {
+def left_prompt_gen [segment] {
     let stop = ($segment | length) - 1
     let vs = ($segment | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]})
     let cs = ($vs | each {|x| $x.0})
@@ -156,23 +272,23 @@ def left_prompt [segment] {
         | enumerate
         | each {|x|
             if $x.index == $stop {
-                [$x.item.0.1 (decorator '>>' $x.item.0.0 $x.item.1)]
+                [$x.item.0.1 (decorator_gen '>>' $x.item.0.0 $x.item.1)]
             } else {
-                [$x.item.0.1 (decorator '>' $x.item.0.0 $x.item.1)]
+                [$x.item.0.1 (decorator_gen '>' $x.item.0.0 $x.item.1)]
             }
         })
     {|| squash $thunk }
 }
 
-def right_prompt [segment] {
+def right_prompt_gen [segment] {
     let thunk = ( $segment
         | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]}
         | enumerate
         | each {|x|
             if $x.index == 0 {
-                [$x.item.1 (decorator '<<' $x.item.0)]
+                [$x.item.1 (decorator_gen '<<' $x.item.0)]
             } else {
-                [$x.item.1 (decorator '<' $x.item.0)]
+                [$x.item.1 (decorator_gen '<' $x.item.0)]
             }
         })
     {|| squash $thunk }
@@ -207,8 +323,28 @@ export def default_env [name value] {
 export def-env init [] {
     match $env.NU_POWER_FRAME {
         'default' => {
-            let-env PROMPT_COMMAND = (left_prompt $env.NU_POWER_SCHEMA.0)
-            let-env PROMPT_COMMAND_RIGHT = (right_prompt $env.NU_POWER_SCHEMA.1)
+            match $env.NU_POWER_MODE {
+                'default' => {
+                    let-env PROMPT_COMMAND = (wraptime
+                        'power dynamic left'
+                        (left_prompt $env.NU_POWER_SCHEMA.0)
+                    )
+                    let-env PROMPT_COMMAND_RIGHT = (wraptime
+                        'power dynamic right'
+                        (right_prompt $env.NU_POWER_SCHEMA.1)
+                    )
+                }
+                'fast' => {
+                    let-env PROMPT_COMMAND = (wraptime
+                        'power static left'
+                        (left_prompt_gen $env.NU_POWER_SCHEMA.0)
+                    )
+                    let-env PROMPT_COMMAND_RIGHT = (wraptime
+                        'power static right'
+                        (right_prompt_gen $env.NU_POWER_SCHEMA.1)
+                    )
+                }
+            }
         }
         'fill' => {
             let-env PROMPT_COMMAND = (up_prompt $env.NU_POWER_SCHEMA)
@@ -295,15 +431,24 @@ export def-env hook [] {
     let-env config = ( $env.config | upsert hooks.env_change { |config|
         let init = [{|before, after| if not ($before | is-empty) { init } }]
         $config.hooks.env_change
+        | upsert NU_POWER_MODE $init
         | upsert NU_POWER_SCHEMA $init
         | upsert NU_POWER_FRAME $init
         | upsert NU_POWER_DECORATOR $init
         | upsert NU_POWER_MENU_MARKER $init
+        | upsert NU_POWER_BENCHMARK $init
         # NU_POWER_THEME
     })
 }
 
 export-env {
+    let-env NU_POWER_BENCHMARK = false
+
+    let-env NU_POWER_MODE = (default_env
+        NU_POWER_MODE
+        'fast' # default | fast
+    )
+
     let-env NU_POWER_SCHEMA = (default_env
         NU_POWER_SCHEMA
         [
