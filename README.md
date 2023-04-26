@@ -6,15 +6,14 @@ This is a place to share Nushell scripts with each other. If you'd like to share
 
 - [aliases](./aliases/)
 - [benchmarks](./benchmarks/)
-- [bin](./bin/) - scripts meant to be run as executable. i.e `nu script.nu`
-- [cool-oneliners](./cool-oneliners/)
+- [cool-oneliners](./sourced/cool-oneliners/)
 - [custom-completions](./custom-completions/) - collection of custom completions for external commands.
 - [custom-menus](./custom-menus/) - collection of custom nushell menus
 - [example-config](./example-config/)
 - [hooks](./hooks/)
-- [modules](./modules/) - This has it's dedicated [readme](./modules/)
-- [nu_101](./nu_101/) - Begginer introduction to nushell concepts.
-- [prompt](./prompt/)
+- [modules](./modules/) - This has it's dedicated [readme](./modules/README.md)
+- [nu_101](./sourced/nu_101/) - Beginner introduction to nushell concepts.
+- [prompt](./modules/prompt/)
 - [themes](./themes/)
 
 ## Running Scripts
