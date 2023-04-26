@@ -2,7 +2,7 @@
 export def "to ini" [] {
   transpose key value
   | update value {|row|
-    get value
+    $row.value
     | transpose key value
     | format '{key}={value}'
     | prepend $"[($row.key)]"
