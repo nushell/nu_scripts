@@ -97,7 +97,7 @@ def logtime [msg act] {
     return $result
 }
 
-def-env wraptime [message action] {
+def wraptime [message action] {
     if $env.NU_POWER_BENCHMARK? == true {
         {|| logtime $message $action }
     } else {
@@ -120,7 +120,7 @@ export def timelog [] {
 def decorator [ ] {
     match $env.NU_POWER_DECORATOR {
         'plain' => {
-            {|s, direction?: string, color?: string = 'light_yellow', fg?: string|
+            {|s, direction?: string, color?: string = 'light_yellow', next_color?: string|
                 match $direction {
                     '>' => {
                         let r = $'(ansi light_yellow)|'
@@ -137,17 +137,15 @@ def decorator [ ] {
             }
         }
         'power' => {
-            {|s, direction?: string, color?: string = 'light_yellow', fg?: string|
+            {|s, direction?: string, color?: string = 'light_yellow', next_color?: string|
                 match $direction {
                     '>' => {
-                        let l = (ansi -e {bg: $fg})
-                        let r = $'(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)'
-                        $'($l)($s)($r)'
+                        let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
+                        $'($s)($r)'
                     }
                     '>>' => {
-                        let l = (ansi -e {bg: $fg})
-                        let r = $'(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)'
-                        $'($l)($s)($r)'
+                        let r = $'(ansi reset)(ansi -e {fg: $color})(char nf_left_segment)'
+                        $'($s)($r)'
                     }
                     '<'|'<<' => {
                         let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
@@ -171,13 +169,14 @@ def left_prompt [segment] {
             | filter {|x| $x.1 != $nothing }
             )
         let stop = ($segment | length) - 1
-        let cs = ($segment | each {|x| $x.0 })
-        let cs = ($cs | prepend $cs.1?)
+        let cs = ($segment | each {|x| $x.0 } | append $segment.0.0 | range 1..)
         $segment
         | zip $cs
         | enumerate
         | each {|x|
-            if $x.index == $stop {
+            if $x.index == 0 and $env.NU_POWER_DECORATOR == 'power' {
+                $'(ansi -e {bg: $segment.0.0})(do $decorator $x.item.0.1 '>' $x.item.0.0 $x.item.1)'
+            } else if $x.index == $stop {
                 do $decorator $x.item.0.1 '>>' $x.item.0.0 $x.item.1
             } else {
                 do $decorator $x.item.0.1 '>' $x.item.0.0 $x.item.1
@@ -212,7 +211,7 @@ def right_prompt [segment] {
 def decorator_gen [
     direction?: string
     color?: string = 'light_yellow'
-    fg?: string
+    next_color?: string
 ] {
     match $env.NU_POWER_DECORATOR {
         'plain' => {
@@ -233,14 +232,12 @@ def decorator_gen [
         'power' => {
             match $direction {
                 '>' => {
-                    let l = (ansi -e {bg: $fg})
-                    let r = $'(ansi -e {fg: $fg, bg: $color})(char nf_left_segment)'
-                    {|s| $'($l)($s)($r)' }
+                    let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
+                    {|s| $'($s)($r)' }
                 }
                 '>>' => {
-                    let l = (ansi -e {bg: $fg})
-                    let r = $'(ansi reset)(ansi -e {fg: $fg})(char nf_left_segment)'
-                    {|s| $'($l)($s)($r)' }
+                    let r = $'(ansi reset)(ansi -e {fg: $color})(char nf_left_segment)'
+                    {|s| $'($s)($r)' }
                 }
                 '<'|'<<' => {
                     let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
@@ -265,13 +262,15 @@ def squash [thunk] {
 def left_prompt_gen [segment] {
     let stop = ($segment | length) - 1
     let vs = ($segment | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]})
-    let cs = ($vs | each {|x| $x.0})
-    let cs = ($cs | prepend $cs.1?)
+    let cs = ($segment | each {|x| $x.color } | append $segment.0.color | range 1..)
     let thunk = ($vs
         | zip $cs
         | enumerate
         | each {|x|
-            if $x.index == $stop {
+            if $x.index == 0 and $env.NU_POWER_DECORATOR == 'power' {
+                let o = (decorator_gen '>' $x.item.0.0 $x.item.1)
+                [$x.item.0.1 {|x| $'(ansi -e {bg: $segment.0.color})(do $o $x)' }]
+            } else if $x.index == $stop {
                 [$x.item.0.1 (decorator_gen '>>' $x.item.0.0 $x.item.1)]
             } else {
                 [$x.item.0.1 (decorator_gen '>' $x.item.0.0 $x.item.1)]
@@ -451,7 +450,7 @@ export-env {
 
     let-env NU_POWER_MODE = (default_env
         NU_POWER_MODE
-        'fast' # power | fast
+        'power' # power | fast
     )
 
     let-env NU_POWER_SCHEMA = (default_env
