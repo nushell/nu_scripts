@@ -324,7 +324,7 @@ export def-env init [] {
     match $env.NU_POWER_FRAME {
         'default' => {
             match $env.NU_POWER_MODE {
-                'default' => {
+                'power' => {
                     let-env PROMPT_COMMAND = (wraptime
                         'power dynamic left'
                         (left_prompt $env.NU_POWER_SCHEMA.0)
@@ -385,7 +385,12 @@ export def-env register [name source theme] {
         $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
     )
     let-env NU_POWER_THEME = (
-        $env.NU_POWER_THEME | upsert $name $theme
+        $env.NU_POWER_THEME
+        | upsert $name ($theme
+            | transpose k v
+            | reduce -f {} {|it, acc|
+                $acc | insert $it.k (ansi -e {fg: $it.v})
+            })
     )
 }
 
@@ -415,7 +420,7 @@ export def-env inject [pos idx define theme?] {
             if $n.k in $prev_cols {
                 let-env NU_POWER_THEME = (
                     $env.NU_POWER_THEME | update $kind {|conf|
-                      $conf | get $kind | update $n.k $n.v
+                      $conf | get $kind | update $n.k (ansi -e {fg: $n.v})
                     }
                 )
             }
@@ -446,7 +451,7 @@ export-env {
 
     let-env NU_POWER_MODE = (default_env
         NU_POWER_MODE
-        'fast' # default | fast
+        'fast' # power | fast
     )
 
     let-env NU_POWER_SCHEMA = (default_env

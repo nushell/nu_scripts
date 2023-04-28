@@ -147,7 +147,7 @@ export-env {
     )
 
     power register git (git_stat) {
-        default : (ansi blue)
-        no_upstream: (ansi red)
+        default : blue
+        no_upstream: red
     }
 }
