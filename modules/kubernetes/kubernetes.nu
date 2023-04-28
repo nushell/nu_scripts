@@ -22,14 +22,15 @@ export def "parse cmd" [] {
     | reject sw
 }
 
-export def ensure-index [index path action] {
+export def ensure-cache [cache path action] {
     let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
     if ($ts | is-empty) { return false }
-    let tc = (do -i { ls $index | get 0.modified })
-    if not (($index | path exists) and ($ts < $tc)) {
-        mkdir (dirname $index)
-        do $action
+    let tc = (do -i { ls $cache | get 0.modified })
+    if not (($cache | path exists) and ($ts < $tc)) {
+        mkdir (dirname $cache)
+        do $action | save -f $cache
     }
+    open $cache
 }
 
 export-env {
@@ -75,7 +76,7 @@ export def "kube-config" [] {
 def "nu-complete kube ctx" [] {
     let k = (kube-config)
     let cache = $'($env.HOME)/.cache/nu-complete/k8s/(basename $k.path).json'
-    ensure-index $cache $k.path { ||
+    let data = (ensure-cache $cache $k.path { ||
         let clusters = ($k.data | get clusters | select name cluster.server)
         let data = ($k.data
             | get contexts
@@ -89,10 +90,9 @@ def "nu-complete kube ctx" [] {
                 | upsert mx_cl (if $max_cl > $a.mx_cl { $max_cl } else $a.mx_cl)
                 | upsert completion ($a.completion | append {value: $x.name, ns: $ns, cluster: $cluster})
             })
-        {completion: $data.completion, max: {ns: $data.mx_ns, cluster: $data.mx_cl}} | save -f $cache
-    }
+        {completion: $data.completion, max: {ns: $data.mx_ns, cluster: $data.mx_cl}}
+    })
 
-    let data = (cat $cache | from json)
     $data.completion | each {|x|
         let ns = ($x.ns | fill -a l -w $data.max.ns -c ' ')
         let cl = ($x.cluster | fill -a l -w $data.max.cluster -c ' ')
