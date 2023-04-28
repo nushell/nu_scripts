@@ -1,10 +1,25 @@
 ### kubernetes
+def ensure-cache [cache path action] {
+    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
+    if ($ts | is-empty) { return false }
+    let tc = (do -i { ls $cache | get 0.modified })
+    if not (($cache | path exists) and ($ts < $tc)) {
+        mkdir (dirname $cache)
+        do $action | save -f $cache
+    }
+    open $cache
+}
+
 def "kube ctx" [] {
-    do -i {
-        kubectl config get-contexts
-        | from ssv -a
-        | where CURRENT == '*'
-        | get 0
+    let cache = $'($env.HOME)/.cache/nu-power/kube.json'
+    let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
+    ensure-cache $cache $file {
+        do -i {
+            kubectl config get-contexts
+            | from ssv -a
+            | where CURRENT == '*'
+            | get 0
+        }
     }
 }
 

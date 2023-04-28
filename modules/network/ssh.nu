@@ -1,11 +1,12 @@
-export def ensure-index [index path action] {
+export def ensure-cache [cache path action] {
     let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
     if ($ts | is-empty) { return false }
-    let tc = (do -i { ls $index | get 0.modified })
-    if not (($index | path exists) and ($ts < $tc)) {
-        mkdir (dirname $index)
-        do $action
+    let tc = (do -i { ls $cache | get 0.modified })
+    if not (($cache | path exists) and ($ts < $tc)) {
+        mkdir (dirname $cache)
+        do $action | save -f $cache
     }
+    open $cache
 }
 
 export def 'str max-length' [] {
@@ -49,7 +50,7 @@ def fmt-group [p] {
 
 def "ssh-hosts" [] {
     let cache = $'($env.HOME)/.cache/nu-complete/ssh.json'
-    ensure-index $cache ~/.ssh/**/* { ||
+    ensure-cache $cache ~/.ssh/**/* { ||
         let data = (ssh-list | each {|x|
                 let uri = $"($x.User)@($x.HostName):($x.Port)"
                 {
@@ -67,10 +68,8 @@ def "ssh-hosts" [] {
             identfile: ($data.identfile | str max-length),
         }
 
-        {max: $max, completion: $data} | save -f $cache
+        {max: $max, completion: $data}
     }
-
-    cat $cache | from json
 }
 
 def "nu-complete ssh" [] {
