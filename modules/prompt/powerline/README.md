@@ -5,7 +5,7 @@ use power.nu
     power inject 0 1 {source: git,   color: '#504945'}
     use power_kube.nu
     power inject 1 2 {source: kube,  color: '#504945'} {
-        context: (ansi magenta)
+        context: purple
     }
 power init
 ```
@@ -32,7 +32,7 @@ power init
 `$env.NU_POWER_SCHEMA` support configuring dynamically
 
 ## mode
-- `let-env NU_POWER_MODE = '<default|fast>'` fast mode and default mode (experimental)
+- `let-env NU_POWER_MODE = '<power|fast>'` fast mode and default mode (experimental)
 - `let-env NU_POWER_DECORATOR = '<power|plain>'` power mode and plain mode
 - `let-env NU_POWER_FRAME = '<default|fill>'` two line prompt (experimental)
 
