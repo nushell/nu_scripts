@@ -8,7 +8,7 @@ use power.nu
         context: purple
     }
     use power_utils.nu
-    power inject 0 1 {source: atuin, color: '#678067'}
+    power inject 0 1 {source: atuin, color: '#3B4E32'}
 power init
 ```
 or
@@ -52,10 +52,7 @@ let-env NU_POWER_MODE = 'fast' # or 'power'
 Go ahead and press enter,
 Execute power timelog to analyze the results.
 ```
-power timelog
-| group-by message
-| transpose k v
-| each {|x| $x | upsert v ($x.v | get duration | math avg)}
+power analyze
 ```
 
 ## todo

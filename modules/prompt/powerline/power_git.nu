@@ -88,13 +88,13 @@ export def git_status_raw [] {
         }
     }
 
-    return $status
+    $status
 }
 
 export def git_status [] {
     let status = (do -i { gstat })
     if not ($status | is-empty) {
-        return $status
+        $status
     } else {
         git_status_raw
     }
@@ -115,10 +115,14 @@ export def git_stat [] {
 
         let summary = (
             $env.NU_PROMPT_GIT_FORMATTER
-            | filter {|x| ($status | get $x.0) > 0 }
-            | each {|x| $"(ansi $'light_($x.2)_dimmed')($x.1)($status | get $x.0)" }
-            | str join
-            )
+            | reduce -f "" {|x, acc|
+                let y = ($status | get $x.0)
+                if $y > 0 {
+                    $acc + $"(ansi $'light_($x.2)_dimmed')($x.1)($y)"
+                } else {
+                    $acc
+                }
+            })
 
         $'($branch)($summary)'
     }

@@ -5,9 +5,9 @@ def related [sub dir] {
     }
     let suffix = (do --ignore-errors { $sub | path relative-to $dir })
     if ($suffix | is-empty) {
-        return { related: '>', path: '' }
+        { related: '>', path: '' }
     } else {
-        return { related: '<', path: $suffix}
+        { related: '<', path: $suffix}
     }
 }
 
@@ -92,12 +92,12 @@ def logtime [msg act] {
         | str replace ' ' '')
 
     echo $'($start | date format '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
-    | save -a ~/.cache/nushell/time.log
+    | save -a ~/.cache/nushell/power_time.log
 
-    return $result
+    $result
 }
 
-def wraptime [message action] {
+export def wraptime [message action] {
     if $env.NU_POWER_BENCHMARK? == true {
         {|| logtime $message $action }
     } else {
@@ -105,8 +105,17 @@ def wraptime [message action] {
     }
 }
 
+def get_component [schema] {
+    let component = ($env.NU_PROMPT_COMPONENTS | get $schema.source)
+    if $env.NU_POWER_BENCHMARK? == true {
+        {|| logtime $'component ($schema.source)' $component }
+    } else {
+        $component
+    }
+}
+
 export def timelog [] {
-    open ~/.cache/nushell/time.log
+    open ~/.cache/nushell/power_time.log
     | from tsv -n
     | rename start duration message
     | each {|x|
@@ -116,13 +125,20 @@ export def timelog [] {
     }
 }
 
+export def analyze [] {
+    timelog
+    | group-by message
+    | transpose component metrics
+    | each {|x| $x | upsert metrics ($x.metrics | get duration | math avg)}
+}
+
 ### prompt
 def decorator [ ] {
     match $env.NU_POWER_DECORATOR {
         'plain' => {
             {|s, direction?: string, color?: string = 'light_yellow', next_color?: string|
                 match $direction {
-                    '>' => {
+                    '|>'|'>' => {
                         let r = $'(ansi light_yellow)|'
                         $"($s)($r)"
                     }
@@ -139,6 +155,11 @@ def decorator [ ] {
         'power' => {
             {|s, direction?: string, color?: string = 'light_yellow', next_color?: string|
                 match $direction {
+                    '|>' => {
+                        let l = (ansi -e {bg: $color})
+                        let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
+                        $'($l)($s)($r)'
+                    }
                     '>' => {
                         let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
                         $'($s)($r)'
@@ -161,23 +182,28 @@ def left_prompt [segment] {
     let decorator = (decorator)
     let segment = ($segment
         | each {|x|
-            [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]
+            [$x.color (get_component $x)]
         })
     {||
         let segment = ($segment
-            | each {|x| [$x.0 (do $x.1)] }
-            | filter {|x| $x.1 != $nothing }
-            )
+            | reduce -f [] {|x, acc|
+                let y = (do $x.1)
+                if $y == $nothing {
+                    $acc
+                } else {
+                    $acc | append [[$x.0 $y]]
+                }
+            })
         let stop = ($segment | length) - 1
         let cs = ($segment | each {|x| $x.0 } | append $segment.0.0 | range 1..)
         $segment
         | zip $cs
         | enumerate
         | each {|x|
-            if $x.index == 0 and $env.NU_POWER_DECORATOR == 'power' {
-                $'(ansi -e {bg: $segment.0.0})(do $decorator $x.item.0.1 '>' $x.item.0.0 $x.item.1)'
-            } else if $x.index == $stop {
+            if $x.index == $stop {
                 do $decorator $x.item.0.1 '>>' $x.item.0.0 $x.item.1
+            } else if $x.index == 0 {
+                do $decorator $x.item.0.1 '|>' $x.item.0.0 $x.item.1
             } else {
                 do $decorator $x.item.0.1 '>' $x.item.0.0 $x.item.1
             }
@@ -190,12 +216,18 @@ def right_prompt [segment] {
     let decorator = (decorator)
     let segment = ($segment
         | each {|x|
-            [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]
+            [$x.color (get_component $x)]
         })
     {||
         $segment
-        | each {|x| [$x.0 (do $x.1)] }
-        | filter {|x| $x.1 != $nothing }
+        | reduce -f [] {|x,acc|
+            let y = (do $x.1)
+            if $y == $nothing {
+                $acc
+            } else {
+                $acc | append [[$x.0 $y]]
+            }
+        }
         | enumerate
         | each {|x|
             if $x.index == 0 {
@@ -216,7 +248,7 @@ def decorator_gen [
     match $env.NU_POWER_DECORATOR {
         'plain' => {
             match $direction {
-                '>' => {
+                '|>'|'>' => {
                     let r = $'(ansi light_yellow)|'
                     {|s| $"($s)($r)" }
                 }
@@ -231,6 +263,11 @@ def decorator_gen [
         }
         'power' => {
             match $direction {
+                '|>' => {
+                    let l = $'(ansi -e {bg: $color})'
+                    let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
+                    {|s| $'($l)($s)($r)' }
+                }
                 '>' => {
                     let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
                     {|s| $'($s)($r)' }
@@ -261,17 +298,16 @@ def squash [thunk] {
 
 def left_prompt_gen [segment] {
     let stop = ($segment | length) - 1
-    let vs = ($segment | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]})
+    let vs = ($segment | each {|x| [$x.color (get_component $x)]})
     let cs = ($segment | each {|x| $x.color } | append $segment.0.color | range 1..)
     let thunk = ($vs
         | zip $cs
         | enumerate
         | each {|x|
-            if $x.index == 0 and $env.NU_POWER_DECORATOR == 'power' {
-                let o = (decorator_gen '>' $x.item.0.0 $x.item.1)
-                [$x.item.0.1 {|x| $'(ansi -e {bg: $segment.0.color})(do $o $x)' }]
-            } else if $x.index == $stop {
+            if $x.index == $stop {
                 [$x.item.0.1 (decorator_gen '>>' $x.item.0.0 $x.item.1)]
+            } else if $x.index == 0 {
+                [$x.item.0.1 (decorator_gen '|>' $x.item.0.0 $x.item.1)]
             } else {
                 [$x.item.0.1 (decorator_gen '>' $x.item.0.0 $x.item.1)]
             }
@@ -281,7 +317,7 @@ def left_prompt_gen [segment] {
 
 def right_prompt_gen [segment] {
     let thunk = ( $segment
-        | each {|x| [$x.color ($env.NU_PROMPT_COMPONENTS | get $x.source)]}
+        | each {|x| [$x.color (get_component $x)]}
         | enumerate
         | each {|x|
             if $x.index == 0 {
@@ -295,14 +331,20 @@ def right_prompt_gen [segment] {
 
 def up_prompt [segment] {
     let thunk = ($segment
-        | each {|y| $y | each {|x| $env.NU_PROMPT_COMPONENTS | get $x.source}
+        | each {|y| $y | each {|x| get_component $x }
         })
     { ||
         let ss = ($thunk
             | each {|y|
                 $y
-                | each {|x| do $x }
-                | filter {|x| $x != $nothing }
+                | reduce -f [] {|x, acc|
+                    let y = (do $x)
+                    if $y == $nothing {
+                        $acc
+                    } else {
+                        $acc | append $y
+                    }
+                }
                 | str join $'(ansi light_yellow)|'
             })
         # TODO: length of unicode char is 3
@@ -325,21 +367,21 @@ export def-env init [] {
             match $env.NU_POWER_MODE {
                 'power' => {
                     let-env PROMPT_COMMAND = (wraptime
-                        'power dynamic left'
+                        'dynamic left'
                         (left_prompt $env.NU_POWER_SCHEMA.0)
                     )
                     let-env PROMPT_COMMAND_RIGHT = (wraptime
-                        'power dynamic right'
+                        'dynamic right'
                         (right_prompt $env.NU_POWER_SCHEMA.1)
                     )
                 }
                 'fast' => {
                     let-env PROMPT_COMMAND = (wraptime
-                        'power static left'
+                        'static left'
                         (left_prompt_gen $env.NU_POWER_SCHEMA.0)
                     )
                     let-env PROMPT_COMMAND_RIGHT = (wraptime
-                        'power static right'
+                        'static right'
                         (right_prompt_gen $env.NU_POWER_SCHEMA.1)
                     )
                 }
@@ -440,7 +482,13 @@ export def-env hook [] {
         | upsert NU_POWER_FRAME $init
         | upsert NU_POWER_DECORATOR $init
         | upsert NU_POWER_MENU_MARKER $init
-        | upsert NU_POWER_BENCHMARK $init
+        | upsert NU_POWER_BENCHMARK [{ |before, after|
+            if not ($before | is-empty) {
+                init
+                rm -f ~/.cache/nushell/power_time.log
+            }
+        }]
+
         # NU_POWER_THEME
     })
 }
