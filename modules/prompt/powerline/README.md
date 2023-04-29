@@ -52,10 +52,7 @@ let-env NU_POWER_MODE = 'fast' # or 'power'
 Go ahead and press enter,
 Execute power timelog to analyze the results.
 ```
-power timelog
-| group-by message
-| transpose k v
-| each {|x| $x | upsert v ($x.v | get duration | math avg)}
+power analyze
 ```
 
 ## todo
