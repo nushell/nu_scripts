@@ -88,13 +88,13 @@ export def git_status_raw [] {
         }
     }
 
-    return $status
+    $status
 }
 
 export def git_status [] {
     let status = (do -i { gstat })
     if not ($status | is-empty) {
-        return $status
+        $status
     } else {
         git_status_raw
     }

@@ -5,9 +5,9 @@ def related [sub dir] {
     }
     let suffix = (do --ignore-errors { $sub | path relative-to $dir })
     if ($suffix | is-empty) {
-        return { related: '>', path: '' }
+        { related: '>', path: '' }
     } else {
-        return { related: '<', path: $suffix}
+        { related: '<', path: $suffix}
     }
 }
 
@@ -94,10 +94,10 @@ def logtime [msg act] {
     echo $'($start | date format '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
     | save -a ~/.cache/nushell/power_time.log
 
-    return $result
+    $result
 }
 
-def wraptime [message action] {
+export def wraptime [message action] {
     if $env.NU_POWER_BENCHMARK? == true {
         {|| logtime $message $action }
     } else {
@@ -108,9 +108,7 @@ def wraptime [message action] {
 def get_component [schema] {
     let component = ($env.NU_PROMPT_COMPONENTS | get $schema.source)
     if $env.NU_POWER_BENCHMARK? == true {
-        # :FIXME:
-        #{|| logtime $'component ($schema.source)' $component }
-        $component
+        {|| logtime $'component ($schema.source)' $component }
     } else {
         $component
     }
