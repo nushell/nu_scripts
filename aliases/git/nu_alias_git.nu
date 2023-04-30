@@ -1,3 +1,16 @@
+def git_current_branch [] {
+    (gstat).branch
+}
+
+def git_main_branch [] {
+    git remote show origin
+    | lines
+    | str trim
+    | find --regex 'HEAD .*?[：: ].+'
+    | first
+    | str replace 'HEAD .*?[：: ](.+)' '$1'
+}
+
 #
 # Aliases
 # (sorted alphabetically)
@@ -88,6 +101,10 @@ export alias gm                    = git merge
 export alias gmtl                  = git mergetool --no-prompt
 export alias gmtlvim               = git mergetool --no-prompt --tool=vimdiff
 export alias gma                   = git merge --abort
+export def gmom [] {
+    let main = (git_main_branch)
+    git merge $"origin/($main)"
+}
 
 export alias gp                    = git push
 export alias gpd                   = git push --dry-run

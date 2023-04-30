@@ -144,21 +144,3 @@ export def gm [branch:string@"nu-complete git branches"] {
 export def grb [branch:string@"nu-complete git branches"] {
     git rebase (gstat).branch $branch
 }
-
-def git_main_branch [] {
-    git remote show origin
-    | lines
-    | str trim
-    | find --regex 'HEAD .*?[：: ].+'
-    | first
-    | str replace 'HEAD .*?[：: ](.+)' '$1'
-}
-
-def git_current_branch [] {
-    (gstat).branch
-}
-
-export def gmom [] {
-    let main = (git_main_branch)
-    git merge $"origin/($main)"
-}
