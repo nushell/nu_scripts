@@ -1,15 +1,21 @@
 # Script to generate a password from a dictionary file
 # Author: @rickcogley
-# Thanks: @amtoine, @fdncred, @jelle
+# Thanks: @amtoine, @fdncred, @jelle, @sygmei, @kubouch
 # Updates: 20230415 - initial version
 #          20230416 - added @amtoine's slick probabilistic "random decimal" char capitalization
 #          20230417 - added script duration output in debug block
 #          20230421 - added length of symbol chars to get-random-symbol function
+#          20230422 - added variant flag to generate different styles of passwords
+#          20230501 - refactor to allow number of words to be specified, use list manipulation and reduce to string
 
 #======= NUPASS PASSWORD GENERATOR =======
 # Generate password of 3 dictionary file words, numbers and symbols
 export def main [
-  word_length: int = 4    # Max length of 3 words in password
+  words: int = 3    # Number of words in password
+  --word_length (-l): int = 5    # Max length of words in password
+  --symbols (-s): string = "!@#$%^&()_-+[]{}" # Symbols to use in password
+  --variant (-v): string = "regular" # Password style to generate in regular, mixnmatch, alphanum, alpha, diceware
+  --delimiter (-m): string = "-" # Delimiter for diceware
   --debug (-d)    # Include debug info
 ] {
   ##### Main function #####
@@ -23,18 +29,15 @@ export def main [
   let num_lines = (open ($dictfile) | lines | wrap word | upsert len {|it| $it.word | split chars | length} | where len <= ($word_length) | length)
 
   # Get random words from dictionary file
-  let randword1 = ($dictfile | get-random-word $word_length $num_lines | random-format-word)
-  let randword2 = ($dictfile | get-random-word $word_length $num_lines | random-format-word)
-  let randword3 = ($dictfile | get-random-word $word_length $num_lines | random-format-word)
+  let random_words = (1..$words | each { |i| $dictfile | get-random-word $word_length $num_lines | random-format-word })
 
   # Get some symbols to sprinkle like salt bae
-  # Update symbol chars as needed
-  let symbol_chars = "!@#$%^&()_-+[]{}"
-  let symbol_chars_len = ($symbol_chars | str length)
-  let symb1 = (get-random-symbol $symbol_chars $symbol_chars_len)
-  let symb2 = (get-random-symbol $symbol_chars $symbol_chars_len)
-  let symb3 = (get-random-symbol $symbol_chars $symbol_chars_len)
-  let symb4 = (get-random-symbol $symbol_chars $symbol_chars_len)
+  # Update default symbol chars in symbols flag
+  let symbols_len = ($symbols | str length)
+  let random_symbols = (1..$words | each { |i| $symbols | get-random-symbol $symbols $symbols_len })
+
+  # Get some random numbers 
+  let random_numbers = (1..$words |each { |i| (random integer 0..99) })
 
   # Print some vars if debug flag is set
   if $debug { 
@@ -42,16 +45,34 @@ export def main [
     print $"(ansi bg_blue) 🔔 Number of lines in dict with words under ($word_length) chars: (ansi reset)"
     print $num_lines
     print $"(ansi bg_blue) 🔔 Words from randomly selected lines: (ansi reset)"
-    print $randword1 $randword2 $randword3
+    print $random_words
     print $"(ansi bg_blue) 🔔 Randomly selected symbols: (ansi reset)"
-    print $symb1 $symb2 $symb3 $symb4
+    print $random_symbols
+    print $"(ansi bg_blue) 🔔 Randomly selected numbers: (ansi reset)"
+    print $random_numbers
     let endtime = (date now)
     print $"(ansi bg_green) 🔔 Generated password in ($endtime - $starttime): (ansi reset)"
   }
 
-  # Return password
-  return $"($symb1)(random integer 1..99)($randword1)($symb2)($randword2)($symb3)(random integer 1..99)($randword3)($symb4)"
-  
+  # Return password in selected variant
+  if $variant == "regular" {
+    # Default variant, with regular distribution
+    # Generate new list w symbol, words, numbers, then reduce to string
+    return (0..($words - 1) | each { |it| ($random_symbols | get $it) + ($random_words | get $it) + ($random_numbers | get $it | into string) } | reduce { |it, acc| $acc + $it })
+
+  } else if $variant == "mixnmatch" {
+    # Combine lists, shuffle randomly, reduce to string
+    return (($random_words ++ $random_symbols ++ $random_numbers | shuffle) | reduce { |it, acc| ($acc | into string) + ($it | into string) })
+  } else if $variant == "alphanum" {
+    # Combined random int and random word, reduce to string
+    return (0..($words - 1) | each { |it| (random integer 0..99 | into string) + ($random_words | get $it) } | reduce { |it, acc| $acc + $it })
+  } else if $variant == "alpha" {
+    # Reduce random words only to string
+    return ($random_words | reduce { |it, acc| $acc + $it })
+  } else if $variant == "diceware" {
+    # Reduce to string with hyphen between words
+    return ($random_words | reduce { |it, acc| $acc + $"($delimiter)($it)" })
+  }
 }
 
 ##### Utility functions #####
@@ -71,7 +92,7 @@ def get-random-word [
 
 # Function to format a word randomly
 def random-format-word [] {
-    each {|it| 
+    par-each {|it| 
         let rint = (random integer 1..4)
         if $rint == 1 {
             ($it | str capitalize)
