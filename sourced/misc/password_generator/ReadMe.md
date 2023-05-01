@@ -68,4 +68,5 @@ This command doesn't let you specify a precise length.
 
 Thanks everyone on Discord for putting up with and answering my nubie questions @amtoine, @fdncred, @jelle, @sygmei, @kubouch and for the feedback after try number 1. 
 
-<img width="1041" alt="image" src="https://user-images.githubusercontent.com/512328/231930563-4da63f8c-d9de-4620-901e-a39ed32b049f.png">
+<img width="576" alt="image" src="https://user-images.githubusercontent.com/512328/235383307-d3f3d65d-c184-4dfa-9fe9-677b677d8531.png">
+
