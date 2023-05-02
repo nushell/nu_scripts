@@ -1,6 +1,3 @@
-export extern "npm" [
-  command?: string@"nu-complete npm"
-]
 def "nu-complete npm" [] {
   ^npm -l
   |lines
@@ -10,6 +7,10 @@ def "nu-complete npm" [] {
   |get column4
   |str replace '"' ''
 }
+
+export extern "npm" [
+  command?: string@"nu-complete npm"
+]
 
 def "nu-complete npm run" [] {
   open ./package.json
