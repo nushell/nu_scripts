@@ -7,6 +7,7 @@
 #          20230421 - added length of symbol chars to get-random-symbol function
 #          20230422 - added variant flag to generate different styles of passwords
 #          20230501 - refactor to allow number of words to be specified, use list manipulation and reduce to string
+#          20230502 - improve performance on list builders with par-each
 
 #======= NUPASS PASSWORD GENERATOR =======
 # Generate password of 3 dictionary file words, numbers and symbols
@@ -29,15 +30,15 @@ export def main [
   let num_lines = (open ($dictfile) | lines | wrap word | upsert len {|it| $it.word | split chars | length} | where len <= ($word_length) | length)
 
   # Get random words from dictionary file
-  let random_words = (1..$words | each { |i| $dictfile | get-random-word $word_length $num_lines | random-format-word })
+  let random_words = (1..$words | par-each { |i| $dictfile | get-random-word $word_length $num_lines | random-format-word })
 
   # Get some symbols to sprinkle like salt bae
   # Update default symbol chars in symbols flag
   let symbols_len = ($symbols | str length)
-  let random_symbols = (1..$words | each { |i| $symbols | get-random-symbol $symbols $symbols_len })
+  let random_symbols = (1..$words | par-each { |i| $symbols | get-random-symbol $symbols $symbols_len })
 
   # Get some random numbers 
-  let random_numbers = (1..$words |each { |i| (random integer 0..99) })
+  let random_numbers = (1..$words | par-each { |i| (random integer 0..99) })
 
   # Print some vars if debug flag is set
   if $debug { 
