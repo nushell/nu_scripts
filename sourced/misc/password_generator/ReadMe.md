@@ -54,7 +54,19 @@ If you're making changes to the script while testing, you can just re-source the
 
 `use nupass.nu`
 
-... which will reload the latest save.
+... which will reload the latest you have saved.
+
+From `nu` version 0.79.1, you can use the standard library, and use its bench command to do a benchmark. Load the standard library by adding `use std` in your `env.nu`, reload, then assuming `nupass.nu` is in your path,  you can benchmark like so: 
+
+```
+std bench --rounds 10 --verbose {nupass 10}
+std bench --rounds 10 --verbose {nupass 100 -v diceware}
+std bench --rounds 10 --verbose {nupass 1000 -v mixnmatch}
+```
+
+If you change the `par-each` to `each` in the main list builders for instance, you'll see a significant performance hit. When I benchmarked `nupass 100`, using just `each` took 7 sec per round, whereas changing to `par-each` dropped that to about 1 sec per round. 
+
+<img width="736" alt="image" src="https://user-images.githubusercontent.com/512328/235553238-48b48f37-0eae-48d3-8afe-e17515cd8325.png">
 
 ### Caveats
 
