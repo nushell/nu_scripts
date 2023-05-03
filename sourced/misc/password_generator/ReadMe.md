@@ -20,11 +20,12 @@ http get https://raw.githubusercontent.com/RickCogley/jpassgen/master/genpass-di
 let dictfile = $"/path/to/my/genpass-dict-jp"
 ```
 
-5. Confirm and edit the default symbols list and diceware delimiter: 
+5. In the main function's flags section, confirm and edit the default symbols list, diceware delimiter and threads for par-each (double the number of your CPU cores seems to be a good sweet spot): 
 
 ```
 --symbols (-s): string = "!@#$%^&()_-+[]{}" # Symbols to use in password
 --delimiter (-m): string = "-" # Delimiter for diceware
+--threads (-t): int = 16  # Number of threads to use in par-each
 ```
 
 6. Load the script with `use` in your `config.nu`, something like: 
@@ -64,7 +65,15 @@ std bench --rounds 10 --verbose {nupass 100 -v diceware}
 std bench --rounds 10 --verbose {nupass 1000 -v mixnmatch}
 ```
 
-If you change the `par-each` to `each` in the main list builders for instance, you'll see a significant performance hit. When I benchmarked `nupass 100`, using just `each` took 7 sec per round, whereas changing to `par-each` dropped that to about 1 sec per round. 
+If you change the `par-each` to `each` in the main list builders for instance, you'll see a significant performance hit. When I benchmarked `nupass 100`, using just `each` took 7 sec per round, whereas changing to `par-each` dropped that to about 1 sec per round.
+
+You can tweak it a little further by setting the threads for par-each. 
+
+```
+std bench --rounds 10 --verbose {nupass 100 -v diceware -t 8}
+std bench --rounds 10 --verbose {nupass 100 -v diceware -t 16}
+std bench --rounds 10 --verbose {nupass 100 -v diceware -t 32}
+```
 
 <img width="736" alt="image" src="https://user-images.githubusercontent.com/512328/235553238-48b48f37-0eae-48d3-8afe-e17515cd8325.png">
 
@@ -81,4 +90,3 @@ This command doesn't let you specify a precise length.
 Thanks everyone on Discord for putting up with and answering my nubie questions @amtoine, @fdncred, @jelle, @sygmei, @kubouch and for the feedback after try number 1. 
 
 <img width="576" alt="image" src="https://user-images.githubusercontent.com/512328/235383307-d3f3d65d-c184-4dfa-9fe9-677b677d8531.png">
-
