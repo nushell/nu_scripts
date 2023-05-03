@@ -13,6 +13,7 @@ def ensure-cache [cache path action] {
 def "kube ctx" [] {
     let cache = $'($env.HOME)/.cache/nu-power/kube.json'
     let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
+    if not ($file | path exists) { return $nothing }
     ensure-cache $cache $file {
         do -i {
             kubectl config get-contexts
@@ -26,10 +27,10 @@ def "kube ctx" [] {
 def kube_stat [] {
     {||
         let ctx = (kube ctx)
-        let theme = $env.NU_POWER_THEME.kube
         if ($ctx | is-empty) {
             ""
         } else {
+            let theme = $env.NU_POWER_THEME.kube
             let c = if $ctx.AUTHINFO == $ctx.CLUSTER {
                     $ctx.CLUSTER
                 } else {
