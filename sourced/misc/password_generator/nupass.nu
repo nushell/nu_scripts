@@ -2,12 +2,13 @@
 # Author: @rickcogley
 # Thanks: @amtoine, @fdncred, @jelle, @sygmei, @kubouch
 # Updates: 20230415 - initial version
-#          20230416 - added @amtoine's slick probabilistic "random decimal" char capitalization
-#          20230417 - added script duration output in debug block
-#          20230421 - added length of symbol chars to get-random-symbol function
-#          20230422 - added variant flag to generate different styles of passwords
+#          20230416 - add @amtoine's slick probabilistic "random decimal" char capitalization
+#          20230417 - add script duration output in debug block
+#          20230421 - add length of symbol chars to get-random-symbol function
+#          20230422 - add variant flag to generate different styles of passwords
 #          20230501 - refactor to allow number of words to be specified, use list manipulation and reduce to string
 #          20230502 - improve performance on list builders with par-each
+#          20230503 - add threads flag for fine tuning par-each
 
 #======= NUPASS PASSWORD GENERATOR =======
 # Generate password of 3 dictionary file words, numbers and symbols
@@ -17,6 +18,7 @@ export def main [
   --symbols (-s): string = "!@#$%^&()_-+[]{}" # Symbols to use in password
   --variant (-v): string = "regular" # Password style to generate in regular, mixnmatch, alphanum, alpha, diceware
   --delimiter (-m): string = "-" # Delimiter for diceware
+  --threads (-t): int = 16  # Number of threads to use in par-each
   --debug (-d)    # Include debug info
 ] {
   ##### Main function #####
@@ -30,15 +32,15 @@ export def main [
   let num_lines = (open ($dictfile) | lines | wrap word | upsert len {|it| $it.word | split chars | length} | where len <= ($word_length) | length)
 
   # Get random words from dictionary file
-  let random_words = (1..$words | par-each { |i| $dictfile | get-random-word $word_length $num_lines | random-format-word })
+  let random_words = (1..$words | par-each { |i| $dictfile | get-random-word $word_length $num_lines | random-format-word } --threads $threads)
 
   # Get some symbols to sprinkle like salt bae
   # Update default symbol chars in symbols flag
   let symbols_len = ($symbols | str length)
-  let random_symbols = (1..$words | par-each { |i| $symbols | get-random-symbol $symbols $symbols_len })
+  let random_symbols = (1..$words | par-each { |i| $symbols | get-random-symbol $symbols $symbols_len } --threads $threads)
 
   # Get some random numbers 
-  let random_numbers = (1..$words | par-each { |i| (random integer 0..99) })
+  let random_numbers = (1..$words | par-each { |i| (random integer 0..99) } --threads $threads)
 
   # Print some vars if debug flag is set
   if $debug { 
