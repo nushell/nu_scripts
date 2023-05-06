@@ -1,9 +1,10 @@
 # Function to construct bars based on a given percentage of width
 def 'bar' [
     percentage: float
-    width: int = 5
-    --foreground (-f): string = 'default'
     --background (-b): string = 'default'
+    --foreground (-f): string = 'default'
+    --progress  # output result using print -n
+    --width: int = 5
 ] {
     let blocks = [null "▏" "▎" "▍" "▌" "▋" "▊" "▉" "█"]
     let $whole_part = (($blocks | last) * ($percentage * $width // 1))
@@ -16,7 +17,15 @@ def 'bar' [
         )
     )
 
-    $"($whole_part)($fraction)" 
-    | fill -c $' ' -w $width 
-    | $"(ansi -e {fg: ($foreground), bg: ($background)})($in)(ansi reset)"
+    let result = (
+        $"($whole_part)($fraction)" 
+        | fill -c $' ' -w $width 
+        | $"(ansi -e {fg: ($foreground), bg: ($background)})($in)(ansi reset)"
+    )
+
+    if $progress {
+        print -n $"($result)\r"
+    } else {
+        $result
+    }
 }
