@@ -3,7 +3,7 @@ def 'bar' [
     percentage: float
     --background (-b): string = 'default'
     --foreground (-f): string = 'default'
-    --progress  # output result using print -n
+    --progress  # output the result using 'print -n'
     --width: int = 5
 ] {
     let blocks = [null "▏" "▎" "▍" "▌" "▋" "▊" "▉" "█"]
