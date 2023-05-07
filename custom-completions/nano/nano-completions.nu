@@ -1,0 +1,56 @@
+export extern nano [
+	--smarthome (-A) # Enable smart home key
+	--backup (-B) # Save backups of existing files
+	--backupdir (-C) # Directory for saving unique backup files
+	--boldtext (-D) # Use bold instead of reverse video text
+	--tabstospaces (-E) # Convert typed tabs to spaces
+	--multibuffer (-F) # Read a file into a new buffer by default
+	--locking (-G) # Use (vim-style) lock files
+	--historylog (-H) # Save & reload old search/replace strings
+	--ignorercfiles (-I) # Don't look at nanorc files
+	--guidestripe (-J) # Show a guiding bar at this column
+	--rawsequences (-K) # Fix numeric keypad key confusion problem
+	--nonewlines (-L) # Don't add an automatic newline
+	--trimblanks (-M) # Trim tail spaces when hard-wrapping
+	--noconvert (-N) # Don't convert files from DOS/Mac format
+	--bookstyle (-O) # Leading whitespace means new paragraph
+	--positionlog (-P) # Save & restore position of the cursor
+	--quotestr (-Q) # Regular expression to match quoting
+	--restricted (-R) # Restrict access to the filesystem
+	--softwrap (-S) # Display overlong lines on multiple rows
+	--tabsize (-T) # Make a tab this number of columns wide
+	--quickblank (-U) # Wipe status bar upon next keystroke
+	--version (-V) # Print version information and exit
+	--wordbounds (-W) # Detect word boundaries more accurately
+	--wordchars (-X) # Which other characters are word parts
+	--syntax (-Y) # Syntax definition to use for coloring
+	--zap (-Z) # Let Bsp and Del erase a marked region
+	--atblanks (-a) # When soft-wrapping, do it at whitespace
+	--breaklonglines (-b) # Automatically hard-wrap overlong lines
+	--constantshow (-c) # Constantly show cursor position
+	--rebinddelete (-d) # Fix Backspace/Delete confusion problem
+	--emptyline (-e) # Keep the line below the title bar empty
+	--rcfile (-f) # Use only this file for configuring nano
+	--showcursor (-g) # Show cursor in file browser & help text
+	--help (-h) # Show this help text and exit
+	--autoindent (-i) # Automatically indent new lines
+	--jumpyscrolling (-j) # Scroll per half-screen, not per line
+	--cutfromcursor (-k) # Cut from cursor to end of line
+	--linenumbers (-l) # Show line numbers in front of the text
+	--mouse (-m) # Enable the use of the mouse
+	--noread (-n) # Do not read the file (only write it)
+	--operatingdir (-o) # Set operating directory
+	--preserve (-p) # Preserve XON (^Q) and XOFF (^S) keys
+	--indicator (-q) # Show a position+portion indicator
+	--fill (-r) # Set width for hard-wrap and justify
+	--speller (-s) # Use this alternative spell checker
+	--saveonexit (-t) # Save changes on exit, don't prompt
+	--unix (-u) # Save a file by default in Unix format
+	--view (-v) # View mode (read-only)
+	--nowrap (-w) # Don't hard-wrap long lines [default]
+	--nohelp (-x) # Don't show the two help lines
+	--afterends (-y) # Make Ctrl+Right stop at word ends
+	--stateflags (-%) # Show some states on the title bar
+	--minibar (-_) # Show a feedback bar at the bottom
+	--zero (-0) # Hide all bars, use whole terminal
+]
