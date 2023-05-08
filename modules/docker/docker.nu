@@ -316,39 +316,48 @@ export def dr [
     }
 }
 
-def "nu-complete registry list" [cmd: string, offset: int] {
+def has [name] {
+    $name in ($in | columns) and (not ($in | get $name | is-empty))
+}
+
+def "nu-complete registry show" [cmd: string, offset: int] {
+    let new = ($cmd | str ends-with ' ')
     let cmd = ($cmd | split row ' ')
     let url = (do -i { $cmd | get 2 })
     let reg = (do -i { $cmd | get 3 })
     let tag = (do -i { $cmd | get 4 })
-    if ($reg|is-empty) {
-        if ($env | has 'REGISTRY_TOKEN') {
-            http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/_catalog"
-        } else {
-            http get $"($url)/v2/_catalog"
-        }
+    let auth = if ($env | has 'REGISTRY_TOKEN') {
+        [authorization $"Basic ($env.REGISTRY_TOKEN)"]
+    } else {
+        []
+    }
+    if ($tag | is-empty) and (not $new) or ($reg | is-empty) {
+        http get -H $auth $"($url)/v2/_catalog"
         | get repositories
-    } else if ($tag|is-empty) {
-        if ($env | has 'REGISTRY_TOKEN') {
-            http get $"($url)/v2/($reg)/tags/list"
-        } else {
-            http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
-        }
+    } else {
+        http get -H $auth $"($url)/v2/($reg)/tags/list"
         | get tags
     }
 }
 
-### docker registry list
-export def "registry list" [
+### docker registry show
+export def "registry show" [
     url: string
-    reg: string@"nu-complete registry list"
+    reg?: string@"nu-complete registry show"
+    tag?: string@"nu-complete registry show"
 ] {
-    if ($env.REGISTRY_TOKEN? | is-empty) {
-        http get $"($url)/v2/($reg)/tags/list"
+    let auth = if ($env | has 'REGISTRY_TOKEN') {
+        [authorization $"Basic ($env.REGISTRY_TOKEN)"]
     } else {
-        http get -H [authorization $"Basic ($env.REGISTRY_TOKEN)"] $"($url)/v2/($reg)/tags/list"
+        []
     }
-    | get tags
+    if ($reg | is-empty) {
+        http get -H $auth $"($url)/v2/_catalog" | get repositories
+    } else if ($tag | is-empty) {
+        http get -H $auth $"($url)/v2/($reg)/tags/list" | get tags
+    } else {
+        http get -e -H [accept 'application/vnd.oci.image.manifest.v1+json'] -H $auth $"($url)/v2/($reg)/manifests/($tag)" | from json
+    }
 }
 
 ### buildah
