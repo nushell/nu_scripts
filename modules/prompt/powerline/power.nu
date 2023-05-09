@@ -535,6 +535,8 @@ export-env {
         }
     )
 
+    let fst = (ansi xterm_tan)
+    let snd = (ansi xterm_aqua)
     let-env NU_POWER_THEME = (default_env
         NU_POWER_THEME
         {
@@ -550,8 +552,8 @@ export-env {
                 default: (ansi blue)
             }
             time: {
-                now: (ansi xterm_tan)
-                format: '%y%m%d[%w]%H%M%S'
+                now: $fst
+                format: $'%y%m%d($snd)%w($fst)%H%M%S'
             }
         }
     )

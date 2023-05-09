@@ -70,7 +70,8 @@ export def kk [p: path] {
 ### ctx
 export def "kube-config" [] {
     let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
-    { path: $file, data: (cat $file | from yaml)}
+    # :FIXME: the order of fields loaded via `from yaml` is unstable
+    { path: $file, data: (cat $file | yq -o=json | from json)}
 }
 
 def "nu-complete kube ctx" [] {
@@ -119,19 +120,20 @@ export def kn [ns: string@"nu-complete kube ns"] {
 export def 'kconf import' [name: string, path: string] {
     let k = (kube-config)
     let d = $k.data
-    let i = (cat $path | from yaml)
-    let c = [{
+    # :FIXME: the order of fields loaded via `from yaml` is unstable
+    let i = (cat $path | yq -o=json | from json)
+    let c = {
         name: $name,
         context: {
             cluster: $name,
             namespace: default,
             user: $name
         }
-    }]
+    }
     $d
+    | upsert contexts ($d.contexts | append $c)
     | upsert clusters ($d.clusters | append ($i.clusters.0 | upsert name $name))
     | upsert users ($d.users | append ($i.users.0 | upsert name $name))
-    | upsert contexts ($d.contexts | append $c)
     | to yaml
 }
 
