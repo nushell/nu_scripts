@@ -25,14 +25,14 @@ def "kube ctx" [] {
 }
 
 def kube_stat [] {
-    {||
+    {|bg|
         let ctx = (kube ctx)
         if ($ctx | is-empty) {
-            ""
+            [$bg ""]
         } else {
             let theme = $env.NU_POWER_THEME.kube
             let p = $"($theme.context)($ctx.NAME)($theme.separator):($theme.namespace)($ctx.NAMESPACE)"
-            $"($p)"
+            [$bg $"($p)"]
         }
     }
 }

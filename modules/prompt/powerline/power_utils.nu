@@ -1,10 +1,10 @@
 export def atuin_stat [] {
-    {||
+    {|bg|
         let theme = $env.NU_POWER_THEME.atuin
         if not ($env.ATUIN_SESSION? | is-empty) {
-            $theme.on
+            [$bg '']
         } else {
-            $nothing
+            ['#504945' '']
         }
     }
 }

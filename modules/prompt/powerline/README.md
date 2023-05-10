@@ -8,7 +8,7 @@ use power.nu
         context: cyan
     }
     use power_utils.nu
-    power inject 0 1 {source: atuin, color: '#3B4E32'}
+    power inject 0 1 {source: atuin, color: '#4C4B4A'}
 power init
 ```
 or

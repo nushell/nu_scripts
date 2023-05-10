@@ -12,7 +12,7 @@ def related [sub dir] {
 }
 
 export def "pwd_abbr" [] {
-    {||
+    {|bg|
         let pwd = ($env.PWD)
 
         let to_home = (related $pwd $nu.home-path)
@@ -44,25 +44,25 @@ export def "pwd_abbr" [] {
         } else {
             $theme.default
         }
-        $"($style)($dir_comp | str join (char separator))"
+        [$bg $"($style)($dir_comp | str join (char separator))"]
     }
 }
 
 ### proxy
 export def proxy_stat [] {
-    {||
+    {|bg|
         let theme = $env.NU_POWER_THEME.proxy
         if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
-            $theme.on
+            [$bg '']
         } else {
-            $nothing
+            [$bg $nothing]
         }
     }
 }
 
 ### host
 def host_abbr [] {
-    {||
+    {|bg|
         let theme = $env.NU_POWER_THEME.host
         let n = (hostname | str trim)
         let ucl = if (is-admin) {
@@ -70,15 +70,15 @@ def host_abbr [] {
             } else {
                 $theme.default
             }
-        $"($ucl)($n)"
+        [$bg $"($ucl)($n)"]
     }
 }
 
 ### time
 def time_segment [] {
-    {||
+    {|bg|
         let theme = $env.NU_POWER_THEME.time
-        $"($theme.now)(date now | date format $theme.format)"
+        [$bg $"($theme.now)(date now | date format $theme.format)"]
     }
 }
 
@@ -108,7 +108,7 @@ export def wraptime [message action] {
 def get_component [schema] {
     let component = ($env.NU_PROMPT_COMPONENTS | get $schema.source)
     if $env.NU_POWER_BENCHMARK? == true {
-        {|| logtime $'component ($schema.source)' $component }
+        {|bg| logtime $'component ($schema.source)' {|| do $component $bg } }
     } else {
         $component
     }
@@ -187,11 +187,11 @@ def left_prompt [segment] {
     {||
         let segment = ($segment
             | reduce -f [] {|x, acc|
-                let y = (do $x.1)
-                if $y == $nothing {
+                let y = (do $x.1 $x.0)
+                if $y.1 == $nothing {
                     $acc
                 } else {
-                    $acc | append [[$x.0 $y]]
+                    $acc | append [$y]
                 }
             })
         let stop = ($segment | length) - 1
@@ -221,11 +221,11 @@ def right_prompt [segment] {
     {||
         $segment
         | reduce -f [] {|x,acc|
-            let y = (do $x.1)
-            if $y == $nothing {
+            let y = (do $x.1 $x.0)
+            if $y.1 == $nothing {
                 $acc
             } else {
-                $acc | append [[$x.0 $y]]
+                $acc | append [$y]
             }
         }
         | enumerate
@@ -288,9 +288,9 @@ def decorator_gen [
 def squash [thunk] {
     mut r = ""
     for t in $thunk {
-        let v = (do $t.0)
-        if ($v != $nothing) {
-            $r += (do $t.1 $v)
+        let v = (do $t.0 $nothing)
+        if ($v.1 != $nothing) {
+            $r += (do $t.1 $v.1)
         }
     }
     $r
@@ -338,11 +338,11 @@ def up_prompt [segment] {
             | each {|y|
                 $y
                 | reduce -f [] {|x, acc|
-                    let y = (do $x)
-                    if $y == $nothing {
+                    let y = (do $x $nothing)
+                    if $y.1 == $nothing {
                         $acc
                     } else {
-                        $acc | append $y
+                        $acc | append $y.1
                     }
                 }
                 | str join $'(ansi light_yellow)|'
