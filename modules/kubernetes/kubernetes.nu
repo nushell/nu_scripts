@@ -120,7 +120,7 @@ export def kn [ns: string@"nu-complete kube ns"] {
 export def 'kconf import' [name: string, path: string] {
     let k = (kube-config)
     let d = $k.data
-    # :FIXME: the order of fields loaded via `from yaml` is unstable
+    # :FIXME: yq -> from yaml
     let i = (cat $path | yq -o=json | from json)
     let c = {
         name: $name,

@@ -31,21 +31,16 @@ def kube_stat [] {
             ""
         } else {
             let theme = $env.NU_POWER_THEME.kube
-            let c = if $ctx.AUTHINFO == $ctx.CLUSTER {
-                    $ctx.CLUSTER
-                } else {
-                    $"($ctx.AUTHINFO)@($ctx.CLUSTER)"
-                }
-            let p = $"($theme.context)($c)($theme.separator)/($theme.namespace)($ctx.NAMESPACE)"
-            $"($p)" | str trim
+            let p = $"($theme.context)($ctx.NAME)($theme.separator):($theme.namespace)($ctx.NAMESPACE)"
+            $"($p)"
         }
     }
 }
 
 export-env {
     power register kube (kube_stat) {
-        context: red
+        context: cyan
         separator: yellow
-        namespace: cyan_bold
+        namespace: purple
     }
 }
