@@ -77,8 +77,14 @@ def host_abbr [] {
 ### time
 def time_segment [] {
     {|bg|
+        let config = $env.NU_POWER_CONFIG.time
         let theme = $env.NU_POWER_THEME.time
-        [$bg $"($theme.now)(date now | date format $theme.format)"]
+        let format = if $config.short {
+            $'($theme.fst)%y%m%d($theme.snd)%w($theme.fst)%H%M%S'
+        } else {
+            $'($theme.fst)%y-%m-%d[%w]%H:%M:%S'
+        }
+        [$bg $"(date now | date format $format)"]
     }
 }
 
@@ -421,18 +427,17 @@ export def-env init [] {
     hook
 }
 
-export def-env register [name source theme config?] {
-    let-env NU_PROMPT_COMPONENTS = (
-        $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
-    )
-    let-env NU_POWER_THEME = (
-        $env.NU_POWER_THEME
-        | upsert $name ($theme
-            | transpose k v
-            | reduce -f {} {|it, acc|
-                $acc | insert $it.k (ansi -e {fg: $it.v})
-            })
-    )
+export def-env set [name theme config?] {
+    let-env NU_POWER_THEME = (if ($theme | is-empty) {
+            $env.NU_POWER_THEME
+        } else {
+            $env.NU_POWER_THEME
+            | upsert $name ($theme
+                | transpose k v
+                | reduce -f {} {|it, acc|
+                    $acc | insert $it.k (ansi -e {fg: $it.v})
+                })
+        })
 
     let-env NU_POWER_CONFIG = (if ($config | is-empty) {
             $env.NU_POWER_CONFIG
@@ -444,6 +449,14 @@ export def-env register [name source theme config?] {
                     $acc | insert $it.k $it.v
                 })
         })
+}
+
+export def-env register [name source theme config?] {
+    set $name $theme $config
+
+    let-env NU_PROMPT_COMPONENTS = (
+        $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
+    )
 }
 
 export def-env inject [pos idx define theme? config?] {
@@ -560,8 +573,6 @@ export-env {
         }
     )
 
-    let fst = (ansi xterm_tan)
-    let snd = (ansi xterm_aqua)
     let-env NU_POWER_THEME = (default_env
         NU_POWER_THEME
         {
@@ -577,13 +588,20 @@ export-env {
                 default: (ansi blue)
             }
             time: {
-                now: $fst
-                format: $'%y%m%d($snd)%w($fst)%H%M%S'
+                fst: (ansi xterm_tan)
+                snd: (ansi xterm_aqua)
             }
         }
     )
 
-    let-env NU_POWER_CONFIG = (default_env NU_POWER_CONFIG {})
+    let-env NU_POWER_CONFIG = (default_env
+        NU_POWER_CONFIG
+        {
+            time: {
+                short: true
+            }
+        }
+    )
 
     let-env NU_PROMPT_COMPONENTS = {
         pwd: (pwd_abbr)
