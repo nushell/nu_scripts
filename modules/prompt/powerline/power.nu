@@ -421,7 +421,7 @@ export def-env init [] {
     hook
 }
 
-export def-env register [name source theme] {
+export def-env register [name source theme config?] {
     let-env NU_PROMPT_COMPONENTS = (
         $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
     )
@@ -433,9 +433,20 @@ export def-env register [name source theme] {
                 $acc | insert $it.k (ansi -e {fg: $it.v})
             })
     )
+
+    let-env NU_POWER_CONFIG = (if ($config | is-empty) {
+            $env.NU_POWER_CONFIG
+        } else {
+            $env.NU_POWER_CONFIG
+            | upsert $name ($config
+                | transpose k v
+                | reduce -f {} {|it, acc|
+                    $acc | insert $it.k $it.v
+                })
+        })
 }
 
-export def-env inject [pos idx define theme?] {
+export def-env inject [pos idx define theme? config?] {
     let prev = ($env.NU_POWER_SCHEMA | get $pos)
     let next = if $idx == 0 {
         $prev | prepend $define
@@ -452,8 +463,9 @@ export def-env inject [pos idx define theme?] {
         | update $pos $next
     )
 
+    let kind = $define.source
+
     if not ($theme | is-empty) {
-        let kind = $define.source
         let prev_theme = ($env.NU_POWER_THEME | get $kind)
         let prev_cols = ($prev_theme | columns)
         let next_theme = ($theme | transpose k v)
@@ -462,6 +474,19 @@ export def-env inject [pos idx define theme?] {
                 let-env NU_POWER_THEME = (
                     $env.NU_POWER_THEME | update $kind {|conf|
                       $conf | get $kind | update $n.k (ansi -e {fg: $n.v})
+                    }
+                )
+            }
+        }
+    }
+
+    if not ($config | is-empty) {
+        let prev_cols = ($env.NU_POWER_CONFIG | get $kind | columns)
+        for n in ($config | transpose k v) {
+            if $n.k in $prev_cols {
+                let-env NU_POWER_CONFIG = (
+                    $env.NU_POWER_CONFIG | update $kind {|conf|
+                      $conf | get $kind | update $n.k $n.v
                     }
                 )
             }
@@ -557,6 +582,8 @@ export-env {
             }
         }
     )
+
+    let-env NU_POWER_CONFIG = (default_env NU_POWER_CONFIG {})
 
     let-env NU_PROMPT_COMPONENTS = {
         pwd: (pwd_abbr)
