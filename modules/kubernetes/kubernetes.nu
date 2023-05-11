@@ -36,6 +36,12 @@ export def ensure-cache-by-lines [cache path action] {
     (open $cache).payload
 }
 
+export def `kcache flush` [] {
+    rm -rf ~/.cache/nu-complete/k8s/
+    nu-complete kube ctx
+    rm -rf ~/.cache/nu-complete/k8s-api-resources/
+}
+
 export-env {
     let-env KUBERNETES_SCHEMA_URL = $"file:///($env.HOME)/.config/kubernetes-json-schema/all.json"
 }
