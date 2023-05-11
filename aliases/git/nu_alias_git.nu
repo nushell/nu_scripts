@@ -57,8 +57,8 @@ export alias gcl                   = git clone --recurse-submodules
 export alias gclean                = git clean -id
 
 export def gpristine [] {
-    git reset --hard;
-    git clean -dffx;
+    git reset --hard
+    git clean -dffx
 }
 
 export alias gcm                   = git checkout (git_main_branch)
@@ -117,8 +117,8 @@ export alias gpf                   = git push --force-with-lease
 export alias gpf!                  = git push --force
 export alias gpl                   = git pull
 export def gpoat [] {
-    git push origin --all;
-    git push origin --tags;
+    git push origin --all
+    git push origin --tags
 }
 export alias gpr                   = git pull --rebase
 export alias gpu                   = git push upstream
