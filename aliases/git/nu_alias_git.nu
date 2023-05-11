@@ -55,7 +55,12 @@ export alias gcf                   = git config --list
 
 export alias gcl                   = git clone --recurse-submodules
 export alias gclean                = git clean -id
-export alias gpristine             = ((git reset --hard); (git clean -dffx))
+
+export def gpristine [] {
+    git reset --hard
+    git clean -dffx
+}
+
 export alias gcm                   = git checkout (git_main_branch)
 export alias gcmsg                 = git commit -m
 export alias gco                   = git checkout
@@ -111,7 +116,10 @@ export alias gpd                   = git push --dry-run
 export alias gpf                   = git push --force-with-lease
 export alias gpf!                  = git push --force
 export alias gpl                   = git pull
-export alias gpoat                 = (git push origin --all; git push origin --tags)
+export def gpoat [] {
+    git push origin --all
+    git push origin --tags
+}
 export alias gpr                   = git pull --rebase
 export alias gpu                   = git push upstream
 export alias gpv                   = git push -v
@@ -142,7 +150,7 @@ export alias grs                   = git restore
 export alias grset                 = git remote set-url
 export alias grss                  = git restore --source
 export alias grst                  = git restore --staged
-export alias grt                   = cd (git rev-parse --show-toplevel || echo .)
+export alias grt                   = cd (git rev-parse --show-toplevel or echo .)
 export alias gru                   = git reset --
 export alias grup                  = git remote update
 export alias grv                   = git remote -v
@@ -169,9 +177,11 @@ export alias gsw                   = git switch
 export alias gswc                  = git switch -c
 
 export alias gts                   = git tag -s
-export alias gtv                   = (git tag | lines | sort)
-export alias glum                  = git pull upstream (git_main_branch)
 
+export def gtv [] {
+    git tag | lines | sort 
+}
+export alias glum                  = git pull upstream (git_main_branch)
 export alias gunignore             = git update-index --no-assume-unchanged
 export alias gup                   = git pull --rebase
 export alias gupv                  = git pull --rebase -v
