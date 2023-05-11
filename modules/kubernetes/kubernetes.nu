@@ -165,16 +165,13 @@ export def "nu-complete kube kind without cache" [] {
 }
 
 export def "nu-complete kube kind" [] {
-    let api_cache = $'($env.HOME)/.cache/nu-complete/k8s-api-resources.json'
-    let cache = (ensure-cache $api_cache (which kubectl).path.0 {||
-        kubectl api-resources | from ssv -a | get NAME
-    })
     let ctx = (kube-config)
-    let crd_cache = $'($env.HOME)/.cache/nu-complete/k8s-crds/($ctx.data.current-context).json'
-    let crds = (ensure-cache $crd_cache $ctx.path {||
-        kubectl get crd | from ssv -a | get NAME
-    })
-    $cache | append $crds
+    let cache = $'($env.HOME)/.cache/nu-complete/k8s-api-resources/($ctx.data.current-context).json'
+    ensure-cache $cache $ctx.path {||
+        kubectl api-resources | from ssv -a
+        | each {|x| {value: $x.NAME description: $x.SHORTNAMES} }
+        | append (kubectl get crd | from ssv -a | each {|x| {$x.NAME} })
+    }
 }
 
 def "nu-complete kube res" [context: string, offset: int] {
