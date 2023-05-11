@@ -161,14 +161,22 @@ export def-env kcconf [name: string@"nu-complete kube ctx"] {
 }
 
 ### common
-def "nu-complete kube def" [] {
-    [
-        pod deployment svc endpoints
-        configmap secret event
-        namespace node pv pvc ingress
-        job cronjob daemonset statefulset
-        clusterrole clusterrolebinding role serviceaccount rolebinding
-    ] | append (kubectl get crd | from ssv -a | get NAME)
+export def "nu-complete kube kind without cache" [] {
+    kubectl api-resources | from ssv -a | get NAME
+    | append (kubectl get crd | from ssv -a | get NAME)
+}
+
+export def "nu-complete kube kind" [] {
+    let api_cache = $'($env.HOME)/.cache/nu-complete/k8s-api-resources.json'
+    let cache = (ensure-cache $api_cache (which kubectl).path.0 {||
+        kubectl api-resources | from ssv -a | get NAME
+    })
+    let ctx = (kube-config)
+    let crd_cache = $'($env.HOME)/.cache/nu-complete/k8s-crds/($ctx.data.current-context).json'
+    let crds = (ensure-cache $crd_cache $ctx.path {||
+        kubectl get crd | from ssv -a | get NAME
+    })
+    $cache | append $crds
 }
 
 def "nu-complete kube res" [context: string, offset: int] {
@@ -180,7 +188,7 @@ def "nu-complete kube res" [context: string, offset: int] {
 }
 
 export def kg [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     -n: string@"nu-complete kube ns"
     --all (-A):bool
 ] {
@@ -197,7 +205,7 @@ export def kg [
 }
 
 export def kc [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     -n: string@"nu-complete kube ns"
     name:string
 ] {
@@ -206,7 +214,7 @@ export def kc [
 }
 
 export def ky [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
@@ -215,7 +223,7 @@ export def ky [
 }
 
 export def kd [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
@@ -224,7 +232,7 @@ export def kd [
 }
 
 export def ke [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
@@ -233,7 +241,7 @@ export def ke [
 }
 
 export def kdel [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
     --force(-f): bool
