@@ -27,7 +27,7 @@ export def ensure-cache-by-lines [cache path action] {
     if ($ls | is-empty) { return false }
     let lc = (do -i { open $cache | get lines})
     if not (($cache | path exists) and (not ($lc | is-empty)) and ($ls == $lc)) {
-        mkdir (dirname $cache)
+        mkdir ($cache | path dirname)
         {
             lines: $ls
             payload: (do $action)
@@ -84,7 +84,7 @@ export def "kube-config" [] {
 
 def "nu-complete kube ctx" [] {
     let k = (kube-config)
-    let cache = $'($env.HOME)/.cache/nu-complete/k8s/(basename $k.path).json'
+    let cache = $'($env.HOME)/.cache/nu-complete/k8s/($k.path | path basename).json'
     let data = (ensure-cache-by-lines $cache $k.path { ||
         let clusters = ($k.data | get clusters | select name cluster.server)
         let data = ($k.data
