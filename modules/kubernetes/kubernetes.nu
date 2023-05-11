@@ -22,15 +22,24 @@ export def "parse cmd" [] {
     | reject sw
 }
 
-export def ensure-cache [cache path action] {
-    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
-    if ($ts | is-empty) { return false }
-    let tc = (do -i { ls $cache | get 0.modified })
-    if not (($cache | path exists) and ($ts < $tc)) {
-        mkdir (dirname $cache)
-        do $action | save -f $cache
+export def ensure-cache-by-lines [cache path action] {
+    let ls = (do -i { open $path | lines | length })
+    if ($ls | is-empty) { return false }
+    let lc = (do -i { open $cache | get lines})
+    if not (($cache | path exists) and (not ($lc | is-empty)) and ($ls == $lc)) {
+        mkdir ($cache | path dirname)
+        {
+            lines: $ls
+            payload: (do $action)
+        } | save -f $cache
     }
-    open $cache
+    (open $cache).payload
+}
+
+export def `kcache flush` [] {
+    rm -rf ~/.cache/nu-complete/k8s/
+    nu-complete kube ctx
+    rm -rf ~/.cache/nu-complete/k8s-api-resources/
 }
 
 export-env {
@@ -70,13 +79,13 @@ export def kk [p: path] {
 ### ctx
 export def "kube-config" [] {
     let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
-    { path: $file, data: (cat $file | from yaml)}
+    { path: $file, data: (cat $file | from yaml) }
 }
 
 def "nu-complete kube ctx" [] {
     let k = (kube-config)
-    let cache = $'($env.HOME)/.cache/nu-complete/k8s/(basename $k.path).json'
-    let data = (ensure-cache $cache $k.path { ||
+    let cache = $'($env.HOME)/.cache/nu-complete/k8s/($k.path | path basename).json'
+    let data = (ensure-cache-by-lines $cache $k.path { ||
         let clusters = ($k.data | get clusters | select name cluster.server)
         let data = ($k.data
             | get contexts
@@ -120,18 +129,18 @@ export def 'kconf import' [name: string, path: string] {
     let k = (kube-config)
     let d = $k.data
     let i = (cat $path | from yaml)
-    let c = [{
+    let c = {
         name: $name,
         context: {
             cluster: $name,
             namespace: default,
             user: $name
         }
-    }]
+    }
     $d
+    | upsert contexts ($d.contexts | append $c)
     | upsert clusters ($d.clusters | append ($i.clusters.0 | upsert name $name))
     | upsert users ($d.users | append ($i.users.0 | upsert name $name))
-    | upsert contexts ($d.contexts | append $c)
     | to yaml
 }
 
@@ -159,14 +168,19 @@ export def-env kcconf [name: string@"nu-complete kube ctx"] {
 }
 
 ### common
-def "nu-complete kube def" [] {
-    [
-        pod deployment svc endpoints
-        configmap secret event
-        namespace node pv pvc ingress
-        job cronjob daemonset statefulset
-        clusterrole clusterrolebinding role serviceaccount rolebinding
-    ] | append (kubectl get crd | from ssv -a | get NAME)
+export def "nu-complete kube kind without cache" [] {
+    kubectl api-resources | from ssv -a | get NAME
+    | append (kubectl get crd | from ssv -a | get NAME)
+}
+
+export def "nu-complete kube kind" [] {
+    let ctx = (kube-config)
+    let cache = $'($env.HOME)/.cache/nu-complete/k8s-api-resources/($ctx.data.current-context).json'
+    ensure-cache-by-lines $cache $ctx.path {||
+        kubectl api-resources | from ssv -a
+        | each {|x| {value: $x.NAME description: $x.SHORTNAMES} }
+        | append (kubectl get crd | from ssv -a | each {|x| {$x.NAME} })
+    }
 }
 
 def "nu-complete kube res" [context: string, offset: int] {
@@ -178,7 +192,7 @@ def "nu-complete kube res" [context: string, offset: int] {
 }
 
 export def kg [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     -n: string@"nu-complete kube ns"
     --all (-A):bool
 ] {
@@ -195,7 +209,7 @@ export def kg [
 }
 
 export def kc [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     -n: string@"nu-complete kube ns"
     name:string
 ] {
@@ -204,7 +218,7 @@ export def kc [
 }
 
 export def ky [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
@@ -213,7 +227,7 @@ export def ky [
 }
 
 export def kd [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
@@ -222,7 +236,7 @@ export def kd [
 }
 
 export def ke [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
@@ -231,7 +245,7 @@ export def ke [
 }
 
 export def kdel [
-    r: string@"nu-complete kube def"
+    r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
     --force(-f): bool
