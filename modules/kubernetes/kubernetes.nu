@@ -241,6 +241,7 @@ export def kg [
             | each {|x|
                 {
                     name: $x.metadata.name
+                    kind: $x.kind
                     ns: $x.metadata.namespace
                     created: ($x.metadata.creationTimestamp | into datetime)
                     metadata: $x.metadata
