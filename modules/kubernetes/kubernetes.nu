@@ -219,21 +219,23 @@ def "nu-complete kube path" [context: string, offset: int] {
 export def kg [
     k: string@"nu-complete kube kind"
     r?: string@"nu-complete kube res"
-    -n: string@"nu-complete kube ns"
-    -p: string@"nu-complete kube path"
+    --namespace (-n): string@"nu-complete kube ns"
+    --jsonpath (-p): string@"nu-complete kube path"
     --all (-A):bool
 ] {
     let n = if $all {
                 [-A]
-            } else if ($n | is-empty) {
+            } else if ($namespace | is-empty) {
                 []
             } else {
-                [-n $n]
+                [-n $namespace]
             }
-    let p = if ($p | is-empty) { [] } else { [-o $"jsonpath='{($p)}'"] }
     let r = if ($r | is-empty) { [] } else { [$r] }
-    print $'-n ($n), -p ($p)'
-    kubectl get $n $k $p $r | from ssv -a
+    if ($jsonpath | is-empty) {
+        kubectl get $n $k $r | from ssv -a
+    } else {
+        kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from yaml
+    }
 }
 
 # kubectl create
