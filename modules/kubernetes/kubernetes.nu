@@ -221,6 +221,7 @@ export def kg [
     r?: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube path"
+    --selector (-l): string
     --all (-A):bool
 ] {
     let n = if $all {
@@ -231,6 +232,7 @@ export def kg [
                 [-n $namespace]
             }
     let r = if ($r | is-empty) { [] } else { [$r] }
+    let l = if ($selector | is-empty) { [] } else { [-l $selector] }
     if ($jsonpath | is-empty) {
         kubectl get $n $k $r | from ssv -a
     } else {
