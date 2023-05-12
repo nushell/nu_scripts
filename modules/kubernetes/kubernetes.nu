@@ -181,12 +181,12 @@ export def-env kcconf [name: string@"nu-complete kube ctx"] {
 }
 
 ### common
-export def "nu-complete kube kind without cache" [] {
+def "nu-complete kube kind without cache" [] {
     kubectl api-resources | from ssv -a | get NAME
     | append (kubectl get crd | from ssv -a | get NAME)
 }
 
-export def "nu-complete kube kind" [] {
+def "nu-complete kube kind" [] {
     let ctx = (kube-config)
     let cache = $'($env.HOME)/.cache/nu-complete/k8s-api-resources/($ctx.data.current-context).json'
     ensure-cache-by-lines $cache $ctx.path {||
@@ -354,14 +354,12 @@ export def kgpw [] {
 
 # kubectl edit pod
 export def kep [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube res via name"] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl edit pod $n $pod
+    ke -n $n pod $pod
 }
 
 # kubectl describe pod
 export def kdp [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube res via name"] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl describe pod $n $pod
+    kd -n $n pod $pod
 }
 
 # kubectl attach (exec -it)
@@ -460,8 +458,7 @@ export def kes [svc: string@"nu-complete kube res via name", -n: string@"nu-comp
 
 # kubectl delete service
 export def kdels [svc: string@"nu-complete kube res via name", -n: string@"nu-complete kube ns"] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl delete $n service $svc
+    kdel -n $n service $svc
 }
 
 # kubectl get deployments
@@ -470,7 +467,7 @@ export def kgd [
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube path"
 ] {
-    kg deployments -n $namespace -p $jsonpath $r
+    kg -n $namespace deployments -p $jsonpath $r
 }
 
 # kubectl edit deployment
