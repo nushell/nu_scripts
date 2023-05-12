@@ -222,7 +222,8 @@ export def kg [
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube path"
     --selector (-l): string
-    --all (-A):bool
+    --wide (-w): bool
+    --all (-A): bool
 ] {
     let n = if $all {
                 [-A]
@@ -234,7 +235,21 @@ export def kg [
     let r = if ($r | is-empty) { [] } else { [$r] }
     let l = if ($selector | is-empty) { [] } else { [-l $selector] }
     if ($jsonpath | is-empty) {
-        kubectl get $n $k $r | from ssv -a
+        if ($wide) {
+            kubectl get -o json $n $k $r | from json | get items
+            | each {|x|
+                {
+                    name: $x.metadata.name
+                    ns: $x.metadata.namespace
+                    created: ($x.metadata.creationTimestamp | into datetime)
+                    metadata: $x.metadata
+                    status: $x.status
+                    spec: $x.spec
+                }
+            }
+        } else {
+            kubectl get $n $k $r | from ssv -a
+        }
     } else {
         kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from yaml
     }
@@ -316,22 +331,6 @@ def "nu-complete kube ctns" [context: string, offset: int] {
     kubectl get $ns pod $pod -o jsonpath={.spec.containers[*].name} | split row ' '
 }
 
-# kubectl get pods longfmt
-export def kgpl [] {
-    kubectl get pods -o json
-    | from json
-    | get items
-    | each {|x|
-        let rs = $x.status.containerStatuses.0.restartCount
-        {
-            namespace: $x.metadata.namespace,
-            name: $x.metadata.name,
-            status: $x.status.phase,
-            restarts: ($rs | split row ' '| get 0 | into int),
-            age: ($x.status.startTime | into datetime)
-        }}
-}
-
 # kubectl get pods --all
 export def kgpa [] {
     kubectl get pods -o wide -A | from ssv -a
@@ -345,8 +344,9 @@ export def kgp [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube path"
+    --selector (-l): string
 ] {
-    kg pods -n $namespace -p $jsonpath $r
+    kg pods -n $namespace -p $jsonpath -l $selector $r
 }
 
 # kubectl get pods --watch
@@ -449,8 +449,9 @@ export def kgs [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube path"
+    --selector (-l): string
 ] {
-    kg services -n $namespace -p $jsonpath $r
+    kg services -n $namespace -p $jsonpath -l $selector $r
 }
 
 # kubectl edit service
@@ -468,8 +469,9 @@ export def kgd [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube path"
+    --selector (-l): string
 ] {
-    kg -n $namespace deployments -p $jsonpath $r
+    kg -n $namespace deployments -p $jsonpath -l $selector $r
 }
 
 # kubectl edit deployment
