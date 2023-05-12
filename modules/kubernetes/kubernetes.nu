@@ -222,7 +222,8 @@ export def kg [
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube path"
     --selector (-l): string
-    --wide (-w): bool
+    --verbose (-v): bool
+    --watch (-w): bool
     --all (-A): bool
 ] {
     let n = if $all {
@@ -235,7 +236,7 @@ export def kg [
     let r = if ($r | is-empty) { [] } else { [$r] }
     let l = if ($selector | is-empty) { [] } else { [-l $selector] }
     if ($jsonpath | is-empty) {
-        if ($wide) {
+        if ($verbose) {
             kubectl get -o json $n $k $r | from json | get items
             | each {|x|
                 {
@@ -247,6 +248,8 @@ export def kg [
                     spec: $x.spec
                 }
             }
+        } else if $watch {
+            kubectl get $n $k $r --watch
         } else {
             kubectl get $n $k $r | from ssv -a
         }
@@ -331,14 +334,6 @@ def "nu-complete kube ctns" [context: string, offset: int] {
     kubectl get $ns pod $pod -o jsonpath={.spec.containers[*].name} | split row ' '
 }
 
-# kubectl get pods --all
-export def kgpa [] {
-    kubectl get pods -o wide -A | from ssv -a
-    | rename namespace name ready status restarts age ip node
-    | each {|x| ($x| upsert restarts ($x.restarts|split row ' '| get 0 | into int)) }
-    | reject 'NOMINATED NODE' 'READINESS GATES'
-}
-
 # kubectl get pods
 export def kgp [
     r?: string@"nu-complete kube res via name"
@@ -347,11 +342,6 @@ export def kgp [
     --selector (-l): string
 ] {
     kg pods -n $namespace -p $jsonpath -l $selector $r
-}
-
-# kubectl get pods --watch
-export def kgpw [] {
-    kubectl get pods --watch
 }
 
 # kubectl edit pod
