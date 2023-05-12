@@ -47,6 +47,7 @@ export-env {
     let-env KUBERNETES_RESOURCE_ABBR = {
         s: services
         d: deployments
+        p: pods
     }
 }
 
@@ -350,13 +351,13 @@ export def kgpw [] {
 }
 
 # kubectl edit pod
-export def kep [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube pods"] {
+export def kep [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube res via name"] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
     kubectl edit pod $n $pod
 }
 
 # kubectl describe pod
-export def kdp [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube pods"] {
+export def kdp [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube res via name"] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
     kubectl describe pod $n $pod
 }
@@ -460,13 +461,6 @@ export def kdels [svc: string@"nu-complete kube res via name", -n: string@"nu-co
     kubectl delete $n service $svc
 }
 
-def "nu-complete kube deployments" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
-    let ns = (do -i { $ctx | get '-n' })
-    let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
-    kubectl get $ns deployments | from ssv -a | get NAME
-}
-
 # kubectl get deployments
 export def kgd [-n: string@"nu-complete kube ns"] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
@@ -476,7 +470,7 @@ export def kgd [-n: string@"nu-complete kube ns"] {
 }
 
 # kubectl edit deployment
-export def ked [d: string@"nu-complete kube deployments", -n: string@"nu-complete kube ns"] {
+export def ked [d: string@"nu-complete kube res via name", -n: string@"nu-complete kube ns"] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
     kubectl edit $n deployments $d
 }
@@ -484,7 +478,7 @@ export def ked [d: string@"nu-complete kube deployments", -n: string@"nu-complet
 def "nu-complete num9" [] { [1 2 3] }
 # kubectl scale deployment
 export def ksd [
-    d: string@"nu-complete kube deployments"
+    d: string@"nu-complete kube res via name"
     num: string@"nu-complete num9"
     -n: string@"nu-complete kube ns"
 ] {
@@ -497,7 +491,7 @@ export def ksd [
 }
 # kubectl scale deployment with reset
 export def ksdr [
-    d: string@"nu-complete kube deployments"
+    d: string@"nu-complete kube res via name"
     num: int@"nu-complete num9"
     -n: string@"nu-complete kube ns"
 ] {
@@ -518,14 +512,14 @@ export alias krsd = kubectl rollout status deployment
 export alias kgrs = kubectl get rs
 
 # kubectl rollout history
-export def krh [-n: string@"nu-complete kube ns", --revision (-v): int, dpl: string@"nu-complete kube deployments"] {
+export def krhd [-n: string@"nu-complete kube ns", --revision (-v): int, dpl: string@"nu-complete kube res via name"] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
     let v = if ($revision|is-empty) { [] } else { [ $"--revision=($revision)" ] }
     kubectl $n rollout history $"deployment/($dpl)" $v
 }
 
 # kubectl rollout undo
-export def kru [-n: string@"nu-complete kube ns", --revision (-v): int, dpl: string@"nu-complete kube deployments"] {
+export def krud [-n: string@"nu-complete kube ns", --revision (-v): int, dpl: string@"nu-complete kube res via name"] {
     let n = if ($n|is-empty) { [] } else { [-n $n] }
     let v = if ($revision|is-empty) { [] } else { [ $"--to-revision=($revision)" ] }
     kubectl $n rollout undo $"deployment/($dpl)" $v
