@@ -39,6 +39,7 @@ Pull, push and other related to remote repositories
 - if branch is specified, we assume it is `git fetch`
     - unless -u is specified: `git push -u`
 - finally, if no branch and above parameters are specified, `git pull` or `git push` will be executed according to the current state.
+    - if both `ahead` and `behind` exist, only `pull`
 
 ### ga
 Git add, rm and restore. about files.
