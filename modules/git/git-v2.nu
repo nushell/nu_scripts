@@ -122,6 +122,7 @@ export def gp [
             git fetch $remote $branch
         }
     } else {
+        git fetch
         let s = (_git_status)
         if $s.behind > 0 {
             let r = if $rebase { [--rebase] } else { [] }
@@ -130,7 +131,6 @@ export def gp [
         } else if $s.ahead > 0 {
             git push
         } else {
-            git fetch
         }
     }
 }
