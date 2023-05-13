@@ -1,147 +1,3 @@
-export def _git_status [] {
-    let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
-
-    mut status = {
-        idx_added_staged    : 0
-        idx_modified_staged : 0
-        idx_deleted_staged  : 0
-        idx_renamed         : 0
-        idx_type_changed    : 0
-        wt_untracked        : 0
-        wt_modified         : 0
-        wt_deleted          : 0
-        wt_type_changed     : 0
-        wt_renamed          : 0
-        ignored             : 0
-        conflicts           : 0
-        ahead               : 0
-        behind              : 0
-        stashes             : 0
-        repo_name           : no_repository
-        tag                 : no_tag
-        branch              : no_branch
-        remote              : ''
-    }
-
-    if ($raw_status | is-empty) { return $status }
-
-    for s in $raw_status {
-        let r = ($s | split row ' ')
-        match $r.0 {
-            '#' => {
-                match ($r.1 | str substring 7..) {
-                    'oid' => {
-                        $status.commit_hash = ($r.2 | str substring 0..8)
-                    }
-                    'head' => {
-                        $status.branch = $r.2
-                    }
-                    'upstream' => {
-                        $status.remote = $r.2
-                    }
-                    'ab' => {
-                        $status.ahead = ($r.2 | into int)
-                        $status.behind = ($r.3 | into int | math abs)
-                    }
-                }
-            }
-            '1'|'2' => {
-                match ($r.1 | str substring 0..1) {
-                    'A' => {
-                        $status.idx_added_staged += 1
-                    }
-                    'M' => {
-                        $status.idx_modified_staged += 1
-                    }
-                    'R' => {
-                        $status.idx_renamed += 1
-                    }
-                    'D' => {
-                        $status.idx_deleted_staged += 1
-                    }
-                    'T' => {
-                        $status.idx_type_changed += 1
-                    }
-                }
-                match ($r.1 | str substring 1..2) {
-                    'M' => {
-                        $status.wt_modified += 1
-                    }
-                    'R' => {
-                        $status.wt_renamed += 1
-                    }
-                    'D' => {
-                        $status.wt_deleted += 1
-                    }
-                    'T' => {
-                        $status.wt_type_changed += 1
-                    }
-                }
-            }
-            '?' => {
-                $status.wt_untracked += 1
-            }
-            'u' => {
-                $status.conflicts += 1
-            }
-        }
-    }
-
-    $status
-}
-
-export def _git_log_stat [n]  {
-    do -i {
-        git log -n $n --pretty=»¦«%h --stat
-        | lines
-        | reduce -f { c: '', r: [] } {|it, acc|
-            if ($it | str starts-with '»¦«') {
-                $acc | upsert c ($it | str substring 6.. )
-            } else if ($it | find -r '[0-9]+ file.+change' | is-empty) {
-                $acc
-            } else {
-                let x = (
-                    $it
-                    | split row ','
-                    | each {|x| $x
-                        | str trim
-                        | parse -r "(?P<num>[0-9]+) (?P<col>.+)"
-                        | get 0
-                        }
-                    | reduce -f {sha: $acc.c file:0 ins:0 del:0} {|i,a|
-                        let col = if ($i.col | str starts-with 'file') {
-                                'file'
-                            } else {
-                                $i.col | str substring ..3
-                            }
-                        let num = ($i.num | into int)
-                        $a | upsert $col $num
-                    }
-                )
-                $acc | upsert r ($acc.r | append $x)
-            }
-        }
-        | get r
-    }
-}
-
-export def _git_log [v num] {
-    let stat = if $v {
-        _git_log_stat $num
-    } else { {} }
-    let r = (do -i {
-        git log -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD
-        | lines
-        | split column "»¦«" sha message author email date
-        | each {|x| ($x| upsert date ($x.date | into datetime))}
-    })
-    if $v {
-        $r | merge $stat | reverse
-    } else {
-        $r | reverse
-    }
-}
-
 def agree [prompt] {
     let prompt = if ($prompt | str ends-with '!') {
         $'(ansi red)($prompt)(ansi reset) '
@@ -149,24 +5,6 @@ def agree [prompt] {
         $'($prompt) '
     }
     (input $prompt | str downcase) in ['y', 'yes', 'ok', 't', 'true', '1']
-}
-
-def "nu-complete git log" [] {
-    git log -n 32 --pretty=%h»¦«%s
-    | lines
-    | split column "»¦«" value description
-    | each {|x| $x | update value $"($x.value)"}
-}
-
-export def "nu-complete git branches" [] {
-    git branch
-    | lines
-    | filter {|x| not ($x | str starts-with '*')}
-    | each {|x| $"($x|str trim)"}
-}
-
-def "nu-complete git remotes" [] {
-  ^git remote | lines | each { |line| $line | str trim }
 }
 
 # git status and stash
@@ -488,18 +326,6 @@ export def grb [branch:string@"nu-complete git branches"] {
     git rebase (gstat).branch $branch
 }
 
-def git_main_branch [] {
-    git remote show origin
-    | lines
-    | str trim
-    | find --regex 'HEAD .*?[：: ].+'
-    | first
-    | str replace 'HEAD .*?[：: ](.+)' '$1'
-}
-
-def git_current_branch [] {
-    (gstat).branch
-}
 
 export alias gap = git apply
 export alias gapt = git apply --3way
@@ -526,3 +352,178 @@ export alias gts = git tag -s
 
 export alias gunignore = git update-index --no-assume-unchanged
 export alias glum = git pull upstream (git_main_branch)
+
+export def _git_status [] {
+    let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
+
+    mut status = {
+        idx_added_staged    : 0
+        idx_modified_staged : 0
+        idx_deleted_staged  : 0
+        idx_renamed         : 0
+        idx_type_changed    : 0
+        wt_untracked        : 0
+        wt_modified         : 0
+        wt_deleted          : 0
+        wt_type_changed     : 0
+        wt_renamed          : 0
+        ignored             : 0
+        conflicts           : 0
+        ahead               : 0
+        behind              : 0
+        stashes             : 0
+        repo_name           : no_repository
+        tag                 : no_tag
+        branch              : no_branch
+        remote              : ''
+    }
+
+    if ($raw_status | is-empty) { return $status }
+
+    for s in $raw_status {
+        let r = ($s | split row ' ')
+        match $r.0 {
+            '#' => {
+                match ($r.1 | str substring 7..) {
+                    'oid' => {
+                        $status.commit_hash = ($r.2 | str substring 0..8)
+                    }
+                    'head' => {
+                        $status.branch = $r.2
+                    }
+                    'upstream' => {
+                        $status.remote = $r.2
+                    }
+                    'ab' => {
+                        $status.ahead = ($r.2 | into int)
+                        $status.behind = ($r.3 | into int | math abs)
+                    }
+                }
+            }
+            '1'|'2' => {
+                match ($r.1 | str substring 0..1) {
+                    'A' => {
+                        $status.idx_added_staged += 1
+                    }
+                    'M' => {
+                        $status.idx_modified_staged += 1
+                    }
+                    'R' => {
+                        $status.idx_renamed += 1
+                    }
+                    'D' => {
+                        $status.idx_deleted_staged += 1
+                    }
+                    'T' => {
+                        $status.idx_type_changed += 1
+                    }
+                }
+                match ($r.1 | str substring 1..2) {
+                    'M' => {
+                        $status.wt_modified += 1
+                    }
+                    'R' => {
+                        $status.wt_renamed += 1
+                    }
+                    'D' => {
+                        $status.wt_deleted += 1
+                    }
+                    'T' => {
+                        $status.wt_type_changed += 1
+                    }
+                }
+            }
+            '?' => {
+                $status.wt_untracked += 1
+            }
+            'u' => {
+                $status.conflicts += 1
+            }
+        }
+    }
+
+    $status
+}
+
+export def _git_log_stat [n]  {
+    do -i {
+        git log -n $n --pretty=»¦«%h --stat
+        | lines
+        | reduce -f { c: '', r: [] } {|it, acc|
+            if ($it | str starts-with '»¦«') {
+                $acc | upsert c ($it | str substring 6.. )
+            } else if ($it | find -r '[0-9]+ file.+change' | is-empty) {
+                $acc
+            } else {
+                let x = (
+                    $it
+                    | split row ','
+                    | each {|x| $x
+                        | str trim
+                        | parse -r "(?P<num>[0-9]+) (?P<col>.+)"
+                        | get 0
+                        }
+                    | reduce -f {sha: $acc.c file:0 ins:0 del:0} {|i,a|
+                        let col = if ($i.col | str starts-with 'file') {
+                                'file'
+                            } else {
+                                $i.col | str substring ..3
+                            }
+                        let num = ($i.num | into int)
+                        $a | upsert $col $num
+                    }
+                )
+                $acc | upsert r ($acc.r | append $x)
+            }
+        }
+        | get r
+    }
+}
+
+export def _git_log [v num] {
+    let stat = if $v {
+        _git_log_stat $num
+    } else { {} }
+    let r = (do -i {
+        git log -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD
+        | lines
+        | split column "»¦«" sha message author email date
+        | each {|x| ($x| upsert date ($x.date | into datetime))}
+    })
+    if $v {
+        $r | merge $stat | reverse
+    } else {
+        $r | reverse
+    }
+}
+
+def "nu-complete git log" [] {
+    git log -n 32 --pretty=%h»¦«%s
+    | lines
+    | split column "»¦«" value description
+    | each {|x| $x | update value $"($x.value)"}
+}
+
+export def "nu-complete git branches" [] {
+    git branch
+    | lines
+    | filter {|x| not ($x | str starts-with '*')}
+    | each {|x| $"($x|str trim)"}
+}
+
+def "nu-complete git remotes" [] {
+  ^git remote | lines | each { |line| $line | str trim }
+}
+
+def git_main_branch [] {
+    git remote show origin
+    | lines
+    | str trim
+    | find --regex 'HEAD .*?[：: ].+'
+    | first
+    | str replace 'HEAD .*?[：: ](.+)' '$1'
+}
+
+def git_current_branch [] {
+    (gstat).branch
+}
