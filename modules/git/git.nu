@@ -327,31 +327,10 @@ export def grb [branch:string@"nu-complete git branches"] {
 }
 
 
-export alias gap = git apply
-export alias gapt = git apply --3way
-
 export alias gcf = git config --list
-export alias gclean = git clean -id
-# export alias gpristine = git reset --hard and git clean -dffx
-export alias gcount = git shortlog -sn
-
-#export alias gdct = git describe --tags (git rev-list --tags --max-count=1)
-#export alias gdt = git diff-tree --no-commit-id --name-only -r
-
-export alias grev = git revert
-export alias grt = cd "$(git rev-parse --show-toplevel or echo .)"
-
-export alias gsh = git show
-export alias gsps = git show --pretty=short --show-signature
-export alias gsr = git svn rebase
-
 export alias gsw = git switch
 export alias gswc = git switch -c
-
 export alias gts = git tag -s
-
-export alias gunignore = git update-index --no-assume-unchanged
-export alias glum = git pull upstream (git_main_branch)
 
 export def _git_status [] {
     let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
