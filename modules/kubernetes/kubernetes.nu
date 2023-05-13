@@ -217,23 +217,33 @@ export def "nu-complete kube jsonpath" [context: string] {
     let path = $ctx.-p?
     let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
     mut r = []
-    if ($path | str starts-with '.') {
-        let p = ($path | split row '.' | range ..-2 | str join '.')
+    if ($path | is-empty) {
+        if ($context | str ends-with '-p ') {
+            $r = ['.']
+        } else {
+            $r = ['']
+        }
+    } else if ($path | str starts-with '.') {
+        let row = ($path | split row '.')
+        let p = ($row  | range ..-2 | str join '.')
         if ($p | is-empty) {
             $r = ( kubectl get $ns -o json $kind $res
                  | from json
                  | columns
-                 | each {|x| {value: $x} }
+                 | each {|x| $'($p).($x)'}
                  )
         } else {
-            $r = ( kubectl get $ns $kind $res $"--output=jsonpath={($p)}"
-                 | from json
-                 | columns
-                 | each {|x| {value: $x} }
-                 )
+            let m = (kubectl get $ns $kind $res $"--output=jsonpath={($p)}" | from json)
+            let l = ($row | last)
+            let c = (do -i {$m | get $l})
+            if (not ($c | is-empty)) and ($c | describe | str substring 0..5) == 'table' {
+                $r = (0..(($c | length) - 1) | each {|x| $'($p).($l)[($x)]'})
+            } else {
+                $r = ($m | columns | each {|x| $'($p).($x)'})
+            }
         }
-    } else if ($context | str ends-with '-p ') and ($path | is-empty) {
-        $r = [{value: '.'}]
+    } else {
+        $r = ['']
     }
     $r
 }
