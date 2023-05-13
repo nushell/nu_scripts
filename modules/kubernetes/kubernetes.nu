@@ -198,21 +198,44 @@ def "nu-complete kube kind" [] {
 
 def "nu-complete kube res" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let def = ($ctx | get args.1)
+    let kind = ($ctx | get args.1)
     let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
-    kubectl get $ns $def | from ssv -a | get NAME
+    kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube res via name" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let cmd = ($ctx | get args.0)
-    let def = ($env.KUBERNETES_RESOURCE_ABBR | get ($cmd | str substring (($cmd | str length) - 1)..))
-    echo $'($cmd), ($def)' | save -a ~/.nulog
+    let kind = ($env.KUBERNETES_RESOURCE_ABBR | get ($ctx | get args.0 | str substring (-1..)))
     let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
-    kubectl get $ns $def | from ssv -a | get NAME
+    kubectl get $ns $kind | from ssv -a | get NAME
 }
 
-def "nu-complete kube path" [context: string, offset: int] {
+export def "nu-complete kube jsonpath" [context: string] {
+    let ctx = ($context | parse cmd)
+    let kind = ($ctx | get args.1)
+    let res = ($ctx | get args.2)
+    let path = $ctx.-p?
+    let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
+    mut r = []
+    if ($path | str starts-with '.') {
+        let p = ($path | split row '.' | range ..-2 | str join '.')
+        if ($p | is-empty) {
+            $r = ( kubectl get $ns -o json $kind $res
+                 | from json
+                 | columns
+                 | each {|x| {value: $x} }
+                 )
+        } else {
+            $r = ( kubectl get $ns $kind $res $"--output=jsonpath={($p)}"
+                 | from json
+                 | columns
+                 | each {|x| {value: $x} }
+                 )
+        }
+    } else if ($context | str ends-with '-p ') and ($path | is-empty) {
+        $r = [{value: '.'}]
+    }
+    $r
 }
 
 # kubectl get
@@ -220,7 +243,7 @@ export def kg [
     k: string@"nu-complete kube kind"
     r?: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
-    --jsonpath (-p): string@"nu-complete kube path"
+    --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
     --verbose (-v): bool
     --watch (-w): bool
@@ -255,7 +278,7 @@ export def kg [
             kubectl get $n $k $r | from ssv -a
         }
     } else {
-        kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from yaml
+        kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from json
     }
 }
 
@@ -339,7 +362,7 @@ def "nu-complete kube ctns" [context: string, offset: int] {
 export def kgp [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
-    --jsonpath (-p): string@"nu-complete kube path"
+    --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
     kg pods -n $namespace -p $jsonpath -l $selector $r
@@ -439,7 +462,7 @@ export def kcp [
 export def kgs [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
-    --jsonpath (-p): string@"nu-complete kube path"
+    --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
     kg services -n $namespace -p $jsonpath -l $selector $r
@@ -459,7 +482,7 @@ export def kdels [svc: string@"nu-complete kube res via name", -n: string@"nu-co
 export def kgd [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
-    --jsonpath (-p): string@"nu-complete kube path"
+    --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
     kg -n $namespace deployments -p $jsonpath -l $selector $r
