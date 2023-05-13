@@ -130,7 +130,6 @@ export def gp [
             git pull $r $a -v
         } else if $s.ahead > 0 {
             git push
-        } else {
         }
     }
 }
