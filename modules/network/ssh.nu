@@ -3,7 +3,7 @@ export def ensure-cache [cache path action] {
     if ($ts | is-empty) { return false }
     let tc = (do -i { ls $cache | get 0.modified })
     if not (($cache | path exists) and ($ts < $tc)) {
-        mkdir (dirname $cache)
+        mkdir ($cache | path dirname)
         do $action | save -f $cache
     }
     open $cache
