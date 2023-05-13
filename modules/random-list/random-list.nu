@@ -1,7 +1,7 @@
 # Generate a random boolean list.
 export def "random-list bool" [
     list_length: int, # A length of the list
-    bias: float = 0.5 # A probability of "true"
+    --bias (-b): float = 0.5 # A probability of "true"
 ] {
     if $bias < 0 or $bias > 1 {
         error make {
@@ -22,7 +22,7 @@ export def "random-list bool" [
 # Generate a random char list.
 export def "random-list chars" [
     list_length: int, # A length of the list
-    length: int = 5 # A length of the string
+    --length (-l): int = 5 # A length of the string
 ] {
     if $list_length < 0  {
         error make {
@@ -43,7 +43,7 @@ export def "random-list chars" [
 # Generate a random decimal list.
 export def "random-list decimal" [
     list_length: int, # A length of the list
-    range: range # A range of the value
+    --range (-r): range # A range of the value
 ] {
     if $list_length < 0  {
         error make {
@@ -59,8 +59,8 @@ export def "random-list decimal" [
 # Generate a random dice list.
 export def "random-list dice" [
     list_length: int, # A length of the list
-    roll_count: int = 6, # A roll count
-    side_count: int = 6 # A side count
+    --roll-count (-r): int = 6, # A roll count
+    --side-count (-s): int = 6 # A side count
 ] {
     if $list_length < 0  {
         error make {
@@ -86,7 +86,7 @@ export def "random-list dice" [
 # Generate a random integer list.
 export def "random-list integer" [
     list_length: int # A length of the list
-    range: range # A range of the value
+    --range (-r): range # A range of the value
 ] {
     if $list_length < 0  {
         error make {
