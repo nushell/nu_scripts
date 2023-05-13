@@ -86,14 +86,14 @@ export def gb [
 export def gp [
     branch?:             string@"nu-complete git branches"
     remote?:             string@"nu-complete git remotes"
-    --force (-f):        bool
-    --set-upstream (-u): bool
+    --force (-f):        bool     # git push -f
+    --set-upstream (-u): bool     # git push -u
     --override:          bool
-    --clone (-c):        string
-    --submodule (-s):    bool
-    --init (-i):         bool
-    --rebase (-r):       bool
-    --autostash (-a):    bool
+    --clone (-c):        string   # git clone
+    --submodule (-s):    bool     # git submodule
+    --init (-i):         bool     # git init
+    --rebase (-r):       bool     # git pull --rebase
+    --autostash (-a):    bool     # git pull --autostash
 ] {
     if not ($clone | is-empty) {
         let s = if $submodule { [--recurse-submodules] } else { [] }
@@ -140,10 +140,10 @@ export def ga [
     --patch (-p):   bool
     --update (-u):  bool
     --verbose (-v): bool
-    --delete (-d):  bool
+    --delete (-d):  bool    # git rm
     --cached (-c):  bool
     --force (-f):   bool
-    --restore (-r): bool
+    --restore (-r): bool    # git restore
     --staged (-s):  bool
     --source (-o):  string
 ] {
@@ -195,7 +195,7 @@ export def gd [
 # git merge and rebase
 export def gm [
     branch?:         string@"nu-complete git branches"
-    --rebase (-r):   bool
+    --rebase (-r):   bool      # git rebase
     --onto (-o):     string
     --abort (-a):    bool
     --continue (-c): bool
