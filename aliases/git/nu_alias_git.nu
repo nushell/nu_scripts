@@ -53,9 +53,14 @@ export alias gcb = git checkout -b
 export alias gcd = git checkout develop
 export alias gcf = git config --list
 
+def gpristine-command [] {
+    git reset --hard
+    git clean -dffx
+}
+
 export alias gcl = git clone --recurse-submodules
 export alias gclean = git clean -id
-export alias gpristine = ((git reset --hard); (git clean -dffx))
+export alias gpristine = gpristine-command
 export alias gcm = git checkout (git_main_branch)
 export alias gcmsg = git commit -m
 export alias gco = git checkout
@@ -106,12 +111,16 @@ export def gmom [] {
     git merge $"origin/($main)"
 }
 
+def gpoat-command [] {
+    git push origin --all; git push origin --tags
+}
+
 export alias gp = git push
 export alias gpd = git push --dry-run
 export alias gpf = git push --force-with-lease
 export alias gpf! = git push --force
 export alias gpl = git pull
-export alias gpoat = (git push origin --all; git push origin --tags)
+export alias gpoat = gpoat-command
 export alias gpr = git pull --rebase
 export alias gpu = git push upstream
 export alias gpv = git push -v
@@ -142,7 +151,7 @@ export alias grs = git restore
 export alias grset = git remote set-url
 export alias grss = git restore --source
 export alias grst = git restore --staged
-export alias grt = cd (git rev-parse --show-toplevel || echo .)
+export alias grt = cd (git rev-parse --show-toplevel or echo .)
 export alias gru = git reset --
 export alias grup = git remote update
 export alias grv = git remote -v
@@ -168,8 +177,12 @@ export alias gsu = git submodule update
 export alias gsw = git switch
 export alias gswc = git switch -c
 
+def gtv_command [] {
+    git tag | lines | sort
+}
+
 export alias gts = git tag -s
-export alias gtv = (git tag | lines | sort)
+export alias gtv = gtv_command
 export alias glum = git pull upstream (git_main_branch)
 
 export alias gunignore = git update-index --no-assume-unchanged
