@@ -19,6 +19,9 @@ I tried to tidy part of it, and it is basically usable.
 ### gs
 Git status and stash.
 
+### gl
+Git log and show.
+
 ### gb
 About the branch.
 
