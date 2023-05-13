@@ -1,23 +1,20 @@
 ### kubernetes
-def ensure-cache-by-lines [cache path action] {
-    let ls = (do -i { open $path | lines | length })
-    if ($ls | is-empty) { return false }
-    let lc = (do -i { open $cache | get lines})
-    if not (($cache | path exists) and (not ($lc | is-empty)) and ($ls == $lc)) {
+export def ensure-cache [cache path action] {
+    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
+    if ($ts | is-empty) { return false }
+    let tc = (do -i { ls $cache | get 0.modified })
+    if not (($cache | path exists) and ($ts < $tc)) {
         mkdir ($cache | path dirname)
-        {
-            lines: $ls
-            payload: (do $action)
-        } | save -f $cache
+        do $action | save -f $cache
     }
-    (open $cache).payload
+    open $cache
 }
 
 def "kube ctx" [] {
     let cache = $'($env.HOME)/.cache/nu-power/kube.json'
     let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
     if not ($file | path exists) { return $nothing }
-    ensure-cache-by-lines $cache $file {
+    ensure-cache $cache $file {
         do -i {
             kubectl config get-contexts
             | from ssv -a
