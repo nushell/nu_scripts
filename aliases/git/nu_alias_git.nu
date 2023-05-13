@@ -25,9 +25,9 @@ export alias gap = git apply
 export alias gapt = git apply --3way
 
 export alias gb = git branch
-export alias gba = git branch -a
-export alias gbd = git branch -d
-export alias gbD = git branch -D
+export alias gba = git branch --all
+export alias gbd = git branch --delete
+export alias gbD = git branch --delete --force
 export alias gbl = git blame -b -w
 export alias gbnm = git branch --no-merged
 export alias gbr = git branch --remote
@@ -37,41 +37,41 @@ export alias gbsg = git bisect good
 export alias gbsr = git bisect reset
 export alias gbss = git bisect start
 
-export alias gc = git commit -v
-export alias gc! = git commit -v --amend
-export alias gcn = git commit -v --no-edit
-export alias gcn! = git commit -v --no-edit --amend
-export alias gca = git commit -v -a
-export alias gca! = git commit -v -a --amend
-export alias gcan! = git commit -v -a --no-edit --amend
-export alias gcans! = git commit -v -a -s --no-edit --amend
-export alias gcam = git commit -a -m
-export alias gcsm = git commit -s -m
-export alias gcas = git commit -a -s
-export alias gcasm = git commit -a -s -m
+export alias gc = git commit --verbose
+export alias gc! = git commit --verbose --amend
+export alias gcn = git commit --verbose --no-edit
+export alias gcn! = git commit --verbose --no-edit --amend
+export alias gca = git commit --verbose --all
+export alias gca! = git commit --verbose --all --amend
+export alias gcan! = git commit --verbose --all --no-edit --amend
+export alias gcans! = git commit --verbose --all --signoff --no-edit --amend
+export alias gcam = git commit --all --message
+export alias gcsm = git commit --signoff --message
+export alias gcas = git commit --all --signoff
+export alias gcasm = git commit --all --signoff --message
 export alias gcb = git checkout -b
 export alias gcd = git checkout develop
 export alias gcf = git config --list
 
 def gpristine-command [] {
     git reset --hard
-    git clean -dffx
+    git clean -d --force -x
 }
 
 export alias gcl = git clone --recurse-submodules
-export alias gclean = git clean -id
+export alias gclean = git clean --interactive -d
 export alias gpristine = gpristine-command
 export alias gcm = git checkout (git_main_branch)
-export alias gcmsg = git commit -m
+export alias gcmsg = git commit --message
 export alias gco = git checkout
 export alias gcor = git checkout --recurse-submodules
-export alias gcount = git shortlog -sn
+export alias gcount = git shortlog --summary --numbered
 export alias gcp = git cherry-pick
 export alias gcpa = git cherry-pick --abort
 export alias gcpc = git cherry-pick --continue
-export alias gcs = git commit -S
-export alias gcss = git commit -S -s
-export alias gcssm = git commit -S -s -m
+export alias gcs = git commit --gpg-sign
+export alias gcss = git commit --gpg-sign --signoff
+export alias gcssm = git commit --gpg-sign --signoff --message
 
 export alias gd = git diff
 export alias gdca = git diff --cached
@@ -94,7 +94,7 @@ export alias gignore = git update-index --assume-unchanged
 
 export alias gl = git log
 export alias glg = git log --stat
-export alias glgp = git log --stat -p
+export alias glgp = git log --stat --patch
 export alias glgg = git log --graph
 export alias glgga = git log --graph --decorate --all
 export alias glgm = git log --graph --max-count=10
@@ -123,19 +123,19 @@ export alias gpl = git pull
 export alias gpoat = gpoat-command
 export alias gpr = git pull --rebase
 export alias gpu = git push upstream
-export alias gpv = git push -v
+export alias gpv = git push --verbose
 
 export alias gr = git remote
 export alias gpra = git pull --rebase --autostash
-export alias gprav = git pull --rebase --autostash -v
-export alias gprv = git pull --rebase -v
+export alias gprav = git pull --rebase --autostash --verbose
+export alias gprv = git pull --rebase --verbose
 export alias gpsup = git push --set-upstream origin (git_current_branch)
 export alias gra = git remote add
 export alias grb = git rebase
 export alias grba = git rebase --abort
 export alias grbc = git rebase --continue
 export alias grbd = git rebase develop
-export alias grbi = git rebase -i
+export alias grbi = git rebase --interactive
 export alias grbm = git rebase (git_main_branch)
 export alias grbo = git rebase --onto
 export alias grbs = git rebase --skip
@@ -154,15 +154,15 @@ export alias grst = git restore --staged
 export alias grt = cd (git rev-parse --show-toplevel or echo .)
 export alias gru = git reset --
 export alias grup = git remote update
-export alias grv = git remote -v
+export alias grv = git remote --verbose
 
-export alias gsb = git status -sb
+export alias gsb = git status --short --branch
 export alias gsd = git svn dcommit
 export alias gsh = git show
 export alias gsi = git submodule init
 export alias gsps = git show --pretty=short --show-signature
 export alias gsr = git svn rebase
-export alias gss = git status -s
+export alias gss = git status --short
 export alias gst = git status
 
 export alias gstaa = git stash apply
@@ -175,21 +175,21 @@ export alias gstu = gsta --include-untracked
 export alias gstall = git stash --all
 export alias gsu = git submodule update
 export alias gsw = git switch
-export alias gswc = git switch -c
+export alias gswc = git switch --create
 
 def gtv_command [] {
     git tag | lines | sort
 }
 
-export alias gts = git tag -s
+export alias gts = git tag --sign
 export alias gtv = gtv_command
 export alias glum = git pull upstream (git_main_branch)
 
 export alias gunignore = git update-index --no-assume-unchanged
 export alias gup = git pull --rebase
-export alias gupv = git pull --rebase -v
+export alias gupv = git pull --rebase --verbose
 export alias gupa = git pull --rebase --autostash
-export alias gupav = git pull --rebase --autostash -v
+export alias gupav = git pull --rebase --autostash --verbose
 
 export alias gwch = git whatchanged -p --abbrev-commit --pretty=medium
 
