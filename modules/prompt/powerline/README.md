@@ -5,10 +5,14 @@ use power.nu
     power inject 0 1 {source: git,   color: '#504945'}
     use power_kube.nu
     power inject 1 2 {source: kube,  color: '#504945'} {
-        context: purple
+        context: cyan
+    } {
+        reverse: true
+        separator: '@'
     }
     use power_utils.nu
-    power inject 0 1 {source: atuin, color: '#3B4E32'}
+    power inject 0 1 {source: atuin, color: '#4C4B4A'}
+    power set time $nothing { short: false }
 power init
 ```
 or

@@ -101,10 +101,10 @@ export def git_status [] {
 }
 
 export def git_stat [] {
-    {||
+    {|bg|
         let status = (git_status)
 
-        if $status.branch == 'no_branch' { return '' }
+        if $status.branch == 'no_branch' { return [$bg ''] }
 
         let theme = $env.NU_POWER_THEME.git
         let branch = if ($status.remote | is-empty) {
@@ -124,7 +124,7 @@ export def git_stat [] {
                 }
             })
 
-        $'($branch)($summary)'
+        [$bg $'($branch)($summary)']
     }
 }
 

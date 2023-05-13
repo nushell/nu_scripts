@@ -1,20 +1,23 @@
 ### kubernetes
-def ensure-cache [cache path action] {
-    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
-    if ($ts | is-empty) { return false }
-    let tc = (do -i { ls $cache | get 0.modified })
-    if not (($cache | path exists) and ($ts < $tc)) {
-        mkdir (dirname $cache)
-        do $action | save -f $cache
+def ensure-cache-by-lines [cache path action] {
+    let ls = (do -i { open $path | lines | length })
+    if ($ls | is-empty) { return false }
+    let lc = (do -i { open $cache | get lines})
+    if not (($cache | path exists) and (not ($lc | is-empty)) and ($ls == $lc)) {
+        mkdir ($cache | path dirname)
+        {
+            lines: $ls
+            payload: (do $action)
+        } | save -f $cache
     }
-    open $cache
+    (open $cache).payload
 }
 
 def "kube ctx" [] {
     let cache = $'($env.HOME)/.cache/nu-power/kube.json'
     let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
     if not ($file | path exists) { return $nothing }
-    ensure-cache $cache $file {
+    ensure-cache-by-lines $cache $file {
         do -i {
             kubectl config get-contexts
             | from ssv -a
@@ -25,27 +28,30 @@ def "kube ctx" [] {
 }
 
 def kube_stat [] {
-    {||
+    {|bg|
         let ctx = (kube ctx)
         if ($ctx | is-empty) {
-            ""
+            [$bg ""]
         } else {
             let theme = $env.NU_POWER_THEME.kube
-            let c = if $ctx.AUTHINFO == $ctx.CLUSTER {
-                    $ctx.CLUSTER
-                } else {
-                    $"($ctx.AUTHINFO)@($ctx.CLUSTER)"
-                }
-            let p = $"($theme.context)($c)($theme.separator)/($theme.namespace)($ctx.NAMESPACE)"
-            $"($p)" | str trim
+            let config = $env.NU_POWER_CONFIG.kube
+            let p = if $config.reverse {
+                $"($theme.namespace)($ctx.NAMESPACE)($theme.separator)($config.separator)($theme.context)($ctx.NAME)"
+            } else {
+                $"($theme.context)($ctx.NAME)($theme.separator)($config.separator)($theme.namespace)($ctx.NAMESPACE)"
+            }
+            [$bg $"($p)"]
         }
     }
 }
 
 export-env {
     power register kube (kube_stat) {
-        context: red
-        separator: yellow
-        namespace: cyan_bold
+        context: cyan
+        separator: purple
+        namespace: yellow
+    } {
+        reverse: false
+        separator: ':'
     }
 }
