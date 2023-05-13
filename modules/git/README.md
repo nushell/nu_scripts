@@ -38,7 +38,7 @@ Pull, push and other related to remote repositories
 - `--submodule` submodule update and submodule init (with `--init`)
 - `--force` push --force (assume `pull --force` doesn't make sense)
 - `--init` git init
-- `--override`
+- `--override` just used to trigger a github actions event (in fact, webhooks can also be used)
 - if branch is specified, we assume it is `git fetch`
     - unless -u is specified: `git push -u`
 - finally, if no branch and above parameters are specified, `git pull` or `git push` will be executed according to the current state.
@@ -66,7 +66,7 @@ Git merge and rebase
 - `--rebase` git rebase
 - git merge
 
-### gpc
+### gcp
 Git cherry-pick
 
 ### gr

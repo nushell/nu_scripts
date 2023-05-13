@@ -136,7 +136,7 @@ export def gp [
 # git add, rm and restore
 export def ga [
     file?:          path
-    --all (-a):     bool
+    --all (-A):     bool
     --patch (-p):   bool
     --update (-u):  bool
     --verbose (-v): bool
@@ -169,8 +169,8 @@ export def ga [
 # git commit
 export def gc [
     --message (-m): string
-    --all (-a):     bool
-    --amend (-n):   bool
+    --all (-A):     bool
+    --amend (-a):   bool
     --keep (-k):    bool
 ] {
     let m = if ($message | is-empty) { [] } else { [-m $message] }
