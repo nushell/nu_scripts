@@ -109,6 +109,11 @@ export def gp [
         git init $repo
     } else if $force {
         git push --force
+    } else if $override {
+        git pull
+        git add --all
+        git commit -v -a --no-edit --amend
+        git push --force
     } else if not ($branch | is-empty) {
         let remote = if ($remote|is-empty) { 'origin' } else { $remote }
         if $set_upstream {
@@ -116,11 +121,6 @@ export def gp [
         } else {
             git fetch $remote $branch
         }
-    } else if $override {
-        git pull
-        git add --all
-        git commit -v -a --no-edit --amend
-        git push --force
     } else {
         let s = (_git_status)
         if $s.behind > 0 {
