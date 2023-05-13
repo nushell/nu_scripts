@@ -228,7 +228,7 @@ export def gm [
 }
 
 # git cherry-pick
-export def gpc [
+export def gcp [
     commit?:         string@"nu-complete git log"
     --abort (-a):    bool
     --continue (-c): bool
