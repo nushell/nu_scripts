@@ -1,5 +1,5 @@
 ### git
-export def git_status_raw [] {
+export def git_status [] {
     let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
 
     mut status = {
@@ -91,7 +91,7 @@ export def git_status_raw [] {
     $status
 }
 
-export def git_status [] {
+export def _git_status [] {
     let status = (do -i { gstat })
     if not ($status | is-empty) {
         $status
