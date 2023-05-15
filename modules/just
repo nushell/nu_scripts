@@ -33,7 +33,9 @@ def "nu-complete just args" [context: string, offset: int] {
 }
 
 def prefix [prefix] {
-    $in | each {|x| $x | update value $'($prefix) ($x.value)' }
+    $in
+    | each {|x| $x | update value $'($prefix) ($x.value)' }
+    | append { value: '' }
 }
 
 def "nu-complete npm scripts" [] {
