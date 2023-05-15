@@ -210,7 +210,7 @@ def "nu-complete kube res via name" [context: string, offset: int] {
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
-export def "nu-complete kube jsonpath" [context: string] {
+def "nu-complete kube jsonpath" [context: string] {
     let ctx = ($context | parse cmd)
     let kind = ($ctx | get args.1)
     let res = ($ctx | get args.2)

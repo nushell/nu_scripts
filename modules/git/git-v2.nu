@@ -484,7 +484,7 @@ def "nu-complete git log" [] {
     | each {|x| $x | update value $"($x.value)"}
 }
 
-export def "nu-complete git branches" [] {
+def "nu-complete git branches" [] {
     git branch
     | lines
     | filter {|x| not ($x | str starts-with '*')}
