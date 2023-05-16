@@ -122,13 +122,11 @@ export def gp [
             git fetch $remote $branch
         }
     } else {
-        git fetch
+        let r = if $rebase { [--rebase] } else { [] }
+        let a = if $autostash { [--autostash] } else { [] }
+        git pull $r $a -v
         let s = (_git_status)
-        if $s.behind > 0 {
-            let r = if $rebase { [--rebase] } else { [] }
-            let a = if $autostash { [--autostash] } else { [] }
-            git pull $r $a -v
-        } else if $s.ahead > 0 {
+        if $s.ahead > 0 {
             git push
         }
     }
