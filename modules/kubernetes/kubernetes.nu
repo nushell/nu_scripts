@@ -257,6 +257,7 @@ export def kg [
     --selector (-l): string
     --verbose (-v): bool
     --watch (-w): bool
+    --wide (-W): bool
     --all (-A): bool
 ] {
     let n = if $all {
@@ -285,7 +286,8 @@ export def kg [
         } else if $watch {
             kubectl get $n $k $r --watch
         } else {
-            kubectl get $n $k $r | from ssv -a
+            let wide = if $wide { [-o wide] } else { [] }
+            kubectl get $n $k $r $wide | from ssv -a
         }
     } else {
         kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from json
@@ -375,7 +377,7 @@ export def kgp [
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
-    kg pods -n $namespace -p $jsonpath -l $selector $r
+    kg pods -n $namespace -p $jsonpath -l $selector --wide $r
 }
 
 # kubectl edit pod
