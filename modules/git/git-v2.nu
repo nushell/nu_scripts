@@ -219,10 +219,12 @@ export def gm [
                 git rebase $branch
             }
         }
-    } else if ($branch | is-empty) {
-        git merge $"origin/(git_main_branch)"
     } else {
-        git merge $branch
+        if ($branch | is-empty) {
+            git merge $"origin/(git_main_branch)"
+        } else {
+            git merge $branch
+        }
     }
 }
 
