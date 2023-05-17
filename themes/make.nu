@@ -26,29 +26,29 @@ def make-theme [name: string] {
     bool: {|| if $in { "($colors.color14)" } else { "light_gray" } }
     int: "($colors.color7)"
     filesize: {|e|
-      if $e == 0b {
-        "($colors.color7)"
-      } else if $e < 1mb {
-        "($colors.color6)"
-      } else {{ fg: "($colors.color4)" }}
+        if $e == 0b {
+            "($colors.color7)"
+        } else if $e < 1mb {
+            "($colors.color6)"
+        } else {{ fg: "($colors.color4)" }}
     }
     duration: "($colors.color7)"
     date: {|| (char lparen)date now(char rparen) - $in |
-      if $in < 1hr {
-        { fg: "($colors.color1)" attr: "b" }
-      } else if $in < 6hr {
-        "($colors.color1)"
-      } else if $in < 1day {
-        "($colors.color3)"
-      } else if $in < 3day {
-        "($colors.color2)"
-      } else if $in < 1wk {
-        { fg: "($colors.color2)" attr: "b" }
-      } else if $in < 6wk {
-        "($colors.color6)"
-      } else if $in < 52wk {
-        "($colors.color4)"
-      } else { "dark_gray" }
+        if $in < 1hr {
+            { fg: "($colors.color1)" attr: "b" }
+        } else if $in < 6hr {
+            "($colors.color1)"
+        } else if $in < 1day {
+            "($colors.color3)"
+        } else if $in < 3day {
+            "($colors.color2)"
+        } else if $in < 1wk {
+            { fg: "($colors.color2)" attr: "b" }
+        } else if $in < 6wk {
+            "($colors.color6)"
+        } else if $in < 52wk {
+            "($colors.color4)"
+        } else { "dark_gray" }
     }
     range: "($colors.color7)"
     float: "($colors.color7)"
