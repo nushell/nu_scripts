@@ -566,29 +566,32 @@ export alias ksss = kubectl scale statefulset
 export alias krsss = kubectl rollout status statefulset
 
 # kubectl top pod
-export def ktp [-n: string@"nu-complete kube ns"] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl top pod $n | from ssv -a | rename name cpu mem
-    | each {|x| {
-        name: $x.name
-        cpu: ($x.cpu| str substring ..-1 | into decimal)
-        mem: ($x.mem | str substring ..-2 | into decimal)
-    } }
-}
-
-# kubectl top pod -all
-export def ktpa [] {
-    kubectl top pod -A | from ssv -a | rename namespace name cpu mem
-    | each {|x| {
-        namespace: $x.namespace
-        name: $x.name
-        cpu: ($x.cpu| str substring ..-1 | into decimal)
-        mem: ($x.mem | str substring ..-2 | into decimal)
-    } }
+export def ktp [-n: string@"nu-complete kube ns" --all(-a): bool] {
+    if $all {
+        kubectl top pod -A | from ssv -a | rename namespace name cpu mem
+        | each {|x|
+            {
+                namespace: $x.namespace
+                name: $x.name
+                cpu: ($x.cpu| str substring ..-1 | into decimal)
+                mem: ($x.mem | str substring ..-2 | into decimal)
+            }
+        }
+    } else {
+        let n = if ($n|is-empty) { [] } else { [-n $n] }
+        kubectl top pod $n | from ssv -a | rename name cpu mem
+        | each {|x|
+            {
+                name: $x.name
+                cpu: ($x.cpu| str substring ..-1 | into decimal)
+                mem: ($x.mem | str substring ..-2 | into decimal)
+            }
+        }
+    }
 }
 
 # kubectl top node
-export def ktn [] {
+export def ktno [] {
     kubectl top node | from ssv -a | rename name cpu pcpu mem pmem
     | each {|x| {
         name: $x.name
