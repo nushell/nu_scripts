@@ -6,29 +6,29 @@ export def main [] { return {
     bool: {|| if $in { "#d63865" } else { "light_gray" } }
     int: "#ffffff"
     filesize: {|e|
-      if $e == 0b {
-        "#ffffff"
-      } else if $e < 1mb {
-        "#d63865"
-      } else {{ fg: "#5096be" }}
+        if $e == 0b {
+            "#ffffff"
+        } else if $e < 1mb {
+            "#d63865"
+        } else {{ fg: "#5096be" }}
     }
     duration: "#ffffff"
     date: {|| (date now) - $in |
-      if $in < 1hr {
-        { fg: "#f18339" attr: "b" }
-      } else if $in < 6hr {
-        "#f18339"
-      } else if $in < 1day {
-        "#f4ef6d"
-      } else if $in < 3day {
-        "#9fd364"
-      } else if $in < 1wk {
-        { fg: "#9fd364" attr: "b" }
-      } else if $in < 6wk {
-        "#d63865"
-      } else if $in < 52wk {
-        "#5096be"
-      } else { "dark_gray" }
+        if $in < 1hr {
+            { fg: "#f18339" attr: "b" }
+        } else if $in < 6hr {
+            "#f18339"
+        } else if $in < 1day {
+            "#f4ef6d"
+        } else if $in < 3day {
+            "#9fd364"
+        } else if $in < 1wk {
+            { fg: "#9fd364" attr: "b" }
+        } else if $in < 6wk {
+            "#d63865"
+        } else if $in < 52wk {
+            "#5096be"
+        } else { "dark_gray" }
     }
     range: "#ffffff"
     float: "#ffffff"
