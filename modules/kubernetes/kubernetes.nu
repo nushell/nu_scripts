@@ -380,6 +380,7 @@ export def kgp [
     kg pods -n $namespace -p $jsonpath -l $selector --wide $r
 }
 
+# kubectl get pods --watch
 export def kgpw [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
