@@ -6,29 +6,29 @@ export def main [] { return {
     bool: {|| if $in { "#7aa880" } else { "light_gray" } }
     int: "#949d9f"
     filesize: {|e|
-      if $e == 0b {
-        "#949d9f"
-      } else if $e < 1mb {
-        "#6da280"
-      } else {{ fg: "#6e9cb0" }}
+        if $e == 0b {
+            "#949d9f"
+        } else if $e < 1mb {
+            "#6da280"
+        } else {{ fg: "#6e9cb0" }}
     }
     duration: "#949d9f"
     date: {|| (date now) - $in |
-      if $in < 1hr {
-        { fg: "#d2813d" attr: "b" }
-      } else if $in < 6hr {
-        "#d2813d"
-      } else if $in < 1day {
-        "#b1942b"
-      } else if $in < 3day {
-        "#8c9e3d"
-      } else if $in < 1wk {
-        { fg: "#8c9e3d" attr: "b" }
-      } else if $in < 6wk {
-        "#6da280"
-      } else if $in < 52wk {
-        "#6e9cb0"
-      } else { "dark_gray" }
+        if $in < 1hr {
+            { fg: "#d2813d" attr: "b" }
+        } else if $in < 6hr {
+            "#d2813d"
+        } else if $in < 1day {
+            "#b1942b"
+        } else if $in < 3day {
+            "#8c9e3d"
+        } else if $in < 1wk {
+            { fg: "#8c9e3d" attr: "b" }
+        } else if $in < 6wk {
+            "#6da280"
+        } else if $in < 52wk {
+            "#6e9cb0"
+        } else { "dark_gray" }
     }
     range: "#949d9f"
     float: "#949d9f"
