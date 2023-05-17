@@ -122,13 +122,11 @@ export def gp [
             git fetch $remote $branch
         }
     } else {
-        git fetch
+        let r = if $rebase { [--rebase] } else { [] }
+        let a = if $autostash { [--autostash] } else { [] }
+        git pull $r $a -v
         let s = (_git_status)
-        if $s.behind > 0 {
-            let r = if $rebase { [--rebase] } else { [] }
-            let a = if $autostash { [--autostash] } else { [] }
-            git pull $r $a -v
-        } else if $s.ahead > 0 {
+        if $s.ahead > 0 {
             git push
         }
     }
@@ -221,10 +219,12 @@ export def gm [
                 git rebase $branch
             }
         }
-    } else if ($branch | is-empty) {
-        git merge $"origin/(git_main_branch)"
     } else {
-        git merge $branch
+        if ($branch | is-empty) {
+            git merge $"origin/(git_main_branch)"
+        } else {
+            git merge $branch
+        }
     }
 }
 
@@ -484,7 +484,7 @@ def "nu-complete git log" [] {
     | each {|x| $x | update value $"($x.value)"}
 }
 
-export def "nu-complete git branches" [] {
+def "nu-complete git branches" [] {
     git branch
     | lines
     | filter {|x| not ($x | str starts-with '*')}

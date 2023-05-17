@@ -210,7 +210,7 @@ def "nu-complete kube res via name" [context: string, offset: int] {
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
-export def "nu-complete kube jsonpath" [context: string] {
+def "nu-complete kube jsonpath" [context: string] {
     let ctx = ($context | parse cmd)
     let kind = ($ctx | get args.1)
     let res = ($ctx | get args.2)
@@ -257,6 +257,7 @@ export def kg [
     --selector (-l): string
     --verbose (-v): bool
     --watch (-w): bool
+    --wide (-W): bool
     --all (-A): bool
 ] {
     let n = if $all {
@@ -269,6 +270,7 @@ export def kg [
     let r = if ($r | is-empty) { [] } else { [$r] }
     let l = if ($selector | is-empty) { [] } else { [-l $selector] }
     if ($jsonpath | is-empty) {
+        let wide = if $wide { [-o wide] } else { [] }
         if ($verbose) {
             kubectl get -o json $n $k $r | from json | get items
             | each {|x|
@@ -283,9 +285,9 @@ export def kg [
                 }
             }
         } else if $watch {
-            kubectl get $n $k $r --watch
+            kubectl get $n $k $r $wide --watch
         } else {
-            kubectl get $n $k $r | from ssv -a
+            kubectl get $n $k $r $wide | from ssv -a
         }
     } else {
         kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from json
@@ -375,7 +377,15 @@ export def kgp [
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
-    kg pods -n $namespace -p $jsonpath -l $selector $r
+    kg pods -n $namespace -p $jsonpath -l $selector --wide $r
+}
+
+export def kgpw [
+    r?: string@"nu-complete kube res via name"
+    --namespace (-n): string@"nu-complete kube ns"
+    --selector (-l): string
+] {
+    kg pods -n $namespace -w -l $selector --wide $r
 }
 
 # kubectl edit pod
