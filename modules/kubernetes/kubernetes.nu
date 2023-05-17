@@ -258,7 +258,7 @@ export def kg [
     --verbose (-v): bool
     --watch (-w): bool
     --wide (-W): bool
-    --all (-A): bool
+    --all (-a): bool
 ] {
     let n = if $all {
                 [-A]
@@ -376,8 +376,13 @@ export def kgp [
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
+    --all (-a): bool
 ] {
-    kg pods -n $namespace -p $jsonpath -l $selector --wide $r
+    if $all {
+        kg pods -a --wide
+    } else {
+        kg pods -n $namespace -p $jsonpath -l $selector --wide $r
+    }
 }
 
 # kubectl get pods --watch
