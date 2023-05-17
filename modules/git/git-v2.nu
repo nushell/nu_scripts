@@ -1,10 +1,10 @@
 def agree [prompt] {
     let prompt = if ($prompt | str ends-with '!') {
-        $'(ansi red)($prompt)(ansi reset) '
+        $'(ansi red)($prompt)(ansi reset)'
     } else {
-        $'($prompt) '
+        $'($prompt)'
     }
-    (input $prompt | str downcase) in ['y', 'yes', 'ok', 't', 'true', '1']
+    ([yes no] | input list $prompt) in [yes]
 }
 
 # git status and stash
