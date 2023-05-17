@@ -1,11 +1,13 @@
 #!/usr/bin/env nu
 
+let current_dir = ($env.CURRENT_FILE | path dirname)
+
 let SOURCE = {
-    dir: ([lemnos themes] | path join)
-    local: "lemnos"
+    dir: ($current_dir | path join "lemnos" "themes")
+    local: ($current_dir | path join "lemnos")
     remote: "https://github.com/lemnos/theme.sh"
 }
-let THEMES = "themes"
+let THEMES = ($current_dir | path join "themes")
 
 def make-theme [name: string] {
     let colors = (
