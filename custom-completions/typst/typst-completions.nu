@@ -34,7 +34,7 @@ export extern "typst compile" [
   input: path                         # Path to the input file
   output?: path                       # Path to the output file
   --open                              # Opens the output file after compilation using the default PDF viewer
-  --flamegraph?: path                 # Produces a flamegraph of the compilation process and saves it to the given file or to `flamegraph.svg` in the current working directory
+  --flamegraph                        # Produces a flamegraph of the compilation process and saves it to the given file or to `flamegraph.svg` in the current working directory
   --help(-h)                          # Print help
 ]
 
@@ -43,7 +43,7 @@ export extern "typst watch" [
   input: path                         # Path to the input file
   output?: path                       # Path to the output file
   --open                              # Opens the output file after compilation using the default PDF viewer
-  --flamegraph?: path                 # Produces a flamegraph of the compilation process and saves it to the given file or to `flamegraph.svg` in the current working directory
+  --flamegraph                        # Produces a flamegraph of the compilation process and saves it to the given file or to `flamegraph.svg` in the current working directory
   --help(-h)                          # Print help
 ]
 
