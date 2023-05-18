@@ -89,17 +89,17 @@ export def kdelf [p: path] {
     kubectl delete -f $p
 }
 
-# kubectl apply -k
+# kubectl apply -k (kustomize)
 export def kak [p: path] {
     kubectl apply -k $p
 }
 
-# kubectl diff -k
+# kubectl diff -k (kustomize)
 export def kdk [p: path] {
     kubectl diff -k $p
 }
 
-# kubectl delete -k
+# kubectl delete -k (kustomize)
 export def kdelk [p: path] {
     kubectl delete -k $p
 }
@@ -107,6 +107,84 @@ export def kdelk [p: path] {
 # kubectl kustomize (template)
 export def kk [p: path] {
     kubectl kustomize $p
+}
+
+# helm list and get
+export def kgh [
+    name?: string@"nu-complete helm list"
+    --namespace (-n): string@"nu-complete kube ns"
+    --manifest (-m): bool
+    --all (-a): bool
+] {
+    if ($name | is-empty) {
+        let ns = if $all { [--all] } else { (spr [-n $namespace]) }
+        helm list $ns --output json
+        | from json
+        | update updated {|x|
+            $x.updated
+            | str substring ..-4
+            | into datetime -f '%Y-%m-%d %H:%M:%S.%f %z'
+        }
+    } else {
+        if $manifest {
+            helm get manifest $name (spr [-n $namespace])
+        } else {
+            helm get notes $name (spr [-n $namespace])
+            helm get values $name (spr [-n $namespace])
+        }
+    }
+}
+
+def "nu-complete helm list" [context: string, offset: int] {
+    let ctx = ($context | parse cmd)
+    kgh -n $ctx.-n? | each {|x| {value: $x.name  description: $x.updated} }
+}
+
+def "nu-complete helm charts" [context: string, offset: int] {
+    let ctx = ($context | parse cmd)
+}
+
+# helm install or upgrade via values file
+export def kah [
+    name: string@"nu-complete helm list"
+    chart: string@"nu-complete helm charts"
+    values: path
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    let update = $name in (
+        helm list (spr [-n $namespace]) --output json
+        | from json | get name
+    )
+    let act = if $update { [upgrade] } else { [install] }
+    helm $act $name $chart -f $values (spr [-n $namespace])
+}
+
+# helm install or upgrade via values file
+export def kdh [
+    name: string@"nu-complete helm list"
+    chart: string@"nu-complete helm charts"
+    values: path
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    helm diff upgrade $name $chart -f $values (spr [-n $namespace])
+}
+
+# helm delete
+export def kdelh [
+    name: string@"nu-complete helm list"
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    helm uninstall $name (spr [-n $namespace])
+}
+
+# helm template
+export def kh [
+    name: string
+    chart: string@"nu-complete helm charts"
+    values: path
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    kubectl template $name $chart -f $values (spr [-n $namespace])
 }
 
 ### ctx
@@ -448,14 +526,33 @@ export def kl [
 def "nu-complete port forward type" [] {
     [pod svc]
 }
+
+def "nu-complete kube port" [context: string, offset: int] {
+    let ctx = ($context | parse cmd)
+    let kind = ($ctx | get args.1)
+    let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
+    let res = ($ctx | get args.2)
+    if ($kind | str starts-with 's') {
+        kubectl get $ns svc $res --output=jsonpath="{.spec.ports}"
+        | from json
+        | each {|x| {value: $x.port  description: $x.name} }
+    } else {
+        kubectl get $ns pods $res --output=jsonpath="{.spec.containers[].ports}"
+        | from json
+        | each {|x| {value: $x.containerPort description: $x.name?} }
+    }
+}
+
 # kubectl port-forward
 export def kpf [
     res: string@"nu-complete port forward type"
     target: string@"nu-complete kube res"
+    port: string@"nu-complete kube port"
+    --local (-l): string
     -n: string@"nu-complete kube ns"
-    port: string    ### reflect port num
 ] {
     let n = (spr [-n $n])
+    let port = if ($local | is-empty) { $port } else { $"($local):($port)" }
     kubectl port-forward $n $"($res)/($target)" $port
 }
 
@@ -524,7 +621,7 @@ export def ked [d: string@"nu-complete kube res via name", -n: string@"nu-comple
     ke -n $n deployments $d
 }
 
-def "nu-complete num9" [] { [1 2 3] }
+def "nu-complete num9" [] { [0 1 2 3] }
 # kubectl scale deployment
 export def ksd [
     d: string@"nu-complete kube res via name"
