@@ -34,17 +34,18 @@ If there is no branch as an argument, the branch is displayed.
 ### gp
 Pull, push and other related to remote repositories
 
+> We assume that the upstream and downstream branches keep the same name and do not operate across branches.
+
 - `--clone` to clone
 - `--submodule` submodule update and submodule init (with `--init`)
 - `--force` push --force (assume `pull --force` doesn't make sense)
 - `--init` git init
 - `--override` just used to trigger a github actions event (in fact, webhooks can also be used)
-- if branch is specified, we assume it is `git fetch`
-    - unless -u is specified: `git push -u`
+- `--set-upstream` push --set-upstream
+- if branch is specified, it is `git fetch` (let's assume you don't like pulling from a different branch)
 - finally, if no branch and above parameters are specified
-    - `git fetch` to update status.
-    - `git pull` or `git push` will be executed according to the current state.
-    - if both `ahead` and `behind` exist, only `pull`
+    - `git pull` to update.
+    - if `ahead`, `git push` will be executed.
 
 ### ga
 Git add, rm and restore. about files.
@@ -79,3 +80,10 @@ Git remote
 
 ### gbs
 Git bisect
+
+## changelog
+
+#### 2023-05-18
+- `gp -u` can omit branch
+- delete `grb`
+- improve the premise in the description

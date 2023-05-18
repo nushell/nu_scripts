@@ -7,6 +7,28 @@ export-env {
     }
 }
 
+def sprb [flag, args] {
+    if $flag {
+        $args
+    } else {
+        []
+    }
+}
+
+def spr [args] {
+    let lst = ($args | last)
+    if ($lst | is-empty) {
+        []
+    } else {
+        let init = ($args | range ..-2)
+        if ($init | is-empty) {
+            [ $lst ]
+        } else {
+            $init | append $lst
+        }
+    }
+}
+
 def "nu-complete docker ns" [] {
     if $env.docker-cli == 'nerdctl' {
         ^$env.docker-cli namespace list
@@ -37,16 +59,14 @@ export def dp [-n: string@"nu-complete docker ns"] {
             $r | upsert created $t
         }
     } else {
-        let ns = if ($n|is-empty) { [] } else { [-n $n] }
-        ^$cli $ns ps -a
+        ^$cli (spr [-n $n]) ps -a
         | from ssv
         | rename id image cmd created status port name
     }
 }
 
 export def di [-n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns images
+    ^$env.docker-cli (spr [-n $n]) images
     | from ssv -a
     | rename repo tag id created size
     | each {|x|
@@ -101,8 +121,7 @@ export def dln [ctn: string@"nu-complete docker container"
     -n: string@"nu-complete docker ns" # namespace
 ] {
     let l = if $l == 0 { [] } else { [--tail $l] }
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns logs -f $l $ctn
+    ^$env.docker-cli (spr [-n $n]) logs -f $l $ctn
 }
 
 export def da [
@@ -110,7 +129,7 @@ export def da [
     -n: string@"nu-complete docker ns"
     ...args
 ] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
+    let ns = (spr [-n $n])
     if ($args|is-empty) {
         ^$env.docker-cli $ns exec -it $ctn /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
     } else {
@@ -148,64 +167,52 @@ export def dcp [
 }
 
 export def dcr [ctn: string@"nu-complete docker all container" -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns container rm -f $ctn
+    ^$env.docker-cli (spr [-n $n]) container rm -f $ctn
 }
 
 export def dis [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns inspect $img
+    ^$env.docker-cli (spr [-n $n]) inspect $img
 }
 
 export def dh [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns history --no-trunc $img | from ssv -a
+    ^$env.docker-cli (spr [-n $n]) history --no-trunc $img | from ssv -a
 }
 
 export def dsv [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns save $img
+    ^$env.docker-cli (spr [-n $n]) save $img
 }
 
 export def dld [-n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns load
+    ^$env.docker-cli (spr [-n $n]) load
 }
 
 export def dsp [-n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns system prune -f
+    ^$env.docker-cli (spr [-n $n]) system prune -f
 }
 
 export def dspall [-n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns system prune --all --force --volumes
+    ^$env.docker-cli (spr [-n $n]) system prune --all --force --volumes
 }
 
 export def drmi [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns rmi $img
+    ^$env.docker-cli (spr [-n $n]) rmi $img
 }
 
 export def dt [from: string@"nu-complete docker images"  to: string -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns tag $from $to
+    ^$env.docker-cli (spr [-n $n]) tag $from $to
 }
 
 export def dps [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns push $img
+    ^$env.docker-cli (spr [-n $n]) push $img
 }
 
 export def dpl [img -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns pull $img
+    ^$env.docker-cli (spr [-n $n]) pull $img
 }
 
 ### volume
 export def dvl [-n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns volume ls | from ssv -a
+    ^$env.docker-cli (spr [-n $n]) volume ls | from ssv -a
 }
 
 def "nu-complete docker volume" [] {
@@ -213,18 +220,15 @@ def "nu-complete docker volume" [] {
 }
 
 export def dvc [name: string -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns volume create
+    ^$env.docker-cli (spr [-n $n]) volume create
 }
 
 export def dvi [name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns volume inspect $name
+    ^$env.docker-cli (spr [-n $n]) volume inspect $name
 }
 
 export def dvr [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
-    let ns = if ($n|is-empty) { [] } else { [-n $n] }
-    ^$env.docker-cli $ns volume rm $name
+    ^$env.docker-cli (spr [-n $n]) volume rm $name
 }
 
 ### run
@@ -277,19 +281,19 @@ export def dr [
     img: string@"nu-complete docker images"             # image
     ...cmd                                              # command args
 ] {
-    let ns = if ($namespace|is-empty) { [] } else { [-n $namespace] }
-    let entrypoint = if ($entrypoint|is-empty) { [] } else { [--entrypoint $entrypoint] }
+    let ns = (spr [-n $namespace])
+    let entrypoint = (spr [--entrypoint $entrypoint])
     let daemon = if $daemon { [-d] } else { [--rm -it] }
-    let mnt = if ($mnt|is-empty) { [] } else { [-v $mnt] }
-    let workdir = if ($workdir|is-empty) { [] } else { [-w $workdir] }
+    let mnt = (spr [-v $mnt])
+    let workdir = (spr [-w $workdir])
     let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v '(host-path $x.k):($x.v)'"} }
     let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
     let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
-    let debug = if $debug { [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined] } else { [] }
-    #let appimage = if $appimage { [--device /dev/fuse --security-opt apparmor:unconfined] } else { [] }
-    let appimage = if $appimage { [--device /dev/fuse] } else { [] }
-    let netadmin = if $netadmin { [--cap-add=NET_ADMIN --device /dev/net/tun] } else { [] }
-    let clip = if $with_x { [-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix] } else { [] }
+    let debug = (sprb $debug [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined])
+    #let appimage = (sprb $appimage [--device /dev/fuse --security-opt apparmor:unconfined])
+    let appimage = (sprb $appimage [--device /dev/fuse])
+    let netadmin = (sprb $netadmin [--cap-add=NET_ADMIN --device /dev/net/tun])
+    let clip = (sprb $with_x [-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix])
     let ssh = if ($ssh|is-empty) { [] } else {
         let sshkey = (cat ([$env.HOME .ssh $ssh] | path join) | split row ' ' | get 1)
         [-e $"ed25519_($sshuser)=($sshkey)"]
@@ -301,7 +305,7 @@ export def dr [
         let c = $"container:($attach)"
         [--uts $c --ipc $c --pid $c --network $c]
     }
-    let cache = if ($cache|is-empty) { [] } else { [-v $cache] }
+    let cache = (spr [-v $cache])
     let args = ([
         $entrypoint $attach $daemon
         $ports $envs $ssh $proxy
