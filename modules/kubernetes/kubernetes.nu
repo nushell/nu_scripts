@@ -36,6 +36,28 @@ export def ensure-cache-by-lines [cache path action] {
     (open $cache).payload
 }
 
+def sprb [flag, args] {
+    if $flag {
+        $args
+    } else {
+        []
+    }
+}
+
+def spr [args] {
+    let lst = ($args | last)
+    if ($lst | is-empty) {
+        []
+    } else {
+        let init = ($args | range ..-2)
+        if ($init | is-empty) {
+            [ $lst ]
+        } else {
+            $init | append $lst
+        }
+    }
+}
+
 export def `kcache flush` [] {
     rm -rf ~/.cache/nu-complete/k8s/
     nu-complete kube ctx
@@ -67,17 +89,17 @@ export def kdelf [p: path] {
     kubectl delete -f $p
 }
 
-# kubectl apply -k
+# kubectl apply -k (kustomize)
 export def kak [p: path] {
     kubectl apply -k $p
 }
 
-# kubectl diff -k
+# kubectl diff -k (kustomize)
 export def kdk [p: path] {
     kubectl diff -k $p
 }
 
-# kubectl delete -k
+# kubectl delete -k (kustomize)
 export def kdelk [p: path] {
     kubectl delete -k $p
 }
@@ -85,6 +107,84 @@ export def kdelk [p: path] {
 # kubectl kustomize (template)
 export def kk [p: path] {
     kubectl kustomize $p
+}
+
+# helm list and get
+export def kgh [
+    name?: string@"nu-complete helm list"
+    --namespace (-n): string@"nu-complete kube ns"
+    --manifest (-m): bool
+    --all (-a): bool
+] {
+    if ($name | is-empty) {
+        let ns = if $all { [--all] } else { (spr [-n $namespace]) }
+        helm list $ns --output json
+        | from json
+        | update updated {|x|
+            $x.updated
+            | str substring ..-4
+            | into datetime -f '%Y-%m-%d %H:%M:%S.%f %z'
+        }
+    } else {
+        if $manifest {
+            helm get manifest $name (spr [-n $namespace])
+        } else {
+            helm get notes $name (spr [-n $namespace])
+            helm get values $name (spr [-n $namespace])
+        }
+    }
+}
+
+def "nu-complete helm list" [context: string, offset: int] {
+    let ctx = ($context | parse cmd)
+    kgh -n $ctx.-n? | each {|x| {value: $x.name  description: $x.updated} }
+}
+
+def "nu-complete helm charts" [context: string, offset: int] {
+    let ctx = ($context | parse cmd)
+}
+
+# helm install or upgrade via values file
+export def kah [
+    name: string@"nu-complete helm list"
+    chart: string@"nu-complete helm charts"
+    values: path
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    let update = $name in (
+        helm list (spr [-n $namespace]) --output json
+        | from json | get name
+    )
+    let act = if $update { [upgrade] } else { [install] }
+    helm $act $name $chart -f $values (spr [-n $namespace])
+}
+
+# helm install or upgrade via values file
+export def kdh [
+    name: string@"nu-complete helm list"
+    chart: string@"nu-complete helm charts"
+    values: path
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    helm diff upgrade $name $chart -f $values (spr [-n $namespace])
+}
+
+# helm delete
+export def kdelh [
+    name: string@"nu-complete helm list"
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    helm uninstall $name (spr [-n $namespace])
+}
+
+# helm template
+export def kh [
+    name: string
+    chart: string@"nu-complete helm charts"
+    values: path
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    kubectl template $name $chart -f $values (spr [-n $namespace])
 }
 
 ### ctx
@@ -267,10 +367,10 @@ export def kg [
             } else {
                 [-n $namespace]
             }
-    let r = if ($r | is-empty) { [] } else { [$r] }
-    let l = if ($selector | is-empty) { [] } else { [-l $selector] }
+    let r = (spr [$r])
+    let l = (spr [-l $selector])
     if ($jsonpath | is-empty) {
-        let wide = if $wide { [-o wide] } else { [] }
+        let wide = (sprb $wide [-o wide])
         if ($verbose) {
             kubectl get -o json $n $k $r | from json | get items
             | each {|x|
@@ -300,8 +400,7 @@ export def kc [
     -n: string@"nu-complete kube ns"
     name:string
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl create $n $r $name
+    kubectl create (spr [-n $n]) $r $name
 }
 
 # kubectl get -o yaml
@@ -310,8 +409,7 @@ export def ky [
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl get $n -o yaml $r $i
+    kubectl get (spr [-n $n]) -o yaml $r $i
 }
 
 # kubectl describe
@@ -320,8 +418,7 @@ export def kd [
     i: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl describe $n $r $i
+    kubectl describe (spr [-n $n]) $r $i
 }
 
 # kubectl edit
@@ -330,8 +427,7 @@ export def ke [
     r: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    kubectl edit $n $k $r
+    kubectl edit (spr [-n $n]) $k $r
 }
 
 # kubectl delete
@@ -341,9 +437,7 @@ export def kdel [
     -n: string@"nu-complete kube ns"
     --force(-f): bool
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    let f = if $force { [--grace-period=0 --force] } else { [] }
-    kubectl delete $n $f $r $i
+    kubectl delete (spr [-n $n]) (sprb $force [--grace-period=0 --force]) $r $i
 }
 
 
@@ -356,16 +450,16 @@ export def kgno [] {
 def "nu-complete kube pods" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
     let ns = (do -i { $ctx | get '-n' })
-    let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
+    let ns = (spr [-n $ns])
     kubectl get $ns pods | from ssv -a | get NAME
 }
 
 def "nu-complete kube ctns" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
     let ns = (do -i { $ctx | get '-n' })
-    let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
+    let ns = (spr [-n $ns])
     let ctn = (do -i { $ctx | get '-c' })
-    let ctn = if ($ctn|is-empty) { [] } else { [-c $ctn] }
+    let ctn = (spr [-c $ctn])
     let pod = ($ctx | get args.1)
     kubectl get $ns pod $pod -o jsonpath={.spec.containers[*].name} | split row ' '
 }
@@ -411,8 +505,8 @@ export def ka [
     --container(-c): string@"nu-complete kube ctns"
     ...args
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    let c = if ($container|is-empty) { [] } else { [-c $container] }
+    let n = (spr [-n $n])
+    let c = (spr [-c $container])
     kubectl exec $n -it $pod $c -- (if ($args|is-empty) { 'bash' } else { $args })
 }
 
@@ -421,34 +515,44 @@ export def kl [
     pod: string@"nu-complete kube pods"
     --namespace(-n): string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
+    --follow(-f): bool
 ] {
-    let n = if ($namespace|is-empty) { [] } else { [-n $namespace] }
-    let c = if ($container|is-empty) { [] } else { [-c $container] }
-    kubectl logs $n $pod $c
-}
-
-# kubectl logs -f
-export def klf [
-    pod: string@"nu-complete kube pods"
-    --namespace(-n): string@"nu-complete kube ns"
-    --container(-c): string@"nu-complete kube ctns"
-] {
-    let n = if ($namespace|is-empty) { [] } else { [-n $namespace] }
-    let c = if ($container|is-empty) { [] } else { [-c $container] }
-    kubectl logs $n -f $pod $c
+    let n = (spr [-n $namespace])
+    let c = (spr [-c $container])
+    let f = (sprb $follow [-f])
+    kubectl logs $n $f $pod $c
 }
 
 def "nu-complete port forward type" [] {
     [pod svc]
 }
+
+def "nu-complete kube port" [context: string, offset: int] {
+    let ctx = ($context | parse cmd)
+    let kind = ($ctx | get args.1)
+    let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
+    let res = ($ctx | get args.2)
+    if ($kind | str starts-with 's') {
+        kubectl get $ns svc $res --output=jsonpath="{.spec.ports}"
+        | from json
+        | each {|x| {value: $x.port  description: $x.name} }
+    } else {
+        kubectl get $ns pods $res --output=jsonpath="{.spec.containers[].ports}"
+        | from json
+        | each {|x| {value: $x.containerPort description: $x.name?} }
+    }
+}
+
 # kubectl port-forward
 export def kpf [
     res: string@"nu-complete port forward type"
     target: string@"nu-complete kube res"
+    port: string@"nu-complete kube port"
+    --local (-l): string
     -n: string@"nu-complete kube ns"
-    port: string    ### reflect port num
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
+    let n = (spr [-n $n])
+    let port = if ($local | is-empty) { $port } else { $"($local):($port)" }
     kubectl port-forward $n $"($res)/($target)" $port
 }
 
@@ -456,9 +560,9 @@ def "nu-complete kube cp" [cmd: string, offset: int] {
     let ctx = ($cmd | str substring ..$offset | parse cmd)
     let p = ($ctx.args | get (($ctx.args | length) - 1))
     let ns = (do -i { $ctx | get '-n' })
-    let ns = if ($ns|is-empty) { [] } else { [-n $ns] }
+    let ns = (spr [-n $ns])
     let c = (do -i { $ctx | get '-c' })
-    let c = if ($c|is-empty) { [] } else { [-c $c] }
+    let c = (spr [-c $c])
     let ctn = (kubectl get pod $ns | from ssv -a | each {|x| {description: $x.READY value: $"($x.NAME):" }})
     let n = ($p | split row ':')
     if $"($n | get 0):" in ($ctn | get value) {
@@ -479,9 +583,7 @@ export def kcp [
     -c: string@"nu-complete kube ctns"
     -n: string@"nu-complete kube ns"
 ] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
-    let c = if ($c|is-empty) { [] } else { [-c $c] }
-    kubectl cp $n $lhs $c $rhs
+    kubectl cp (spr [-n $n]) $lhs (spr [-c $c]) $rhs
 }
 
 # kubectl get services
@@ -519,7 +621,7 @@ export def ked [d: string@"nu-complete kube res via name", -n: string@"nu-comple
     ke -n $n deployments $d
 }
 
-def "nu-complete num9" [] { [1 2 3] }
+def "nu-complete num9" [] { [0 1 2 3] }
 # kubectl scale deployment
 export def ksd [
     d: string@"nu-complete kube res via name"
@@ -529,7 +631,7 @@ export def ksd [
     if ($num | into int) > 9 {
         "too large"
     } else {
-        let n = if ($n|is-empty) { [] } else { [-n $n] }
+        let n = (spr [-n $n])
         kubectl scale $n deployments $d --replicas $num
     }
 }
@@ -544,7 +646,7 @@ export def ksdr [
     } else if $num <= 0 {
         "too small"
     } else {
-        let n = if ($n|is-empty) { [] } else { [-n $n] }
+        let n = (spr [-n $n])
         kubectl scale $n deployments $d --replicas 0
         kubectl scale $n deployments $d --replicas $num
     }
@@ -557,14 +659,14 @@ export alias kgrs = kubectl get rs
 
 # kubectl rollout history
 export def krhd [-n: string@"nu-complete kube ns", --revision (-v): int, dpl: string@"nu-complete kube res via name"] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
+    let n = (spr [-n $n])
     let v = if ($revision|is-empty) { [] } else { [ $"--revision=($revision)" ] }
     kubectl $n rollout history $"deployment/($dpl)" $v
 }
 
 # kubectl rollout undo
 export def krud [-n: string@"nu-complete kube ns", --revision (-v): int, dpl: string@"nu-complete kube res via name"] {
-    let n = if ($n|is-empty) { [] } else { [-n $n] }
+    let n = (spr [-n $n])
     let v = if ($revision|is-empty) { [] } else { [ $"--to-revision=($revision)" ] }
     kubectl $n rollout undo $"deployment/($dpl)" $v
 }
@@ -584,7 +686,7 @@ export def ktp [-n: string@"nu-complete kube ns" --all(-a): bool] {
             }
         }
     } else {
-        let n = if ($n|is-empty) { [] } else { [-n $n] }
+        let n = (spr [-n $n])
         kubectl top pod $n | from ssv -a | rename name cpu mem
         | each {|x|
             {
