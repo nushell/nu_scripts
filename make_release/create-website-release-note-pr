@@ -5,15 +5,25 @@ use std [
     "log error"
 ]
 
-def open-pr [repo: path] {
+def open-pr [
+    repo: path
+    remote: string
+    pr: record<
+        branch: string
+        title: string
+        body: string
+    >
+] {
     cd $repo
-    gh repo set-default nushell/nushell.github.io
+    gh repo set-default $remote
+
+    log info "mock up pr"
     (
         gh pr create
-            --head $"nushell:($branch)"
+            --head $pr.branch
             --base main
-            --title $title
-            --body $body
+            --title $pr.title
+            --body $pr.body
             --draft
     )
 }
@@ -87,7 +97,11 @@ As part of this release, we also publish a set of optional plugins you can insta
     git -C $repo push nushell $branch
 
     log info "opening pull request"
-    open-pr $repo
+    open-pr $repo nushell/nushell.github.io {
+        branch: $"nushell:($branch)"
+        title: $title
+        body: $body
+    }
 
     log info "removing the repo"
     rm -rf $repo
