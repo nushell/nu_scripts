@@ -28,6 +28,11 @@ def open-pr [
     )
 }
 
+def clean [repo: path] {
+    log info "removing the repo"
+    rm -rf $repo
+}
+
 # open the release note PR interactively
 #
 # # Example
@@ -107,6 +112,5 @@ As part of this release, we also publish a set of optional plugins you can insta
         body: $body
     }
 
-    log info "removing the repo"
-    rm -rf $repo
+    clean $repo
 }
