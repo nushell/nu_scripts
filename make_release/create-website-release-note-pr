@@ -105,6 +105,19 @@ As part of this release, we also publish a set of optional plugins you can insta
     log info "pushing release note to nushell"
     git -C $repo push nushell $branch
 
+    let out = (do -i { gh auth status } | complete)
+    if $out.exit_code != 0 {
+        clean $repo
+
+        let pr_url = $"https://github.com/nushell/nushell.github.io/compare/($branch)?expand=1"
+        error make --unspanned {
+            msg: ([
+                $out.stderr
+                $"please open the PR manually from a browser (ansi blue_underline)($pr_url | ansi link --text 'here')(ansi reset)"
+            ] | str join "\n")
+        }
+    }
+
     log info "opening pull request"
     open-pr $repo nushell/nushell.github.io {
         branch: $"nushell:($branch)"
