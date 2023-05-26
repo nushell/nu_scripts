@@ -35,6 +35,10 @@ def get_path [] {
       )
     )
   ) |
+    if (not ($in | path exists)) {
+      mkdir $in
+      $in
+    } | 
     path join "bookmarks.nuon"
   )
 }
