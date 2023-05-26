@@ -4,8 +4,6 @@ export-env {
   let-env bookmarks = {name: "prev", path: ("~/" | path expand) }
 }
 
-def read_bm []
-
 # Reset the bookmarks
 export def-env reset [] {
   let-env bookmarks = {name: "prev", path: ("~/" | path expand) }
