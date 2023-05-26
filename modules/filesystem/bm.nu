@@ -1,26 +1,41 @@
 # simple bookmark module
 
-export-env {
-  let-env bookmarks = {name: "prev", path: ("~/" | path expand) }
+# List all bookmarked paths
+export def list [] {
+  let bm_path = (get_path)
+
+  if (not ($bm_path | path exists))  {
+    [{name: "prev", path: ("~/" | path expand) }] | save $bm_path
+  }
+    open ($bm_path)
+}
+
+def get_path [] {
+  $env.XDG_DATA_HOME | 
+  path join "bookmarks.nuon"
 }
 
 # Reset the bookmarks
 export def-env reset [] {
-  let-env bookmarks = {name: "prev", path: ("~/" | path expand) }
+  list |
+  where name == "prev" |
+  save -f (get_path)
 }
 
 # Add a new bookmark with an optional name
-export def-env add [
+export def add [
   pth: path       # Path to bookmark to.
   name?: string   # Optional name to give to it
                     ] {
   if (($pth | path type) == "dir") and ($pth | path exists) {
-    let-env bookmarks = ( $env.bookmarks | append {name: $name, path: $pth})
+    list | 
+    append {name: $name, path: $pth} |
+    save -f (get_path)
   }
 }
 
 def marks [] {
-  $env.bookmarks | each {|it| 
+  list | each {|it| 
     {
     value: $it.path,
     description: $it.name
@@ -29,7 +44,7 @@ def marks [] {
 }
 
 # Goto your bookmark
-export def-env goto [
+export def goto [
   pth: path@marks # Path to "go to"
   ] {
   let prev = $env.PWD
@@ -37,16 +52,22 @@ export def-env goto [
 }
 
 # Experimental use of `input` instead of completion
-export def-env goto_alternative [] {
+export def goto_alternative [] {
   let prev = $env.PWD
-  $env.bookmarks | input list -f | cd $in.path
+  list | input list -f | cd $in.path
   change_prev $prev
 }
 
-def-env change_prev [new_path: path] {
-  if (($env.bookmarks | length) == 1) {
-    let-env bookmarks = ($env.bookmarks | update path $new_path)
+def change_prev [new_path: path] {
+  if ((list | length) == 1) {
+    list | 
+    update path $new_path | 
+    save -f (get_path)
   } else {
-    let-env bookmarks = ( ($env.bookmarks | where name != "prev" ) | append ($env.bookmarks | where name == "prev" | update path $new_path) )
+    ( list | 
+      where name != "prev" 
+    ) |
+    append (list | where name == "prev" | update path $new_path ) |
+    save -f get_path
   }
 }
