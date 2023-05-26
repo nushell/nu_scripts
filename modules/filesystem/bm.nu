@@ -34,6 +34,21 @@ export def add [
   }
 }
 
+# remove one or more bookmarks
+export def remove [] {
+  let rm_these = (
+    list | 
+    where name != "prev" |
+    input list -m
+  )
+
+  list | where {|it|
+    not $it in $rm_these
+  } |
+  print
+  
+}
+
 def marks [] {
   list | each {|it| 
     {
