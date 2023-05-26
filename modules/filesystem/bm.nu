@@ -1,12 +1,13 @@
 # simple bookmark module
 
+# Prints general information about bm.
 export def main [] {
   print -n (help bm)
 
   print (
   [
     $"(ansi green)Environment(ansi reset):"
-    $"    (ansi cyan)BM_PATH(ansi reset) - a path to save bookmarks to with ('add' | nu-highlight)."
+    $"    (ansi cyan)BM_PATH(ansi reset) - path to save bookmarks to with ('add' | nu-highlight). Alternatively searches for  (ansi cyan)XDG_DATA_HOME(ansi reset) or (ansi cyan)~/.local/share/(ansi reset)"
   ] |
   str join "\n" |
   nu-highlight
