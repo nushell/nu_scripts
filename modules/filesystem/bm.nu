@@ -29,8 +29,12 @@ def get_path [] {
   default (
     $env.XDG_DATA_HOME? |
     default (
-      $env.HOME | path join ".local" "share"
-    ) |
+      $env.HOME | path join ".local" "share" |
+      default (
+        $env.USERPROFILE? | path join "bm"
+      )
+    )
+  ) |
     path join "bookmarks.nuon"
   )
 }
