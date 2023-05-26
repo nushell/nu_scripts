@@ -1,5 +1,18 @@
 # simple bookmark module
 
+export def main [] {
+  print -n (help bm)
+
+  print (
+  [
+    $"(ansi green)Environment(ansi reset):"
+    $"    (ansi cyan)BM_PATH(ansi reset) - a path to save bookmarks to with ('add' | nu-highlight)."
+  ] |
+  str join "\n" |
+  nu-highlight
+  )
+}
+
 # List all bookmarked paths
 export def list [] {
   let bm_path = (get_path)
