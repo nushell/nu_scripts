@@ -57,11 +57,12 @@ export def-env auto-venv-on-enter [
     )
 
     let venv_path = ([$virtual_env $bin] | path join)
-    let new_path = ($old_path | prepend $venv_path | str join $path_sep)
+    # let new_path = ($old_path | prepend $venv_path | str join $path_sep)
+    let new_path = ($old_path | prepend $venv_path)
 
     # Creating the new prompt for the session
     let virtual_prompt = if ($virtual_prompt == '') {
-        $'(char lparen)($virtual_env | path basename)(char rparen) '
+        $'(char lparen)($virtual_env | path split | drop 1 | path join | path basename)(char rparen) '
     } else {
         '(' + $virtual_prompt + ') '
     }
@@ -74,13 +75,13 @@ export def-env auto-venv-on-enter [
 
     # If there is no default prompt, then only the env is printed in the prompt
     let new_prompt = if (has-env 'PROMPT_COMMAND') {
-        if ($old_prompt_command | describe) == 'block' {
-            { $'($virtual_prompt)(do $old_prompt_command)' }
+        if (($old_prompt_command | describe) in ['block', 'closure']) {
+            $'($virtual_prompt)(do $old_prompt_command)'
         } else {
-            { $'($virtual_prompt)($old_prompt_command)' }
+            $'($virtual_prompt)($old_prompt_command)'
         }
     } else {
-        { $'($virtual_prompt)' }
+        $'($virtual_prompt)'
     }
 
     # Environment variables that will be batched loaded to the virtual env

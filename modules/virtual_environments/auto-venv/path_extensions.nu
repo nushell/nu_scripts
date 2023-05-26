@@ -14,7 +14,7 @@ export def "path walk" [
 ] {
     let list = ($path | path expand | path split);
 
-    $list | each -n { |$part| (
+    $list | enumerate | each { |$part| (
         $list | first ($part.index + 1) | path join;
     )}
 
@@ -24,12 +24,12 @@ export def "path walk" [
 export def "path check-sub" [
     folder:    any, 
     subfolder: string,
-    --type:    string
+    --type:    list
 ] {
 
     (ls -a $folder
         | where ( 
-            ($type == $nothing or $it.type == $type)
+            ($type == $nothing or $it.type in $type)
             and ($it.name | path basename) == $subfolder
         )
         | length 
@@ -43,9 +43,9 @@ export def "path check-sub" [
 export def "path find-sub" [
     folder:    any,
     subfolder: string,
-    --type:    string
+    --type:    list
 ] {
-    let paths = path walk $folder;
+    let paths = (path walk $folder);
 
     let paths = ( $paths 
         | where (
@@ -55,5 +55,5 @@ export def "path find-sub" [
 
     if ($paths != $nothing) and ($paths | length) > 0 {
         [ ($paths | first), $subfolder ] | path join
-    }
+    } else {[]}
 }

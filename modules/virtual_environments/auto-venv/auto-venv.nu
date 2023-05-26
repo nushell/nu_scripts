@@ -10,7 +10,7 @@ export-env {
     # this needs to be set somewhere
     # let-env AUTO_VENV_TRIGGER = '__auto-venv.nu'
 
-    let hooks = default-hooks
+    let hooks = (default-hooks)
 
     let hooks = ($hooks | append (build-hooks))
 
@@ -20,7 +20,7 @@ export-env {
 
 def default-hooks [] {
     (if ($env.config.hooks.env_change.PWD != $nothing) {
-        $env.config.hooks.env_change.PWD
+        [$env.config.hooks.env_change.PWD]
     }
     else {
         []
@@ -35,7 +35,7 @@ def build-hooks [] {
         let _env = $env
         let pwd  = $_env.PWD
 
-        let trigger = path_extensions path find-sub . __trigger__ --type "file"
+        let trigger = (path_extensions path find-sub . __trigger__ --type ["symlink", "file"])
 
         cd ($trigger | path dirname)
         overlay use __trigger__ as __auto_venv
