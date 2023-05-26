@@ -5,7 +5,7 @@ export def list [] {
   let bm_path = (get_path)
 
   if (not ($bm_path | path exists))  {
-    [{name: "prev", path: ("~/" | path expand) }] | save $bm_path
+    [] | save $bm_path
   }
     open ($bm_path)
 }
@@ -19,6 +19,12 @@ def get_path [] {
     ) |
     path join "bookmarks.nuon"
   )
+}
+
+def save_path [] {
+  $in |
+  update path { str replace $env.HOME '~' } |
+  save -f (get_path)
 }
 
 # Reset the bookmarks
@@ -36,7 +42,7 @@ export def add [
   if (($pth | path type) == "dir") and ($pth | path exists) {
     list | 
     append {name: $name, path: $pth} |
-    save -f (get_path)
+    save_path
   }
 }
 
@@ -84,6 +90,6 @@ def change_prev [new_path: path] {
     ( list | 
       where name != "prev" 
     ) |
-    append (list | where name == "prev" | update path $new_path ) |
-    save -f (get_path)
+    append {name: prev, path: $new_path} |
+    save_path
 }
