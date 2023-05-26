@@ -55,7 +55,7 @@ def get_path [] {
 
 def save_path [] {
   $in |
-  update path { str replace os_home '~' } |
+  update path { str replace (os_home) '~' } |
   save -f (get_path)
 }
 
