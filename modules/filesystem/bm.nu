@@ -4,13 +4,18 @@ export-env {
   let-env bookmarks = {name: "prev", path: ("~/" | path expand) }
 }
 
+def read_bm []
+
 # Reset the bookmarks
 export def-env reset [] {
   let-env bookmarks = {name: "prev", path: ("~/" | path expand) }
 }
 
 # Add a new bookmark with an optional name
-export def-env add [pth: path name?: string] {
+export def-env add [
+  pth: path       # Path to bookmark to.
+  name?: string   # Optional name to give to it
+                    ] {
   if (($pth | path type) == "dir") and ($pth | path exists) {
     let-env bookmarks = ( $env.bookmarks | append {name: $name, path: $pth})
   }
@@ -26,12 +31,14 @@ def marks [] {
 }
 
 # Goto your bookmark
-export def-env goto [pth: path@marks] {
+export def-env goto [
+  pth: path@marks # Path to "go to"
+  ] {
   let prev = $env.PWD
   cd $pth
 }
 
-# Go to that directory
+# Experimental use of `input` instead of completion
 export def-env goto_alternative [] {
   let prev = $env.PWD
   $env.bookmarks | input list -f | cd $in.path
