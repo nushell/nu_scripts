@@ -11,8 +11,14 @@ export def list [] {
 }
 
 def get_path [] {
-  $env.XDG_DATA_HOME | 
-  path join "bookmarks.nuon"
+  $env.BM_PATH? |
+  default (
+    $env.XDG_DATA_HOME? |
+    default (
+      $env.HOME | path join ".local" "share"
+    ) |
+    path join "bookmarks.nuon"
+  )
 }
 
 # Reset the bookmarks
