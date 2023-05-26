@@ -23,6 +23,20 @@ export def venv-is-active [] {
     '__auto_venv' in (overlay list)
 }
 
+export def 'venv-create' [] {
+# Creates a virtual environment under the current directory
+	let venv_path = (pwd)
+	let venv_name = ((pwd) | path split | last) 
+	python3 -m venv .venv --clear --prompt $venv_name
+	.venv/bin/python3 -m pip install -U pip wheel setuptools
+
+	let trigger_file = ([$env.PWD, $env.AUTO_VENV_TRIGGER] | path join)
+	ln -sf $'($env.FILE_PWD)/venvs/python-venv.nu' $trigger_file
+
+	cd $venv_path
+}
+
+
 
 export def has-entered-venv [
     after: path,
