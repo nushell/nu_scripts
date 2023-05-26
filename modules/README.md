@@ -61,8 +61,7 @@ An extensive example of a wrapper for docker operations, with nushell completion
 
 ## filesystem
 
-- [cdpath](./filesystem/cdpath.nu) - ???
-- [up](./filesystem/up.nu) - Cd up `X` times
+- [bm](./filesystem/bm.nu) - A Simple bookmarking module. It uses `XGD_DATA_HOME` to save bookmarks.
 
 ## formats
 Examples of input/output formatters:
