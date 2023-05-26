@@ -24,28 +24,38 @@ export def list [] {
     open ($bm_path)
 }
 
+def os_home [] {
+  if ($nu.os-info.name == "windows" ) {
+    ($env.USERPROFILE)
+  } else {
+    ($env.HOME)
+  }
+}
+
 def get_path [] {
   $env.BM_PATH? |
   default (
     $env.XDG_DATA_HOME? |
     default (
-      $env.HOME? | path join ".local" "share" |
-      default (
-        $env.USERPROFILE? | path join "bm"
-      )
+      if $nu.os-info.name == windows {
+        ($env.USERPROFILE? | path join "bm")
+      } else {
+        ($env.HOME? | path join ".local" "share")
+      }
     )
   ) |
-    if (not ($in | path exists)) {
-      mkdir $in
-      $in
-    } | 
-    path join "bookmarks.nuon"
-  )
+  if (not ($in | path exists)) {
+    mkdir $in
+    $in
+  } else {
+    $in
+  }|
+  path join "bookmarks.nuon"
 }
 
 def save_path [] {
   $in |
-  update path { str replace $env.HOME '~' } |
+  update path { str replace os_home '~' } |
   save -f (get_path)
 }
 
@@ -63,7 +73,7 @@ export def add [
                     ] {
   if (($pth | path type) == "dir") and ($pth | path exists) {
     list | 
-    append {name: $name, path: $pth} |
+    append {name: ($name), path: ($pth)} |
     save_path
   }
 }
