@@ -64,6 +64,7 @@ export def-env goto [
   ] {
   let prev = $env.PWD
   cd $pth
+  change_prev $prev
 }
 
 # Experimental use of `input` instead of completion
@@ -74,15 +75,9 @@ export def-env goto_alternative [] {
 }
 
 def change_prev [new_path: path] {
-  if ((list | length) == 1) {
-    list | 
-    update path $new_path | 
-    save -f (get_path)
-  } else {
     ( list | 
       where name != "prev" 
     ) |
     append (list | where name == "prev" | update path $new_path ) |
-    save -f get_path
-  }
+    save -f (get_path)
 }
