@@ -16,7 +16,7 @@ def get_path [] {
 }
 
 # Reset the bookmarks
-export def-env reset [] {
+export def reset [] {
   list |
   where name == "prev" |
   save -f (get_path)
@@ -59,7 +59,7 @@ def marks [] {
 }
 
 # Goto your bookmark
-export def goto [
+export def-env goto [
   pth: path@marks # Path to "go to"
   ] {
   let prev = $env.PWD
@@ -67,7 +67,7 @@ export def goto [
 }
 
 # Experimental use of `input` instead of completion
-export def goto_alternative [] {
+export def-env goto_alternative [] {
   let prev = $env.PWD
   list | input list -f | cd $in.path
   change_prev $prev
