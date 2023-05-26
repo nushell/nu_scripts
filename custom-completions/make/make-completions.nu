@@ -1,6 +1,15 @@
 def "nu-complete make" [] {
-    open ./Makefile|lines|find ':'|where ($it|str starts-with '.') == false|split column ' '|get column1|find ':'|str replace ':' ''
-  }
+    ls 
+	| find --ignore-case makefile
+	| open $in.0.name
+	| lines 
+	| find ':' 
+	| where ($it | str starts-with '.') == false 
+	| split column ' ' 
+	| get column1 
+	| find ':' 
+	| str replace ':' ''
+}
 
   def "nu-complete make jobs" [] {
     seq 1 (sys|get cpu|length)
