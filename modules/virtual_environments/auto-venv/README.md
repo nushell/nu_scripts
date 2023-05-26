@@ -6,7 +6,7 @@ The scripts in this directory activate virtual environments whenever you cd into
 
 1. set `$env.AUTO_VENV_TRIGGER` as the preferred name of a trigger file
 1. import `auto-venv` into your environment
-1. `cp` the script file `./auto-venv/venvs/python-venv.nu` to a project as its trigger file at `/path/to/project/$AUTO_VENV_TRIGGER`
+1. Create a symlink via `ln -s` of the script file `./auto-venv/venvs/python-venv.nu` to a trigger file in project at `/path/to/project/$AUTO_VENV_TRIGGER`
 1. `cd` into `/path/to/project/`
 
 For example:

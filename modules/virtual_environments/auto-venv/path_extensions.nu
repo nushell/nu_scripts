@@ -24,12 +24,12 @@ export def "path walk" [
 export def "path check-sub" [
     folder:    any, 
     subfolder: string,
-    --type:    string
+    --type:    list
 ] {
 
     (ls -a $folder
         | where ( 
-            ($type == $nothing or $it.type == $type)
+            ($type == $nothing or $it.type in $type)
             and ($it.name | path basename) == $subfolder
         )
         | length 
@@ -43,7 +43,7 @@ export def "path check-sub" [
 export def "path find-sub" [
     folder:    any,
     subfolder: string,
-    --type:    string
+    --type:    list
 ] {
     let paths = (path walk $folder);
 

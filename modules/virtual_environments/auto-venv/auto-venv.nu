@@ -35,7 +35,7 @@ def build-hooks [] {
         let _env = $env
         let pwd  = $_env.PWD
 
-        let trigger = (path_extensions path find-sub . __trigger__ --type "file")
+        let trigger = (path_extensions path find-sub . __trigger__ --type ["symlink", "file"])
 
         cd ($trigger | path dirname)
         overlay use __trigger__ as __auto_venv
