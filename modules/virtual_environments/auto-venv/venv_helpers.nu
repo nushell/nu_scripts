@@ -28,7 +28,7 @@ export def has-entered-venv [
     after: path,
 ] {
 
-    let target = path find-sub $after $env.AUTO_VENV_TRIGGER
+    let target = (path find-sub $after $env.AUTO_VENV_TRIGGER)
     
     (if ($target | is-empty) {
         false
@@ -47,13 +47,17 @@ export def has-swapped-venv [
         false
     }
     else {
-        let target = path find-sub $after $env.AUTO_VENV_TRIGGER
+        let target = (path find-sub $after $env.AUTO_VENV_TRIGGER)
             
         (if ($target | is-empty) {
             false
         }
         else {
-            $env.VIRTUAL_ENV != $target
+            (if ('VIRTUAL_ENV' in $env) {
+		    $env.VIRTUAL_ENV != $target
+		    } else {
+		    false # should it default to `false`?
+		    })
         })
 
     })
