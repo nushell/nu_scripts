@@ -36,6 +36,16 @@ export def ensure-cache-by-lines [cache path action] {
     (open $cache).payload
 }
 
+export def normalize-column-names [ ] {
+    let i = $in
+    let cols = ($i | columns)
+    mut t = $i
+    for c in $cols {
+        $t = ($t | rename -c [$c ($c | str downcase | str replace ' ' '_')])
+    }
+    $t
+}
+
 def sprb [flag, args] {
     if $flag {
         $args
@@ -443,10 +453,11 @@ export def kg [
                     spec: $x.spec
                 }
             }
+            | normalize-column-names
         } else if $watch {
             kubectl get $n $k $r $l $wide --watch
         } else {
-            kubectl get $n $k $r $l $wide | from ssv -a
+            kubectl get $n $k $r $l $wide | from ssv -a | normalize-column-names
         }
     } else {
         kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from json
