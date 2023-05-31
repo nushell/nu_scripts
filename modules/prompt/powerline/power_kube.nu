@@ -11,8 +11,15 @@ export def ensure-cache [cache path action] {
 }
 
 def "kube ctx" [] {
-    let cache = $'($env.HOME)/.cache/nu-power/kube.json'
-    let file = if ($env.KUBECONFIG? | is-empty) { $"($env.HOME)/.kube/config" } else { $env.KUBECONFIG }
+    mut cache = ''
+    mut file = ''
+    if ($env.KUBECONFIG? | is-empty) {
+        $cache = $'($env.HOME)/.cache/nu-power/kube.json'
+        $file = $"($env.HOME)/.kube/config"
+    } else {
+        $cache = $"($env.HOME)/.cache/nu-power/kube-($env.KUBECONFIG | str replace -a '/' ':').json"
+        $file = $env.KUBECONFIG
+    }
     if not ($file | path exists) { return $nothing }
     ensure-cache $cache $file {
         do -i {
