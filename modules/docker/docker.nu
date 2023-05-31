@@ -68,18 +68,17 @@ export def dp [-n: string@"nu-complete docker ns"] {
 export def di [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) images
     | from ssv -a
-    | rename repo tag id created size
     | each {|x|
-        let size = ($x.size | into filesize)
-        let path = ($x.repo | split row '/')
+        let size = ($x.SIZE | into filesize)
+        let path = ($x.REPOSITORY | split row '/')
         let image = ($path | last)
         let repo = ($path | range ..(($path|length) - 2) | str join '/')
         {
             repo: $repo
             image: $image
-            tag: $x.tag
-            id: $x.id
-            created: $x.created
+            tag: $x.TAG
+            id: $x.'IMAGE ID'
+            created: $x.CREATED
             size: $size
         }
     }
@@ -286,9 +285,9 @@ export def dr [
     let daemon = if $daemon { [-d] } else { [--rm -it] }
     let mnt = (spr [-v $mnt])
     let workdir = (spr [-w $workdir])
-    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| $"-v '(host-path $x.k):($x.v)'"} }
-    let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| $"-e ($x.k)=($x.v)"} }
-    let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x|[-p $"($x.k):($x.v)"]} | flatten }
+    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| [-v $"(host-path $x.k):($x.v)"]} | flatten }
+    let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| [-e $"($x.k)=($x.v)"]} | flatten }
+    let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x| [-p $"($x.k):($x.v)"] } | flatten }
     let debug = (sprb $debug [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined])
     #let appimage = (sprb $appimage [--device /dev/fuse --security-opt apparmor:unconfined])
     let appimage = (sprb $appimage [--device /dev/fuse])
