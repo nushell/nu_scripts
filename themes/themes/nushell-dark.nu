@@ -80,4 +80,8 @@ export def main [] { return {
     shape_table: blue_bold
     shape_variable: purple
     shape_vardecl: purple
+
+    background: '#000000'
+    foreground: '#ffffff'
+    cursor: '#ffffff'
 }}
