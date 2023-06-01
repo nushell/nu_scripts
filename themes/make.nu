@@ -63,6 +63,7 @@ def make-theme [name: string] {
     list: "($colors.color7)"
     block: "($colors.color7)"
     hints: "dark_gray"
+    search_result: { fg: "($colors.color1)" bg: "($colors.color7)" }
 
     shape_and: { fg: "($colors.color5)" attr: "b" }
     shape_binary: { fg: "($colors.color5)" attr: "b" }

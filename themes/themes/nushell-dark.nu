@@ -44,6 +44,7 @@ export def main [] { return {
     list: white
     block: white
     hints: dark_gray
+    search_result: {bg: red fg: white}
 
     shape_and: purple_bold
     shape_binary: purple_bold
