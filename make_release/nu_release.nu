@@ -22,6 +22,7 @@ let subcrates_wave_1 = [
 let subcrates_wave_2 = [
     nu-cmd-lang,
     nu-cmd-dataframe,
+    nu-cmd-extra,
     nu-command,
 ]
 
@@ -36,7 +37,7 @@ let subcrates_wave_3 = [
     nu_plugin_formats,
 ]
 
-# Recent versions of cargo verify the upload of your crate 
+# Recent versions of cargo verify the upload of your crate
 # So no need to `sleep` anymore.
 
 for subcrate in $subcrates_wave_1 {
