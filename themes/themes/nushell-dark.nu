@@ -44,6 +44,7 @@ export def main [] { return {
     list: white
     block: white
     hints: dark_gray
+    search_result: {bg: red fg: white}
 
     shape_and: purple_bold
     shape_binary: purple_bold
@@ -80,4 +81,8 @@ export def main [] { return {
     shape_table: blue_bold
     shape_variable: purple
     shape_vardecl: purple
+
+    background: dark_gray
+    foreground: default
+    cursor: red
 }}
