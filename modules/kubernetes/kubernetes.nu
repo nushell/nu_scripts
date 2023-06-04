@@ -36,6 +36,16 @@ export def ensure-cache-by-lines [cache path action] {
     (open $cache).payload
 }
 
+export def normalize-column-names [ ] {
+    let i = $in
+    let cols = ($i | columns)
+    mut t = $i
+    for c in $cols {
+        $t = ($t | rename -c [$c ($c | str downcase | str replace ' ' '_')])
+    }
+    $t
+}
+
 def sprb [flag, args] {
     if $flag {
         $args
@@ -114,6 +124,7 @@ export def kgh [
     name?: string@"nu-complete helm list"
     --namespace (-n): string@"nu-complete kube ns"
     --manifest (-m): bool
+    --values(-v): bool
     --all (-a): bool
 ] {
     if ($name | is-empty) {
@@ -128,9 +139,10 @@ export def kgh [
     } else {
         if $manifest {
             helm get manifest $name (spr [-n $namespace])
+        } else if $values {
+            helm get values $name (spr [-n $namespace])
         } else {
             helm get notes $name (spr [-n $namespace])
-            helm get values $name (spr [-n $namespace])
         }
     }
 }
@@ -144,11 +156,18 @@ def "nu-complete helm charts" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
 }
 
+def record-to-set-json [value] {
+    $value | transpose k v
+    | each {|x| $"($x.k)=($x.v | to json -r)"}
+    | str join ','
+}
+
 # helm install or upgrade via values file
 export def kah [
     name: string@"nu-complete helm list"
     chart: string@"nu-complete helm charts"
-    values: path
+    valuefile: path
+    --values (-v): any
     --namespace (-n): string@"nu-complete kube ns"
 ] {
     let update = $name in (
@@ -156,7 +175,8 @@ export def kah [
         | from json | get name
     )
     let act = if $update { [upgrade] } else { [install] }
-    helm $act $name $chart -f $values (spr [-n $namespace])
+    let values = if ($values | is-empty) { [] } else { [--set-json (record-to-set-json $values)] }
+    helm $act $name $chart -f $valuefile $values (spr [-n $namespace])
 }
 
 # helm install or upgrade via values file
@@ -179,12 +199,17 @@ export def kdelh [
 
 # helm template
 export def kh [
-    name: string
     chart: string@"nu-complete helm charts"
-    values: path
-    --namespace (-n): string@"nu-complete kube ns"
+    valuefile: path
+    --values (-v): any
+    --namespace (-n): string@"nu-complete kube ns"='test'
+    --app (-a): string='test'
 ] {
-    kubectl template $name $chart -f $values (spr [-n $namespace])
+    let values = if ($values | is-empty) { [] } else { [--set-json (record-to-set-json $values)] }
+    let target = ($valuefile | split row '.' | range ..-2 | append [out yaml] | str join '.')
+    if (not ($target | path exists)) and (([yes no] | input list $'create ($target)?') in [no]) { return }
+    helm template $app $chart -f $valuefile $values (spr [-n $namespace])
+    | save -f $target
 }
 
 ### ctx
@@ -238,23 +263,67 @@ export def kn [ns: string@"nu-complete kube ns"] {
     kubectl config set-context --current $"--namespace=($ns)"
 }
 
+def parse_cellpath [path] {
+    $path | split row '.' | each {|x|
+        if ($x | find --regex "^[0-9]+$" | is-empty) {
+            $x
+        } else {
+            $x | into int
+        }
+    }
+}
+
+def get_cellpath [record path] {
+    $path | reduce -f $record {|it, acc| $acc | get $it }
+}
+
+def set_cellpath [record path value] {
+    if ($path | length) > 1 {
+        $record | upsert ($path | first) {|it|
+            set_cellpath ($it | get ($path | first)) ($path | range 1..) $value
+        }
+    } else {
+        $record | upsert ($path | last) $value
+    }
+}
+
+def upsert_row [table col mask id value] {
+    # let value = ($mask | reduce -f $value {|it, acc|
+    #     let path = (parse_cellpath $it)
+    #     set_cellpath $value $path (get_cellpath $table $path)
+    # })
+    if $id in ($table | get $col) {
+        $table | each {|x|
+            if ($x | get $col) == $id {
+                $value
+            } else {
+                $x
+            }
+        }
+    } else {
+        $table | append $value
+    }
+}
+
 export def 'kconf import' [name: string, path: string] {
     let k = (kube-config)
-    let d = $k.data
+    mut d = $k.data
     let i = (cat $path | from yaml)
     let c = {
-        name: $name,
         context: {
             cluster: $name,
             namespace: default,
             user: $name
         }
+        name: $name,
     }
-    $d
-    | upsert contexts ($d.contexts | append $c)
-    | upsert clusters ($d.clusters | append ($i.clusters.0 | upsert name $name))
-    | upsert users ($d.users | append ($i.users.0 | upsert name $name))
-    | to yaml
+    $d.clusters = (upsert_row $d.clusters name [] $name ($i.clusters.0 | upsert name $name))
+    $d.users = (upsert_row $d.users name [] $name ($i.users.0 | upsert name $name))
+    $d.contexts = (upsert_row $d.contexts name [] $name $c)
+    $d | to yaml
+}
+
+export def 'kconf delete' [name: string@"nu-complete kube ctx"] {
 }
 
 export def 'kconf export' [name: string@"nu-complete kube ctx"] {
@@ -372,7 +441,7 @@ export def kg [
     if ($jsonpath | is-empty) {
         let wide = (sprb $wide [-o wide])
         if ($verbose) {
-            kubectl get -o json $n $k $r | from json | get items
+            kubectl get -o json $n $k $r $l | from json | get items
             | each {|x|
                 {
                     name: $x.metadata.name
@@ -384,14 +453,24 @@ export def kg [
                     spec: $x.spec
                 }
             }
+            | normalize-column-names
         } else if $watch {
-            kubectl get $n $k $r $wide --watch
+            kubectl get $n $k $r $l $wide --watch
         } else {
-            kubectl get $n $k $r $wide | from ssv -a
+            kubectl get $n $k $r $l $wide | from ssv -a | normalize-column-names
         }
     } else {
         kubectl get $n $k $r $"--output=jsonpath={($jsonpath)}" | from json
     }
+}
+
+# kubectl describe
+export def kd [
+    r: string@"nu-complete kube kind"
+    i: string@"nu-complete kube res"
+    -n: string@"nu-complete kube ns"
+] {
+    kubectl describe (spr [-n $n]) $r $i
 }
 
 # kubectl create
@@ -410,15 +489,6 @@ export def ky [
     -n: string@"nu-complete kube ns"
 ] {
     kubectl get (spr [-n $n]) -o yaml $r $i
-}
-
-# kubectl describe
-export def kd [
-    r: string@"nu-complete kube kind"
-    i: string@"nu-complete kube res"
-    -n: string@"nu-complete kube ns"
-] {
-    kubectl describe (spr [-n $n]) $r $i
 }
 
 # kubectl edit
@@ -500,13 +570,34 @@ export def kdp [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube 
 
 # kubectl attach (exec -it)
 export def ka [
-    pod: string@"nu-complete kube pods"
+    pod?: string@"nu-complete kube pods"
     -n: string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
+    --selector(-l): string
     ...args
 ] {
     let n = (spr [-n $n])
-    let c = (spr [-c $container])
+    let pod = if ($selector | is-empty) { $pod } else {
+        let pods = (kgp -n $n -l $selector | each {|x| $x.NAME})
+        if ($pods | length) == 1 {
+            $pods.0
+        } else {
+            $pods | input list 'select pod '
+        }
+    }
+    let c = if ($container | is-empty) {
+        if ($selector | is-empty)  { [] } else {
+            let cs = (kgp -n $n $pod -p '.spec.containers[*].name' | split row ' ')
+            let ctn = if ($cs | length) == 1 {
+                $cs.0
+            } else {
+                $cs | input list 'select container '
+            }
+            [-c $ctn]
+        }
+    } else {
+        [-c $container]
+    }
     kubectl exec $n -it $pod $c -- (if ($args|is-empty) { 'bash' } else { $args })
 }
 

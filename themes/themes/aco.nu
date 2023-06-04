@@ -41,6 +41,7 @@ export def main [] { return {
     list: "#bebebe"
     block: "#bebebe"
     hints: "dark_gray"
+    search_result: { fg: "#ff0883" bg: "#bebebe" }
 
     shape_and: { fg: "#8308ff" attr: "b" }
     shape_binary: { fg: "#8308ff" attr: "b" }

@@ -1,10 +1,13 @@
-def agree [prompt] {
+def agree [
+    prompt
+    --default-not (-n): bool
+] {
     let prompt = if ($prompt | str ends-with '!') {
         $'(ansi red)($prompt)(ansi reset)'
     } else {
         $'($prompt)'
     }
-    ([yes no] | input list $prompt) in [yes]
+    ( if $default_not { [no yes] } else { [yes no] } | input list $prompt) in [yes]
 }
 
 def sprb [flag, args] {
@@ -29,8 +32,13 @@ def spr [args] {
     }
 }
 
-# git status and stash
-export def gs [
+# git status
+export def gs [] {
+    git status
+}
+
+# git stash
+export def gst [
     --apply (-a):             bool
     --clear (-c):             bool
     --drop (-d):              bool
@@ -55,7 +63,7 @@ export def gs [
     } else if $all {
         git stash --all (sprb $include_untracked [--include-untracked])
     } else {
-        git status
+        git stash
     }
 }
 
@@ -75,27 +83,28 @@ export def gl [
 # git branch
 export def gb [
     branch?:          string@"nu-complete git branches"
+    remote?:          string@"nu-complete git remote branches"
     --delete (-d):    bool
-    --remote (-r):    bool
     --no-merged (-n): bool
 ] {
     let bs = (git branch | lines | each {|x| $x | str substring 2..})
     if ($branch | is-empty) {
-        if $remote {
-            git branch --remote
-        } else if $no_merged {
-            git branch --no-merged
-        } else {
-            git branch
+        let d = {
+            local: (git branch | lines)
+            remote: (git branch --remote | lines)
+            no-merged: (git branch --no-merged | lines)
+        }
+        print ($d | table -n 1 -e)
+    } else if $delete {
+        if $branch in $bs and (agree 'branch will be delete!') {
+                git branch -D $branch
+        }
+        if $branch in (remote_braches | each {|x| $x.1}) and (agree -n 'delete remote branch?!') {
+            let remote = if ($remote|is-empty) { 'origin' } else { $remote }
+            git push $remote -d $branch
         }
     } else if $branch in $bs {
-        if $delete {
-            if (agree 'branch will be delete!') {
-                git branch -D $branch
-            }
-        } else {
-            git checkout $branch
-        }
+        git checkout $branch
     } else {
         if (agree 'create new branch?') {
             git checkout -b $branch
@@ -103,50 +112,93 @@ export def gb [
     }
 }
 
+# git clone, init
+export def-env gn [
+    repo?:            string@"nu-complete git branches"
+    local?:           path
+    --submodule (-s): bool     # git submodule
+    --init (-i):      bool     # git init
+] {
+     if $init {
+        git init $repo
+        cd $repo
+        if $submodule {
+            git submodule init
+        }
+    } else {
+        let local = if ($local | is-empty) {
+            $repo | path basename | split row '.' | get 0
+        } else {
+            $local
+        }
+        git clone (sprb $submodule [--recurse-submodules]) $repo $local
+        cd $local
+    }
+}
+
 # git pull, push and switch
 export def gp [
-    branch?:             string@"nu-complete git branches"
-    remote?:             string@"nu-complete git remotes"
+    branch?:             string@"nu-complete git remote branches"
+    remote?:             string@"nu-complete git remote branches"
     --force (-f):        bool     # git push -f
-    --set-upstream (-u): bool     # git push -u
     --override:          bool
-    --clone (-c):        string   # git clone
     --submodule (-s):    bool     # git submodule
     --init (-i):         bool     # git init
-    --rebase (-r):       bool     # git pull --rebase
+    --merge (-m):        bool     # git pull (no)--rebase
     --autostash (-a):    bool     # git pull --autostash
 ] {
-    if not ($clone | is-empty) {
-        git clone (sprb $submodule [--recurse-submodules]) $clone
-    } else if $submodule {
-        if $init {
-            git submodule init
-        } else {
-            git submodule update
-        }
-    } else if $init {
-        let repo = $branch
-        git init $repo
-    } else if $force {
-        git push --force
+    if $submodule {
+        git submodule update
     } else if $override {
-        git pull
+        git pull --rebase
         git add --all
         git commit -v -a --no-edit --amend
         git push --force
-    } else if $set_upstream {
-        let remote = if ($remote | is-empty) { 'origin' } else { $remote }
-        let branch = if ($branch | is-empty) { (_git_status).branch } else { $branch }
-        git push -u $remote $branch
-    } else if not ($branch | is-empty) {
-        let remote = if ($remote|is-empty) { 'origin' } else { $remote }
-        git fetch $remote $branch
     } else {
-        let r = (sprb $rebase [--rebase])
+        let m = if $merge { [] } else { [--rebase] }
         let a = (sprb $autostash [--autostash])
-        git pull $r $a -v
+        let branch = if ($branch | is-empty) { (_git_status).branch } else { $branch }
+        let remote = if ($remote|is-empty) { 'origin' } else { $remote }
+        let lbs = (git branch | lines | each {|x| $x | str substring 2..})
+        let rbs = (remote_braches | each {|x| $x.1})
+        if $branch in $rbs {
+            if $branch in $lbs {
+                let bmsg = '* both local and remote have the branch'
+                if $force {
+                    print $'($bmsg), with --force, push'
+                    git branch -u $'($remote)/($branch)' $branch
+                    git push --force
+                } else {
+                    print $'($bmsg), pull'
+                    if (_git_status).branch != $branch {
+                        print $'* switch to ($branch)'
+                        git checkout $branch
+                    }
+                    git pull $m $a
+                }
+            } else {
+                print "* local doesn't have that branch, fetch"
+                git checkout -b $branch
+                git fetch $remote $branch
+                git branch -u $'($remote)/($branch)' $branch
+                git pull $m $a -v
+            }
+        } else {
+            let bmsg = "* remote doesn't have that branch"
+            let force = (sprb $force [--force])
+            if $branch in $lbs {
+                print $'($bmsg), set upstream and push'
+                git checkout $branch
+            } else {
+                print $'($bmsg), create and push'
+                git checkout -b $branch
+            }
+            git push $force --set-upstream $remote $branch
+        }
+
         let s = (_git_status)
         if $s.ahead > 0 {
+            print '* remote is behind, push'
             git push
         }
     }
@@ -173,6 +225,7 @@ export def ga [
     } else if $restore {
         let o = (spr [--source $source])
         let s = (sprb $staged [--staged])
+        let file = if ($file | is-empty) { [.] } else { [$file] }
         git restore $o $s $file
     } else {
         let a = (sprb $all [--all])
@@ -187,10 +240,10 @@ export def ga [
 
 # git commit
 export def gc [
-    --message (-m): string
-    --all (-A):     bool
-    --amend (-a):   bool
-    --keep (-k):    bool
+    message?:     string
+    --all (-A):   bool
+    --amend (-a): bool
+    --keep (-k):  bool
 ] {
     let m = (spr [-m $message])
     let a = (sprb $all [--all])
@@ -201,6 +254,7 @@ export def gc [
 
 # git diff
 export def gd [
+    file?:            path
     --cached (-c):    bool # cached
     --word-diff (-w): bool # word-diff
     --staged (-s):    bool # staged
@@ -208,42 +262,55 @@ export def gd [
     let w = (sprb $word_diff [--word-diff])
     let c = (sprb $cached [--cached])
     let s = (sprb $staged [--staged])
-    git diff $c $s $w
+    git diff $c $s $w (spr [$file])
 }
 
-# git merge and rebase
+# git merge
 export def gm [
-    branch?:         string@"nu-complete git branches"
-    --rebase (-r):   bool      # git rebase
-    --onto (-o):     string
-    --abort (-a):    bool
-    --continue (-c): bool
-    --skip (-s):     bool
-    --quit (-q):     bool
+    branch?:            string@"nu-complete git branches"
+    --abort (-a):       bool
+    --continue (-c):    bool
+    --quit (-q):        bool
+    --no-squash (-n):   bool # git merge (no)--squash
 ] {
-    if $rebase {
-        if $abort {
-            git rebase --abort
-        } else if $continue {
-            git rebase --continue
-        } else if $skip {
-            git rebase --skip
-        } else if $quit {
-            git rebase --quit
-        } else if $onto {
-            git rebase --onto $branch
-        } else {
-            if ($branch | is-empty) {
-                git rebase (git_main_branch)
-            } else {
-                git rebase $branch
-            }
-        }
+    let x = if $no_squash { [] } else { [--squash] }
+    if ($branch | is-empty) {
+        git merge $x $"origin/(git_main_branch)"
     } else {
+        git merge $x $branch
+    }
+    if not $no_squash {
+        git commit -v
+    }
+}
+
+# git rebase
+# TODO: --onto: (commit_id)
+export def gr [
+    branch?:            string@"nu-complete git branches"
+    --interactive (-i): bool
+    --onto (-o):        string
+    --abort (-a):       bool
+    --continue (-c):    bool
+    --skip (-s):        bool
+    --quit (-q):        bool
+] {
+    if $abort {
+        git rebase --abort
+    } else if $continue {
+        git rebase --continue
+    } else if $skip {
+        git rebase --skip
+    } else if $quit {
+        git rebase --quit
+    } else if not ($onto | is-empty) {
+        git rebase --onto $branch
+    } else {
+        let i = (sprb $interactive [--interactive])
         if ($branch | is-empty) {
-            git merge $"origin/(git_main_branch)"
+            git rebase $i (git_main_branch)
         } else {
-            git merge $branch
+            git rebase $i $branch
         }
     }
 }
@@ -270,18 +337,22 @@ export def gcp [
 }
 
 # git reset
-export def gr [
-    commit?:         string@"nu-complete git log"
-    --hard (-h):     bool
+export def grs [
+    commit?:      string@"nu-complete git log"
+    --hard (-h):  bool
+    --clean (-c): bool
 ] {
     let h = (sprb $hard [--hard])
-    let c = (spr [$commit])
-    git reset $h $c
+    let cm = (spr [$commit])
+    git reset $h $cm
+    if $clean {
+        git clean -fd
+    }
 }
 
 
 # git remote
-export def grmt [
+export def grm [
     remote?:       string@"nu-complete git remotes"
     uri?:          string
     --add (-a):    bool
@@ -338,7 +409,7 @@ export def gha [] {
     | reverse
 }
 
-export def gsq [] {
+export def ggc [] {
     git reflog expire --all --expire=now
     git gc --prune=now --aggressive
 }
@@ -504,6 +575,24 @@ def "nu-complete git branches" [] {
     | lines
     | filter {|x| not ($x | str starts-with '*')}
     | each {|x| $"($x|str trim)"}
+}
+
+export def remote_braches [] {
+    git branch -r
+    | lines
+    | str trim
+    | filter {|x| not ($x | str starts-with 'origin/HEAD') }
+    | each {|x| $x | split row '/'}
+}
+
+def "nu-complete git remote branches" [context: string, offset: int] {
+    let ctx = ($context | split row ' ')
+    let rb = (remote_braches)
+    if ($ctx | length) < 3 {
+        $rb | each {|x| {value: $x.1, description: $x.0} }
+    } else {
+        $rb | filter {|x| $x.1 == $ctx.1 } | each {|x| $x.0}
+    }
 }
 
 def "nu-complete git remotes" [] {
