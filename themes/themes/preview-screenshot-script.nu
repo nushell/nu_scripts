@@ -5,7 +5,7 @@ print $"\e]10;((3024-day).foreground);((3024-day).background);((3024-day).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: '3024-day'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\3024-day_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -15,7 +15,7 @@ print $"\e]10;((3024-night).foreground);((3024-night).background);((3024-night).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: '3024-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\3024-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -25,7 +25,7 @@ print $"\e]10;((3024r).foreground);((3024r).background);((3024r).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: '3024r'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\3024r_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -35,7 +35,7 @@ print $"\e]10;((abyss).foreground);((abyss).background);((abyss).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'abyss'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\abyss_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -45,7 +45,7 @@ print $"\e]10;((aci).foreground);((aci).background);((aci).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'aci'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\aci_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -55,7 +55,7 @@ print $"\e]10;((aco).foreground);((aco).background);((aco).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'aco'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\aco_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -65,7 +65,7 @@ print $"\e]10;((adventuretime).foreground);((adventuretime).background);((advent
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'adventuretime'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\adventuretime_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -75,7 +75,7 @@ print $"\e]10;((afterglow).foreground);((afterglow).background);((afterglow).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'afterglow'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\afterglow_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -85,7 +85,7 @@ print $"\e]10;((alien-blood).foreground);((alien-blood).background);((alien-bloo
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'alien-blood'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\alien-blood_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -95,7 +95,7 @@ print $"\e]10;((alucard).foreground);((alucard).background);((alucard).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'alucard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\alucard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -105,7 +105,7 @@ print $"\e]10;((amora).foreground);((amora).background);((amora).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'amora'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\amora_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -115,7 +115,7 @@ print $"\e]10;((apathy).foreground);((apathy).background);((apathy).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'apathy'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\apathy_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -125,7 +125,7 @@ print $"\e]10;((apprentice).foreground);((apprentice).background);((apprentice).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'apprentice'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\apprentice_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -135,7 +135,7 @@ print $"\e]10;((argonaut).foreground);((argonaut).background);((argonaut).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'argonaut'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\argonaut_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -145,7 +145,7 @@ print $"\e]10;((arthur).foreground);((arthur).background);((arthur).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'arthur'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\arthur_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -155,7 +155,7 @@ print $"\e]10;((ashes).foreground);((ashes).background);((ashes).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ashes'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ashes_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -165,7 +165,7 @@ print $"\e]10;((atelier-cave-light).foreground);((atelier-cave-light).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-cave-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-cave-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -175,7 +175,7 @@ print $"\e]10;((atelier-cave).foreground);((atelier-cave).background);((atelier-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-cave'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-cave_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -185,7 +185,7 @@ print $"\e]10;((atelier-dune-light).foreground);((atelier-dune-light).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-dune-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-dune-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -195,7 +195,7 @@ print $"\e]10;((atelier-dune).foreground);((atelier-dune).background);((atelier-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-dune'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-dune_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -205,7 +205,7 @@ print $"\e]10;((atelier-estuary-light).foreground);((atelier-estuary-light).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-estuary-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-estuary-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -215,7 +215,7 @@ print $"\e]10;((atelier-estuary).foreground);((atelier-estuary).background);((at
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-estuary'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-estuary_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -225,7 +225,7 @@ print $"\e]10;((atelier-forest-light).foreground);((atelier-forest-light).backgr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-forest-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-forest-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -235,7 +235,7 @@ print $"\e]10;((atelier-forest).foreground);((atelier-forest).background);((atel
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-forest'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-forest_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -245,7 +245,7 @@ print $"\e]10;((atelier-heath-light).foreground);((atelier-heath-light).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-heath-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-heath-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -255,7 +255,7 @@ print $"\e]10;((atelier-heath).foreground);((atelier-heath).background);((atelie
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-heath'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-heath_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -265,7 +265,7 @@ print $"\e]10;((atelier-lakeside-light).foreground);((atelier-lakeside-light).ba
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-lakeside-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-lakeside-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -275,7 +275,7 @@ print $"\e]10;((atelier-lakeside).foreground);((atelier-lakeside).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-lakeside'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-lakeside_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -285,7 +285,7 @@ print $"\e]10;((atelier-plateau-light).foreground);((atelier-plateau-light).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-plateau-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-plateau-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -295,7 +295,7 @@ print $"\e]10;((atelier-plateau).foreground);((atelier-plateau).background);((at
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-plateau'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-plateau_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -305,7 +305,7 @@ print $"\e]10;((atelier-savanna-light).foreground);((atelier-savanna-light).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-savanna-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-savanna-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -315,7 +315,7 @@ print $"\e]10;((atelier-savanna).foreground);((atelier-savanna).background);((at
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-savanna'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-savanna_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -325,7 +325,7 @@ print $"\e]10;((atelier-seaside-light).foreground);((atelier-seaside-light).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-seaside-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-seaside-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -335,7 +335,7 @@ print $"\e]10;((atelier-seaside).foreground);((atelier-seaside).background);((at
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-seaside'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-seaside_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -345,7 +345,7 @@ print $"\e]10;((atelier-sulphurpool-light).foreground);((atelier-sulphurpool-lig
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-sulphurpool-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-sulphurpool-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -355,7 +355,7 @@ print $"\e]10;((atelier-sulphurpool).foreground);((atelier-sulphurpool).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atelier-sulphurpool'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atelier-sulphurpool_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -365,7 +365,7 @@ print $"\e]10;((atlas).foreground);((atlas).background);((atlas).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atlas'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atlas_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -375,7 +375,7 @@ print $"\e]10;((atom-one-light).foreground);((atom-one-light).background);((atom
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atom-one-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atom-one-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -385,7 +385,7 @@ print $"\e]10;((atom).foreground);((atom).background);((atom).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'atom'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\atom_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -395,7 +395,7 @@ print $"\e]10;((ayu-light).foreground);((ayu-light).background);((ayu-light).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ayu-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ayu-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -405,7 +405,7 @@ print $"\e]10;((ayu-mirage-simple-cursor).foreground);((ayu-mirage-simple-cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ayu-mirage-simple-cursor'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ayu-mirage-simple-cursor_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -415,7 +415,7 @@ print $"\e]10;((ayu-mirage).foreground);((ayu-mirage).background);((ayu-mirage).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ayu-mirage'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ayu-mirage_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -425,7 +425,7 @@ print $"\e]10;((ayu).foreground);((ayu).background);((ayu).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ayu'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ayu_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -435,7 +435,7 @@ print $"\e]10;((azu).foreground);((azu).background);((azu).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'azu'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\azu_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -445,7 +445,7 @@ print $"\e]10;((batman).foreground);((batman).background);((batman).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'batman'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\batman_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -455,7 +455,7 @@ print $"\e]10;((belafonte-day).foreground);((belafonte-day).background);((belafo
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'belafonte-day'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\belafonte-day_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -465,7 +465,7 @@ print $"\e]10;((belafonte-night).foreground);((belafonte-night).background);((be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'belafonte-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\belafonte-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -475,7 +475,7 @@ print $"\e]10;((bespin).foreground);((bespin).background);((bespin).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'bespin'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\bespin_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -485,7 +485,7 @@ print $"\e]10;((bim).foreground);((bim).background);((bim).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'bim'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\bim_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -495,7 +495,7 @@ print $"\e]10;((birds-of-paradise).foreground);((birds-of-paradise).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'birds-of-paradise'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\birds-of-paradise_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -505,7 +505,7 @@ print $"\e]10;((black-metal-bathory).foreground);((black-metal-bathory).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-bathory'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-bathory_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -515,7 +515,7 @@ print $"\e]10;((black-metal-burzum).foreground);((black-metal-burzum).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-burzum'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-burzum_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -525,7 +525,7 @@ print $"\e]10;((black-metal-dark-funeral).foreground);((black-metal-dark-funeral
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-dark-funeral'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-dark-funeral_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -535,7 +535,7 @@ print $"\e]10;((black-metal-gorgoroth).foreground);((black-metal-gorgoroth).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-gorgoroth'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-gorgoroth_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -545,7 +545,7 @@ print $"\e]10;((black-metal-immortal).foreground);((black-metal-immortal).backgr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-immortal'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-immortal_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -555,7 +555,7 @@ print $"\e]10;((black-metal-khold).foreground);((black-metal-khold).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-khold'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-khold_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -565,7 +565,7 @@ print $"\e]10;((black-metal-marduk).foreground);((black-metal-marduk).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-marduk'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-marduk_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -575,7 +575,7 @@ print $"\e]10;((black-metal-mayhem).foreground);((black-metal-mayhem).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-mayhem'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-mayhem_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -585,7 +585,7 @@ print $"\e]10;((black-metal-nile).foreground);((black-metal-nile).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-nile'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-nile_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -595,7 +595,7 @@ print $"\e]10;((black-metal-venom).foreground);((black-metal-venom).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal-venom'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal-venom_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -605,7 +605,7 @@ print $"\e]10;((black-metal).foreground);((black-metal).background);((black-meta
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'black-metal'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\black-metal_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -615,7 +615,7 @@ print $"\e]10;((blazer).foreground);((blazer).background);((blazer).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'blazer'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\blazer_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -625,7 +625,7 @@ print $"\e]10;((borland).foreground);((borland).background);((borland).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'borland'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\borland_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -635,7 +635,7 @@ print $"\e]10;((brewer).foreground);((brewer).background);((brewer).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'brewer'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\brewer_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -645,7 +645,7 @@ print $"\e]10;((bright-lights).foreground);((bright-lights).background);((bright
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'bright-lights'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\bright-lights_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -655,7 +655,7 @@ print $"\e]10;((bright).foreground);((bright).background);((bright).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'bright'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\bright_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -665,7 +665,7 @@ print $"\e]10;((broadcast).foreground);((broadcast).background);((broadcast).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'broadcast'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\broadcast_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -675,7 +675,7 @@ print $"\e]10;((brogrammer).foreground);((brogrammer).background);((brogrammer).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'brogrammer'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\brogrammer_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -685,7 +685,7 @@ print $"\e]10;((brushtrees-dark).foreground);((brushtrees-dark).background);((br
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'brushtrees-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\brushtrees-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -695,7 +695,7 @@ print $"\e]10;((brushtrees).foreground);((brushtrees).background);((brushtrees).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'brushtrees'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\brushtrees_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -705,7 +705,7 @@ print $"\e]10;((c64).foreground);((c64).background);((c64).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'c64'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\c64_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -715,7 +715,7 @@ print $"\e]10;((cai).foreground);((cai).background);((cai).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'cai'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\cai_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -725,7 +725,7 @@ print $"\e]10;((chalk).foreground);((chalk).background);((chalk).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'chalk'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\chalk_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -735,7 +735,7 @@ print $"\e]10;((chalkboard).foreground);((chalkboard).background);((chalkboard).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'chalkboard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\chalkboard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -745,7 +745,7 @@ print $"\e]10;((challenger-deep).foreground);((challenger-deep).background);((ch
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'challenger-deep'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\challenger-deep_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -755,7 +755,7 @@ print $"\e]10;((ciapre).foreground);((ciapre).background);((ciapre).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ciapre'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ciapre_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -765,7 +765,7 @@ print $"\e]10;((circus).foreground);((circus).background);((circus).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'circus'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\circus_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -775,7 +775,7 @@ print $"\e]10;((classic-dark).foreground);((classic-dark).background);((classic-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'classic-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\classic-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -785,7 +785,7 @@ print $"\e]10;((classic-light).foreground);((classic-light).background);((classi
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'classic-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\classic-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -795,7 +795,7 @@ print $"\e]10;((clone-of-ubuntu).foreground);((clone-of-ubuntu).background);((cl
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'clone-of-ubuntu'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\clone-of-ubuntu_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -805,7 +805,7 @@ print $"\e]10;((clrs).foreground);((clrs).background);((clrs).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'clrs'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\clrs_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -815,7 +815,7 @@ print $"\e]10;((cobalt-neon).foreground);((cobalt-neon).background);((cobalt-neo
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'cobalt-neon'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\cobalt-neon_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -825,7 +825,7 @@ print $"\e]10;((cobalt2).foreground);((cobalt2).background);((cobalt2).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'cobalt2'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\cobalt2_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -835,7 +835,7 @@ print $"\e]10;((codeschool).foreground);((codeschool).background);((codeschool).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'codeschool'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\codeschool_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -845,7 +845,7 @@ print $"\e]10;((corvine).foreground);((corvine).background);((corvine).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'corvine'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\corvine_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -855,7 +855,7 @@ print $"\e]10;((crayon-pony-fish).foreground);((crayon-pony-fish).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'crayon-pony-fish'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\crayon-pony-fish_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -865,7 +865,7 @@ print $"\e]10;((cupcake).foreground);((cupcake).background);((cupcake).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'cupcake'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\cupcake_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -875,7 +875,7 @@ print $"\e]10;((cupertino).foreground);((cupertino).background);((cupertino).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'cupertino'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\cupertino_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -885,7 +885,7 @@ print $"\e]10;((danqing).foreground);((danqing).background);((danqing).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'danqing'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\danqing_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -895,7 +895,7 @@ print $"\e]10;((darcula).foreground);((darcula).background);((darcula).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'darcula'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\darcula_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -905,7 +905,7 @@ print $"\e]10;((dark-pastel).foreground);((dark-pastel).background);((dark-paste
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'dark-pastel'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\dark-pastel_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -915,7 +915,7 @@ print $"\e]10;((darkmoss).foreground);((darkmoss).background);((darkmoss).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'darkmoss'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\darkmoss_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -925,7 +925,7 @@ print $"\e]10;((darkside).foreground);((darkside).background);((darkside).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'darkside'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\darkside_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -935,7 +935,7 @@ print $"\e]10;((darktooth).foreground);((darktooth).background);((darktooth).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'darktooth'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\darktooth_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -945,7 +945,7 @@ print $"\e]10;((darkviolet).foreground);((darkviolet).background);((darkviolet).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'darkviolet'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\darkviolet_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -955,7 +955,7 @@ print $"\e]10;((decaf).foreground);((decaf).background);((decaf).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'decaf'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\decaf_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -965,7 +965,7 @@ print $"\e]10;((default-dark).foreground);((default-dark).background);((default-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'default-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\default-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -975,7 +975,7 @@ print $"\e]10;((default-light).foreground);((default-light).background);((defaul
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'default-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\default-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -985,7 +985,7 @@ print $"\e]10;((desert-night).foreground);((desert-night).background);((desert-n
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'desert-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\desert-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -995,7 +995,7 @@ print $"\e]10;((desert).foreground);((desert).background);((desert).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'desert'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\desert_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1005,7 +1005,7 @@ print $"\e]10;((dimmed-monokai).foreground);((dimmed-monokai).background);((dimm
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'dimmed-monokai'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\dimmed-monokai_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1015,7 +1015,7 @@ print $"\e]10;((dirtysea).foreground);((dirtysea).background);((dirtysea).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'dirtysea'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\dirtysea_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1025,7 +1025,7 @@ print $"\e]10;((dot-gov).foreground);((dot-gov).background);((dot-gov).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'dot-gov'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\dot-gov_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1035,7 +1035,7 @@ print $"\e]10;((dracula).foreground);((dracula).background);((dracula).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'dracula'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\dracula_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1045,7 +1045,7 @@ print $"\e]10;((dumbledore).foreground);((dumbledore).background);((dumbledore).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'dumbledore'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\dumbledore_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1055,7 +1055,7 @@ print $"\e]10;((duotone-dark).foreground);((duotone-dark).background);((duotone-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'duotone-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\duotone-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1065,7 +1065,7 @@ print $"\e]10;((e-n-c-o-m).foreground);((e-n-c-o-m).background);((e-n-c-o-m).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'e-n-c-o-m'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\e-n-c-o-m_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1075,7 +1075,7 @@ print $"\e]10;((earthsong).foreground);((earthsong).background);((earthsong).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'earthsong'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\earthsong_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1085,7 +1085,7 @@ print $"\e]10;((edge-dark).foreground);((edge-dark).background);((edge-dark).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'edge-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\edge-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1095,7 +1095,7 @@ print $"\e]10;((edge-light).foreground);((edge-light).background);((edge-light).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'edge-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\edge-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1105,7 +1105,7 @@ print $"\e]10;((eighties).foreground);((eighties).background);((eighties).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'eighties'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\eighties_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1115,7 +1115,7 @@ print $"\e]10;((elemental).foreground);((elemental).background);((elemental).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'elemental'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\elemental_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1125,7 +1125,7 @@ print $"\e]10;((elementary).foreground);((elementary).background);((elementary).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'elementary'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\elementary_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1135,7 +1135,7 @@ print $"\e]10;((elic).foreground);((elic).background);((elic).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'elic'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\elic_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1145,7 +1145,7 @@ print $"\e]10;((elio).foreground);((elio).background);((elio).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'elio'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\elio_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1155,7 +1155,7 @@ print $"\e]10;((embark).foreground);((embark).background);((embark).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'embark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\embark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1165,7 +1165,7 @@ print $"\e]10;((embers).foreground);((embers).background);((embers).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'embers'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\embers_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1175,7 +1175,7 @@ print $"\e]10;((equilibrium-dark).foreground);((equilibrium-dark).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'equilibrium-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\equilibrium-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1185,7 +1185,7 @@ print $"\e]10;((equilibrium-gray-dark).foreground);((equilibrium-gray-dark).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'equilibrium-gray-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\equilibrium-gray-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1195,7 +1195,7 @@ print $"\e]10;((equilibrium-gray-light).foreground);((equilibrium-gray-light).ba
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'equilibrium-gray-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\equilibrium-gray-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1205,7 +1205,7 @@ print $"\e]10;((equilibrium-light).foreground);((equilibrium-light).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'equilibrium-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\equilibrium-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1215,7 +1215,7 @@ print $"\e]10;((espresso-libre).foreground);((espresso-libre).background);((espr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'espresso-libre'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\espresso-libre_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1225,7 +1225,7 @@ print $"\e]10;((espresso).foreground);((espresso).background);((espresso).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'espresso'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\espresso_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1235,7 +1235,7 @@ print $"\e]10;((eva-dim).foreground);((eva-dim).background);((eva-dim).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'eva-dim'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\eva-dim_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1245,7 +1245,7 @@ print $"\e]10;((eva).foreground);((eva).background);((eva).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'eva'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\eva_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1255,7 +1255,7 @@ print $"\e]10;((everforest-light).foreground);((everforest-light).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'everforest-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\everforest-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1265,7 +1265,7 @@ print $"\e]10;((everforest).foreground);((everforest).background);((everforest).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'everforest'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\everforest_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1275,7 +1275,7 @@ print $"\e]10;((falcon).foreground);((falcon).background);((falcon).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'falcon'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\falcon_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1285,7 +1285,7 @@ print $"\e]10;((farin).foreground);((farin).background);((farin).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'farin'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\farin_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1295,7 +1295,7 @@ print $"\e]10;((ffive).foreground);((ffive).background);((ffive).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ffive'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ffive_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1305,7 +1305,7 @@ print $"\e]10;((fideloper).foreground);((fideloper).background);((fideloper).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'fideloper'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\fideloper_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1315,7 +1315,7 @@ print $"\e]10;((fishtank).foreground);((fishtank).background);((fishtank).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'fishtank'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\fishtank_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1325,7 +1325,7 @@ print $"\e]10;((flat).foreground);((flat).background);((flat).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'flat'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\flat_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1335,7 +1335,7 @@ print $"\e]10;((flatland).foreground);((flatland).background);((flatland).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'flatland'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\flatland_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1345,7 +1345,7 @@ print $"\e]10;((floraverse).foreground);((floraverse).background);((floraverse).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'floraverse'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\floraverse_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1355,7 +1355,7 @@ print $"\e]10;((forest-night).foreground);((forest-night).background);((forest-n
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'forest-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\forest-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1365,7 +1365,7 @@ print $"\e]10;((foxnightly).foreground);((foxnightly).background);((foxnightly).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'foxnightly'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\foxnightly_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1375,7 +1375,7 @@ print $"\e]10;((framer).foreground);((framer).background);((framer).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'framer'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\framer_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1385,7 +1385,7 @@ print $"\e]10;((freya).foreground);((freya).background);((freya).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'freya'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\freya_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1395,7 +1395,7 @@ print $"\e]10;((frontend-delight).foreground);((frontend-delight).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'frontend-delight'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\frontend-delight_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1405,7 +1405,7 @@ print $"\e]10;((frontend-fun-forrest).foreground);((frontend-fun-forrest).backgr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'frontend-fun-forrest'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\frontend-fun-forrest_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1415,7 +1415,7 @@ print $"\e]10;((frontend-galaxy).foreground);((frontend-galaxy).background);((fr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'frontend-galaxy'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\frontend-galaxy_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1425,7 +1425,7 @@ print $"\e]10;((fruit-soda).foreground);((fruit-soda).background);((fruit-soda).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'fruit-soda'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\fruit-soda_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1435,7 +1435,7 @@ print $"\e]10;((gigavolt).foreground);((gigavolt).background);((gigavolt).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gigavolt'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gigavolt_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1445,7 +1445,7 @@ print $"\e]10;((github-dark-colorblind).foreground);((github-dark-colorblind).ba
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github-dark-colorblind'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github-dark-colorblind_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1455,7 +1455,7 @@ print $"\e]10;((github-dark-default).foreground);((github-dark-default).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github-dark-default'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github-dark-default_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1465,7 +1465,7 @@ print $"\e]10;((github-dark).foreground);((github-dark).background);((github-dar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1475,7 +1475,7 @@ print $"\e]10;((github-dimmed).foreground);((github-dimmed).background);((github
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github-dimmed'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github-dimmed_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1485,7 +1485,7 @@ print $"\e]10;((github-light-colorblind).foreground);((github-light-colorblind).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github-light-colorblind'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github-light-colorblind_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1495,7 +1495,7 @@ print $"\e]10;((github-light-default).foreground);((github-light-default).backgr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github-light-default'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github-light-default_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1505,7 +1505,7 @@ print $"\e]10;((github-light).foreground);((github-light).background);((github-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1515,7 +1515,7 @@ print $"\e]10;((github).foreground);((github).background);((github).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'github'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\github_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1525,7 +1525,7 @@ print $"\e]10;((glacier).foreground);((glacier).background);((glacier).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'glacier'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\glacier_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1535,7 +1535,7 @@ print $"\e]10;((goa-base).foreground);((goa-base).background);((goa-base).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'goa-base'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\goa-base_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1545,7 +1545,7 @@ print $"\e]10;((gooey).foreground);((gooey).background);((gooey).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gooey'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gooey_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1555,7 +1555,7 @@ print $"\e]10;((google-dark).foreground);((google-dark).background);((google-dar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'google-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\google-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1565,7 +1565,7 @@ print $"\e]10;((google-light).foreground);((google-light).background);((google-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'google-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\google-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1575,7 +1575,7 @@ print $"\e]10;((grape).foreground);((grape).background);((grape).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'grape'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\grape_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1585,7 +1585,7 @@ print $"\e]10;((grass).foreground);((grass).background);((grass).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'grass'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\grass_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1595,7 +1595,7 @@ print $"\e]10;((grayscale-dark).foreground);((grayscale-dark).background);((gray
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'grayscale-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\grayscale-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1605,7 +1605,7 @@ print $"\e]10;((grayscale-light).foreground);((grayscale-light).background);((gr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'grayscale-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\grayscale-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1615,7 +1615,7 @@ print $"\e]10;((green-screen).foreground);((green-screen).background);((green-sc
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'green-screen'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\green-screen_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1625,7 +1625,7 @@ print $"\e]10;((greenscreen).foreground);((greenscreen).background);((greenscree
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'greenscreen'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\greenscreen_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1635,7 +1635,7 @@ print $"\e]10;((gruvbit).foreground);((gruvbit).background);((gruvbit).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbit'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbit_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1645,7 +1645,7 @@ print $"\e]10;((gruvbox-dark-hard).foreground);((gruvbox-dark-hard).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-dark-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-dark-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1655,7 +1655,7 @@ print $"\e]10;((gruvbox-dark-medium).foreground);((gruvbox-dark-medium).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-dark-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-dark-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1665,7 +1665,7 @@ print $"\e]10;((gruvbox-dark-pale).foreground);((gruvbox-dark-pale).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-dark-pale'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-dark-pale_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1675,7 +1675,7 @@ print $"\e]10;((gruvbox-dark-soft).foreground);((gruvbox-dark-soft).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-dark-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-dark-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1685,7 +1685,7 @@ print $"\e]10;((gruvbox-dark).foreground);((gruvbox-dark).background);((gruvbox-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1695,7 +1695,7 @@ print $"\e]10;((gruvbox-light-hard).foreground);((gruvbox-light-hard).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-light-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-light-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1705,7 +1705,7 @@ print $"\e]10;((gruvbox-light-medium).foreground);((gruvbox-light-medium).backgr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-light-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-light-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1715,7 +1715,7 @@ print $"\e]10;((gruvbox-light-soft).foreground);((gruvbox-light-soft).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-light-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-light-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1725,7 +1725,7 @@ print $"\e]10;((gruvbox-material-dark-hard).foreground);((gruvbox-material-dark-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-material-dark-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-material-dark-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1735,7 +1735,7 @@ print $"\e]10;((gruvbox-material-dark-medium).foreground);((gruvbox-material-dar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-material-dark-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-material-dark-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1745,7 +1745,7 @@ print $"\e]10;((gruvbox-material-dark-soft).foreground);((gruvbox-material-dark-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-material-dark-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-material-dark-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1755,7 +1755,7 @@ print $"\e]10;((gruvbox-material-light-hard).foreground);((gruvbox-material-ligh
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-material-light-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-material-light-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1765,7 +1765,7 @@ print $"\e]10;((gruvbox-material-light-medium).foreground);((gruvbox-material-li
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-material-light-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-material-light-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1775,7 +1775,7 @@ print $"\e]10;((gruvbox-material-light-soft).foreground);((gruvbox-material-ligh
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-material-light-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-material-light-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1785,7 +1785,7 @@ print $"\e]10;((gruvbox-mix-dark-hard).foreground);((gruvbox-mix-dark-hard).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-mix-dark-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-mix-dark-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1795,7 +1795,7 @@ print $"\e]10;((gruvbox-mix-dark-medium).foreground);((gruvbox-mix-dark-medium).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-mix-dark-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-mix-dark-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1805,7 +1805,7 @@ print $"\e]10;((gruvbox-mix-dark-soft).foreground);((gruvbox-mix-dark-soft).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-mix-dark-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-mix-dark-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1815,7 +1815,7 @@ print $"\e]10;((gruvbox-mix-light-hard).foreground);((gruvbox-mix-light-hard).ba
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-mix-light-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-mix-light-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1825,7 +1825,7 @@ print $"\e]10;((gruvbox-mix-light-medium).foreground);((gruvbox-mix-light-medium
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-mix-light-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-mix-light-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1835,7 +1835,7 @@ print $"\e]10;((gruvbox-mix-light-soft).foreground);((gruvbox-mix-light-soft).ba
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-mix-light-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-mix-light-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1845,7 +1845,7 @@ print $"\e]10;((gruvbox-original-dark-hard).foreground);((gruvbox-original-dark-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-original-dark-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-original-dark-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1855,7 +1855,7 @@ print $"\e]10;((gruvbox-original-dark-medium).foreground);((gruvbox-original-dar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-original-dark-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-original-dark-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1865,7 +1865,7 @@ print $"\e]10;((gruvbox-original-dark-soft).foreground);((gruvbox-original-dark-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-original-dark-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-original-dark-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1875,7 +1875,7 @@ print $"\e]10;((gruvbox-original-light-hard).foreground);((gruvbox-original-ligh
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-original-light-hard'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-original-light-hard_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1885,7 +1885,7 @@ print $"\e]10;((gruvbox-original-light-medium).foreground);((gruvbox-original-li
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-original-light-medium'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-original-light-medium_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1895,7 +1895,7 @@ print $"\e]10;((gruvbox-original-light-soft).foreground);((gruvbox-original-ligh
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox-original-light-soft'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox-original-light-soft_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1905,7 +1905,7 @@ print $"\e]10;((gruvbox).foreground);((gruvbox).background);((gruvbox).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'gruvbox'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\gruvbox_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1915,7 +1915,7 @@ print $"\e]10;((hardcore).foreground);((hardcore).background);((hardcore).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'hardcore'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\hardcore_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1925,7 +1925,7 @@ print $"\e]10;((harmonic-dark).foreground);((harmonic-dark).background);((harmon
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'harmonic-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\harmonic-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1935,7 +1935,7 @@ print $"\e]10;((harmonic-light).foreground);((harmonic-light).background);((harm
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'harmonic-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\harmonic-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1945,7 +1945,7 @@ print $"\e]10;((harmonic16-dark).foreground);((harmonic16-dark).background);((ha
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'harmonic16-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\harmonic16-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1955,7 +1955,7 @@ print $"\e]10;((harmonic16-light).foreground);((harmonic16-light).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'harmonic16-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\harmonic16-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1965,7 +1965,7 @@ print $"\e]10;((harper).foreground);((harper).background);((harper).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'harper'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\harper_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1975,7 +1975,7 @@ print $"\e]10;((heetch-light).foreground);((heetch-light).background);((heetch-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'heetch-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\heetch-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1985,7 +1985,7 @@ print $"\e]10;((heetch).foreground);((heetch).background);((heetch).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'heetch'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\heetch_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -1995,7 +1995,7 @@ print $"\e]10;((helios).foreground);((helios).background);((helios).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'helios'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\helios_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2005,7 +2005,7 @@ print $"\e]10;((hemisu-dark).foreground);((hemisu-dark).background);((hemisu-dar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'hemisu-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\hemisu-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2015,7 +2015,7 @@ print $"\e]10;((hemisu-light).foreground);((hemisu-light).background);((hemisu-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'hemisu-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\hemisu-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2025,7 +2025,7 @@ print $"\e]10;((highway).foreground);((highway).background);((highway).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'highway'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\highway_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2035,7 +2035,7 @@ print $"\e]10;((hipster-green).foreground);((hipster-green).background);((hipste
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'hipster-green'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\hipster-green_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2045,7 +2045,7 @@ print $"\e]10;((homebrew).foreground);((homebrew).background);((homebrew).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'homebrew'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\homebrew_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2055,7 +2055,7 @@ print $"\e]10;((hopscotch).foreground);((hopscotch).background);((hopscotch).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'hopscotch'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\hopscotch_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2065,7 +2065,7 @@ print $"\e]10;((horizon-dark).foreground);((horizon-dark).background);((horizon-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'horizon-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\horizon-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2075,7 +2075,7 @@ print $"\e]10;((horizon-light).foreground);((horizon-light).background);((horizo
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'horizon-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\horizon-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2085,7 +2085,7 @@ print $"\e]10;((horizon-terminal-dark).foreground);((horizon-terminal-dark).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'horizon-terminal-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\horizon-terminal-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2095,7 +2095,7 @@ print $"\e]10;((horizon-terminal-light).foreground);((horizon-terminal-light).ba
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'horizon-terminal-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\horizon-terminal-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2105,7 +2105,7 @@ print $"\e]10;((humanoid-dark).foreground);((humanoid-dark).background);((humano
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'humanoid-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\humanoid-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2115,7 +2115,7 @@ print $"\e]10;((humanoid-light).foreground);((humanoid-light).background);((huma
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'humanoid-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\humanoid-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2125,7 +2125,7 @@ print $"\e]10;((hurtado).foreground);((hurtado).background);((hurtado).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'hurtado'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\hurtado_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2135,7 +2135,7 @@ print $"\e]10;((hybrid).foreground);((hybrid).background);((hybrid).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'hybrid'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\hybrid_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2145,7 +2145,7 @@ print $"\e]10;((ia-dark).foreground);((ia-dark).background);((ia-dark).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ia-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ia-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2155,7 +2155,7 @@ print $"\e]10;((ia-light).foreground);((ia-light).background);((ia-light).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ia-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ia-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2165,7 +2165,7 @@ print $"\e]10;((ibm3270).foreground);((ibm3270).background);((ibm3270).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ibm3270'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ibm3270_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2175,7 +2175,7 @@ print $"\e]10;((ic-green-ppl).foreground);((ic-green-ppl).background);((ic-green
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ic-green-ppl'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ic-green-ppl_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2185,7 +2185,7 @@ print $"\e]10;((ic-orange-ppl).foreground);((ic-orange-ppl).background);((ic-ora
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ic-orange-ppl'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ic-orange-ppl_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2195,7 +2195,7 @@ print $"\e]10;((iceberg-light).foreground);((iceberg-light).background);((iceber
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'iceberg-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\iceberg-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2205,7 +2205,7 @@ print $"\e]10;((icy).foreground);((icy).background);((icy).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'icy'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\icy_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2215,7 +2215,7 @@ print $"\e]10;((idle-toes).foreground);((idle-toes).background);((idle-toes).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'idle-toes'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\idle-toes_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2225,7 +2225,7 @@ print $"\e]10;((idm_3b).foreground);((idm_3b).background);((idm_3b).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'idm_3b'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\idm_3b_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2235,7 +2235,7 @@ print $"\e]10;((ir-black).foreground);((ir-black).background);((ir-black).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ir-black'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ir-black_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2245,7 +2245,7 @@ print $"\e]10;((irblack).foreground);((irblack).background);((irblack).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'irblack'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\irblack_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2255,7 +2255,7 @@ print $"\e]10;((isotope).foreground);((isotope).background);((isotope).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'isotope'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\isotope_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2265,7 +2265,7 @@ print $"\e]10;((jackie-brown).foreground);((jackie-brown).background);((jackie-b
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'jackie-brown'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\jackie-brown_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2275,7 +2275,7 @@ print $"\e]10;((japanesque).foreground);((japanesque).background);((japanesque).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'japanesque'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\japanesque_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2285,7 +2285,7 @@ print $"\e]10;((jellybeans).foreground);((jellybeans).background);((jellybeans).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'jellybeans'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\jellybeans_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2295,7 +2295,7 @@ print $"\e]10;((jet-brains-darcula).foreground);((jet-brains-darcula).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'jet-brains-darcula'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\jet-brains-darcula_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2305,7 +2305,7 @@ print $"\e]10;((jup).foreground);((jup).background);((jup).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'jup'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\jup_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2315,7 +2315,7 @@ print $"\e]10;((kibble).foreground);((kibble).background);((kibble).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'kibble'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\kibble_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2325,7 +2325,7 @@ print $"\e]10;((kimber).foreground);((kimber).background);((kimber).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'kimber'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\kimber_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2335,7 +2335,7 @@ print $"\e]10;((later-this-evening).foreground);((later-this-evening).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'later-this-evening'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\later-this-evening_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2345,7 +2345,7 @@ print $"\e]10;((lavandula).foreground);((lavandula).background);((lavandula).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'lavandula'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\lavandula_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2355,7 +2355,7 @@ print $"\e]10;((liquid-carbon-transparent).foreground);((liquid-carbon-transpare
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'liquid-carbon-transparent'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\liquid-carbon-transparent_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2365,7 +2365,7 @@ print $"\e]10;((liquid-carbon).foreground);((liquid-carbon).background);((liquid
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'liquid-carbon'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\liquid-carbon_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2375,7 +2375,7 @@ print $"\e]10;((london-tube).foreground);((london-tube).background);((london-tub
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'london-tube'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\london-tube_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2385,7 +2385,7 @@ print $"\e]10;((macintosh).foreground);((macintosh).background);((macintosh).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'macintosh'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\macintosh_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2395,7 +2395,7 @@ print $"\e]10;((maia).foreground);((maia).background);((maia).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'maia'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\maia_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2405,7 +2405,7 @@ print $"\e]10;((man-page).foreground);((man-page).background);((man-page).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'man-page'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\man-page_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2415,7 +2415,7 @@ print $"\e]10;((mar).foreground);((mar).background);((mar).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mar'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mar_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2425,7 +2425,7 @@ print $"\e]10;((marrakesh).foreground);((marrakesh).background);((marrakesh).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'marrakesh'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\marrakesh_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2435,7 +2435,7 @@ print $"\e]10;((materia).foreground);((materia).background);((materia).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'materia'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\materia_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2445,7 +2445,7 @@ print $"\e]10;((material-dark).foreground);((material-dark).background);((materi
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'material-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\material-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2455,7 +2455,7 @@ print $"\e]10;((material-darker).foreground);((material-darker).background);((ma
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'material-darker'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\material-darker_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2465,7 +2465,7 @@ print $"\e]10;((material-lighter).foreground);((material-lighter).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'material-lighter'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\material-lighter_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2475,7 +2475,7 @@ print $"\e]10;((material-palenight).foreground);((material-palenight).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'material-palenight'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\material-palenight_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2485,7 +2485,7 @@ print $"\e]10;((material-vivid).foreground);((material-vivid).background);((mate
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'material-vivid'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\material-vivid_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2495,7 +2495,7 @@ print $"\e]10;((material).foreground);((material).background);((material).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'material'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\material_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2505,7 +2505,7 @@ print $"\e]10;((mathias).foreground);((mathias).background);((mathias).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mathias'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mathias_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2515,7 +2515,7 @@ print $"\e]10;((medallion).foreground);((medallion).background);((medallion).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'medallion'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\medallion_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2525,7 +2525,7 @@ print $"\e]10;((mellow-purple).foreground);((mellow-purple).background);((mellow
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mellow-purple'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mellow-purple_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2535,7 +2535,7 @@ print $"\e]10;((mexico-light).foreground);((mexico-light).background);((mexico-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mexico-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mexico-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2545,7 +2545,7 @@ print $"\e]10;((miramare).foreground);((miramare).background);((miramare).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'miramare'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\miramare_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2555,7 +2555,7 @@ print $"\e]10;((misterioso).foreground);((misterioso).background);((misterioso).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'misterioso'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\misterioso_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2565,7 +2565,7 @@ print $"\e]10;((miu).foreground);((miu).background);((miu).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'miu'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\miu_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2575,7 +2575,7 @@ print $"\e]10;((mocha).foreground);((mocha).background);((mocha).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mocha'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mocha_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2585,7 +2585,7 @@ print $"\e]10;((molokai).foreground);((molokai).background);((molokai).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'molokai'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\molokai_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2595,7 +2595,7 @@ print $"\e]10;((mona-lisa).foreground);((mona-lisa).background);((mona-lisa).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mona-lisa'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mona-lisa_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2605,7 +2605,7 @@ print $"\e]10;((mono-amber).foreground);((mono-amber).background);((mono-amber).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mono-amber'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mono-amber_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2615,7 +2615,7 @@ print $"\e]10;((mono-cyan).foreground);((mono-cyan).background);((mono-cyan).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mono-cyan'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mono-cyan_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2625,7 +2625,7 @@ print $"\e]10;((mono-green).foreground);((mono-green).background);((mono-green).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mono-green'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mono-green_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2635,7 +2635,7 @@ print $"\e]10;((mono-red).foreground);((mono-red).background);((mono-red).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mono-red'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mono-red_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2645,7 +2645,7 @@ print $"\e]10;((mono-white).foreground);((mono-white).background);((mono-white).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mono-white'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mono-white_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2655,7 +2655,7 @@ print $"\e]10;((mono-yellow).foreground);((mono-yellow).background);((mono-yello
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mono-yellow'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mono-yellow_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2665,7 +2665,7 @@ print $"\e]10;((monokai-dark).foreground);((monokai-dark).background);((monokai-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'monokai-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\monokai-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2675,7 +2675,7 @@ print $"\e]10;((monokai-soda).foreground);((monokai-soda).background);((monokai-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'monokai-soda'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\monokai-soda_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2685,7 +2685,7 @@ print $"\e]10;((monokai).foreground);((monokai).background);((monokai).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'monokai'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\monokai_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2695,7 +2695,7 @@ print $"\e]10;((mountaineer-grey).foreground);((mountaineer-grey).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mountaineer-grey'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mountaineer-grey_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2705,7 +2705,7 @@ print $"\e]10;((mountaineer).foreground);((mountaineer).background);((mountainee
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'mountaineer'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\mountaineer_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2715,7 +2715,7 @@ print $"\e]10;((n0tch2k).foreground);((n0tch2k).background);((n0tch2k).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'n0tch2k'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\n0tch2k_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2725,7 +2725,7 @@ print $"\e]10;((nebula).foreground);((nebula).background);((nebula).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nebula'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nebula_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2735,7 +2735,7 @@ print $"\e]10;((neon-night).foreground);((neon-night).background);((neon-night).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'neon-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\neon-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2745,7 +2745,7 @@ print $"\e]10;((neopolitan).foreground);((neopolitan).background);((neopolitan).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'neopolitan'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\neopolitan_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2755,7 +2755,7 @@ print $"\e]10;((nep).foreground);((nep).background);((nep).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nep'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nep_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2765,7 +2765,7 @@ print $"\e]10;((neutron).foreground);((neutron).background);((neutron).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'neutron'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\neutron_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2775,7 +2775,7 @@ print $"\e]10;((nightfly).foreground);((nightfly).background);((nightfly).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nightfly'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nightfly_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2785,7 +2785,7 @@ print $"\e]10;((nightlion-v1).foreground);((nightlion-v1).background);((nightlio
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nightlion-v1'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nightlion-v1_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2795,7 +2795,7 @@ print $"\e]10;((nightlion-v2).foreground);((nightlion-v2).background);((nightlio
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nightlion-v2'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nightlion-v2_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2805,7 +2805,7 @@ print $"\e]10;((nighty).foreground);((nighty).background);((nighty).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nighty'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nighty_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2815,7 +2815,7 @@ print $"\e]10;((nord-alt).foreground);((nord-alt).background);((nord-alt).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nord-alt'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nord-alt_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2825,7 +2825,7 @@ print $"\e]10;((nord-light).foreground);((nord-light).background);((nord-light).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nord-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nord-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2835,7 +2835,7 @@ print $"\e]10;((nord).foreground);((nord).background);((nord).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nord'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nord_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2845,7 +2845,7 @@ print $"\e]10;((nova).foreground);((nova).background);((nova).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nova'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nova_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2855,7 +2855,7 @@ print $"\e]10;((novel).foreground);((novel).background);((novel).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'novel'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\novel_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2865,7 +2865,7 @@ print $"\e]10;((nushell-dark).foreground);((nushell-dark).background);((nushell-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nushell-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nushell-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2875,7 +2875,7 @@ print $"\e]10;((nushell-light).foreground);((nushell-light).background);((nushel
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'nushell-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\nushell-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2885,7 +2885,7 @@ print $"\e]10;((obsidian).foreground);((obsidian).background);((obsidian).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'obsidian'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\obsidian_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2895,7 +2895,7 @@ print $"\e]10;((ocean-dark).foreground);((ocean-dark).background);((ocean-dark).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ocean-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ocean-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2905,7 +2905,7 @@ print $"\e]10;((ocean).foreground);((ocean).background);((ocean).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ocean'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ocean_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2915,7 +2915,7 @@ print $"\e]10;((oceanic-material).foreground);((oceanic-material).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'oceanic-material'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\oceanic-material_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2925,7 +2925,7 @@ print $"\e]10;((oceanic-next).foreground);((oceanic-next).background);((oceanic-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'oceanic-next'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\oceanic-next_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2935,7 +2935,7 @@ print $"\e]10;((oceanicnext).foreground);((oceanicnext).background);((oceanicnex
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'oceanicnext'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\oceanicnext_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2945,7 +2945,7 @@ print $"\e]10;((ollie).foreground);((ollie).background);((ollie).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ollie'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ollie_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2955,7 +2955,7 @@ print $"\e]10;((one-dark).foreground);((one-dark).background);((one-dark).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'one-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\one-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2965,7 +2965,7 @@ print $"\e]10;((one-half-black).foreground);((one-half-black).background);((one-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'one-half-black'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\one-half-black_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2975,7 +2975,7 @@ print $"\e]10;((one-half-light).foreground);((one-half-light).background);((one-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'one-half-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\one-half-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2985,7 +2985,7 @@ print $"\e]10;((one-light).foreground);((one-light).background);((one-light).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'one-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\one-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -2995,7 +2995,7 @@ print $"\e]10;((onedark).foreground);((onedark).background);((onedark).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'onedark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\onedark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3005,7 +3005,7 @@ print $"\e]10;((orbital).foreground);((orbital).background);((orbital).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'orbital'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\orbital_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3015,7 +3015,7 @@ print $"\e]10;((outrun-dark).foreground);((outrun-dark).background);((outrun-dar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'outrun-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\outrun-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3025,7 +3025,7 @@ print $"\e]10;((pali).foreground);((pali).background);((pali).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pali'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pali_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3035,7 +3035,7 @@ print $"\e]10;((palmtree).foreground);((palmtree).background);((palmtree).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'palmtree'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\palmtree_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3045,7 +3045,7 @@ print $"\e]10;((papercolor-dark).foreground);((papercolor-dark).background);((pa
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'papercolor-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\papercolor-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3055,7 +3055,7 @@ print $"\e]10;((papercolor-light).foreground);((papercolor-light).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'papercolor-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\papercolor-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3065,7 +3065,7 @@ print $"\e]10;((paraiso-dark).foreground);((paraiso-dark).background);((paraiso-
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'paraiso-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\paraiso-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3075,7 +3075,7 @@ print $"\e]10;((paraiso).foreground);((paraiso).background);((paraiso).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'paraiso'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\paraiso_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3085,7 +3085,7 @@ print $"\e]10;((pasque).foreground);((pasque).background);((pasque).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pasque'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pasque_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3095,7 +3095,7 @@ print $"\e]10;((paul-millr).foreground);((paul-millr).background);((paul-millr).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'paul-millr'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\paul-millr_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3105,7 +3105,7 @@ print $"\e]10;((pencil-dark).foreground);((pencil-dark).background);((pencil-dar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pencil-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pencil-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3115,7 +3115,7 @@ print $"\e]10;((pencil-light).foreground);((pencil-light).background);((pencil-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pencil-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pencil-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3125,7 +3125,7 @@ print $"\e]10;((peppermint).foreground);((peppermint).background);((peppermint).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'peppermint'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\peppermint_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3135,7 +3135,7 @@ print $"\e]10;((phd).foreground);((phd).background);((phd).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'phd'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\phd_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3145,7 +3145,7 @@ print $"\e]10;((piatto-light).foreground);((piatto-light).background);((piatto-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'piatto-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\piatto-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3155,7 +3155,7 @@ print $"\e]10;((pico).foreground);((pico).background);((pico).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pico'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pico_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3165,7 +3165,7 @@ print $"\e]10;((pnevma).foreground);((pnevma).background);((pnevma).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pnevma'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pnevma_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3175,7 +3175,7 @@ print $"\e]10;((pop).foreground);((pop).background);((pop).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pop'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pop_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3185,7 +3185,7 @@ print $"\e]10;((porple).foreground);((porple).background);((porple).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'porple'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\porple_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3195,7 +3195,7 @@ print $"\e]10;((pro).foreground);((pro).background);((pro).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'pro'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\pro_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3205,7 +3205,7 @@ print $"\e]10;((railscasts).foreground);((railscasts).background);((railscasts).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'railscasts'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\railscasts_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3215,7 +3215,7 @@ print $"\e]10;((rebecca).foreground);((rebecca).background);((rebecca).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'rebecca'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\rebecca_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3225,7 +3225,7 @@ print $"\e]10;((red-alert).foreground);((red-alert).background);((red-alert).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'red-alert'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\red-alert_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3235,7 +3235,7 @@ print $"\e]10;((red-sands).foreground);((red-sands).background);((red-sands).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'red-sands'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\red-sands_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3245,7 +3245,7 @@ print $"\e]10;((relaxed-afterglow).foreground);((relaxed-afterglow).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'relaxed-afterglow'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\relaxed-afterglow_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3255,7 +3255,7 @@ print $"\e]10;((renault-style-light).foreground);((renault-style-light).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'renault-style-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\renault-style-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3265,7 +3265,7 @@ print $"\e]10;((rippedcasts).foreground);((rippedcasts).background);((rippedcast
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'rippedcasts'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\rippedcasts_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3275,7 +3275,7 @@ print $"\e]10;((rose-pine-dawn).foreground);((rose-pine-dawn).background);((rose
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'rose-pine-dawn'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\rose-pine-dawn_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3285,7 +3285,7 @@ print $"\e]10;((rose-pine-moon).foreground);((rose-pine-moon).background);((rose
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'rose-pine-moon'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\rose-pine-moon_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3295,7 +3295,7 @@ print $"\e]10;((rose-pine).foreground);((rose-pine).background);((rose-pine).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'rose-pine'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\rose-pine_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3305,7 +3305,7 @@ print $"\e]10;((royal).foreground);((royal).background);((royal).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'royal'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\royal_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3315,7 +3315,7 @@ print $"\e]10;((sagelight).foreground);((sagelight).background);((sagelight).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sagelight'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sagelight_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3325,7 +3325,7 @@ print $"\e]10;((sandcastle).foreground);((sandcastle).background);((sandcastle).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sandcastle'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sandcastle_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3335,7 +3335,7 @@ print $"\e]10;((sat).foreground);((sat).background);((sat).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sat'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sat_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3345,7 +3345,7 @@ print $"\e]10;((sea-shells).foreground);((sea-shells).background);((sea-shells).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sea-shells'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sea-shells_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3355,7 +3355,7 @@ print $"\e]10;((seafoam-pastel).foreground);((seafoam-pastel).background);((seaf
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'seafoam-pastel'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\seafoam-pastel_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3365,7 +3365,7 @@ print $"\e]10;((selenized-black).foreground);((selenized-black).background);((se
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'selenized-black'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\selenized-black_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3375,7 +3375,7 @@ print $"\e]10;((selenized-dark).foreground);((selenized-dark).background);((sele
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'selenized-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\selenized-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3385,7 +3385,7 @@ print $"\e]10;((selenized-light).foreground);((selenized-light).background);((se
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'selenized-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\selenized-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3395,7 +3395,7 @@ print $"\e]10;((selenized-white).foreground);((selenized-white).background);((se
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'selenized-white'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\selenized-white_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3405,7 +3405,7 @@ print $"\e]10;((seoul256).foreground);((seoul256).background);((seoul256).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'seoul256'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\seoul256_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3415,7 +3415,7 @@ print $"\e]10;((seti-ui).foreground);((seti-ui).background);((seti-ui).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'seti-ui'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\seti-ui_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3425,7 +3425,7 @@ print $"\e]10;((seti).foreground);((seti).background);((seti).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'seti'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\seti_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3435,7 +3435,7 @@ print $"\e]10;((shaman).foreground);((shaman).background);((shaman).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'shaman'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\shaman_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3445,7 +3445,7 @@ print $"\e]10;((shapeshifter).foreground);((shapeshifter).background);((shapeshi
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'shapeshifter'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\shapeshifter_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3455,7 +3455,7 @@ print $"\e]10;((shel).foreground);((shel).background);((shel).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'shel'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\shel_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3465,7 +3465,7 @@ print $"\e]10;((sierra).foreground);((sierra).background);((sierra).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sierra'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sierra_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3475,7 +3475,7 @@ print $"\e]10;((silk-dark).foreground);((silk-dark).background);((silk-dark).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'silk-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\silk-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3485,7 +3485,7 @@ print $"\e]10;((silk-light).foreground);((silk-light).background);((silk-light).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'silk-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\silk-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3495,7 +3495,7 @@ print $"\e]10;((slate).foreground);((slate).background);((slate).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'slate'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\slate_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3505,7 +3505,7 @@ print $"\e]10;((smyck).foreground);((smyck).background);((smyck).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'smyck'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\smyck_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3515,7 +3515,7 @@ print $"\e]10;((snazzy).foreground);((snazzy).background);((snazzy).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'snazzy'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\snazzy_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3525,7 +3525,7 @@ print $"\e]10;((snow-dark).foreground);((snow-dark).background);((snow-dark).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'snow-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\snow-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3535,7 +3535,7 @@ print $"\e]10;((snow-light).foreground);((snow-light).background);((snow-light).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'snow-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\snow-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3545,7 +3545,7 @@ print $"\e]10;((soft-server).foreground);((soft-server).background);((soft-serve
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'soft-server'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\soft-server_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3555,7 +3555,7 @@ print $"\e]10;((solar-flare).foreground);((solar-flare).background);((solar-flar
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'solar-flare'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\solar-flare_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3565,7 +3565,7 @@ print $"\e]10;((solarflare-light).foreground);((solarflare-light).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'solarflare-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\solarflare-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3575,7 +3575,7 @@ print $"\e]10;((solarflare).foreground);((solarflare).background);((solarflare).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'solarflare'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\solarflare_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3585,7 +3585,7 @@ print $"\e]10;((solarized-darcula).foreground);((solarized-darcula).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'solarized-darcula'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\solarized-darcula_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3595,7 +3595,7 @@ print $"\e]10;((solarized-dark-higher-contrast).foreground);((solarized-dark-hig
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'solarized-dark-higher-contrast'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\solarized-dark-higher-contrast_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3605,7 +3605,7 @@ print $"\e]10;((solarized-dark).foreground);((solarized-dark).background);((sola
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'solarized-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\solarized-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3615,7 +3615,7 @@ print $"\e]10;((solarized-light).foreground);((solarized-light).background);((so
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'solarized-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\solarized-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3625,7 +3625,7 @@ print $"\e]10;((source-code-x).foreground);((source-code-x).background);((source
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'source-code-x'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\source-code-x_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3635,7 +3635,7 @@ print $"\e]10;((sourcerer).foreground);((sourcerer).background);((sourcerer).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sourcerer'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sourcerer_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3645,7 +3645,7 @@ print $"\e]10;((sourcerer2).foreground);((sourcerer2).background);((sourcerer2).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sourcerer2'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sourcerer2_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3655,7 +3655,7 @@ print $"\e]10;((spaceduck).foreground);((spaceduck).background);((spaceduck).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spaceduck'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spaceduck_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3665,7 +3665,7 @@ print $"\e]10;((spacedust).foreground);((spacedust).background);((spacedust).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spacedust'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spacedust_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3675,7 +3675,7 @@ print $"\e]10;((spacegray-eighties-dull).foreground);((spacegray-eighties-dull).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spacegray-eighties-dull'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spacegray-eighties-dull_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3685,7 +3685,7 @@ print $"\e]10;((spacegray-eighties).foreground);((spacegray-eighties).background
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spacegray-eighties'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spacegray-eighties_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3695,7 +3695,7 @@ print $"\e]10;((spacegray).foreground);((spacegray).background);((spacegray).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spacegray'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spacegray_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3705,7 +3705,7 @@ print $"\e]10;((spacemacs).foreground);((spacemacs).background);((spacemacs).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spacemacs'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spacemacs_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3715,7 +3715,7 @@ print $"\e]10;((spiderman).foreground);((spiderman).background);((spiderman).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spiderman'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spiderman_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3725,7 +3725,7 @@ print $"\e]10;((spring).foreground);((spring).background);((spring).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'spring'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\spring_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3735,7 +3735,7 @@ print $"\e]10;((square).foreground);((square).background);((square).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'square'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\square_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3745,7 +3745,7 @@ print $"\e]10;((srcery).foreground);((srcery).background);((srcery).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'srcery'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\srcery_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3755,7 +3755,7 @@ print $"\e]10;((substrata).foreground);((substrata).background);((substrata).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'substrata'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\substrata_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3765,7 +3765,7 @@ print $"\e]10;((summercamp).foreground);((summercamp).background);((summercamp).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'summercamp'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\summercamp_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3775,7 +3775,7 @@ print $"\e]10;((summerfruit-dark).foreground);((summerfruit-dark).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'summerfruit-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\summerfruit-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3785,7 +3785,7 @@ print $"\e]10;((summerfruit-light).foreground);((summerfruit-light).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'summerfruit-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\summerfruit-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3795,7 +3795,7 @@ print $"\e]10;((sundried).foreground);((sundried).background);((sundried).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'sundried'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\sundried_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3805,7 +3805,7 @@ print $"\e]10;((symphonic).foreground);((symphonic).background);((symphonic).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'symphonic'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\symphonic_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3815,7 +3815,7 @@ print $"\e]10;((synth-midnight-dark).foreground);((synth-midnight-dark).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'synth-midnight-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\synth-midnight-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3825,7 +3825,7 @@ print $"\e]10;((synth-midnight-light).foreground);((synth-midnight-light).backgr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'synth-midnight-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\synth-midnight-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3835,7 +3835,7 @@ print $"\e]10;((tango-dark).foreground);((tango-dark).background);((tango-dark).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tango-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tango-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3845,7 +3845,7 @@ print $"\e]10;((tango-light).foreground);((tango-light).background);((tango-ligh
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tango-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tango-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3855,7 +3855,7 @@ print $"\e]10;((tango).foreground);((tango).background);((tango).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tango'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tango_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3865,7 +3865,7 @@ print $"\e]10;((teerb).foreground);((teerb).background);((teerb).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'teerb'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\teerb_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3875,7 +3875,7 @@ print $"\e]10;((tempus-autumn).foreground);((tempus-autumn).background);((tempus
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-autumn'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-autumn_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3885,7 +3885,7 @@ print $"\e]10;((tempus-classic).foreground);((tempus-classic).background);((temp
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-classic'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-classic_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3895,7 +3895,7 @@ print $"\e]10;((tempus-dawn).foreground);((tempus-dawn).background);((tempus-daw
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-dawn'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-dawn_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3905,7 +3905,7 @@ print $"\e]10;((tempus-day).foreground);((tempus-day).background);((tempus-day).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-day'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-day_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3915,7 +3915,7 @@ print $"\e]10;((tempus-dusk).foreground);((tempus-dusk).background);((tempus-dus
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-dusk'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-dusk_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3925,7 +3925,7 @@ print $"\e]10;((tempus-fugit).foreground);((tempus-fugit).background);((tempus-f
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-fugit'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-fugit_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3935,7 +3935,7 @@ print $"\e]10;((tempus-future).foreground);((tempus-future).background);((tempus
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-future'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-future_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3945,7 +3945,7 @@ print $"\e]10;((tempus-night).foreground);((tempus-night).background);((tempus-n
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3955,7 +3955,7 @@ print $"\e]10;((tempus-past).foreground);((tempus-past).background);((tempus-pas
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-past'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-past_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3965,7 +3965,7 @@ print $"\e]10;((tempus-rift).foreground);((tempus-rift).background);((tempus-rif
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-rift'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-rift_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3975,7 +3975,7 @@ print $"\e]10;((tempus-spring).foreground);((tempus-spring).background);((tempus
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-spring'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-spring_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3985,7 +3985,7 @@ print $"\e]10;((tempus-summer).foreground);((tempus-summer).background);((tempus
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-summer'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-summer_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -3995,7 +3995,7 @@ print $"\e]10;((tempus-tempest).foreground);((tempus-tempest).background);((temp
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-tempest'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-tempest_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4005,7 +4005,7 @@ print $"\e]10;((tempus-totus).foreground);((tempus-totus).background);((tempus-t
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-totus'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-totus_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4015,7 +4015,7 @@ print $"\e]10;((tempus-warp).foreground);((tempus-warp).background);((tempus-war
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-warp'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-warp_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4025,7 +4025,7 @@ print $"\e]10;((tempus-winter).foreground);((tempus-winter).background);((tempus
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tempus-winter'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tempus-winter_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4035,7 +4035,7 @@ print $"\e]10;((tender).foreground);((tender).background);((tender).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tender'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tender_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4045,7 +4045,7 @@ print $"\e]10;((terminal-basic).foreground);((terminal-basic).background);((term
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'terminal-basic'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\terminal-basic_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4055,7 +4055,7 @@ print $"\e]10;((terminix-dark).foreground);((terminix-dark).background);((termin
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'terminix-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\terminix-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4065,7 +4065,7 @@ print $"\e]10;((thayer-bright).foreground);((thayer-bright).background);((thayer
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'thayer-bright'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\thayer-bright_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4075,7 +4075,7 @@ print $"\e]10;((the-hulk).foreground);((the-hulk).background);((the-hulk).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'the-hulk'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\the-hulk_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4085,7 +4085,7 @@ print $"\e]10;((tin).foreground);((tin).background);((tin).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tin'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tin_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4095,7 +4095,7 @@ print $"\e]10;((tokyo-day).foreground);((tokyo-day).background);((tokyo-day).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tokyo-day'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tokyo-day_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4105,7 +4105,7 @@ print $"\e]10;((tokyo-night).foreground);((tokyo-night).background);((tokyo-nigh
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tokyo-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tokyo-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4115,7 +4115,7 @@ print $"\e]10;((tokyo-storm).foreground);((tokyo-storm).background);((tokyo-stor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tokyo-storm'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tokyo-storm_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4125,7 +4125,7 @@ print $"\e]10;((tomorrow-night-blue).foreground);((tomorrow-night-blue).backgrou
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tomorrow-night-blue'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tomorrow-night-blue_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4135,7 +4135,7 @@ print $"\e]10;((tomorrow-night-bright).foreground);((tomorrow-night-bright).back
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tomorrow-night-bright'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tomorrow-night-bright_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4145,7 +4145,7 @@ print $"\e]10;((tomorrow-night-eighties).foreground);((tomorrow-night-eighties).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tomorrow-night-eighties'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tomorrow-night-eighties_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4155,7 +4155,7 @@ print $"\e]10;((tomorrow-night).foreground);((tomorrow-night).background);((tomo
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tomorrow-night'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tomorrow-night_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4165,7 +4165,7 @@ print $"\e]10;((tomorrow).foreground);((tomorrow).background);((tomorrow).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tomorrow'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tomorrow_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4175,7 +4175,7 @@ print $"\e]10;((toy-chest).foreground);((toy-chest).background);((toy-chest).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'toy-chest'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\toy-chest_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4185,7 +4185,7 @@ print $"\e]10;((treehouse).foreground);((treehouse).background);((treehouse).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'treehouse'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\treehouse_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4195,7 +4195,7 @@ print $"\e]10;((tube).foreground);((tube).background);((tube).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'tube'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\tube_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4205,7 +4205,7 @@ print $"\e]10;((twilight).foreground);((twilight).background);((twilight).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'twilight'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\twilight_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4215,7 +4215,7 @@ print $"\e]10;((two-firewatch).foreground);((two-firewatch).background);((two-fi
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'two-firewatch'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\two-firewatch_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4225,7 +4225,7 @@ print $"\e]10;((unikitty-dark).foreground);((unikitty-dark).background);((unikit
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'unikitty-dark'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\unikitty-dark_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4235,7 +4235,7 @@ print $"\e]10;((unikitty-light).foreground);((unikitty-light).background);((unik
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'unikitty-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\unikitty-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4245,7 +4245,7 @@ print $"\e]10;((ura).foreground);((ura).background);((ura).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'ura'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\ura_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4255,7 +4255,7 @@ print $"\e]10;((urple).foreground);((urple).background);((urple).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'urple'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\urple_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4265,7 +4265,7 @@ print $"\e]10;((vag).foreground);((vag).background);((vag).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'vag'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\vag_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4275,7 +4275,7 @@ print $"\e]10;((vaughn).foreground);((vaughn).background);((vaughn).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'vaughn'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\vaughn_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4285,7 +4285,7 @@ print $"\e]10;((vibrant-ink).foreground);((vibrant-ink).background);((vibrant-in
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'vibrant-ink'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\vibrant-ink_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4295,7 +4295,7 @@ print $"\e]10;((vs-code-dark-plus).foreground);((vs-code-dark-plus).background);
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'vs-code-dark-plus'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\vs-code-dark-plus_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4305,7 +4305,7 @@ print $"\e]10;((vulcan).foreground);((vulcan).background);((vulcan).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'vulcan'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\vulcan_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4315,7 +4315,7 @@ print $"\e]10;((warm-neon).foreground);((warm-neon).background);((warm-neon).cur
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'warm-neon'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\warm-neon_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4325,7 +4325,7 @@ print $"\e]10;((wez).foreground);((wez).background);((wez).cursor)(char bel)"
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'wez'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\wez_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4335,7 +4335,7 @@ print $"\e]10;((wild-cherry).foreground);((wild-cherry).background);((wild-cherr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'wild-cherry'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\wild-cherry_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4345,7 +4345,7 @@ print $"\e]10;((windows-10-light).foreground);((windows-10-light).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-10-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-10-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4355,7 +4355,7 @@ print $"\e]10;((windows-10).foreground);((windows-10).background);((windows-10).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-10'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-10_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4365,7 +4365,7 @@ print $"\e]10;((windows-95-light).foreground);((windows-95-light).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-95-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-95-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4375,7 +4375,7 @@ print $"\e]10;((windows-95).foreground);((windows-95).background);((windows-95).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-95'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-95_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4385,7 +4385,7 @@ print $"\e]10;((windows-highcontrast-light).foreground);((windows-highcontrast-l
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-highcontrast-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-highcontrast-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4395,7 +4395,7 @@ print $"\e]10;((windows-highcontrast).foreground);((windows-highcontrast).backgr
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-highcontrast'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-highcontrast_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4405,7 +4405,7 @@ print $"\e]10;((windows-nt-light).foreground);((windows-nt-light).background);((
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-nt-light'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-nt-light_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4415,7 +4415,7 @@ print $"\e]10;((windows-nt).foreground);((windows-nt).background);((windows-nt).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'windows-nt'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\windows-nt_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4425,7 +4425,7 @@ print $"\e]10;((wombat).foreground);((wombat).background);((wombat).cursor)(char
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'wombat'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\wombat_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4435,7 +4435,7 @@ print $"\e]10;((woodland).foreground);((woodland).background);((woodland).cursor
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'woodland'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\woodland_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4445,7 +4445,7 @@ print $"\e]10;((wryan).foreground);((wryan).background);((wryan).cursor)(char be
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'wryan'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\wryan_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4455,7 +4455,7 @@ print $"\e]10;((xcode-dusk).foreground);((xcode-dusk).background);((xcode-dusk).
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'xcode-dusk'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\xcode-dusk_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4465,7 +4465,7 @@ print $"\e]10;((yachiyo).foreground);((yachiyo).background);((yachiyo).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'yachiyo'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\yachiyo_$dt:%Y%m%d$.png -closeapp -exit
 clear
@@ -4475,6 +4475,6 @@ print $"\e]10;((zenburn).foreground);((zenburn).background);((zenburn).cursor)(c
 source preview-theme.nu
 sleep 100ms
 print `Theme name: 'zenburn'`
-print (preview_theme_smaller | table -e)
+print (preview_theme_small | table -e)
 sleep 250ms
 c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\zenburn_$dt:%Y%m%d$.png -closeapp -exit
