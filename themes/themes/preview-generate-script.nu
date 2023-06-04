@@ -22,7 +22,7 @@ def preview_generate_script [theme_count = 10_000] {
       "source preview-theme.nu"
       "sleep 100ms"
       $"print `Theme name: (char sq)($basename)(char sq)`"
-      "print (preview_theme_smaller | table -e)"
+      "print (preview_theme_small | table -e)"
       "sleep 250ms"
       $'c:\apps\MiniCap\MiniCap.exe -captureactivewin -bordershadow -save c:\temp\($name | path parse | get stem)_$dt:%Y%m%d$.png -closeapp -exit(char nl)'
     ] | str join "\n" | save -f -a preview-screenshot-script.nu

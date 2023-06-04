@@ -81,7 +81,7 @@ export def main [] { return {
     shape_variable: purple
     shape_vardecl: purple
 
-    background: '#000000'
-    foreground: '#ffffff'
-    cursor: '#ffffff'
+    background: dark_gray
+    foreground: default
+    cursor: red
 }}
