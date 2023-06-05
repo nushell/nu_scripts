@@ -1,9 +1,6 @@
 #!/usr/bin/env nu
 
-use std [
-    "log info"
-    "log error"
-]
+use std log
 
 def open-pr [
     repo: path
