@@ -360,7 +360,7 @@ def up_prompt [segment] {
 }
 
 export def default_env [name value] {
-    if ($name in ($env | columns)) {
+    if ($name in $env) {
         $env | get $name
     } else {
         $value
@@ -415,7 +415,7 @@ export def-env init [] {
 
     let-env config = ( $env.config | update menus ($env.config.menus
         | each {|x|
-            if ($x.marker in ($env.NU_POWER_MENU_MARKER | columns)) {
+            if ($x.marker in $env.NU_POWER_MENU_MARKER) {
                 let c = ($env.NU_POWER_MENU_MARKER | get $x.marker)
                 $x | upsert marker $'(ansi -e {fg: $c})(char nf_left_segment_thin) '
             } else {
