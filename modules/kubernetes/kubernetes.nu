@@ -1,25 +1,58 @@
-export def "parse cmd" [] {
-    $in
-    | split row ' '
-    | reduce -f { args: [], sw: '' } {|it, acc|
-        if ($acc.sw|is-empty) {
-            if ($it|str starts-with '-') {
-                $acc | upsert sw $it
-            } else {
-                let args = ($acc.args | append $it)
-                $acc | upsert args $args
+def get-sign [cmd] {
+    let x = ($nu.scope.commands | where name == $cmd).signatures?.0?.any?
+    mut s = []
+    mut n = {}
+    for it in $x {
+        if $it.parameter_type in ['switch' 'named'] {
+            let name = $it.parameter_name
+            if not ($it.short_flag | is-empty) {
+                $n = ($n | upsert $it.short_flag $name)
             }
-        } else {
-            if ($it|str starts-with '-') {
-                $acc
-                | upsert $acc.sw true
-                | upsert sw $it
-            } else {
-                $acc | upsert $acc.sw $it | upsert sw ''
+            if $it.parameter_type == 'switch' {
+                $s = ($s | append $name)
+                if not ($it.short_flag | is-empty) {
+                    $s = ($s | append $it.short_flag)
+                }
             }
         }
     }
-    | reject sw
+    { switch: $s, name: $n }
+}
+
+def "parse cmd" [] {
+    let cmd = ($in | split row ' ')
+    let sign = (get-sign $cmd.0)
+    mut sw = ''
+    mut pos = []
+    mut opt = {}
+    for c in $cmd {
+        if ($sw | is-empty) {
+            if ($c | str starts-with '-') {
+                let c = if ($c | str substring 1..2) != '-' {
+                    let k = ($c | str substring 1..)
+                    if $k in $sign.name {
+                        $'($sign.name | get $k)'
+                    } else {
+                        $k
+                    }
+                } else {
+                    $c | str substring 2..
+                }
+                if $c in $sign.switch {
+                    $opt = ($opt | upsert $c true)
+                } else {
+                    $sw = $c
+                }
+            } else {
+                $pos ++= [$c]
+            }
+        } else {
+            $opt = ($opt | upsert $sw $c)
+            $sw = ''
+        }
+    }
+    $opt.args = $pos
+    $opt
 }
 
 export def ensure-cache-by-lines [cache path action] {
@@ -149,7 +182,7 @@ export def kgh [
 
 def "nu-complete helm list" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    kgh -n $ctx.-n? | each {|x| {value: $x.name  description: $x.updated} }
+    kgh -n $ctx.namespace? | each {|x| {value: $x.name  description: $x.updated} }
 }
 
 def "nu-complete helm charts" [context: string, offset: int] {
@@ -368,14 +401,14 @@ def "nu-complete kube kind" [] {
 def "nu-complete kube res" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
     let kind = ($ctx | get args.1)
-    let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
+    let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube res via name" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
     let kind = ($env.KUBERNETES_RESOURCE_ABBR | get ($ctx | get args.0 | str substring (-1..)))
-    let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
+    let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
@@ -383,8 +416,8 @@ def "nu-complete kube jsonpath" [context: string] {
     let ctx = ($context | parse cmd)
     let kind = ($ctx | get args.1)
     let res = ($ctx | get args.2)
-    let path = $ctx.-p?
-    let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
+    let path = $ctx.jsonpath?
+    let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     mut r = []
     if ($path | is-empty) {
         if ($context | str ends-with '-p ') {
@@ -494,10 +527,22 @@ export def ky [
 # kubectl edit
 export def ke [
     k: string@"nu-complete kube kind"
-    r: string@"nu-complete kube res"
+    r?: string@"nu-complete kube res"
     -n: string@"nu-complete kube ns"
+    --selector(-l): string
 ] {
-    kubectl edit (spr [-n $n]) $k $r
+    let n = (spr [-n $n])
+    let r = if ($selector | is-empty) { $r } else {
+        let res = (kubectl get $k $n -l $selector | from ssv -a | each {|x| $x.NAME})
+        if ($res | length) == 1 {
+            $res.0
+        } else if ($res | length) == 0 {
+            return
+        } else {
+            $res | input list $'select ($k) '
+        }
+    }
+    kubectl edit $n $k $r
 }
 
 # kubectl delete
@@ -559,8 +604,12 @@ export def kgpw [
 }
 
 # kubectl edit pod
-export def kep [-n: string@"nu-complete kube ns", pod: string@"nu-complete kube res via name"] {
-    ke -n $n pod $pod
+export def kep [
+    -n: string@"nu-complete kube ns"
+    pod?: string@"nu-complete kube res via name"
+    --selector (-l): string
+] {
+    ke -n $n pod -l $selector $pod
 }
 
 # kubectl describe pod
@@ -578,11 +627,19 @@ export def ka [
 ] {
     let n = (spr [-n $n])
     let pod = if ($selector | is-empty) { $pod } else {
-        let pods = (kgp -n $n -l $selector | each {|x| $x.NAME})
+        let pods = (
+            kubectl get pods $n -o wide -l $selector
+            | from ssv -a
+            | where STATUS == Running
+            | select NAME IP NODE
+            | rename name ip node
+        )
         if ($pods | length) == 1 {
-            $pods.0
+            ($pods.0).name
+        } else if ($pods | length) == 0 {
+            return
         } else {
-            $pods | input list 'select pod '
+            ($pods | input list 'select pod ').name
         }
     }
     let c = if ($container | is-empty) {
@@ -621,7 +678,7 @@ def "nu-complete port forward type" [] {
 def "nu-complete kube port" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
     let kind = ($ctx | get args.1)
-    let ns = if ($ctx.-n? | is-empty) { [] } else { [-n $ctx.-n] }
+    let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     let res = ($ctx | get args.2)
     if ($kind | str starts-with 's') {
         kubectl get $ns svc $res --output=jsonpath="{.spec.ports}"
@@ -688,8 +745,12 @@ export def kgs [
 }
 
 # kubectl edit service
-export def kes [svc: string@"nu-complete kube res via name", -n: string@"nu-complete kube ns"] {
-    ke -n $n service $svc
+export def kes [
+    svc?: string@"nu-complete kube res via name"
+    -n: string@"nu-complete kube ns"
+    --selector (-l): string
+] {
+    ke -n $n service -l $selector $svc
 }
 
 # kubectl delete service
@@ -708,8 +769,12 @@ export def kgd [
 }
 
 # kubectl edit deployment
-export def ked [d: string@"nu-complete kube res via name", -n: string@"nu-complete kube ns"] {
-    ke -n $n deployments $d
+export def ked [
+    d?: string@"nu-complete kube res via name"
+    -n: string@"nu-complete kube ns"
+    --selector (-l): string
+] {
+    ke -n $n deployments -l $selector $d
 }
 
 def "nu-complete num9" [] { [0 1 2 3] }

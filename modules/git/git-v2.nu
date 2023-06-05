@@ -32,6 +32,63 @@ def spr [args] {
     }
 }
 
+def get-sign [cmd] {
+    let x = ($nu.scope.commands | where name == $cmd).signatures?.0?.any?
+    mut s = []
+    mut n = {}
+    for it in $x {
+        if $it.parameter_type in ['switch' 'named'] {
+            let name = $it.parameter_name
+            if not ($it.short_flag | is-empty) {
+                $n = ($n | upsert $it.short_flag $name)
+            }
+            if $it.parameter_type == 'switch' {
+                $s = ($s | append $name)
+                if not ($it.short_flag | is-empty) {
+                    $s = ($s | append $it.short_flag)
+                }
+            }
+        }
+    }
+    { switch: $s, name: $n }
+}
+
+def "parse cmd" [] {
+    let cmd = ($in | split row ' ')
+    let sign = (get-sign $cmd.0)
+    mut sw = ''
+    mut pos = []
+    mut opt = {}
+    for c in $cmd {
+        if ($sw | is-empty) {
+            if ($c | str starts-with '-') {
+                let c = if ($c | str substring 1..2) != '-' {
+                    let k = ($c | str substring 1..)
+                    if $k in $sign.name {
+                        $'($sign.name | get $k)'
+                    } else {
+                        $k
+                    }
+                } else {
+                    $c | str substring 2..
+                }
+                if $c in $sign.switch {
+                    $opt = ($opt | upsert $c true)
+                } else {
+                    $sw = $c
+                }
+            } else {
+                $pos ++= [$c]
+            }
+        } else {
+            $opt = ($opt | upsert $sw $c)
+            $sw = ''
+        }
+    }
+    $opt.args = $pos
+    $opt
+}
+
 # git status
 export def gs [] {
     git status
@@ -102,6 +159,7 @@ export def gb [
         if $branch in (remote_braches | each {|x| $x.1}) and (agree -n 'delete remote branch?!') {
             let remote = if ($remote|is-empty) { 'origin' } else { $remote }
             git push $remote -d $branch
+            git branch -D -r $'($remote)/($branch)'
         }
     } else if $branch in $bs {
         git checkout $branch
@@ -146,6 +204,7 @@ export def gp [
     --init (-i):         bool     # git init
     --merge (-m):        bool     # git pull (no)--rebase
     --autostash (-a):    bool     # git pull --autostash
+    --back-to-prev (-b): bool     # back to branch
 ] {
     if $submodule {
         git submodule update
@@ -169,21 +228,30 @@ export def gp [
                     git branch -u $'($remote)/($branch)' $branch
                     git push --force
                 } else {
+                    let prev = (_git_status).branch
                     print $'($bmsg), pull'
-                    if (_git_status).branch != $branch {
+                    if $prev != $branch {
                         print $'* switch to ($branch)'
                         git checkout $branch
                     }
                     git pull $m $a
+                    if $back_to_prev {
+                        git checkout $prev
+                    }
                 }
             } else {
+                let prev = (_git_status).branch
                 print "* local doesn't have that branch, fetch"
                 git checkout -b $branch
                 git fetch $remote $branch
                 git branch -u $'($remote)/($branch)' $branch
                 git pull $m $a -v
+                if $back_to_prev {
+                    git checkout $prev
+                }
             }
         } else {
+            let prev = (_git_status).branch
             let bmsg = "* remote doesn't have that branch"
             let force = (sprb $force [--force])
             if $branch in $lbs {
@@ -194,6 +262,9 @@ export def gp [
                 git checkout -b $branch
             }
             git push $force --set-upstream $remote $branch
+            if $back_to_prev {
+                git checkout $prev
+            }
         }
 
         let s = (_git_status)
@@ -586,9 +657,9 @@ export def remote_braches [] {
 }
 
 def "nu-complete git remote branches" [context: string, offset: int] {
-    let ctx = ($context | split row ' ')
+    let ctx = ($context | parse cmd)
     let rb = (remote_braches)
-    if ($ctx | length) < 3 {
+    if ($ctx.args | length) < 3 {
         $rb | each {|x| {value: $x.1, description: $x.0} }
     } else {
         $rb | filter {|x| $x.1 == $ctx.1 } | each {|x| $x.0}
