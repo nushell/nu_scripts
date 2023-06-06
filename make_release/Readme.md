@@ -7,10 +7,12 @@ nu nu_deps.nu
 ```
 
 ## The release note
+> **Note**  
+> the scripts have been written in such a way they can be run from anywhere
 ### Complete the previous release note
 1. paste the output of
 ```nu
-./make_release/release-note/since_last_release.nu
+./make_release/release-note/get-full-changelog
 ```
 to the "*Full changelog*" section.
 
