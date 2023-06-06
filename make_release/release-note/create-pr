@@ -82,10 +82,22 @@ As part of this release, we also publish a set of optional plugins you can insta
 ## New theme ([author](https://github.com/nushell/nushell/pulls))
 
 # Breaking changes
+{{ TODO
+    paste the output of
+    ```nu
+    ./make_release/release-note/list-merged-prs nushell/nushell --label breaking-change --pretty --no-author
+    ```
+    here
+}}
 
-- [#0000](https://github.com/nushell/nushell/pulls) we broke some stuff to improve nushell
-
-# Full changelog"
+# Full changelog
+{{ TODO
+    paste the output of
+    ```nu
+    ./make_release/release-note/since_last_release.nu
+    ```
+    here
+}}"
 
     log info "setting up nushell.github.io repo"
     git clone git@github.com:nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
