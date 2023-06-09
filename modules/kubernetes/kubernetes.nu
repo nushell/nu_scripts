@@ -2,6 +2,7 @@ def get-sign [cmd] {
     let x = ($nu.scope.commands | where name == $cmd).signatures?.0?.any?
     mut s = []
     mut n = {}
+    mut p = []
     for it in $x {
         if $it.parameter_type in ['switch' 'named'] {
             let name = $it.parameter_name
@@ -14,9 +15,11 @@ def get-sign [cmd] {
                     $s = ($s | append $it.short_flag)
                 }
             }
+        } else if $it.parameter_type == 'positional' {
+            $p = ($p | append $it.parameter_name)
         }
     }
-    { switch: $s, name: $n }
+    { switch: $s, name: $n, positional: $p }
 }
 
 def "parse cmd" [] {
@@ -51,7 +54,8 @@ def "parse cmd" [] {
             $sw = ''
         }
     }
-    $opt.args = $pos
+    $opt._args = $pos
+    $opt._pos = ( $pos | range 1.. | enumerate | reduce -f {} {|it, acc| $acc | upsert ($sign.positional | get $it.index) $it.item } )
     $opt
 }
 
@@ -187,6 +191,11 @@ def "nu-complete helm list" [context: string, offset: int] {
 
 def "nu-complete helm charts" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
+    let path = ($ctx | get _pos.chart)
+    let path = if ($path | is-empty) { '.' } else { $path }
+    let paths = (do -i { ls $"($path)*" | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }} })
+    helm repo list | from ssv -a | rename value description
+    | append $paths
 }
 
 def record-to-set-json [value] {
@@ -400,22 +409,22 @@ def "nu-complete kube kind" [] {
 
 def "nu-complete kube res" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let kind = ($ctx | get args.1)
+    let kind = ($ctx | get _args.1)
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube res via name" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let kind = ($env.KUBERNETES_RESOURCE_ABBR | get ($ctx | get args.0 | str substring (-1..)))
+    let kind = ($env.KUBERNETES_RESOURCE_ABBR | get ($ctx | get _args.0 | str substring (-1..)))
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube jsonpath" [context: string] {
     let ctx = ($context | parse cmd)
-    let kind = ($ctx | get args.1)
-    let res = ($ctx | get args.2)
+    let kind = ($ctx | get _args.1)
+    let res = ($ctx | get _args.2)
     let path = $ctx.jsonpath?
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     mut r = []
@@ -575,7 +584,7 @@ def "nu-complete kube ctns" [context: string, offset: int] {
     let ns = (spr [-n $ns])
     let ctn = (do -i { $ctx | get container })
     let ctn = (spr [-c $ctn])
-    let pod = ($ctx | get args.1)
+    let pod = ($ctx | get _args.1)
     kubectl get $ns pod $pod -o jsonpath={.spec.containers[*].name} | split row ' '
 }
 
@@ -680,9 +689,9 @@ def "nu-complete port forward type" [] {
 
 def "nu-complete kube port" [context: string, offset: int] {
     let ctx = ($context | parse cmd)
-    let kind = ($ctx | get args.1)
+    let kind = ($ctx | get _args.1)
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
-    let res = ($ctx | get args.2)
+    let res = ($ctx | get _args.2)
     if ($kind | str starts-with 's') {
         kubectl get $ns svc $res --output=jsonpath="{.spec.ports}"
         | from json
@@ -709,7 +718,7 @@ export def kpf [
 
 def "nu-complete kube cp" [cmd: string, offset: int] {
     let ctx = ($cmd | str substring ..$offset | parse cmd)
-    let p = ($ctx.args | get (($ctx.args | length) - 1))
+    let p = ($ctx._args | get (($ctx._args | length) - 1))
     let ns = (do -i { $ctx | get namespace })
     let ns = (spr [-n $ns])
     let c = (do -i { $ctx | get container })
