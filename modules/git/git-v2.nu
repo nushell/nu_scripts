@@ -498,7 +498,7 @@ export def _git_status [] {
     # TODO: show-stash
     let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
 
-    let stashes = (git stash list | lines | length)
+    let stashes = (do -i { git stash list | lines | length })
 
     mut status = {
         idx_added_staged    : 0
