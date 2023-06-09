@@ -1,6 +1,9 @@
 ### git
-export def git_status [] {
+def _git_status [] {
+    # TODO: show-stash
     let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
+
+    let stashes = (git stash list | lines | length)
 
     mut status = {
         idx_added_staged    : 0
@@ -17,7 +20,7 @@ export def git_status [] {
         conflicts           : 0
         ahead               : 0
         behind              : 0
-        stashes             : 0
+        stashes             : $stashes
         repo_name           : no_repository
         tag                 : no_tag
         branch              : no_branch
@@ -91,18 +94,9 @@ export def git_status [] {
     $status
 }
 
-export def _git_status [] {
-    let status = (do -i { gstat })
-    if not ($status | is-empty) {
-        $status
-    } else {
-        git_status_raw
-    }
-}
-
 export def git_stat [] {
     {|bg|
-        let status = (git_status)
+        let status = (_git_status)
 
         if $status.branch == 'no_branch' { return [$bg ''] }
 
@@ -134,7 +128,6 @@ export-env {
         [
             [behind              (char branch_behind) yellow]
             [ahead               (char branch_ahead) yellow]
-            [stashes             = blue]
             [conflicts           ! red]
             [ignored             _ purple]
             [idx_added_staged    + green]
@@ -147,6 +140,7 @@ export-env {
             [wt_deleted          - red]
             [wt_renamed          % red]
             [wt_type_changed     * red]
+            [stashes             = blue]
         ]
     )
 

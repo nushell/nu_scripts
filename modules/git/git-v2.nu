@@ -496,7 +496,9 @@ export alias gts = git tag -s
 
 export def _git_status [] {
     # TODO: show-stash
-    let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch --show-stash | lines })
+    let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
+
+    let stashes = (git stash list | lines | length)
 
     mut status = {
         idx_added_staged    : 0
@@ -513,7 +515,7 @@ export def _git_status [] {
         conflicts           : 0
         ahead               : 0
         behind              : 0
-        stashes             : 0
+        stashes             : $stashes
         repo_name           : no_repository
         tag                 : no_tag
         branch              : no_branch
