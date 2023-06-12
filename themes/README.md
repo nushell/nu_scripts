@@ -16,3 +16,7 @@ let-env config = ($env.config | merge {color_config: (dracula)})
 ```
 
 The theme should be activated!
+
+## Screenshots
+
+Here are [screenshots](./screenshots/README.md) of our themes.
