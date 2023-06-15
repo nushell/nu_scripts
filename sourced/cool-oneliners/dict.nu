@@ -3,7 +3,7 @@ def dict [...word #word(s) to query the dictionary API but they have to make sen
 ] {
 	let query = ($word | str join %20)
   let link = ('https://api.dictionaryapi.dev/api/v2/entries/en/' + ($query|str replace ' ' '%20'))
-  let output = (fetch $link | rename word)
+  let output = (http get $link | rename word)
   let w = ($output.word | first)
 
   if $w == "No Definitions Found" {

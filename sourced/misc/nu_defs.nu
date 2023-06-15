@@ -310,7 +310,7 @@ def mbitly [longurl] {
     let username = "user"
     let url = $"https://api-ssl.bitly.com/v3/shorten?access_token=($Accesstoken)&login=($username)&longUrl=($longurl)"
 
-    let shorturl = (fetch $url | get data | get url)
+    let shorturl = (http get $url | get data | get url)
 
     $shorturl
     $shorturl | xclip -sel clip
@@ -345,7 +345,7 @@ def trans [
 
     let url = $"https://api.mymemory.translated.net/get?q=($to_translate)&langpair=($from)%7C($to)&of=json&key=($key)&de=($user)"
 
-    fetch $url | get responseData | get translatedText
+    http get $url | get responseData | get translatedText
   }
 }
 
