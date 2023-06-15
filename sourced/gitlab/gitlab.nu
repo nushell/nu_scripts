@@ -27,7 +27,7 @@ def main [
     if ($payload|columns|find message|is-empty) {
       $payload
       |get content
-      |hash base64 --decode
+      |decode base64
       |lines
       |find $phrase
       |if ($in|length) > 0 {
