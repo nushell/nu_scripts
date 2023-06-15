@@ -26,7 +26,7 @@ module hosts {
         let whitelisted = "(" + ($WHITELIST | str join "|") + ")"
         let pattern = ($"0.0.0.0.*($whitelisted).*$")
         let OLD_FILE = "/etc/hosts"
-        let TMP_FILE = (fetch $LINK | lines)
+        let TMP_FILE = (http get $LINK | lines)
 
         if ($env.LAST_EXIT_CODE == 0) {
             let OLD_HEAD = (open $OLD_FILE --raw | lines | first 8 | last 3)

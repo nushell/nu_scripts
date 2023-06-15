@@ -7,7 +7,7 @@ def call-gitlab [
   ...args: string
   --query: string
 ] {
-  fetch -H [Authorization $"Bearer ($env.GITLAB_TOKEN)"] $"($projects)($args|str join)?($query)"
+  http get -H [Authorization $"Bearer ($env.GITLAB_TOKEN)"] $"($projects)($args|str join)?($query)"
 }
 # Search files on your GitLab server
 def main [
