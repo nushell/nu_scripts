@@ -31,8 +31,8 @@ export def 'venv-create' [] {
 	let sys_posix = ['darwin', 'linux', 'unix', 'posix', 'gnu']
 	let is_posix = (((sys).host.name | str downcase) in $sys_posix)
 	let python_name = if $is_posix {'python3'} else {'py.exe'}
-	$python_name -m venv .venv --clear --prompt $venv_name
-	$'.venv/bin/($python_name)' -m pip install -U pip wheel setuptools
+	run-external $python_name "-m" "venv" ".venv" "--clear" "--prompt" $venv_name
+	run-external $".venv/bin/($python_name)" "-m" "pip" "install" "-U" "pip" "wheel" "setuptools"
 
 	let trigger_file = ([$env.PWD, $env.AUTO_VENV_TRIGGER] | path join)
 	ln -sf $'($env.FILE_PWD)/venvs/python-venv.nu' $trigger_file
