@@ -11,22 +11,22 @@ export def egd [...rest] {
 # because we are `use`-ing here and not `source`-ing this file
 export-env {
     load-env {
-            BROWSER: "firefox" 
-            CARGO_TARGET_DIR: "~/.cargo/target" 
-            EDITOR: "nvim" 
-            VISUAL: "nvim" 
-            PAGER: "less" 
-            SHELL: "~/.cargo/bin/nu" 
-            JULIA_NUM_THREADS:  nproc 
-            HOSTNAME:  (hostname | split row '.' | first | str trim)
-            SHOW_USER: true 
-            LS_COLORS: ([
-                         "di=01;34;2;102;217;239"
-                         "or=00;40;31"
-                         "mi=00;40;31"
-                         "ln=00;36"
-                         "ex=00;32" 
-                        ] | str join (char env_sep))
+        BROWSER: "firefox"
+        CARGO_TARGET_DIR: "~/.cargo/target"
+        EDITOR: "nvim"
+        VISUAL: "nvim"
+        PAGER: "less"
+        SHELL: "~/.cargo/bin/nu"
+        JULIA_NUM_THREADS:  nproc
+        HOSTNAME:  (hostname | split row '.' | first | str trim)
+        SHOW_USER: true
+        LS_COLORS: ([
+             "di=01;34;2;102;217;239"
+             "or=00;40;31"
+             "mi=00;40;31"
+             "ln=00;36"
+             "ex=00;32"
+        ] | str join (char env_sep))
     }
 }
 
