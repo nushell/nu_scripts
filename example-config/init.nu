@@ -7,30 +7,34 @@ export def egd [...rest] {
     with-env [GIT_EXTERNAL_DIFF 'difft'] { git diff $rest }
 }
 
-# env
-export env LS_COLORS {
-    [
-       "di=01;34;2;102;217;239"
-       "or=00;40;31"
-       "mi=00;40;31"
-       "ln=00;36"
-       "ex=00;32"
-    ] | str join (char env_sep)
+# we need to export the env we create witk load-env
+# because we are `use`-ing here and not `source`-ing this file
+export-env {
+    load-env {
+        BROWSER: "firefox"
+        CARGO_TARGET_DIR: "~/.cargo/target"
+        EDITOR: "nvim"
+        VISUAL: "nvim"
+        PAGER: "less"
+        SHELL: "~/.cargo/bin/nu"
+        JULIA_NUM_THREADS:  nproc
+        HOSTNAME:  (hostname | split row '.' | first | str trim)
+        SHOW_USER: true
+        LS_COLORS: ([
+             "di=01;34;2;102;217;239"
+             "or=00;40;31"
+             "mi=00;40;31"
+             "ln=00;36"
+             "ex=00;32"
+        ] | str join (char env_sep))
+    }
 }
-export env BROWSER { "firefox" }
-export env CARGO_TARGET_DIR { "~/.cargo/target" }
-export env EDITOR { "nvim" }
-export env VISUAL { "nvim" }
-export env PAGER { "less" }
-export env SHELL { "~/.cargo/bin/nu" }
-export env JULIA_NUM_THREADS { nproc }
-export env HOSTNAME { hostname | split row '.' | first | str trim }
-export env SHOW_USR { "true" }
 
 # prompt
-export env PROMPT_COMMAND { "build-prompt" }
+PROMPT_COMMAND: { build-prompt }
+
 export def build-prompt [] {
-    let usr_str = (if $env.SHOW_USR == "true" {
+    let usr_str = (if $env.SHOW_USER {
         [
             $env.USER
             '@'
@@ -41,8 +45,8 @@ export def build-prompt [] {
         ''
     })
 
-    let pwd_str = (if (pwd | str starts-with $env.HOME).0 {
-        (pwd | str replace $env.HOME '~' | str trim).0
+    let pwd_str = (if (pwd | str starts-with $env.HOME) {
+        (pwd | str replace $env.HOME '~' | str trim)
     } else {
         pwd
     })
