@@ -55,7 +55,7 @@ def find-deps [] {
 # Returns a list which you can process further, e.g.:
 # > nu_deps | str join (',' + (char nl))
 export def main [] {
-    let deps = find-deps
+    let deps = (find-deps)
 
     mut list = []
 
