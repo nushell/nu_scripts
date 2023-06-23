@@ -62,6 +62,29 @@ An extensive example of a wrapper for docker operations, with nushell completion
 ## filesystem
 
 - [bm](./filesystem/bm.nu) - A Simple bookmarking module. It uses `XGD_DATA_HOME` to save bookmarks.
+- [expand](./filesystem/expand.nu) - expansion module that implements bashes brace expansion. 
+The expansion uses a list inside of braces seperated by `,` to expand into a list of multiple string variations like:
+```
+ expand a/{b,c}/d{e,f,g}.nu{,on}
+```
+parses into:
+
+```
+╭────┬─────────────╮
+│  0 │ a/b/de.nu   │
+│  1 │ a/c/de.nu   │
+│  2 │ a/b/df.nu   │
+│  3 │ a/c/df.nu   │
+│  4 │ a/b/dg.nu   │
+│  5 │ a/c/dg.nu   │
+│  6 │ a/b/de.nuon │
+│  7 │ a/c/de.nuon │
+│  8 │ a/b/df.nuon │
+│  9 │ a/c/df.nuon │
+│ 10 │ a/b/dg.nuon │
+│ 11 │ a/c/dg.nuon │
+╰────┴─────────────╯
+```
 
 ## formats
 Examples of input/output formatters:
