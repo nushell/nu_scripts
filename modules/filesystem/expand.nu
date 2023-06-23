@@ -43,7 +43,20 @@ export def help [] {
     $"  > (ansi light_green)expand (ansi green).config/nushell/config.nu{,on}(ansi reset)"
     $"╭───┬─────────────────────────────╮\n│ 0 │ .config/nushell/config.nu   │\n│ 1 │ .config/nushell/config.nuon │\n╰───┴─────────────────────────────╯"
     $"  > (ansi light_green)expand (ansi green)a/{b,c}/{d,e,f,g}  (ansi reset)(ansi purple)|(ansi reset)(ansi light_green) each(ansi reset) (ansi light_green){ |d| (ansi reset)(ansi light_green) mkdir(ansi reset) (ansi purple)$d (ansi reset)(ansi light_green)}(ansi reset);(ansi light_green)tree(ansi reset)"
-    $"╭────────────╮\n│ empty list │\n╰────────────╯"
+    $".
+`-- a
+    |-- b
+    |   |-- d
+    |   |-- e
+    |   |-- f
+    |   `-- g
+    `-- c
+        |-- d
+        |-- e
+        |-- f
+        `-- g
+
+12 directories, 0 files"
   ] |
   str join "\n" |
   nu-highlight
