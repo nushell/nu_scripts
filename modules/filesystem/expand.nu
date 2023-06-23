@@ -31,7 +31,7 @@ def listify [lst] {
 }
 
 export def help [] {
-  print -n ( expand -h )
+  print -n ( main -h )
 
   print (
   [
