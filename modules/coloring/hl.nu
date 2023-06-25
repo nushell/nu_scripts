@@ -15,7 +15,7 @@ export def combine [txt: string, fg: record, bg: record] {
 }
 
 export def create [txt: string,
-    fg = "n", bg = "n",
+    fg = "default", bg = "default",
     bli = false, bol = false, dim = false, hid = false,
     ita = false, rev = false, stk = false, und = false] {
   {
