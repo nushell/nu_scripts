@@ -41,7 +41,7 @@ def main [
         if $no_author {
             return (
                 $prs | each {|pr|
-                    let link = (md-link $pr.number $pr.url)
+                    let link = (md-link $"#($pr.number)" $pr.url)
                     $"- ($link) ($pr.title)"
                 }
                 | str join "\n"
