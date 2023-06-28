@@ -1,35 +1,78 @@
+# The release process of Nushell
+## 0. Check dependencies
+- [ ] [`reedline`] is updated and released ([example][reedline bump example])
+- [ ] pin [`reedline`] in [`nushell`] ([example][reedline pin example])
+- [ ] [`nu-ansi-term`] stays the same
 
-### How to run nu_deps.nu
+## 1. Minor bump of the version ([example][nushell bump example])
+- [ ] bump the version with `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.toml`
+- [ ] commit `Cargo.lock`
 
-```rust
-cd <your nushell repo>
-nu nu_deps.nu
-```
+## 2. Tag the [`nushell`] repo
+> **Warning**  
+> this is maybe the most critical step of the whole release process!!
+> this step, once pushed to *GitHub* will trigger the release workflows.
 
-## The release note
+> **Note**
+> in the following, `nushell` will be used to pull and push to the [`nushell`] repo
+
+- [ ] get the latest version bump commit with `git pull nushell main`
+- [ ] run `cargo build` to check if it's ok and check last features
+- [ ] tag the project with `git tag 0.xx.0`
+- [ ] :warning: push the release tag to *GitHub* `git push nushell main --tags` :warning:
+
+:point_right: check the [CI jobs](https://github.com/nushell/nushell/actions)
+:point_right: check that there is the same number of targets compared to [last release](https://github.com/nushell/nushell/releases/latest)
+
+## 3. Publish `nu` to *crates.io*
+- [ ] check the order of dependencies with `nushell/nu_scripts/make_release/nu_deps.nu` from the `nushell` repo
+- [ ] release the Nushell crates `nushell/nu_scripts/make_release/nu_release.nu` from the `nushell` repo
+
+> **Note**  
+> if there is a new crate, you must add it to the `github:nushell:publishing` group (`cargo owner --list`)
+
+> **Note**  
+> if a step fails
+> - ask the owner to `cargo owner --add github:nushell:publishing`
+> - edit the `nu_release.nu` script to start again where it failed
+> - re-run the script
+
+## 4. Publish the release note on the website
 > **Note**  
 > the scripts have been written in such a way they can be run from anywhere
 
-### Inspect the merged PRs to write changelogs
-```nu
-./make_release/release-note/list-merged-prs nushell/nushell
-```
+- [ ] inspect the merged PRs to write changelogs with `./make_release/release-note/list-merged-prs nushell/nushell`
+- [ ] reorder sections by priority, what makes the most sense to the user?
+- [ ] paste the output of  `./make_release/release-note/list-merged-prs nushell/nushell --label breaking-change --pretty --no-author` to the "*Breaking changes*" section
+- [ ] make sure breaking changes titles are clear enough
+- [ ] paste the output of `./make_release/release-note/get-full-changelog` to the "*Full changelog*" section
+- [ ] mark as *ready for review* when uploading to *crates.io*
+- [ ] land when
+    - **fully uploaded** to *crates.io*
+    - **before** the *GitHub* release
 
-### Complete the previous release note
-1. paste the output of
-```nu
-./make_release/release-note/get-full-changelog
-```
-to the "*Full changelog*" section.
+## 5. Publish the release on *GitHub*
+- [ ] go to the draft release on the [release page](https://github.com/nushell/nushell/releases)
+- [ ] grab the message of [last one](https://github.com/nushell/nushell/releases/latest)
+- [ ] wait for the website to publish the release (in the [actions](https://github.com/nushell/nushell.github.io/actions) tab and on the [website](https://www.nushell.sh/blog/))
+- [ ] publish the release on *GitHub*
 
-2. paste the output of
-```nu
-./make_release/release-note/list-merged-prs nushell/nushell --label breaking-change --pretty --no-author
-```
-to the "*Breaking changes*" section.
+## 6. social media
+- [ ] post a status update on Discord
+- [ ] tweet about the new release
 
-### Create the release note PR on the website after the release
-see
-```nu
-./make_release/release-note/create-pr --help
-```
+## 7. Create the next release note PR on the website
+- [ ] run `./make_release/release-note/create-pr 0.xx.0 ((date now) + 4wk | date format "%Y-%m-%d" | into datetime)`
+
+## 8. Bump the version as development
+- [ ] bump the patch version on [`nushell`] ([example][nushell dev example])
+
+
+[reedline bump example]: https://github.com/nushell/reedline/pull/596/files
+[reedline pin example]: https://github.com/nushell/nushell/pull/9532
+[nushell bump example]: https://github.com/nushell/nushell/pull/9530/files
+[nushell dev example]: https://github.com/nushell/nushell/pull/9543
+
+[`nushell`]: https://github.com/nushell/nushell
+[`reedline`]: https://github.com/nushell/reedline
+[`nu-ansi-term`]: https://github.com/nushell/nu-ansi-term
