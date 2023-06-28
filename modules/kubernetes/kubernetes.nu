@@ -1,5 +1,5 @@
 def get-sign [cmd] {
-    let x = ($nu.scope.commands | where name == $cmd).signatures?.0?.any?
+    let x = (scope commands | where name == $cmd).signatures?.0?.any?
     mut s = []
     mut n = {}
     mut p = []
@@ -250,7 +250,7 @@ export def kh [
     let values = if ($values | is-empty) { [] } else { [--set-json (record-to-set-json $values)] }
     let target = ($valuefile | split row '.' | range ..-2 | append [out yaml] | str join '.')
     if (not ($target | path exists)) and (([yes no] | input list $'create ($target)?') in [no]) { return }
-    helm template $app $chart -f $valuefile $values (spr [-n $namespace])
+    helm template --debug $app $chart -f $valuefile $values (spr [-n $namespace])
     | save -f $target
 }
 
@@ -676,11 +676,13 @@ export def kl [
     --namespace(-n): string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
     --follow(-f): bool
+    --previous(-p): bool
 ] {
     let n = (spr [-n $namespace])
     let c = (spr [-c $container])
     let f = (sprb $follow [-f])
-    kubectl logs $n $f $pod $c
+    let p = (sprb $previous [-p])
+    kubectl logs $n $f $p $pod $c
 }
 
 def "nu-complete port forward type" [] {
