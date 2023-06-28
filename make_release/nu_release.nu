@@ -1,4 +1,3 @@
-cd crates
 
 let subcrates_wave_1 = [
     nu-glob,
@@ -37,24 +36,16 @@ let subcrates_wave_3 = [
 ]
 
 for subcrate in $subcrates_wave_1 {
-    cd $subcrate
-    cargo publish
-    cd ..
+    cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml")
 }
 
 for subcrate in $subcrates_wave_2 {
-    cd $subcrate
     # due to build.rs in `nu-command`
-    cargo publish --no-verify
-    cd ..
+    cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml") --no-verify
 }
 
 for subcrate in $subcrates_wave_3 {
-    cd $subcrate
-    cargo publish
-    cd ..
+    cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml")
 }
-
-cd ..
 
 cargo publish
