@@ -1,3 +1,4 @@
+use std log
 
 let subcrates_wave_1 = [
     nu-glob,
@@ -35,15 +36,18 @@ let subcrates_wave_3 = [
     nu_plugin_formats,
 ]
 
+log warning "publishing the first wave of crates"
 for subcrate in $subcrates_wave_1 {
     cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml")
 }
 
+log warning "publishing the second wave of crates"
 for subcrate in $subcrates_wave_2 {
     # due to build.rs in `nu-command`
     cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml") --no-verify
 }
 
+log warning "publishing the third wave of crates"
 for subcrate in $subcrates_wave_3 {
     cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml")
 }
