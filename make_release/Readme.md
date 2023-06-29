@@ -1,5 +1,5 @@
 # The release process of Nushell
-## 0. Check dependencies
+## 0. Release direct dependencies
 > **Note**  
 > the following procedure is the same for `nu-ansi-term` and `reedline` and needs to be repeated
 
