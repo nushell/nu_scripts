@@ -1,8 +1,22 @@
 # The release process of Nushell
 ## 0. Check dependencies
-- [ ] [`reedline`] is updated and released ([example][reedline bump example])
-- [ ] pin [`reedline`] in [`nushell`] ([example][reedline pin example])
-- [ ] [`nu-ansi-term`] stays the same
+> **Note**  
+> the following procedure is the same for `nu-ansi-term` and `reedline` and needs to be repeated
+
+> **Warning**  
+> release `nu-ansi-term` **before** `reedline` and `reedline` **before** Nushell
+
+> **Note**  
+> `nu-ansi-term` is typically released only when there are changes to publish.
+> `reedline` is typically released on the same schedule as Nushell.
+
+- [ ] bump the version (example with [`reedline`][reedline bump example] and [`nu-ansi-term`][nu-ansi-term bump example])
+- [ ] get the latest revision with `git pull origin main`
+- [ ] publish the crate with `cargo publish` (*need to be a member of the publishing team*)
+- [ ] tag the project with `git tag ...` (`0.xx.0` for `reedline` and `v0.xx.0` for `nu-ansi-term`)
+- [ ] push the release tag with `git push origin main --tags`
+- [ ] publish the release (include the (breaking) changes and take inspiration from the [other releases](https://github.com/nushell/reedline/releases))
+- [ ] bump the version on the Nushell side ([example with `reedline`][reedline pin example]) (reference the release notes for courtesy)
 
 ## 1. Minor bump of the version ([example][nushell bump example])
 - [ ] bump the version with `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.toml`
@@ -69,6 +83,7 @@
 
 
 [reedline bump example]: https://github.com/nushell/reedline/pull/596/files
+[nu-ansi-term bump example]: https://github.com/nushell/nu-ansi-term/pull/45/files
 [reedline pin example]: https://github.com/nushell/nushell/pull/9532
 [nushell bump example]: https://github.com/nushell/nushell/pull/9530/files
 [nushell dev example]: https://github.com/nushell/nushell/pull/9543
