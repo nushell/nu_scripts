@@ -18,7 +18,7 @@
 - [ ] bump the version (example with [`reedline`][reedline bump example] and [`nu-ansi-term`][nu-ansi-term bump example])
 - [ ] get the latest revision with `git pull dep main`
 - [ ] publish the crate with `cargo publish` (*need to be a member of the publishing team*)
-- [ ] tag the project with `git tag ...` (`0.xx.0` for `reedline` and `v0.xx.0` for `nu-ansi-term`)
+- [ ] tag the project with `git tag v0.xx.0`
 - [ ] push the release tag with `git push dep main --tags`
 - [ ] publish the release (include the (breaking) changes and take inspiration from the [other releases](https://github.com/nushell/reedline/releases))
 - [ ] bump the version on the Nushell side ([example with `reedline`][reedline pin example]) (reference the release notes for courtesy)
