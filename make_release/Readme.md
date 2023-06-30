@@ -10,11 +10,16 @@
 > `nu-ansi-term` is typically released only when there are changes to publish.
 > `reedline` is typically released on the same schedule as Nushell.
 
+> **Note**
+> in the following, `dep` denotes either the `reedline` or the `nu-ansi-term` remote
+> e.g. *https://github.com/nushell/reedline* or *git@github.com:nushell/nu-ansi-term*,
+> depending on the dependency being installed
+
 - [ ] bump the version (example with [`reedline`][reedline bump example] and [`nu-ansi-term`][nu-ansi-term bump example])
-- [ ] get the latest revision with `git pull origin main`
+- [ ] get the latest revision with `git pull dep main`
 - [ ] publish the crate with `cargo publish` (*need to be a member of the publishing team*)
 - [ ] tag the project with `git tag ...` (`0.xx.0` for `reedline` and `v0.xx.0` for `nu-ansi-term`)
-- [ ] push the release tag with `git push origin main --tags`
+- [ ] push the release tag with `git push dep main --tags`
 - [ ] publish the release (include the (breaking) changes and take inspiration from the [other releases](https://github.com/nushell/reedline/releases))
 - [ ] bump the version on the Nushell side ([example with `reedline`][reedline pin example]) (reference the release notes for courtesy)
 
@@ -28,7 +33,8 @@
 > this step, once pushed to *GitHub* will trigger the release workflows.
 
 > **Note**
-> in the following, `nushell` will be used to pull and push to the [`nushell`] repo
+> in the following, `nushell` will be used to pull and push to the [`nushell`] repo,
+> e.g. the `nushell` remote would be *https://github.com/nushell/nushell* or *git@github.com:nushell/nushell*
 
 - [ ] get the latest version bump commit with `git pull nushell main`
 - [ ] run `cargo build` to check if it's ok and check last features
