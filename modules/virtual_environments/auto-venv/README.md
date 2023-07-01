@@ -14,7 +14,7 @@ For example:
 # config.nu
 
 export-env {
-    let-env AUTO_VENV_TRIGGER = '__auto-venv.nu'
+    $env.AUTO_VENV_TRIGGER = '__auto-venv.nu'
 
     source-env ~/path/to/nu_scripts/modules/virtual_environments/auto-venv/auto-venv.nu
 }

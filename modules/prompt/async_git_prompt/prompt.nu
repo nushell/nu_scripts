@@ -26,6 +26,6 @@ def prompt-create-right-prompt [] {
     $nothing
 }
 
-let-env PROMPT_COMMAND = { prompt-create-left-prompt }
-let-env PROMPT_COMMAND_RIGHT = { prompt-create-right-prompt }
-let-env PROMPT_INDICATOR = { $" (ansi green_bold)〉" }
+$env.PROMPT_COMMAND = { prompt-create-left-prompt }
+$env.PROMPT_COMMAND_RIGHT = { prompt-create-right-prompt }
+$env.PROMPT_INDICATOR = { $" (ansi green_bold)〉" }

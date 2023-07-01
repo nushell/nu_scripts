@@ -67,7 +67,7 @@ export def build-alacritty-config [base_txt: path] {
     # | save --raw "~/.config/alacritty/alacritty_colors.yml"
     let conf = ($base16 | apply-base16-mustache $template)
 
-    let-env ALACRITTY_CONFIG = $conf
+    $env.ALACRITTY_CONFIG = $conf
 
     nu -c "$nu.env.ALACRITTY_CONFIG | save --raw '~/.config/alacritty/alacritty_colors.yml'"
 }

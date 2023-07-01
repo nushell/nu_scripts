@@ -33,7 +33,7 @@ Next, set up Nushell config, assuming the base16 colors are generated
 use ~/.config/nushell/base16.nu
 
 # File containing base16 colors
-let-env BASE16_TXT = "/tmp/base16.txt"
+$env.BASE16_TXT = "/tmp/base16.txt"
 
 let config = {
     color_config: (base16 build-nu-config $env.BASE16_TXT)

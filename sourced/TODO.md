@@ -19,7 +19,7 @@ your terminal documentation or find a work around
 - *Recommended*
   In your `env.nu`, add an environment variable pointing to the `todo.txt`. Example:
   ```nu
-  let-env TODO = ($nu.config-path | path dirname | path join 'scripts/todo.txt')
+  $env.TODO = ($nu.config-path | path dirname | path join 'scripts/todo.txt')
   ```
 - Source the `todo` command in your `config.nu`. Example
   ```nu

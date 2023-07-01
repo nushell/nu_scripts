@@ -9,8 +9,8 @@
 #   - Disable the separate prompt indicator by setting it to an empty string
 # - For example, with this file in your home directory:
 #     use ~/panache-git.nu panache-git
-#     let-env PROMPT_COMMAND = { panache-git }
-#     let-env PROMPT_INDICATOR = { "" }
+#     $env.PROMPT_COMMAND = { panache-git }
+#     $env.PROMPT_INDICATOR = { "" }
 # - Restart Nushell
 #
 # For more documentation or to file an issue, see https://github.com/ehdevries/panache-git

@@ -6,9 +6,9 @@ The thought would be that at some point this file source read another file for c
 
 In order to use this script you need to source it and then set these.
 ```
-let-env PROMPT_COMMAND = { (get_prompt 8bit).left_prompt }
-let-env PROMPT_COMMAND_RIGHT = { (get_prompt 8bit).right_prompt }
-let-env PROMPT_INDICATOR = { "" }
+$env.PROMPT_COMMAND = { (get_prompt 8bit).left_prompt }
+$env.PROMPT_COMMAND_RIGHT = { (get_prompt 8bit).right_prompt }
+$env.PROMPT_INDICATOR = { "" }
 ```
 
 I'd love for someone to take up the torch and work on this script in order to make it better, configurable, awesome.

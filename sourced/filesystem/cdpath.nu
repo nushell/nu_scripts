@@ -31,6 +31,6 @@ def-env c [dir = ""] {
 }
 
 # You need to have $env.CDPATH variable declared, my suggestion from config.nu:
-# let-env CDPATH = [".", $env.HOME, "/", ([$env.HOME, ".config"] | path join)]
+# $env.CDPATH = [".", $env.HOME, "/", ([$env.HOME, ".config"] | path join)]
 # WINDOWS:
-# let-env CDPATH = ["", $env.USERPROFILE, ([$env.USERPROFILE, "AppData\\Roaming\\"] | path join)]
+# $env.CDPATH = ["", $env.USERPROFILE, ([$env.USERPROFILE, "AppData\\Roaming\\"] | path join)]

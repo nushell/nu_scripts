@@ -1,7 +1,7 @@
 export-env {
     for c in [podman nerdctl docker] {
         if not (which $c | is-empty) {
-            let-env docker-cli = $c
+            $env.docker-cli = $c
             break
         }
     }

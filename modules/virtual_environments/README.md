@@ -15,7 +15,7 @@ The activation and deactivation commands are exported from the `conda` module.
 
 The `activate` command also includes custom completions for the environment names.
 To disable the prompt changes (e.g., to let [Starship](https://starship.rs) include its own), set the environment variable `CONDA_NO_PROMPT`.
-To set it globally, add the line `let-env CONDA_NO_PROMPT = true` to `$nu.config-path`.
+To set it globally, add the line `$env.CONDA_NO_PROMPT = true` to `$nu.config-path`.
 
 ## Limitations
 

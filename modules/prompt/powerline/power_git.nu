@@ -123,7 +123,7 @@ export def git_stat [] {
 }
 
 export-env {
-    let-env NU_PROMPT_GIT_FORMATTER = (power default_env
+    $env.NU_PROMPT_GIT_FORMATTER = (power default_env
         NU_PROMPT_GIT_FORMATTER
         [
             [behind              (char branch_behind) yellow]

@@ -9,7 +9,7 @@
 use get-weather.nu get_weather
 
 # Create a mutable weather table to hold the weather data
-let-env WEATHER = (get_weather | upsert last_run_time { (date now | date format '%Y-%m-%d %H:%M:%S %z')})
+$env.WEATHER = (get_weather | upsert last_run_time { (date now | date format '%Y-%m-%d %H:%M:%S %z')})
 
 #command to run at interval
 def-env timed_weather_run [
@@ -30,7 +30,7 @@ def-env timed_weather_run [
     } else {
         # $"interval met, running command: [($command)](char nl)"
 
-        let-env WEATHER = (get_weather | upsert last_run_time { (date now | date format '%Y-%m-%d %H:%M:%S %z')})
+        $env.WEATHER = (get_weather | upsert last_run_time { (date now | date format '%Y-%m-%d %H:%M:%S %z')})
         let temp = ($env.WEATHER.Temperature)
         let emoji = ($env.WEATHER.Emoji)
         {
