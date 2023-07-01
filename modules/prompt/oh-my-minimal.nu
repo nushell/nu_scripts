@@ -274,11 +274,11 @@ export def get_prompt [nerd?] {
     #
     # in the config.nu you would do something like
     # use "c:\some\path\to\nu_scripts\engine-q\prompt\oh-my-minimal.nu" get_prompt
-    # let-env PROMPT_COMMAND = { (get_prompt).left_prompt }
-    # let-env PROMPT_COMMAND_RIGHT = { (get_prompt).right_prompt }
-    # let-env PROMPT_INDICATOR = " "
+    # $env.PROMPT_COMMAND = { (get_prompt).left_prompt }
+    # $env.PROMPT_COMMAND_RIGHT = { (get_prompt).right_prompt }
+    # $env.PROMPT_INDICATOR = " "
     # or with nerdfonts
-    # let-env PROMPT_COMMAND = { (get_prompt 1).left_prompt }
-    # let-env PROMPT_COMMAND_RIGHT = { (get_prompt 1).right_prompt }
+    # $env.PROMPT_COMMAND = { (get_prompt 1).left_prompt }
+    # $env.PROMPT_COMMAND_RIGHT = { (get_prompt 1).right_prompt }
 
 }

@@ -539,7 +539,7 @@ export def git_prompt [] {
     #
     # in the config.nu you would do something like
     # use "c:\some\path\to\nu_scripts\prompt\oh-my.nu" git_prompt
-    # let-env PROMPT_COMMAND = { (git_prompt).left_prompt }
-    # let-env PROMPT_COMMAND_RIGHT = { (git_prompt).right_prompt }
-    # let-env PROMPT_INDICATOR = " "
+    # $env.PROMPT_COMMAND = { (git_prompt).left_prompt }
+    # $env.PROMPT_COMMAND_RIGHT = { (git_prompt).right_prompt }
+    # $env.PROMPT_INDICATOR = " "
 }

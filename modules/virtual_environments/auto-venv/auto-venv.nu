@@ -8,13 +8,13 @@ export use path_extensions.nu
 export-env {
 
     # this needs to be set somewhere
-    # let-env AUTO_VENV_TRIGGER = '__auto-venv.nu'
+    # $env.AUTO_VENV_TRIGGER = '__auto-venv.nu'
 
     let hooks = (default-hooks)
 
     let hooks = ($hooks | append (build-hooks))
 
-    let-env config = ($env.config | upsert hooks.env_change.PWD $hooks )
+    $env.config = ($env.config | upsert hooks.env_change.PWD $hooks )
 }
 
 

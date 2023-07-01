@@ -32,6 +32,6 @@ module update-path {
         | append (registry query --hklm 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment'| parse-paths)
     }
     export def-env update-path [] {
-        let-env Path = ($env.Path|append (get-paths-from-registry)|uniq)
+        $env.Path = ($env.Path|append (get-paths-from-registry)|uniq)
     }
 }

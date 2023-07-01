@@ -112,8 +112,8 @@ export def `kcache flush` [] {
 }
 
 export-env {
-    let-env KUBERNETES_SCHEMA_URL = $"file:///($env.HOME)/.config/kubernetes-json-schema/all.json"
-    let-env KUBERNETES_RESOURCE_ABBR = {
+    $env.KUBERNETES_SCHEMA_URL = $"file:///($env.HOME)/.config/kubernetes-json-schema/all.json"
+    $env.KUBERNETES_RESOURCE_ABBR = {
         s: services
         d: deployments
         p: pods
@@ -388,7 +388,7 @@ export def-env kcconf [name: string@"nu-complete kube ctx"] {
     let dist = $"($env.HOME)/.kube/config.d"
     mkdir $dist
     kconf export $name | save -fr $"($dist)/($name)"
-    let-env KUBECONFIG = $"($dist)/($name)"
+    $env.KUBECONFIG = $"($dist)/($name)"
 }
 
 ### common

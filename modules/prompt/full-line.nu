@@ -3,15 +3,15 @@
 # 
 # to use:
 # 1. copy this file to `($nu.default-config-dir | path add 'scripts')` (Or someplace on your $env.NU_LIB_DIRS path, defined in env.nu)
-# 2. cut `let-env PROMPT_COMMAND` and `PROMPT_OMMAND_RIGHT' from your env.nu.  
+# 2. cut `$env.PROMPT_COMMAND` and `PROMPT_OMMAND_RIGHT' from your env.nu.  
 #    These will depend on `use full-line`, which can not be done in env.nu.
 #    You can leave the `PROMPT-*INDICATOR*` statements in env.nu or 
 #    consolidate all prompt stuff in config.nu.
 # 3. Add new prompt setup stuff somewhere in config.nu:
 #   ```
 #   use prompt-builder.nu
-#   let-env PROMPT_COMMAND = {|| prompt-builder }
-#   let-env PROMPT_COMMAND_RIGHT = ""
+#   $env.PROMPT_COMMAND = {|| prompt-builder }
+#   $env.PROMPT_COMMAND_RIGHT = ""
 #   ```
 #
 # credit panache-git for the git status widget.  

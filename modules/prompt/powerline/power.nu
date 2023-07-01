@@ -372,21 +372,21 @@ export def-env init [] {
         'default' => {
             match $env.NU_POWER_MODE {
                 'power' => {
-                    let-env PROMPT_COMMAND = (wraptime
+                    $env.PROMPT_COMMAND = (wraptime
                         'dynamic left'
                         (left_prompt $env.NU_POWER_SCHEMA.0)
                     )
-                    let-env PROMPT_COMMAND_RIGHT = (wraptime
+                    $env.PROMPT_COMMAND_RIGHT = (wraptime
                         'dynamic right'
                         (right_prompt $env.NU_POWER_SCHEMA.1)
                     )
                 }
                 'fast' => {
-                    let-env PROMPT_COMMAND = (wraptime
+                    $env.PROMPT_COMMAND = (wraptime
                         'static left'
                         (left_prompt_gen $env.NU_POWER_SCHEMA.0)
                     )
-                    let-env PROMPT_COMMAND_RIGHT = (wraptime
+                    $env.PROMPT_COMMAND_RIGHT = (wraptime
                         'static right'
                         (right_prompt_gen $env.NU_POWER_SCHEMA.1)
                     )
@@ -394,26 +394,26 @@ export def-env init [] {
             }
         }
         'fill' => {
-            let-env PROMPT_COMMAND = (up_prompt $env.NU_POWER_SCHEMA)
+            $env.PROMPT_COMMAND = (up_prompt $env.NU_POWER_SCHEMA)
         }
     }
 
-    let-env PROMPT_INDICATOR = {||
+    $env.PROMPT_INDICATOR = {||
         match $env.NU_POWER_DECORATOR {
             'plain' => { "> " }
             _ => { " " }
         }
     }
-    let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
-    let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
-    let-env PROMPT_MULTILINE_INDICATOR = {||
+    $env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
+    $env.PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
+    $env.PROMPT_MULTILINE_INDICATOR = {||
         match $env.NU_POWER_DECORATOR {
             'plain' => { "::: " }
             _ => { $"(char haze) " }
         }
     }
 
-    let-env config = ( $env.config | update menus ($env.config.menus
+    $env.config = ( $env.config | update menus ($env.config.menus
         | each {|x|
             if ($x.marker in $env.NU_POWER_MENU_MARKER) {
                 let c = ($env.NU_POWER_MENU_MARKER | get $x.marker)
@@ -428,7 +428,7 @@ export def-env init [] {
 }
 
 export def-env set [name theme config?] {
-    let-env NU_POWER_THEME = (if ($theme | is-empty) {
+    $env.NU_POWER_THEME = (if ($theme | is-empty) {
             $env.NU_POWER_THEME
         } else {
             $env.NU_POWER_THEME
@@ -439,7 +439,7 @@ export def-env set [name theme config?] {
                 })
         })
 
-    let-env NU_POWER_CONFIG = (if ($config | is-empty) {
+    $env.NU_POWER_CONFIG = (if ($config | is-empty) {
             $env.NU_POWER_CONFIG
         } else {
             $env.NU_POWER_CONFIG
@@ -454,7 +454,7 @@ export def-env set [name theme config?] {
 export def-env register [name source theme config?] {
     set $name $theme $config
 
-    let-env NU_PROMPT_COMPONENTS = (
+    $env.NU_PROMPT_COMPONENTS = (
         $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
     )
 }
@@ -471,7 +471,7 @@ export def-env inject [pos idx define theme? config?] {
         ] | flatten
     }
 
-    let-env NU_POWER_SCHEMA = (
+    $env.NU_POWER_SCHEMA = (
         $env.NU_POWER_SCHEMA
         | update $pos $next
     )
@@ -484,7 +484,7 @@ export def-env inject [pos idx define theme? config?] {
         let next_theme = ($theme | transpose k v)
         for n in $next_theme {
             if $n.k in $prev_cols {
-                let-env NU_POWER_THEME = (
+                $env.NU_POWER_THEME = (
                     $env.NU_POWER_THEME | update $kind {|conf|
                       $conf | get $kind | update $n.k (ansi -e {fg: $n.v})
                     }
@@ -497,7 +497,7 @@ export def-env inject [pos idx define theme? config?] {
         let prev_cols = ($env.NU_POWER_CONFIG | get $kind | columns)
         for n in ($config | transpose k v) {
             if $n.k in $prev_cols {
-                let-env NU_POWER_CONFIG = (
+                $env.NU_POWER_CONFIG = (
                     $env.NU_POWER_CONFIG | update $kind {|conf|
                       $conf | get $kind | update $n.k $n.v
                     }
@@ -512,7 +512,7 @@ export def-env eject [] {
 }
 
 export def-env hook [] {
-    let-env config = ( $env.config | upsert hooks.env_change { |config|
+    $env.config = ( $env.config | upsert hooks.env_change { |config|
         let init = [{|before, after| if not ($before | is-empty) { init } }]
         $config.hooks.env_change
         | upsert NU_POWER_MODE $init
@@ -532,14 +532,14 @@ export def-env hook [] {
 }
 
 export-env {
-    let-env NU_POWER_BENCHMARK = false
+    $env.NU_POWER_BENCHMARK = false
 
-    let-env NU_POWER_MODE = (default_env
+    $env.NU_POWER_MODE = (default_env
         NU_POWER_MODE
         'power' # power | fast
     )
 
-    let-env NU_POWER_SCHEMA = (default_env
+    $env.NU_POWER_SCHEMA = (default_env
         NU_POWER_SCHEMA
         [
             [
@@ -553,17 +553,17 @@ export-env {
         ]
     )
 
-    let-env NU_POWER_FRAME = (default_env
+    $env.NU_POWER_FRAME = (default_env
         NU_POWER_FRAME
         'default' # default | fill
     )
 
-    let-env NU_POWER_DECORATOR = (default_env
+    $env.NU_POWER_DECORATOR = (default_env
         NU_POWER_DECORATOR
         'power' # power | plain
     )
 
-    let-env NU_POWER_MENU_MARKER = (default_env
+    $env.NU_POWER_MENU_MARKER = (default_env
         NU_POWER_MENU_MARKER
         {
             "| " : 'green'
@@ -573,7 +573,7 @@ export-env {
         }
     )
 
-    let-env NU_POWER_THEME = (default_env
+    $env.NU_POWER_THEME = (default_env
         NU_POWER_THEME
         {
             pwd: {
@@ -594,7 +594,7 @@ export-env {
         }
     )
 
-    let-env NU_POWER_CONFIG = (default_env
+    $env.NU_POWER_CONFIG = (default_env
         NU_POWER_CONFIG
         {
             time: {
@@ -603,7 +603,7 @@ export-env {
         }
     )
 
-    let-env NU_PROMPT_COMPONENTS = {
+    $env.NU_PROMPT_COMPONENTS = {
         pwd: (pwd_abbr)
         proxy: (proxy_stat)
         host: (host_abbr)
