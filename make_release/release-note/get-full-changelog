@@ -12,7 +12,7 @@ def main [] {
         [Extension nushell/vscode-nushell-lang]
         [Documentation nushell/nushell.github.io]
         [Nu_Scripts nushell/nu_scripts]
-        [Reedline reedline]
+        [Reedline nushell/reedline]
     ]
 
     $changelogs | each {|changelog|
