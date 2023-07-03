@@ -1,19 +1,23 @@
-let pass_completions_directory = if ($env | columns | any { |it| $it == "PASSWORD_STORE_DIR" }) {
-	$env.PASSWORD_STORE_DIR
-} else {
-	(^realpath ~/.password-store/) + "/"
+def pass_completions_directory [] {
+    if ($env | columns | any { |it| $it == "PASSWORD_STORE_DIR" }) {
+        return $env.PASSWORD_STORE_DIR
+    } else {
+        return $"(^realpath ~/.password-store/)/"
+    }
 }
 
 def "nu-complete pass-files" [] {
-	^find $pass_completions_directory -name "*.gpg" -type f
-		| lines 
-		| each {|it| ($it | str replace $pass_completions_directory "" | str replace ".gpg" "") }
+    let dir = (pass_completions_directory)
+	ls $"(pass_completions_directory)/**/*.gpg"
+		| get name 
+		| each {|it| ($it | str replace $dir "" | str replace ".gpg" "") }
 }
 
 def "nu-complete pass-directories" [] {
-	^find $pass_completions_directory -name ".git" -prune -o -type d -print
+    let dir = (pass_completions_directory)
+	^find $dir -name ".git" -prune -o -type d -print
 		| lines
-		| each {|it| ($it | str replace $pass_completions_directory "") }
+		| each {|it| ($it | str replace $dir "") }
 		| filter { |it| ($it | is-empty) == false }
 }
 
