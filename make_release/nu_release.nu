@@ -1,5 +1,18 @@
 use std log
 
+def publish [
+    crate: path # the path to the crate to publish.
+    --no-verify: bool # don’t verify the contents by building them. Can be useful for crates with a `build.rs`.
+] {
+    cd $crate
+
+    if $no_verify {
+        cargo publish --no-verify
+    } else {
+        cargo publish
+    }
+}
+
 let subcrates_wave_1 = [
     nu-glob,
     nu-json,
@@ -38,18 +51,17 @@ let subcrates_wave_3 = [
 
 log warning "publishing the first wave of crates"
 for subcrate in $subcrates_wave_1 {
-    cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml")
+    publish ("crates" | path join $subcrate)
 }
 
 log warning "publishing the second wave of crates"
 for subcrate in $subcrates_wave_2 {
-    # due to build.rs in `nu-command`
-    cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml") --no-verify
+    publish ("crates" | path join $subcrate) --no-verify
 }
 
 log warning "publishing the third wave of crates"
 for subcrate in $subcrates_wave_3 {
-    cargo publish --manifest-path ("crates" | path join $subcrate "Cargo.toml")
+    publish ("crates" | path join $subcrate)
 }
 
 cargo publish
