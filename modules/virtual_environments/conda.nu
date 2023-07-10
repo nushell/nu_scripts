@@ -83,12 +83,13 @@ export def-env deactivate [] {
     hide-env CONDA_DEFAULT_ENV
     hide-env CONDA_OLD_PATH
 
-    $env.PROMPT_COMMAND = if $env.CONDA_OLD_PROMPT_COMMAND == $nothing {
-        $env.PROMPT_COMMAND
-    } else {
-        $env.CONDA_OLD_PROMPT_COMMAND
-    }
-
+    $env.PROMPT_COMMAND = (
+        if $env.CONDA_OLD_PROMPT_COMMAND == $nothing {
+            $env.PROMPT_COMMAND
+        } else {
+            $env.CONDA_OLD_PROMPT_COMMAND
+        }
+    )
     hide-env CONDA_OLD_PROMPT_COMMAND
 }
 
