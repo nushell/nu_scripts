@@ -39,6 +39,7 @@ def "nu-complete docker ns" [] {
     }
 }
 
+# list containers
 export def dp [-n: string@"nu-complete docker ns"] {
     # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
     let cli = $env.docker-cli
@@ -65,6 +66,7 @@ export def dp [-n: string@"nu-complete docker ns"] {
     }
 }
 
+# list images
 export def di [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) images
     | from ssv -a
@@ -108,6 +110,7 @@ def "nu-complete docker images" [] {
     | each {|x| $"($x.REPOSITORY):($x.TAG)"}
 }
 
+# log
 export def dl [ctn: string@"nu-complete docker container"
     -l: int = 100 # line
 ] {
@@ -115,6 +118,7 @@ export def dl [ctn: string@"nu-complete docker container"
     ^$env.docker-cli logs -f $l $ctn
 }
 
+# log
 export def dln [ctn: string@"nu-complete docker container"
     -l: int = 100 # line
     -n: string@"nu-complete docker ns" # namespace
@@ -123,6 +127,7 @@ export def dln [ctn: string@"nu-complete docker container"
     ^$env.docker-cli (spr [-n $n]) logs -f $l $ctn
 }
 
+# attach container
 export def da [
     ctn: string@"nu-complete docker container"
     -n: string@"nu-complete docker ns"
@@ -158,6 +163,7 @@ def "nu-complete docker cp" [cmd: string, offset: int] {
     }
 }
 
+# copy file
 export def dcp [
     lhs: string@"nu-complete docker cp",
     rhs: string@"nu-complete docker cp"
@@ -165,46 +171,57 @@ export def dcp [
     ^$env.docker-cli cp $lhs $rhs
 }
 
+# remove container
 export def dcr [ctn: string@"nu-complete docker all container" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) container rm -f $ctn
 }
 
+# inspect
 export def dis [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) inspect $img
 }
 
+# history
 export def dh [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) history --no-trunc $img | from ssv -a
 }
 
+# save images
 export def dsv [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
     ^$env.docker-cli (spr [-n $n]) save $img
 }
 
+# load images
 export def dld [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) load
 }
 
+# system prune
 export def dsp [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) system prune -f
 }
 
+# system prune all
 export def dspall [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) system prune --all --force --volumes
 }
 
+# remove image
 export def drmi [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) rmi $img
 }
 
+# add new tag
 export def dt [from: string@"nu-complete docker images"  to: string -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) tag $from $to
 }
 
+# push image
 export def dps [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) push $img
 }
 
+# pull image
 export def dpl [img -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) pull $img
 }
@@ -218,14 +235,17 @@ def "nu-complete docker volume" [] {
     dvl | get name
 }
 
+# create volume
 export def dvc [name: string -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) volume create
 }
 
+# inspect volume
 export def dvi [name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) volume inspect $name
 }
 
+# remove volume
 export def dvr [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) volume rm $name
 }
@@ -258,6 +278,7 @@ def host-path [path] {
     }
 }
 
+# run
 export def dr [
     --debug(-x): bool
     --appimage: bool
