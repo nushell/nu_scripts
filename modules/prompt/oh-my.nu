@@ -462,9 +462,9 @@ def git_right_prompt [gs os] {
     let status_segment = (
         [
             (if $env.LAST_EXIT_CODE != 0 {
-                (ansi { fg: "#CC0000" bg: "#191323"})
+                (ansi { fg: "#CC0000" })
             } else {
-                (ansi { fg: "#606060" bg: "#191323"})
+                (ansi { fg: "#606060" })
             })
             (char -u e0b3)
             (char space)
