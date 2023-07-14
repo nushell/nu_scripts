@@ -1,3 +1,12 @@
+# can be used in the REPL by adding something like the following block to `$env.config.keybindings` in your `config.nu`
+# {
+#     name: commands_with_description_menu
+#     modifier: control
+#     keycode: char_s
+#     mode: [emacs, vi_normal, vi_insert]
+#     event: { send: menu name: commands_with_description }
+# }
+
 {
     name: commands_with_description_menu
     only_buffer_difference: true
