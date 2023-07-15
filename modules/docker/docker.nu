@@ -276,6 +276,7 @@ export def dr [
     --entrypoint: string                                # entrypoint
     --dry-run: bool
     --with-x: bool
+    --privileged(-P): bool
     --namespace(-n): string@"nu-complete docker ns"
     img: string@"nu-complete docker images"             # image
     ...cmd                                              # command args
@@ -290,6 +291,7 @@ export def dr [
     let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x| [-p $"($x.k):($x.v)"] } | flatten }
     let debug = (sprb $debug [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined])
     #let appimage = (sprb $appimage [--device /dev/fuse --security-opt apparmor:unconfined])
+    let privileged = (sprb $privileged [--privileged])
     let appimage = (sprb $appimage [--device /dev/fuse])
     let netadmin = (sprb $netadmin [--cap-add=NET_ADMIN --device /dev/net/tun])
     let clip = (sprb $with_x [-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix])
@@ -306,7 +308,7 @@ export def dr [
     }
     let cache = (spr [-v $cache])
     let args = ([
-        $entrypoint $attach $daemon
+        $privileged $entrypoint $attach $daemon
         $ports $envs $ssh $proxy
         $debug $appimage $netadmin $clip
         $mnt $vols $workdir $cache
