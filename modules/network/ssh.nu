@@ -1,5 +1,13 @@
-export def ensure-cache [cache path action] {
-    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
+export def ensure-cache [cache paths action] {
+    mut cfgs = []
+    for i in $paths {
+        let cs = (do -i {ls $i})
+        if not ($cs | is-empty) {
+            $cfgs = ($cfgs | append $cs)
+        }
+    }
+    let cfgs = $cfgs
+    let ts = ($cfgs | sort-by modified | reverse | get 0.modified)
     if ($ts | is-empty) { return false }
     let tc = (do -i { ls $cache | get 0.modified })
     if not (($cache | path exists) and ($ts < $tc)) {
@@ -50,7 +58,7 @@ def fmt-group [p] {
 
 def "ssh-hosts" [] {
     let cache = $'($env.HOME)/.cache/nu-complete/ssh.json'
-    ensure-cache $cache ~/.ssh/**/* { ||
+    ensure-cache $cache [~/.ssh/config ~/.ssh/config*/* ] { ||
         let data = (ssh-list | each {|x|
                 let uri = $"($x.User)@($x.HostName):($x.Port)"
                 {

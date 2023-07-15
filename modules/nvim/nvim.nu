@@ -40,7 +40,7 @@ def nvim_tcd [] {
 }
 
 export-env {
-    $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
+    let-env config = ( $env.config | upsert hooks.env_change.PWD { |config|
         let o = ($config | get -i hooks.env_change.PWD)
         let val = (nvim_tcd)
         if $o == $nothing {
@@ -134,10 +134,14 @@ export def opwd [] {
     nvim-lua 'OppositePwd()'
 }
 
-export def nvim-srv [port: int=1111] {
+export def nvim-srv [port: int=9999] {
     nvim --headless --listen $"0.0.0.0:($port)"
 }
 
-export def nvide-conn [addr: string] {
-    neovide --multigrid --maximized --remote-tcp addr
+export def nvc [addr: string] {
+    nvim --remote-ui --server $addr
+}
+
+export def nvdc [addr: string] {
+    neovide --multigrid --maximized --server $addr
 }

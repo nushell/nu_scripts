@@ -17,7 +17,7 @@ power init
 ```
 or
 ```
-$env.NU_POWER_SCHEMA = [
+let-env NU_POWER_SCHEMA = [
     [
         {source: pwd,   color: '#353230'}
         {source: git,   color: '#504945'}
@@ -38,19 +38,19 @@ power init
 `$env.NU_POWER_SCHEMA` support configuring dynamically
 
 ## mode
-- `$env.NU_POWER_MODE = '<power|fast>'` fast mode and default mode (experimental)
-- `$env.NU_POWER_DECORATOR = '<power|plain>'` power mode and plain mode
-- `$env.NU_POWER_FRAME = '<default|fill>'` two line prompt (experimental)
+- `let-env NU_POWER_MODE = '<power|fast>'` fast mode and default mode (experimental)
+- `let-env NU_POWER_DECORATOR = '<power|plain>'` power mode and plain mode
+- `let-env NU_POWER_FRAME = '<default|fill>'` two line prompt (experimental)
 
 ### benchmark
 ```
-$env.NU_POWER_BENCHMARK = true
+let-env NU_POWER_BENCHMARK = true
 ```
 Then execute a few commands casually, such as pressing the Enter key continuously.
 then execute
 
 ```
-$env.NU_POWER_MODE = 'fast' # or 'power'
+let-env NU_POWER_MODE = 'fast' # or 'power'
 ```
 
 Go ahead and press enter,
