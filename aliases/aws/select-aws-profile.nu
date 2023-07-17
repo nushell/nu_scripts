@@ -10,11 +10,12 @@
 # Usage
 #     select-aws-profile
 
-export alias select-aws-profile = (
+export def select-aws-profile [] {
     hide AWS_REGION;
     (do {
-        let creds = (open ($env.HOME + "/.aws/credentials") | from ini)
-            let selectedProfile = (for it in ($creds | transpose name creds) { echo $it.name } | str join "\n" | fzf | str trim)
+        let creds = (open ($env.HOME + "/.aws/credentials") | from toml)
+            $creds | transpose name creds  | each {|el| echo $el.name }
+            let selectedProfile = ($creds | transpose name creds  | each {|el| echo $el.name } | str join "\n" | fzf | str trim)
             if $selectedProfile != "" {
                     let out = {
                             AWS_PROFILE: $selectedProfile,
@@ -35,4 +36,4 @@ export alias select-aws-profile = (
         AWS_SECRET_ACCESS_KEY: $env.AWS_SECRET_ACCESS_KEY,
         AWS_REGION: $env.AWS_REGION
     }
-)
+}
