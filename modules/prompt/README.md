@@ -27,5 +27,5 @@ help shells
 ![shell_spaceshow](./images/shell_space.png)
 
 #### jalon-git.nu
-
+From https://github.com/JalonWong/nushell-prompt
 ![jalon-git](./images/jalon-git.png)
