@@ -6,7 +6,7 @@ These scripts should be used to draw a custom command prompt in nushell. They ca
 
 #### starship.nu
 
-File is in [starship](./starship.nu) 
+File is in [starship](./starship.nu)
 
 This discribe how to use starship to make a leftprompt, the repo of starship is [here](https://github.com/starship/starship).
 
@@ -25,3 +25,7 @@ help shells
 ```
 
 ![shell_spaceshow](./images/shell_space.png)
+
+#### jalon-git.nu
+From https://github.com/JalonWong/nushell-prompt
+![jalon-git](./images/jalon-git.png)
