@@ -7,10 +7,9 @@ def iter_inc [incr mult iter] {
 let is_release = (input "Did you compile in a release mode? y/n ")
 
 if ($is_release | str downcase | str trim) == "y" {
-
     print $"running test 0 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 0. this has wrong output
-    let 0 = (seq 10 | timeit {
+    let 0 = (seq 1 10 | each { timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -25,12 +24,12 @@ if ($is_release | str downcase | str trim) == "y" {
             } | str join)
             $"($row_data)(char newline)"
         } | str join
-    } | math avg)
+    }} | math avg)
 
 
     print $"running test 1 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 1. Fixed newline to fix the output (char cr)
-    let 1 = (seq 10 | timeit {
+    let 1 = (seq 1 10 | each { timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -45,11 +44,11 @@ if ($is_release | str downcase | str trim) == "y" {
             } | str join)
             $"($row_data)(char cr)"
         } | str join
-    } | math avg)
+    }} | math avg)
 
     print $"running test 2 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 2. Replace (char sp) with just space
-    let 2 = (seq 10 | timeit {
+    let 2 = (seq 1 10 | each { timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -64,11 +63,11 @@ if ($is_release | str downcase | str trim) == "y" {
             } | str join)
             $"($row_data)(char cr)"
         } | str join
-    } | math avg)
+    }} | math avg)
 
     print $"running test 3 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 3. Precompute (ansi -e '48;2;0;0;') and (ansi -e '0m') -- seems to be slower
-    let 3 = (seq 10 | timeit {
+    let 3 = (seq 1 10 | each { timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -85,11 +84,11 @@ if ($is_release | str downcase | str trim) == "y" {
             } | str join)
             $"($row_data)(char cr)"
         } | str join
-    } | math avg)
+    }} | math avg)
 
     print $"running test 4 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 4. Inline iter_inc call
-    let 4 = (seq 10 | timeit {
+    let 4 = (seq 1 10 | each { timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -104,11 +103,11 @@ if ($is_release | str downcase | str trim) == "y" {
             } | str join)
             $"($row_data)(char cr)"
         } | str join
-    } | math avg)
+    }} | math avg)
 
     print $"running test 5 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 5. Combine (char sp) substitution and iter_inc inlining
-    let 5 = (seq 10 | timeit {
+    let 5 = (seq 1 10 | each { timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -123,11 +122,11 @@ if ($is_release | str downcase | str trim) == "y" {
             } | str join)
             $"($row_data)(char cr)"
         } | str join
-    } | math avg)
+    }} | math avg)
 
     print $"running test 6 at (date now |  date format '%Y-%m-%d %H:%M:%S.%3f')"
     # 6. The above with par-each outer loop (using par-each anywhere else breaks the output)
-    let 6 = (seq 10 | timeit {
+    let 6 = (seq 1 10 | each { timeit {
         let height = 40
         let width = 160
         let stamp = 'Nu'
@@ -142,11 +141,18 @@ if ($is_release | str downcase | str trim) == "y" {
             } | str join)
             $"($row_data)(char cr)"
         } | str join
-    } | math avg)
+    }} | math avg)
 
     print 'collating tests'
-    [ $0 $1 $2 $3 $4 $5 $6 ]
-
+    {
+        wrong_output: $0
+        newline: $1 
+        span: $2
+        precompute_ansi: $3
+        inline_call: $4
+        space_and_inline_call: $5
+        par_each: $6
+    }
 } else {
     print "Compile in a release mode!"
 }
