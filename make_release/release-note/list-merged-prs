@@ -15,10 +15,7 @@ def main [
     --pretty: bool  # pretty-print for the MarkDown release not
     --no-author: bool  # do not group the contributions by author
 ] {
-    let date = (
-        if $date == null { (date now) - 3wk + 1day } else { $date }
-        | date format "%Y-%m-%d"
-    )
+    let date = $date | default ((date now) - 3wk + 1day) | date format "%Y-%m-%d"
 
     let query = if $label == null {
         $"merged:>($date)"
