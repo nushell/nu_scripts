@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 def main [
-    date?: datetime  # the date of the last release (default to 3 weeks ago, excluded)
+    date?: datetime  # the date of the last release (default to 4 weeks ago, excluded)
 ] {
     let list_merged_prs_script = (
         $env.CURRENT_FILE | path dirname | path join "list-merged-prs"
