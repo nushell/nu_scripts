@@ -25,7 +25,8 @@
 
 ## 1. Minor bump of the version ([example][nushell bump example])
 - [ ] bump the version with `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.toml`
-- [ ] commit `Cargo.lock`
+- [ ] bump the version info in the default configs with  `sd 'version = 0.xx.1' 'version = 0.xx+1.0' **/*.nu`
+- [ ] Also commit `Cargo.lock` AFTER running a cargo command (or update via `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.lock` assuming no other package carries that version specifier)
 
 ## 2. Tag the [`nushell`] repo
 > **Warning**  
