@@ -50,19 +50,40 @@ def main [
     let body = $"Please add your new features and breaking changes to the release notes
 by opening PRs against the `release-notes-($version)` branch."
 
+    log info "creating release note from template"
+    let release_note = $env.CURRENT_FILE
+        | path dirname
+        | path join "template.md"
+        | open
+        | str replace --all --string "{{VERSION}}" $version
+
+    log info $"branch: ($branch)"
+    log info $"blog: ($blog_path | str replace $repo "" | path split | skip 1 | path join)"
+    log info $"title: ($title)"
+
+    match (["yes" "no"] | input list --fuzzy "Inspect the release note document? ") {
+        "yes" => { $release_note | explore },
+        "no" | "" | _ => {},
+    }
+
+    match (["no" "yes"] | input list --fuzzy "Open release note PR? ") {
+        "yes" => {},
+        "no" | "" | _ => {
+            log warning "aborting."
+            return
+        },
+    }
+
+    return
+
     log info "setting up nushell.github.io repo"
     git clone git@github.com:nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
 
     log info "creating release branch"
     git -C $repo checkout -b $branch nushell/main
 
-    log info "creating release note from template"
-    $env.CURRENT_FILE
-    | path dirname
-    | path join "template.md"
-    | open
-    | str replace --all --string "{{VERSION}}" $version
-    | save --force $blog_path
+    log info "writing release note"
+    $release_note | save --force $blog_path
 
     log info "commiting release note"
     git -C $repo add $blog_path
