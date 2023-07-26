@@ -182,8 +182,12 @@ export def-env gn [
     --init (-i):      bool     # git init
 ] {
      if $init {
-        git init $repo
-        cd $repo
+        if ($repo | is-empty) {
+            git init --initial-branch main
+        } else {
+            git init $repo --initial-branch main
+            cd $repo
+        }
         if $submodule {
             git submodule init
         }
