@@ -79,7 +79,7 @@ by opening PRs against the `release-notes-($version)` branch."
         error make --unspanned {
             msg: ([
                 $out.stderr
-                $"please open the PR manually from a browser (ansi blue_underline)($pr_url | ansi link --text 'here')(ansi reset)"
+                $"please open the PR manually from a browser (ansi blue_underline)($pr_url)(ansi reset)"
             ] | str join "\n")
         }
     }
