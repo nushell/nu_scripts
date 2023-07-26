@@ -17,6 +17,9 @@ def main [
 ] {
     let date = $date | default ((date now) - 4wk) | date format "%Y-%m-%d"
 
+    let since = (date now | date format %F | into datetime) - ($date | into datetime)
+    log info $"listing PRs in ($repo) since ($date) \(($since) ago\)"
+
     let query = if $label == null {
         $"merged:>($date)"
     } else {
