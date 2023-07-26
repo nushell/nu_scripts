@@ -92,10 +92,7 @@ def time_segment [] {
 def logtime [msg act] {
     let start = (date now)
     let result = (do $act)
-    let period = ((date now) - $start
-        | into duration -c ns
-        | into string
-        | str replace ' ' '')
+    let period = ($"((date now) - $start | into duration -c ns)" | str replace ' ' '')
 
     echo $'($start | date format '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
     | save -a ~/.cache/nushell/power_time.log
