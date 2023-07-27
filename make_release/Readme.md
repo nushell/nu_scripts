@@ -24,9 +24,11 @@
 - [ ] bump the version on the Nushell side ([example with `reedline`][reedline pin example]) (reference the release notes for courtesy)
 
 ## 1. Minor bump of the version ([example][nushell bump example])
-- [ ] bump the version with `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.toml`
-- [ ] bump the version info in the default configs with  `sd 'version = 0.xx.1' 'version = 0.xx+1.0' **/*.nu`
-- [ ] Also commit `Cargo.lock` AFTER running a cargo command (or update via `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.lock` assuming no other package carries that version specifier)
+- [ ] in the repo of Nushell, run `/path/to/nu_scripts/make_release/bump-version.nu`
+- [ ] Also commit `Cargo.lock` AFTER running a Cargo command like `cargo check --workspace`
+
+> **Note**  
+> the `Cargo.lock` file can be updated via `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.lock` assuming no other package carries that version specifier
 
 ## 2. Tag the [`nushell`] repo
 > **Warning**  
@@ -86,7 +88,10 @@
 - [ ] run `./make_release/release-note/create-pr 0.xx.0 ((date now) + 4wk | date format "%Y-%m-%d" | into datetime)`
 
 ## 8. Bump the version as development
-- [ ] bump the patch version on [`nushell`] ([example][nushell dev example])
+- [ ] bump the patch version on [`nushell`] ([example][nushell dev example]) by running
+```nushell
+/path/to/nu_scripts/make_release/bump-version.nu --patch
+```
 
 
 [reedline bump example]: https://github.com/nushell/reedline/pull/596/files
