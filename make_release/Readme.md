@@ -27,9 +27,6 @@
 - [ ] in the repo of Nushell, run `/path/to/nu_scripts/make_release/bump-version.nu`
 - [ ] Also commit `Cargo.lock` AFTER running a Cargo command like `cargo check --workspace`
 
-> **Note**  
-> the `Cargo.lock` file can be updated via `sd 'version = "0.xx.1"' 'version = "0.xx+1.0"' **/Cargo.lock` assuming no other package carries that version specifier
-
 ## 2. Tag the [`nushell`] repo
 > **Warning**  
 > this is maybe the most critical step of the whole release process!!
