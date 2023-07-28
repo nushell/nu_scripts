@@ -29,11 +29,7 @@ def main [
             | save --force $file.name
     }
 
-    let config_files = "crates"
-        | path join "nu-utils" "src" "sample_config" "default_{config,env}.nu"
-        | str expand
-
-    $config_files | each {|file|
+    "crates/nu-utils/src/sample_config/default_{config,env}.nu" | str expand | each {|file|
         log debug $"bumping ($file) from ($version) to ($new_version)"
         open --raw $file
             | str replace --all --string $'version = ($version)' $'version = ($new_version)'
