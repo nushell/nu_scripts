@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 use std log
 
-# bump the minor or patch version of a Rust / Nushell project
+# bump the minor or patch version of the Nushell project
 def main [
     --patch: bool  # update the minor version instead of the minor
 ]: nothing -> nothing {
@@ -28,11 +28,16 @@ def main [
             | str replace --all --string $'version = "($version)"' $'version = "($new_version)"'
             | save --force $file.name
     }
-    ls **/*.nu | each {|file|
-        log debug $"bumping ($file.name) from ($version) to ($new_version)"
-        open --raw $file.name
+
+    let config_files = "crates"
+        | path join "nu-utils" "src" "sample_config" "default_{config,env}.nu"
+        | str expand
+
+    $config_files | each {|file|
+        log debug $"bumping ($file) from ($version) to ($new_version)"
+        open --raw $file
             | str replace --all --string $'version = ($version)' $'version = ($new_version)'
-            | save --force $file.name
+            | save --force $file
     }
 
     null
