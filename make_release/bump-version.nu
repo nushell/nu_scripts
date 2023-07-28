@@ -24,11 +24,15 @@ def main [
 
     ls **/Cargo.toml | each {|file|
         log debug $"bumping ($file.name) from ($version) to ($new_version)"
-        open --raw $file.name | str replace --all --string $'version = "($version)"' $'version = "($new_version)"' | save --force $file.name
+        open --raw $file.name
+            | str replace --all --string $'version = "($version)"' $'version = "($new_version)"'
+            | save --force $file.name
     }
     ls **/*.nu | each {|file|
         log debug $"bumping ($file.name) from ($version) to ($new_version)"
-        open --raw $file.name | str replace --all --string $'version = ($version)' $'version = ($new_version)' | save --force $file.name
+        open --raw $file.name
+            | str replace --all --string $'version = ($version)' $'version = ($new_version)'
+            | save --force $file.name
     }
 
     null
