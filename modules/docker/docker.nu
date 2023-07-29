@@ -39,7 +39,8 @@ def "nu-complete docker ns" [] {
     }
 }
 
-export def dp [-n: string@"nu-complete docker ns"] {
+# list containers
+export def container-process-list [-n: string@"nu-complete docker ns"] {
     # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
     let cli = $env.docker-cli
     if $cli == 'docker' {
@@ -65,7 +66,8 @@ export def dp [-n: string@"nu-complete docker ns"] {
     }
 }
 
-export def di [-n: string@"nu-complete docker ns"] {
+# list images
+export def image-list [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) images
     | from ssv -a
     | each {|x|
@@ -108,14 +110,16 @@ def "nu-complete docker images" [] {
     | each {|x| $"($x.REPOSITORY):($x.TAG)"}
 }
 
-export def dl [ctn: string@"nu-complete docker container"
+# container log
+export def container-log [ctn: string@"nu-complete docker container"
     -l: int = 100 # line
 ] {
     let l = if $l == 0 { [] } else { [--tail $l] }
     ^$env.docker-cli logs -f $l $ctn
 }
 
-export def dln [ctn: string@"nu-complete docker container"
+# container log with namespace
+export def container-log-namespace [ctn: string@"nu-complete docker container"
     -l: int = 100 # line
     -n: string@"nu-complete docker ns" # namespace
 ] {
@@ -123,7 +127,8 @@ export def dln [ctn: string@"nu-complete docker container"
     ^$env.docker-cli (spr [-n $n]) logs -f $l $ctn
 }
 
-export def da [
+# attach container
+export def container-attach [
     ctn: string@"nu-complete docker container"
     -n: string@"nu-complete docker ns"
     ...args
@@ -158,59 +163,71 @@ def "nu-complete docker cp" [cmd: string, offset: int] {
     }
 }
 
-export def dcp [
+# copy file
+export def container-copy-file [
     lhs: string@"nu-complete docker cp",
     rhs: string@"nu-complete docker cp"
 ] {
     ^$env.docker-cli cp $lhs $rhs
 }
 
-export def dcr [ctn: string@"nu-complete docker all container" -n: string@"nu-complete docker ns"] {
+# remove container
+export def container-remove [ctn: string@"nu-complete docker all container" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) container rm -f $ctn
 }
 
-export def dis [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+# inspect
+export def container-inspect [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) inspect $img
 }
 
-export def dh [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+# history
+export def container-history [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) history --no-trunc $img | from ssv -a
 }
 
-export def dsv [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
+# save images
+export def image-save [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
     ^$env.docker-cli (spr [-n $n]) save $img
 }
 
-export def dld [-n: string@"nu-complete docker ns"] {
+# load images
+export def image-load [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) load
 }
 
-export def dsp [-n: string@"nu-complete docker ns"] {
+# system prune
+export def system-prune [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) system prune -f
 }
 
-export def dspall [-n: string@"nu-complete docker ns"] {
+# system prune all
+export def system-pune-all [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) system prune --all --force --volumes
 }
 
-export def drmi [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+# remove image
+export def image-remove [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) rmi $img
 }
 
-export def dt [from: string@"nu-complete docker images"  to: string -n: string@"nu-complete docker ns"] {
+# add new tag
+export def image-tag [from: string@"nu-complete docker images"  to: string -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) tag $from $to
 }
 
-export def dps [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+# push image
+export def image-push [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) push $img
 }
 
-export def dpl [img -n: string@"nu-complete docker ns"] {
+# pull image
+export def image-pull [img -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) pull $img
 }
 
-### volume
-export def dvl [-n: string@"nu-complete docker ns"] {
+### list volume
+export def volume-list [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) volume ls | from ssv -a
 }
 
@@ -218,15 +235,18 @@ def "nu-complete docker volume" [] {
     dvl | get name
 }
 
-export def dvc [name: string -n: string@"nu-complete docker ns"] {
+# create volume
+export def volume-create [name: string -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) volume create
 }
 
-export def dvi [name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
+# inspect volume
+export def volume-inspect [name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) volume inspect $name
 }
 
-export def dvr [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
+# remove volume
+export def volume-remove [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) volume rm $name
 }
 
@@ -258,7 +278,8 @@ def host-path [path] {
     }
 }
 
-export def dr [
+# run
+export def container-create [
     --debug(-x): bool
     --appimage: bool
     --netadmin: bool
@@ -397,3 +418,26 @@ export def "bud rm" [
 ] {
     buildah rm $id
 }
+
+alias dp = container-process-list
+alias di = image-list
+alias dl = container-log
+alias dln = container-log-namespace
+alias da = container-attach
+alias dcp = container-copy-file
+alias dcr = container-remove
+alias dci = container-inspect
+alias dh = container-history
+alias dsv = image-save
+alias dld = image-load
+alias dsp = system-prune
+alias dspall = system-prune-all
+alias drmi = image-remove
+alias dt = image-tag
+alias dps = image-push
+alias dpl = image-pull
+alias dvl = volume-list
+alias dvc = volume-create
+alias dvi = volume-inspect
+alias dvr = volume-remove
+alias dr = container-create
