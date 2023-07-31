@@ -1,6 +1,8 @@
 #!/usr/bin/env nu
 
-def main [] {
+def main [
+    date?: datetime  # the date of the last release (default to 4 weeks ago, excluded)
+] {
     let list_merged_prs_script = (
         $env.CURRENT_FILE | path dirname | path join "list-merged-prs"
     )
@@ -18,7 +20,7 @@ def main [] {
     $changelogs | each {|changelog|
         [
             $"## ($changelog.title)"
-            (^$list_merged_prs_script $changelog.repo --pretty)
+            (^$list_merged_prs_script $changelog.repo --pretty $date)
         ] | str join "\n"
     }
     | str join "\n\n"
