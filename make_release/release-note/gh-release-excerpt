@@ -29,14 +29,14 @@ def main [
     let authors = $prs.author | uniq
 
     let author_string = ($authors | each {|name| $"@($name), "} | str join )
-    
-    let releasetext = [$"This is the ($versionname) release of Nushell. You can learn more about this release here: ($bloglink)",
-    (char nl), 
-    (char nl), 
-    "For convenience, we are providing full builds for Windows, Linux, and macOS. Be sure you have the requirements to enable all capabilities: https://www.nushell.sh/book/installation.html#dependencies", 
-    (char nl), 
-    (char nl), 
-    $"This release was made possible by PR contributions from ($author_string)"] | str join
 
-    return $releasetext
+    let release_text = [
+        $"This is the ($versionname) release of Nushell. You can learn more about this release here: ($bloglink)",
+        "",
+        "For convenience, we are providing full builds for Windows, Linux, and macOS. Be sure you have the requirements to enable all capabilities: https://www.nushell.sh/book/installation.html#dependencies", 
+        "",
+        $"This release was made possible by PR contributions from ($author_string)"
+    ]
+
+    $release_text | str join "\n"
 }
