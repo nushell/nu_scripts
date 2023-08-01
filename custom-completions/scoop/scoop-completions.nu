@@ -4,11 +4,6 @@
 # FUNCTIONS
 ################################################################
 
-# get environment variable
-def getenv [name: string] {
-  env | where name == $name | get value | first
-}
-
 # list of supported architecture
 def scoopArches [] {
   [ "32bit", "64bit" ]
@@ -16,10 +11,10 @@ def scoopArches [] {
 
 # list of all installed apps
 def scoopInstalledApps [] {
-  let localAppDir = if ('SCOOP' in (env).name) { [(getenv 'SCOOP'), 'apps'] | path join } else { [(getenv 'USERPROFILE'), 'scoop', 'apps'] | path join }
+  let localAppDir = if ('SCOOP' in $env) { [$env.SCOOP, 'apps'] | path join } else { [$env.USERPROFILE, 'scoop', 'apps'] | path join }
   let localApps   = (ls $localAppDir | get name | path basename)
 
-  let globalAppDir = if ('SCOOP_GLOBAL' in (env).name) { [(getenv 'SCOOP_GLOBAL'), 'apps'] | path join } else { [(getenv 'ProgramData'), 'scoop', 'apps'] | path join }
+  let globalAppDir = if ('SCOOP_GLOBAL' in $env) { [$env.SCOOP_GLOBAL), 'apps'] | path join } else { [$env.ProgramData, 'scoop', 'apps'] | path join }
   let globalApps   = if ($globalAppDir | path exists) { ls $globalAppDir | get name | path basename }
 
   $localApps | append $globalApps
@@ -32,8 +27,8 @@ def scoopInstalledAppsWithStar [] {
 
 # list of all manifests from all buckets
 def scoopAllApps [] {
-  let bucketsDir = if ('SCOOP' in (env).name) { [ (getenv 'SCOOP'), 'buckets' ] | path join } else { [ (getenv 'USERPROFILE'), 'scoop', 'buckets' ] | path join }
-  (ls -s $bucketsDir | get name) | each {|bucket| ls ([$bucketsDir, $bucket, 'bucket', '*.json'] | str join '\')  | get name | path basename | str substring ..-5 } | flatten | uniq
+  let bucketsDir = if ('SCOOP' in $env) { [ $env.SCOOP, 'buckets' ] | path join } else { [ $env.USERPROFILE, 'scoop', 'buckets' ] | path join }
+  (ls -s $bucketsDir | get name) | each {|bucket| ls ([$bucketsDir, $bucket, 'bucket', '*.json'] | path join ) | get name | path basename | str substring ..-5} | flatten | uniq
 }
 
 # list of all apps that are not installed
