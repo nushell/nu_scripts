@@ -55,7 +55,7 @@ def timed_weather_run [
                     Source: "expired-cache"
                     Emoji: ($emoji)
                 }
-                $weather_table | upsert last_run_time {(date now | date format '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
+                $weather_table | upsert last_run_time {(date now | format date '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
             }
         } else {
             # $"Unable to find [($weather_runtime_file)], creating it(char nl)"
@@ -67,7 +67,7 @@ def timed_weather_run [
                 Source: "initial"
                 Emoji: ($emoji)
             }
-            $weather_table | upsert last_run_time {(date now | date format '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
+            $weather_table | upsert last_run_time {(date now | format date '%Y-%m-%d %H:%M:%S %z')} | save $weather_runtime_file
         }
     } else {
         echo "Your command did not run because you are not on Windows..."

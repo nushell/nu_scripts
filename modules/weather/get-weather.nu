@@ -73,7 +73,7 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
         let forecast = ($forecast_data.list | each {|day|
                     {
                         id: ($day.weather.0.id)
-                        dt: ($day.dt | into string | into datetime -z local | date format '%a, %b %e') #'%Y-%m-%d')
+                        dt: ($day.dt | into string | into datetime -z local | format date '%a, %b %e') #'%Y-%m-%d')
                         high: ($day.temp.max)
                         low: ($day.temp.min)
                     }
@@ -111,7 +111,7 @@ def get_weather_by_ip [locIdx: int, units: string, token: string] {
         let forecast = ($forecast_data.list | each {|day|
                     {
                         id: ($day.weather.0.id)
-                        dt: ($day.dt | into string | into datetime -z local | date format '%a, %b %e') #'%Y-%m-%d')
+                        dt: ($day.dt | into string | into datetime -z local | format date '%a, %b %e') #'%Y-%m-%d')
                         high: ($day.temp.max)
                         low: ($day.temp.min)
                     }

@@ -15,9 +15,9 @@ def main [
     --pretty: bool  # pretty-print for the MarkDown release not
     --no-author: bool  # do not group the contributions by author
 ] {
-    let date = $date | default ((date now) - 4wk) | date format "%Y-%m-%d"
+    let date = $date | default ((date now) - 4wk) | format date "%Y-%m-%d"
 
-    let since = (date now | date format %F | into datetime) - ($date | into datetime)
+    let since = (date now | format date %F | into datetime) - ($date | into datetime)
     log info $"listing PRs in ($repo) since ($date) \(($since) ago\)"
 
     let query = if $label == null {

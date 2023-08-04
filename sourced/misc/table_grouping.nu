@@ -46,7 +46,7 @@ print ($table | group-by user_login | transpose user prs | each { |row|
 # ╰───┴──────────────────────────────────────────────────────────┴─────────────────┴───────────────────────────────────────────────────────╯
 
 def log [message:any] {
-    let now = (date now | date format '%Y%m%d_%H%M%S.%f')
+    let now = (date now | format date '%Y%m%d_%H%M%S.%f')
     let mess = ([$now '|DBG|' $message (char newline)] | str join)
     echo $mess
 }

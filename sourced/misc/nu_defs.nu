@@ -406,12 +406,12 @@ def gnu-plot [
 
 # date string YYYY-MM-DD
 def ymd [] {
-  (date now | date format %Y-%m-%d)
+  (date now | format date %Y-%m-%d)
 }
 
 # date string DD-MM-YYYY
 def dmy [] {
-  (date now | date format %d-%m-%Y)
+  (date now | format date %d-%m-%Y)
 }
 
 # create directory and cd into it.

@@ -11,7 +11,7 @@ def workspaces [] {
 
 def create_right_prompt [] {
     let time_segment = ([
-        (date now | date format '%r'),
+        (date now | format date '%r'),
         " ",
         (workspaces)
     ] | str join)

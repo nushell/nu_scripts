@@ -82,7 +82,7 @@
 - [ ] tweet about the new release
 
 ## 7. Create the next release note PR on the website
-- [ ] run `./make_release/release-note/create-pr 0.xx.0 ((date now) + 4wk | date format "%Y-%m-%d" | into datetime)`
+- [ ] run `./make_release/release-note/create-pr 0.xx.0 ((date now) + 4wk | format date "%Y-%m-%d" | into datetime)`
 
 ## 8. Bump the version as development
 - [ ] bump the patch version on [`nushell`] ([example][nushell dev example]) by running
