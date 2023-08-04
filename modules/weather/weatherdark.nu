@@ -132,7 +132,7 @@ export def-env get_weather_by_interval [INTERVAL_WEATHER] {
 
         if ($LAST_WEATHER_TIME | into datetime) + $INTERVAL_WEATHER < (date now) {
             let WEATHER = (get_weather_for_prompt (get_location 0))
-            let NEW_WEATHER_TIME = (date now | date format '%Y-%m-%d %H:%M:%S %z')
+            let NEW_WEATHER_TIME = (date now | format date '%Y-%m-%d %H:%M:%S %z')
 
             $last_runtime_data | upsert weather $WEATHER | upsert last_weather_time $NEW_WEATHER_TIME | save $weather_runtime_file
 
@@ -142,7 +142,7 @@ export def-env get_weather_by_interval [INTERVAL_WEATHER] {
         }
     } else {
         let WEATHER = (get_weather_for_prompt (get_location 0))
-        let LAST_WEATHER_TIME = (date now | date format '%Y-%m-%d %H:%M:%S %z')
+        let LAST_WEATHER_TIME = (date now | format date '%Y-%m-%d %H:%M:%S %z')
 
         let WEATHER_DATA = {
             "weather": ($WEATHER)

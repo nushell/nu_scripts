@@ -334,7 +334,7 @@ export def container-create [
         $debug $appimage $netadmin $clip
         $mnt $vols $workdir $cache
     ] | flatten)
-    let name = $"($img | split row '/' | last | str replace ':' '-')_(date now | date format %m%d%H%M)"
+    let name = $"($img | split row '/' | last | str replace ':' '-')_(date now | format date %m%d%H%M)"
     if $dry_run {
         echo $"docker ($ns | str join ' ') run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"
     } else {

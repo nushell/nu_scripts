@@ -84,7 +84,7 @@ def time_segment [] {
         } else {
             $'($theme.fst)%y-%m-%d[%w]%H:%M:%S'
         }
-        [$bg $"(date now | date format $format)"]
+        [$bg $"(date now | format date $format)"]
     }
 }
 
@@ -94,7 +94,7 @@ def logtime [msg act] {
     let result = (do $act)
     let period = ($"((date now) - $start | into duration -c ns)" | str replace ' ' '')
 
-    echo $'($start | date format '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
+    echo $'($start | format date '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
     | save -a ~/.cache/nushell/power_time.log
 
     $result

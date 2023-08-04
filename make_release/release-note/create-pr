@@ -43,7 +43,7 @@ def main [
     let branch = $"release-notes-($version)"
 
     let blog_path = (
-        $repo | path join "blog" $"($date | date format "%Y-%m-%d")-nushell_($version | str replace --all --string '.' '_').md"
+        $repo | path join "blog" $"($date | format date "%Y-%m-%d")-nushell_($version | str replace --all --string '.' '_').md"
     )
 
     let title = $"Release notes for `($version)`"

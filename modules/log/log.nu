@@ -6,7 +6,7 @@ def logtime [msg act] {
         | into string
         | str replace ' ' '')
 
-    echo $'($start | date format '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
+    echo $'($start | format date '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
     | save -a ~/.cache/nushell/time.log
 
     return $result
