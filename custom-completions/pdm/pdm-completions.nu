@@ -19,8 +19,8 @@ def "nu-complete pdm venv-commands" [] {
 }
 
 def "nu-complete pdm current-groups" [] {
-    let ng1 = try {(nuopen pyproject.toml | get tool.pdm.dev-dependencies | columns)} catch {[]}
-    let ng2 = try {(nuopen pyproject.toml | get project.optional-dependencies | columns)} catch {[]}
+    let ng1 = try {(open pyproject.toml | get tool.pdm.dev-dependencies | columns)} catch {[]}
+    let ng2 = try {(open pyproject.toml | get project.optional-dependencies | columns)} catch {[]}
     [] | append $ng1 | append $ng2
 }
 
