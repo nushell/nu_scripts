@@ -24,6 +24,10 @@ def "nu-complete pdm current-groups" [] {
     [] | append $ng1 | append $ng2
 }
 
+def "nu-complete pdm current-scripts" [] {
+    try {(open pyproject.toml | get tool.pdm.scripts | columns)} catch {[]}
+}
+
 export extern "pdm add"  [
     --verbose(-v)
     --global(-g)
@@ -255,7 +259,7 @@ export extern "pdm run" [
     --list(-l)
     --json(-j)
     --site-packages(-s)
-    script: string
+    script: string@"nu-complete pdm current-scripts"
     ...args: string
 ]
 
