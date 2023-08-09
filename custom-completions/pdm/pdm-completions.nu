@@ -18,6 +18,12 @@ def "nu-complete pdm venv-commands" [] {
     [create, list, remove, activate, purge]
 }
 
+def "nu-complete pdm current-groups" [] {
+    let ng1 = try {(nuopen pyproject.toml | get tool.pdm.dev-dependencies | columns)} catch {[]}
+    let ng2 = try {(nuopen pyproject.toml | get project.optional-dependencies | columns)} catch {[]}
+    [] | append $ng1 | append $ng2
+}
+
 export extern "pdm add"  [
     --verbose(-v)
     --global(-g)
@@ -37,7 +43,7 @@ export extern "pdm add"  [
     --venv: string
     --skip(-k)
     --dev(-d)
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --no-sync
     --editable (-e)
     --no-editable
@@ -101,7 +107,7 @@ export extern "pdm export" [
     --output(-o): string
     --pyproject
     --expandvars
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --no-default
     --dev(-d)
     --prod
@@ -119,7 +125,7 @@ export extern "pdm import" [
     --global(-g)
     --project(-p): path
     --dev(-d)
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --format: string@"nu-complete pdm export-file-format"
 ]
 
@@ -161,7 +167,7 @@ export extern "pdm install" [
     --no-lock
     --check
     --plugins
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --no-default
     --dev(-d)
     --prod
@@ -201,7 +207,7 @@ export extern "pdm lock" [
     --no-cross-platform
     --static-urls
     --no-static-urls
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --no-default
     --dev(-d)
     --prod
@@ -232,7 +238,7 @@ export extern "pdm remove" [
     --skip(-k)
     --venv: string
     --dev(-d)
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --no-sync
     --no-editable
     --no-self
@@ -312,7 +318,7 @@ export extern "pdm sync" [
     --clean
     --only-keep
     --reinstall(-r)
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --no-default
     --dev(-d)
     --prod
@@ -341,7 +347,7 @@ export extern "pdm update" [
     --venv: string
     --skip(-k)
     --dev(-d)
-    --group(-G): string
+    --group(-G): string@"nu-complete pdm current-groups"
     --no-sync
     --editable (-e)
     --no-editable
