@@ -20,11 +20,9 @@ export-env {
         ((ls $"($env.MSVS_ROOT)/VC/Tools/MSVC/*").name.0 | str replace -a '\\' '/')
       })
 
-  $env.MSVS_MSDK_ROOT = (REG QUERY 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' /v "InstallationFolder" | str replace '(.|\n)+REG_SZ\s+(.+)' "$2")
-  $env.MSVS_MSDK_ROOT = ($env.MSVS_MSDK_ROOT | str replace -a '\\' '/')
+  $env.MSVS_MSDK_ROOT = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder | get value)
 
-  $env.MSVS_MSDK_VER = (REG QUERY 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' /v "ProductVersion" | str replace '(.|\n)+REG_SZ\s+(.+)' "$2")
-  $env.MSVS_MSDK_VER = $"($env.MSVS_MSDK_VER).0"
+  $env.MSVS_MSDK_VER = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' ProductVersion | get value) + ".0"
 
   $env.MSVS_INCLUDE_PATH = ([
     $"($env.MSVS_ROOT)/Include/($env.MSVS_MSDK_VER)/cppwinrt/winrt",
@@ -43,7 +41,7 @@ export def-env activate [
     --sdk    (-s): string = "latest"  # Version of Windows SDK, must be "latest" or a valid version string
   ] {
   if (($env.MSVS_ROOT | is-empty) or ($env.MSVS_MSVC_ROOT | is-empty)) {
-    echo "Either Microsoft Visual Studio or MSVC is valid."
+    print "Either Microsoft Visual Studio or MSVC is valid."
     return
   }
 
@@ -57,19 +55,19 @@ export def-env activate [
       })
 
   if (($fh != "x64") and ($fh != "x86")) {
-    echo $"Wrong host architecture specified: ($fh)."
+    print $"Wrong host architecture specified: ($fh)."
     help n_msvc activate
     return
   }
 
   if (($ft != "x64") and ($ft != "x86")) {
-    echo $"Wrong target architecture specified: ($ft)."
+    print $"Wrong target architecture specified: ($ft)."
     help n_msvc activate
     return
   }
 
   if not ($"($env.MSVS_MSDK_ROOT)bin/($fs)" | path exists) {
-    echo $"Invalid Windows SDK version specified: ($fs)."
+    print $"Invalid Windows SDK version specified: ($fs)."
     return
   }
 
@@ -84,6 +82,7 @@ export def-env activate [
     $"($env.MSVS_ROOT)/Common7/Tools/devinit",
     $"($env.MSVS_ROOT)/MSBuild/Current/bin",
     $"($env.MSVS_ROOT)/MSBuild/Current/bin/Roslyn",
+    $"($env.MSVS_ROOT)/Team Tools/DiagnosticsHub/Collector",
     $"($env.MSVS_ROOT)/Team Tools/Performance Tools",
     $"($env.MSVS_MSVC_ROOT)/bin/Host($fh)/($ft)",
     $"($env.MSVS_MSDK_ROOT)bin/($ft)",
@@ -125,11 +124,18 @@ export def-env activate [
     INCLUDE: $env.MSVS_INCLUDE_PATH,
     LIB: $lib_path
   }
+
+  hide-env MSVS_BASE_PATH
+  hide-env MSVS_ROOT
+  hide-env MSVS_MSVC_ROOT
+  hide-env MSVS_MSDK_ROOT
+  hide-env MSVS_MSDK_VER
+  hide-env MSVS_INCLUDE_PATH
 }
 
 export def-env deactivate [] {
   if (($env.MSVS_ROOT | is-empty) or ($env.MSVS_MSVC_ROOT | is-empty)) {
-    echo "Either Microsoft Visual Studio or MSVC is valid."
+    print "Either Microsoft Visual Studio or MSVC is valid."
     return
   }
 
@@ -137,4 +143,7 @@ export def-env deactivate [] {
     Path: $env.MSVS_BASE_PATH,
     PATH: $env.MSVS_BASE_PATH
   }
+
+  hide-env INCLUDE
+  hide-env LIB
 }
