@@ -3,7 +3,7 @@ A simple module for activating and deactivating Conda environments.
 
 
 ## Prerequisites
-- [nushell](https://github.com/nushell/nushell) >= 0.73.0
+- [nushell](https://github.com/nushell/nushell) >= 0.83.0
 
 
 ## Installation
@@ -15,6 +15,7 @@ Put `nu_conda.nu` into the module folder of your nushell configuration workspace
 use nu_conda.nu         # activate module
 nu_conda activate py36  # activate a Conda environment, e.g. py36
 nu_conda deactivate     # deactivate the activated Conda environment
+nu_conda list           # list available environments, same as `$env.CONDA_ENVS`
 ```
 
 ## How It Works
