@@ -42,7 +42,7 @@ def to-json-schema [schema: int, url: string, json: string] {
                             items: {
                                 description: .key | to_description | to_singular
                             }
-                        } +
+                        } *
                         if .value | length > 0 then
                             {
                                 items: {
