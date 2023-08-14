@@ -84,12 +84,19 @@ export def-env auto-venv-on-enter [
         $'($virtual_prompt)'
     }
 
+    # Add current PWD to NU_LIB_DIRS so we can enter sub-directory without an error
+    let new_lib_dirs = if not $env.PWD in $env.NU_LIB_DIRS {
+        $env.NU_LIB_DIRS | prepend $env.PWD
+    } else {
+        $env.NU_LIB_DIRS
+    }
     # Environment variables that will be batched loaded to the virtual env
     let new_env = {
         $path_name     : $new_path
         VIRTUAL_ENV    : $virtual_env
         PROMPT_COMMAND : $new_prompt
         VIRTUAL_PROMPT : $virtual_prompt
+        NU_LIB_DIRS    : $new_lib_dirs
     }
 
     # Activate the environment variables
