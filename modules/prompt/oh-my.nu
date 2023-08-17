@@ -17,8 +17,8 @@ def home_abbrev [os_name] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     if $is_home_in_path {
         if ($os_name =~ "windows") {
-            let home = ($nu.home-path | str replace -a '\\' '/')
-            let pwd = ($env.PWD | str replace -a '\\' '/')
+            let home = ($nu.home-path | str replace -ar '\\' '/')
+            let pwd = ($env.PWD | str replace -ar '\\' '/')
             $pwd | str replace $home '~'
         } else {
             $env.PWD | str replace $nu.home-path '~'
@@ -26,7 +26,7 @@ def home_abbrev [os_name] {
     } else {
         if ($os_name =~ "windows") {
             # remove the C: from the path
-            $env.PWD | str replace -a '\\' '/' | str substring 2..
+            $env.PWD | str replace -ar '\\' '/' | str substring 2..
         } else {
             $env.PWD
         }
