@@ -33,9 +33,9 @@ export def current-dir [] {
   let in_sub_dir_of_home = ($current_dir_relative_to_home | is-empty | nope)
 
   let current_dir_abbreviated = (if $in_sub_dir_of_home {
-    $'~(char separator)($current_dir_relative_to_home)' | str replace -a '\\' '/'
+    $'~(char separator)($current_dir_relative_to_home)' | str replace -ar '\\' '/'
   } else {
-    $current_dir | str replace -a '\\' '/'
+    $current_dir | str replace -ar '\\' '/'
   })
 
   $'(ansi reset)($current_dir_abbreviated)'
