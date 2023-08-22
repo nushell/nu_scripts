@@ -8,8 +8,8 @@ def main [
     date?: datetime  # the date of the last release (default to 3 weeks ago, excluded)
 ] {
     let date = (
-        if $date == null { (date now) - 3wk + 1day } else { $date }
-        | date format "%Y-%m-%d"
+        if $date == null { (date now) - 4wk + 1day } else { $date }
+        | format date "%Y-%m-%d"
     )
 
     let repo = "nushell/nushell"
@@ -26,9 +26,9 @@ def main [
         | update author { get login }
     )
 
-    let authors = $prs.author | uniq
+    let authors = $prs.author | uniq | sort -i
 
-    let author_string = ($authors | each {|name| $"@($name), "} | str join )
+    let author_string = ($authors | each {|name| $"@($name)"} | str join ", " )
 
     let release_text = [
         $"This is the ($versionname) release of Nushell. You can learn more about this release here: ($bloglink)",
