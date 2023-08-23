@@ -18,3 +18,9 @@ export-env {
         }
     })
 }
+
+
+# const path = "~/.nu"
+# const if ($path| path expand | path exists) {
+#   source $path
+# }
