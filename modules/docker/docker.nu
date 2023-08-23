@@ -419,25 +419,25 @@ export def "bud rm" [
     buildah rm $id
 }
 
-alias dp = container-process-list
-alias di = image-list
-alias dl = container-log
-alias dln = container-log-namespace
-alias da = container-attach
-alias dcp = container-copy-file
-alias dcr = container-remove
-alias dci = container-inspect
-alias dh = container-history
-alias dsv = image-save
-alias dld = image-load
-alias dsp = system-prune
-alias dspall = system-prune-all
-alias drmi = image-remove
-alias dt = image-tag
-alias dps = image-push
-alias dpl = image-pull
-alias dvl = volume-list
-alias dvc = volume-create
-alias dvi = volume-inspect
-alias dvr = volume-remove
-alias dr = container-create
+export alias dp = container-process-list
+export alias di = image-list
+export alias dl = container-log
+export alias dln = container-log-namespace
+export alias da = container-attach
+export alias dcp = container-copy-file
+export alias dcr = container-remove
+export alias dci = container-inspect
+export alias dh = container-history
+export alias dsv = image-save
+export alias dld = image-load
+export alias dsp = system-prune
+export alias dspall = system-prune-all
+export alias drmi = image-remove
+export alias dt = image-tag
+export alias dps = image-push
+export alias dpl = image-pull
+export alias dvl = volume-list
+export alias dvc = volume-create
+export alias dvi = volume-inspect
+export alias dvr = volume-remove
+export alias dr = container-create

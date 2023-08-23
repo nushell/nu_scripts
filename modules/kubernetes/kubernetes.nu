@@ -225,10 +225,28 @@ export def kah [
 export def kdh [
     name: string@"nu-complete helm list"
     chart: string@"nu-complete helm charts"
-    values: path
+    valuefile: path
+    --values (-v): any
     --namespace (-n): string@"nu-complete kube ns"
+    --has-plugin (-h): bool
 ] {
-    helm diff upgrade $name $chart -f $values (spr [-n $namespace])
+    if $has_plugin {
+        helm diff $name $chart -f $valuefile (spr [-n $namespace])
+    } else {
+        let update = $name in (
+            helm list (spr [-n $namespace]) --output json
+            | from json | get name
+        )
+        if not $update {
+            echo "new installation"
+            return
+        }
+
+        let values = if ($values | is-empty) { [] } else { [--set-json (record-to-set-json $values)] }
+        let target = $'/tmp/($chart | path basename).($name).out.yaml'
+        helm template --debug $name $chart -f $valuefile $values (spr [-n $namespace]) | save -f $target
+        kubectl diff -f $target
+    }
 }
 
 # helm delete
