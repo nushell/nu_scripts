@@ -28,5 +28,5 @@ export def 'java-cmd abbreviate-classpath' [] {
 }
 
 export def join-table [table: table, left_on: string, right_on: string] {
-  into df | join ($table | into df) $left_on $right_on | into nu
+  dfr into df | join ($table | dfr into df) $left_on $right_on | dfr into nu
 }
