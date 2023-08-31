@@ -100,6 +100,28 @@ def "nu-complete git subcommands" [] {
   ^git help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
+# See `man git-status` under "Short Format"
+# This is incomplete, but should cover the most common cases.
+const short_status_descriptions = {
+  " D": "Deleted"
+  " M": "Modified"
+  "!!": "Ignored"
+  "??": "Untracked"
+  "AU": "Staged, not merged"
+  "MD": "Some modifications staged, file deleted in work tree"
+  "MM": "Some modifications staged, some modifications untracked"
+  "R ": "Renamed"
+}
+
+def "nu-complete git add" [] {
+  let relevant_statuses = ["??"," M", "MM", "MD", " D"]
+  ^git status --porcelain 
+    | lines 
+      | parse --regex "(?P<short_status>.{2}) (?P<value>.+)" 
+      | where $it.short_status in $relevant_statuses 
+      | insert "description" { |e| $short_status_descriptions | get $e.short_status}
+}
+
 # Check out git branches and files
 export extern "git checkout" [
   ...targets: string@"nu-complete git checkout"   # name of the branch or files to checkout
@@ -345,17 +367,30 @@ export extern "git reflog" [
 
 # Stage files
 export extern "git add" [
+  ...file: string@"nu-complete git add"               # file to add
+  --all(-A)                                           # add all files
+  --dry-run(-n)                                       # don't actually add the file(s), just show if they exist and/or will be ignored
+  --edit(-e)                                          # open the diff vs. the index in an editor and let the user edit it
+  --force(-f)                                         # allow adding otherwise ignored files
+  --interactive(-i)                                   # add modified contents in the working tree interactively to the index
   --patch(-p)                                         # interactively choose hunks to stage
+  --verbose(-v)                                       # be verbose
 ]
 
 # Delete file from the working tree and the index
 export extern "git rm" [
   -r                                                   # recursive
+  --force(-f)                                          # override the up-to-date check
+  --dry-run(-n)                                        # Don't actually remove any file(s)
+  --cached                                             # unstage and remove paths only from the index
 ]
 
 # Show the working tree status
 export extern "git status" [
-  --verbose(-v)                                       # verbose
+  --verbose(-v)                                       # be verbose
+  --short(-s)                                         # show status concisely
+  --branch(-b)                                        # show branch information
+  --show-stash                                        # show stash information
 ]
 
 # Stash changes for later
@@ -365,6 +400,8 @@ export extern "git stash push" [
 
 # Unstash previously stashed changes
 export extern "git stash pop" [
+  stash?: string@"nu-complete git stash-list"          # stash to pop
+  --index(-i)                                          # try to reinstate not only the working tree's changes, but also the index's ones
 ]
 
 # List stashed changes
@@ -390,6 +427,14 @@ export extern "git init" [
 # List or manipulate tags
 export extern "git tag" [
   --delete(-d): string@"nu-complete git tags"         # delete a tag
+]
+
+# Prune all unreachable objects
+export extern "git prune" [
+  --dry-run(-n)                                       # dry run
+  --expire: string                                    # expire objects older than
+  --progress                                          # show progress
+  --verbose(-v)                                       # report all removed objects
 ]
 
 # Start a binary search to find the commit that introduced a bug
