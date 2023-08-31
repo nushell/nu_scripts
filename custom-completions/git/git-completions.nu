@@ -406,6 +406,14 @@ export extern "git tag" [
   --delete(-d): string@"nu-complete git tags"         # delete a tag
 ]
 
+# Prune all unreachable objects
+export extern "git prune" [
+  --dry-run(-n)                                       # dry run
+  --expire: string                                    # expire objects older than
+  --progress                                          # show progress
+  --verbose(-v)                                       # report all removed objects
+]
+
 # Start a binary search to find the commit that introduced a bug
 export extern "git bisect start" [
   bad?: string                 # a commit that has the bug
