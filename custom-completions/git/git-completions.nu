@@ -100,6 +100,28 @@ def "nu-complete git subcommands" [] {
   ^git help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
+# See `man git-status` under "Short Format"
+# This is incomplete, but should cover the most common cases.
+const short_status_descriptions = {
+  " D": "Deleted"
+  " M": "Modified"
+  "!!": "Ignored"
+  "??": "Untracked"
+  "AU": "Staged, not merged"
+  "MD": "Some modifications staged, file deleted in work tree"
+  "MM": "Some modifications staged, some modifications untracked"
+  "R ": "Renamed"
+}
+
+def "nu-complete git add" [] {
+  let relevant_statuses = ["??"," M", "MM", "MD", " D"]
+  ^git status --porcelain 
+    | lines 
+      | parse --regex "(?P<short_status>.{2}) (?P<value>.+)" 
+      | where $it.short_status in $relevant_statuses 
+      | insert "description" { |e| $short_status_descriptions | get $e.short_status}
+}
+
 # Check out git branches and files
 export extern "git checkout" [
   ...targets: string@"nu-complete git checkout"   # name of the branch or files to checkout
@@ -345,6 +367,7 @@ export extern "git reflog" [
 
 # Stage files
 export extern "git add" [
+  ...file: string@"nu-complete git add"               # file to add
   --all(-A)                                           # add all files
   --dry-run(-n)                                       # don't actually add the file(s), just show if they exist and/or will be ignored
   --edit(-e)                                          # open the diff vs. the index in an editor and let the user edit it
