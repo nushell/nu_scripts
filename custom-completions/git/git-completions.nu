@@ -365,6 +365,8 @@ export extern "git stash push" [
 
 # Unstash previously stashed changes
 export extern "git stash pop" [
+  stash?: string@"nu-complete git stash-list"          # stash to pop
+  --index(-i)                                          # try to reinstate not only the working tree's changes, but also the index's ones
 ]
 
 # List stashed changes
