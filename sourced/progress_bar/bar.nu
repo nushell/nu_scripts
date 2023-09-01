@@ -21,10 +21,12 @@ def 'bar' [
         )
     )
 
-    let $result = (
-        $"($whole_part)($fraction)" 
-        | fill -c $' ' -w $width 
-        | $"(ansi -e {fg: ($foreground), bg: ($background)})($in)(ansi reset)"
+    let result = (
+        $"($whole_part)($fraction)"
+        | fill -c $' ' -w $width
+        | if ($foreground == 'default') and ($background == 'default') {} else {
+            $"(ansi -e {fg: ($foreground), bg: ($background)})($in)(ansi reset)"
+        }
     )
 
     if $progress {
