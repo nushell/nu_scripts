@@ -13,11 +13,11 @@ def 'bar' [
     let blocks = [null "▏" "▎" "▍" "▌" "▋" "▊" "▉" "█"]
     let $whole_part = (($blocks | last) * ($percentage * $width // 1))
     let $fraction = (
-        $blocks 
+        $blocks
         | get (
-            ($percentage * $width) mod 1 
-            | $in * ($blocks | length) 
-            | math floor
+            ($percentage * $width) mod 1
+            | $in * ($blocks | length | $in - 1)
+            | math round
         )
     )
 
