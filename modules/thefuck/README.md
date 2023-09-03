@@ -11,10 +11,8 @@ Clone this repo or copy the `fuck.nu` file wherever your prefer to keep your Nus
 Edit your Nushell config file (`$nu.config-path`) and add the line:
 
 ```nu
-use ~/Developer/nu_scripts/modules/thefuck/fuck.nu
+use /path/to/fuck.nu
 ```
-
-with `~/Developer/nu_scripts/modules/thefuck/` being wherever you put the file.
 
 ### Add `command_not_found` hook
 
