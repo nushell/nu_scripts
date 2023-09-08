@@ -7,7 +7,13 @@ export-env {
             | parse "$env:{key} = \"{value}\""
         )
         for v in $var_table  {
-            $env_vars = ($env_vars | insert $v.key $v.value)
+            mut value: any = null
+            if ($v.key | str downcase) == 'path' {
+                $value = ($v.value | split row (char esep))
+            } else {
+                $value = $v.value
+            }
+            $env_vars = ($env_vars | insert $v.key $value)
         }
         return $env_vars
     }
