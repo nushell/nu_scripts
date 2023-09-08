@@ -1,4 +1,5 @@
 #!/usr/bin/env nu
+use std log
 
 def md-link [
     text: string
