@@ -44,6 +44,7 @@ def list_type [] {
 #[test]
 def table_type [] {
     use std assert
+
     assert equal (ls | typeof) {
         table: {
             name: "string",
@@ -58,6 +59,7 @@ def table_type [] {
 #[test]
 def record_type [] {
     use std assert
+
     assert equal ($nu | typeof) {
         record: {
             default-config-dir: "string",
