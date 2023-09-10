@@ -6,12 +6,12 @@ Requires separate installation of `thef\*ck`.
 
 ## Install
 
-Clone this repository or copy the `thefudge.nu` file wherever your prefer to keep your Nushell scripts.
+Clone this repository or copy the `fudge.nu` file wherever your prefer to keep your Nushell scripts.
 
 Edit your Nushell config file (`$nu.config-path`) and add the line:
 
 ```nu
-use /path/to/thefudge.nu
+use /path/to/fudge.nu
 ```
 
 ### Add `command_not_found` hook
