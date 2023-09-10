@@ -4,20 +4,17 @@ def typeof [] {
     let raw_type = $data | describe
 
     match ($raw_type | str replace --regex "<.*" "") {
-        "list" => { {
-            type: "list"
-            items: ($raw_type | parse "list<{type}>" | get type.0)
-        } },
+        "list" => {
+            list: ($raw_type | parse "list<{type}>" | get type.0)
+        },
         "record" => {
-            type: "record"
-            fields: ($data | columns | each {|field| {
+            record: ($data | columns | each {|field| {
                 name: $field,
                 type: ($data | get $field | typeof)
             } } | transpose -rid)
         },
         "table" => {
-            type: "table"
-            columns: ($data | columns | each {|col| {
+            table: ($data | columns | each {|col| {
                 name: $col,
                 type: ($data | get $col | describe | parse "list<{type}>" | get type.0)
             } } | transpose -rid)
@@ -39,17 +36,16 @@ def simple_type [] {
 def list_type [] {
     use std assert
 
-    assert equal ([1 2 3] | typeof) {type: "list", items: "int"}
-    assert equal (["foo" "bar" "baz"] | typeof) {type: "list", items: "string"}
-    assert equal (["foo" 2 true] | typeof) {type: "list", items: "any"}
+    assert equal ([1 2 3] | typeof) {list: "int"}
+    assert equal (["foo" "bar" "baz"] | typeof) {list: "string"}
+    assert equal (["foo" 2 true] | typeof) {list: "any"}
 }
 
 #[test]
 def table_type [] {
     use std assert
     assert equal (ls | typeof) {
-        type: "table",
-        columns: {
+        table: {
             name: "string",
             type: "string",
             size: "filesize",
@@ -63,8 +59,7 @@ def table_type [] {
 def record_type [] {
     use std assert
     assert equal ($nu | typeof) {
-        type: "record",
-        fields: {
+        record: {
             default-config-dir: "string",
             config-path: "string",
             env-path: "string",
@@ -75,8 +70,7 @@ def record_type [] {
             temp-path: "string",
             pid: "int",
             os-info: {
-                type: "record",
-                fields: {
+                record: {
                     name: "string",
                     arch: "string",
                     family: "string",
