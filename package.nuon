@@ -4,4 +4,5 @@
     documentation: "https://github.com/nushell/nu_scripts/blob/main/README.md"
     license: "https://github.com/nushell/nu_scripts/blob/main/LICENSE"
     version: 0.1.0
+    type: "module"
 }
