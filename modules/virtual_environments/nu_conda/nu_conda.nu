@@ -56,7 +56,12 @@ export def-env deactivate [] {
 }
 
 export def-env list [] {
-  print $env.CONDA_ENVS
+  $env.CONDA_ENVS | 
+    flatten | 
+    transpose | 
+    rename name path | 
+    insert active { |it| $it.name == $env.CONDA_CURR } | 
+    move path --after active
 }
 
 def update-path-linux [env_path: path] {
