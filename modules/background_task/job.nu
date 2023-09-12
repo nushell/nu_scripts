@@ -6,7 +6,7 @@
 # e.g:
 # spawn { echo 3 }
 export def spawn [
-    command: block   # the command to spawn
+    command: closure   # the command to spawn
 ] {
     let config_path = $nu.config-path
     let env_path = $nu.env-path
