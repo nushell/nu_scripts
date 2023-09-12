@@ -1,6 +1,6 @@
 export use ani-cli/ani-cli-completions.nu *
 export use git/git-completions.nu *
-# export use ./auto-generate/ *
+export use ./auto-generate/mod.nu *
 
 export use bitwarden-cli/bitwarden-cli-completions.nu *
 export use btm/btm-completions.nu *

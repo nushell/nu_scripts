@@ -12,7 +12,7 @@ export use completions/a2ensite.nu *
 export use completions/abbr.nu *
 export use completions/abook.nu *
 export use completions/acat.nu *
-export use completions/ack.nu *
+# export use completions/ack.nu *
 export use completions/acpi.nu *
 export use completions/adduser.nu *
 export use completions/adiff.nu *
@@ -32,7 +32,7 @@ export use completions/ant.nu *
 export use completions/apack.nu *
 export use completions/apk.nu *
 export use completions/apropos.nu *
-export use completions/apt-build.nu *
+# export use completions/apt-build.nu *
 export use completions/apt-cache.nu *
 export use completions/apt-cdrom.nu *
 export use completions/apt-config.nu *
@@ -48,7 +48,7 @@ export use completions/apt-move.nu *
 export use completions/apt-proxy-import.nu *
 export use completions/apt-rdepends.nu *
 export use completions/apt-setup.nu *
-export use completions/apt-show-source.nu *
+# export use completions/apt-show-source.nu *
 export use completions/apt-show-versions.nu *
 export use completions/apt-sortpkgs.nu *
 export use completions/apt-spy.nu *
@@ -61,8 +61,8 @@ export use completions/arc.nu *
 export use completions/archlinux-java.nu *
 export use completions/arepack.nu *
 export use completions/arp.nu *
-export use completions/as.nu *
-export use completions/asciidoctor.nu *
+# export use completions/as.nu *
+# export use completions/asciidoctor.nu *
 export use completions/at.nu *
 export use completions/atd.nu *
 export use completions/atom.nu *
@@ -124,12 +124,12 @@ export use completions/cmdkey.nu *
 export use completions/code.nu *
 export use completions/colordiff.nu *
 export use completions/colorsvn.nu *
-export use completions/combine.nu * *
+export use completions/combine.nu  *
 export use completions/command.nu *
 export use completions/commandline.nu *
 export use completions/comp.nu *
 export use completions/compare.nu *
-export use completions/complete.nu *
+# export use completions/complete.nu *
 export use completions/composer.nu *
 export use completions/composite.nu *
 export use completions/conda.nu *
@@ -141,7 +141,7 @@ export use completions/convert.nu *
 export use completions/coredumpctl.nu *
 export use completions/cowsay.nu *
 export use completions/cowthink.nu *
-export use completions/cpupower.nu *
+# export use completions/cpupower.nu *
 export use completions/create_ap.nu *
 export use completions/createdb.nu *
 export use completions/cryptsetup.nu *
@@ -149,7 +149,7 @@ export use completions/csc.nu *
 export use completions/csi.nu *
 export use completions/cupsdisable.nu *
 export use completions/cupsenable.nu *
-export use completions/curl.nu *
+# export use completions/curl.nu *
 export use completions/cvs.nu *
 export use completions/cwebp.nu *
 export use completions/cygpath.nu *
@@ -209,7 +209,7 @@ export use completions/expand.nu *
 export use completions/fab.nu *
 export use completions/fastboot.nu *
 export use completions/feh.nu *
-export use completions/ffmpeg.nu *
+# export use completions/ffmpeg.nu *
 export use completions/ffplay.nu *
 export use completions/ffprobe.nu *
 export use completions/fg.nu *
@@ -228,8 +228,8 @@ export use completions/fluxbox-remote.nu *
 export use completions/for.nu *
 export use completions/forfiles.nu *
 export use completions/fossil.nu *
-export use completions/fsharpc.nu *
-export use completions/fsharpi.nu *
+# export use completions/fsharpc.nu *
+# export use completions/fsharpi.nu *
 export use completions/funced.nu *
 export use completions/funcsave.nu *
 export use completions/function.nu *
@@ -243,24 +243,24 @@ export use completions/gapplication.nu *
 export use completions/gcc.nu *
 export use completions/gdb.nu *
 export use completions/gdbus.nu *
-export use completions/gem.nu *
+# export use completions/gem.nu *
 export use completions/gendarme.nu *
-export use completions/gio.nu * *
+export use completions/gio.nu *
 export use completions/git-sizer.nu *
-export use completions/git.nu *
+# export use completions/git.nu *
 export use completions/gitk.nu *
 export use completions/gnome-extensions.nu *
 export use completions/go.nu *
-export use completions/godoc.nu *
+# export use completions/godoc.nu *
 export use completions/gofmt.nu *
 export use completions/goimports.nu *
 export use completions/golint.nu *
 export use completions/gorename.nu *
-export use completions/gpasswbd.nu *
+export use completions/gpasswd.nu *
 export use completions/gphoto2.nu *
 export use completions/gping.nu *
-export use completions/gprof.nu *
-export use completions/grep.nu *
+# export use completions/gprof.nu *
+# export use completions/grep.nu *
 export use completions/gresource.nu *
 export use completions/groupadd.nu *
 export use completions/groups.nu *
@@ -327,7 +327,7 @@ export use completions/latex.nu *
 export use completions/latexmk.nu *
 export use completions/ldapsearch.nu *
 export use completions/lein.nu *
-export use completions/less.nu *
+# export use completions/less.nu *
 export use completions/light.nu *
 export use completions/lightdm.nu *
 export use completions/ln.nu *
@@ -362,7 +362,7 @@ export use completions/make.nu *
 export use completions/makedepend.nu *
 export use completions/makensis.nu *
 export use completions/makepkg.nu *
-export use completions/man.nu *
+# export use completions/man.nu *
 export use completions/mariner.nu *
 export use completions/matlab.nu *
 export use completions/mc.nu *
@@ -376,7 +376,7 @@ export use completions/mdutil.nu *
 export use completions/meson.nu *
 export use completions/micro.nu *
 export use completions/minikube.nu *
-export use completions/mix.nu *
+# export use completions/mix.nu *
 export use completions/mkbundle.nu *
 export use completions/mkdocs.nu *
 export use completions/mkdosfs.nu *
@@ -396,7 +396,7 @@ export use completions/monop.nu *
 export use completions/montage.nu *
 export use completions/mosh.nu *
 export use completions/mount.nu *
-export use completions/mpc.nu *
+# export use completions/mpc.nu *
 export use completions/mplayer.nu *
 export use completions/mpv.nu *
 export use completions/msfconsole.nu *
@@ -407,14 +407,14 @@ export use completions/mtr.nu *
 export use completions/mupdf.nu *
 export use completions/mutt.nu *
 export use completions/mvn.nu *
-export use completions/mysql.nu *
+# export use completions/mysql.nu *
 export use completions/namei.nu *
 export use completions/native2ascii.nu *
 export use completions/ncat.nu *
 export use completions/ncdu.nu *
 export use completions/netctl-auto.nu *
 export use completions/netctl.nu *
-export use completions/nethack.nu *
+# export use completions/nethack.nu *
 export use completions/networkctl.nu *
 export use completions/nextd.nu *
 export use completions/ng.nu *
@@ -447,7 +447,7 @@ export use completions/pacman-color.nu *
 export use completions/pacman-key.nu *
 export use completions/pacman.nu *
 export use completions/pacmatic.nu *
-export use completions/pacmd.nu *
+# export use completions/pacmd.nu *
 export use completions/pactl.nu *
 export use completions/pactree.nu *
 export use completions/pandoc.nu *
@@ -487,7 +487,7 @@ export use completions/ports.nu *
 export use completions/poweroff.nu *
 export use completions/powerpill.nu *
 export use completions/prevd.nu *
-export use completions/prt-get.nu *
+# export use completions/prt-get.nu *
 export use completions/ps.nu *
 export use completions/psql.nu *
 export use completions/pstack.nu *
@@ -500,7 +500,7 @@ export use completions/python.nu *
 export use completions/python2.nu *
 export use completions/python3.nu *
 export use completions/pzstd.nu *
-export use completions/qubes-gpg-client.nu *
+# export use completions/qubes-gpg-client.nu *
 export use completions/quilt.nu *
 export use completions/rakudo.nu *
 export use completions/random.nu *
@@ -520,9 +520,9 @@ export use completions/rfkill.nu *
 export use completions/rgrep.nu *
 export use completions/rmdir.nu *
 export use completions/rmmod.nu *
-export use completions/root.nu *
+# export use completions/root.nu *
 export use completions/roswell.nu *
-export use completions/rpm.nu *
+# export use completions/rpm.nu *
 export use completions/rst2html4.nu *
 export use completions/rst2odt.nu *
 export use completions/rst2pseudoxml.nu *
@@ -577,7 +577,7 @@ export use completions/stack.nu *
 export use completions/status.nu *
 export use completions/strace.nu *
 export use completions/stream.nu *
-export use completions/string.nu *
+# export use completions/string.nu *
 export use completions/su.nu *
 export use completions/subl.nu *
 export use completions/sudo.nu *
@@ -589,8 +589,8 @@ export use completions/sysbench.nu *
 export use completions/systemctl.nu *
 export use completions/systemd-analyze.nu *
 export use completions/systemd-nspawn.nu *
-export use completions/tar.nu *
-export use completions/tcpdump.nu *
+# export use completions/tar.nu *
+# export use completions/tcpdump.nu *
 export use completions/tee.nu *
 export use completions/telnet.nu *
 export use completions/termite.nu *
@@ -631,23 +631,23 @@ export use completions/useradd.nu *
 export use completions/userdbctl.nu *
 export use completions/usermod.nu *
 export use completions/vagrant.nu *
-export use completions/valgrind.nu *
+# export use completions/valgrind.nu *
 export use completions/vared.nu *
 export use completions/vbc.nu *
 export use completions/vim-addons.nu *
 export use completions/vim.nu *
 export use completions/vimdiff.nu *
 export use completions/vips.nu *
-export use completions/virsh.nu *
+# export use completions/virsh.nu *
 export use completions/vmctl.nu *
 export use completions/w.nu *
 export use completions/wait.nu *
 export use completions/wajig.nu *
-export use completions/watch.nu *
+# export use completions/watch.nu *
 export use completions/wesnoth.nu *
 export use completions/wg-quick.nu *
 export use completions/wget.nu *
-export use completions/whatis.nu *
+# export use completions/whatis.nu *
 export use completions/while.nu *
 export use completions/who.nu *
 export use completions/wicd-cli.nu *
@@ -679,7 +679,7 @@ export use completions/xbps-uhelper.nu *
 export use completions/xclip.nu *
 export use completions/xdg-mime.nu *
 export use completions/xelatex.nu *
-export use completions/xgettext.nu *
+# export use completions/xgettext.nu *
 export use completions/xinput.nu *
 export use completions/xmms.nu *
 export use completions/xpdf.nu *
@@ -701,7 +701,7 @@ export use completions/yarn.nu *
 export use completions/yast2.nu *
 export use completions/yum.nu *
 export use completions/zcat.nu *
-export use completions/zef.nu *
+# export use completions/zef.nu *
 export use completions/zfs.nu *
 export use completions/zip.nu *
 export use completions/zopfli.nu *
