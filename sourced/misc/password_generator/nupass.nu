@@ -102,7 +102,7 @@ def random-format-word [] {
         } else if $rint == 2 {
             ($it | str upcase)
         } else if $rint == 3 {
-            ($it | split chars | each {|c| if (random decimal) < 0.2 { $c | str upcase } else { $c }} | str join "")
+            ($it | split chars | each {|c| if (random float) < 0.2 { $c | str upcase } else { $c }} | str join "")
         } else {
             ($it | str downcase)
         }
