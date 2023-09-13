@@ -883,8 +883,8 @@ export def ktp [
             {
                 namespace: $x.namespace
                 name: $x.name
-                cpu: ($x.cpu| str substring ..-1 | into decimal)
-                mem: ($x.mem | str substring ..-2 | into decimal)
+                cpu: ($x.cpu| str substring ..-1 | into float)
+                mem: ($x.mem | str substring ..-2 | into float)
             }
         }
     } else {
@@ -893,8 +893,8 @@ export def ktp [
         | each {|x|
             {
                 name: $x.name
-                cpu: ($x.cpu| str substring ..-1 | into decimal)
-                mem: ($x.mem | str substring ..-2 | into decimal)
+                cpu: ($x.cpu| str substring ..-1 | into float)
+                mem: ($x.mem | str substring ..-2 | into float)
             }
         }
     }
@@ -905,10 +905,10 @@ export def ktno [] {
     kubectl top node | from ssv -a | rename name cpu pcpu mem pmem
     | each {|x| {
         name: $x.name
-        cpu: ($x.cpu| str substring ..-1 | into decimal)
-        cpu%: (($x.pcpu| str substring ..-1 | into decimal) / 100)
-        mem: ($x.mem | str substring ..-2 | into decimal)
-        mem%: (($x.pmem | str substring ..-1 | into decimal) / 100)
+        cpu: ($x.cpu| str substring ..-1 | into float)
+        cpu%: (($x.pcpu| str substring ..-1 | into float) / 100)
+        mem: ($x.mem | str substring ..-2 | into float)
+        mem%: (($x.pmem | str substring ..-1 | into float) / 100)
     } }
 }
 
