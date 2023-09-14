@@ -49,7 +49,7 @@ export def output [
 
 # get job running status
 export def status [
-    detailed: bool = false   # need to get detailed stauts?
+    --detailed(-d)   # need to get detailed stauts?
 ] {
     let output = (
         pueue status --json
