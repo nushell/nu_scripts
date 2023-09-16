@@ -48,7 +48,15 @@ def main [
 
     let title = $"Release notes for `($version)`"
     let body = $"Please add your new features and breaking changes to the release notes
-by opening PRs against the `release-notes-($version)` branch."
+by opening PRs against the `release-notes-($version)` branch.
+
+## TODO
+- [ ] look at interesting contributions
+- [ ] write all the sections
+- [ ] order the sections by interest
+- [ ] add the breaking changes
+- [ ] detail the breaking changes
+- [ ] add the full changelog"
 
     log info "creating release note from template"
     let release_note = $env.CURRENT_FILE
