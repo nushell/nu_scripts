@@ -25,14 +25,14 @@ def main [
     ls **/Cargo.toml | each {|file|
         log debug $"bumping ($file.name) from ($version) to ($new_version)"
         open --raw $file.name
-            | str replace --all --string $'version = "($version)"' $'version = "($new_version)"'
+            | str replace --all $'version = "($version)"' $'version = "($new_version)"'
             | save --force $file.name
     }
 
     "crates/nu-utils/src/sample_config/default_{config,env}.nu" | str expand | each {|file|
         log debug $"bumping ($file) from ($version) to ($new_version)"
         open --raw $file
-            | str replace --all --string $'version = ($version)' $'version = ($new_version)'
+            | str replace --all $'version = "($version)"' $'version = "($new_version)"'
             | save --force $file
     }
 
