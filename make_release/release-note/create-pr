@@ -43,7 +43,7 @@ def main [
     let branch = $"release-notes-($version)"
 
     let blog_path = (
-        $repo | path join "blog" $"($date | format date "%Y-%m-%d")-nushell_($version | str replace --all --string '.' '_').md"
+        $repo | path join "blog" $"($date | format date "%Y-%m-%d")-nushell_($version | str replace --all '.' '_').md"
     )
 
     let title = $"Release notes for `($version)`"
@@ -63,7 +63,7 @@ by opening PRs against the `release-notes-($version)` branch.
         | path dirname
         | path join "template.md"
         | open
-        | str replace --all --string "{{VERSION}}" $version
+        | str replace --all "{{VERSION}}" $version
 
     log info $"branch: ($branch)"
     log info $"blog: ($blog_path | str replace $repo "" | path split | skip 1 | path join)"
@@ -81,8 +81,6 @@ by opening PRs against the `release-notes-($version)` branch.
             return
         },
     }
-
-    return
 
     log info "setting up nushell.github.io repo"
     git clone git@github.com:nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
