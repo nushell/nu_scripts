@@ -320,6 +320,13 @@ export def kcc [ctx: string@"nu-complete kube ctx"] {
 
 # kubectl (change) namespace
 export def kn [ns: string@"nu-complete kube ns"] {
+    if not ($ns in (kubectl get namespace | from ssv -a | get NAME)) {
+        if ([no yes] | input list $"namespace '($ns)' doesn't exist, create it?") in [yes] {
+            kubectl create namespace $ns
+        } else {
+            return
+        }
+    }
     kubectl config set-context --current $"--namespace=($ns)"
 }
 
