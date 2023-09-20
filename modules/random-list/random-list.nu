@@ -47,8 +47,8 @@ export def "random-list chars" [
     }
 }
 
-# Generate a random decimal list.
-export def "random-list decimal" [
+# Generate a random float list.
+export def "random-list float" [
     list_length: int, # A length of the list
     --range (-r): range # A range of the value
 ] {
@@ -57,7 +57,7 @@ export def "random-list decimal" [
     }
 
     1..$list_length | each {|it|
-        random decimal $range
+        random float $range
     }
 }
 
