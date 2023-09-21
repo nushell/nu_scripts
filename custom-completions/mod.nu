@@ -7,7 +7,7 @@ export use cargo/cargo-completions.nu *
 export use glow/glow-completions.nu *
 export use just/just-completions.nu *
 export use make/make-completions.nu *
-export use man/man-completions.nu *
+# export use man/man-completions.nu *
 export use nano/nano-completions.nu *
 export use nix/nix-completions.nu *
 export use npm/npm-completions.nu *
