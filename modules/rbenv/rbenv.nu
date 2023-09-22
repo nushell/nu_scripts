@@ -1,5 +1,5 @@
 # rbenv
-export-env { 
+export-env {
     load-env {
         PATH: ($env.PATH | split row (char esep) | prepend [$"($env.HOME)/.rbenv/bin" $"($env.HOME)/.rbenv/shims"])
         RBENV_VERSION: ""
@@ -8,7 +8,7 @@ export-env {
     }
 }
 
-export def-env rbenv [
+export def-env main [
 	command?: string@'nu-complete rbenv',
 	...args
 ] {
