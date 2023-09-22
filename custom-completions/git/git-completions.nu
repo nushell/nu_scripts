@@ -63,6 +63,7 @@ def "nu-complete git checkout" [] {
             | parse "{value}"
             | insert description "remote branch")
   | append (nu-complete git commits all)
+  | append (nu-complete git files | where description != "Untracked" | select value)
 }
 
 # Arguments to `git rebase --onto <arg1> <arg2>`
@@ -84,22 +85,6 @@ def "nu-complete git tags" [] {
   ^git tag | lines
 }
 
-def "nu-complete git built-in-refs" [] {
-  [HEAD FETCH_HEAD ORIG_HEAD]
-}
-
-def "nu-complete git refs" [] {
-  nu-complete git switchable branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete git tags | parse "{value}" | insert description Tag)
-  | append (nu-complete git built-in-refs)
-}
-
-def "nu-complete git subcommands" [] {
-  ^git help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
-}
-
 # See `man git-status` under "Short Format"
 # This is incomplete, but should cover the most common cases.
 const short_status_descriptions = {
@@ -113,13 +98,42 @@ const short_status_descriptions = {
   "R ": "Renamed"
 }
 
-def "nu-complete git add" [] {
+def "nu-complete git files" [] {
   let relevant_statuses = ["??"," M", "MM", "MD", " D"]
   ^git status --porcelain 
     | lines 
       | parse --regex "(?P<short_status>.{2}) (?P<value>.+)" 
       | where $it.short_status in $relevant_statuses 
       | insert "description" { |e| $short_status_descriptions | get $e.short_status}
+}
+
+def "nu-complete git built-in-refs" [] {
+  [HEAD FETCH_HEAD ORIG_HEAD]
+}
+
+def "nu-complete git refs" [] {
+  nu-complete git switchable branches
+  | parse "{value}"
+  | insert description Branch
+  | append (nu-complete git tags | parse "{value}" | insert description Tag)
+  | append (nu-complete git built-in-refs)
+}
+
+def "nu-complete git files-or-refs" [] {
+  nu-complete git switchable branches
+  | parse "{value}"
+  | insert description Branch
+  | append (nu-complete git files | where description == "Modified" | select value)
+  | append (nu-complete git tags | parse "{value}" | insert description Tag)
+  | append (nu-complete git built-in-refs)
+}
+
+def "nu-complete git subcommands" [] {
+  ^git help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
+}
+
+def "nu-complete git add" [] {
+  nu-complete git files
 }
 
 # Check out git branches and files
@@ -337,7 +351,7 @@ export extern "git remote set-url" [
 
 # Show changes between commits, working tree etc
 export extern "git diff" [
-  rev1?: string@"nu-complete git refs"
+  rev1_or_file?: string@"nu-complete git files-or-refs"
   rev2?: string@"nu-complete git refs"
   --cached                                             # show staged changes
   --name-only                                          # only show names of changed files
