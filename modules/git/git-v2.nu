@@ -394,7 +394,7 @@ export def gr [
 
 # git cherry-pick
 export def gcp [
-    commit?:         string@"nu-complete git log"
+    commit?:         string@"nu-complete git log all"
     --abort (-a):    bool
     --continue (-c): bool
     --skip (-s):     bool
@@ -411,6 +411,14 @@ export def gcp [
     } else {
         git cherry-pick $commit
     }
+}
+
+# copy file from other branch
+export def gcf [
+    branch:     string@"nu-complete git branches"
+    ...file:       string@"nu-complete git branch files"
+] {
+    ^git checkout $branch $file
 }
 
 # git reset
@@ -491,7 +499,7 @@ export def ggc [] {
     git gc --prune=now --aggressive
 }
 
-export alias gcf = git config --list
+export alias gcl = git config --list
 export alias gsw = git switch
 export alias gswc = git switch -c
 export alias gts = git tag -s
@@ -593,7 +601,7 @@ export def _git_status [] {
 
 export def _git_log_stat [n]  {
     do -i {
-        git log -n $n --pretty=»¦«%h --stat
+        git log --reverse -n $n --pretty=»¦«%h --stat
         | lines
         | reduce -f { c: '', r: [] } {|it, acc|
             if ($it | str starts-with '»¦«') {
@@ -631,15 +639,15 @@ export def _git_log [v num] {
         _git_log_stat $num
     } else { {} }
     let r = (do -i {
-        git log -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD
+        git log --reverse -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD
         | lines
         | split column "»¦«" sha message author email date
         | each {|x| ($x| upsert date ($x.date | into datetime))}
     })
     if $v {
-        $r | merge $stat | reverse
+        $r | merge $stat
     } else {
-        $r | reverse
+        $r
     }
 }
 
@@ -648,6 +656,22 @@ def "nu-complete git log" [] {
     | lines
     | split column "»¦«" value description
     | each {|x| $x | update value $"($x.value)"}
+}
+
+def "nu-complete git log all" [] {
+    git log --all -n 32 --pretty=%h»¦«%d»¦«%s
+    | lines
+    | split column "»¦«" value branch description
+    | each {|x| $x | update description $"($x.branch) ($x.description)" }
+}
+
+def "nu-complete git branch files" [context: string, offset:int] {
+    let token = $context | split row ' '
+    let branch = $token | get 1
+    let files = $token | skip 2
+    git ls-tree -r --name-only $branch
+    | lines
+    | filter {|x| not ($x in $files)}
 }
 
 def "nu-complete git branches" [] {
