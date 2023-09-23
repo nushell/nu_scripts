@@ -45,7 +45,7 @@ As part of this release, we also publish a set of optional plugins you can insta
 ### Removed commands
 
 # Breaking changes
-<!-- TODO
+<!-- TODO:
     paste the output of
     ```nu
     ./make_release/release-note/list-merged-prs nushell/nushell --label breaking-change --pretty --no-author
@@ -54,7 +54,7 @@ As part of this release, we also publish a set of optional plugins you can insta
 -->
 
 # Full changelog
-<!-- TODO
+<!-- TODO:
     paste the output of
     ```nu
     ./make_release/release-note/get-full-changelog
