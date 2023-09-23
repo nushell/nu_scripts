@@ -34,6 +34,15 @@ As part of this release, we also publish a set of optional plugins you can insta
     ```
 -->
 
+## Hall of fame
+### Bug fixes
+### Enhancing the documentation
+
+## Our set of commands is evolving
+### New commands
+### Changes to existing commands
+### Deprecated commands
+### Removed commands
 
 # Breaking changes
 <!-- TODO
