@@ -374,7 +374,7 @@ def "nu-complete winget source type" [] {
 
 def "nu-complete winget flagify" [name: string, value: any, --short(-s): bool] {
   let flag_start = if $short { '-' } else { '--' }
-  if $value == $nothing or $value == false {
+  if $value == null or $value == false {
     ""
   } else if $value == true {
     $"($flag_start)($name)"

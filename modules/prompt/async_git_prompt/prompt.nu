@@ -23,7 +23,7 @@ def prompt-create-left-prompt [] {
 }
 
 def prompt-create-right-prompt [] {
-    $nothing
+    null
 }
 
 $env.PROMPT_COMMAND = { prompt-create-left-prompt }

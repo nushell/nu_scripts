@@ -20,7 +20,7 @@ def "kube ctx" [] {
         $cache = $"($env.HOME)/.cache/nu-power/kube-($env.KUBECONFIG | str replace -a '/' ':').json"
         $file = $env.KUBECONFIG
     }
-    if not ($file | path exists) { return $nothing }
+    if not ($file | path exists) { return null }
     ensure-cache $cache $file {
         do -i {
             kubectl config get-contexts

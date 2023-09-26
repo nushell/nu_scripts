@@ -55,7 +55,7 @@ def gen_keywords_alphabetically [] {
             if ($cmd | str starts-with $alpha) {
                 $cmd
             } else {
-                $nothing
+                null
             }
         } | str join '|')
         if ($letter_cmds | str trim | str length) > 0 {
@@ -87,7 +87,7 @@ def gen_sub_keywords_alphabetically [] {
                 let parts = ($cmd | split row ' ')
                 $'($parts.0)\\s($parts.1)'
             } else {
-                $nothing
+                null
             }
         } | str join '|')
         if ($letter_cmds | str trim | str length) > 0 {
