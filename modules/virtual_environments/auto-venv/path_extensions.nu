@@ -29,7 +29,7 @@ export def "path check-sub" [
 
     (ls -a $folder
         | where ( 
-            ($type == $nothing or $it.type in $type)
+            ($type == null or $it.type in $type)
             and ($it.name | path basename) == $subfolder
         )
         | length 
@@ -53,7 +53,7 @@ export def "path find-sub" [
         )
     );
 
-    if ($paths != $nothing) and ($paths | length) > 0 {
+    if ($paths != null) and ($paths | length) > 0 {
         [ ($paths | first), $subfolder ] | path join
     } else {[]}
 }

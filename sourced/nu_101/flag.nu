@@ -39,8 +39,8 @@ def get_flag [
     --test_int(-i): int # The test intlocation
     --test_string(-s): string # The test string
     ] {
-    let is_int_empty = ($test_int == $nothing)
-    let is_string_empty = ($test_string == $nothing)
+    let is_int_empty = ($test_int == null)
+    let is_string_empty = ($test_string == null)
 
     let no_int_no_string = ($is_int_empty == true and $is_string_empty == true)
     let no_int_with_string = ($is_int_empty == true and $is_string_empty == false)

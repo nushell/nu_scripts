@@ -21,7 +21,7 @@ def-env j [dir] {
 $env.config = ($env.config | upsert hooks.env_change.PWD {|config|
     let val = ($config | get -i hooks.env_change.PWD)
 
-    if $val == $nothing {
+    if $val == null {
         $val | append {|before, after| autojump_add_to_database $after }
     } else {
         [

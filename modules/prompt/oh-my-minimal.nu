@@ -260,7 +260,7 @@ export def get_right_prompt [os use_nerd_fonts] {
 }
 
 export def get_prompt [nerd?] {
-    let use_nerd_fonts = ($nerd != $nothing)
+    let use_nerd_fonts = ($nerd != null)
     let os = ((sys).host.name)
     let left_prompt = (get_left_prompt $os $use_nerd_fonts)
     let right_prompt = (get_right_prompt $os $use_nerd_fonts)

@@ -19,7 +19,7 @@ export-env {
 
 
 def default-hooks [] {
-    (if ($env.config.hooks.env_change.PWD != $nothing) {
+    (if ($env.config.hooks.env_change.PWD != null) {
         [$env.config.hooks.env_change.PWD]
     }
     else {

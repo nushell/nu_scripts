@@ -12,7 +12,7 @@ use power.nu
     }
     use power_utils.nu
     power inject 0 1 {source: atuin, color: '#4C4B4A'}
-    power set time $nothing { short: false }
+    power set time null { short: false }
 power init
 ```
 or
@@ -60,7 +60,7 @@ power analyze
 ```
 
 ## todo
-- [x] source return `$nothing` for hiding
+- [x] source return `null` for hiding
 - [ ] in fast mode, there is still a problem with hideable components on the left
 - [x] proxy stat invalid in plain mode
     - '<<' not longer hide separator in `fast` mode

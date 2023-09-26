@@ -23,7 +23,7 @@ export-env {
     $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
         let o = ($config | get -i hooks.env_change.PWD)
         let val = (direnv)
-        if $o == $nothing {
+        if $o == null {
             $val
         } else {
             $o | append $val

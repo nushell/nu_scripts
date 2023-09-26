@@ -55,7 +55,7 @@ export def proxy_stat [] {
         if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
             [$bg '']
         } else {
-            [$bg $nothing]
+            [$bg null]
         }
     }
 }
@@ -192,7 +192,7 @@ def left_prompt [segment] {
         let segment = ($segment
             | reduce -f [] {|x, acc|
                 let y = (do $x.1 $x.0)
-                if $y.1 == $nothing {
+                if $y.1 == null {
                     $acc
                 } else {
                     $acc | append [$y]
@@ -226,7 +226,7 @@ def right_prompt [segment] {
         $segment
         | reduce -f [] {|x,acc|
             let y = (do $x.1 $x.0)
-            if $y.1 == $nothing {
+            if $y.1 == null {
                 $acc
             } else {
                 $acc | append [$y]
@@ -292,8 +292,8 @@ def decorator_gen [
 def squash [thunk] {
     mut r = ""
     for t in $thunk {
-        let v = (do $t.0 $nothing)
-        if ($v.1 != $nothing) {
+        let v = (do $t.0 null)
+        if ($v.1 != null) {
             $r += (do $t.1 $v.1)
         }
     }
@@ -342,8 +342,8 @@ def up_prompt [segment] {
             | each {|y|
                 $y
                 | reduce -f [] {|x, acc|
-                    let y = (do $x $nothing)
-                    if $y.1 == $nothing {
+                    let y = (do $x null)
+                    if $y.1 == null {
                         $acc
                     } else {
                         $acc | append $y.1

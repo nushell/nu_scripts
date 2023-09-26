@@ -27,7 +27,7 @@ def parse-fish [] {
         | flatten                                 # merge them all into a top level label
     )
     # default every column in the table to "" to make processing easier
-    # some values having $nothing often breaks nu or requires lots of checking
+    # some values having null often breaks nu or requires lots of checking
     $data | columns | reduce -f $data { |c, acc|
         $acc | default "" $c
     }

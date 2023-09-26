@@ -16,5 +16,5 @@ seq 0 $height | par-each {|| # create these in parallel
         }
     } | str join)
     print -n $"($row_data)" | table
-    $nothing
+    null
 } | compact

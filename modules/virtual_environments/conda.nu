@@ -65,7 +65,7 @@ export def-env activate [
             PROMPT_COMMAND: $new_prompt
         }
     } else {
-        $new_env | merge { CONDA_OLD_PROMPT_COMMAND: $nothing }
+        $new_env | merge { CONDA_OLD_PROMPT_COMMAND: null }
     }
 
 
@@ -84,7 +84,7 @@ export def-env deactivate [] {
     hide-env CONDA_OLD_PATH
 
     $env.PROMPT_COMMAND = (
-        if $env.CONDA_OLD_PROMPT_COMMAND == $nothing {
+        if $env.CONDA_OLD_PROMPT_COMMAND == null {
             $env.PROMPT_COMMAND
         } else {
             $env.CONDA_OLD_PROMPT_COMMAND
