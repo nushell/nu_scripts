@@ -18,7 +18,7 @@ def "str prepend" [head: string]: [string -> string, list<string> -> list<string
 
 #[test]
 def test_append [] {
-    use std assert error
+    use std assert
     assert equal ("foo" | str append "/") "foo/"
     assert equal (["foo", "bar", "baz"] | str append "/") ["foo/", "bar/", "baz/"] 
     
@@ -26,7 +26,7 @@ def test_append [] {
 
 #[test]
 def test_prepend [] {
-    use std assert error
+    use std assert
     assert equal ("foo" | str prepend "/") "/foo"
     assert equal (["foo", "bar", "baz"] | str prepend "/") ["/foo", "/bar", "/baz"] 
     
