@@ -629,7 +629,7 @@ export def kgp [
 }
 
 # kubectl get pods --watch
-export def kgpw [
+export def kwp [
     r?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --selector (-l): string
