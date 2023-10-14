@@ -2,7 +2,7 @@ use std log
 
 def publish [
     crate: path # the path to the crate to publish.
-    --no-verify: bool # don’t verify the contents by building them. Can be useful for crates with a `build.rs`.
+    --no-verify # don’t verify the contents by building them. Can be useful for crates with a `build.rs`.
 ] {
     cd $crate
 
