@@ -23,11 +23,29 @@ NOTE: The optional dataframe functionality is available by `cargo install nu --f
 As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
 
 # Themes of this release / New features
+<!-- NOTE: if you wanna write a section about a breaking change, when it's a very important one,
+    please add the following snippet to have a "warning" banner :)
+    > see [an example](https://www.nushell.sh/blog/2023-09-19-nushell_0_85_0.html#pythonesque-operators-removal)
 
-## New theme ([author](https://github.com/nushell/nushell/pulls))
+    ```md
+    ::: warning Breaking change
+    See a full overview of the [breaking changes](#breaking-changes)
+    :::
+    ```
+-->
+
+## Hall of fame
+### Bug fixes
+### Enhancing the documentation
+
+## Our set of commands is evolving
+### New commands
+### Changes to existing commands
+### Deprecated commands
+### Removed commands
 
 # Breaking changes
-<!-- TODO
+<!-- TODO:
     paste the output of
     ```nu
     ./make_release/release-note/list-merged-prs nushell/nushell --label breaking-change --pretty --no-author
@@ -36,7 +54,7 @@ As part of this release, we also publish a set of optional plugins you can insta
 -->
 
 # Full changelog
-<!-- TODO
+<!-- TODO:
     paste the output of
     ```nu
     ./make_release/release-note/get-full-changelog
