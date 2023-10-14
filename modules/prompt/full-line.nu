@@ -1,5 +1,9 @@
 # Build a full-line prompt with widgets for: 
-#   current working directory; git status; and current position in remembered working directories (`std dirs`, a.k.a. `shells`)
+#   current working directory (duh)
+#   git status (branch, branch ahead/behind remote, files changed)
+# ; current position in remembered working directories (`std dirs`, a.k.a. `shells`) (try it to see)
+#   also, as a nu dev special, widget for active nu executable.  (flags `cargo run` vs "installed" and which branch built from)
+#
 # 
 # to use:
 # 1. copy this file to `($nu.default-config-dir | path add 'scripts')` (Or someplace on your $env.NU_LIB_DIRS path, defined in env.nu)
@@ -9,8 +13,8 @@
 #    consolidate all prompt stuff in config.nu.
 # 3. Add new prompt setup stuff somewhere in config.nu:
 #   ```
-#   use prompt-builder.nu
-#   $env.PROMPT_COMMAND = {|| prompt-builder }
+#   use full-line.nu
+#   $env.PROMPT_COMMAND = {|| full-line }
 #   $env.PROMPT_COMMAND_RIGHT = ""
 #   ```
 #
@@ -18,37 +22,51 @@
 
 use std dirs
 
-# build the prompt from segments, looks like:
+# returns the prompt string
 #
-# ^------------- <workingDirectory> ------ <gitRepoStatus> --- <dirs>$
+# looks like:
+# ---<exeStatus>---------- <workingDirectory> ------ <gitRepoStatus> --- <dirs>
+# >
 #
-# or, if no git repo current directory
-#
-# ^-------------------------- <workingDirectory> ------------- <dirs>$
+# <exeStatus> shows <exe-path> <exe-branch>, but is empty if 
+# * nu exe running from a "bin" folder (based on `$nu.current-exe` path)
+# * nu exe built from a "main" branch (otherwise shows `(version | get branch)`)
 export def main [
-    --pad_char (-p) = '_' # character to fill with
+    --pad_char (-p) = '-' # character to fill with
 ] {
-    let left_segment = $" (dir_string) "
-    let left_segment_length = ($left_segment | ansi strip | str length -g)
+    let left_content = ($"($pad_char + $pad_char + $pad_char)(current_exe)")
+    let left_content_len = ($left_content | ansi strip | str length -g)
+    let mid_content = ($" (dir_string) ")
+    let mid_content_len = ($mid_content | ansi strip | str length -g)
     
-    let dirs_segment = $"|(dirs show | each {|it| if $it.active {'V'} else {'.'}} | str join '')|"
-    mut git_segment = $" (repo-styled) "
-    if ($git_segment | str length -g) <= 2 {$git_segment = ''}
-    let right_segment = $"($git_segment)($pad_char * 3) ($dirs_segment)"
-    let right_segment_length = ($right_segment | ansi strip | str length -g)
-
     let term_width = ((term size) | get columns)
-    mut left_half_length = (($term_width + $left_segment_length) / 2 | into int)
-    if (($left_half_length + $right_segment_length) > $term_width) {
-      $left_half_length = $left_segment_length # adapt to narrow console
-    } 
-    let right_half_length = ($term_width - $left_half_length) # guarantee sum === term_width
+    let left_padding = ((($term_width / 2) - ($mid_content_len / 2)) | into int)
+
+    let dirs_segment = $" |(dirs show | each {|it| if $it.active {'V'} else {'.'}} | str join '')|"
+    let right_content = ($"(repo-styled)($pad_char + $pad_char + $pad_char)($dirs_segment)")
+    let right_content_len = ($right_content | ansi strip | str length -g)
+
+    let right_padding = (($term_width - $left_padding - $mid_content_len) | into int)
     
     [(ansi reset),
-        ($left_segment | fill --character $pad_char --width $left_half_length --alignment right),
-        ($right_segment | fill --character $pad_char --width $right_half_length --alignment right),
+        ($left_content | fill --character $pad_char --width $left_padding --alignment left),
+        $mid_content,
+        ($right_content | fill --character $pad_char --width $right_padding --alignment right),
         "\n"
     ] | str join ''
+}
+
+# build current exe widget
+def current_exe [] {
+    let content = ([ 
+            ($nu.current-exe | path dirname | path basename | str replace "bin" ""),
+            (version | get branch | str replace "main" ""),
+        ] | str join " " | str trim)
+    (if (($content | str length) > 0) {
+        $"(' <' | bright-yellow)($content)('> ' | bright-yellow)"
+    } else {
+        ""
+    })
 }
 
 # build current working directory segment
@@ -407,7 +425,7 @@ def repo-styled [] {
   let right_bracket = (']' | bright-yellow)
 
   (if $status.in_git_repo {
-    $'($left_bracket)($repo_summary)($right_bracket)'
+    $' ($left_bracket)($repo_summary)($right_bracket) '
   } else {
     ''
   })
