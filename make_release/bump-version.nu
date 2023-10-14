@@ -3,7 +3,7 @@ use std log
 
 # bump the minor or patch version of the Nushell project
 def main [
-    --patch: bool  # update the minor version instead of the minor
+    --patch # update the minor version instead of the minor
 ]: nothing -> nothing {
     let version = open Cargo.toml
         | get package.version
