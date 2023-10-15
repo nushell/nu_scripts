@@ -23,7 +23,21 @@ Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/n
 
 As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
 
-# Themes of this release / New features
+# Table of content
+- [*Themes of this release / New features*](#themes-of-this-release-new-features)
+    - [*Hall of fame*](#hall-of-fame)
+        - [*Bug fixes*](#bug-fixes)
+        - [*Enhancing the documentation*](#enhancing-the-documentation)
+    - [*Our set of commands is evolving*](#our-set-of-commands-is-evolving)
+        - [*New commands*](#new-commands)
+        - [*Changes to existing commands*](#changes-to-existing-commands)
+        - [*Deprecated commands*](#deprecated-commands)
+        - [*Removed commands*](#removed-commands)
+    <!-- TODO: please add links to the other sections here -->
+- [*Breaking changes*](#breaking-changes)
+- [*Full changelog*](#full-changelog)
+
+# Themes of this release / New features [[toc](#table-of-content)]
 <!-- NOTE: if you wanna write a section about a breaking change, when it's a very important one,
     please add the following snippet to have a "warning" banner :)
     > see [an example](https://www.nushell.sh/blog/2023-09-19-nushell_0_85_0.html#pythonesque-operators-removal)
@@ -35,17 +49,17 @@ As part of this release, we also publish a set of optional plugins you can insta
     ```
 -->
 
-## Hall of fame
-### Bug fixes
-### Enhancing the documentation
+## Hall of fame [[toc](#table-of-content)]
+### Bug fixes [[toc](#table-of-content)]
+### Enhancing the documentation [[toc](#table-of-content)]
 
-## Our set of commands is evolving
-### New commands
-### Changes to existing commands
-### Deprecated commands
-### Removed commands
+## Our set of commands is evolving [[toc](#table-of-content)]
+### New commands [[toc](#table-of-content)]
+### Changes to existing commands [[toc](#table-of-content)]
+### Deprecated commands [[toc](#table-of-content)]
+### Removed commands [[toc](#table-of-content)]
 
-# Breaking changes
+# Breaking changes [[toc](#table-of-content)]
 <!-- TODO:
     paste the output of
     ```nu
@@ -54,7 +68,7 @@ As part of this release, we also publish a set of optional plugins you can insta
     here
 -->
 
-# Full changelog
+# Full changelog [[toc](#table-of-content)]
 <!-- TODO:
     paste the output of
     ```nu
