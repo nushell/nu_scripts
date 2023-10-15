@@ -5,14 +5,14 @@ author_site: https://twitter.com/nu_shell
 author_image: https://www.nushell.sh/blog/images/nu_logo.png
 excerpt: Today, we're releasing version {{VERSION}} of Nu. This release adds...
 ---
+<!-- TODO: complete the excerpt above -->
 
 # Nushell {{VERSION}}
 
 Nushell, or Nu for short, is a new shell that takes a modern, structured approach to your command line. It works seamlessly with the data from your filesystem, operating system, and a growing number of file formats to make it easy to build powerful command line pipelines.
 
+<!-- TODO: write this excerpt -->
 Today, we're releasing version {{VERSION}} of Nu. This release adds...
-
-<!-- more -->
 
 # Where to get it
 
