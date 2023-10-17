@@ -16,6 +16,11 @@ def "str prepend" [head: string]: [string -> string, list<string> -> list<string
     }
 }
 
+def "str repeat" [n: int]: [string -> string] {
+    let $input = $in
+    seq 1 $n | each {$input} | str join
+}
+
 #[test]
 def test_append [] {
     use std assert
@@ -30,4 +35,10 @@ def test_prepend [] {
     assert equal ("foo" | str prepend "/") "/foo"
     assert equal (["foo", "bar", "baz"] | str prepend "/") ["/foo", "/bar", "/baz"] 
     
+}
+
+#[test]
+def test_repeat [] {
+    use std assert
+    assert equal ("foo" | str repeat 3) "foofoofoo"
 }
