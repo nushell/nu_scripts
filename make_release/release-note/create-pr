@@ -70,7 +70,18 @@ by opening PRs against the `release-notes-($version)` branch.
     log info $"title: ($title)"
 
     match (["yes" "no"] | input list --fuzzy "Inspect the release note document? ") {
-        "yes" => { $release_note | explore },
+        "yes" => {
+            if $env.EDITOR? == null {
+                error make --unspanned {
+                    msg: $"(ansi red_bold)$env.EDITOR is not defined(ansi reset)"
+                }
+            }
+
+            let temp_file = $nu.temp-path | path join $"(random uuid).md"
+            $release_note | save --force $temp_file
+            ^$env.EDITOR $temp_file
+            rm --recursive --force $temp_file
+        },
         "no" | "" | _ => {},
     }
 
