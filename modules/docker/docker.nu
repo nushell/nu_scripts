@@ -280,9 +280,9 @@ def host-path [path] {
 
 # run
 export def container-create [
-    --debug(-x): bool
-    --appimage: bool
-    --netadmin: bool
+    --debug(-x)
+    --appimage
+    --netadmin
     --proxy: string@"nu-complete docker run proxy"      # proxy
     --ssh(-s): string@"nu-complete docker run sshkey"   # specify ssh key
     --sshuser: string=root                              # default root
@@ -291,13 +291,13 @@ export def container-create [
     --vols(-v): any                                     # { host: container }
     --ports(-p): any                                    # { 8080: 80 }
     --envs(-e): any                                     # { FOO: BAR }
-    --daemon(-d): bool
+    --daemon(-d)
     --attach(-a): string@"nu-complete docker container" # attach
     --workdir(-w): string                               # workdir
     --entrypoint: string                                # entrypoint
-    --dry-run: bool
-    --with-x: bool
-    --privileged(-P): bool
+    --dry-run
+    --with-x
+    --privileged(-P)
     --namespace(-n): string@"nu-complete docker ns"
     img: string@"nu-complete docker images"             # image
     ...cmd                                              # command args

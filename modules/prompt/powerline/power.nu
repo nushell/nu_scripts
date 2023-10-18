@@ -79,10 +79,17 @@ def time_segment [] {
     {|bg|
         let config = $env.NU_POWER_CONFIG.time
         let theme = $env.NU_POWER_THEME.time
-        let format = if $config.short {
-            $'($theme.fst)%y%m%d($theme.snd)%w($theme.fst)%H%M%S'
-        } else {
-            $'($theme.fst)%y-%m-%d[%w]%H:%M:%S'
+        let format = match $config.style {
+            "compact" => { $'($theme.fst)%y%m%d($theme.snd)%w($theme.fst)%H%M%S' }
+            "rainbow" => {
+                let fmt = [w y m d H M S]
+                let color = ['1;93m' '1;35m' '1;34m' '1;36m' '1;32m' '1;33m' '1;91m']
+                $fmt
+                | enumerate
+                | each { |x| $"(ansi -e ($color | get $x.index))%($x.item)" }
+                | str join
+            }
+            _  => { $'($theme.fst)%y-%m-%d[%w]%H:%M:%S' }
         }
         [$bg $"(date now | format date $format)"]
     }
@@ -596,7 +603,7 @@ export-env {
         NU_POWER_CONFIG
         {
             time: {
-                short: true
+                style: null
             }
         }
     )
