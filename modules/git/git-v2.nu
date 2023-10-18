@@ -175,7 +175,7 @@ export def gb [
 }
 
 # git clone, init
-export def-env gn [
+export def --env gn [
     repo?:            string@"nu-complete git branches"
     local?:           path
     --submodule (-s)  # git submodule
