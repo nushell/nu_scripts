@@ -16,7 +16,7 @@ Today, we're releasing version {{VERSION}} of Nu. This release adds...
 
 # Where to get it
 
-Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/nushell/releases/tag/{{VERSION}}.0) or from [crates.io](https://crates.io/crates/nu). If you have Rust installed you can install it using `cargo install nu`.
+Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/nushell/releases/tag/{{VERSION}}) or from [crates.io](https://crates.io/crates/nu). If you have Rust installed you can install it using `cargo install nu`.
 
 NOTE: The optional dataframe functionality is available by `cargo install nu --features=dataframe`.
 
