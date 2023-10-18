@@ -78,7 +78,7 @@ export def normalize-column-names [ ] {
     let cols = ($i | columns)
     mut t = $i
     for c in $cols {
-        $t = ($t | rename -c [$c ($c | str downcase | str replace ' ' '_')])
+        $t = ($t | rename -c {$c: ($c | str downcase | str replace ' ' '_')})
     }
     $t
 }
@@ -160,9 +160,9 @@ export def kk [p: path] {
 export def kgh [
     name?: string@"nu-complete helm list"
     --namespace (-n): string@"nu-complete kube ns"
-    --manifest (-m): bool
-    --values(-v): bool
-    --all (-a): bool
+    --manifest (-m)
+    --values(-v)
+    --all (-a)
 ] {
     if ($name | is-empty) {
         let ns = if $all { [--all] } else { (spr [-n $namespace]) }
@@ -228,7 +228,7 @@ export def kdh [
     valuefile: path
     --values (-v): any
     --namespace (-n): string@"nu-complete kube ns"
-    --has-plugin (-h): bool
+    --has-plugin (-h)
 ] {
     if $has_plugin {
         helm diff $name $chart -f $valuefile (spr [-n $namespace])
@@ -491,10 +491,10 @@ export def kg [
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
-    --verbose (-v): bool
-    --watch (-w): bool
-    --wide (-W): bool
-    --all (-a): bool
+    --verbose (-v)
+    --watch (-w)
+    --wide (-W)
+    --all (-a)
 ] {
     let n = if $all {
                 [-A]
@@ -584,7 +584,7 @@ export def kdel [
     r: string@"nu-complete kube kind"
     i: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
-    --force(-f): bool
+    --force(-f)
 ] {
     kubectl delete (spr [-n $namespace]) (sprb $force [--grace-period=0 --force]) $r $i
 }
@@ -619,7 +619,7 @@ export def kgp [
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
-    --all (-a): bool
+    --all (-a)
 ] {
     if $all {
         kg pods -a --wide
@@ -700,8 +700,8 @@ export def kl [
     pod: string@"nu-complete kube pods"
     --namespace(-n): string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
-    --follow(-f): bool
-    --previous(-p): bool
+    --follow(-f)
+    --previous(-p)
 ] {
     let n = (spr [-n $namespace])
     let c = (spr [-c $container])
@@ -882,7 +882,7 @@ export alias krsss = kubectl rollout status statefulset
 # kubectl top pod
 export def ktp [
     --namespace (-n): string@"nu-complete kube ns"
-    --all(-a): bool
+    --all(-a)
 ] {
     if $all {
         kubectl top pod -A | from ssv -a | rename namespace name cpu mem

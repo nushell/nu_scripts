@@ -1,6 +1,6 @@
 def agree [
     prompt
-    --default-not (-n): bool
+    --default-not (-n)
 ] {
     let prompt = if ($prompt | str ends-with '!') {
         $'(ansi red)($prompt)(ansi reset)'
@@ -100,14 +100,14 @@ export def gs [] {
 
 # git stash
 export def gst [
-    --apply (-a):             bool
-    --clear (-c):             bool
-    --drop (-d):              bool
-    --list (-l):              bool
-    --pop (-p):               bool
-    --show (-s):              bool
-    --all (-A):               bool
-    --include-untracked (-i): bool
+    --apply (-a)
+    --clear (-c)
+    --drop (-d)
+    --list (-l)
+    --pop (-p)
+    --show (-s)
+    --all (-A)
+    --include-untracked (-i)
 ] {
     if $apply {
         git stash apply
@@ -131,7 +131,7 @@ export def gst [
 # git log
 export def gl [
     commit?: string@"nu-complete git log"
-    --verbose(-v):bool
+    --verbose(-v)
     --num(-n):int=32
 ] {
     if ($commit|is-empty) {
@@ -145,8 +145,8 @@ export def gl [
 export def gb [
     branch?:          string@"nu-complete git branches"
     remote?:          string@"nu-complete git remote branches"
-    --delete (-d):    bool
-    --no-merged (-n): bool
+    --delete (-d)
+    --no-merged (-n)
 ] {
     let bs = (git branch | lines | each {|x| $x | str substring 2..})
     if ($branch | is-empty) {
@@ -178,8 +178,8 @@ export def gb [
 export def-env gn [
     repo?:            string@"nu-complete git branches"
     local?:           path
-    --submodule (-s): bool     # git submodule
-    --init (-i):      bool     # git init
+    --submodule (-s)  # git submodule
+    --init (-i)       # git init
 ] {
      if $init {
         if ($repo | is-empty) {
@@ -211,13 +211,13 @@ export def gig [] {
 export def gp [
     branch?:             string@"nu-complete git remote branches"
     remote?:             string@"nu-complete git remote branches"
-    --force (-f):        bool     # git push -f
-    --override:          bool
-    --submodule (-s):    bool     # git submodule
-    --init (-i):         bool     # git init
-    --merge (-m):        bool     # git pull (no)--rebase
-    --autostash (-a):    bool     # git pull --autostash
-    --back-to-prev (-b): bool     # back to branch
+    --force (-f)         # git push -f
+    --override
+    --submodule (-s)     # git submodule
+    --init (-i)          # git init
+    --merge (-m)         # git pull (no)--rebase
+    --autostash (-a)     # git pull --autostash
+    --back-to-prev (-b)  # back to branch
 ] {
     if $submodule {
         git submodule update
@@ -284,15 +284,15 @@ export def gp [
 # git add, rm and restore
 export def ga [
     file?:          path
-    --all (-A):     bool
-    --patch (-p):   bool
-    --update (-u):  bool
-    --verbose (-v): bool
-    --delete (-d):  bool    # git rm
-    --cached (-c):  bool
-    --force (-f):   bool
-    --restore (-r): bool    # git restore
-    --staged (-s):  bool
+    --all (-A)
+    --patch (-p)
+    --update (-u)
+    --verbose (-v)
+    --delete (-d)   # git rm
+    --cached (-c)
+    --force (-f)
+    --restore (-r)  # git restore
+    --staged (-s)
     --source (-o):  string
 ] {
     if $delete {
@@ -318,9 +318,9 @@ export def ga [
 # git commit
 export def gc [
     message?:     string
-    --all (-A):   bool
-    --amend (-a): bool
-    --keep (-k):  bool
+    --all (-A)
+    --amend (-a)
+    --keep (-k)
 ] {
     let m = (spr [-m $message])
     let a = (sprb $all [--all])
@@ -332,9 +332,9 @@ export def gc [
 # git diff
 export def gd [
     file?:            path
-    --cached (-c):    bool # cached
-    --word-diff (-w): bool # word-diff
-    --staged (-s):    bool # staged
+    --cached (-c)     # cached
+    --word-diff (-w)  # word-diff
+    --staged (-s)     # staged
 ] {
     let w = (sprb $word_diff [--word-diff])
     let c = (sprb $cached [--cached])
@@ -345,10 +345,10 @@ export def gd [
 # git merge
 export def gm [
     branch?:            string@"nu-complete git branches"
-    --abort (-a):       bool
-    --continue (-c):    bool
-    --quit (-q):        bool
-    --no-squash (-n):   bool # git merge (no)--squash
+    --abort (-a)
+    --continue (-c)
+    --quit (-q)
+    --no-squash (-n) # git merge (no)--squash
 ] {
     let x = if $no_squash { [] } else { [--squash] }
     if ($branch | is-empty) {
@@ -365,12 +365,12 @@ export def gm [
 # TODO: --onto: (commit_id)
 export def gr [
     branch?:            string@"nu-complete git branches"
-    --interactive (-i): bool
+    --interactive (-i)
     --onto (-o):        string
-    --abort (-a):       bool
-    --continue (-c):    bool
-    --skip (-s):        bool
-    --quit (-q):        bool
+    --abort (-a)
+    --continue (-c)
+    --skip (-s)
+    --quit (-q)
 ] {
     if $abort {
         git rebase --abort
@@ -395,10 +395,10 @@ export def gr [
 # git cherry-pick
 export def gcp [
     commit?:         string@"nu-complete git log all"
-    --abort (-a):    bool
-    --continue (-c): bool
-    --skip (-s):     bool
-    --quit (-q):     bool
+    --abort (-a)
+    --continue (-c)
+    --skip (-s)
+    --quit (-q)
 ] {
     if $abort {
         git cherry-pick --abort
@@ -424,8 +424,8 @@ export def gcf [
 # git reset
 export def grs [
     commit?:      string@"nu-complete git log"
-    --hard (-h):  bool
-    --clean (-c): bool
+    --hard (-h)
+    --clean (-c)
 ] {
     let h = (sprb $hard [--hard])
     let cm = (spr [$commit])
@@ -440,11 +440,11 @@ export def grs [
 export def grm [
     remote?:       string@"nu-complete git remotes"
     uri?:          string
-    --add (-a):    bool
-    --rename (-r): bool
-    --delete (-d): bool
-    --update (-u): bool
-    --set (-s):    bool
+    --add (-a)
+    --rename (-r)
+    --delete (-d)
+    --update (-u)
+    --set (-s)
 ] {
     if ($remote | is-empty) {
         git remote -v
@@ -467,10 +467,10 @@ export def grm [
 
 # git bisect
 export def gbs [
-    --bad (-b):   bool
-    --good (-g):  bool
-    --reset (-r): bool
-    --start (-s): bool
+    --bad (-b)
+    --good (-g)
+    --reset (-r)
+    --start (-s)
 ] {
     if $good {
         git bisect good

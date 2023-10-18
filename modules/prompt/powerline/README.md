@@ -12,7 +12,7 @@ use power.nu
     }
     use power_utils.nu
     power inject 0 1 {source: atuin, color: '#4C4B4A'}
-    power set time null { short: false }
+    power set time null { style: compact }
 power init
 ```
 or
