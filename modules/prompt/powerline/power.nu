@@ -372,7 +372,7 @@ export def default_env [name value] {
     }
 }
 
-export def-env init [] {
+export def --env init [] {
     match $env.NU_POWER_FRAME {
         'default' => {
             match $env.NU_POWER_MODE {
@@ -432,7 +432,7 @@ export def-env init [] {
     hook
 }
 
-export def-env set [name theme config?] {
+export def --env set [name theme config?] {
     $env.NU_POWER_THEME = (if ($theme | is-empty) {
             $env.NU_POWER_THEME
         } else {
@@ -456,7 +456,7 @@ export def-env set [name theme config?] {
         })
 }
 
-export def-env register [name source theme config?] {
+export def --env register [name source theme config?] {
     set $name $theme $config
 
     $env.NU_PROMPT_COMPONENTS = (
@@ -464,7 +464,7 @@ export def-env register [name source theme config?] {
     )
 }
 
-export def-env inject [pos idx define theme? config?] {
+export def --env inject [pos idx define theme? config?] {
     let prev = ($env.NU_POWER_SCHEMA | get $pos)
     let next = if $idx == 0 {
         $prev | prepend $define
@@ -512,11 +512,11 @@ export def-env inject [pos idx define theme? config?] {
     }
 }
 
-export def-env eject [] {
+export def --env eject [] {
     "power eject not implement"
 }
 
-export def-env hook [] {
+export def --env hook [] {
     $env.config = ( $env.config | upsert hooks.env_change { |config|
         let init = [{|before, after| if not ($before | is-empty) { init } }]
         $config.hooks.env_change
