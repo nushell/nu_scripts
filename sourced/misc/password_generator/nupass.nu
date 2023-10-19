@@ -40,7 +40,7 @@ export def main [
   let random_symbols = (1..$words | par-each { |i| $symbols | get-random-symbol $symbols $symbols_len } --threads $threads)
 
   # Get some random numbers 
-  let random_numbers = (1..$words | par-each { |i| (random integer 0..99) } --threads $threads)
+  let random_numbers = (1..$words | par-each { |i| (random int 0..99) } --threads $threads)
 
   # Print some vars if debug flag is set
   if $debug { 
@@ -68,7 +68,7 @@ export def main [
     return (($random_words ++ $random_symbols ++ $random_numbers | shuffle) | reduce { |it, acc| ($acc | into string) + ($it | into string) })
   } else if $variant == "alphanum" {
     # Combined random int and random word, reduce to string
-    return (0..($words - 1) | each { |it| (random integer 0..99 | into string) + ($random_words | get $it) } | reduce { |it, acc| $acc + $it })
+    return (0..($words - 1) | each { |it| (random int 0..99 | into string) + ($random_words | get $it) } | reduce { |it, acc| $acc + $it })
   } else if $variant == "alpha" {
     # Reduce random words only to string
     return ($random_words | reduce { |it, acc| $acc + $it })
@@ -89,14 +89,14 @@ def get-random-word [
     | wrap word
     | upsert len {|it| $it.word | str length}
     | where len <= ($wordlength)
-    | get (random integer 1..($numlines))
+    | get (random int 1..($numlines))
     | get word
 }
 
 # Function to format a word randomly
 def random-format-word [] {
     par-each {|it| 
-        let rint = (random integer 1..4)
+        let rint = (random int 1..4)
         if $rint == 1 {
             ($it | str capitalize)
         } else if $rint == 2 {
@@ -116,5 +116,5 @@ def get-random-symbol [
 ] {
     $symbolchars
     | split chars
-    | get (random integer 0..($symbolcharslen - 1))
+    | get (random int 0..($symbolcharslen - 1))
 }
