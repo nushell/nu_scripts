@@ -82,7 +82,7 @@ export def "random-list dice" [
     }
 }
 
-# Generate a random int list.
+# Generate a random integer list.
 export def "random-list integer" [
     list_length: int # A length of the list
     --range (-r): range # A range of the value
