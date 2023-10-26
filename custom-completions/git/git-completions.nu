@@ -100,10 +100,10 @@ const short_status_descriptions = {
 
 def "nu-complete git files" [] {
   let relevant_statuses = ["??"," M", "MM", "MD", " D"]
-  ^git status --porcelain 
-    | lines 
-      | parse --regex "(?P<short_status>.{2}) (?P<value>.+)" 
-      | where $it.short_status in $relevant_statuses 
+  ^git status --porcelain
+    | lines
+      | parse --regex "(?P<short_status>.{2}) (?P<value>.+)"
+      | where $it.short_status in $relevant_statuses
       | insert "description" { |e| $short_status_descriptions | get $e.short_status}
 }
 
@@ -154,10 +154,10 @@ export extern "git checkout" [
   --pathspec-from-file: string                    # read pathspec from file
   --progress                                      # force progress reporting
   --quiet(-q)                                     # suppress progress reporting
-  --recurse-submodules: string                    # control recursive updating of submodules
+  --recurse-submodules                            # control recursive updating of submodules
   --theirs(-3)                                    # checkout their version for unmerged files
   --track(-t)                                     # set upstream info for new branch
-  -b: string                                      # create and checkout a new branch
+  -b                                              # create and checkout a new branch
   -B: string                                      # create/reset and checkout a branch
   -l                                              # create reflog for new branch
 ]
@@ -251,7 +251,7 @@ export extern "git pull" [
 # Switch between branches and commits
 export extern "git switch" [
   switch?: string@"nu-complete git switch"        # name of branch to switch to
-  --create(-c): string                            # create a new branch
+  --create(-c)                                    # create a new branch
   --detach(-d): string@"nu-complete git log"      # switch to a commit in a detatched state
   --force-create(-C): string                      # forces creation of new branch, if it exists then the existing branch will be reset to starting point
   --force(-f)                                     # alias for --discard-changes
@@ -363,7 +363,7 @@ export extern "git diff" [
 export extern "git commit" [
   --all(-a)                                           # automatically stage all modified and deleted files
   --amend                                             # amend the previous commit rather than adding a new one
-  --message(-m): string                               # specify the commit message rather than opening an editor
+  --message(-m)                                       # specify the commit message rather than opening an editor
   --no-edit                                           # don't edit the commit message (useful with --amend)
 ]
 
