@@ -53,7 +53,7 @@ def "nu-complete winget install name" [] {
         open $path | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
-        let data = (winget search -q "" |  select name id)
+        let data = (winget search -q "" | where source == winget |  select name id)
         $data | save $path | ignore
         $data | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
     }
@@ -82,55 +82,62 @@ def "nu-complete winget install id" [] {
 def "nu-complete winget parse table" [lines: any] {
     let header = (
         $lines | first
-        | parse -r '(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<match>Match\s+)?(?P<source>Source\s*)?'
+        | parse -r '(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<available>Available\s+)?(?P<match>Match\s+)?(?P<source>Source\s*)?'
         | first
     )
     let lengths = {
         name: ($header.name | str length),
         id: ($header.id | str length),
         version: ($header.version | str length),
+        available: ($header.available | str length),
         match: ($header.match | str length),
         source: ($header.source | str length)
     }
+    let header_length = $lengths | values | math sum
     $lines | skip 2 | each { |it|
         let it = ($it | split chars)
 
-        mut offset = 0 
-        let source = if $lengths.source > 0 {
+        mut offset = 0
+
+        let name = ($it | skip $offset | first $lengths.name | str join | str trim)
+        $offset += $lengths.name
+
+        let id = ($it | skip $offset | first $lengths.id | str join | str trim)
+        $offset += $lengths.id
+        
+        let version = if $lengths.version > 0 {
             (
-                $it | last $lengths.source | str join | str trim
+                $it | skip $offset | first $lengths.version | str join | str trim
             )
         } else { "" }
+        $offset += $lengths.version
 
-        $offset += $lengths.source
+        let available = if $lengths.available > 0 {
+            (
+                $it | skip $offset | first $lengths.available | str join | str trim
+            )
+        } else { "" }
+        $offset += $lengths.available
 
         let match = if $lengths.match > 0 {
             (
-                $it | drop $offset | last $lengths.match | str join | str trim
+                $it | skip $offset | first $lengths.match | str join | str trim
             )
-
         } else { "" }
-
         $offset += $lengths.match
 
-        let version = if $lengths.version > 0 {
+        let source = if $lengths.source > 0 {
             (
-                $it | drop $offset | last $lengths.version | str join | str trim
+                $it | skip $offset | first $lengths.source | str join | str trim
             )
         } else { "" }
-
-        $offset += $lengths.version
-
-        let id = ($it | drop $offset | last $lengths.id | str join | str trim)
-
-        $offset += $lengths.id
-
-        let name = ($it | drop $offset | last $lengths.name | str join | str trim)
+        $offset += $lengths.source
 
         {
             name: $name,
             id: $id,
             version: $version,
+            available: $available,
             match: $match,
             source: $source
         }
@@ -396,7 +403,7 @@ export def "winget list" [
         if ($output | length) == 1 {
             $"(ansi light_red)($output | first)(ansi reset)"
         } else {
-            nu-complete winget parse table $output
+            nu-complete winget parse table (if ($count | is-empty) or ($count == 0) { $output } else { $output | drop 1} )
         }
     }
 }
