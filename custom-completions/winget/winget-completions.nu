@@ -181,10 +181,10 @@ export extern "winget install" [
 ]
 
 export def "winget show" [
-    pos_query?: string,
-    --query(-q): string, # The query used to search for a package
-    --id: string, # Filter results by id
-    --name: string, # Filter results by name
+    pos_query?: string@"nu-complete winget install name",
+    --query(-q): string@"nu-complete winget install name", # The query used to search for a package
+    --id: string@"nu-complete winget install id", # Filter results by id
+    --name: string@"nu-complete winget install name", # Filter results by name
     --moniker: string, # Filter results by moniker
     --version(-v): string, # Use the specified version; default is the latest version
     --source(-s): string@"nu-complete winget install source", # Find package using the specified source
@@ -227,22 +227,28 @@ export def "winget show" [
         (do $flagify header $header)
         (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
-    ] )
+    ] | flatten | compact )
 
     if $raw or $help {
         ^winget $arguments
     } else {
-        let output = (^winget $arguments | lines)
-        if ($output | first) =~ "Multiple packages found matching input criteria." {
-            $"(ansi yellow)($output | first | str trim)(ansi reset)"
-            nu-complete winget parse table ($output | skip 1) | select name id source
-        } else if ($output | first) =~ "No package found matching input criteria." {
-            $"(ansi yellow)($output | first | str trim)(ansi reset)"
+        let completed = (^winget $arguments | complete)
+        let output = $completed.stdout | lines
+        if ($completed.exit_code != 0) {
+            if ($output | first) =~ "Multiple packages found matching input criteria." {
+                echo $"(ansi yellow)($output | first | str trim)(ansi reset)"
+                nu-complete winget parse table ($output | skip 1) | select name id source
+            } else if ($output | first) =~ "No package found matching input criteria." {
+                $"(ansi light_red)($output | first | str trim)(ansi reset)"
+            } else {
+                $"(ansi light_red)($output | get 3 | str trim)(ansi reset)"
+            }
         } else {
-            let header = ($output | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]')
+            let header = ($output | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]' | into record)
             let manifest = ($output | skip 1 | str join (char newline) | from yaml)
-            $header | first | merge {|| $manifest }
+            $header | merge $manifest
         }
+
     }
 }
 
