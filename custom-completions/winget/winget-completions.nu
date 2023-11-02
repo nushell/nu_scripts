@@ -363,7 +363,12 @@ export def "winget search" [
         let completed = (^winget $arguments | complete)
         let output = $completed.stdout | lines
         if ($completed.exit_code != 0) {
-            $"(ansi light_red)($output | get 3)(ansi reset)"
+            let $err_msg = if ($output | length) >= 3 { 
+               $output | get 3
+            } else {
+               $output
+            }
+            $"(ansi light_red)($err_msg)(ansi reset)"
         } else {
             nu-complete winget parse table $output | select name id version source
         }
