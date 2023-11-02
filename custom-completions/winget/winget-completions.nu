@@ -53,8 +53,10 @@ def "nu-complete winget install name" [] {
         open $path | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
+        # this assumes that no custom source is used
+        # and that msstore is still not working with this
         let data = (winget search -q "" | where source == winget |  select name id)
-        $data | save $path | ignore
+        $data | save -f $path | ignore
         $data | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
     }
     {
@@ -73,8 +75,10 @@ def "nu-complete winget install id" [] {
         open $path | get id | str replace "…" ""
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
+        # this assumes that no custom source is used
+        # and that msstore is still not working with this
         let data = (winget search -q "" | where source == winget | select name id)
-        $data | save $path | ignore
+        $data | save -f $path | ignore
         $data | get id | str replace "…" ""
     }
 }
