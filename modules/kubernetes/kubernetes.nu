@@ -221,7 +221,7 @@ export def kah [
     helm $act $name $chart -f $valuefile $values (spr [-n $namespace])
 }
 
-# helm install or upgrade via values file
+# helm diff
 export def kdh [
     name: string@"nu-complete helm list"
     chart: string@"nu-complete helm charts"
