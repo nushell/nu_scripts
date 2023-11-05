@@ -13,6 +13,7 @@ def __cwdhist_menu [] {
             description_text: yellow
         }
         source: { |buffer, position|
+            #$"[($position)]($buffer);(char newline)" | save -a ~/.cache/cwdhist.log
             let cwd = if ($buffer | is-empty) {
                 ""
             } else {
@@ -36,6 +37,7 @@ def __cwdhist_menu [] {
                     limit 20
                     ;"
             }
+            | append { value: '~' }
         }
     }
 }
@@ -73,9 +75,7 @@ export-env {
           cwd text primary key,
           count int default 1,
           recent datetime default (datetime('now', 'localtime'))
-        );
-        insert into cwd_history(cwd, count) values ('.', 0)
-        on conflict (cwd) do update set count = 0;"
+        );"
         | sqlite3 ~/.cache/nu_cwd_history.sqlite
     }
 
@@ -93,8 +93,8 @@ export-env {
               values \('($path)')
             on conflict\(cwd)
             do update set
-               count = count + 1,
-               recent = datetime\('now', 'localtime');"
+              count = count + 1,
+              recent = datetime\('now', 'localtime');"
     }
 
     $env.config = ($env.config
