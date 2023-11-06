@@ -4,8 +4,8 @@ def __cwdhist_menu [] {
         only_buffer_difference: false
         marker: "| "
         type: {
-            layout: columnar
-            page_size: 20
+            layout: list
+            page_size: 10
         }
         style: {
             text: green
@@ -14,30 +14,24 @@ def __cwdhist_menu [] {
         }
         source: { |buffer, position|
             #$"[($position)]($buffer);(char newline)" | save -a ~/.cache/cwdhist.log
-            let cwd = if ($buffer | is-empty) {
-                ""
-            } else {
-                $buffer
-            }
             if 'cwd_history_full' in $env {
                 open $nu.history-path | query db $"
-                    select cwd as value, count\(*) as description
+                    select cwd as value, count\(*) as cnt
                     from history
-                    where cwd like '%($cwd)%'
+                    where cwd like '%($buffer)%'
                     group by cwd
-                    order by description desc
-                    limit 20
+                    order by cnt desc
+                    limit 50
                     ;"
             } else {
                 open $env.cwd_history_file | query db $"
-                    select cwd as value, count as description
+                    select cwd as value, count
                     from cwd_history
-                    where cwd like '%($cwd)%'
+                    where cwd like '%($buffer)%'
                     order by count desc
-                    limit 20
+                    limit 50
                     ;"
             }
-            | append { value: '~' }
         }
     }
 }
@@ -72,10 +66,10 @@ export-env {
 
     if not ($env.cwd_history_file | path exists) {
         "create table if not exists cwd_history (
-          cwd text primary key,
-          count int default 1,
-          recent datetime default (datetime('now', 'localtime'))
-        );"
+                cwd text primary key,
+                count int default 1,
+                recent datetime default (datetime('now', 'localtime'))
+            );"
         | sqlite3 ~/.cache/nu_cwd_history.sqlite
     }
 
@@ -90,11 +84,11 @@ export-env {
         open $env.cwd_history_file
         | query db $"
             insert into cwd_history\(cwd)
-              values \('($path)')
+                values \('($path)')
             on conflict\(cwd)
             do update set
-              count = count + 1,
-              recent = datetime\('now', 'localtime');"
+                count = count + 1,
+                recent = datetime\('now', 'localtime');"
     }
 
     $env.config = ($env.config
