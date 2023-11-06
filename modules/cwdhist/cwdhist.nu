@@ -14,7 +14,7 @@ def __cwdhist_menu [] {
         }
         source: { |buffer, position|
             #$"[($position)]($buffer);(char newline)" | save -a ~/.cache/cwdhist.log
-            if 'cwd_history_full' in $env {
+            if $env.cwd_history_full {
                 open $nu.history-path | query db $"
                     select cwd as value, count\(*) as cnt
                     from history
@@ -48,28 +48,29 @@ def __cwdhist_keybinding [] {
     }
 }
 
-def __edit_keybinding [] {
+def __cwdhist_switching [] {
     {
-        name: edit
-        modifier: alt
+        name: cwdhist_switching
+        modifier: shift_alt
         keycode: char_e
         mode: [emacs, vi_normal, vi_insert]
         event: [
-            { send: OpenEditor }
+            { send: ExecuteHostCommand, cmd: '$env.cwd_history_full = (not $env.cwd_history_full)' }
         ]
     }
 }
 
 
 export-env {
+    $env.cwd_history_full = false
     $env.cwd_history_file = '~/.cache/nu_cwd_history.sqlite'
 
     if not ($env.cwd_history_file | path exists) {
         "create table if not exists cwd_history (
-                cwd text primary key,
-                count int default 1,
-                recent datetime default (datetime('now', 'localtime'))
-            );"
+            cwd text primary key,
+            count int default 1,
+            recent datetime default (datetime('now', 'localtime'))
+        );"
         | sqlite3 ~/.cache/nu_cwd_history.sqlite
     }
 
@@ -96,6 +97,6 @@ export-env {
 
     $env.config = ($env.config
                   | upsert menus ($env.config.menus | append (__cwdhist_menu))
-                  | upsert keybindings ($env.config.keybindings | append [(__cwdhist_keybinding) (__edit_keybinding)])
+                  | upsert keybindings ($env.config.keybindings | append [(__cwdhist_keybinding) (__cwdhist_switching)])
                   )
 }
