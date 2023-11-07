@@ -117,6 +117,8 @@ export alias gpl = git pull
 export def gpoat [] {
     git push origin --all; git push origin --tags
 }
+export alias gpod = git push origin --delete
+export alias gpodc = git push origin --delete (git_current_branch)
 export alias gpr = git pull --rebase
 export alias gpu = git push upstream
 export alias gpv = git push --verbose
