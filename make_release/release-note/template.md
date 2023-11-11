@@ -44,6 +44,24 @@ As part of this release, we also publish a set of optional plugins you can insta
 ### Deprecated commands
 ### Removed commands
 
+<!-- NOTE: to start investigating the contributions of last release, i like to list them all in a raw table.
+    to achieve this, one can use the [`list-merged-prs` script from `nu_scripts`](https://github.com/nushell/nu_scripts/blob/main/make_release/release-note/list-merged-prs)
+    as follows:
+
+    ```nushell
+    use ./make_release/release-note/list-merged-prs
+
+    list-merged-prs nushell/nushell <last-release-date>
+        | where author != "app/dependabot"
+        | sort-by mergedAt
+        | update url {|it| $"[#($it.number)]\(($it.url)\)" }
+        | update author { $"[@($in)]\(https://github.com/($in)\)" }
+        | select author title url
+        | rename -c {url: pr}
+        | to md --pretty
+    ```
+-->
+
 # Breaking changes
 <!-- TODO:
     paste the output of
