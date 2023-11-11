@@ -2,7 +2,7 @@ use std bench
 
 def "random bytes" [n: int]: nothing -> binary {
     seq 1 ($n / 8 + 1)
-        | each { random integer }
+        | each { random int }
         | into binary
         | enumerate
         | reduce -f 0x[] {|it, acc|

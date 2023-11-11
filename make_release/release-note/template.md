@@ -16,7 +16,7 @@ Today, we're releasing version {{VERSION}} of Nu. This release adds...
 
 # Where to get it
 
-Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/nushell/releases/tag/{{VERSION}}.0) or from [crates.io](https://crates.io/crates/nu). If you have Rust installed you can install it using `cargo install nu`.
+Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/nushell/releases/tag/{{VERSION}}) or from [crates.io](https://crates.io/crates/nu). If you have Rust installed you can install it using `cargo install nu`.
 
 ::: tip Note
 The optional dataframe functionality is available by `cargo install nu --features=dataframe`.
@@ -87,6 +87,24 @@ As usual, new release rhyms with changes to commands!
 ### Changes to existing commands [[toc](#table-of-content)]
 ### Deprecated commands [[toc](#table-of-content)]
 ### Removed commands [[toc](#table-of-content)]
+
+<!-- NOTE: to start investigating the contributions of last release, i like to list them all in a raw table.
+    to achieve this, one can use the [`list-merged-prs` script from `nu_scripts`](https://github.com/nushell/nu_scripts/blob/main/make_release/release-note/list-merged-prs)
+    as follows:
+
+    ```nushell
+    use ./make_release/release-note/list-merged-prs
+
+    list-merged-prs nushell/nushell <last-release-date>
+        | where author != "app/dependabot"
+        | sort-by mergedAt
+        | update url {|it| $"[#($it.number)]\(($it.url)\)" }
+        | update author { $"[@($in)]\(https://github.com/($in)\)" }
+        | select author title url
+        | rename -c {url: pr}
+        | to md --pretty
+    ```
+-->
 
 # Breaking changes [[toc](#table-of-content)]
 <!-- TODO:

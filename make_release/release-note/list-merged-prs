@@ -9,7 +9,7 @@ def md-link [
 }
 
 # list all merged PRs since last release
-def main [
+export def main [
     repo: string  # the name of the repo, e.g. `nushell/nushell`
     date?: datetime  # the date of the last release (default to 4 weeks ago, excluded)
     --label: string  # the label to filter the PRs by, e.g. `good-first-issue`

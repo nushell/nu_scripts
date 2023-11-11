@@ -29,11 +29,15 @@ export alias gba = git branch --all
 export alias gbd = git branch --delete
 export alias gbD = git branch --delete --force
 export alias gbl = git blame -b -w
+export alias gbm = git branch --move
+export alias gbmc = git branch --move (git_current_branch)
 export alias gbnm = git branch --no-merged
 export alias gbr = git branch --remote
 export alias gbs = git bisect
 export alias gbsb = git bisect bad
 export alias gbsg = git bisect good
+export alias gbsn = git bisect new
+export alias gbso = git bisect old
 export alias gbsr = git bisect reset
 export alias gbss = git bisect start
 
@@ -81,6 +85,7 @@ export alias gdup = git diff @{upstream}
 export alias gdw = git diff --word-diff
 
 export alias gf = git fetch
+export alias gfa = git fetch --all --prune
 export alias gfo = git fetch origin
 
 export alias gg = git gui citool
@@ -97,8 +102,13 @@ export alias glgg = git log --graph
 export alias glgga = git log --graph --decorate --all
 export alias glgm = git log --graph --max-count=10
 export alias glo = git log --oneline --decorate
+export alias glod = git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'
+export alias glods = git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --date=short
 export alias glog = git log --oneline --decorate --graph
 export alias gloga = git log --oneline --decorate --graph --all
+export alias glol = git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'
+export alias glola = git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --all
+export alias glols = git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --stat
 
 export alias gm = git merge
 export alias gmtl = git mergetool --no-prompt
@@ -117,6 +127,8 @@ export alias gpl = git pull
 export def gpoat [] {
     git push origin --all; git push origin --tags
 }
+export alias gpod = git push origin --delete
+export alias gpodc = git push origin --delete (git_current_branch)
 export alias gpr = git pull --rebase
 export alias gpu = git push upstream
 export alias gpv = git push --verbose
@@ -138,7 +150,7 @@ export alias grbs = git rebase --skip
 export alias grev = git revert
 export alias grh = git reset
 export alias grhh = git reset --hard
-export alias groh = git reset $"origin/$(git_current_branch)" --hard
+export alias groh = git reset $"origin/(git_current_branch)" --hard
 export alias grm = git rm
 export alias grmc = git rm --cached
 export alias grmv = git remote rename
@@ -155,12 +167,14 @@ export alias grv = git remote --verbose
 export alias gsb = git status --short --branch
 export alias gsd = git svn dcommit
 export alias gsh = git show
+export alias gshs = git show -s
 export alias gsi = git submodule init
 export alias gsps = git show --pretty=short --show-signature
 export alias gsr = git svn rebase
 export alias gss = git status --short
 export alias gst = git status
 
+export alias gsta = git stash push
 export alias gstaa = git stash apply
 export alias gstc = git stash clear
 export alias gstd = git stash drop

@@ -10,7 +10,7 @@ export def sockets [--abbreviate-java-class-paths (-j)] {
             | to text
             | detect columns
             | upsert 'pid' { |r| $r.pid | into int }
-            | rename -c ['name' 'connection']
+            | rename --column { name: connection }
             | reject 'command'
             | join-table (ps -l) 'pid' 'pid'
             | if $abbreviate_java_class_paths {

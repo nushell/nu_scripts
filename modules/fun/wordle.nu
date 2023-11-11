@@ -8,7 +8,7 @@ export def main [
   --alternative_source(-a) : string = "https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt" # Alternative link to provide as a word source
 ] {
   let words = (if ($alternative_source | str substring 0..4 | str contains "http") {http get $alternative_source} else {open $alternative_source} | from ssv -n)
-  let word = ($words | get (random integer 0..($words | length)) | get column1)
+  let word = ($words | get (random int 0..($words | length)) | get column1)
   if ((($words | each {|it| ($it.column1 | str length)}) | where $it != 5 | length) != 0 ) {
     echo $"(ansi rb)Warning:(ansi reset) The words list contains words that are not length 5"
   }

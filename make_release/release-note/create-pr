@@ -70,7 +70,18 @@ by opening PRs against the `release-notes-($version)` branch.
     log info $"title: ($title)"
 
     match (["yes" "no"] | input list --fuzzy "Inspect the release note document? ") {
-        "yes" => { $release_note | explore },
+        "yes" => {
+            if $env.EDITOR? == null {
+                error make --unspanned {
+                    msg: $"(ansi red_bold)$env.EDITOR is not defined(ansi reset)"
+                }
+            }
+
+            let temp_file = $nu.temp-path | path join $"(random uuid).md"
+            $release_note | save --force $temp_file
+            ^$env.EDITOR $temp_file
+            rm --recursive --force $temp_file
+        },
         "no" | "" | _ => {},
     }
 
@@ -83,7 +94,8 @@ by opening PRs against the `release-notes-($version)` branch.
     }
 
     log info "setting up nushell.github.io repo"
-    git clone git@github.com:nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
+    git clone https://github.com/nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
+    git -C $repo remote set-url nushell --push ssh://github.com/nushell/nushell.github.io
 
     log info "creating release branch"
     git -C $repo checkout -b $branch nushell/main
