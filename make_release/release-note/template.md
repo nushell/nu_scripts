@@ -25,15 +25,15 @@ The optional dataframe functionality is available by `cargo install nu --feature
 As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
 
 # Table of content
-- [*Themes of this release / New features*](#themes-of-this-release-new-features)
-    - [*Hall of fame*](#hall-of-fame)
-        - [*Bug fixes*](#bug-fixes)
-        - [*Enhancing the documentation*](#enhancing-the-documentation)
-    - [*Our set of commands is evolving*](#our-set-of-commands-is-evolving)
-        - [*New commands*](#new-commands)
-        - [*Changes to existing commands*](#changes-to-existing-commands)
-        - [*Deprecated commands*](#deprecated-commands)
-        - [*Removed commands*](#removed-commands)
+- [*Themes of this release / New features*](#themes-of-this-release-new-features-toc)
+    - [*Hall of fame*](#hall-of-fame-toc)
+        - [*Bug fixes*](#bug-fixes-toc)
+        - [*Enhancing the documentation*](#enhancing-the-documentation-toc)
+    - [*Our set of commands is evolving*](#our-set-of-commands-is-evolving-toc)
+        - [*New commands*](#new-commands-toc)
+        - [*Changes to existing commands*](#changes-to-existing-commands-toc)
+        - [*Deprecated commands*](#deprecated-commands-toc)
+        - [*Removed commands*](#removed-commands-toc)
 <!-- TODO: please add links to the other sections here
 
     the following command should help pre-generate a great deal of the table of content.
@@ -49,8 +49,8 @@ As part of this release, we also publish a set of optional plugins you can insta
         | to text
     ```
 -->
-- [*Breaking changes*](#breaking-changes)
-- [*Full changelog*](#full-changelog)
+- [*Breaking changes*](#breaking-changes-toc)
+- [*Full changelog*](#full-changelog-toc)
 
 # Themes of this release / New features [[toc](#table-of-content)]
 <!-- NOTE: if you wanna write a section about a breaking change, when it's a very important one,
