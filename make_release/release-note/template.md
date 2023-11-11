@@ -94,8 +94,16 @@ As usual, new release rhyms with changes to commands!
 
     ```nushell
     use ./make_release/release-note/list-merged-prs
+    use std clip
 
-    list-merged-prs nushell/nushell <last-release-date>
+    let last_release_date = gh api /repos/nushell/nushell/releases
+        | from json
+        | into datetime published_at
+        | get published_at
+        | sort
+        | last
+
+    let prs = list-merged-prs nushell/nushell $last_release_date
         | where author != "app/dependabot"
         | sort-by mergedAt
         | update url {|it| $"[#($it.number)]\(($it.url)\)" }
@@ -103,6 +111,8 @@ As usual, new release rhyms with changes to commands!
         | select author title url
         | rename -c {url: pr}
         | to md --pretty
+
+    $prs | to md --pretty | clip
     ```
 -->
 
