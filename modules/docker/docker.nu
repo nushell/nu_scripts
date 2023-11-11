@@ -202,7 +202,7 @@ export def system-prune [-n: string@"nu-complete docker ns"] {
 }
 
 # system prune all
-export def system-pune-all [-n: string@"nu-complete docker ns"] {
+export def system-prune-all [-n: string@"nu-complete docker ns"] {
     ^$env.docker-cli (spr [-n $n]) system prune --all --force --volumes
 }
 
