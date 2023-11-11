@@ -96,7 +96,7 @@ As usual, new release rhyms with changes to commands!
     use ./make_release/release-note/list-merged-prs
     use std clip
 
-    let last_release_date = gh api /repos/nushell/nushell/releases
+    let last_release_date = ^gh api /repos/nushell/nushell/releases
         | from json
         | into datetime published_at
         | get published_at
