@@ -34,21 +34,21 @@ As part of this release, we also publish a set of optional plugins you can insta
         - [*Changes to existing commands*](#changes-to-existing-commands)
         - [*Deprecated commands*](#deprecated-commands)
         - [*Removed commands*](#removed-commands)
-    <!-- TODO: please add links to the other sections here
+<!-- TODO: please add links to the other sections here
 
-        the following command should help pre-generate a great deal of the table of content.
-        be careful with the format and false-positives :wink:
-        ```nushell
-        rg '^#+ ' blog/...
-            | lines
-            | each {
-                str replace '# ' '- '
-                    | str replace --all '#' '    '
-                    | str replace --regex '- (.*)' '- [*$1*](#$1-toc)'
-            }
-            | to text
-        ```
-    -->
+    the following command should help pre-generate a great deal of the table of content.
+    be careful with the format and false-positives :wink:
+    ```nushell
+    rg '^#+ ' blog/...
+        | lines
+        | each {
+            str replace '# ' '- '
+                | str replace --all '#' '    '
+                | str replace --regex '- (.*)' '- [*$1*](#$1-toc)'
+        }
+        | to text
+    ```
+-->
 - [*Breaking changes*](#breaking-changes)
 - [*Full changelog*](#full-changelog)
 
