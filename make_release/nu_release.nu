@@ -29,19 +29,21 @@ let subcrates_wave_1 = [
     nu-parser,
     nu-table,
     nu-explore,
+    nu-cmd-base,
 ]
 
+# This crate has a `build.rs` file and thus needs `--no-verify`
 let subcrates_wave_2 = [
-    nu-cmd-base,
     nu-cmd-lang,
-    nu-cmd-dataframe,
-    nu-cmd-extra,
-    nu-command,
 ]
 
 let subcrates_wave_3 = [
+    nu-command,
+    nu-cmd-dataframe,
+    nu-cmd-extra,
     nu-cli,
     nu-std,
+    nu-lsp,
 
     nu_plugin_query,
     nu_plugin_inc,
