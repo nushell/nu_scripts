@@ -88,23 +88,37 @@ def "nu-complete git tags" [] {
 # See `man git-status` under "Short Format"
 # This is incomplete, but should cover the most common cases.
 const short_status_descriptions = {
-  " D": "Deleted"
-  " M": "Modified"
-  "!!": "Ignored"
-  "??": "Untracked"
+  ".D": "Deleted"
+  ".M": "Modified"
+  "!" : "Ignored"
+  "?" : "Untracked"
   "AU": "Staged, not merged"
   "MD": "Some modifications staged, file deleted in work tree"
   "MM": "Some modifications staged, some modifications untracked"
-  "R ": "Renamed"
+  "R.": "Renamed"
+  "UU": "Both modified (in merge conflict)"
 }
 
 def "nu-complete git files" [] {
-  let relevant_statuses = ["??"," M", "MM", "MD", " D"]
-  ^git status --porcelain
-    | lines
-      | parse --regex "(?P<short_status>.{2}) (?P<value>.+)"
-      | where $it.short_status in $relevant_statuses
-      | insert "description" { |e| $short_status_descriptions | get $e.short_status}
+  let relevant_statuses = ["?",".M", "MM", "MD", ".D", "UU"]
+  ^git status -uall --porcelain=2
+  | lines
+  | each { |$it|
+    if $it starts-with "1 " {
+      $it | parse --regex "1 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
+    } else if $it starts-with "2 " {
+      $it | parse --regex "2 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
+    } else if $it starts-with "u " {
+      $it | parse --regex "u (?P<short_status>\\S+) (?:\\S+\\s?){8} (?P<value>\\S+)"
+    } else if $it starts-with "? " {
+      $it | parse --regex "(?P<short_status>.{1}) (?P<value>.+)"
+    } else {
+      { short_status: 'unknown', value: $it }
+    }
+  }
+  | flatten
+  | where $it.short_status in $relevant_statuses
+  | insert "description" { |e| $short_status_descriptions | get $e.short_status}
 }
 
 def "nu-complete git built-in-refs" [] {
