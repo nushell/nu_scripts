@@ -96,10 +96,11 @@ const short_status_descriptions = {
   "MD": "Some modifications staged, file deleted in work tree"
   "MM": "Some modifications staged, some modifications untracked"
   "R.": "Renamed"
+  "UU": "Both modified (in merge conflict)"
 }
 
 def "nu-complete git files" [] {
-  let relevant_statuses = ["?",".M", "MM", "MD", ".D"]
+  let relevant_statuses = ["?",".M", "MM", "MD", ".D", "UU"]
   ^git status -uall --porcelain=2
   | lines
   | each { |$it|
@@ -107,6 +108,8 @@ def "nu-complete git files" [] {
       $it | parse --regex "1 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
     } else if $it starts-with "2 " {
       $it | parse --regex "2 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
+    } else if $it starts-with "u " {
+      $it | parse --regex "u (?P<short_status>\\S+) (?:\\S+\\s?){8} (?P<value>\\S+)"
     } else if $it starts-with "? " {
       $it | parse --regex "(?P<short_status>.{1}) (?P<value>.+)"
     } else {
