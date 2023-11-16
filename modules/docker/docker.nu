@@ -1,5 +1,5 @@
 export-env {
-    for c in [podman nerdctl docker] {
+    for c in [nerdctl podman docker] {
         if not (which $c | is-empty) {
             $env.docker-cli = $c
             break
@@ -27,6 +27,16 @@ def spr [args] {
             $init | append $lst
         }
     }
+}
+
+def local_image [name] {
+    let s = ($name | split row '/')
+    if ($s | length) > 1 {
+        $name
+    } else {
+        ['localhost', $name] | str join '/'
+    }
+
 }
 
 def "nu-complete docker ns" [] {
@@ -338,6 +348,7 @@ export def container-create [
     if $dry_run {
         echo $"docker ($ns | str join ' ') run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"
     } else {
+        let $img = if $env.docker-cli == 'nerdctl' { local_image $img } else { $img }
         ^$env.docker-cli $ns run --name $name $args $img ($cmd | flatten)
     }
 }

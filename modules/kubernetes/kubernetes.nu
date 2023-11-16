@@ -3,32 +3,85 @@ def get-sign [cmd] {
     mut s = []
     mut n = {}
     mut p = []
+    mut pr = []
+    mut r = []
     for it in $x {
-        if $it.parameter_type in ['switch' 'named'] {
-            let name = $it.parameter_name
+        if $it.parameter_type == 'switch' {
             if not ($it.short_flag | is-empty) {
-                $n = ($n | upsert $it.short_flag $name)
+                $s ++= $it.short_flag
             }
-            if $it.parameter_type == 'switch' {
-                $s = ($s | append $name)
-                if not ($it.short_flag | is-empty) {
-                    $s = ($s | append $it.short_flag)
-                }
+            if not ($it.parameter_name | is-empty) {
+                $s ++= $it.parameter_name
+            }
+        } else if $it.parameter_type == 'named' {
+            if ($it.parameter_name | is-empty) {
+                $n = ($n | upsert $it.short_flag $it.short_flag)
+            } else if ($it.short_flag | is-empty) {
+                $n = ($n | upsert $it.parameter_name $it.parameter_name)
+            } else {
+                $n = ($n | upsert $it.short_flag $it.parameter_name)
             }
         } else if $it.parameter_type == 'positional' {
-            $p = ($p | append $it.parameter_name)
+            if $it.is_optional == false {
+                $p ++= $it.parameter_name
+            } else {
+                $pr ++= $it.parameter_name
+            }
+        } else if $it.parameter_type == 'rest' {
+            $r ++= $it.parameter_name
         }
     }
-    { switch: $s, name: $n, positional: $p }
+    { switch: $s, name: $n, positional: ($p ++ $pr), rest: $r }
 }
 
-def "parse cmd" [] {
-    let cmd = ($in | split row ' ')
-    let sign = (get-sign $cmd.0)
+def "cmd token" [] {
+    let s = ($in | split row '' | range 1..-2)
+    let s = if ($s | last) == ' ' { $s } else { $s | append ' ' }
+    mut par = []
+    mut res = []
+    mut cur = ''
+    mut esc = false
+    for c in $s {
+        if $c == '\' {
+            $esc = true
+        } else {
+            if $esc {
+                $cur ++= $c
+                $esc = false
+            } else {
+                if $c == ' ' and ($par | length) == 0 {
+                    $res ++= [$cur]
+                    $cur = ''
+                } else {
+                    if $c in ['{' '[' '('] {
+                        $par ++= $c
+                    }
+                    if $c in ['}' ']' ')'] {
+                        $par = ($par | range ..-2)
+                    }
+                    if $c in ['"' "'" '`'] {
+                        if ($par | length) > 0 and ($par | last) == $c {
+                            $par = ($par | range ..-2)
+                        } else {
+                            $par ++= $c
+                        }
+                    }
+                    $cur ++= $c
+                }
+
+            }
+        }
+    }
+    return $res
+}
+
+def "cmd parse" [] {
+    let token = ($in | cmd token)
+    let sign = (get-sign $token.0)
     mut sw = ''
     mut pos = []
     mut opt = {}
-    for c in $cmd {
+    for c in $token {
         if ($sw | is-empty) {
             if ($c | str starts-with '-') {
                 let c = if ($c | str substring 1..2) != '-' {
@@ -55,7 +108,15 @@ def "parse cmd" [] {
         }
     }
     $opt._args = $pos
-    $opt._pos = ( $pos | range 1.. | enumerate | reduce -f {} {|it, acc| $acc | upsert ($sign.positional | get $it.index) $it.item } )
+    let p = $pos | range 1..($sign.positional | length)
+    let rest = $pos | range (($sign.positional | length) + 1)..-1
+    $opt._pos = ( $p | enumerate
+        | reduce -f {} {|it, acc|
+            $acc | upsert ($sign.positional | get $it.index) $it.item
+        } )
+    if ($sign.rest | length) > 0 {
+        $opt._pos = ($opt._pos | upsert $sign.rest.0 $rest)
+    }
     $opt
 }
 
@@ -185,12 +246,12 @@ export def kgh [
 }
 
 def "nu-complete helm list" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     kgh -n $ctx.namespace? | each {|x| {value: $x.name  description: $x.updated} }
 }
 
 def "nu-complete helm charts" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let path = ($ctx | get _pos.chart)
     let path = if ($path | is-empty) { '.' } else { $path }
     let paths = (do -i { ls $"($path)*" | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }} })
@@ -228,6 +289,7 @@ export def kdh [
     valuefile: path
     --values (-v): any
     --namespace (-n): string@"nu-complete kube ns"
+    --ignore-image (-i)
     --has-plugin (-h)
 ] {
     if $has_plugin {
@@ -245,6 +307,9 @@ export def kdh [
         let values = if ($values | is-empty) { [] } else { [--set-json (record-to-set-json $values)] }
         let target = $'/tmp/($chart | path basename).($name).out.yaml'
         helm template --debug $name $chart -f $valuefile $values (spr [-n $namespace]) | save -f $target
+        if $ignore_image {
+            do -i { yq -i ea 'del(.spec.template.spec.containers.[].image)' $target }
+        }
         kubectl diff -f $target
     }
 }
@@ -433,21 +498,21 @@ def "nu-complete kube kind" [] {
 }
 
 def "nu-complete kube res" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let kind = ($ctx | get _args.1)
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube res via name" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let kind = ($env.KUBERNETES_RESOURCE_ABBR | get ($ctx | get _args.0 | str substring (-1..)))
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube jsonpath" [context: string] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let kind = ($ctx | get _args.1)
     let res = ($ctx | get _args.2)
     let path = $ctx.jsonpath?
@@ -597,14 +662,14 @@ export def kgno [] {
 }
 
 def "nu-complete kube pods" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let ns = (do -i { $ctx | get namespace })
     let ns = (spr [-n $ns])
     kubectl get $ns pods | from ssv -a | get NAME
 }
 
 def "nu-complete kube ctns" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let ns = (do -i { $ctx | get namespace })
     let ns = (spr [-n $ns])
     let ctn = (do -i { $ctx | get container })
@@ -715,7 +780,7 @@ def "nu-complete port forward type" [] {
 }
 
 def "nu-complete kube port" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let kind = ($ctx | get _args.1)
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     let res = ($ctx | get _args.2)
@@ -744,7 +809,7 @@ export def kpf [
 }
 
 def "nu-complete kube cp" [cmd: string, offset: int] {
-    let ctx = ($cmd | str substring ..$offset | parse cmd)
+    let ctx = ($cmd | str substring ..$offset | cmd parse)
     let p = ($ctx._args | get (($ctx._args | length) - 1))
     let ns = (do -i { $ctx | get namespace })
     let ns = (spr [-n $ns])

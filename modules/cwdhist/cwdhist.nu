@@ -1,7 +1,7 @@
 def __cwdhist_menu [] {
     {
         name: cwdhist_menu
-        only_buffer_difference: false
+        only_buffer_difference: true
         marker: "| "
         type: {
             layout: list
@@ -14,11 +14,12 @@ def __cwdhist_menu [] {
         }
         source: { |buffer, position|
             #$"[($position)]($buffer);(char newline)" | save -a ~/.cache/cwdhist.log
+            let t = ($buffer | split row ' ' | last)
             if $env.cwd_history_full {
                 open $nu.history-path | query db $"
                     select cwd as value, count\(*) as cnt
                     from history
-                    where cwd like '%($buffer)%'
+                    where cwd like '%($t)%'
                     group by cwd
                     order by cnt desc
                     limit 50
@@ -27,7 +28,7 @@ def __cwdhist_menu [] {
                 open $env.cwd_history_file | query db $"
                     select cwd as value, count
                     from cwd_history
-                    where cwd like '%($buffer)%'
+                    where cwd like '%($t)%'
                     order by count desc
                     limit 50
                     ;"
@@ -71,8 +72,8 @@ def __cwdhist_switching [] {
 }
 
 export def empty-sqlite [] {
-    # pre-created empty sqlite database
-    'H4sIAAAAAAAAA+3LQQpAYBiE4fn+bMURvhPYuIAD2MgJLChKSv9BrZ1GSrHD/n1qmtlM29Rj7H1Y1rmLXiqXmSp3SeERuzrRzfQuqJi29Fy5lO0fHgAAAAAAAAAAAAAA4LcDzTELuwAgAAA='
+    # sqlite3 empty.db "VACUUM;"; cat empty.db | gzip | encode base64
+    'H4sIAAAAAAAAAwsO9MksSVVIyy/KTSxRMGYQYGBkZHBQUGBgYGCEYhhAZhMLGBn0ihbwglgCZOgeBaNgFIyCUTAKRsEoGAWjYBSMglEwCkYBVQAANHgbMAAQAAA='
     | decode base64 --binary | gzip -d
 }
 
