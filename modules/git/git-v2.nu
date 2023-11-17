@@ -1,3 +1,5 @@
+use cmd_parse.nu *
+
 def agree [
     prompt
     --default-not (-n)
@@ -32,66 +34,6 @@ def spr [args] {
     }
 }
 
-def get-sign [cmd] {
-    let x = (scope commands | where name == $cmd).signatures?.0?.any?
-    mut s = []
-    mut n = {}
-    mut p = []
-    for it in $x {
-        if $it.parameter_type in ['switch' 'named'] {
-            let name = $it.parameter_name
-            if not ($it.short_flag | is-empty) {
-                $n = ($n | upsert $it.short_flag $name)
-            }
-            if $it.parameter_type == 'switch' {
-                $s = ($s | append $name)
-                if not ($it.short_flag | is-empty) {
-                    $s = ($s | append $it.short_flag)
-                }
-            }
-        } else if $it.parameter_type == 'positional' {
-            $p = ($p | append $it.parameter_name)
-        }
-    }
-    { switch: $s, name: $n, positional: $p }
-}
-
-def "parse cmd" [] {
-    let cmd = ($in | split row ' ')
-    let sign = (get-sign $cmd.0)
-    mut sw = ''
-    mut pos = []
-    mut opt = {}
-    for c in $cmd {
-        if ($sw | is-empty) {
-            if ($c | str starts-with '-') {
-                let c = if ($c | str substring 1..2) != '-' {
-                    let k = ($c | str substring 1..)
-                    if $k in $sign.name {
-                        $'($sign.name | get $k)'
-                    } else {
-                        $k
-                    }
-                } else {
-                    $c | str substring 2..
-                }
-                if $c in $sign.switch {
-                    $opt = ($opt | upsert $c true)
-                } else {
-                    $sw = $c
-                }
-            } else {
-                $pos ++= [$c]
-            }
-        } else {
-            $opt = ($opt | upsert $sw $c)
-            $sw = ''
-        }
-    }
-    $opt._args = $pos
-    $opt._pos = ( $pos | range 1.. | enumerate | reduce -f {} {|it, acc| $acc | upsert ($sign.positional | get $it.index) $it.item } )
-    $opt
-}
 
 # git status
 export def gs [] {
@@ -690,7 +632,7 @@ export def remote_braches [] {
 }
 
 def "nu-complete git remote branches" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = ($context | cmd parse)
     let rb = (remote_braches)
     if ($ctx._args | length) < 3 {
         $rb | each {|x| {value: $x.1, description: $x.0} }
