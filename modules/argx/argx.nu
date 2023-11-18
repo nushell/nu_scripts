@@ -34,8 +34,8 @@ export def get-sign [cmd] {
     { switch: $s, name: $n, positional: ($p ++ $pr), rest: $r }
 }
 
-# "test -h [123 (3213 3)] 123 `a sdf` --cd --ef sadf -g" | cmd token
-export def "cmd token" [] {
+# "test -h [123 (3213 3)] 123 `a sdf` --cd --ef sadf -g" | token
+export def token [] {
     let s = ($in | split row '' | range 1..-2)
     let s = if ($s | last) == ' ' { $s } else { $s | append ' ' }
     mut par = []
@@ -76,8 +76,8 @@ export def "cmd token" [] {
     return $res
 }
 
-export def "cmd parse" [] {
-    let token = ($in | cmd token)
+export def parse [] {
+    let token = ($in | token)
     let sign = (get-sign $token.0)
     mut sw = ''
     mut pos = []

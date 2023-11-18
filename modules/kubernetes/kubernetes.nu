@@ -1,4 +1,4 @@
-use cmd_parse.nu *
+use argx.nu
 
 export def ensure-cache-by-lines [cache path action] {
     let ls = (do -i { open $path | lines | length })
@@ -126,12 +126,12 @@ export def kgh [
 }
 
 def "nu-complete helm list" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     kgh -n $ctx.namespace? | each {|x| {value: $x.name  description: $x.updated} }
 }
 
 def "nu-complete helm charts" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let path = ($ctx | get _pos.chart)
     let path = if ($path | is-empty) { '.' } else { $path }
     let paths = (do -i { ls $"($path)*" | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }} })
@@ -378,21 +378,21 @@ def "nu-complete kube kind" [] {
 }
 
 def "nu-complete kube res" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let kind = ($ctx | get _args.1)
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube res via name" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let kind = ($env.KUBERNETES_RESOURCE_ABBR | get ($ctx | get _args.0 | str substring (-1..)))
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     kubectl get $ns $kind | from ssv -a | get NAME
 }
 
 def "nu-complete kube jsonpath" [context: string] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let kind = ($ctx | get _args.1)
     let res = ($ctx | get _args.2)
     let path = $ctx.jsonpath?
@@ -542,14 +542,14 @@ export def kgno [] {
 }
 
 def "nu-complete kube pods" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let ns = (do -i { $ctx | get namespace })
     let ns = (spr [-n $ns])
     kubectl get $ns pods | from ssv -a | get NAME
 }
 
 def "nu-complete kube ctns" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let ns = (do -i { $ctx | get namespace })
     let ns = (spr [-n $ns])
     let ctn = (do -i { $ctx | get container })
@@ -660,7 +660,7 @@ def "nu-complete port forward type" [] {
 }
 
 def "nu-complete kube port" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let kind = ($ctx | get _args.1)
     let ns = if ($ctx.namespace? | is-empty) { [] } else { [-n $ctx.namespace] }
     let res = ($ctx | get _args.2)
@@ -689,7 +689,7 @@ export def kpf [
 }
 
 def "nu-complete kube cp" [cmd: string, offset: int] {
-    let ctx = ($cmd | str substring ..$offset | cmd parse)
+    let ctx = ($cmd | str substring ..$offset | argx parse)
     let p = ($ctx._args | get (($ctx._args | length) - 1))
     let ns = (do -i { $ctx | get namespace })
     let ns = (spr [-n $ns])

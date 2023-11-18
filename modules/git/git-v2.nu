@@ -1,4 +1,4 @@
-use cmd_parse.nu *
+use argx.nu
 
 def agree [
     prompt
@@ -632,7 +632,7 @@ export def remote_braches [] {
 }
 
 def "nu-complete git remote branches" [context: string, offset: int] {
-    let ctx = ($context | cmd parse)
+    let ctx = ($context | argx parse)
     let rb = (remote_braches)
     if ($ctx._args | length) < 3 {
         $rb | each {|x| {value: $x.1, description: $x.0} }
