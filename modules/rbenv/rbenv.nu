@@ -8,7 +8,7 @@ export-env {
     }
 }
 
-export def-env main [
+export def --env main [
 	command?: string@'nu-complete rbenv',
 	...args
 ] {

@@ -5,7 +5,7 @@
 
 # adapted from https://github.com/pypa/virtualenv/blob/46f68d67c79f2280554f47f3c21265b3a1e899a4/src/virtualenv/activation/nushell/activate.nu
 
-export def-env auto-venv-on-enter [
+export def --env auto-venv-on-enter [
     _env: record,
 ] {
 

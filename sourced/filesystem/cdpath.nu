@@ -115,7 +115,7 @@ module cdpath {
   }
 
   # Change directory with $env.CDPATH
-  export def-env c [dir = "": string@complete] {
+  export def --env c [dir = "": string@complete] {
     let span = (metadata $dir).span
       let default = if $nu.os-info.name == "windows" {
         $env.USERPROFILE
