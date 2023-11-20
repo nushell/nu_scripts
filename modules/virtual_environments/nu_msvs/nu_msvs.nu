@@ -35,7 +35,7 @@ export-env {
   ] | str join ";")
 }
 
-export def-env activate [
+export def --env activate [
     --host   (-h): string = "x64",    # Host architecture, must be x64 or x86 (case insensitive)
     --target (-t): string = "x64",    # Target architecture, must be x64 or x86 (case insensitive)
     --sdk    (-s): string = "latest"  # Version of Windows SDK, must be "latest" or a valid version string
@@ -133,7 +133,7 @@ export def-env activate [
   hide-env MSVS_INCLUDE_PATH
 }
 
-export def-env deactivate [] {
+export def --env deactivate [] {
   if (($env.MSVS_ROOT | is-empty) or ($env.MSVS_MSVC_ROOT | is-empty)) {
     print "Either Microsoft Visual Studio or MSVC is valid."
     return

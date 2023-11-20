@@ -3,7 +3,7 @@
 # - Air polution condition using airvisual api
 # - Street address using google maps api
 # - Version 2.0
-export def-env weatherds [] {
+export def --env weatherds [] {
     get_weather (get_location 0)
 }
 
@@ -122,7 +122,7 @@ def get_weather [loc] {
 
 
 # Get weather for right command prompt (set in config.nu)
-export def-env get_weather_by_interval [INTERVAL_WEATHER] {
+export def --env get_weather_by_interval [INTERVAL_WEATHER] {
     let weather_runtime_file = (($env.HOME) | path join .weather_runtime_file.json)
 
     if ($weather_runtime_file | path exists) {

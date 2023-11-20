@@ -2,7 +2,7 @@
 
 # This first command looks for the file with the todo list and
 # prints it to the screen.
-def-env printer [] {
+def --env printer [] {
     let contents = (
         # if you haven't setup this environment var,
         # replace `$env.TODO` with the path to your 
