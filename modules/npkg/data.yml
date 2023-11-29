@@ -1,0 +1,16 @@
+versions:
+  nushell: 0.87.1
+  neovim: 0.9.4
+  ripgrep: 14.0.2
+  fd: 8.7.1
+  yq: 4.40.3
+  just: 1.16.0
+  mask: 0.11.4
+  watchexec: 1.23.0
+  btm: 0.9.6
+  bdwh: 0.21.1
+  wasmtime: 15.0.0
+  spin: 2.0.1
+  dust: 0.8.6
+  nodejs: 20.10.0
+  wstunnel: 8.0.0
