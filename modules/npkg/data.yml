@@ -1,7 +1,7 @@
 versions:
   nushell: 0.87.1
   neovim: 0.9.4
-  ripgrep: 14.0.2
+  ripgrep: 14.0.3
   fd: 8.7.1
   yq: 4.40.3
   just: 1.16.0
@@ -14,3 +14,5 @@ versions:
   dust: 0.8.6
   nodejs: 20.10.0
   wstunnel: 8.0.0
+  rust-analyzer: 2023-11-27
+  lsp-lua: 3.7.3

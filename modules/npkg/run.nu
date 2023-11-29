@@ -131,10 +131,10 @@ def resolve-pkgs [] {
     let o = $in
         | reduce -f {require: [], use: []} {|x, acc|
             mut acc = $acc
-            if not ($x.require.include | is-empty) {
+            if not ($x.require?.include? | is-empty) {
                 $acc.require = ($acc.require | append $x.require.include)
             }
-            if not ($x.use.include | is-empty) {
+            if not ($x.use?.include? | is-empty) {
                 $acc.use = ($acc.use | append $x.use.include)
             }
             $acc
@@ -155,6 +155,7 @@ def resolve-def [defs require --os-type:string] {
     mut cargo = []
     mut stack = []
     mut go = []
+    let require = if ($require | is-empty) { [] } else { $require }
     for p in $require {
         if ($p | is-record) {
             for i in ($p | transpose k v) {
@@ -504,7 +505,7 @@ def extract [input act arg?] {
             $input | parse -r $arg | get 0?.capture0?
         }
         only-nums => {
-            $input | parse -r '(?P<v>[0-9\.]+)' | get 0?.v?
+            $input | parse -r '(?P<v>[0-9\.\-]+)' | get 0?.v?
         }
         github => {
             let ex = [

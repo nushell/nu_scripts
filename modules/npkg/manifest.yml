@@ -48,6 +48,16 @@ defs:
         workdir: /etc/nvim
         cmd:
         - nvim --headless "+Lazy! sync" +qa
+  lsp-lua:
+    version:
+      url: https://api.github.com/repos/LuaLS/lua-language-server/releases/latest
+      extract:
+      - github:
+    install:
+    - download:
+        url: https://github.com/LuaLS/lua-language-server/releases/download/%v/lua-language-server-%v-linux-x64-musl.tar.gz
+        extract:
+        - unzip:
   nodejs:
     version:
       url: https://nodejs.org/en/download/
@@ -61,6 +71,22 @@ defs:
             strip: 1
   rust:
   rust-analyzer:
+    version:
+      url: https://api.github.com/repos/rust-lang/rust-analyzer/releases/latest
+      extract:
+      - github: null
+    install:
+    - download:
+        url: https://github.com/rust-lang/rust-analyzer/releases/download/%v/rust-analyzer-x86_64-unknown-linux-musl.gz
+        extract:
+        - unzip:
+            wrap: bin
+            filter:
+            - rust-analyzer
+    - shell:
+        workdir: /usr/local/bin
+        cmd:
+        - chmod +x rust-analyzer
   ripgrep:
     version:
       url: https://api.github.com/repos/BurntSushi/ripgrep/releases/latest
@@ -246,7 +272,7 @@ pkgs:
 - name: nvim
   include:
   - neovim
-  - lua-lsp
+  - lsp-lua
   require:
   - base
   - git
@@ -300,11 +326,11 @@ pkgs:
   - debian:
     - python3
     - python3-pip
-  - arch:
+    arch:
     - python
     - python-pip
 - name: python
-  include: null
+  include: []
   require:
   - nvim
   - python-runtime
