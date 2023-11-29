@@ -548,6 +548,15 @@ def "nu-complete kube pods" [context: string, offset: int] {
     kubectl get $ns pods | from ssv -a | get NAME
 }
 
+def "nu-complete kube pods or deploys" [context: string, offset: int] {
+    let ctx = ($context | argx parse)
+    let ns = (do -i { $ctx | get namespace })
+    let ns = (spr [-n $ns])
+    let pods = (kubectl $ns get pods -o name|lines)
+    let deploys = (kubectl $ns get deploy -o name|lines)
+    $pods | append $deploys
+}
+
 def "nu-complete kube ctns" [context: string, offset: int] {
     let ctx = ($context | argx parse)
     let ns = (do -i { $ctx | get namespace })
@@ -601,7 +610,7 @@ export def kdp [
 
 # kubectl attach (exec -it)
 export def ka [
-    pod?: string@"nu-complete kube pods"
+    pod?: string@"nu-complete kube pods or deploys"
     --namespace (-n): string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
     --selector(-l): string
@@ -642,7 +651,7 @@ export def ka [
 
 # kubectl logs
 export def kl [
-    pod: string@"nu-complete kube pods"
+    pod: string@"nu-complete kube pods or deploys"
     --namespace(-n): string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
     --follow(-f)
