@@ -1,5 +1,5 @@
 # Merge a list of records
-export def "list merge" [] {
+export def "list merge" []: list<record> -> record {
     let list = $in
     mut result = {}
     for $obj in $list {
@@ -12,7 +12,7 @@ export module filter-name {
     # Filter fields name by predicate
     export def predicate [
         pred: closure  # Predicate closure that checks fields name
-    ] {
+    ]: record -> record {
         let $obj_input = $in
         $obj_input 
             | columns 
@@ -27,7 +27,7 @@ export module filter-name {
     export def text [
         filter: string  # Text to match with
         --regex(-r)     # Match by regex
-    ] {
+    ]: record -> record {
         let obj = $in
         $obj | predicate { not ($in | (if $regex {find -r $filter} else {find $filter})  | is-empty) }
     }
@@ -36,7 +36,7 @@ export module filter-name {
 # Filter fields value by predicate
 export def "filter-value predicate" [
     pred: closure # Predicate closure that checks fields value
-] {
+]: record -> record {
     let $obj_input = $in
     $obj_input 
         | columns 
