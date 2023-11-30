@@ -158,7 +158,7 @@ def resolve-pkgs [] {
 
 def resolve-def [defs require --os-type:string] {
     mut os = []
-    mut other = []
+    mut recipe = []
     mut pip = []
     mut npm = []
     mut cargo = []
@@ -180,14 +180,14 @@ def resolve-def [defs require --os-type:string] {
                 }
             }
         } else if ($p in $defs) {
-            $other ++= $p
+            $recipe ++= $p
         } else {
             $os ++= $p
         }
     }
     {
         os: $os
-        other: $other
+        recipe: $recipe
         pip: $pip
         npm: $npm
         cargo: $cargo
@@ -319,27 +319,33 @@ def resolve-unzip [getter ctx] {
     | str join (char newline)
 }
 
+def resolve-download-filename [ctx] {
+    let ver = $ctx.version
+    let fn = $ctx.filename?
+    let url = $ctx.url | resolve-filename $ver
+    let file = if ($fn | is-empty) {  $url | split row '/' | last } else { $fn }
+    let file = $file | resolve-filename $ver
+    { url: $url, file: $file }
+}
+
 def gen-download [ctx] {
     let cache = $ctx.cache?
     let target = $ctx.target?
-    let ver = $ctx.version
     if ($ctx.url? | is-empty) {
         [$"# ($ctx.name) [not found]"]
     } else {
-        let url = $ctx.url | resolve-filename $ver
-        let file = if ($cache | is-empty) {  $url | split row '/' | last } else { $cache }
-        let file = $file | resolve-filename $ver
+        let x = resolve-download-filename $ctx
         let f = if ($cache | is-empty) {
-            [$"curl -sSL ($url)" $"curl -sSLo ($file) ($url)"]
+            [$"curl -sSL ($x.url)" $"curl -sSLo ($x.file) ($x.url)"]
         } else {
-            let f = [$cache $file] | path join
+            let f = [$cache $x.file] | path join
             if ($cache | find -r '^https?://' | is-empty) {
-                [$"cat ($f)" $"cp ($f) ($file)"]
+                [$"cat ($f)" $"cp ($f) ($x.file)"]
             } else {
-                [$"curl -sSL ($f)" $"curl -sSLo ($file) ($f)"]
+                [$"curl -sSL ($f)" $"curl -sSLo ($x.file) ($f)"]
             }
         }
-        let cx = $ctx | merge {file: $file, cache: $cache, target: $target}
+        let cx = $ctx | merge {file: $x.file, cache: $cache, target: $target}
         [$"### download ($ctx.name)" (resolve-unzip $f $cx)]
     }
 }
@@ -364,29 +370,35 @@ def gen-shell [it sep] {
     ]
 }
 
-def gen-other [ctx] {
-    $ctx.arg
-    | each {|i|
-        let vs = $ctx.data.versions
-        let version = if $i in $vs { $vs | get $i } else { "" }
-        let install = ($ctx.defs | get $i).install?
-        let install = if ($install | is-empty) { [] } else { $install }
-        $install
-        | each {|x|
-            let r = $x | record-to-struct type data
-            let d = if ($r.data? | is-empty) { {} } else { $r.data }
-            {
-                cache: $ctx.cache?
-                target: $ctx.target?
-            }
-            | merge $d
-            | merge {
-                type: $r.type
-                name: $i
-                version: $version
-            }
+def resolve-recipe [ctx name] {
+    let vs = $ctx.data.versions
+    let version = if $name in $vs { $vs | get $name } else { "" }
+    let install = ($ctx.defs | get $name).install?
+    let install = if ($install | is-empty) { [] } else { $install }
+    $install
+    | each {|x|
+        let r = $x | record-to-struct type data
+        let d = if ($r.data? | is-empty) { {} } else { $r.data }
+        {
+            cache: $ctx.cache?
+            target: $ctx.target?
+        }
+        | merge $d
+        | merge {
+            type: $r.type
+            name: $name
+            version: $version
         }
     }
+}
+
+def gen-recipe-env [ctx] {
+
+}
+
+def gen-recipe [ctx] {
+    $ctx.arg
+    | each {|i| resolve-recipe $ctx $i }
     | flatten
     | each {|i|
         match $i.type {
@@ -457,8 +469,8 @@ def make-acts [] {
 }
 
 def gen-cmd [ctx] {
-    if $ctx.act == 'other' {
-        gen-other $ctx
+    if $ctx.act == 'recipe' {
+        gen-recipe $ctx
     } else {
         do (cmd-with-args (do $ctx.actions $ctx.os $ctx.act)) $ctx.arg
     }
@@ -467,6 +479,7 @@ def gen-cmd [ctx] {
 def run-with-level [ctx] {
     let cmd = (gen-cmd $ctx)
     if $ctx.dry_run {
+        print $"#################### ($ctx.act) ####################"
         print $cmd
     } else {
         let sep = '#' | str repeat 80
@@ -498,7 +511,7 @@ def setup [
     --clean:    bool
 ] {
     let o = $in
-    let argt = {
+    let d = {
         os: $os_type
         dry_run: $dry_run
         defs: $defs
@@ -509,17 +522,17 @@ def setup [
         act: null
         arg: null
     }
-    run ($argt | upsert act setup    | upsert can_ignore false)
-    run ($argt | upsert act install  | upsert arg ($o.require.os? | append $o.use.os?))
-    run ($argt | upsert act other    | upsert arg $o.require.other?)
-    run ($argt | upsert act pip      | upsert arg $o.require.pip?)
-    run ($argt | upsert act npm      | upsert arg $o.require.npm?)
-    run ($argt | upsert act cargo    | upsert arg $o.require.cargo?)
-    run ($argt | upsert act stack    | upsert arg $o.require.stack?)
-    run ($argt | upsert act go       | upsert arg $o.require.go?)
+    run ($d | upsert act setup    | upsert can_ignore false)
+    run ($d | upsert act install  | upsert arg ($o.require.os? | append $o.use.os?))
+    run ($d | upsert act recipe   | upsert arg $o.require.recipe?)
+    run ($d | upsert act pip      | upsert arg $o.require.pip?)
+    run ($d | upsert act npm      | upsert arg $o.require.npm?)
+    run ($d | upsert act cargo    | upsert arg $o.require.cargo?)
+    run ($d | upsert act stack    | upsert arg $o.require.stack?)
+    run ($d | upsert act go       | upsert arg $o.require.go?)
     if $clean {
-        run ($argt | upsert act clean    | upsert arg $o.use.os?)
-        run ($argt | upsert act teardown | upsert can_ignore false)
+        run ($d | upsert act clean    | upsert arg $o.use.os?)
+        run ($d | upsert act teardown | upsert can_ignore false)
     }
 }
 
@@ -594,26 +607,27 @@ def update-version [manifest] {
 #####################
 ###    download   ###
 #####################
-def download-other [defs versions --cache:string] {
+def download-recipe [defs versions --cache:string] {
     mkdir /tmp/npkg
     let ctx = {
         defs: $defs
         data: { versions: $versions }
         cache: $cache
     }
-    for y in ($defs | columns | each {|x| resolve-other $ctx $x }) {
+    for y in ($defs | columns | each {|x| resolve-recipe $ctx $x }) {
         for i in $y {
             if $i.type == 'download' {
                 if ($i.url? | is-empty) {
                     print $'# ($i.name)'
                 } else {
-                    print $'# download ($i.file)'
-                    let t = [$cache $i.file] | filter {|x| $x | is-empty | flip $no } | path join
+                    let x = resolve-download-filename $i
+                    print $'# download ($x.file)'
+                    let t = [$cache $x.file] | filter {|x| $x | is-empty | flip $no } | path join
                     if ($cache | find -r '^https?://' | is-empty) {
-                        wget -c ($i.url) -O ($t)
+                        wget -c ($x.url) -O ($t)
                     } else {
-                        let lt = ['/tmp/npkg' $i.file] | path join
-                        wget -c ($i.url) -O ($lt)
+                        let lt = ['/tmp/npkg' $x.file] | path join
+                        wget -c ($x.url) -O ($lt)
                         curl -T ($lt) ($t)
                     }
                 }
@@ -666,7 +680,7 @@ export def main [
             | save -f $"($env.FILE_PWD)/data.yml"
         }
         download => {
-            download-other $manifest.defs $data.versions --cache $cache
+            download-recipe $manifest.defs $data.versions --cache $cache
         }
         debug => {
             $manifest.pkgs | sort-deps1 $needs | log
