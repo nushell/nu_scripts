@@ -273,7 +273,6 @@ def resolve-unzip [getter ctx] {
         'zip'     => $"unzip"
         _ => "(!unknown format)"
     }
-    let nl = (char newline)
     if ($fmt | str starts-with 'tar.') {
         let s = if ($ctx.strip? | is-empty) { '' } else {
             $"--strip-components=($ctx.strip)"
@@ -291,12 +290,12 @@ def resolve-unzip [getter ctx] {
         let u = [$gtt '|' $decmp '-' $s '-C' $trg ($f.fs | str join ' ')]
         | filter {|x| $x | is-empty | flip $no }
         | str join ' '
-        [$u] | append $f.mv |
+        [$'mkdir -p ($trg)' $u] | append $f.mv |
         | filter {|x| $x | is-empty | flip $no }
-        | str join $nl
     } else if $fmt == 'zip' {
         let f = (resolve-zip-filter $ctx.filter? $trg $ctx.version? $ctx.strip?)
         [ 'opwd=${PWD}'
+          $'mkdir -p ($trg)'
           'temp_dir=$(mktemp -d)'
           'cd ${temp_dir}'
           $'($gtd)'
@@ -308,12 +307,16 @@ def resolve-unzip [getter ctx] {
           })
           'cd ${opwd}'
           'rm -rf ${temp_dir}'
-        ] | str join $nl
+        ]
     } else {
         let n = if ($ctx.filter? | is-empty) { $ctx.name } else { $ctx.filter | first }
         let t = [$trg $n] | path join
-        $"($gtt) | ($decmp) > ($t)"
+        [
+          $'mkdir -p ($trg)'
+            $"($gtt) | ($decmp) > ($t)"
+        ]
     }
+    | str join (char newline)
 }
 
 def gen-download [ctx] {
@@ -399,7 +402,8 @@ def gen-other [ctx] {
             exec => {
                 gen-shell $i ' '
             }
-        } | str join (char newline)
+        }
+        | str join (char newline)
     }
     | str join (char newline)
 }

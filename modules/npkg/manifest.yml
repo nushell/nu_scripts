@@ -49,9 +49,12 @@ defs:
       url: https://api.github.com/repos/LuaLS/lua-language-server/releases/latest
       extract:
       - github:
+    env:
+      +PATH: /opt/language-server/lua
     install:
     - download:
         url: https://github.com/LuaLS/lua-language-server/releases/download/%v/lua-language-server-%v-linux-x64-musl.tar.gz
+        target: /opt/language-server/lua
   nodejs:
     version:
       url: https://nodejs.org/en/download/
