@@ -10,13 +10,11 @@ defs:
     install:
     - download:
         url: https://github.com/nushell/nushell/releases/download/%v/nu-%v-x86_64-linux-musl-full.tar.gz
-        extract:
-        - unzip:
-            strip: 1
-            wrap: bin
-            filter:
-            - nu-%v-x86_64-linux-musl-full/nu
-            - nu-%v-x86_64-linux-musl-full/nu_plugin_query
+        strip: 1
+        wrap: bin
+        filter:
+        - nu-%v-x86_64-linux-musl-full/nu
+        - nu-%v-x86_64-linux-musl-full/nu_plugin_query
     - exec:
         runner: nu -c
         workdir: /usr/local/bin
@@ -37,10 +35,8 @@ defs:
     install:
     - download:
         url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-        cache: nvim-%v-linux64.tar.gz
-        extract:
-        - unzip:
-            strip: 1
+        filename: nvim-%v-linux64.tar.gz
+        strip: 1
     - git:
         url: https://github.com/fj0r/nvim-lua.git
         target: /etc/nvim
@@ -56,8 +52,6 @@ defs:
     install:
     - download:
         url: https://github.com/LuaLS/lua-language-server/releases/download/%v/lua-language-server-%v-linux-x64-musl.tar.gz
-        extract:
-        - unzip:
   nodejs:
     version:
       url: https://nodejs.org/en/download/
@@ -66,9 +60,7 @@ defs:
     install:
     - download:
         url: https://nodejs.org/dist/v%v/node-v%v-linux-x64.tar.xz
-        extract:
-        - unzip:
-            strip: 1
+        strip: 1
   rust:
   rust-analyzer:
     version:
@@ -78,11 +70,9 @@ defs:
     install:
     - download:
         url: https://github.com/rust-lang/rust-analyzer/releases/download/%v/rust-analyzer-x86_64-unknown-linux-musl.gz
-        extract:
-        - unzip:
-            wrap: bin
-            filter:
-            - rust-analyzer
+        wrap: bin
+        filter:
+        - rust-analyzer
     - shell:
         workdir: /usr/local/bin
         cmd:
@@ -95,13 +85,11 @@ defs:
     install:
     - download:
         url: https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep-%v-x86_64-unknown-linux-musl.tar.gz
-        extract:
-        - unzip:
-            strip: 1
-            wrap: bin
-            format: tar.gz
-            filter:
-            - ripgrep-%v-x86_64-unknown-linux-musl/rg
+        strip: 1
+        wrap: bin
+        format: tar.gz
+        filter:
+        - ripgrep-%v-x86_64-unknown-linux-musl/rg
   fd:
     version:
       url: https://api.github.com/repos/sharkdp/fd/releases/latest
@@ -110,12 +98,10 @@ defs:
     install:
     - download:
         url: https://github.com/sharkdp/fd/releases/download/v%v/fd-v%v-x86_64-unknown-linux-musl.tar.gz
-        extract:
-        - unzip:
-            strip: 1
-            wrap: bin
-            filter:
-            - fd-v%v-x86_64-unknown-linux-musl/fd
+        strip: 1
+        wrap: bin
+        filter:
+        - fd-v%v-x86_64-unknown-linux-musl/fd
   yq:
     version:
       url: https://api.github.com/repos/mikefarah/yq/releases/latest
@@ -124,13 +110,11 @@ defs:
     install:
     - download:
         url: https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64.tar.gz
-        cache: yq-%v_linux_amd64.tar.gz
-        extract:
-        - unzip:
-            wrap: bin
-            filter:
-            - file: yq_linux_amd64
-              rename: yq
+        filename: yq-%v_linux_amd64.tar.gz
+        wrap: bin
+        filter:
+        - file: yq_linux_amd64
+          rename: yq
   dust:
     version:
       url: https://api.github.com/repos/bootandy/dust/releases/latest
@@ -139,12 +123,10 @@ defs:
     install:
     - download:
         url: https://github.com/bootandy/dust/releases/download/v%v/dust-v%v-x86_64-unknown-linux-musl.tar.gz
-        extract:
-        - unzip:
-            strip: 1
-            wrap: bin
-            filter:
-            - dust-v%v-x86_64-unknown-linux-musl/dust
+        strip: 1
+        wrap: bin
+        filter:
+        - dust-v%v-x86_64-unknown-linux-musl/dust
   just:
     version:
       url: https://api.github.com/repos/casey/just/releases/latest
@@ -153,11 +135,9 @@ defs:
     install:
     - download:
         url: https://github.com/casey/just/releases/download/%v/just-%v-x86_64-unknown-linux-musl.tar.gz
-        extract:
-        - unzip:
-            wrap: bin
-            filter:
-            - just
+        wrap: bin
+        filter:
+        - just
   mask:
     version:
       url: https://api.github.com/repos/jacobdeichert/mask/releases/latest
@@ -166,13 +146,11 @@ defs:
     install:
     - download:
         url: https://github.com/jacobdeichert/mask/releases/latest/download/mask-%v-x86_64-unknown-linux-musl.zip
-        extract:
-        - unzip:
-            format: zip
-            wrap: bin
-            strip: 1
-            filter:
-            - mask-%v-x86_64-unknown-linux-musl/mask
+        format: zip
+        wrap: bin
+        strip: 1
+        filter:
+        - mask-%v-x86_64-unknown-linux-musl/mask
   watchexec:
     version:
       url: https://api.github.com/repos/watchexec/watchexec/releases/latest
@@ -181,12 +159,10 @@ defs:
     install:
     - download:
         url: https://github.com/watchexec/watchexec/releases/latest/download/watchexec-%v-x86_64-unknown-linux-gnu.tar.xz
-        extract:
-        - unzip:
-            strip: 1
-            wrap: bin
-            filter:
-            - watchexec-%v-x86_64-unknown-linux-gnu/watchexec
+        strip: 1
+        wrap: bin
+        filter:
+        - watchexec-%v-x86_64-unknown-linux-gnu/watchexec
   btm:
     version:
       url: https://api.github.com/repos/ClementTsang/bottom/releases/latest
@@ -195,12 +171,10 @@ defs:
     install:
     - download:
         url: https://github.com/ClementTsang/bottom/releases/latest/download/bottom_x86_64-unknown-linux-musl.tar.gz
-        cache: bottom-%v_x86_64-unknown-linux-musl.tar.gz
-        extract:
-        - unzip:
-            wrap: bin
-            filter:
-            - btm
+        filename: bottom-%v_x86_64-unknown-linux-musl.tar.gz
+        wrap: bin
+        filter:
+        - btm
   bdwh:
     version:
       url: https://api.github.com/repos/imsnif/bandwhich/releases/latest
@@ -209,8 +183,6 @@ defs:
     install:
     - download:
         url: https://github.com/imsnif/bandwhich/releases/download/v%v/bandwhich-v%v-x86_64-unknown-linux-musl.tar.gz
-        extract:
-        - unzip: null
   wasmtime:
     version:
       url: https://api.github.com/repos/bytecodealliance/wasmtime/releases/latest
@@ -219,12 +191,10 @@ defs:
     install:
     - download:
         url: https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-v%v-x86_64-linux.tar.xz
-        extract:
-        - unzip:
-            wrap: bin
-            strip: 1
-            filter:
-            - wasmtime-v%v-x86_64-linux/wasmtime
+        wrap: bin
+        strip: 1
+        filter:
+        - wasmtime-v%v-x86_64-linux/wasmtime
   spin:
     version:
       url: https://api.github.com/repos/fermyon/spin/releases/latest
@@ -233,11 +203,9 @@ defs:
     install:
     - download:
         url: https://github.com/fermyon/spin/releases/download/v%v/spin-v%v-linux-amd64.tar.gz
-        extract:
-        - unzip:
-            wrap: bin
-            filter:
-            - spin
+        wrap: bin
+        filter:
+        - spin
   wstunnel:
     version:
       url: https://api.github.com/repos/erebe/wstunnel/releases/latest
@@ -246,11 +214,9 @@ defs:
     install:
     - download:
         url: https://github.com/erebe/wstunnel/releases/download/v%v/wstunnel_%v_linux_amd64.tar.gz
-        extract:
-        - unzip:
-            wrap: bin
-            filter:
-            - wstunnel
+        wrap: bin
+        filter:
+        - wstunnel
 pkgs:
 - name: default
   include: []

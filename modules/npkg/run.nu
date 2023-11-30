@@ -6,6 +6,10 @@ let no = {|x| not $x }
 
 def flip [x, ...a] { do $x $in $a }
 
+def record-to-struct [$k $v] {
+    $in | transpose $k $v | get 0
+}
+
 def is-blank [txt] {
     ($txt | str replace -ra '\s' '') == ''
 }
@@ -269,12 +273,12 @@ def resolve-other [defs versions name] {
                     let url = $d.url? | resolve-filename $v
                     let file = if ('cache' in $d) { $d.cache } else {  $url | split row '/' | last }
                     let file = $file | resolve-filename $v
-                    {
+                    $d
+                    | merge {
                         type: $r.type
                         name: $name
                         file: $file
                         url: $url
-                        extract: $d.extract?
                         version: $v
                     }
                 }
@@ -324,7 +328,7 @@ def run-other [ctx] {
                         }
                     }
                     let cx = $i | merge {cache: $cache, target: $target}
-                    [$"### download ($i.name)" (run-extractors [$f $cx] $i.extract)]
+                    [$"### download ($i.name)" (run-unzip $f $cx)]
                     | str join (char newline)
                 }
             }
@@ -407,14 +411,13 @@ def unzip-gen-filter [filter target version strip] {
     }
 }
 
-def run-unzip [getter ctx arg] {
+def run-unzip [getter ctx] {
     let gtt = $getter.0
     let gtd = $getter.1
-    let opt = if ($arg | is-empty ) { {} } else { $arg }
-    let trg = [$ctx.target $opt.wrap?]
+    let trg = [$ctx.target $ctx.wrap?]
         | filter {|x| $x | is-empty | flip $no }
         | path join
-    let fmt = if ($opt.format? | is-empty | flip $no) { $opt.format } else {
+    let fmt = if ($ctx.format? | is-empty | flip $no) { $ctx.format } else {
         let fn = $ctx.file | split row '.'
         let zf = $fn | last
         if ($fn | range (-2..-2) | get 0) == 'tar' {
@@ -437,10 +440,10 @@ def run-unzip [getter ctx arg] {
     }
     let nl = (char newline)
     if ($fmt | str starts-with 'tar.') {
-        let s = if ($opt.strip? | is-empty) { '' } else {
-            $"--strip-components=($opt.strip)"
+        let s = if ($ctx.strip? | is-empty) { '' } else {
+            $"--strip-components=($ctx.strip)"
         }
-        let f = (untar-gen-filter $opt.filter? $trg $ctx.version?)
+        let f = (untar-gen-filter $ctx.filter? $trg $ctx.version?)
             | reduce -f {fs: [], mv: []} {|x, acc|
                 let acc = if ($x.0? | is-empty) { $acc } else {
                     $acc | update fs ($acc.fs | append $x.0?)
@@ -457,7 +460,7 @@ def run-unzip [getter ctx arg] {
         | filter {|x| $x | is-empty | flip $no }
         | str join $nl
     } else if $fmt == 'zip' {
-        let f = (unzip-gen-filter $opt.filter? $trg $ctx.version? $opt.strip?)
+        let f = (unzip-gen-filter $ctx.filter? $trg $ctx.version? $ctx.strip?)
         [ 'opwd=${PWD}'
           'temp_dir=$(mktemp -d)'
           'cd ${temp_dir}'
@@ -472,7 +475,7 @@ def run-unzip [getter ctx arg] {
           'rm -rf ${temp_dir}'
         ] | str join $nl
     } else {
-        let n = if ($opt.filter? | is-empty) { $ctx.name } else { $opt.filter | first }
+        let n = if ($ctx.filter? | is-empty) { $ctx.name } else { $ctx.filter | first }
         let t = [$trg $n] | path join
         $"($gtt) | ($decmp) > ($t)"
     }
@@ -480,9 +483,6 @@ def run-unzip [getter ctx arg] {
 
 def extract [input act arg?] {
     match $act {
-        unzip => {
-            run-unzip $input.0 $input.1? $arg
-        }
         from-json => {
             $input | from json
         }
@@ -520,10 +520,6 @@ def extract [input act arg?] {
             run-extractors ($input | from json) $ex
         }
     }
-}
-
-def record-to-struct [$k $v] {
-    $in | transpose $k $v | get 0
 }
 
 def run-extractors [input extractors] {
