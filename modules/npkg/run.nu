@@ -1,6 +1,11 @@
 #####################
 ###     utils     ###
 #####################
+
+let no = {|x| not $x }
+
+def flip [x, ...a] { do $x $in $a }
+
 def is-blank [txt] {
     ($txt | str replace -ra '\s' '') == ''
 }
@@ -48,7 +53,7 @@ def deduplicate [getter] {
     mut rt = []
     for i in $list {
         let n = do $getter $i
-        if not ($n in $ex) {
+        if ($n in $ex | flip $no) {
             $ex ++= $n
             $rt ++= $i
         }
@@ -68,7 +73,7 @@ def os-type [] {
         $acc | upsert $a.0 ($a.1| str replace -a '"' '')
     }
     if 'ID_LIKE' in $info {
-        if not ($info.ID_LIKE | parse -r '(rhel|fedora|redhat)' | is-empty) {
+        if ($info.ID_LIKE | parse -r '(rhel|fedora|redhat)' | is-empty | flip $no) {
             'redhat'
         } else {
             $info.ID_LIKE
@@ -82,7 +87,7 @@ def os-type [] {
 ###      deps      ###
 ######################
 def calc-dep-require [pkgs comp] {
-    let dep = if not ($comp.require? | is-empty) {
+    let dep = if ($comp.require? | is-empty | flip $no) {
         $pkgs
         | where name in $comp.require
         | each {|y| calc-dep-require $pkgs $y}
@@ -131,10 +136,10 @@ def resolve-pkgs [] {
     let o = $in
         | reduce -f {require: [], use: []} {|x, acc|
             mut acc = $acc
-            if not ($x.require?.include? | is-empty) {
+            if ($x.require?.include? | is-empty | flip $no) {
                 $acc.require = ($acc.require | append $x.require.include)
             }
-            if not ($x.use?.include? | is-empty) {
+            if ($x.use?.include? | is-empty | flip $no) {
                 $acc.use = ($acc.use | append $x.use.include)
             }
             $acc
@@ -143,7 +148,7 @@ def resolve-pkgs [] {
     let u = $o.use | deduplicate {|x| $x}
     {
         require: $r
-        use: ($u | filter {|x| not ($x in $r)})
+        use: ($u | filter {|x| $x in $r | flip $no })
     }
 }
 
@@ -353,7 +358,7 @@ def download-other [defs versions --cache:string] {
                     print $'# ($i.name)'
                 } else {
                     print $'# download ($i.file)'
-                    let t = [$cache $i.file] | filter {|x| not ($x | is-empty) } | path join
+                    let t = [$cache $i.file] | filter {|x| $x | is-empty | flip $no } | path join
                     if ($cache | find -r '^https?://' | is-empty) {
                         wget -c ($i.url) -O ($t)
                     } else {
@@ -407,9 +412,9 @@ def run-unzip [getter ctx arg] {
     let gtd = $getter.1
     let opt = if ($arg | is-empty ) { {} } else { $arg }
     let trg = [$ctx.target $opt.wrap?]
-        | filter {|x| not ($x | is-empty)}
+        | filter {|x| $x | is-empty | flip $no }
         | path join
-    let fmt = if not ($opt.format? | is-empty) { $opt.format } else {
+    let fmt = if ($opt.format? | is-empty | flip $no) { $opt.format } else {
         let fn = $ctx.file | split row '.'
         let zf = $fn | last
         if ($fn | range (-2..-2) | get 0) == 'tar' {
@@ -446,10 +451,10 @@ def run-unzip [getter ctx arg] {
                 $acc
             }
         let u = [$gtt '|' $decmp '-' $s '-C' $trg ($f.fs | str join ' ')]
-        | filter {|x| not ($x | is-empty) }
+        | filter {|x| $x | is-empty | flip $no }
         | str join ' '
         [$u] | append $f.mv |
-        | filter {|x| not ($x | is-empty) }
+        | filter {|x| $x | is-empty | flip $no }
         | str join $nl
     } else if $fmt == 'zip' {
         let f = (unzip-gen-filter $opt.filter? $trg $ctx.version? $opt.strip?)
@@ -488,14 +493,14 @@ def extract [input act arg?] {
             $input | get $arg
         }
         field => {
-            if not ($arg | is-empty) {
+            if ($arg | is-empty) {
+                $input
+            } else {
                 if $arg in $input {
                     $input | get $arg
                 } else {
                     null
                 }
-            } else {
-                $input
             }
         }
         trim => {
@@ -536,7 +541,7 @@ def update-version [manifest] {
         print $'==> ($item.k)'
         let url = $i.version?.url?
         let ext = $i.version?.extract
-        if not ($url | is-empty) {
+        if ($url | is-empty | flip $no) {
             let ver = (run-extractors (curl -sSL $url) $ext)
             print $ver
             $data = ($data | upsert $item.k $ver)
@@ -572,7 +577,7 @@ def run-with-level [ctx] {
 def run [ctx] {
     let a = (make-acts)
     if $ctx.can_ignore {
-        if not ($ctx.arg | is-empty) {
+        if ($ctx.arg | is-empty | flip $no) {
             run-with-level ($ctx | merge {actions: $a})
         }
     } else {
