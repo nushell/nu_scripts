@@ -393,7 +393,31 @@ def resolve-recipe [ctx name] {
 }
 
 def gen-recipe-env [ctx] {
-
+    $ctx.arg
+    | reduce -f [] {|i, acc|
+        let e = ($ctx.defs | get $i).env?
+        if ($e | is-empty) { $acc } else {
+            let es = $e
+            | transpose k v
+            | each {|x|
+                if ($x.k | str starts-with '+') {
+                    let n = $x.k | str substring 1..
+                    [
+                    $"export ($n)=($x.v):${($n)}"
+                    $"echo '($n)=($x.v):${($n)}' >> /etc/environment"
+                    ]
+                } else {
+                    [
+                    $"export ($x.k)=($x.v)"
+                    $"echo '($x.k)=($x.v)' >> /etc/environment"
+                    ]
+                }
+            }
+            $acc | append $es
+        }
+    }
+    | flatten
+    | str join (char newline)
 }
 
 def gen-recipe [ctx] {
@@ -470,7 +494,10 @@ def make-acts [] {
 
 def gen-cmd [ctx] {
     if $ctx.act == 'recipe' {
-        gen-recipe $ctx
+        [
+            (gen-recipe-env $ctx)
+            (gen-recipe $ctx)
+        ] | str join (char newline)
     } else {
         do (cmd-with-args (do $ctx.actions $ctx.os $ctx.act)) $ctx.arg
     }

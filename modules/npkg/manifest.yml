@@ -50,7 +50,8 @@ defs:
       extract:
       - github:
     env:
-      +PATH: /opt/language-server/lua
+      LSP_ROOT: /opt/language-server
+      +PATH: ${LSP_ROOT}/lua/bin
     install:
     - download:
         url: https://github.com/LuaLS/lua-language-server/releases/download/%v/lua-language-server-%v-linux-x64-musl.tar.gz
