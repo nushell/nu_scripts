@@ -298,7 +298,7 @@ export def container-create [
     let entrypoint = $entrypoint | with-flag --entrypoint
     let daemon = if $daemon { [-d] } else { [--rm -it] }
     let mnt = $mnt | with-flag -v
-    let workdir = $workdir | with-flag -w
+    let workdir = if ($workdir | is-empty) {[]} else {[-w $workdir -v $"($env.PWD):($workdir)"]}
     let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| [-v $"(host-path $x.k):($x.v)"]} | flatten }
     let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| [-e $"($x.k)=($x.v)"]} | flatten }
     let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x| [-p $"($x.k):($x.v)"] } | flatten }
@@ -307,7 +307,10 @@ export def container-create [
     let privileged = if $privileged {[--privileged]} else {[]}
     let appimage = if $appimage {[--device /dev/fuse]} else {[]}
     let netadmin = if $netadmin {[--cap-add=NET_ADMIN --device /dev/net/tun]} else {[]}
-    let clip = if $with_x {[-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix]} else {[]}
+    let with_x = if $with_x {[
+        -e $"DISPLAY=($env.DISPLAY)"
+        -v /tmp/.X11-unix:/tmp/.X11-unix
+        ]} else {[]}
     let ssh = if ($ssh|is-empty) { [] } else {
         let sshkey = cat ([$env.HOME .ssh $ssh] | path join) | split row ' ' | get 1
         [-e $"ed25519_($sshuser)=($sshkey)"]
@@ -323,12 +326,12 @@ export def container-create [
     let args = [
         $privileged $entrypoint $attach $daemon
         $ports $envs $ssh $proxy
-        $debug $appimage $netadmin $clip
+        $debug $appimage $netadmin $with_x
         $mnt $vols $workdir $cache
     ] | flatten
     let name = $"($img | split row '/' | last | str replace ':' '-')_(date now | format date %m%d%H%M)"
     if $dry_run {
-        echo $"docker ($ns | str join ' ') run --name ($name) ($args|str join ' ') ($img) ($cmd | flatten)"
+        echo ([docker $ns run --name $name $args $img $cmd] | flatten | str join ' ')
     } else {
         let $img = if $env.docker-cli == 'nerdctl' { local_image $img } else { $img }
         ^$env.docker-cli $ns run --name $name $args $img ($cmd | flatten)
@@ -342,9 +345,9 @@ def has [name] {
 def "nu-complete registry show" [cmd: string, offset: int] {
     let new = $cmd | str ends-with ' '
     let cmd = $cmd | split row ' '
-    let url = do -i { $cmd | get 2 }
-    let reg = do -i { $cmd | get 3 }
-    let tag = do -i { $cmd | get 4 }
+    let url = $cmd.2?
+    let reg = $cmd.3?
+    let tag = $cmd.4?
     let auth = if ($env | has 'REGISTRY_TOKEN') {
         [authorization $"Basic ($env.REGISTRY_TOKEN)"]
     } else {
