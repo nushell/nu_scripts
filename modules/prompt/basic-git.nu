@@ -39,11 +39,13 @@ export def basic-git-left-prompt [in_left_prompt] {
       | uniq -c
       | insert type {
         |e| if ($e.value | str contains "M") {
-            "blue"
+            "blue_bold"
           } else if ($e.value | str contains "??") {
             "yellow_bold"
           } else if ($e.value | str contains "D") {
             "red_bold"
+          } else if ($e.value | str contains "A") {
+            "cyan_bold"
           } else ""
         }
       | each {
