@@ -22,7 +22,9 @@ def "nu-complete rustup toolchain" [] {
 def "nu-complete rustup toolchain list" [] {
   ^rustup toolchain list
   | lines
-  # TODO: add `stable` `nightly` and any other starndard toolchain
+  | append 'stable'
+  | append 'beta'
+  | append 'nightly'
 }
 
 def "nu-complete rustup target" [] {
@@ -101,6 +103,31 @@ def "nu-complete rustup self" [] {
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
+def "nu-complete rustup set" [] {
+  ^rustup set 
+  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
+  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | lines 
+  | where $it starts-with "   " 
+  | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
+}
+
+def "nu-complete rustup set profile" [] {
+  ['minimal', 'default', 'complete']
+}
+
+def "nu-complete rustup set auto-self-update" [] {
+  ['enable', 'disable', 'check-only']
+}
+
+def "nu-complete rustup completions" [] {
+  ['bash', 'elvish', 'fish', 'powershell', 'zsh', 'cargo', 'rustup']
+}
+
+def "nu-complete rustup completions shell" [] {
+  ['bash', 'elvish', 'fish', 'powershell', 'zsh']
+}
+
 # ------------------ export extern commands ------------------
 
 export extern "rustup" [
@@ -127,6 +154,12 @@ export extern "rustup toolchain" [
   command?: string@"nu-complete rustup toolchain"
   --help(-h)        # Print help information
 ]
+
+export extern "rustup toolchain install" [
+  command?: string@"nu-complete rustup toolchain list"
+  --help(-h)        # Print help information
+]
+
 
 export extern "rustup toolchain uninstall" [
   command?: string@"nu-complete rustup toolchain list"
@@ -193,9 +226,31 @@ export extern "rustup self" [
 ]
 
 export extern "rustup set" [
-  # TODO
+  command?: string@"nu-complete rustup set"
+  --help(-h)        # Print help information
+]
+
+export extern "rustup set profile" [
+  command?: string@"nu-complete rustup set profile"
+  --help(-h)        # Print help information
+]
+
+export extern "rustup set auto-self-update" [
+  command?: string@"nu-complete rustup set auto-self-update"
+  --help(-h)        # Print help information
 ]
 
 export extern "rustup completions" [
-  # TODO
+  command?: string@"nu-complete rustup completions"
+  --help(-h)        # Print help information
+]
+
+export extern "rustup completions rustup" [
+  command?: string@"nu-complete rustup completions shell"
+  --help(-h)        # Print help information
+]
+
+export extern "rustup completions cargo" [
+  command?: string@"nu-complete rustup completions shell"
+  --help(-h)        # Print help information
 ]
