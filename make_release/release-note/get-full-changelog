@@ -3,6 +3,8 @@
 def main [
     date?: datetime  # the date of the last release (default to 4 weeks ago, excluded)
 ] {
+    let date = $date | default ((date now) - 4wk) | format date "%Y-%m-%d"
+
     let list_merged_prs_script = (
         $env.CURRENT_FILE | path dirname | path join "list-merged-prs"
     )
