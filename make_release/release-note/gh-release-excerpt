@@ -15,6 +15,17 @@ def main [
     let repo = "nushell/nushell"
     let query = $"merged:>($date)"
 
+    let gh_version = gh --version
+        | lines
+        | parse "gh version {version} ({date})"
+        | into record
+        | get version
+    if $gh_version != "2.38.0" {
+        error make --unspanned {
+            msg: $"expected gh version 2.38.0, found ($gh_version)"
+        }
+    }
+
     let prs = (
         gh --repo $repo pr list
             --state merged
