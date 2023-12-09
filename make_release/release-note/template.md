@@ -40,10 +40,11 @@ As part of this release, we also publish a set of optional plugins you can insta
     the following command should help pre-generate a great deal of the table of content.
     be careful with the format and false-positives :wink:
     ```nushell
+    const TOC_MARKER = "[[toc](#table-of-content)]"
     rg '^#+ ' blog/...
         | lines
-        | where ($it | str ends-with " [[toc](#table-of-content)]")
-        | str replace " [[toc](#table-of-content)]" ''
+        | where ($it | str ends-with $" ($TOC_MARKER)")
+        | str replace $" ($TOC_MARKER)" ''
         | each {
             str replace '# ' '- '
                 | str replace --all '#' '    '
