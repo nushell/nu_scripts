@@ -20,21 +20,7 @@ export def spawn [
   --priority (-o): string             # Start this task with a higher priority. The higher the number, the faster it will be processed.
   --label (-l): string                # Label the task. This string will be shown in the `status` column of `task status`.
 ] -> int {
-  let source_code = (
-    view source $command
-    | str trim --left --char "{"
-    | str trim --right --char "}"
-  )
-
-  mut args = [
-    "nu"
-    "--config"
-    $'"($nu.config-path)"'
-    "--env-config"
-    $'"($nu.env-path)"'
-    "--commands"
-    $'"($source_code)"'
-  ]
+  mut args = []
 
   if $working_directory != null {
     $args = ($args | prepend ["--working-directory", $working_directory])
@@ -46,7 +32,7 @@ export def spawn [
     $args = ($args | prepend "--stashed")
   }
   if $delay != null {
-    $args = ($args | prepend ["--delay" ($delay | parse "{secs} {_}" | get secs)])
+    $args = ($args | prepend ["--delay" ($delay | format duration sec | parse "{secs} {_}" | get 0.secs)])
   }
   if $group != null {
     $args = ($args | prepend ["--group" $group])
@@ -61,7 +47,13 @@ export def spawn [
       $args = ($args | prepend ["--label" $label])
   }
 
-  (pueue add --print-task-id $args)
+  let source_code = (
+    view source $command
+    | str trim --left --char "{"
+    | str trim --right --char "}"
+  )
+
+  (pueue add --print-task-id $args $"nu --config '($nu.config-path)' --env-config '($nu.env-path)' --commands '($source_code)'")
 }
 
 # Remove tasks from the queue.
@@ -96,13 +88,13 @@ export def queue [
   ...ids: int            # IDs of the tasks to queue.
   --delay (-d): duration # Queue only after the specified delay.
 ] {
-  let arg = if $delay != null {
-    $"--delay ($delay | format duration sec | parse '{sec} {_}' | get sec)"
+  let args = if $delay != null {
+    ["--delay" ($delay | format duration sec | parse '{secs} {_}' | get 0.secs)]
   } else {
-    ""
+    []
   }
 
-  pueue enqueue $arg $ids
+  pueue enqueue $args $ids
 }
 
 # Resume operation of specific tasks or groups of tasks.
@@ -150,7 +142,7 @@ export def restart [
   if $all_failed {
     $args = ($args | prepend "--all-failed")
   }
-  if $failed_in_group {
+  if $failed_in_group != null {
     $args = ($args | prepend "--failed-in-group")
   }
   if $start_immediately {
@@ -215,13 +207,13 @@ export def kill [
 ] {
   mut args = []
 
-  if $group {
+  if $group != null {
     $args = ($args | prepend ["--group" $group])
   }
   if $all {
     $args = ($args | prepend "--all")
   }
-  if $signal {
+  if $signal != null {
     $args = ($args | prepend ["--signal" $signal])
   }
 
@@ -274,20 +266,20 @@ export def "group add" [
   name: string # The name of the new group.
   --parallel (-p): int # The amount of parallel tasks the group can run at one time.
 ] {
-  let arg = if $parallel != null {
-    $"--parallel (parallel)"
+  let args = if $parallel != null {
+    ["--parallel" $parallel]
   } else {
-    ""
+    []
   }
 
-  pueue group add $arg $name
+  pueue group add $args $name
 }
 
 # Remove a group with a name.
 export def "group remove" [
-  name: string # The name of the group to be deleted.
+  name: string # The name of the group to be removed.
 ] {
-  pueue group delete $name
+  pueue group remove $name
 }
 
 # Display the current status of all tasks.
@@ -300,7 +292,6 @@ export def status [
     | get tasks
     | transpose --ignore-titles status
     | flatten
-    | flatten status
   )
 
   # TODO: Rename the Done column to done.
@@ -318,50 +309,57 @@ export def status [
 export def log [
   ...ids: int      # The tasks to check the outputs of.
   --last (-l): int # Only print the last N lines of each task's output. This is done by default if you're looking at multiple tasks.
-  --full (-f)      # Show the full output for each task. This is done by default if only one task was given.
   --tail (-t)      # Follow the output as it is printing. Only works with 1 task. When used in conjunction with `--last`, the last N lines will be printed before starting to wait for output.
+  --detailed (-d)  # Include all fields, don't simplify output.
 ] {
-  if ($ids | length == 1) {
-    if $tail {
-      let arg = if $last != null {
-        $"--last ($last)"
-      } else {
-        ""
-      }
+  def process_raw [raw: string] {
+    let full = (
+      $raw
+      | from json
+      | transpose -i info
+      | flatten --all
+      | flatten --all
+    )
 
-      pueue follow $arg $ids
+    if $detailed {
+      $full
     } else {
-      let arg = if $last != null {
-        $"--last ($last)"
+      $full | select id label group Done? status? start? end?
+    }
+  }
+
+  if (($ids | length) == 1) {
+    if $tail {
+      let args = if $last != null {
+        ["--lines" $last]
       } else {
-        "--full"
+        []
       }
 
-      pueue log --json $arg $ids
+      pueue follow $ids
+    } else {
+      let args = if $last != null {
+        ["--lines" $last]
+      } else {
+        []
+      }
+
+      process_raw (pueue log --full --json $args $ids)
+      | first
     }
   } else {
     if $tail {
       echo $"(ansi red)--tail can only be used with one task.(ansi reset)"
-      exit 1
+      return
     }
 
-    mut args = [
-      "--json"
-    ]
-
-    if $last != null {
-      $args = ($args | prepend ["--last" $last])
-    }
-    if $full {
-      $args = ($args | prepend $full)
+    let args = if $last != null {
+      ["--lines" $last]
+    } else {
+      []
     }
 
-    pueue log $args $ids
-    | from json
-    | transpose -i info
-    | flatten --all
-    | flatten --all
-    | flatten status
+    process_raw (pueue log --full --json $args $ids)
   }
 }
 
@@ -400,7 +398,7 @@ export def clean [
 ] {
   mut args = []
 
-  if $successfuf_only {
+  if $successful_only {
     $args = ($args | prepend "--successful-only")
   }
   if $group != null {
@@ -423,11 +421,11 @@ export def set-parallel-limit [
   max: int             # The maximum parallel tasks allowed for a group when schelduing.
   --group (-g): string # The group to set the limit for. By default this is `default`.
 ] {
-  let arg = if $group != null {
-    $"--group ($group)"
+  let args = if $group != null {
+    ["--group" $group]
   } else {
-    ""
+    []
   }
 
-  pueue parallel $arg $max
+  pueue parallel $args $max
 }
