@@ -101,14 +101,24 @@ As usual, new release rhyms with changes to commands!
 
     ```nushell
     use ./make_release/release-note/list-merged-prs
-    use std clip
 
-    let last_release_date = ^gh api /repos/nushell/nushell/releases
+    const LAST_RELEASE = null
+
+    let matching_releases = ^gh api /repos/nushell/nushell/releases
         | from json
-        | into datetime published_at
-        | get published_at
-        | sort
-        | last
+        | where tag_name == $LAST_RELEASE
+
+    match ($matching_releases | length) {
+        0 => {
+            error make --unspanned { msg: "no matching releases... did you set the last release?" }
+        },
+        1 => {},
+        _ => {
+            error make --unspanned { msg: $"too many matching releases... is ($LAST_RELEASE) correct?" }
+        },
+    }
+
+    let last_release_date = $matching_releases | into record | get published_at | into datetime
 
     let prs = list-merged-prs nushell/nushell $last_release_date
         | where author != "app/dependabot"
@@ -116,10 +126,9 @@ As usual, new release rhyms with changes to commands!
         | update url {|it| $"[#($it.number)]\(($it.url)\)" }
         | update author { $"[@($in)]\(https://github.com/($in)\)" }
         | select author title url
-        | rename -c {url: pr}
-        | to md --pretty
+        | rename --column {url: pr}
 
-    $prs | to md --pretty | clip
+    $prs | to md --pretty
     ```
 -->
 
