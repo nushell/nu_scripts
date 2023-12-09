@@ -29,6 +29,7 @@ As part of this release, we also publish a set of optional plugins you can insta
     - [*Hall of fame*](#hall-of-fame-toc)
         - [*Bug fixes*](#bug-fixes-toc)
         - [*Enhancing the documentation*](#enhancing-the-documentation-toc)
+        - [*Working on internals*](#working-on-internals-toc)
     - [*Our set of commands is evolving*](#our-set-of-commands-is-evolving-toc)
         - [*New commands*](#new-commands-toc)
         - [*Changes to existing commands*](#changes-to-existing-commands-toc)
@@ -76,6 +77,12 @@ Thanks to all the contributors below for helping us solve issues and bugs :pray:
 
 ### Enhancing the documentation [[toc](#table-of-content)]
 Thanks to all the contributors below for helping us making the documentation of Nushell commands better :pray:
+| author                               | description | url                                                     |
+| ------------------------------------ | ----------- | ------------------------------------------------------- |
+| [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
+
+### Working on internals [[toc](#table-of-content)]
+Thanks to all the contributors below for working on internals of Nushell, such as refactoring the code :pray:
 | author                               | description | url                                                     |
 | ------------------------------------ | ----------- | ------------------------------------------------------- |
 | [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
