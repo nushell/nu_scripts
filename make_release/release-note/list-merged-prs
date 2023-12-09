@@ -27,7 +27,7 @@ export def main [
         $"merged:>($date) label:($label)"
     }
 
-    let gh_version = gh --version
+    let gh_version = ^gh --version
         | lines
         | parse "gh version {version} ({date})"
         | into record
@@ -39,7 +39,7 @@ export def main [
     }
 
     let prs = (
-        gh --repo $repo pr list
+        ^gh --repo $repo pr list
             --state merged
             --limit (inf | into int)
             --json author,title,number,mergedAt,url

@@ -12,11 +12,11 @@ def open-pr [
     >
 ] {
     cd $repo
-    gh repo set-default $remote
+    ^gh repo set-default $remote
 
     log info "mock up pr"
     (
-        gh pr create
+        ^gh pr create
             --head $pr.branch
             --base main
             --title $pr.title
@@ -112,7 +112,7 @@ by opening PRs against the `release-notes-($version)` branch.
     log info "pushing release note to nushell"
     git -C $repo push nushell $branch
 
-    let out = (do -i { gh auth status } | complete)
+    let out = (do -i { ^gh auth status } | complete)
     if $out.exit_code != 0 {
         clean $repo
 

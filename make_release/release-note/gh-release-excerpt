@@ -15,7 +15,7 @@ def main [
     let repo = "nushell/nushell"
     let query = $"merged:>($date)"
 
-    let gh_version = gh --version
+    let gh_version = ^gh --version
         | lines
         | parse "gh version {version} ({date})"
         | into record
@@ -27,7 +27,7 @@ def main [
     }
 
     let prs = (
-        gh --repo $repo pr list
+        ^gh --repo $repo pr list
             --state merged
             --limit (inf | into int)
             --json author,title,number,mergedAt,url
