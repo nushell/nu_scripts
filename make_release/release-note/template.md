@@ -42,6 +42,8 @@ As part of this release, we also publish a set of optional plugins you can insta
     ```nushell
     rg '^#+ ' blog/...
         | lines
+        | where ($it | str ends-with " [[toc](#table-of-content)]")
+        | str replace " [[toc](#table-of-content)]" ''
         | each {
             str replace '# ' '- '
                 | str replace --all '#' '    '
