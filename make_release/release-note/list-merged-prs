@@ -64,11 +64,12 @@ export def main [
             $prs
             | group-by author
             | transpose author prs
+            | sort-by --ignore-case author
             | each {|line|
                 let author = (md-link $line.author $"https://github.com/($line.author)")
 
                 $"- ($author) created" | append (
-                    $line.prs | each {|pr|
+                    $line.prs | sort-by number | each {|pr|
                         let link = (md-link $pr.title $pr.url)
                         $"    - ($link)"
                     }
