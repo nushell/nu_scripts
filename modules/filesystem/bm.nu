@@ -103,7 +103,7 @@ def marks [] {
 }
 
 # Goto your bookmark
-export def-env goto [
+export def --env goto [
   pth: path@marks # Path to "go to"
   ] {
   let prev = $env.PWD
@@ -112,7 +112,7 @@ export def-env goto [
 }
 
 # Experimental use of `input` instead of completion
-export def-env goto_alternative [] {
+export def --env goto_alternative [] {
   let prev = $env.PWD
   list | input list -f | cd $in.path
   change_prev $prev

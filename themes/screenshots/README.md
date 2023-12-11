@@ -216,6 +216,9 @@
 ### Theme name: 'cai'
 ![cai](cai.png)
 
+### Theme name: 'catppuccin-mocha'
+![catppuccin-mocha](catppuccin-mocha.png)
+
 ### Theme name: 'chalk'
 ![chalk](chalk.png)
 

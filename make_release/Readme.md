@@ -90,6 +90,11 @@
 /path/to/nu_scripts/make_release/bump-version.nu --patch
 ```
 
+## After the release
+The main things to do once a release has been published are
+- landing PRs marked with the [`wait-until-after-nushell-release`](https://github.com/nushell/nushell/labels/wait-until-after-nushell-release) label which have been already approved
+- listening to the community for feedback
+
 
 [reedline bump example]: https://github.com/nushell/reedline/pull/596/files
 [nu-ansi-term bump example]: https://github.com/nushell/nu-ansi-term/pull/45/files

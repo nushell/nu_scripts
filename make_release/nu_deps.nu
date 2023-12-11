@@ -26,26 +26,21 @@ def get-target-dependencies [] {
 # For each Nushell crate in the first publishing wave, open its Cargo.toml and
 # gather its dependencies.
 def find-deps [] {
-    let second_wave = [ 'nu-command' ]
-    let third_wave = [ 'nu-cli' ]
-
     ls crates/nu-*/Cargo.toml | get name | each {|toml|
         let crate = ($toml | path dirname | path basename)
         let data = (open $toml)
 
-        if not (($crate in $second_wave) or ($crate in $third_wave)) {
-            mut deps = []
-            $deps ++= ($data | get -i 'dependencies' | default {} | columns)
-            $deps ++= ($data | get -i 'dev-dependencies' | default {} | columns)
-            $deps ++= ($data | get-target-dependencies)
-            let $deps = ($deps
-                | where ($it | str starts-with 'nu-')
-                | where not ($it == 'nu-ansi-term'))
+        mut deps = []
+        $deps ++= ($data | get -i 'dependencies' | default {} | columns)
+        $deps ++= ($data | get -i 'dev-dependencies' | default {} | columns)
+        $deps ++= ($data | get-target-dependencies)
+        let $deps = ($deps
+            | where ($it | str starts-with 'nu-')
+            | where not ($it == 'nu-ansi-term'))
 
-            {
-                'crate': $crate
-                'dependencies': $deps
-            }
+        {
+            'crate': $crate
+            'dependencies': $deps
         }
     }
 }

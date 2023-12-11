@@ -43,26 +43,47 @@ def main [
     let branch = $"release-notes-($version)"
 
     let blog_path = (
-        $repo | path join "blog" $"($date | format date "%Y-%m-%d")-nushell_($version | str replace --all --string '.' '_').md"
+        $repo | path join "blog" $"($date | format date "%Y-%m-%d")-nushell_($version | str replace --all '.' '_').md"
     )
 
     let title = $"Release notes for `($version)`"
     let body = $"Please add your new features and breaking changes to the release notes
-by opening PRs against the `release-notes-($version)` branch."
+by opening PRs against the `release-notes-($version)` branch.
+
+## TODO
+- [ ] look at interesting contributions
+- [ ] write all the sections
+- [ ] order the sections by interest
+- [ ] add the breaking changes
+- [ ] detail the breaking changes
+- [ ] add the full changelog
+- [ ] complete all the `TODO`s inside the release note
+- [ ] ... \(PRs that need to land before the release, e.g. [deprecations]\(https://github.com/nushell/nushell/labels/deprecation\) or [removals]\(https://github.com/nushell/nushell/pulls?q=is%3Apr+is%3Aopen+label%3Aremoval-after-deprecation\)\)"
 
     log info "creating release note from template"
     let release_note = $env.CURRENT_FILE
         | path dirname
         | path join "template.md"
         | open
-        | str replace --all --string "{{VERSION}}" $version
+        | str replace --all "{{VERSION}}" $version
 
     log info $"branch: ($branch)"
     log info $"blog: ($blog_path | str replace $repo "" | path split | skip 1 | path join)"
     log info $"title: ($title)"
 
     match (["yes" "no"] | input list --fuzzy "Inspect the release note document? ") {
-        "yes" => { $release_note | explore },
+        "yes" => {
+            if $env.EDITOR? == null {
+                error make --unspanned {
+                    msg: $"(ansi red_bold)$env.EDITOR is not defined(ansi reset)"
+                }
+            }
+
+            let temp_file = $nu.temp-path | path join $"(random uuid).md"
+            $release_note | save --force $temp_file
+            ^$env.EDITOR $temp_file
+            rm --recursive --force $temp_file
+        },
         "no" | "" | _ => {},
     }
 
@@ -74,10 +95,9 @@ by opening PRs against the `release-notes-($version)` branch."
         },
     }
 
-    return
-
     log info "setting up nushell.github.io repo"
-    git clone git@github.com:nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
+    git clone https://github.com/nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
+    git -C $repo remote set-url nushell --push ssh://github.com/nushell/nushell.github.io
 
     log info "creating release branch"
     git -C $repo checkout -b $branch nushell/main

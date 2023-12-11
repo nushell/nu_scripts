@@ -167,8 +167,8 @@ export def get_weather [
     ] {
     let token = "85a4e3c55b73909f42c6a23ec35b7147"
 
-    let is_loc_empty = ($locIdx == $nothing)
-    let is_units_empty = ($units == $nothing)
+    let is_loc_empty = ($locIdx == null)
+    let is_units_empty = ($units == null)
 
     let no_loc_no_unit = ($is_loc_empty == true and $is_units_empty == true)
     let no_loc_with_unit = ($is_loc_empty == true and $is_units_empty == false)

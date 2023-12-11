@@ -14,14 +14,14 @@ def autojump_add_to_database [dir] {
         $env.AUTOJUMP_SOURCED = 1
         autojump --add $dir
 }
-def-env j [dir] {
+def --env j [dir] {
         $env.AUTOJUMP_SOURCED = 1
         cd (autojump $dir)
 }
 $env.config = ($env.config | upsert hooks.env_change.PWD {|config|
     let val = ($config | get -i hooks.env_change.PWD)
 
-    if $val == $nothing {
+    if $val == null {
         $val | append {|before, after| autojump_add_to_database $after }
     } else {
         [

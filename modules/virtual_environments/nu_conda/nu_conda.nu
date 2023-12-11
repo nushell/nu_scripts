@@ -22,7 +22,7 @@ export-env {
   $env.CONDA_CURR = null
 }
 
-export def-env activate [name: string] {
+export def --env activate [name: string] {
   if ($env.CONDA_ROOT | is-empty) {
     print "Neither Conda nor Mamba is valid."
     return
@@ -44,7 +44,7 @@ export def-env activate [name: string] {
   load-env ({CONDA_CURR: $name} | merge $new_path)
 }
 
-export def-env deactivate [] {
+export def --env deactivate [] {
   if ($env.CONDA_ROOT | is-empty) {
     print "Neither Conda nor Mamba is valid."
     return
@@ -55,8 +55,13 @@ export def-env deactivate [] {
   load-env {Path: $env.CONDA_BASE_PATH, PATH: $env.CONDA_BASE_PATH}
 }
 
-export def-env list [] {
-  print $env.CONDA_ENVS
+export def --env list [] {
+  $env.CONDA_ENVS | 
+    flatten | 
+    transpose | 
+    rename name path | 
+    insert active { |it| $it.name == $env.CONDA_CURR } | 
+    move path --after active
 }
 
 def update-path-linux [env_path: path] {

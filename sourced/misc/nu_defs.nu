@@ -93,7 +93,7 @@ def 'nu-sloc' [] {
   let stats = (
     ls **/*.nu
       | select name
-      | insert lines { |it| open $it.name | size | get lines }
+      | insert lines { |it| open $it.name | str stats | get lines }
       | insert blank {|s| $s.lines - (open $s.name | lines | find --regex '\S' | length) }
       | insert comments {|s| open $s.name | lines | find --regex '^\s*#' | length }
       | sort-by lines -r
@@ -112,7 +112,7 @@ def 'nu-sloc' [] {
 }
 
 #go to dir (via pipe)
-def-env goto [] {
+def --env goto [] {
     let input = $in
     cd (
         if ($input | path type) == file {
@@ -124,12 +124,12 @@ def-env goto [] {
 }
 
 #go to custom bash bin path, must be added last in config.nu
-def-env goto-bash [] {
+def --env goto-bash [] {
     cd ($env.PATH | last)
 }
 
 #cd to the folder where a binary is located
-def-env which-cd [program] {
+def --env which-cd [program] {
   let dir = (which $program | get path | path dirname | str trim)
   cd $dir.0
 }
@@ -415,7 +415,7 @@ def dmy [] {
 }
 
 # create directory and cd into it.
-def-env md [dir] {
+def --env md [dir] {
   mkdir $dir
   cd $dir
 }

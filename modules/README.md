@@ -20,6 +20,8 @@
   - [nvim](#nvim)
   - [progress\_bar](#progress_bar)
   - [rbenv](#rbenv)
+  - [record](#record)
+  - [system](#system)
   - [virtual\_environments](#virtual_environments)
   - [weather](#weather)
   - [webscraping](#webscraping)
@@ -166,6 +168,15 @@ It is basically a join of the tables produced by the `lsof` command, and the nus
   
 ## [rbenv](./rbenv/)
 ??? (not sure how universal this is) This script provides minimal working rbenv setup.
+
+## [record](./record/)
+A module to manipulate nu's record
+
+## [system](./system/)
+Currently holds the `clip` command which was previously incorrectly in the standard library of Nushell.
+```nushell
+use modules/system *  # will bring `clip` into scope
+```
 
 ## [virtual_environments](./virtual_environments/)
 The scripts in this directory activate virtual environments for Conda environments.

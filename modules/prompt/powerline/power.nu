@@ -55,7 +55,7 @@ export def proxy_stat [] {
         if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
             [$bg '']
         } else {
-            [$bg $nothing]
+            [$bg null]
         }
     }
 }
@@ -79,10 +79,17 @@ def time_segment [] {
     {|bg|
         let config = $env.NU_POWER_CONFIG.time
         let theme = $env.NU_POWER_THEME.time
-        let format = if $config.short {
-            $'($theme.fst)%y%m%d($theme.snd)%w($theme.fst)%H%M%S'
-        } else {
-            $'($theme.fst)%y-%m-%d[%w]%H:%M:%S'
+        let format = match $config.style {
+            "compact" => { $'($theme.fst)%y%m%d($theme.snd)%w($theme.fst)%H%M%S' }
+            "rainbow" => {
+                let fmt = [w y m d H M S]
+                let color = ['1;93m' '1;35m' '1;34m' '1;36m' '1;32m' '1;33m' '1;91m']
+                $fmt
+                | enumerate
+                | each { |x| $"(ansi -e ($color | get $x.index))%($x.item)" }
+                | str join
+            }
+            _  => { $'($theme.fst)%y-%m-%d[%w]%H:%M:%S' }
         }
         [$bg $"(date now | format date $format)"]
     }
@@ -192,7 +199,7 @@ def left_prompt [segment] {
         let segment = ($segment
             | reduce -f [] {|x, acc|
                 let y = (do $x.1 $x.0)
-                if $y.1 == $nothing {
+                if $y.1 == null {
                     $acc
                 } else {
                     $acc | append [$y]
@@ -226,7 +233,7 @@ def right_prompt [segment] {
         $segment
         | reduce -f [] {|x,acc|
             let y = (do $x.1 $x.0)
-            if $y.1 == $nothing {
+            if $y.1 == null {
                 $acc
             } else {
                 $acc | append [$y]
@@ -292,8 +299,8 @@ def decorator_gen [
 def squash [thunk] {
     mut r = ""
     for t in $thunk {
-        let v = (do $t.0 $nothing)
-        if ($v.1 != $nothing) {
+        let v = (do $t.0 null)
+        if ($v.1 != null) {
             $r += (do $t.1 $v.1)
         }
     }
@@ -342,8 +349,8 @@ def up_prompt [segment] {
             | each {|y|
                 $y
                 | reduce -f [] {|x, acc|
-                    let y = (do $x $nothing)
-                    if $y.1 == $nothing {
+                    let y = (do $x null)
+                    if $y.1 == null {
                         $acc
                     } else {
                         $acc | append $y.1
@@ -365,7 +372,7 @@ export def default_env [name value] {
     }
 }
 
-export def-env init [] {
+export def --env init [] {
     match $env.NU_POWER_FRAME {
         'default' => {
             match $env.NU_POWER_MODE {
@@ -425,7 +432,7 @@ export def-env init [] {
     hook
 }
 
-export def-env set [name theme config?] {
+export def --env set [name theme config?] {
     $env.NU_POWER_THEME = (if ($theme | is-empty) {
             $env.NU_POWER_THEME
         } else {
@@ -449,7 +456,7 @@ export def-env set [name theme config?] {
         })
 }
 
-export def-env register [name source theme config?] {
+export def --env register [name source theme config?] {
     set $name $theme $config
 
     $env.NU_PROMPT_COMPONENTS = (
@@ -457,7 +464,7 @@ export def-env register [name source theme config?] {
     )
 }
 
-export def-env inject [pos idx define theme? config?] {
+export def --env inject [pos idx define theme? config?] {
     let prev = ($env.NU_POWER_SCHEMA | get $pos)
     let next = if $idx == 0 {
         $prev | prepend $define
@@ -505,11 +512,11 @@ export def-env inject [pos idx define theme? config?] {
     }
 }
 
-export def-env eject [] {
+export def --env eject [] {
     "power eject not implement"
 }
 
-export def-env hook [] {
+export def --env hook [] {
     $env.config = ( $env.config | upsert hooks.env_change { |config|
         let init = [{|before, after| if not ($before | is-empty) { init } }]
         $config.hooks.env_change
@@ -596,7 +603,7 @@ export-env {
         NU_POWER_CONFIG
         {
             time: {
-                short: true
+                style: null
             }
         }
     )

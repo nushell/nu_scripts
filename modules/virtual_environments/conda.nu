@@ -1,5 +1,5 @@
 # Activate conda environment
-export def-env activate [
+export def --env activate [
     env_name?: string@'nu-complete conda envs' # name of the environment
 ] {
     let conda_info = (conda info --envs --json | from json)
@@ -65,7 +65,7 @@ export def-env activate [
             PROMPT_COMMAND: $new_prompt
         }
     } else {
-        $new_env | merge { CONDA_OLD_PROMPT_COMMAND: $nothing }
+        $new_env | merge { CONDA_OLD_PROMPT_COMMAND: null }
     }
 
 
@@ -73,7 +73,7 @@ export def-env activate [
 }
 
 # Deactivate currently active conda environment
-export def-env deactivate [] {
+export def --env deactivate [] {
     let path_name = if "PATH" in $env { "PATH" } else { "Path" }
     $env.$path_name = $env.CONDA_OLD_PATH
 
@@ -84,7 +84,7 @@ export def-env deactivate [] {
     hide-env CONDA_OLD_PATH
 
     $env.PROMPT_COMMAND = (
-        if $env.CONDA_OLD_PROMPT_COMMAND == $nothing {
+        if $env.CONDA_OLD_PROMPT_COMMAND == null {
             $env.PROMPT_COMMAND
         } else {
             $env.CONDA_OLD_PROMPT_COMMAND

@@ -1,6 +1,8 @@
+use argx.nu
+
 def agree [
     prompt
-    --default-not (-n): bool
+    --default-not (-n)
 ] {
     let prompt = if ($prompt | str ends-with '!') {
         $'(ansi red)($prompt)(ansi reset)'
@@ -10,87 +12,10 @@ def agree [
     ( if $default_not { [no yes] } else { [yes no] } | input list $prompt) in [yes]
 }
 
-def sprb [flag, args] {
-    if $flag {
-        $args
-    } else {
-        []
+def --wrapped with-flag [...ns] {
+    if ($in | is-empty) { [] } else {
+        [$ns $in] | flatten
     }
-}
-
-def spr [args] {
-    let lst = ($args | last)
-    if ($lst | is-empty) {
-        []
-    } else {
-        let init = ($args | range ..-2)
-        if ($init | is-empty) {
-            [ $lst ]
-        } else {
-            $init | append $lst
-        }
-    }
-}
-
-def get-sign [cmd] {
-    let x = (scope commands | where name == $cmd).signatures?.0?.any?
-    mut s = []
-    mut n = {}
-    mut p = []
-    for it in $x {
-        if $it.parameter_type in ['switch' 'named'] {
-            let name = $it.parameter_name
-            if not ($it.short_flag | is-empty) {
-                $n = ($n | upsert $it.short_flag $name)
-            }
-            if $it.parameter_type == 'switch' {
-                $s = ($s | append $name)
-                if not ($it.short_flag | is-empty) {
-                    $s = ($s | append $it.short_flag)
-                }
-            }
-        } else if $it.parameter_type == 'positional' {
-            $p = ($p | append $it.parameter_name)
-        }
-    }
-    { switch: $s, name: $n, positional: $p }
-}
-
-def "parse cmd" [] {
-    let cmd = ($in | split row ' ')
-    let sign = (get-sign $cmd.0)
-    mut sw = ''
-    mut pos = []
-    mut opt = {}
-    for c in $cmd {
-        if ($sw | is-empty) {
-            if ($c | str starts-with '-') {
-                let c = if ($c | str substring 1..2) != '-' {
-                    let k = ($c | str substring 1..)
-                    if $k in $sign.name {
-                        $'($sign.name | get $k)'
-                    } else {
-                        $k
-                    }
-                } else {
-                    $c | str substring 2..
-                }
-                if $c in $sign.switch {
-                    $opt = ($opt | upsert $c true)
-                } else {
-                    $sw = $c
-                }
-            } else {
-                $pos ++= [$c]
-            }
-        } else {
-            $opt = ($opt | upsert $sw $c)
-            $sw = ''
-        }
-    }
-    $opt._args = $pos
-    $opt._pos = ( $pos | range 1.. | enumerate | reduce -f {} {|it, acc| $acc | upsert ($sign.positional | get $it.index) $it.item } )
-    $opt
 }
 
 # git status
@@ -100,14 +25,14 @@ export def gs [] {
 
 # git stash
 export def gst [
-    --apply (-a):             bool
-    --clear (-c):             bool
-    --drop (-d):              bool
-    --list (-l):              bool
-    --pop (-p):               bool
-    --show (-s):              bool
-    --all (-A):               bool
-    --include-untracked (-i): bool
+    --apply (-a)
+    --clear (-c)
+    --drop (-d)
+    --list (-l)
+    --pop (-p)
+    --show (-s)
+    --all (-A)
+    --include-untracked (-i)
 ] {
     if $apply {
         git stash apply
@@ -122,7 +47,7 @@ export def gst [
     } else if $show {
         git stash show --text
     } else if $all {
-        git stash --all (sprb $include_untracked [--include-untracked])
+        git stash --all (if $include_untracked {[--include-untracked]} else {[]})
     } else {
         git stash
     }
@@ -131,7 +56,7 @@ export def gst [
 # git log
 export def gl [
     commit?: string@"nu-complete git log"
-    --verbose(-v):bool
+    --verbose(-v)
     --num(-n):int=32
 ] {
     if ($commit|is-empty) {
@@ -145,10 +70,10 @@ export def gl [
 export def gb [
     branch?:          string@"nu-complete git branches"
     remote?:          string@"nu-complete git remote branches"
-    --delete (-d):    bool
-    --no-merged (-n): bool
+    --delete (-d)
+    --no-merged (-n)
 ] {
-    let bs = (git branch | lines | each {|x| $x | str substring 2..})
+    let bs = git branch | lines | each {|x| $x | str substring 2..}
     if ($branch | is-empty) {
         let d = {
             local: (git branch | lines)
@@ -175,11 +100,11 @@ export def gb [
 }
 
 # git clone, init
-export def-env gn [
+export def --env gn [
     repo?:            string@"nu-complete git branches"
     local?:           path
-    --submodule (-s): bool     # git submodule
-    --init (-i):      bool     # git init
+    --submodule (-s)  # git submodule
+    --init (-i)       # git init
 ] {
      if $init {
         if ($repo | is-empty) {
@@ -197,7 +122,7 @@ export def-env gn [
         } else {
             $local
         }
-        git clone (sprb $submodule [--recurse-submodules]) $repo $local
+        git clone (if $submodule {[--recurse-submodules]} else {[]}) $repo $local
         cd $local
     }
 }
@@ -211,13 +136,13 @@ export def gig [] {
 export def gp [
     branch?:             string@"nu-complete git remote branches"
     remote?:             string@"nu-complete git remote branches"
-    --force (-f):        bool     # git push -f
-    --override:          bool
-    --submodule (-s):    bool     # git submodule
-    --init (-i):         bool     # git init
-    --merge (-m):        bool     # git pull (no)--rebase
-    --autostash (-a):    bool     # git pull --autostash
-    --back-to-prev (-b): bool     # back to branch
+    --force (-f)         # git push -f
+    --override
+    --submodule (-s)     # git submodule
+    --init (-i)          # git init
+    --merge (-m)         # git pull (no)--rebase
+    --autostash (-a)     # git pull --autostash
+    --back-to-prev (-b)  # back to branch
 ] {
     if $submodule {
         git submodule update
@@ -228,11 +153,11 @@ export def gp [
         git push --force
     } else {
         let m = if $merge { [] } else { [--rebase] }
-        let a = (sprb $autostash [--autostash])
+        let a = if $autostash {[--autostash]} else {[]}
         let branch = if ($branch | is-empty) { (_git_status).branch } else { $branch }
         let remote = if ($remote|is-empty) { 'origin' } else { $remote }
-        let lbs = (git branch | lines | each {|x| $x | str substring 2..})
-        let rbs = (remote_braches | each {|x| $x.1})
+        let lbs = git branch | lines | each {|x| $x | str substring 2..}
+        let rbs = remote_braches | each {|x| $x.1}
         let prev = (_git_status).branch
         if $branch in $rbs {
             if $branch in $lbs {
@@ -258,7 +183,7 @@ export def gp [
             }
         } else {
             let bmsg = "* remote doesn't have that branch"
-            let force = (sprb $force [--force])
+            let force = if $force {[--force]} else {[]}
             if $branch in $lbs {
                 print $'($bmsg), set upstream and push'
                 git checkout $branch
@@ -284,31 +209,31 @@ export def gp [
 # git add, rm and restore
 export def ga [
     file?:          path
-    --all (-A):     bool
-    --patch (-p):   bool
-    --update (-u):  bool
-    --verbose (-v): bool
-    --delete (-d):  bool    # git rm
-    --cached (-c):  bool
-    --force (-f):   bool
-    --restore (-r): bool    # git restore
-    --staged (-s):  bool
+    --all (-A)
+    --patch (-p)
+    --update (-u)
+    --verbose (-v)
+    --delete (-d)   # git rm
+    --cached (-c)
+    --force (-f)
+    --restore (-r)  # git restore
+    --staged (-s)
     --source (-o):  string
 ] {
     if $delete {
-        let c = (sprb $cached [--cached])
-        let f = (sprb $force [--force])
+        let c = if $cached {[--cached]} else {[]}
+        let f = if $force {[--force]} else {[]}
         git rm $c $f -r $file
     } else if $restore {
-        let o = (spr [--source $source])
-        let s = (sprb $staged [--staged])
+        let o = $source | with-flag --source
+        let s = if $staged {[--staged]} else {[]}
         let file = if ($file | is-empty) { [.] } else { [$file] }
         git restore $o $s $file
     } else {
-        let a = (sprb $all [--all])
-        let p = (sprb $patch [--patch])
-        let u = (sprb $update [--update])
-        let v = (sprb $verbose [--verbose])
+        let a = if $all {[--all]} else {[]}
+        let p = if $patch {[--patch]} else {[]}
+        let u = if $update {[--update]} else {[]}
+        let v = if $verbose {[--verbose]} else {[]}
         let file = if ($file | is-empty) { [.] } else { [$file] }
         git add $a $p $u $v $file
     }
@@ -318,37 +243,37 @@ export def ga [
 # git commit
 export def gc [
     message?:     string
-    --all (-A):   bool
-    --amend (-a): bool
-    --keep (-k):  bool
+    --all (-A)
+    --amend (-a)
+    --keep (-k)
 ] {
-    let m = (spr [-m $message])
-    let a = (sprb $all [--all])
-    let n = (sprb $amend [--amend])
-    let k = (sprb $keep [--no-edit])
+    let m = $message | with-flag -m
+    let a = if $all {[--all]} else {[]}
+    let n = if $amend {[--amend]} else {[]}
+    let k = if $keep {[--no-edit]} else {[]}
     git commit -v $m $a $n $k
 }
 
 # git diff
 export def gd [
     file?:            path
-    --cached (-c):    bool # cached
-    --word-diff (-w): bool # word-diff
-    --staged (-s):    bool # staged
+    --cached (-c)     # cached
+    --word-diff (-w)  # word-diff
+    --staged (-s)     # staged
 ] {
-    let w = (sprb $word_diff [--word-diff])
-    let c = (sprb $cached [--cached])
-    let s = (sprb $staged [--staged])
-    git diff $c $s $w (spr [$file])
+    let w = if $word_diff {[--word-diff]} else {[]}
+    let c = if $cached {[--cached]} else {[]}
+    let s = if $staged {[--staged]} else {[]}
+    git diff $c $s $w ($file | with-flag)
 }
 
 # git merge
 export def gm [
     branch?:            string@"nu-complete git branches"
-    --abort (-a):       bool
-    --continue (-c):    bool
-    --quit (-q):        bool
-    --no-squash (-n):   bool # git merge (no)--squash
+    --abort (-a)
+    --continue (-c)
+    --quit (-q)
+    --no-squash (-n) # git merge (no)--squash
 ] {
     let x = if $no_squash { [] } else { [--squash] }
     if ($branch | is-empty) {
@@ -365,12 +290,12 @@ export def gm [
 # TODO: --onto: (commit_id)
 export def gr [
     branch?:            string@"nu-complete git branches"
-    --interactive (-i): bool
+    --interactive (-i)
     --onto (-o):        string
-    --abort (-a):       bool
-    --continue (-c):    bool
-    --skip (-s):        bool
-    --quit (-q):        bool
+    --abort (-a)
+    --continue (-c)
+    --skip (-s)
+    --quit (-q)
 ] {
     if $abort {
         git rebase --abort
@@ -383,7 +308,7 @@ export def gr [
     } else if not ($onto | is-empty) {
         git rebase --onto $branch
     } else {
-        let i = (sprb $interactive [--interactive])
+        let i = if $interactive {[--interactive]} else {[]}
         if ($branch | is-empty) {
             git rebase $i (git_main_branch)
         } else {
@@ -394,11 +319,11 @@ export def gr [
 
 # git cherry-pick
 export def gcp [
-    commit?:         string@"nu-complete git log"
-    --abort (-a):    bool
-    --continue (-c): bool
-    --skip (-s):     bool
-    --quit (-q):     bool
+    commit?:         string@"nu-complete git log all"
+    --abort (-a)
+    --continue (-c)
+    --skip (-s)
+    --quit (-q)
 ] {
     if $abort {
         git cherry-pick --abort
@@ -413,14 +338,22 @@ export def gcp [
     }
 }
 
+# copy file from other branch
+export def gcf [
+    branch:     string@"nu-complete git branches"
+    ...file:       string@"nu-complete git branch files"
+] {
+    ^git checkout $branch $file
+}
+
 # git reset
 export def grs [
     commit?:      string@"nu-complete git log"
-    --hard (-h):  bool
-    --clean (-c): bool
+    --hard (-h)
+    --clean (-c)
 ] {
-    let h = (sprb $hard [--hard])
-    let cm = (spr [$commit])
+    let h = if $hard {[--hard]} else {[]}
+    let cm = $commit | with-flag
     git reset $h $cm
     if $clean {
         git clean -fd
@@ -432,11 +365,11 @@ export def grs [
 export def grm [
     remote?:       string@"nu-complete git remotes"
     uri?:          string
-    --add (-a):    bool
-    --rename (-r): bool
-    --delete (-d): bool
-    --update (-u): bool
-    --set (-s):    bool
+    --add (-a)
+    --rename (-r)
+    --delete (-d)
+    --update (-u)
+    --set (-s)
 ] {
     if ($remote | is-empty) {
         git remote -v
@@ -459,10 +392,10 @@ export def grm [
 
 # git bisect
 export def gbs [
-    --bad (-b):   bool
-    --good (-g):  bool
-    --reset (-r): bool
-    --start (-s): bool
+    --bad (-b)
+    --good (-g)
+    --reset (-r)
+    --start (-s)
 ] {
     if $good {
         git bisect good
@@ -491,16 +424,16 @@ export def ggc [] {
     git gc --prune=now --aggressive
 }
 
-export alias gcf = git config --list
+export alias gcl = git config --list
 export alias gsw = git switch
 export alias gswc = git switch -c
 export alias gts = git tag -s
 
 export def _git_status [] {
     # TODO: show-stash
-    let raw_status = (do -i { git --no-optional-locks status --porcelain=2 --branch | lines })
+    let raw_status = do -i { git --no-optional-locks status --porcelain=2 --branch | lines }
 
-    let stashes = (do -i { git stash list | lines | length })
+    let stashes = do -i { git stash list | lines | length }
 
     mut status = {
         idx_added_staged    : 0
@@ -527,7 +460,7 @@ export def _git_status [] {
     if ($raw_status | is-empty) { return $status }
 
     for s in $raw_status {
-        let r = ($s | split row ' ')
+        let r = $s | split row ' '
         match $r.0 {
             '#' => {
                 match ($r.1 | str substring 7..) {
@@ -593,7 +526,7 @@ export def _git_status [] {
 
 export def _git_log_stat [n]  {
     do -i {
-        git log -n $n --pretty=»¦«%h --stat
+        git log --reverse -n $n --pretty=»¦«%h --stat
         | lines
         | reduce -f { c: '', r: [] } {|it, acc|
             if ($it | str starts-with '»¦«') {
@@ -601,8 +534,7 @@ export def _git_log_stat [n]  {
             } else if ($it | find -r '[0-9]+ file.+change' | is-empty) {
                 $acc
             } else {
-                let x = (
-                    $it
+                let x = $it
                     | split row ','
                     | each {|x| $x
                         | str trim
@@ -615,10 +547,9 @@ export def _git_log_stat [n]  {
                             } else {
                                 $i.col | str substring ..3
                             }
-                        let num = ($i.num | into int)
+                        let num = $i.num | into int
                         $a | upsert $col $num
                     }
-                )
                 $acc | upsert r ($acc.r | append $x)
             }
         }
@@ -630,16 +561,16 @@ export def _git_log [v num] {
     let stat = if $v {
         _git_log_stat $num
     } else { {} }
-    let r = (do -i {
-        git log -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD
+    let r = do -i {
+        git log --reverse -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD
         | lines
         | split column "»¦«" sha message author email date
         | each {|x| ($x| upsert date ($x.date | into datetime))}
-    })
+    }
     if $v {
-        $r | merge $stat | reverse
+        $r | merge $stat
     } else {
-        $r | reverse
+        $r
     }
 }
 
@@ -648,6 +579,22 @@ def "nu-complete git log" [] {
     | lines
     | split column "»¦«" value description
     | each {|x| $x | update value $"($x.value)"}
+}
+
+def "nu-complete git log all" [] {
+    git log --all -n 32 --pretty=%h»¦«%d»¦«%s
+    | lines
+    | split column "»¦«" value branch description
+    | each {|x| $x | update description $"($x.branch) ($x.description)" }
+}
+
+def "nu-complete git branch files" [context: string, offset:int] {
+    let token = $context | split row ' '
+    let branch = $token | get 1
+    let files = $token | skip 2
+    git ls-tree -r --name-only $branch
+    | lines
+    | filter {|x| not ($x in $files)}
 }
 
 def "nu-complete git branches" [] {
@@ -666,7 +613,7 @@ export def remote_braches [] {
 }
 
 def "nu-complete git remote branches" [context: string, offset: int] {
-    let ctx = ($context | parse cmd)
+    let ctx = $context | argx parse
     let rb = (remote_braches)
     if ($ctx._args | length) < 3 {
         $rb | each {|x| {value: $x.1, description: $x.0} }

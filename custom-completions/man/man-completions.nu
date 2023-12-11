@@ -8,7 +8,7 @@ def "manpages" [] {
 	| par-each { ls $in | get name }
     | flatten
 	| path basename
-	| str replace -s ".gz" ""
+	| str replace ".gz" ""
 }
 
 export extern "man" [

@@ -24,7 +24,7 @@ def "nu-complete git commits current branch" [] {
 
 # Yield local branches like `main`, `feature/typo_fix`
 def "nu-complete git local branches" [] {
-  ^git branch | lines | each { |line| $line | str replace '\* ' "" | str trim }
+  ^git branch | lines | each { |line| $line | str replace '* ' "" | str trim }
 }
 
 # Yield remote branches like `origin/main`, `upstream/feature-a`
@@ -63,6 +63,7 @@ def "nu-complete git checkout" [] {
             | parse "{value}"
             | insert description "remote branch")
   | append (nu-complete git commits all)
+  | append (nu-complete git files | where description != "Untracked" | select value)
 }
 
 # Arguments to `git rebase --onto <arg1> <arg2>`
@@ -84,6 +85,42 @@ def "nu-complete git tags" [] {
   ^git tag | lines
 }
 
+# See `man git-status` under "Short Format"
+# This is incomplete, but should cover the most common cases.
+const short_status_descriptions = {
+  ".D": "Deleted"
+  ".M": "Modified"
+  "!" : "Ignored"
+  "?" : "Untracked"
+  "AU": "Staged, not merged"
+  "MD": "Some modifications staged, file deleted in work tree"
+  "MM": "Some modifications staged, some modifications untracked"
+  "R.": "Renamed"
+  "UU": "Both modified (in merge conflict)"
+}
+
+def "nu-complete git files" [] {
+  let relevant_statuses = ["?",".M", "MM", "MD", ".D", "UU"]
+  ^git status -uall --porcelain=2
+  | lines
+  | each { |$it|
+    if $it starts-with "1 " {
+      $it | parse --regex "1 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
+    } else if $it starts-with "2 " {
+      $it | parse --regex "2 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
+    } else if $it starts-with "u " {
+      $it | parse --regex "u (?P<short_status>\\S+) (?:\\S+\\s?){8} (?P<value>\\S+)"
+    } else if $it starts-with "? " {
+      $it | parse --regex "(?P<short_status>.{1}) (?P<value>.+)"
+    } else {
+      { short_status: 'unknown', value: $it }
+    }
+  }
+  | flatten
+  | where $it.short_status in $relevant_statuses
+  | insert "description" { |e| $short_status_descriptions | get $e.short_status}
+}
+
 def "nu-complete git built-in-refs" [] {
   [HEAD FETCH_HEAD ORIG_HEAD]
 }
@@ -96,30 +133,21 @@ def "nu-complete git refs" [] {
   | append (nu-complete git built-in-refs)
 }
 
+def "nu-complete git files-or-refs" [] {
+  nu-complete git switchable branches
+  | parse "{value}"
+  | insert description Branch
+  | append (nu-complete git files | where description == "Modified" | select value)
+  | append (nu-complete git tags | parse "{value}" | insert description Tag)
+  | append (nu-complete git built-in-refs)
+}
+
 def "nu-complete git subcommands" [] {
   ^git help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
-# See `man git-status` under "Short Format"
-# This is incomplete, but should cover the most common cases.
-const short_status_descriptions = {
-  " D": "Deleted"
-  " M": "Modified"
-  "!!": "Ignored"
-  "??": "Untracked"
-  "AU": "Staged, not merged"
-  "MD": "Some modifications staged, file deleted in work tree"
-  "MM": "Some modifications staged, some modifications untracked"
-  "R ": "Renamed"
-}
-
 def "nu-complete git add" [] {
-  let relevant_statuses = ["??"," M", "MM", "MD", " D"]
-  ^git status --porcelain 
-    | lines 
-      | parse --regex "(?P<short_status>.{2}) (?P<value>.+)" 
-      | where $it.short_status in $relevant_statuses 
-      | insert "description" { |e| $short_status_descriptions | get $e.short_status}
+  nu-complete git files
 }
 
 # Check out git branches and files
@@ -140,10 +168,10 @@ export extern "git checkout" [
   --pathspec-from-file: string                    # read pathspec from file
   --progress                                      # force progress reporting
   --quiet(-q)                                     # suppress progress reporting
-  --recurse-submodules: string                    # control recursive updating of submodules
+  --recurse-submodules                            # control recursive updating of submodules
   --theirs(-3)                                    # checkout their version for unmerged files
   --track(-t)                                     # set upstream info for new branch
-  -b: string                                      # create and checkout a new branch
+  -b                                              # create and checkout a new branch
   -B: string                                      # create/reset and checkout a branch
   -l                                              # create reflog for new branch
 ]
@@ -237,7 +265,7 @@ export extern "git pull" [
 # Switch between branches and commits
 export extern "git switch" [
   switch?: string@"nu-complete git switch"        # name of branch to switch to
-  --create(-c): string                            # create a new branch
+  --create(-c)                                    # create a new branch
   --detach(-d): string@"nu-complete git log"      # switch to a commit in a detatched state
   --force-create(-C): string                      # forces creation of new branch, if it exists then the existing branch will be reset to starting point
   --force(-f)                                     # alias for --discard-changes
@@ -337,7 +365,7 @@ export extern "git remote set-url" [
 
 # Show changes between commits, working tree etc
 export extern "git diff" [
-  rev1?: string@"nu-complete git refs"
+  rev1_or_file?: string@"nu-complete git files-or-refs"
   rev2?: string@"nu-complete git refs"
   --cached                                             # show staged changes
   --name-only                                          # only show names of changed files
@@ -349,7 +377,7 @@ export extern "git diff" [
 export extern "git commit" [
   --all(-a)                                           # automatically stage all modified and deleted files
   --amend                                             # amend the previous commit rather than adding a new one
-  --message(-m): string                               # specify the commit message rather than opening an editor
+  --message(-m)                                       # specify the commit message rather than opening an editor
   --no-edit                                           # don't edit the commit message (useful with --amend)
 ]
 

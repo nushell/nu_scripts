@@ -12,7 +12,7 @@ use get-weather.nu get_weather
 $env.WEATHER = (get_weather | upsert last_run_time { (date now | format date '%Y-%m-%d %H:%M:%S %z')})
 
 #command to run at interval
-def-env timed_weather_run [
+def --env timed_weather_run [
     --interval(-i): duration # The interval duration
     ] {
 
