@@ -8,8 +8,16 @@ Install [pueue](https://github.com/Nukesor/pueue) and make sure `pueued` is runn
 
 ## Usage
 
-You will get tab completions and suggestions when you insall the module.
+You will get tab completions and suggestions when you install the module.
 Please check those.
+
+To install the module, copy the `task.nu` to the `$env.NU_LIB_DIRS` directory, then do:
+
+```nu
+use task.nu
+```
+
+In your Nushell config under `~/.config/nushell`.
 
 ## Q&A
 
