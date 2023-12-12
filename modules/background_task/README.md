@@ -1,85 +1,65 @@
-# Background task with pueue
-make nushell "support" background task feature.
+# Background tasks with pueue
 
-# Prerequisite
-Install [pueue](https://github.com/Nukesor/pueue) and make sure `pueued` is running with default config, and, `pueue` is in `PATH`
-# Usage
-```nushell
-use job.nu
+Makes Nushell "support" background tasks.
 
-# spawn a new job in background.
-> job spawn { sleep 3sec ; echo gg | save gg.txt }
+## Prerequisite
 
-# get job status
-> job status
+Install [pueue](https://github.com/Nukesor/pueue) and make sure `pueued` is running and that `pueue` is in `PATH`.
 
-# get one job's log
-> job log $job_id
+## Usage
 
-# kill one job
-> job kill $job_id
+You will get tab completions and suggestions when you install the module.
+Please check those.
 
-# clean pueued finished job
-> job clean
+To install the module, copy the `task.nu` to the `$env.NU_LIB_DIRS` directory, then do:
+
+```nu
+use task.nu
 ```
 
-# Q&A
-## How can I pass data to background job?
+In your Nushell config under `~/.config/nushell`.
 
-The easiest way to do is pass it by environment variable, and you can use these variables in job.
+## Q&A
 
-So don't do this, it doesn't work:
-```nushell
-let a = 3
-job spawn {
-    echo $a
+### How can I pass data to a background task?
+
+You can use environment variables, since they
+are inherited from the parent when spawning a process.
+
+```nu
+$env.FOO = 123
+
+task spawn {
+  echo $env.FOO
 }
 ```
 
-Instead, doing this:
-```nushell
-let a = 3
-with-env {"a": 3} {
-    job spawn {
-        echo $env.a
-    }
+If you want to pass serialized data, you can do this:
+
+```nu
+let foo = { a: 1 b: 2 c: 3 }
+
+with-env { FOO: ($foo | to json) } {
+  task spawn {
+    let foo = ($env.FOO | from json)
+
+    echo $foo
+  }
 }
 ```
 
-But what if I want to pass nushell's structure data to background job?
+## How can I reuse custom commands in a background task?
 
-You can serialize it to env variable, and then deserialize it in background job.
+You can define these commands in a seperate module, like so:
 
-```nushell
-let a = [1, 2, 3]
-with-env {"a": ($a | to json)} {
-    job spawn {
-        let a = ($env.a | from json)
-        echo $a
-    }
-}
-```
+```nu
+# --- in foo.nu ---
+export def bar [] { echo bar }
 
-## How can I reuse custom commands in background job?
+# --- in main.nu ---
+task spawn {
+  use foo.nu
 
-You can defined these custom commands in a module, then you can use the module inside the job.
-
-So don't do this, it won't work:
-```nushell
-def custom [] { echo 3 }
-job spawn {
-    custom      # custom is not defined
-}
-```
-
-Instead, do this:
-```nushell
-# a.nu
-export def custom [] { echo 3 }
-
-# main.nu
-job spawn {
-    use a.nu
-    a custom
+  foo bar
 }
 ```
