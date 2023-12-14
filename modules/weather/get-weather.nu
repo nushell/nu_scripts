@@ -50,7 +50,7 @@ def get_location_by_ip [locIdx: int, token: string] {
 
 def show-error [msg label err] {
     let span = (metadata $err).span;
-    error make {msg: $msg, label: {text: $label, start: $span.start, end: $span.end } }
+    error make {msg: $msg, label: {text: $label, span: $span } } }
 }
 
 def get_weather_by_ip [locIdx: int, units: string, token: string] {
