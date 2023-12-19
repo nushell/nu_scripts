@@ -585,7 +585,7 @@ export def kdp [
 }
 
 # kubectl attach (exec -it)
-export def ka [
+export def --wrapped ka [
     pod?: string@"nu-complete kube deploys and pods"
     --namespace (-n): string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
