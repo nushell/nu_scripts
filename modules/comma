@@ -219,7 +219,7 @@ export def , [...args:string@compos] {
                             any: {
                                 $env.commax.act: {|x| open $x.0}
                                 $env.commax.cmp: {ls | get name}
-                                $env.commax.dsc: 'open a yaml file'
+                                $env.commax.dsc: 'open a file'
                             }
                             json: {
                                 $env.commax.act: {|x| open $x.0}
