@@ -80,14 +80,6 @@ def log [tag? -c] {
     $o
 }
 
-def first-type [type] {
-    for i in $in {
-        if ($i | describe -d).type == $type {
-            return $i
-        }
-    }
-}
-
 def 'as act' [] {
     let o = $in
     let ix = $env.commax
