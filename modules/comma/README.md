@@ -4,55 +4,57 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
 - Custom tasks are written in `$env.comma` and can be nested
 - Generate completions based on the structure of `$env.comma`
 - You can use closure to customize completion
-- In `$env.commax.act` of default closure, you can receive parameters after the current position
-- In `$env.commax.cmp` , you can receive the parameter before the current position
+- In `$env.comm.act` of default closure, you can receive parameters after the current position
+- In `$env.comm.cmp` , you can receive the parameter before the current position
 
 example:
 ```
-$env.commav = {
-
+$env.comma_vars = {
+    created: '2023-12-20{3}23:46:07'
+    computed: {|a, e| $'($e.created)($a)' }
 }
+
 $env.comma = {
-    created: { '2023-12-20[3]16:02:56' }
+    created: {|a, e| $e.computed }
     hello: {
-        $env.commax.act: {|x| print $'hello ($x)' }
-        $env.commax.dsc: 'hello (x)'
-        $env.commax.cmp: {|args| $args}
+        $env.comm.act: {|args, vars| print $'hello ($args)' }
+        $env.comm.dsc: 'hello (x)'
+        $env.comm.cmp: {|args, vars| $args}
     }
     open: {
-        $env.commax.sub: {
+        $env.comm.sub: {
             any: {
-                $env.commax.act: {|x| open $x.0}
-                $env.commax.cmp: {ls | get name}
-                $env.commax.dsc: 'open a file'
+                $env.comm.act: {|a, e| open $a.0}
+                $env.comm.cmp: {ls | get name}
+                $env.comm.dsc: 'open a file'
             }
             json: {
-                $env.commax.act: {|x| open $x.0}
-                $env.commax.cmp: {ls *.json | get name}
-                $env.commax.dsc: 'open a json file'
+                $env.comm.act: {|a, e| open $a.0}
+                $env.comm.cmp: {ls *.json | get name}
+                $env.comm.dsc: 'open a json file'
             }
         }
-        $env.commax.dsc: 'open a file'
+        $env.comm.dsc: 'open a file'
     }
     # Nest as you like
     a: {
         b: {
             c: {
-                $env.commax.act: {|x| print $x }
-                $env.commax.dsc: 'description'
-                $env.commax.cmp: {|| ls | get name }
+                $env.comm.act: {|x| print $x }
+                $env.comm.dsc: 'description'
+                $env.comm.cmp: {|| ls | get name }
             }
             d: { pwd }
         }
         x: {
-            $env.commax.sub: {
+            $env.comm.sub: {
                 y: {
-                    $env.commax.act: {|x| print y}
-                    $env.commax.cmp: {|| [y1 y2 y3]}
-                    $env.commax.dsc: 'description'
+                    $env.comm.act: {|x| print y}
+                    $env.comm.cmp: {|| [y1 y2 y3]}
+                    $env.comm.dsc: 'description'
                 }
             }
-            $env.commax.dsc: 'xxx'
+            $env.comm.dsc: 'xxx'
         }
     }
 }

@@ -48,26 +48,24 @@ export-env {
             $o | append $val
         }
     })
-    let k = (gensym)
-    $env.commax = {
-        sub: $k.0
-        dsc: $k.1
-        act: $k.2
-        cmp: $k.3
-    }
+    $env.comm = ([sub dsc act cmp] | gendict 5)
 }
 
-def gensym [] {
-    mut r = []
-    let rk = random chars
-    for i in 1..4 {
-        let b = ($i - 1) * 5
-        let e = $i * 5
-        $r ++= [($rk | str substring $b..$e)]
+def gendict [size: int = 5] {
+    let keys = $in
+    mut k = []
+    let n = $keys | length
+    let rk = random chars -l ($n * $size)
+    for i in 1..$n {
+        let b = ($i - 1) * $size
+        let e = $i * $size
+        $k ++= [($rk | str substring $b..$e)]
     }
-    $r
-    # TODO: debug
-    # [sub dsc act cmp]
+    $keys
+    | zip $k
+    | reduce -f {} {|x, acc|
+        $acc | upsert $x.0 (if true { $x.1 } else { $x.0 })
+    }
 }
 
 def log [tag? -c] {
@@ -82,7 +80,7 @@ def log [tag? -c] {
 
 def 'as act' [] {
     let o = $in
-    let ix = $env.commax
+    let ix = $env.comm
     let t = ($o | describe -d).type
     if $t == 'closure' {
         { $ix.act: $o }
@@ -95,11 +93,27 @@ def 'as act' [] {
     }
 }
 
+def computed-env [args, vars] {
+    mut vs = {}
+    mut cls = []
+    for i in ($vars | transpose k v) {
+        if ($i.v | describe -d).type == 'closure' {
+            $cls ++= [$i]
+        } else {
+            $vs = ($vs | upsert $i.k $i.v)
+        }
+    }
+    for i in $cls {
+        $vs = ($vs | upsert $i.k (do $i.v $args $vs))
+    }
+    $vs
+}
+
 def run [tbl] {
     let loc = $in
-    let ix = $env.commax
+    let ix = $env.comm
     mut act = $tbl
-    mut arg = []
+    mut argv = []
     for i in $loc {
         let a = $act | as act
         if ($a | is-empty) {
@@ -114,7 +128,7 @@ def run [tbl] {
                 break
             }
         } else {
-            $arg ++= [$i]
+            $argv ++= [$i]
         }
     }
     let a = $act | as act
@@ -122,13 +136,13 @@ def run [tbl] {
         let c = if $ix.sub in $act { $act | get $ix.sub | columns } else { $act | columns }
         print $'require argument: ($c)'
     } else {
-        do ($a | get $ix.act) $arg
+        do ($a | get $ix.act) $argv (computed-env $argv $env.comma_vars)
     }
 }
 
 def complete [tbl] {
     let argv = $in
-    let ix = $env.commax
+    let ix = $env.comm
     mut tbl = $env.comma
     for i in $argv {
         let c = if ($i | is-empty) {
@@ -148,7 +162,7 @@ def complete [tbl] {
         }
         let a = $c | as act
         if not ($a | is-empty) {
-            let r = do ($a | get $ix.cmp) $argv
+            let r = do ($a | get $ix.cmp) $argv (computed-env null $env.comma_vars)
             $tbl = $r
         } else {
             $tbl = $c
@@ -173,6 +187,11 @@ def complete [tbl] {
     }
 }
 
+def summary [] {
+    let o = $in
+    $o
+}
+
 def 'parse argv' [] {
     let context = $in
     $context.0
@@ -188,7 +207,18 @@ def compos [...context] {
     | complete $env.comma
 }
 
-export def , [...args:string@compos] {
+export def , [
+    --summary
+    --completion
+    ...args:string@compos
+] {
+    if $summary {
+        let r = $env.comma | summary | to json
+        return $r
+    }
+    if $completion {
+        return
+    }
     if ($args | is-empty) {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
@@ -196,30 +226,32 @@ export def , [...args:string@compos] {
             let a = [yes no] | input list 'create ,.nu?'
             if $a == 'yes' {
                 $"
-                $env.commav = {
-
+                $env.comma_vars = {
+                    created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
+                    computed: {|a, e| $'\($e.created\)\($a\)' }
                 }
+
                 $env.comma = {
-                    created: { '(date now | format date '%Y-%m-%d[%w]%H:%M:%S')' }
+                    created: {|a, e| $e.computed }
                     hello: {
-                        $env.commax.act: {|x| print $'hello \($x\)' }
-                        $env.commax.dsc: 'hello \(x\)'
-                        $env.commax.cmp: {|args| $args}
+                        $env.comm.act: {|args, vars| print $'hello \($args\)' }
+                        $env.comm.dsc: 'hello \(x\)'
+                        $env.comm.cmp: {|args, vars| $args}
                     }
                     open: {
-                        $env.commax.sub: {
+                        $env.comm.sub: {
                             any: {
-                                $env.commax.act: {|x| open $x.0}
-                                $env.commax.cmp: {ls | get name}
-                                $env.commax.dsc: 'open a file'
+                                $env.comm.act: {|a, e| open $a.0}
+                                $env.comm.cmp: {ls | get name}
+                                $env.comm.dsc: 'open a file'
                             }
                             json: {
-                                $env.commax.act: {|x| open $x.0}
-                                $env.commax.cmp: {ls *.json | get name}
-                                $env.commax.dsc: 'open a json file'
+                                $env.comm.act: {|a, e| open $a.0}
+                                $env.comm.cmp: {ls *.json | get name}
+                                $env.comm.dsc: 'open a json file'
                             }
                         }
-                        $env.commax.dsc: 'open a file'
+                        $env.comm.dsc: 'open a file'
                     }
                 }
                 "
