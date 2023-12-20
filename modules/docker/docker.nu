@@ -7,10 +7,8 @@ export-env {
     }
 }
 
-def --wrapped with-flag [...ns] {
-    if ($in | is-empty) { [] } else {
-        [$ns $in] | flatten
-    }
+def --wrapped with-flag [...flag] {
+    if ($in | is-empty) { [] } else { [...$flag $in] }
 }
 
 def local_image [name] {
@@ -209,13 +207,15 @@ export def image-tag [from: string@"nu-complete docker images"  to: string -n: s
 }
 
 # push image
-export def image-push [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ($n | with-flag -n) push $img
+export def image-push [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns" -i] {
+    let $insecure = if $i {[--insecure-registry]} else {[]}
+    ^$env.docker-cli ($n | with-flag -n) $insecure push $img
 }
 
 # pull image
-export def image-pull [img -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ($n | with-flag -n) pull $img
+export def image-pull [img -n: string@"nu-complete docker ns" -i] {
+    let $insecure = if $i {[--insecure-registry]} else {[]}
+    ^$env.docker-cli ($n | with-flag -n) $insecure pull $img
 }
 
 ### list volume
@@ -349,16 +349,16 @@ def "nu-complete registry show" [cmd: string, offset: int] {
     let reg = $cmd.3?
     let tag = $cmd.4?
     let auth = if ($env | has 'REGISTRY_TOKEN') {
-        [authorization $"Basic ($env.REGISTRY_TOKEN)"]
+        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
     } else {
         []
     }
     if ($tag | is-empty) and (not $new) or ($reg | is-empty) {
-        http get -H $auth $"($url)/v2/_catalog"
-        | get repositories
+        curl -sSL $auth $"($url)/v2/_catalog"
+        | from json | get repositories
     } else {
-        http get -H $auth $"($url)/v2/($reg)/tags/list"
-        | get tags
+        curl -sSL $auth $"($url)/v2/($reg)/tags/list"
+        | from json | get tags
     }
 }
 
@@ -369,16 +369,16 @@ export def "registry show" [
     tag?: string@"nu-complete registry show"
 ] {
     let auth = if ($env | has 'REGISTRY_TOKEN') {
-        [authorization $"Basic ($env.REGISTRY_TOKEN)"]
+        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
     } else {
         []
     }
     if ($reg | is-empty) {
-        http get -H $auth $"($url)/v2/_catalog" | get repositories
+        curl -sSL $auth $"($url)/v2/_catalog" | from json | get repositories
     } else if ($tag | is-empty) {
-        http get -H $auth $"($url)/v2/($reg)/tags/list" | get tags
+        curl -sSL $auth $"($url)/v2/($reg)/tags/list" | from json | get tags
     } else {
-        http get -e -H [accept 'application/vnd.oci.image.manifest.v1+json'] -H $auth $"($url)/v2/($reg)/manifests/($tag)" | from json
+        curl -sSL -H 'Accept: application/vnd.oci.image.manifest.v1+json' $auth $"($url)/v2/($reg)/manifests/($tag)" | from json
     }
 }
 
