@@ -24,10 +24,8 @@ export def normalize-column-names [ ] {
     $t
 }
 
-def --wrapped with-flag [...ns] {
-    if ($in | is-empty) { [] } else {
-        [$ns $in] | flatten
-    }
+def --wrapped with-flag [...flag] {
+    if ($in | is-empty) { [] } else { [...$flag $in] }
 }
 
 export def `kcache flush` [] {

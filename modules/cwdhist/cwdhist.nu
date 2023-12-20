@@ -53,7 +53,7 @@ def __cwdhist_editing [] {
     {
         name: open_command_editor
         modifier: alt
-        keycode: char_e
+        keycode: char_o
         mode: [emacs, vi_normal, vi_insert]
         event: { send: openeditor }
     }
@@ -63,7 +63,7 @@ def __cwdhist_switching [] {
     {
         name: cwdhist_switching
         modifier: shift_alt
-        keycode: char_e
+        keycode: char_o
         mode: [emacs, vi_normal, vi_insert]
         event: [
             { send: ExecuteHostCommand, cmd: '$env.cwd_history_full = (not $env.cwd_history_full)' }

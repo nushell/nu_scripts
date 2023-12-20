@@ -12,10 +12,8 @@ def agree [
     ( if $default_not { [no yes] } else { [yes no] } | input list $prompt) in [yes]
 }
 
-def --wrapped with-flag [...ns] {
-    if ($in | is-empty) { [] } else {
-        [$ns $in] | flatten
-    }
+def --wrapped with-flag [...flag] {
+    if ($in | is-empty) { [] } else { [...$flag $in] }
 }
 
 # git status
@@ -80,7 +78,7 @@ export def gb [
             remote: (git branch --remote | lines)
             no-merged: (git branch --no-merged | lines)
         }
-        print ($d | table -n 1 -e)
+        print ($d | table -i 1 -e)
     } else if $delete {
         if $branch in $bs and (agree 'branch will be delete!') {
                 git branch -D $branch
