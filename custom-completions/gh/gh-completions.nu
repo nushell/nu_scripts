@@ -1,6 +1,6 @@
 # ------------------ nu-complete commands ------------------
 
-def "nu-complete github" [] {
+def "nu-complete gh" [] {
     ^gh --help 
     | lines 
     | filter {|line| str starts-with "  " } 
@@ -12,6 +12,6 @@ def "nu-complete github" [] {
 
 # ------------------ export extern commands ------------------
 export extern "gh" [
-    command?: string@"nu-complete github"
+    command?: string@"nu-complete gh"
     --help          # Show help for command
 ]
