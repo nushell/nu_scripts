@@ -80,7 +80,7 @@ export def gb [
             remote: (git branch --remote | lines)
             no-merged: (git branch --no-merged | lines)
         }
-        print ($d | table -e)
+        print ($d | table -i 1 -e)
     } else if $delete {
         if $branch in $bs and (agree 'branch will be delete!') {
                 git branch -D $branch
