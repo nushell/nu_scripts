@@ -48,26 +48,24 @@ export-env {
             $o | append $val
         }
     })
-    let k = (gensym)
-    $env.commax = {
-        sub: $k.0
-        dsc: $k.1
-        act: $k.2
-        cmp: $k.3
-    }
+    $env.comm = ([sub dsc act cmp flt cpu wth] | gendict 5)
 }
 
-def gensym [] {
-    mut r = []
-    let rk = random chars
-    for i in 1..4 {
-        let b = ($i - 1) * 5
-        let e = $i * 5
-        $r ++= [($rk | str substring $b..$e)]
+def gendict [size: int = 5] {
+    let keys = $in
+    mut k = []
+    let n = $keys | length
+    let rk = random chars -l ($n * $size)
+    for i in 1..$n {
+        let b = ($i - 1) * $size
+        let e = $i * $size
+        $k ++= ($rk | str substring $b..$e)
     }
-    $r
-    # TODO: debug
-    # [sub dsc act cmp]
+    $keys
+    | zip $k
+    | reduce -f {} {|x, acc|
+        $acc | upsert $x.0 $"($x.0)_($x.1)"
+    }
 }
 
 def log [tag? -c] {
@@ -82,7 +80,7 @@ def log [tag? -c] {
 
 def 'as act' [] {
     let o = $in
-    let ix = $env.commax
+    let ix = $env.comm
     let t = ($o | describe -d).type
     if $t == 'closure' {
         { $ix.act: $o }
@@ -95,15 +93,65 @@ def 'as act' [] {
     }
 }
 
+def resolve-scope [args, vars, flts] {
+    mut vs = {}
+    mut cpu = []
+    mut flt = {}
+    for i in ($vars | transpose k v) {
+        if ($i.v | describe -d).type == 'record' {
+            if $env.comm.cpu in $i.v {
+                $cpu ++= {k: $i.k, v: ($i.v | get $env.comm.cpu)}
+            } else if $env.comm.flt in $i.v {
+                $flt = ($flt | merge {$i.k: ($i.v | get $env.comm.flt)} )
+            } else {
+                $vs = ($vs | merge {$i.k: $i.v})
+            }
+        } else {
+            $vs = ($vs | merge {$i.k: $i.v})
+        }
+    }
+    for i in $cpu {
+        $vs = ($vs | merge {$i.k: (do $i.v $args $vs)} )
+    }
+    for i in ($flts | default []) {
+        if $i in $flt {
+            $vs = ($vs | merge {$i: (do ($flt | get $i) $args $vs)} )
+        } else {
+            error make {msg: $"filter `($i)` not found" }
+        }
+    }
+    $vs
+}
+
+def get-comma [] {
+    if ($env.comma | describe -d).type == 'closure' {
+        do $env.comma $env.comm
+    } else {
+        $env.comma
+    }
+}
+
+def get-scope [] {
+    if ($env.comma_scope | describe -d).type == 'closure' {
+        do $env.comma_scope $env.comm
+    } else {
+        $env.comma_scope
+    }
+}
+
 def run [tbl] {
     let loc = $in
-    let ix = $env.commax
+    let ix = $env.comm
     mut act = $tbl
-    mut arg = []
+    mut argv = []
+    mut flt = []
     for i in $loc {
         let a = $act | as act
         if ($a | is-empty) {
             if ($ix.sub in $act) and ($i in ($act | get $ix.sub)) {
+                if $ix.flt in $act {
+                    $flt ++= ($act | get $ix.flt)
+                }
                 let n = $act | get $ix.sub | get $i
                 $act = $n
             } else if $i in $act {
@@ -114,7 +162,7 @@ def run [tbl] {
                 break
             }
         } else {
-            $arg ++= [$i]
+            $argv ++= $i
         }
     }
     let a = $act | as act
@@ -122,14 +170,74 @@ def run [tbl] {
         let c = if $ix.sub in $act { $act | get $ix.sub | columns } else { $act | columns }
         print $'require argument: ($c)'
     } else {
-        do ($a | get $ix.act) $arg
+        if $ix.flt in $a {
+            $flt ++= ($a | get $ix.flt)
+        }
+        let scope = (resolve-scope $argv (get-scope) $flt)
+        let cls = $a | get $ix.act
+        let argv = $argv
+        if $ix.wth in $a {
+            mut poll = []
+            let g = $a | get $ix.wth
+            let g = if ($g | is-empty) {
+                '*'
+            } else if ($g | str starts-with 'poll') {
+                let p = $g | split row ':'
+                $poll ++= ($p.1? | default '1sec' | into duration)
+            } else {
+                $g
+            }
+
+            if ($poll | is-empty) {
+                watch . --glob=$g {|| do $cls $argv $scope }
+            } else {
+               loop {
+                   do $cls $argv $scope
+                   sleep $poll.0
+                   print $"(ansi dark_gray)----------(ansi reset)"
+               }
+            }
+        } else {
+            do $cls $argv $scope
+        }
+    }
+}
+
+def enrich-desc [flt] {
+    let o = $in
+    let _ = $env.comm
+    let flt = if $_.flt in $o.v { [...$flt, ...($o.v | get $_.flt)] } else { $flt }
+    let f = if ($flt | is-empty) { '' } else { $"($flt | str join '|')|" }
+    let w = if $_.wth in $o.v {
+        let w = $o.v | get $_.wth
+        if ($w | is-empty) {
+            $"[watch]"
+        } else if ($w | str starts-with 'poll') {
+            $"[($w)]"
+        } else {
+            $"[watch:($w)]"
+        }
+    } else { '' }
+
+    let suf = $"($w)($f)"
+    let suf = if ($suf | is-empty) { $suf } else { $"($suf) " }
+    if ($o.v | describe -d).type == 'record' {
+        let dsc = if $_.dsc in $o.v { $o.v | get $_.dsc } else { '' }
+        if ($dsc | is-empty) {
+            $o.k
+        } else {
+            { value: $o.k, description: $"($suf)($dsc)"}
+        }
+    } else {
+        { value: $o.k, description: $"__($suf)" }
     }
 }
 
 def complete [tbl] {
     let argv = $in
-    let ix = $env.commax
-    mut tbl = $env.comma
+    let ix = $env.comm
+    mut tbl = (get-comma)
+    mut flt = []
     for i in $argv {
         let c = if ($i | is-empty) {
             $tbl
@@ -138,6 +246,9 @@ def complete [tbl] {
             if ($tp == 'record') and ($i in $tbl) {
                 let j = $tbl | get $i
                 if $ix.sub in $j {
+                    if $ix.flt in $j {
+                        $flt ++= ($j | get $ix.flt)
+                    }
                     $j | get $ix.sub
                 } else {
                     $j
@@ -148,12 +259,13 @@ def complete [tbl] {
         }
         let a = $c | as act
         if not ($a | is-empty) {
-            let r = do ($a | get $ix.cmp) $argv
+            let r = do ($a | get $ix.cmp) $argv (resolve-scope null (get-scope) null)
             $tbl = $r
         } else {
             $tbl = $c
         }
     }
+    let flt = $flt
     match ($tbl | describe -d).type {
         record => {
             $tbl
@@ -161,16 +273,19 @@ def complete [tbl] {
             | each {|x|
                 if ($x.v | describe -d).type == 'closure' {
                     $x.k
-                } else if $ix.dsc in $x.v {
-                    { value: $x.k, description: ($x.v | get $ix.dsc) }
                 } else {
-                    $x.k
+                    $x | enrich-desc $flt
                 }
             }
         }
         list => { $tbl }
         _ => { $tbl }
     }
+}
+
+def summary [] {
+    let o = $in
+    $o
 }
 
 def 'parse argv' [] {
@@ -185,41 +300,66 @@ def 'parse argv' [] {
 def compos [...context] {
     $context
     | parse argv
-    | complete $env.comma
+    | complete (get-comma)
 }
 
-export def , [...args:string@compos] {
+export def --wrapped , [
+    --summary
+    --completion
+    ...args:string@compos
+] {
+    if $summary {
+        let r = get-comma | summary | to json
+        return $r
+    }
+    if $completion {
+        return
+    }
     if ($args | is-empty) {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
-            let a = [yes no] | input list 'create ,.nu?'
-            if $a == 'yes' {
+            let a = [closure record no] | input list 'create ,.nu?'
+            if $a == 'record' {
                 $"
-                $env.commav = {
-
+                $env.comma_scope = {
+                    created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
+                    computed: {$env.comm.cpu:{|a, s| $'\($s.created\)\($a\)' }}
+                    say: {|s| print $'\(ansi yellow_italic\)\($s\)\(ansi reset\)' }
+                    quick: {$env.comm.flt:{|a, s| do $s.say 'run a `quick` filter' }}
+                    slow: {$env.comm.flt:{|a, s|
+                        do $s.say 'run a `slow` filter'
+                        sleep 1sec
+                        do $s.say 'filter need to be declared'
+                        sleep 1sec
+                        $'\($s.computed\)<\($a\)>'
+                    }}
                 }
+
                 $env.comma = {
-                    created: { '(date now | format date '%Y-%m-%d[%w]%H:%M:%S')' }
-                    hello: {
-                        $env.commax.act: {|x| print $'hello \($x\)' }
-                        $env.commax.dsc: 'hello \(x\)'
-                        $env.commax.cmp: {|args| $args}
-                    }
+                    created: {|a, s| $s.computed }
                     open: {
-                        $env.commax.sub: {
+                        $env.comm.sub: {
                             any: {
-                                $env.commax.act: {|x| open $x.0}
-                                $env.commax.cmp: {ls | get name}
-                                $env.commax.dsc: 'open a file'
+                                $env.comm.act: {|a, s| open $a.0}
+                                $env.comm.cmp: {ls | get name}
+                                $env.comm.dsc: 'open a file'
                             }
                             json: {
-                                $env.commax.act: {|x| open $x.0}
-                                $env.commax.cmp: {ls *.json | get name}
-                                $env.commax.dsc: 'open a json file'
+                                $env.comm.act: {|a, s| open $a.0}
+                                $env.comm.cmp: {ls *.json | get name}
+                                $env.comm.dsc: 'open a json file'
+                                $env.comm.wth: '*.json'
+                            }
+                            scope: {
+                                $env.comm.act: {|a, s| print $'args: \($a\)'; $s }
+                                $env.comm.flt: ['slow']
+                                $env.comm.dsc: 'open scope'
+                                $env.comm.wth: 'poll:2sec'
                             }
                         }
-                        $env.commax.dsc: 'open a file'
+                        $env.comm.dsc: 'open something'
+                        $env.comm.flt: ['quick']
                     }
                 }
                 "
@@ -227,8 +367,55 @@ export def , [...args:string@compos] {
                 | save $",.nu"
                 #source ',.nu'
             }
+            if $a == 'closure' {
+                $"
+                $env.comma_scope = {|_|{
+                    created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
+                    computed: {$_.cpu:{|a, s| $'\($s.created\)\($a\)' }}
+                    say: {|s| print $'\(ansi yellow_italic\)\($s\)\(ansi reset\)' }
+                    quick: {$_.flt:{|a, s| do $s.say 'run a `quick` filter' }}
+                    slow: {$_.flt:{|a, s|
+                        do $s.say 'run a `slow` filter'
+                        sleep 1sec
+                        do $s.say 'filter need to be declared'
+                        sleep 1sec
+                        $'\($s.computed\)<\($a\)>'
+                    }}
+                }}
+
+                $env.comma = {|_|{
+                    created: {|a, s| $s.computed }
+                    open: {
+                        $_.sub: {
+                            any: {
+                                $_.act: {|a, s| open $a.0}
+                                $_.cmp: {ls | get name}
+                                $_.dsc: 'open a file'
+                            }
+                            json: {
+                                $_.act: {|a, s| open $a.0}
+                                $_.cmp: {ls *.json | get name}
+                                $_.dsc: 'open a json file'
+                                $_.wth: '*.json'
+                            }
+                            scope: {
+                                $_.act: {|a, s| print $'args: \($a\)'; $s }
+                                $_.flt: ['slow']
+                                $_.dsc: 'open scope'
+                                $_.wth: 'poll:2sec'
+                            }
+                        }
+                        $_.dsc: 'open something'
+                        $_.flt: ['quick']
+                    }
+                }}
+                "
+                | unindent
+                | save $",.nu"
+                #source ',.nu'
+            }
         }
     } else {
-        $args | run $env.comma
+        $args | run (get-comma)
     }
 }

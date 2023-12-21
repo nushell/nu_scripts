@@ -6,33 +6,50 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
 - You can use closure to customize completion
 - In `$env.commax.act` of default closure, you can receive parameters after the current position
 - In `$env.commax.cmp` , you can receive the parameter before the current position
+- Supports `computed`, the definition method refers to `$env.comma_scope.computed`, accepts two parameters, runtime parameters and `$env.comma_scope`
+- Supports `filter`, similar to `computed`, but only runs when declared, specified through `$env.comm.flt`
+- Supports `watch`, specified through `$env.comm.wth`. Support polling like 'poll:2sec'
 
 example:
 ```
-$env.commav = {
-
+$env.comma_scope = {
+    created: '2023-12-21{4}10:35:31'
+    computed: {$env.comm.cpu:{|a, s| $'($s.created)($a)' }}
+    say: {|s| print $'(ansi yellow_italic)($s)(ansi reset)' }
+    quick: {$env.comm.flt:{|a, s| do $s.say 'run a `quick` filter' }}
+    slow: {$env.comm.flt:{|a, s|
+        do $s.say 'run a `slow` filter'
+        sleep 1sec
+        do $s.say 'filter need to be declared'
+        sleep 1sec
+        $'($s.computed)<($a)>'
+    }}
 }
+
 $env.comma = {
-    created: { '2023-12-20[3]16:02:56' }
-    hello: {
-        $env.commax.act: {|x| print $'hello ($x)' }
-        $env.commax.dsc: 'hello (x)'
-        $env.commax.cmp: {|args| $args}
-    }
+    created: {|a, s| $s.computed }
     open: {
-        $env.commax.sub: {
+        $env.comm.sub: {
             any: {
-                $env.commax.act: {|x| open $x.0}
-                $env.commax.cmp: {ls | get name}
-                $env.commax.dsc: 'open a file'
+                $env.comm.act: {|a, s| open $a.0}
+                $env.comm.cmp: {ls | get name}
+                $env.comm.dsc: 'open a file'
             }
             json: {
-                $env.commax.act: {|x| open $x.0}
-                $env.commax.cmp: {ls *.json | get name}
-                $env.commax.dsc: 'open a json file'
+                $env.comm.act: {|a, s| open $a.0}
+                $env.comm.cmp: {ls *.json | get name}
+                $env.comm.dsc: 'open a json file'
+                $env.comm.wth: '*.json'
+            }
+            scope: {
+                $env.comm.act: {|a, s| print $'args: ($a)'; $s }
+                $env.comm.flt: ['slow']
+                $env.comm.dsc: 'open scope'
+                $env.comm.wth: 'poll:2sec'
             }
         }
-        $env.commax.dsc: 'open a file'
+        $env.comm.dsc: 'open something'
+        $env.comm.flt: ['quick']
     }
     # Nest as you like
     a: {
