@@ -123,6 +123,22 @@ def resolve-scope [args, vars, flts] {
     $vs
 }
 
+def get-comma [] {
+    if ($env.comma | describe -d).type == 'closure' {
+        do $env.comma $env.comm
+    } else {
+        $env.comma
+    }
+}
+
+def get-scope [] {
+    if ($env.comma_scope | describe -d).type == 'closure' {
+        do $env.comma_scope $env.comm
+    } else {
+        $env.comma_scope
+    }
+}
+
 def run [tbl] {
     let loc = $in
     let ix = $env.comm
@@ -157,7 +173,7 @@ def run [tbl] {
         if $ix.flt in $a {
             $flt ++= ($a | get $ix.flt)
         }
-        let scope = (resolve-scope $argv $env.comma_scope $flt)
+        let scope = (resolve-scope $argv (get-scope) $flt)
         let cls = $a | get $ix.act
         let argv = $argv
         if $ix.wth in $a {
@@ -220,7 +236,7 @@ def enrich-desc [flt] {
 def complete [tbl] {
     let argv = $in
     let ix = $env.comm
-    mut tbl = $env.comma
+    mut tbl = (get-comma)
     mut flt = []
     for i in $argv {
         let c = if ($i | is-empty) {
@@ -243,7 +259,7 @@ def complete [tbl] {
         }
         let a = $c | as act
         if not ($a | is-empty) {
-            let r = do ($a | get $ix.cmp) $argv (resolve-scope null $env.comma_scope null)
+            let r = do ($a | get $ix.cmp) $argv (resolve-scope null (get-scope) null)
             $tbl = $r
         } else {
             $tbl = $c
@@ -284,7 +300,7 @@ def 'parse argv' [] {
 def compos [...context] {
     $context
     | parse argv
-    | complete $env.comma
+    | complete (get-comma)
 }
 
 export def --wrapped , [
@@ -293,7 +309,7 @@ export def --wrapped , [
     ...args:string@compos
 ] {
     if $summary {
-        let r = $env.comma | summary | to json
+        let r = get-comma | summary | to json
         return $r
     }
     if $completion {
@@ -303,8 +319,8 @@ export def --wrapped , [
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
-            let a = [yes no] | input list 'create ,.nu?'
-            if $a == 'yes' {
+            let a = [closure record no] | input list 'create ,.nu?'
+            if $a == 'record' {
                 $"
                 $env.comma_scope = {
                     created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
@@ -351,8 +367,55 @@ export def --wrapped , [
                 | save $",.nu"
                 #source ',.nu'
             }
+            if $a == 'closure' {
+                $"
+                $env.comma_scope = {|_|{
+                    created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
+                    computed: {$_.cpu:{|a, s| $'\($s.created\)\($a\)' }}
+                    say: {|s| print $'\(ansi yellow_italic\)\($s\)\(ansi reset\)' }
+                    quick: {$_.flt:{|a, s| do $s.say 'run a `quick` filter' }}
+                    slow: {$_.flt:{|a, s|
+                        do $s.say 'run a `slow` filter'
+                        sleep 1sec
+                        do $s.say 'filter need to be declared'
+                        sleep 1sec
+                        $'\($s.computed\)<\($a\)>'
+                    }}
+                }}
+
+                $env.comma = {|_|{
+                    created: {|a, s| $s.computed }
+                    open: {
+                        $_.sub: {
+                            any: {
+                                $_.act: {|a, s| open $a.0}
+                                $_.cmp: {ls | get name}
+                                $_.dsc: 'open a file'
+                            }
+                            json: {
+                                $_.act: {|a, s| open $a.0}
+                                $_.cmp: {ls *.json | get name}
+                                $_.dsc: 'open a json file'
+                                $_.wth: '*.json'
+                            }
+                            scope: {
+                                $_.act: {|a, s| print $'args: \($a\)'; $s }
+                                $_.flt: ['slow']
+                                $_.dsc: 'open scope'
+                                $_.wth: 'poll:2sec'
+                            }
+                        }
+                        $_.dsc: 'open something'
+                        $_.flt: ['quick']
+                    }
+                }}
+                "
+                | unindent
+                | save $",.nu"
+                #source ',.nu'
+            }
         }
     } else {
-        $args | run $env.comma
+        $args | run (get-comma)
     }
 }
