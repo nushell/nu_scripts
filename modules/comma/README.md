@@ -8,70 +8,77 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
 - In `$env.commax.cmp` , you can receive the parameter before the current position
 - Supports `computed`, the definition method refers to `$env.comma_scope.computed`, accepts two parameters, runtime parameters and `$env.comma_scope`
 - Supports `filter`, similar to `computed`, but only runs when declared, specified through `$env.comm.flt`
-- Supports `watch`, specified through `$env.comm.wth`. Support polling like 'poll:2sec'
+- Supports `watch` (and polling), specified through `$env.comm.wth`.
+    - `glob` defaults to `*`, `op` defaults to `['Write']`
+    - when the `interval` field is included, it is polling mode
+    - In watch mode (not Polling) inject `$env.comm.wth`(op, path, new_path) into parameter `s`
 
 example:
 ```
-$env.comma_scope = {
-    created: '2023-12-21{4}10:35:31'
-    computed: {$env.comm.cpu:{|a, s| $'($s.created)($a)' }}
+$env.comma_scope = {|_|{
+    created: '2023-12-21{4}22:26:47'
+    computed: {$_.cpu:{|a, s| $'($s.created)($a)' }}
     say: {|s| print $'(ansi yellow_italic)($s)(ansi reset)' }
-    quick: {$env.comm.flt:{|a, s| do $s.say 'run a `quick` filter' }}
-    slow: {$env.comm.flt:{|a, s|
+    quick: {$_.flt:{|a, s| do $s.say 'run a `quick` filter' }}
+    slow: {$_.flt:{|a, s|
         do $s.say 'run a `slow` filter'
         sleep 1sec
         do $s.say 'filter need to be declared'
         sleep 1sec
         $'($s.computed)<($a)>'
     }}
-}
+}}
 
-$env.comma = {
+$env.comma = {|_|{
     created: {|a, s| $s.computed }
     open: {
-        $env.comm.sub: {
+        $_.sub: {
             any: {
-                $env.comm.act: {|a, s| open $a.0}
-                $env.comm.cmp: {ls | get name}
-                $env.comm.dsc: 'open a file'
+                $_.act: {|a, s| open $a.0}
+                $_.cmp: {ls | get name}
+                $_.dsc: 'open a file'
             }
             json: {
-                $env.comm.act: {|a, s| open $a.0}
-                $env.comm.cmp: {ls *.json | get name}
-                $env.comm.dsc: 'open a json file'
-                $env.comm.wth: '*.json'
+                $_.act: {|a, s| $s | get $_.wth }
+                $_.cmp: {ls *.json | get name}
+                $_.dsc: 'open a json file'
+                $_.wth: {
+                    glob: '*.json'
+                    op: ['Write', 'Create']
+                }
             }
             scope: {
-                $env.comm.act: {|a, s| print $'args: ($a)'; $s }
-                $env.comm.flt: ['slow']
-                $env.comm.dsc: 'open scope'
-                $env.comm.wth: 'poll:2sec'
+                $_.act: {|a, s| print $'args: ($a)'; $s }
+                $_.flt: ['slow']
+                $_.dsc: 'open scope'
+                $_.wth: {
+                    interval: 2sec
+                }
             }
         }
-        $env.comm.dsc: 'open something'
-        $env.comm.flt: ['quick']
+        $_.dsc: 'open something'
+        $_.flt: ['quick']
     }
     # Nest as you like
     a: {
         b: {
             c: {
-                $env.commax.act: {|x| print $x }
-                $env.commax.dsc: 'description'
-                $env.commax.cmp: {|| ls | get name }
+                $_.act: {|x| print $x }
+                $_.dsc: 'description'
+                $_.cmp: {|| ls | get name }
             }
             d: { pwd }
         }
         x: {
-            $env.commax.sub: {
+            $_.sub: {
                 y: {
-                    $env.commax.act: {|x| print y}
-                    $env.commax.cmp: {|| [y1 y2 y3]}
-                    $env.commax.dsc: 'description'
+                    $_.act: {|x| print y}
+                    $_.cmp: {|| [y1 y2 y3]}
+                    $_.dsc: 'description'
                 }
             }
-            $env.commax.dsc: 'xxx'
+            $_.dsc: 'xxx'
         }
     }
-}
-
+}}
 ```

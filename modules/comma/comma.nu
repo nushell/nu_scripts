@@ -177,25 +177,24 @@ def run [tbl] {
         let cls = $a | get $ix.act
         let argv = $argv
         if $ix.wth in $a {
-            mut poll = []
-            let g = $a | get $ix.wth
-            let g = if ($g | is-empty) {
-                '*'
-            } else if ($g | str starts-with 'poll') {
-                let p = $g | split row ':'
-                $poll ++= ($p.1? | default '1sec' | into duration)
+            let w = $a | get $ix.wth
+            if 'interval' in $w {
+                loop {
+                    do $cls $argv $scope
+                    sleep $w.interval
+                    print $"(ansi dark_gray)----------(ansi reset)"
+                }
             } else {
-                $g
-            }
-
-            if ($poll | is-empty) {
-                watch . --glob=$g {|| do $cls $argv $scope }
-            } else {
-               loop {
-                   do $cls $argv $scope
-                   sleep $poll.0
-                   print $"(ansi dark_gray)----------(ansi reset)"
-               }
+                let ops = if ($w.op? | is-empty) {['Write']} else { $w.op }
+                watch . --glob=($w.glob? | default '*') {|op, path, new_path|
+                    if $op in $ops {
+                        do $cls $argv ($scope | upsert $ix.wth {
+                            op: $op
+                            path: $path
+                            new_path: $path
+                        })
+                    }
+                }
             }
         } else {
             do $cls $argv $scope
@@ -210,12 +209,12 @@ def enrich-desc [flt] {
     let f = if ($flt | is-empty) { '' } else { $"($flt | str join '|')|" }
     let w = if $_.wth in $o.v {
         let w = $o.v | get $_.wth
-        if ($w | is-empty) {
-            $"[watch]"
-        } else if ($w | str starts-with 'poll') {
-            $"[($w)]"
+        if 'interval' in $w {
+            $"[poll:($w.interval)]"
         } else {
-            $"[watch:($w)]"
+            let ops = if ($w.op? | is-empty) {['Write']} else {$w.op}
+            | str join ','
+            $"[($ops)|($w.glob? | default '*')]"
         }
     } else { '' }
 
@@ -349,13 +348,18 @@ export def --wrapped , [
                                 $env.comm.act: {|a, s| open $a.0}
                                 $env.comm.cmp: {ls *.json | get name}
                                 $env.comm.dsc: 'open a json file'
-                                $env.comm.wth: '*.json'
+                                $env.comm.wth: {
+                                    glob: '*.json'
+                                    op: ['Write', 'Create']
+                                }
                             }
                             scope: {
                                 $env.comm.act: {|a, s| print $'args: \($a\)'; $s }
                                 $env.comm.flt: ['slow']
                                 $env.comm.dsc: 'open scope'
-                                $env.comm.wth: 'poll:2sec'
+                                $env.comm.wth: {
+                                    interval: 2sec
+                                }
                             }
                         }
                         $env.comm.dsc: 'open something'
@@ -393,16 +397,21 @@ export def --wrapped , [
                                 $_.dsc: 'open a file'
                             }
                             json: {
-                                $_.act: {|a, s| open $a.0}
+                                $_.act: {|a, s| $s | get $_.wth }
                                 $_.cmp: {ls *.json | get name}
                                 $_.dsc: 'open a json file'
-                                $_.wth: '*.json'
+                                $_.wth: {
+                                    glob: '*.json'
+                                    op: ['Write', 'Create']
+                                }
                             }
                             scope: {
                                 $_.act: {|a, s| print $'args: \($a\)'; $s }
                                 $_.flt: ['slow']
                                 $_.dsc: 'open scope'
-                                $_.wth: 'poll:2sec'
+                                $_.wth: {
+                                    interval: 2sec
+                                }
                             }
                         }
                         $_.dsc: 'open something'
