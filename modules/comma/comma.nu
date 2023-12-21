@@ -187,17 +187,34 @@ def run [tbl] {
     }
 }
 
-def enrich-desc [ctx] {
+def enrich-desc [flt] {
     let o = $in
-    let f = if ($ctx.flt | is-empty) { '' } else { $" | ($ctx.flt | str join ' | ')" }
-    let w = if 'wth' in $ctx {
-        if ($ctx.wth | is-empty) {
+    let _ = $env.comm
+    let flt = if $_.flt in $o.v { [...$flt, ...($o.v | get $_.flt)] } else { $flt }
+    let f = if ($flt | is-empty) { '' } else { $"($flt | str join '|')|" }
+    let w = if $_.wth in $o.v {
+        let w = $o.v | get $_.wth
+        if ($w | is-empty) {
             $"[watch]"
+        } else if ($w | str starts-with 'poll') {
+            $"[($w)]"
         } else {
-            $"[watch: ($ctx.wth)]"
+            $"[watch:($w)]"
         }
     } else { '' }
-    $"($o)($f)"
+
+    let suf = $"($w)($f)"
+    let suf = if ($suf | is-empty) { $suf } else { $"($suf) " }
+    if ($o.v | describe -d).type == 'record' {
+        let dsc = if $_.dsc in $o.v { $o.v | get $_.dsc } else { '' }
+        if ($dsc | is-empty) {
+            $o.k
+        } else {
+            { value: $o.k, description: $"($suf)($dsc)"}
+        }
+    } else {
+        { value: $o.k, description: $"__($suf)" }
+    }
 }
 
 def complete [tbl] {
@@ -232,6 +249,7 @@ def complete [tbl] {
             $tbl = $c
         }
     }
+    let flt = $flt
     match ($tbl | describe -d).type {
         record => {
             $tbl
@@ -239,10 +257,8 @@ def complete [tbl] {
             | each {|x|
                 if ($x.v | describe -d).type == 'closure' {
                     $x.k
-                } else if $ix.dsc in $x.v {
-                    { value: $x.k, description: ($x.v | get $ix.dsc) }
                 } else {
-                    $x.k
+                    $x | enrich-desc $flt
                 }
             }
         }
