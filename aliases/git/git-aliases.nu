@@ -8,7 +8,7 @@ def git_main_branch [] {
         | str trim
         | find --regex 'HEAD .*?[：: ].+'
         | first
-        | str replace 'HEAD .*?[：: ](.+)' '$1'
+        | str replace --regex 'HEAD .*?[：: ](.+)' '$1'
 }
 
 #
