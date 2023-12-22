@@ -150,20 +150,64 @@ def "nu-complete gh repo" [] {
     | str trim
 }
 
+export extern "gh repo" [
+    command?: string@"nu-complete gh repo"
+    --help             # Show help for command
+]
+
 def "nu-complete gh repo clone" [] {
     # regex that actually works
     # ^(?P<value>\S+) +(?P<description>\S+( \S+)*)? {2,}(?P<Visibility>public|private),?.*(?P<updated>about.*)
     ^gh repo list --limit 100 | lines | str replace --regex --multiline '\S+\K.*' ''
 }
 
-export extern "gh repo" [
-    command?: string@"nu-complete gh repo"
-    --help             # Show help for command
-]
-
 export extern "gh repo clone" [
     command: string@"nu-complete gh repo clone"
     --help             # Show help for command
+]
+
+def "nu-complete gitignore list" [] {
+    ^gh api  -H "Accept: application/vnd.github+json"  /gitignore/templates
+    | from json
+}
+
+def "nu-complete licenses list" [] {
+    let value = ^gh api  -H "Accept: application/vnd.github+json" /licenses | from json | get key | enumerate | reject index | rename value
+    let description = ^gh api  -H "Accept: application/vnd.github+json" /licenses | from json | get name | enumerate | reject index | rename description
+    $value | merge $description
+}
+
+export extern "gh repo create" [
+    repo_name: string
+    --help                     # Show help for command
+    --add-readme               # Add a README file to the new repository
+    --clone(-c)                # Clone the new repository to the current directory
+    --description(-d): string  # Description of the repository
+    --disable-issues           # Disable issues in the new repository
+    --disable-wiki             # Disable wiki in the new repository
+    --gitignore(-g): string@"nu-complete gitignore list"    # Specify a gitignore template for the repository
+    --homepage(-g): string     # Repository home page URL
+    --include-all-branches     # Include all branches from template repository
+    --internal                 # Make the new repository internal
+    --license(-l): string@"nu-complete licenses list"      # Specify an Open Source License for the repository
+    --private                  # Make the new repository private
+    --public                   # Make the new repository public
+    --push                     # Push local commits to the new repository
+    --remote(-r): string       # Specify remote name for the new repository
+    --source(-s): string       # Specify path to local repository to use as source
+    --team(-t): string         # The name of the organization team to be granted access
+    --template(-p): string     # Make the new repository based on a template repository
+]
+
+export extern "gh repo fork" [
+    repo: string
+    --clone                # Clone the fork
+    --default-branch-only  # Only include the default branch in the fork
+    --fork-name: string    # Rename the forked repository
+    --org: string          # Create the fork in an organization
+    --remote               # Add a git remote for the fork
+    --remote-name: string  # Specify the name for the new remote (default "origin")
+    --help                 # Show help for command
 ]
 
 def "nu-complete gh cache" [] {
