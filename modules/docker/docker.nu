@@ -32,48 +32,105 @@ def "nu-complete docker ns" [] {
 }
 
 # list containers
-export def container-process-list [-n: string@"nu-complete docker ns"] {
-    # ^$env.docker-cli ps --all --no-trunc --format='{{json .}}' | jq
-    let cli = $env.docker-cli
-    if $cli == 'docker' {
-        ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
-        | lines
-        | each {|x|
-            let r = $x | from json
-            let t = $r.created | str substring ..25 | into datetime -f '%Y-%m-%d %H:%M:%S %z'
-            $r | upsert created $t
-        }
-    } else if $cli == 'podman' {
-        ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
-        | lines
-        | each {|x|
-            let r = $x | from json
-            let t = $r.created | str substring ..32 | into datetime
-            $r | upsert created $t
+export def container-process-list [
+    -n: string@"nu-complete docker ns"
+    container?: string@"nu-complete docker containers"
+] {
+    if ($container | is-empty) {
+        let cli = $env.docker-cli
+        if $cli == 'docker' {
+            ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
+            | lines
+            | each {|x|
+                let r = $x | from json
+                let t = $r.created | str substring ..25 | into datetime -f '%Y-%m-%d %H:%M:%S %z'
+                $r | upsert created $t
+            }
+        } else if $cli == 'podman' {
+            ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
+            | lines
+            | each {|x|
+                let r = $x | from json
+                let t = $r.created | str substring ..32 | into datetime
+                $r | upsert created $t
+            }
+        } else {
+            ^$cli ($n | with-flag -n) ps -a
+            | from ssv
+            | rename id image cmd created status port name
         }
     } else {
-        ^$cli ($n | with-flag -n) ps -a
-        | from ssv
-        | rename id image cmd created status port name
+        let r = ^$env.docker-cli ($n | with-flag -n) inspect $container
+            | from json
+            | get 0
+        #let e = $r.Config.Env | reduce -f {} {|i, a|
+        #    let x = $i | split row '='
+        #    $a | upsert $x.0 $x.1?
+        #}
+        let m = $r.Mounts
+            | reduce -f {} {|i, a|
+                if $i.Type == 'bind' {
+                    $a | upsert $i.Source? $i.Destination?
+                } else { $a }
+            }
+        let p = $r.NetworkSettings.Ports? | default {} | transpose k v
+            | reduce -f {} {|i, a| $a | upsert $i.k $"($i.v.HostIp?.0?):($i.v.HostPort?.0?)"}
+        {
+            name: $r.Name?
+            hostname: $r.Config.Hostname?
+            image: $r.Image
+            created: $r.Created
+            id: $r.Id
+            ports: $p
+            # FIXME: env
+            mounts: $m
+            path: $r.Path
+            args: $r.Args
+        }
     }
 }
 
 # list images
-export def image-list [-n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ($n | with-flag -n) images
-    | from ssv -a
-    | each {|x|
-        let size = $x.SIZE | into filesize
-        let path = $x.REPOSITORY | split row '/'
-        let image = $path | last
-        let repo = $path | range ..(($path|length) - 2) | str join '/'
+export def image-list [
+    -n: string@"nu-complete docker ns"
+    img?: string@"nu-complete docker images"
+] {
+    if ($img | is-empty) {
+        ^$env.docker-cli ($n | with-flag -n) images
+        | from ssv -a
+        | each {|x|
+            let size = $x.SIZE | into filesize
+            let path = $x.REPOSITORY | split row '/'
+            let image = $path | last
+            let repo = $path | range ..(($path|length) - 2) | str join '/'
+            {
+                repo: $repo
+                image: $image
+                tag: $x.TAG
+                id: $x.'IMAGE ID'
+                created: $x.CREATED
+                size: $size
+            }
+        }
+    } else {
+        let r = ^$env.docker-cli ($n | with-flag -n) inspect $img
+        | from json
+        | get 0
+        let e = $r.Config.Env | reduce -f {} {|i, a|
+            let x = $i | split row '='
+            $a | upsert $x.0 $x.1?
+        }
         {
-            repo: $repo
-            image: $image
-            tag: $x.TAG
-            id: $x.'IMAGE ID'
-            created: $x.CREATED
-            size: $size
+            id: $r.Id
+            created: $r.Created
+            author: $r.Author
+            arch: $r.Architecture
+            os: $r.Os
+            size: $r.Size
+            labels: $r.Labels?
+            env: $e
+            entrypoint: $r.Config.Entrypoint
+            cmd: $r.Config.Cmd?
         }
     }
 }
@@ -84,13 +141,13 @@ def "nu-complete docker ps" [] {
     | each {|x| {description: $x.NAMES value: $x.'CONTAINER ID'}}
 }
 
-def "nu-complete docker container" [] {
+def "nu-complete docker containers" [] {
     ^$env.docker-cli ps
     | from ssv -a
     | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
 }
 
-def "nu-complete docker all container" [] {
+def "nu-complete docker all containers" [] {
     ^$env.docker-cli ps -a
     | from ssv -a
     | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
@@ -103,7 +160,7 @@ def "nu-complete docker images" [] {
 }
 
 # container log
-export def container-log [ctn: string@"nu-complete docker container"
+export def container-log [ctn: string@"nu-complete docker containers"
     -l: int = 100 # line
 ] {
     let l = if $l == 0 { [] } else { [--tail $l] }
@@ -111,7 +168,7 @@ export def container-log [ctn: string@"nu-complete docker container"
 }
 
 # container log with namespace
-export def container-log-namespace [ctn: string@"nu-complete docker container"
+export def container-log-namespace [ctn: string@"nu-complete docker containers"
     -l: int = 100 # line
     -n: string@"nu-complete docker ns" # namespace
 ] {
@@ -121,7 +178,7 @@ export def container-log-namespace [ctn: string@"nu-complete docker container"
 
 # attach container
 export def container-attach [
-    ctn: string@"nu-complete docker container"
+    ctn: string@"nu-complete docker containers"
     -n: string@"nu-complete docker ns"
     ...args
 ] {
@@ -162,19 +219,16 @@ export def container-copy-file [
 }
 
 # remove container
-export def container-remove [ctn: string@"nu-complete docker all container" -n: string@"nu-complete docker ns"] {
+export def container-remove [ctn: string@"nu-complete docker all containers" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli ($n | with-flag -n) container rm -f $ctn
 }
 
-# inspect
-export def container-inspect [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ($n | with-flag -n) inspect $img
-}
 
 # history
 export def container-history [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli ($n | with-flag -n) history --no-trunc $img | from ssv -a
 }
+
 
 # save images
 export def image-save [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
@@ -284,7 +338,7 @@ export def container-create [
     --ports(-p): any                                    # { 8080: 80 }
     --envs(-e): any                                     # { FOO: BAR }
     --daemon(-d)
-    --attach(-a): string@"nu-complete docker container" # attach
+    --attach(-a): string@"nu-complete docker containers" # attach
     --workdir(-w): string                               # workdir
     --entrypoint: string                                # entrypoint
     --dry-run
@@ -422,7 +476,6 @@ export alias dln = container-log-namespace
 export alias da = container-attach
 export alias dcp = container-copy-file
 export alias dcr = container-remove
-export alias dci = container-inspect
 export alias dh = container-history
 export alias dsv = image-save
 export alias dld = image-load
