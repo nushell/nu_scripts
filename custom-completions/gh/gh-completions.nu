@@ -98,18 +98,36 @@ export extern "gh org" [
 ]
 
 def "nu-complete gh pr" [] {
-    ^gh pr --help 
-    | lines 
-    | filter {|line| str starts-with "  " } 
-    | skip 1 
-    | parse "{value}: {description}" 
-    | str trim
+    ^gh pr --help | lines | filter {|line| str starts-with "  " } | skip 1 | parse "{value}: {description}" | str trim
 }
 
 export extern "gh pr" [
     command?: string@"nu-complete gh pr"
     --repo(-R)         # Select another repository using the [HOST/]OWNER/REPO format
     --help             # Show help for command
+]
+
+def "nu-complete gh list prs" [] {
+    gh pr list --json title,number,author,updatedAt 
+    | from json 
+    | update author {|row| $row.author.login } 
+    | rename --column { number: value } 
+    | insert description {
+        |row| ( $row.updatedAt | date humanize) 
+        + " - " + $row.title 
+        + " by " + $row.author 
+        } 
+    | select value description
+}
+
+export extern "gh pr checkout" [
+   branch_url_or_PRnumber: string@"nu-complete gh list prs" # {<number> | <url> | <branch>}
+   --branch(-b): string           # Local branch name to use (default: the name of the head branch)
+   --detach                       # Checkout PR with a detached HEAD
+   --force(-f)                    # Reset the existing local branch to the latest state of the pull request
+   --recurse-submodules           # Update all submodules after checkout   
+   --repo(-R)                     # Select another repository using the [HOST/]OWNER/REPO format
+   --help                         # Show help for command
 ]
 
 def "nu-complete gh project" [] {
