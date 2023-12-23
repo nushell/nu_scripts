@@ -11,7 +11,9 @@ def gendict [size: int = 5] {
     $keys
     | zip $k
     | reduce -f {} {|x, acc|
-        $acc | upsert $x.0 $"($x.0)_($x.1)"
+        let id = if ($x.0 | describe -d).type == 'list' { $x.0 } else { [$x.0] }
+        let id = $id | reduce -f {} {|i,a| $a | upsert $i $"($id.0)_($x.1)" }
+        $acc | merge $id
     }
 }
 
@@ -128,7 +130,16 @@ export-env {
         })
     }
     $env.comma_index = (
-        [sub dsc act cmp flt cpu wth]
+        [
+            [children sub]
+            [description desc dsc]
+            [action act]
+            [completion cmp]
+            [filter flt]
+            [computed cpu]
+            [watch wth]
+            [expect exp]
+        ]
         | gendict 5
         | merge {
             settings: {
@@ -182,7 +193,7 @@ export-env {
     )
 }
 
-def resolve-node [] { # [is-act, node]
+def resolve-node [] { # [endpoint, node]
     let o = $in
     let _ = $env.comma_index
     let t = ($o | describe -d).type

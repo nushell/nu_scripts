@@ -12,6 +12,15 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
     - `glob` defaults to `*`, `op` defaults to `['Write']`, `postpone` defaults to `false`
     - In watch mode (not Polling) inject `$_.wth`(op, path, new_path) into parameter `$s`
     - when the `interval` field is included, it is polling mode(`clear` defaults to 'false')
+- Identity supports alias
+  - children sub
+  - description desc dsc
+  - action act
+  - completion cmp
+  - filter flt
+  - computed cpu
+  - watch wth
+  - expect exp
 
 
 example:
