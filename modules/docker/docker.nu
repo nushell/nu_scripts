@@ -36,37 +36,30 @@ export def container-process-list [
     -n: string@"nu-complete docker ns"
     container?: string@"nu-complete docker containers"
 ] {
+    let cli = $env.docker-cli
     if ($container | is-empty) {
-        let cli = $env.docker-cli
-        if $cli == 'docker' {
-            ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
+        let fmt = '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":{{.Command}}, "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.CreatedAt}}"}'
+        let fmt = if $cli == 'podman' { $fmt | str replace '{{.Command}}' '"{{.Command}}"' | str replace '{{.CreatedAt}}' '{{.Created}}' } else { $fmt }
+        ^$cli ps -a --format $fmt
             | lines
             | each {|x|
                 let r = $x | from json
-                let t = $r.created | str substring ..25 | into datetime -f '%Y-%m-%d %H:%M:%S %z'
+                let t = $r.created | into datetime
                 $r | upsert created $t
             }
-        } else if $cli == 'podman' {
-            ^$cli ps -a --format '{"id":"{{.ID}}", "image": "{{.Image}}", "name":"{{.Names}}", "cmd":"{{.Command}}", "port":"{{.Ports}}", "status":"{{.Status}}", "created":"{{.Created}}"}'
-            | lines
-            | each {|x|
-                let r = $x | from json
-                let t = $r.created | str substring ..32 | into datetime
-                $r | upsert created $t
-            }
-        } else {
-            ^$cli ($n | with-flag -n) ps -a
-            | from ssv
-            | rename id image cmd created status port name
-        }
     } else {
-        let r = ^$env.docker-cli ($n | with-flag -n) inspect $container
+        let r = ^$cli ($n | with-flag -n) inspect $container
             | from json
             | get 0
-        #let e = $r.Config.Env | reduce -f {} {|i, a|
-        #    let x = $i | split row '='
-        #    $a | upsert $x.0 $x.1?
-        #}
+        let image = $r.Image
+        let img = ^$cli ($n | with-flag -n) inspect $image
+            | from json
+            | get 0
+        let imgEnv = $img.Config.Env?
+            | reduce -f {} {|i, a|
+                let x = $i | split row '='
+                $a | upsert $x.0 $x.1?
+            }
         let m = $r.Mounts
             | reduce -f {} {|i, a|
                 if $i.Type == 'bind' {
@@ -78,13 +71,13 @@ export def container-process-list [
         {
             name: $r.Name?
             hostname: $r.Config.Hostname?
-            image: $r.Image
+            image: $image
             created: $r.Created
             id: $r.Id
             ports: $p
-            # FIXME: env
+            env: $imgEnv
             mounts: $m
-            path: $r.Path
+            entrypoint: $r.Path?
             args: $r.Args
         }
     }
@@ -97,29 +90,30 @@ export def image-list [
 ] {
     if ($img | is-empty) {
         ^$env.docker-cli ($n | with-flag -n) images
-        | from ssv -a
-        | each {|x|
-            let size = $x.SIZE | into filesize
-            let path = $x.REPOSITORY | split row '/'
-            let image = $path | last
-            let repo = $path | range ..(($path|length) - 2) | str join '/'
-            {
-                repo: $repo
-                image: $image
-                tag: $x.TAG
-                id: $x.'IMAGE ID'
-                created: $x.CREATED
-                size: $size
+            | from ssv -a
+            | each {|x|
+                let size = $x.SIZE | into filesize
+                let path = $x.REPOSITORY | split row '/'
+                let image = $path | last
+                let repo = $path | range ..(($path|length) - 2) | str join '/'
+                {
+                    repo: $repo
+                    image: $image
+                    tag: $x.TAG
+                    id: $x.'IMAGE ID'
+                    created: $x.CREATED
+                    size: $size
+                }
             }
-        }
     } else {
         let r = ^$env.docker-cli ($n | with-flag -n) inspect $img
-        | from json
-        | get 0
-        let e = $r.Config.Env | reduce -f {} {|i, a|
-            let x = $i | split row '='
-            $a | upsert $x.0 $x.1?
-        }
+            | from json
+            | get 0
+        let e = $r.Config.Env?
+            | reduce -f {} {|i, a|
+                let x = $i | split row '='
+                $a | upsert $x.0 $x.1?
+            }
         {
             id: $r.Id
             created: $r.Created
@@ -129,7 +123,7 @@ export def image-list [
             size: $r.Size
             labels: $r.Labels?
             env: $e
-            entrypoint: $r.Config.Entrypoint
+            entrypoint: $r.Config.Entrypoint?
             cmd: $r.Config.Cmd?
         }
     }

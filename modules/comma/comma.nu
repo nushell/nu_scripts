@@ -6,19 +6,19 @@ def unindent [] {
     | str join (char newline)
 }
 
-def 'path parents' [] {
-    $in
-    | path expand
-    | path split
-    | reduce -f [ '' ] {|x, acc| [( $acc.0 | path join $x ), ...$acc] }
-    | range ..-2
-}
-
-def find [] {
-    $in
-    | path parents
-    | filter {|x| $x | path join ',.nu' | path exists }
-    | get 0?
+def find-parent [] {
+    let o = $in
+    let depth = ($env.PWD | path expand | path split | length) - 1
+    mut cur = [',.nu']
+    mut e = ''
+    for i in 0..$depth {
+        $e = ($cur | path join)
+        #print ($e | path expand)
+        if ($e | path exists) { break }
+        $cur = ['..', ...$cur]
+        $e = ''
+    }
+    $e
 }
 
 def comma_file [] {
@@ -31,7 +31,13 @@ def comma_file [] {
           condition: {|_, after| $after | path join ',.nu' | path exists}
           code: "
           print $'(ansi default_underline)(ansi default_bold),(ansi reset).nu (ansi green_italic)detected(ansi reset)...'
-          print $'(ansi yellow_italic)activating(ansi reset) (ansi default_underline)(ansi default_bold),(ansi reset) module with `(ansi default_dimmed)(ansi default_italic)source ,.nu(ansi reset)`'
+          print $'(ansi $env.comma_index.settings.theme.info)activating(ansi reset) (ansi default_underline)(ansi default_bold),(ansi reset) module with `(ansi default_dimmed)(ansi default_italic)source ,.nu(ansi reset)`'
+
+          # TODO: allow parent dir
+          $env.comma_index.wd = $after
+          $env.comma_index.session_id = (random chars)
+
+          # echo '' | save -f ~/.cache/comma.log
           source ,.nu
           "
         }
@@ -39,16 +45,49 @@ def comma_file [] {
 }
 
 export-env {
-    $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
-        let o = ($config | get -i hooks.env_change.PWD)
-        let val = (comma_file)
-        if $o == null {
-            $val
-        } else {
-            $o | append $val
+    # batch mode
+    if not ($env.config? | is-empty) {
+        $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
+            let o = ($config | get -i hooks.env_change.PWD)
+            let val = (comma_file)
+            if $o == null {
+                $val
+            } else {
+                $o | append $val
+            }
+        })
+    }
+    $env.comma_index = (
+        [sub dsc act cmp flt cpu wth]
+        | gendict 5
+        | merge {
+            settings: {
+                theme: {
+                    info: 'yellow_italic'
+                    batch_hint: 'dark_gray'
+                    poll_sep: 'dark_gray'
+                }
+            }
+            os: (os-type)
+            arch: (uname -m)
+            log: {$in | log}
+            batch: {
+                let o = $in
+                    | lines
+                    | split row ';'
+                    | flatten
+                    | each {|x| $", ($x | str trim)" }
+                let cmd = ['use comma.nu *' 'source ,.nu' ...$o ]
+                    | str join (char newline)
+                print $"(ansi $env.comma_index.settings.theme.batch_hint)($cmd)(ansi reset)"
+                nu -c $cmd
+            }
+            config: {|cb|
+                # FIXME: no affected $env
+                $env.comma_index.settings = (do $cb $env.comma_index.settings)
+            }
         }
-    })
-    $env.comm = ([sub dsc act cmp flt cpu wth] | gendict 5)
+    )
 }
 
 def gendict [size: int = 5] {
@@ -78,15 +117,30 @@ def log [tag? -c] {
     $o
 }
 
-def 'as act' [] {
+def detect-node [] { # [is-act, node]
     let o = $in
-    let ix = $env.comm
+    let _ = $env.comma_index
     let t = ($o | describe -d).type
     if $t == 'closure' {
-        { $ix.act: $o }
-    } else if ($ix.sub in $o) {
+        [ true  { $_.act: $o } ]
+    } else if ($_.sub in $o) {
+        [ false $o ]
+    } else if ($_.act in $o) {
+        [ true  $o ]
+    } else {
+        [ false {$_.sub: $o} ]
+    }
+}
+
+def 'as act' [] {
+    let o = $in
+    let _ = $env.comma_index
+    let t = ($o | describe -d).type
+    if $t == 'closure' {
+        { $_.act: $o }
+    } else if ($_.sub in $o) {
         null
-    } else if ($ix.act in $o) {
+    } else if ($_.act in $o) {
         $o
     } else {
         null
@@ -97,12 +151,13 @@ def resolve-scope [args, vars, flts] {
     mut vs = {}
     mut cpu = []
     mut flt = {}
+    let _ = $env.comma_index
     for i in ($vars | transpose k v) {
         if ($i.v | describe -d).type == 'record' {
-            if $env.comm.cpu in $i.v {
-                $cpu ++= {k: $i.k, v: ($i.v | get $env.comm.cpu)}
-            } else if $env.comm.flt in $i.v {
-                $flt = ($flt | merge {$i.k: ($i.v | get $env.comm.flt)} )
+            if $_.cpu in $i.v {
+                $cpu ++= {k: $i.k, v: ($i.v | get $_.cpu)}
+            } else if $_.flt in $i.v {
+                $flt = ($flt | merge {$i.k: ($i.v | get $_.flt)} )
             } else {
                 $vs = ($vs | merge {$i.k: $i.v})
             }
@@ -123,36 +178,50 @@ def resolve-scope [args, vars, flts] {
     $vs
 }
 
-def get-comma [] {
-    if ($env.comma | describe -d).type == 'closure' {
-        do $env.comma $env.comm
+def os-type [] {
+    let info = cat /etc/os-release
+    | lines
+    | reduce -f {} {|x, acc|
+        let a = $x | split row '='
+        $acc | upsert $a.0 ($a.1| str replace -a '"' '')
+    }
+    if 'ID_LIKE' in $info {
+        if not ($info.ID_LIKE | parse -r '(rhel|fedora|redhat)' | is-empty) {
+            'redhat'
+        } else {
+            $info.ID_LIKE
+        }
     } else {
-        $env.comma
+        $info.ID
     }
 }
 
-def get-scope [] {
-    if ($env.comma_scope | describe -d).type == 'closure' {
-        do $env.comma_scope $env.comm
+
+def get-comma [key = 'comma'] {
+    let _ = $env.comma_index
+    if ($env | get $key | describe -d).type == 'closure' {
+        do ($env | get $key) $_
     } else {
-        $env.comma_scope
+        $env | get $key
     }
 }
 
 def run [tbl] {
     let loc = $in
-    let ix = $env.comm
+    let _ = $env.comma_index
     mut act = $tbl
     mut argv = []
     mut flt = []
     for i in $loc {
-        let a = $act | as act
-        if ($a | is-empty) {
-            if ($ix.sub in $act) and ($i in ($act | get $ix.sub)) {
-                if $ix.flt in $act {
-                    $flt ++= ($act | get $ix.flt)
+        let n = $act | detect-node
+        if $n.0 {
+            $argv ++= $i
+        } else {
+            if ($_.sub in $act) and ($i in ($act | get $_.sub)) {
+                if $_.flt in $act {
+                    $flt ++= ($act | get $_.flt)
                 }
-                let n = $act | get $ix.sub | get $i
+                let n = $act | get $_.sub | get $i
                 $act = $n
             } else if $i in $act {
                 let n = $act | get $i
@@ -161,41 +230,44 @@ def run [tbl] {
                 $act = {|| print $"not found `($i)`"}
                 break
             }
-        } else {
-            $argv ++= $i
         }
     }
-    let a = $act | as act
-    if ($a | is-empty) {
-        let c = if $ix.sub in $act { $act | get $ix.sub | columns } else { $act | columns }
+    let n = $act | as act
+    if ($n | is-empty) {
+        let c = if $_.sub in $act { $act | get $_.sub | columns } else { $act | columns }
         print $'require argument: ($c)'
     } else {
-        if $ix.flt in $a {
-            $flt ++= ($a | get $ix.flt)
+        if $_.flt in $n {
+            $flt ++= ($n | get $_.flt)
         }
-        let scope = (resolve-scope $argv (get-scope) $flt)
-        let cls = $a | get $ix.act
+        let scope = (resolve-scope $argv (get-comma 'comma_scope') $flt)
+        let cls = $n | get $_.act
         let argv = $argv
-        if $ix.wth in $a {
-            mut poll = []
-            let g = $a | get $ix.wth
-            let g = if ($g | is-empty) {
-                '*'
-            } else if ($g | str starts-with 'poll') {
-                let p = $g | split row ':'
-                $poll ++= ($p.1? | default '1sec' | into duration)
+        if $_.wth in $n {
+            let w = $n | get $_.wth
+            if 'interval' in $w {
+                loop {
+                    do $cls $argv $scope
+                    sleep $w.interval
+                    print $"(ansi $env.comma_index.settings.theme.poll_sep)----------(ansi reset)"
+                    if ($w.clear? | default false) {
+                        clear
+                    }
+                }
             } else {
-                $g
-            }
-
-            if ($poll | is-empty) {
-                watch . --glob=$g {|| do $cls $argv $scope }
-            } else {
-               loop {
-                   do $cls $argv $scope
-                   sleep $poll.0
-                   print $"(ansi dark_gray)----------(ansi reset)"
-               }
+                if not ($w.postpone? | default false) {
+                    do $cls $argv ($scope | upsert $_.wth { op: null path: null new_path: null })
+                }
+                let ops = if ($w.op? | is-empty) {['Write']} else { $w.op }
+                watch . --glob=($w.glob? | default '*') {|op, path, new_path|
+                    if $op in $ops {
+                        do $cls $argv ($scope | upsert $_.wth {
+                            op: $op
+                            path: $path
+                            new_path: $path
+                        })
+                    }
+                }
             }
         } else {
             do $cls $argv $scope
@@ -205,17 +277,17 @@ def run [tbl] {
 
 def enrich-desc [flt] {
     let o = $in
-    let _ = $env.comm
+    let _ = $env.comma_index
     let flt = if $_.flt in $o.v { [...$flt, ...($o.v | get $_.flt)] } else { $flt }
     let f = if ($flt | is-empty) { '' } else { $"($flt | str join '|')|" }
     let w = if $_.wth in $o.v {
         let w = $o.v | get $_.wth
-        if ($w | is-empty) {
-            $"[watch]"
-        } else if ($w | str starts-with 'poll') {
-            $"[($w)]"
+        if 'interval' in $w {
+            $"[poll:($w.interval)]"
         } else {
-            $"[watch:($w)]"
+            let ops = if ($w.op? | is-empty) {['Write']} else {$w.op}
+            | str join ','
+            $"[($ops)|($w.glob? | default '*')]"
         }
     } else { '' }
 
@@ -229,13 +301,14 @@ def enrich-desc [flt] {
             { value: $o.k, description: $"($suf)($dsc)"}
         }
     } else {
+        # TODO: ?
         { value: $o.k, description: $"__($suf)" }
     }
 }
 
 def complete [tbl] {
     let argv = $in
-    let ix = $env.comm
+    let _ = $env.comma_index
     mut tbl = (get-comma)
     mut flt = []
     for i in $argv {
@@ -245,11 +318,11 @@ def complete [tbl] {
             let tp =  ($tbl | describe -d).type
             if ($tp == 'record') and ($i in $tbl) {
                 let j = $tbl | get $i
-                if $ix.sub in $j {
-                    if $ix.flt in $j {
-                        $flt ++= ($j | get $ix.flt)
+                if $_.sub in $j {
+                    if $_.flt in $j {
+                        $flt ++= ($j | get $_.flt)
                     }
-                    $j | get $ix.sub
+                    $j | get $_.sub
                 } else {
                     $j
                 }
@@ -259,7 +332,8 @@ def complete [tbl] {
         }
         let a = $c | as act
         if not ($a | is-empty) {
-            let r = do ($a | get $ix.cmp) $argv (resolve-scope null (get-scope) null)
+            let flt = if $_.flt in $a { $flt | append ($a | get $_.flt) } else { $flt }
+            let r = do ($a | get $_.cmp) $argv (resolve-scope null (get-comma 'comma_scope') $flt)
             $tbl = $r
         } else {
             $tbl = $c
@@ -283,7 +357,7 @@ def complete [tbl] {
     }
 }
 
-def summary [] {
+def gen-vscode [] {
     let o = $in
     $o
 }
@@ -304,12 +378,12 @@ def compos [...context] {
 }
 
 export def --wrapped , [
-    --summary
+    --vscode
     --completion
     ...args:string@compos
 ] {
-    if $summary {
-        let r = get-comma | summary | to json
+    if $vscode {
+        let r = get-comma | gen-vscode | to json
         return $r
     }
     if $completion {
@@ -319,60 +393,13 @@ export def --wrapped , [
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
-            let a = [closure record no] | input list 'create ,.nu?'
-            if $a == 'record' {
-                $"
-                $env.comma_scope = {
-                    created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
-                    computed: {$env.comm.cpu:{|a, s| $'\($s.created\)\($a\)' }}
-                    say: {|s| print $'\(ansi yellow_italic\)\($s\)\(ansi reset\)' }
-                    quick: {$env.comm.flt:{|a, s| do $s.say 'run a `quick` filter' }}
-                    slow: {$env.comm.flt:{|a, s|
-                        do $s.say 'run a `slow` filter'
-                        sleep 1sec
-                        do $s.say 'filter need to be declared'
-                        sleep 1sec
-                        $'\($s.computed\)<\($a\)>'
-                    }}
-                }
-
-                $env.comma = {
-                    created: {|a, s| $s.computed }
-                    open: {
-                        $env.comm.sub: {
-                            any: {
-                                $env.comm.act: {|a, s| open $a.0}
-                                $env.comm.cmp: {ls | get name}
-                                $env.comm.dsc: 'open a file'
-                            }
-                            json: {
-                                $env.comm.act: {|a, s| open $a.0}
-                                $env.comm.cmp: {ls *.json | get name}
-                                $env.comm.dsc: 'open a json file'
-                                $env.comm.wth: '*.json'
-                            }
-                            scope: {
-                                $env.comm.act: {|a, s| print $'args: \($a\)'; $s }
-                                $env.comm.flt: ['slow']
-                                $env.comm.dsc: 'open scope'
-                                $env.comm.wth: 'poll:2sec'
-                            }
-                        }
-                        $env.comm.dsc: 'open something'
-                        $env.comm.flt: ['quick']
-                    }
-                }
-                "
-                | unindent
-                | save $",.nu"
-                #source ',.nu'
-            }
-            if $a == 'closure' {
+            let a = [yes no] | input list 'create ,.nu?'
+            if $a == 'yes' {
                 $"
                 $env.comma_scope = {|_|{
                     created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
                     computed: {$_.cpu:{|a, s| $'\($s.created\)\($a\)' }}
-                    say: {|s| print $'\(ansi yellow_italic\)\($s\)\(ansi reset\)' }
+                    say: {|s| print $'\(ansi $env.comma_index.settings.theme.info\)\($s\)\(ansi reset\)' }
                     quick: {$_.flt:{|a, s| do $s.say 'run a `quick` filter' }}
                     slow: {$_.flt:{|a, s|
                         do $s.say 'run a `slow` filter'
@@ -385,27 +412,39 @@ export def --wrapped , [
 
                 $env.comma = {|_|{
                     created: {|a, s| $s.computed }
-                    open: {
+                    inspect: {|a, s| {index: $_, scope: $s, args: $a} | table -e }
+                    test: {
                         $_.sub: {
-                            any: {
-                                $_.act: {|a, s| open $a.0}
+                            batch: {
+                                $_.act: {
+                                    'created; inspect' | do $_.batch
+                                }
+                            }
+                            watch: {
+                                $_.act: {|a, s| $s | get $_.wth }
+                                $_.cmp: {ls *.json | get name}
+                                $_.dsc: 'inspect watch context'
+                                $_.wth: {
+                                    glob: '*'
+                                    op: ['Write', 'Create']
+                                    postpone: true
+                                }
+                            }
+                            open_file: {
+                                $_.act: {|a, s| open $a.0 }
                                 $_.cmp: {ls | get name}
                                 $_.dsc: 'open a file'
-                            }
-                            json: {
-                                $_.act: {|a, s| open $a.0}
-                                $_.cmp: {ls *.json | get name}
-                                $_.dsc: 'open a json file'
-                                $_.wth: '*.json'
-                            }
-                            scope: {
-                                $_.act: {|a, s| print $'args: \($a\)'; $s }
                                 $_.flt: ['slow']
-                                $_.dsc: 'open scope'
-                                $_.wth: 'poll:2sec'
+                            }
+                            ping: {
+                                $_.act: {|a, s| ping -c 2 localhost }
+                                $_.wth: {
+                                    interval: 2sec
+                                    clear: true
+                                }
                             }
                         }
-                        $_.dsc: 'open something'
+                        $_.dsc: 'run test'
                         $_.flt: ['quick']
                     }
                 }}
