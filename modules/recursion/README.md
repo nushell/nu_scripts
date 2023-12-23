@@ -5,9 +5,9 @@
 - tramp.nu : Module for using the trampoline pattern
 - countdown.nu : Simple countdowner that uses the tramp module
 - even-odd.nu : Example of a mutually recursive pair of functions that use  tramp
-- gcd.nu: Recursive example of Euclid's greatest common divisor algorythm
+- gcd.nu: Recursive example of Euclid's greatest common divisor algorithm
 - fact.nu : Factorial calculation that uses tramp module
-- fib.nu: Fibonacci's  recursive algorythm that uses the tramp module
+- fib.nu: Fibonacci's  recursive algorithm that uses the tramp module
 - merge.nu: Recursive merge sort
 - tree.nu: Recursively applies closure to every node in any input, structured or scalar
 
@@ -116,7 +116,7 @@ true
 ## Tips and Caveats
 
 Currently, in versions of Nushell less than 1.0 or about, writing normal
-recursive functions that use stack depts of less than 700 will be Ok.
+recursive functions that use stack depths of less than 700 will be Ok.
 For larger values that might cause the stack to overflow modifying the structure
 of the function could result in lower space complexity, especially with regard
 to the stack.
@@ -173,9 +173,8 @@ E.g. for factorial:
 For factorial, as the stack grows taller, the values of $n reduce more and more
 to the base case. The values of $acc grow larger until the base case is
 reached, in which the $acc value is returned.
-The most deepest stacked call to fact returns and all ther other calls
 and the stack unwinds returning the accumulator computed value.
-Thus, the $n argument grows ever smaller and the $acc grows ever larger.
+
 
 
 Again, this does nothing to reduce stack growth, unless TCO is involved.
@@ -194,7 +193,7 @@ steps.
 
 ## Double recursion
 
-For some algorythms, the recursion stack grows geometrically, e.g. by a factor
+For some algorithms, the recursion stack grows geometrically, e.g. by a factor
 of 2 each time. Two such functions are Fibonacci and merge sort. Every
 recursive call results in 2 additional recursive calls.
 
