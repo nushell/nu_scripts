@@ -65,7 +65,7 @@ export-env {
                 theme: {
                     info: 'yellow_italic'
                     batch_hint: 'dark_gray'
-                    poll_sep: 'dark_gray'
+                    watch_separator: $"(ansi dark_gray)------------------------------(ansi reset)"
                 }
             }
             os: (os-type)
@@ -249,7 +249,7 @@ def run [tbl] {
                 loop {
                     do $cls $argv $scope
                     sleep $w.interval
-                    print $"(ansi $env.comma_index.settings.theme.poll_sep)----------(ansi reset)"
+                    print $env.comma_index.settings.theme.watch_separator
                     if ($w.clear? | default false) {
                         clear
                     }
@@ -267,6 +267,7 @@ def run [tbl] {
                             new_path: $path
                         })
                     }
+                    print $env.comma_index.settings.theme.watch_separator
                 }
             }
         } else {
