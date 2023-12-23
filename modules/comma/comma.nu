@@ -25,6 +25,16 @@ def log [tag? -c] {
     $o
 }
 
+def 'str repeat' [n] {
+    let o = $in
+    if $n < 1 { return '' }
+    mut r = ''
+    for i in 0..($n - 1) {
+        $r += $o
+    }
+    $r
+}
+
 def unindent [] {
     let txt = $in | lines | range 1..
     let indent = $txt.0 | parse --regex '^(?P<indent>\s*)' | get indent.0 | str length
@@ -55,7 +65,7 @@ def test [fmt, indent, dsc, spec] {
             let rst = (do $spec.0)
             let r = (not ($rst | is-empty)) and ($rst == true)
             let ctx = if $r { null } else { $rst }
-            do $fmt $r $dsc $ctx
+            do $fmt $indent $r $dsc $ctx
         }
         2|3 => {
             let rst = do $spec.1
@@ -73,7 +83,7 @@ def test [fmt, indent, dsc, spec] {
             } else {
                 $ctx
             }
-            do $fmt $pred $dsc $ctx
+            do $fmt $indent $pred $dsc $ctx
         }
         _ => {
             error make {msg: 'too many args', }
@@ -122,15 +132,23 @@ export-env {
         | gendict 5
         | merge {
             settings: {
-                test_message: {|status, message, context|
+                test_message: {|indent, status, message, context|
+                    let indent = '    ' | str repeat $indent
                     let status = if $status {
                         $"(ansi bg_green)SUCC(ansi reset)"
                     } else {
                         $"(ansi bg_red)FAIL(ansi reset)"
                     }
-                    print $"($status) (ansi yellow_bold)($message)(ansi reset)"
+                    print $"($indent)($status) (ansi yellow_bold)($message)(ansi reset)"
                     if not ($context | is-empty) {
-                        print $"(ansi light_gray)($context | to yaml)(ansi reset)"
+                        let ctx = if $indent == 0 {
+                            $context | to yaml
+                        } else {
+                            $context | to yaml | lines
+                            | each {|x| $"($indent)($x)"}
+                            | str join (char newline)
+                        }
+                        print $"(ansi light_gray)($ctx)(ansi reset)"
                     }
                 }
                 theme: {
