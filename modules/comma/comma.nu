@@ -355,9 +355,9 @@ def run [tbl] {
     let n = $in | tree select $tbl
     let _ = $env.comma_index
     let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] }
-    let scope = resolve-scope $n.rest (get-comma 'comma_scope') $flt
-    let act = $n.node | get $_.act
     let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
+    let act = $n.node | get $_.act
+    let scope = resolve-scope $n.rest (get-comma 'comma_scope') $flt
 
     if ($wth | is-empty) {
         do $act $n.rest $scope
@@ -394,6 +394,32 @@ def enrich-desc [flt] {
     } else {
         # TODO: ?
         { value: $o.k, description: $"__($suf)" }
+    }
+}
+
+def completion [tbl] {
+    let n = $in | tree select $tbl
+    let _ = $env.comma_index
+    let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] }
+    let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
+    let cmp = $n.node | get $_.cmp
+    let scope = resolve-scope null (get-comma 'comma_scope') $flt
+    let menu = do $cmp $n.rest (resolve-scope null (get-comma 'comma_scope') $flt)
+
+    match ($menu | describe -d).type {
+        record => {
+            $menu
+            | transpose k v
+            | each {|x|
+                if ($x.v | describe -d).type == 'closure' {
+                    $x.k
+                } else {
+                    $x | enrich-desc $flt
+                }
+            }
+        }
+        list => { $tbl }
+        _ => { $tbl }
     }
 }
 
@@ -470,7 +496,7 @@ def compos [...context] {
 
 export def --wrapped , [
     --vscode
-    --completion
+    --completion (-c)
     ...args:string@compos
 ] {
     if $vscode {
@@ -480,68 +506,21 @@ export def --wrapped , [
     if $completion {
         return
     }
-    if ($args | is-empty) {
+    if not ($args | is-empty) {
+        $args | run (get-comma)
+    } else {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
             let a = [yes no] | input list 'create ,.nu?'
             if $a == 'yes' {
-                $"
-                $env.comma_scope = {|_|{
-                    created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
-                    computed: {$_.cpu:{|a, s| $'\($s.created\)\($a\)' }}
-                    say: {|s| print $'\(ansi $_.settings.theme.info\)\($s\)\(ansi reset\)' }
-                    quick: {$_.flt:{|a, s| do $s.say 'run a `quick` filter' }}
-                    slow: {$_.flt:{|a, s|
-                        do $s.say 'run a `slow` filter'
-                        sleep 1sec
-                        do $s.say 'filter need to be declared'
-                        sleep 1sec
-                        $'\($s.computed\)<\($a\)>'
-                    }}
-                }}
-
-                $env.comma = {|_|{
-                    created: {|a, s| $s.computed }
-                    inspect: {|a, s| {index: $_, scope: $s, args: $a} | table -e }
-                    test: {
-                        $_.sub: {
-                            batch: { 'created; inspect' | do $_.batch }
-                            watch: {
-                                $_.act: {|a, s| $s | get $_.wth }
-                                $_.cmp: {ls *.json | get name}
-                                $_.dsc: 'inspect watch context'
-                                $_.wth: {
-                                    glob: '*'
-                                    op: ['Write', 'Create']
-                                    postpone: true
-                                }
-                            }
-                            open_file: {
-                                $_.act: {|a, s| open $a.0 }
-                                $_.cmp: {ls | get name}
-                                $_.dsc: 'open a file'
-                                $_.flt: ['slow']
-                            }
-                            ping: {
-                                $_.act: {|a, s| ping -c 2 localhost }
-                                $_.wth: {
-                                    interval: 2sec
-                                    clear: true
-                                }
-                            }
-                        }
-                        $_.dsc: 'run test'
-                        $_.flt: ['quick']
-                    }
-                }}
-                "
-                | unindent
+                let time = date now | format date '%Y-%m-%d{%w}%H:%M:%S'
+                let file = [($nu.config-path | path dirname) scripts comma_tmpl.nu] | path join
+                open $file
+                | str replace '{{time}}' $time
                 | save $",.nu"
                 #source ',.nu'
             }
         }
-    } else {
-        $args | run (get-comma)
     }
 }
