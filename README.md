@@ -10,7 +10,7 @@ This is a place to share Nushell scripts with each other. If you'd like to share
 - [custom-completions](./custom-completions/) - collection of custom completions for external commands.
 - [custom-menus](./custom-menus/) - collection of custom nushell menus
 - [example-config](./example-config/)
-- [hooks](./hooks/)
+- [nu-hooks](./nu-hooks/)
 - [modules](./modules/) - This has its dedicated [readme](./modules/README.md)
 - [nu_101](./sourced/nu_101/) - Beginner introduction to nushell concepts.
 - [prompt](./modules/prompt/)
