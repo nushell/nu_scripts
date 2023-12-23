@@ -27,6 +27,11 @@ $env.comma = {|_|{
                                     f: {
                                         $_.act: {|| true }
                                     }
+                                    open_file: {
+                                        $_.act: {|a, s| open $a.0 }
+                                        $_.cmp: {ls | get name}
+                                        $_.dsc: 'open a file'
+                                    }
                                 }
                                 $_.dsc: 'ok'
                             }
@@ -61,6 +66,7 @@ $env.comma = {|_|{
             do $_.test 'struct' { , test struct }
             do $_.test 'set env' {|x| $x.a? == 123 } { , test set-env } {|x| $x }
             do $_.test 'echo' 'hello' {, test other }
+            do $_.test 'open file' {|x| $x == (open ,.nu) } { , example a b c e open_file ,.nu }
         }
         struct: {
             $_.act: {

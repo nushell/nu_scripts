@@ -198,14 +198,45 @@ def resolve-node [] { # [endpoint, node]
     let _ = $env.comma_index
     let t = ($o | describe -d).type
     if $t == 'closure' {
-        [ true  { $_.act: $o } ]
-    } else if ($_.sub in $o) {
-        [ false $o ]
+        { end: true,  $_.act: $o }
     } else if ($_.act in $o) {
-        [ true  $o ]
+        { end: true,  ...$o }
+    } else if ($_.sub in $o) {
+        { end: false, ...$o }
     } else {
-        [ false {$_.sub: $o} ]
+        { end: false, $_.sub: $o}
     }
+}
+
+def 'tree select' [tree] {
+    let ph = $in
+    let _ = $env.comma_index
+    mut cur = $tree | resolve-node
+    mut rest = []
+    mut flt = []
+    for i in $ph {
+        if $cur.end {
+            $rest ++= $i
+        } else {
+            let sub = $cur | get $_.sub
+            if $i in $sub {
+                if $_.flt in $cur { $flt ++= ($cur | get $_.flt) }
+                $cur = ($sub | get $i | resolve-node)
+            } else {
+                $cur = {$i.act: {|| print $"not found `($i)`"}}
+                break
+            }
+        }
+    }
+    {
+        node: $cur
+        filter: $flt
+        rest: $rest
+    }
+}
+
+def 'tree map' [tree] {
+
 }
 
 def 'as act' [] {
@@ -282,82 +313,56 @@ def get-comma [key = 'comma'] {
     }
 }
 
-def run [tbl] {
-    let loc = $in
+def run-watch [act rest scope w] {
     let _ = $env.comma_index
-    mut act = $tbl
-    mut argv = []
-    mut flt = []
-    for i in $loc {
-        let n = $act | resolve-node
-        if $n.0 {
-            $argv ++= $i
-        } else {
-            if ($_.sub in $act) and ($i in ($act | get $_.sub)) {
-                if $_.flt in $act {
-                    $flt ++= ($act | get $_.flt)
+    let cl = $w.clear? | default false
+    if 'interval' in $w {
+        loop {
+            if $cl {
+                clear
+            }
+            do $act $rest $scope
+            sleep $w.interval
+            print $env.comma_index.settings.theme.watch_separator
+        }
+    } else {
+        if $cl {
+            clear
+        }
+        if not ($w.postpone? | default false) {
+            do $act $rest ($scope | upsert $_.wth { op: null path: null new_path: null })
+        }
+        let ops = if ($w.op? | is-empty) {['Write']} else { $w.op }
+        watch . --glob=($w.glob? | default '*') {|op, path, new_path|
+            if $cl {
+                clear
+            }
+            if $op in $ops {
+                do $act $rest ($scope | upsert $_.wth {
+                    op: $op
+                    path: $path
+                    new_path: $path
+                })
+                if not $cl {
+                    print $env.comma_index.settings.theme.watch_separator
                 }
-                let n = $act | get $_.sub | get $i
-                $act = $n
-            } else if $i in $act {
-                let n = $act | get $i
-                $act = $n
-            } else {
-                $act = {|| print $"not found `($i)`"}
-                break
             }
         }
     }
-    let n = $act | as act
-    if ($n | is-empty) {
-        let c = if $_.sub in $act { $act | get $_.sub | columns } else { $act | columns }
-        print $'require argument: ($c)'
+}
+
+def run [tbl] {
+    let n = $in | tree select $tbl
+    let _ = $env.comma_index
+    let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] }
+    let scope = resolve-scope $n.rest (get-comma 'comma_scope') $flt
+    let act = $n.node | get $_.act
+    let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
+
+    if ($wth | is-empty) {
+        do $act $n.rest $scope
     } else {
-        if $_.flt in $n {
-            $flt ++= ($n | get $_.flt)
-        }
-        let scope = (resolve-scope $argv (get-comma 'comma_scope') $flt)
-        let cls = $n | get $_.act
-        let argv = $argv
-        if $_.wth in $n {
-            let w = $n | get $_.wth
-            let cl = $w.clear? | default false
-            if 'interval' in $w {
-                loop {
-                    if $cl {
-                        clear
-                    }
-                    do $cls $argv $scope
-                    sleep $w.interval
-                    print $env.comma_index.settings.theme.watch_separator
-                }
-            } else {
-                if $cl {
-                    clear
-                }
-                if not ($w.postpone? | default false) {
-                    do $cls $argv ($scope | upsert $_.wth { op: null path: null new_path: null })
-                }
-                let ops = if ($w.op? | is-empty) {['Write']} else { $w.op }
-                watch . --glob=($w.glob? | default '*') {|op, path, new_path|
-                    if $cl {
-                        clear
-                    }
-                    if $op in $ops {
-                        do $cls $argv ($scope | upsert $_.wth {
-                            op: $op
-                            path: $path
-                            new_path: $path
-                        })
-                        if not $cl {
-                            print $env.comma_index.settings.theme.watch_separator
-                        }
-                    }
-                }
-            }
-        } else {
-            do $cls $argv $scope
-        }
+        run-watch $act $n.rest $scope $wth
     }
 }
 
