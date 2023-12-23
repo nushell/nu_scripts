@@ -1,3 +1,30 @@
+def gendict [size: int = 5] {
+    let keys = $in
+    mut k = []
+    let n = $keys | length
+    let rk = random chars -l ($n * $size)
+    for i in 1..$n {
+        let b = ($i - 1) * $size
+        let e = $i * $size
+        $k ++= ($rk | str substring $b..$e)
+    }
+    $keys
+    | zip $k
+    | reduce -f {} {|x, acc|
+        $acc | upsert $x.0 $"($x.0)_($x.1)"
+    }
+}
+
+def log [tag? -c] {
+    let o = $in
+    if ($c) {
+        echo $'---(char newline)' | save -f ~/.cache/comma.log
+    } else {
+        echo $'---($tag)---($o | describe)(char newline)($o | to yaml)' | save -a ~/.cache/comma.log
+    }
+    $o
+}
+
 def unindent [] {
     let txt = $in | lines | range 1..
     let indent = $txt.0 | parse --regex '^(?P<indent>\s*)' | get indent.0 | str length
@@ -19,6 +46,39 @@ def find-parent [] {
         $e = ''
     }
     $e
+}
+
+def test [fmt, indent, dsc, spec] {
+    let id = {|x| $x}
+    match ($spec | length) {
+        1 => {
+            let rst = (do $spec.0)
+            let r = (not ($rst | is-empty)) and ($rst == true)
+            let ctx = if $r { null } else { $rst }
+            do $fmt $r $dsc $ctx
+        }
+        2|3 => {
+            let rst = do $spec.1
+            let pred = if ($spec.0 | describe -d).type == 'closure' {
+                do $spec.0 $rst
+            } else {
+                $spec.0 == $rst
+            }
+            let pred = (not ($pred | is-empty)) and ($pred == true)
+            let ctx = if ($spec.2? | is-empty) {
+                if $pred { null } else { $id }
+            } else { $spec.2 }
+            let ctx = if ($ctx | describe -d).type == 'closure' {
+                do $ctx $rst
+            } else {
+                $ctx
+            }
+            do $fmt $pred $dsc $ctx
+        }
+        _ => {
+            error make {msg: 'too many args', }
+        }
+    }
 }
 
 def comma_file [] {
@@ -62,6 +122,17 @@ export-env {
         | gendict 5
         | merge {
             settings: {
+                test_message: {|status, message, context|
+                    let status = if $status {
+                        $"(ansi bg_green)SUCC(ansi reset)"
+                    } else {
+                        $"(ansi bg_red)FAIL(ansi reset)"
+                    }
+                    print $"($status) (ansi yellow_bold)($message)(ansi reset)"
+                    if not ($context | is-empty) {
+                        print $"(ansi light_gray)($context | to yaml)(ansi reset)"
+                    }
+                }
                 theme: {
                     info: 'yellow_italic'
                     batch_hint: 'dark_gray'
@@ -82,39 +153,15 @@ export-env {
                 print $"(ansi $env.comma_index.settings.theme.batch_hint)($cmd)(ansi reset)"
                 nu -c $cmd
             }
+            test: {|dsc, ...spec|
+                test $env.comma_index.settings.test_message 0 $dsc $spec
+            }
             config: {|cb|
                 # FIXME: no affected $env
                 $env.comma_index.settings = (do $cb $env.comma_index.settings)
             }
         }
     )
-}
-
-def gendict [size: int = 5] {
-    let keys = $in
-    mut k = []
-    let n = $keys | length
-    let rk = random chars -l ($n * $size)
-    for i in 1..$n {
-        let b = ($i - 1) * $size
-        let e = $i * $size
-        $k ++= ($rk | str substring $b..$e)
-    }
-    $keys
-    | zip $k
-    | reduce -f {} {|x, acc|
-        $acc | upsert $x.0 $"($x.0)_($x.1)"
-    }
-}
-
-def log [tag? -c] {
-    let o = $in
-    if ($c) {
-        echo $'---(char newline)' | save -f ~/.cache/comma.log
-    } else {
-        echo $'---($tag)---($o | describe)(char newline)($o | to yaml)' | save -a ~/.cache/comma.log
-    }
-    $o
 }
 
 def resolve-node [] { # [is-act, node]

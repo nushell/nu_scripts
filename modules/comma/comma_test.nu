@@ -14,7 +14,7 @@ $env.comma_scope = {|_|{
 
 $env.comma = {|_|{
     created: {|a, s| $s.computed }
-    inspect: {|a, s| {index: $_, scope: $s, args: $a} | table -e }
+    inspect: {|a, s| {index: $_, scope: $s, args: $a} }
     example: {
         a: {
             b: {
@@ -38,7 +38,8 @@ $env.comma = {|_|{
             g: {}
         }
         set: {|a, s| do $_.config {|d| $d | upsert $a.0 $a.1 } }
-        get: {|a,s| $_.settings | table -e }
+        get: {|a,s| $_.settings; {a: 123} }
+        add: {|a,s| ($a.0 | into int) + ($a.1 | into int) }
     }
     test: {
         comma: {
@@ -53,14 +54,10 @@ $env.comma = {|_|{
             $_.dsc: 'copy this to uplevel'
         }
         all: {
-            , test struct
-            , test set-env
-        }
-        poll: {
-            $_.act: { print $env.PWD }
-            $_.wth: {
-                interval: 1sec
-            }
+            do $_.test 'add' {|x| $x == 3 } {, example add 1 2 }
+            do $_.test 'struct' { , test struct }
+            do $_.test 'set env' {|x| $x.a? == 123 } { , test set-env } {|x| $x }
+            do $_.test 'echo' 'hello' {, test other }
         }
         struct: {
             $_.act: {
@@ -69,8 +66,17 @@ $env.comma = {|_|{
         }
         set-env: {
             $_.act: {
-                , example set a b
+                , example set a 123
                 , example get
+            }
+        }
+        other: {
+            echo 'hello'
+        }
+        poll: {
+            $_.act: { print $env.PWD }
+            $_.wth: {
+                interval: 1sec
             }
         }
         vscode: {
