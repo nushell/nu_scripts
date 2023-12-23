@@ -117,7 +117,7 @@ def log [tag? -c] {
     $o
 }
 
-def detect-node [] { # [is-act, node]
+def resolve-node [] { # [is-act, node]
     let o = $in
     let _ = $env.comma_index
     let t = ($o | describe -d).type
@@ -213,7 +213,7 @@ def run [tbl] {
     mut argv = []
     mut flt = []
     for i in $loc {
-        let n = $act | detect-node
+        let n = $act | resolve-node
         if $n.0 {
             $argv ++= $i
         } else {
@@ -399,7 +399,7 @@ export def --wrapped , [
                 $env.comma_scope = {|_|{
                     created: '(date now | format date '%Y-%m-%d{%w}%H:%M:%S')'
                     computed: {$_.cpu:{|a, s| $'\($s.created\)\($a\)' }}
-                    say: {|s| print $'\(ansi $env.comma_index.settings.theme.info\)\($s\)\(ansi reset\)' }
+                    say: {|s| print $'\(ansi $_.settings.theme.info\)\($s\)\(ansi reset\)' }
                     quick: {$_.flt:{|a, s| do $s.say 'run a `quick` filter' }}
                     slow: {$_.flt:{|a, s|
                         do $s.say 'run a `slow` filter'
@@ -415,11 +415,7 @@ export def --wrapped , [
                     inspect: {|a, s| {index: $_, scope: $s, args: $a} | table -e }
                     test: {
                         $_.sub: {
-                            batch: {
-                                $_.act: {
-                                    'created; inspect' | do $_.batch
-                                }
-                            }
+                            batch: { 'created; inspect' | do $_.batch }
                             watch: {
                                 $_.act: {|a, s| $s | get $_.wth }
                                 $_.cmp: {ls *.json | get name}

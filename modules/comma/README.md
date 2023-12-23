@@ -4,22 +4,22 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
 - Custom tasks are written in `$env.comma` and can be nested
 - Generate completions based on the structure of `$env.comma`
 - You can use closure to customize completion
-- In `$env.commax.act` of default closure, you can receive parameters after the current position
-- In `$env.commax.cmp` , you can receive the parameter before the current position
+- In `$_.act` of default closure, you can receive parameters after the current position
+- In `$_.cmp` , you can receive the parameter before the current position
 - Supports `computed`, the definition method refers to `$env.comma_scope.computed`, accepts two parameters, runtime parameters and `$env.comma_scope`
-- Supports `filter`, similar to `computed`, but only runs when declared, specified through `$env.comm.flt`
-- Supports `watch` (and polling), specified through `$env.comm.wth`.
-    - `glob` defaults to `*`, `op` defaults to `['Write']`
-    - In watch mode (not Polling) inject `$env.comm.wth`(op, path, new_path) into parameter `s`
+- Supports `filter`, similar to `computed`, but only runs when declared, specified through `$_.flt`
+- Supports `watch` (and polling), specified through `$_.wth`.
+    - `glob` defaults to `*`, `op` defaults to `['Write']`, `postpone` defaults to `false`
+    - In watch mode (not Polling) inject `$_.wth`(op, path, new_path) into parameter `$s`
     - when the `interval` field is included, it is polling mode(`clear` defaults to 'false')
 
 
 example:
 ```
 $env.comma_scope = {|_|{
-    created: '2023-12-21{4}22:26:47'
+    created: '2023-12-23{6}11:09:04'
     computed: {$_.cpu:{|a, s| $'($s.created)($a)' }}
-    say: {|s| print $'(ansi yellow_italic)($s)(ansi reset)' }
+    say: {|s| print $'(ansi $_.settings.theme.info)($s)(ansi reset)' }
     quick: {$_.flt:{|a, s| do $s.say 'run a `quick` filter' }}
     slow: {$_.flt:{|a, s|
         do $s.say 'run a `slow` filter'
@@ -32,54 +32,41 @@ $env.comma_scope = {|_|{
 
 $env.comma = {|_|{
     created: {|a, s| $s.computed }
-    open: {
+    inspect: {|a, s| {index: $_, scope: $s, args: $a} | table -e }
+    test: {
         $_.sub: {
-            any: {
-                $_.act: {|a, s| open $a.0}
-                $_.cmp: {ls | get name}
-                $_.dsc: 'open a file'
-            }
-            json: {
+            batch: { 'created; inspect' | do $_.batch }
+            watch: {
                 $_.act: {|a, s| $s | get $_.wth }
                 $_.cmp: {ls *.json | get name}
-                $_.dsc: 'open a json file'
+                $_.dsc: 'inspect watch context'
                 $_.wth: {
-                    glob: '*.json'
+                    glob: '*'
                     op: ['Write', 'Create']
+                    postpone: true
                 }
             }
-            scope: {
-                $_.act: {|a, s| print $'args: ($a)'; $s }
+            open_file: {
+                $_.act: {|a, s| open $a.0 }
+                $_.cmp: {ls | get name}
+                $_.dsc: 'open a file'
                 $_.flt: ['slow']
-                $_.dsc: 'open scope'
+            }
+            ping: {
+                $_.act: {|a, s| ping -c 2 localhost }
                 $_.wth: {
                     interval: 2sec
+                    clear: true
                 }
             }
         }
-        $_.dsc: 'open something'
+        $_.dsc: 'run test'
         $_.flt: ['quick']
-    }
-    # Nest as you like
-    a: {
-        b: {
-            c: {
-                $_.act: {|x| print $x }
-                $_.dsc: 'description'
-                $_.cmp: {|| ls | get name }
-            }
-            d: { pwd }
-        }
-        x: {
-            $_.sub: {
-                y: {
-                    $_.act: {|x| print y}
-                    $_.cmp: {|| [y1 y2 y3]}
-                    $_.dsc: 'description'
-                }
-            }
-            $_.dsc: 'xxx'
-        }
     }
 }}
 ```
+
+### todo
+- [ ] resolve-node
+- [ ] theme
+    - [ ] poll sep bar
