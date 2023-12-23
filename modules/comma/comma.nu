@@ -310,29 +310,38 @@ def run [tbl] {
         let argv = $argv
         if $_.wth in $n {
             let w = $n | get $_.wth
+            let cl = $w.clear? | default false
             if 'interval' in $w {
                 loop {
+                    if $cl {
+                        clear
+                    }
                     do $cls $argv $scope
                     sleep $w.interval
                     print $env.comma_index.settings.theme.watch_separator
-                    if ($w.clear? | default false) {
-                        clear
-                    }
                 }
             } else {
+                if $cl {
+                    clear
+                }
                 if not ($w.postpone? | default false) {
                     do $cls $argv ($scope | upsert $_.wth { op: null path: null new_path: null })
                 }
                 let ops = if ($w.op? | is-empty) {['Write']} else { $w.op }
                 watch . --glob=($w.glob? | default '*') {|op, path, new_path|
+                    if $cl {
+                        clear
+                    }
                     if $op in $ops {
                         do $cls $argv ($scope | upsert $_.wth {
                             op: $op
                             path: $path
                             new_path: $path
                         })
+                        if not $cl {
+                            print $env.comma_index.settings.theme.watch_separator
+                        }
                     }
-                    print $env.comma_index.settings.theme.watch_separator
                 }
             }
         } else {

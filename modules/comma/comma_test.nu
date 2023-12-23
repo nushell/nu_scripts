@@ -50,7 +50,10 @@ $env.comma = {|_|{
                     ', test all'
                 ] | str join (char newline))
             }
-            $_.wth: { glob: '*.nu' }
+            $_.wth: {
+                glob: '*.nu'
+                clear: true
+            }
             $_.dsc: 'copy this to uplevel'
         }
         all: {
