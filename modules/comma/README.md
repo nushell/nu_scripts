@@ -81,10 +81,14 @@ $env.comma = {|_|{
     - [x] test
     - [ ] tag
     - [ ] watch
+    - [x] args
 - [ ] gen vscode task json file
     - [ ] tree map
     - [x] batch mode
     - [ ] shell input
 - [x] resolve-node
+    - [x] run
+    - [x] cmpl
+        - [ ] bug: redundant filter in description
 - [x] theme
     - [x] poll sep bar
