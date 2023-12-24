@@ -249,8 +249,25 @@ def 'tree select' [tree --strict] {
     }
 }
 
-def 'tree map' [tree] {
+def 'tree map' [flt] {
+    let t = $in | resolve node
+    let _ = $env.comma_index
+    tree travel [] $t $flt $_
+}
 
+def 'tree travel' [path tree flt _] {
+    if $tree.end {
+        do $flt $path $tree $_
+    } else {
+        $tree | get $_.sub
+        | transpose k v
+        | each {|x|
+            let v = $x.v | resolve node
+            tree travel [...$path $x.k] $v $flt $_
+        }
+        | flatten
+        | filter {|x| not ($x | is-empty) }
+    }
 }
 
 def 'resolve scope' [args, vars, flts] {
@@ -428,6 +445,15 @@ def 'parse argv' [] {
     | where not ($it | str starts-with '-')
 }
 
+def expose [t] {
+    match $t {
+        treemap => {
+            resolve comma | tree map { |path, node| $path | path join }
+        }
+        _ => {}
+    }
+}
+
 def compos [...context] {
     $context
     | parse argv
@@ -440,19 +466,16 @@ export def --wrapped , [
     --test (-t)
     --tag (-g)
     --watch (-w)
+    --expose (-e): string # for test
     ...args:string@compos
 ] {
     if $vscode {
-        let r = resolve comma | gen vscode | to json
-        return $r
-    }
-    if $completion {
-        let r = $args | cmpl (resolve comma)
-        return ($r | to json)
-    }
-    if not ($args | is-empty) {
-        $args | run (resolve comma)
-    } else {
+        resolve comma | gen vscode | to json
+    } else if $completion {
+        $args | cmpl (resolve comma) | to json
+    } else if not ($expose | is-empty) {
+        expose $expose
+    } else if ($args | is-empty) {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
@@ -466,5 +489,7 @@ export def --wrapped , [
                 #source ',.nu'
             }
         }
+    } else {
+        $args | run (resolve comma)
     }
 }

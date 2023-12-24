@@ -73,9 +73,10 @@ $env.comma = {|_|{
             do $_.test 'set env' {|x| $x.a? == 123 } { , test set-env } {|x| $x }
             do $_.test 'echo' 'hello' {, test other }
             do $_.test 'open file' {|x| $x == (open ,.nu) } { , example a b c e open_file ,.nu }
-            do $_.test 'completion end' {|x| ',.nu' in ( $x | from json); true } { , -c example a b c e open_file }
+            do $_.test 'completion end' {|x| ',.nu' in ( $x | from json) } { , -c example a b c e open_file }
             #example a b c e
-            do $_.test 'completion' {|x| 'f' in ( $x | from json); false } { , -c }
+            do $_.test 'completion' {|x| 'created' in ( $x | from json) } { , -c }
+            do $_.test 'tree map' {|x| false } {, -e treemap }
         }
         struct: {
             $_.act: {
