@@ -79,6 +79,8 @@ $env.comma = {|_|{
 - [ ] scoped test
     - [ ] tree map
     - [x] test
+    - [ ] tag
+    - [ ] watch
 - [ ] gen vscode task json file
     - [ ] tree map
     - [x] batch mode

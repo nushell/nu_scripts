@@ -144,6 +144,7 @@ export-env {
             [filter flt]
             [computed cpu]
             [watch wth]
+            tag
             [expect exp]
         ]
         | gendict 5
@@ -436,6 +437,9 @@ def compos [...context] {
 export def --wrapped , [
     --vscode
     --completion (-c)
+    --test (-t)
+    --tag (-g)
+    --watch (-w)
     ...args:string@compos
 ] {
     if $vscode {
