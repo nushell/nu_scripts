@@ -51,7 +51,7 @@ def unindent [] {
     | str join (char newline)
 }
 
-def find-parent [] {
+def 'find parent' [] {
     let o = $in
     let depth = ($env.PWD | path expand | path split | length) - 1
     mut cur = [',.nu']
@@ -99,7 +99,7 @@ def test [fmt, indent, dsc, spec] {
     }
 }
 
-def comma_file [] {
+def 'comma file' [] {
     [
         {
           condition: {|_, after| not ($after | path join ',.nu' | path exists)}
@@ -127,7 +127,7 @@ export-env {
     if not ($env.config? | is-empty) {
         $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
             let o = ($config | get -i hooks.env_change.PWD)
-            let val = (comma_file)
+            let val = (comma file)
             if $o == null {
                 $val
             } else {
@@ -175,7 +175,7 @@ export-env {
                     watch_separator: $"(ansi dark_gray)------------------------------(ansi reset)"
                 }
             }
-            os: (os-type)
+            os: (os type)
             arch: (uname -m)
             log: {$in | log}
             batch: {
@@ -200,7 +200,7 @@ export-env {
     )
 }
 
-def resolve-node [] { # [endpoint, node]
+def 'resolve node' [] { # [endpoint, node]
     let o = $in
     let _ = $env.comma_index
     let t = ($o | describe -d).type
@@ -218,7 +218,7 @@ def resolve-node [] { # [endpoint, node]
 def 'tree select' [tree --strict] {
     let ph = $in
     let _ = $env.comma_index
-    mut cur = $tree | resolve-node
+    mut cur = $tree | resolve node
     mut rest = []
     mut flt = []
     mut wth = []
@@ -230,10 +230,10 @@ def 'tree select' [tree --strict] {
             if $i in $sub {
                 if $_.flt in $cur { $flt ++= ($cur | get $_.flt) }
                 if $_.wth in $cur { $wth ++= ($cur | get $_.wth) }
-                $cur = ($sub | get $i | resolve-node)
+                $cur = ($sub | get $i | resolve node)
             } else {
                 if $strict {
-                    $cur = ({ print $"not found `($i)`"} | resolve-node)
+                    $cur = ({ print $"not found `($i)`"} | resolve node)
                 } else {
                     $cur
                 }
@@ -253,7 +253,7 @@ def 'tree map' [tree] {
 
 }
 
-def resolve-scope [args, vars, flts] {
+def 'resolve scope' [args, vars, flts] {
     mut vs = {}
     mut cpu = []
     mut flt = {}
@@ -284,7 +284,7 @@ def resolve-scope [args, vars, flts] {
     $vs
 }
 
-def os-type [] {
+def 'os type' [] {
     let info = cat /etc/os-release
     | lines
     | reduce -f {} {|x, acc|
@@ -303,7 +303,7 @@ def os-type [] {
 }
 
 
-def get-comma [key = 'comma'] {
+def 'resolve comma' [key = 'comma'] {
     let _ = $env.comma_index
     if ($env | get $key | describe -d).type == 'closure' {
         do ($env | get $key) $_
@@ -312,7 +312,7 @@ def get-comma [key = 'comma'] {
     }
 }
 
-def run-watch [act rest scope w] {
+def 'run watch' [act rest scope w] {
     let _ = $env.comma_index
     let cl = $w.clear? | default false
     if 'interval' in $w {
@@ -360,12 +360,12 @@ def run [tbl] {
     let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
     let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
     let act = $n.node | get $_.act
-    let scope = resolve-scope $n.rest (get-comma 'comma_scope') $flt
+    let scope = resolve scope $n.rest (resolve comma 'comma_scope') $flt
 
     if ($wth | is-empty) {
         do $act $n.rest $scope
     } else {
-        run-watch $act $n.rest $scope $wth
+        run watch $act $n.rest $scope $wth
     }
 }
 
@@ -376,10 +376,10 @@ def cmpl [tbl] {
     let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
     if $n.node.end {
         let cmp = $n.node | get $_.cmp
-        let scope = resolve-scope null (get-comma 'comma_scope') $flt
+        let scope = resolve scope null (resolve comma 'comma_scope') $flt
         do $cmp $n.rest $scope
     } else {
-        $n.node | get $_.sub | transpose k v | each {|x| $x | update v ($x.v | resolve-node) | enrich desc $flt }
+        $n.node | get $_.sub | transpose k v | each {|x| $x | update v ($x.v | resolve node) | enrich desc $flt }
     }
 }
 
@@ -414,7 +414,7 @@ def 'enrich desc' [flt] {
     }
 }
 
-def gen-vscode [] {
+def 'gen vscode' [] {
     let o = $in
     $o
 }
@@ -431,7 +431,7 @@ def 'parse argv' [] {
 def compos [...context] {
     $context
     | parse argv
-    | cmpl (get-comma)
+    | cmpl (resolve comma)
 }
 
 export def --wrapped , [
@@ -443,15 +443,15 @@ export def --wrapped , [
     ...args:string@compos
 ] {
     if $vscode {
-        let r = get-comma | gen-vscode | to json
+        let r = resolve comma | gen vscode | to json
         return $r
     }
     if $completion {
-        let r = $args | cmpl (get-comma)
+        let r = $args | cmpl (resolve comma)
         return ($r | to json)
     }
     if not ($args | is-empty) {
-        $args | run (get-comma)
+        $args | run (resolve comma)
     } else {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
