@@ -101,7 +101,7 @@ Thus, even 4 is true.
 use tramp.nu
 source even-odd.nu
 tramp recurse (odd 1234567)
-true
+false
 ```
 
 
