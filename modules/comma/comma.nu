@@ -467,8 +467,13 @@ def run [tbl --watch: bool] {
         return
     }
     let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
-    let wth = if $watch and ($_.wth in $n.node) {
-        $n.node | get $_.wth
+    let wth = if $watch {
+        if $_.wth in $n.node {
+            [...$n.watch ($n.node | get $_.watch)]
+        } else {
+            $n.watch
+        }
+        | reduce -f {} {|i,a| $a | merge $i}
     } else {
         null
     }
