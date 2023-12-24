@@ -17,6 +17,12 @@ def gendict [size: int = 5] {
     }
 }
 
+def lg [tag?] {
+    let o = $in
+    print $'---($tag)---($o | describe)(char newline)($o | to yaml)'
+    $o
+}
+
 def log [tag? -c] {
     let o = $in
     if ($c) {
@@ -208,12 +214,13 @@ def resolve-node [] { # [endpoint, node]
     }
 }
 
-def 'tree select' [tree] {
+def 'tree select' [tree --strict] {
     let ph = $in
     let _ = $env.comma_index
     mut cur = $tree | resolve-node
     mut rest = []
     mut flt = []
+    mut wth = []
     for i in $ph {
         if $cur.end {
             $rest ++= $i
@@ -221,9 +228,14 @@ def 'tree select' [tree] {
             let sub = $cur | get $_.sub
             if $i in $sub {
                 if $_.flt in $cur { $flt ++= ($cur | get $_.flt) }
+                if $_.wth in $cur { $wth ++= ($cur | get $_.wth) }
                 $cur = ($sub | get $i | resolve-node)
             } else {
-                $cur = {$i.act: {|| print $"not found `($i)`"}}
+                if $strict {
+                    $cur = ({ print $"not found `($i)`"} | resolve-node)
+                } else {
+                    $cur
+                }
                 break
             }
         }
@@ -231,27 +243,13 @@ def 'tree select' [tree] {
     {
         node: $cur
         filter: $flt
+        watch: $wth
         rest: $rest
     }
 }
 
 def 'tree map' [tree] {
 
-}
-
-def 'as act' [] {
-    let o = $in
-    let _ = $env.comma_index
-    let t = ($o | describe -d).type
-    if $t == 'closure' {
-        { $_.act: $o }
-    } else if ($_.sub in $o) {
-        null
-    } else if ($_.act in $o) {
-        $o
-    } else {
-        null
-    }
 }
 
 def resolve-scope [args, vars, flts] {
@@ -352,9 +350,13 @@ def run-watch [act rest scope w] {
 }
 
 def run [tbl] {
-    let n = $in | tree select $tbl
+    let n = $in | tree select --strict $tbl
     let _ = $env.comma_index
-    let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] }
+    if not $n.node.end {
+        print $"require argument: ($n.node | get $_.sub | columns)"
+        return
+    }
+    let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
     let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
     let act = $n.node | get $_.act
     let scope = resolve-scope $n.rest (get-comma 'comma_scope') $flt
@@ -366,7 +368,21 @@ def run [tbl] {
     }
 }
 
-def enrich-desc [flt] {
+def cmpl [tbl] {
+    let n = $in | tree select $tbl
+    let _ = $env.comma_index
+    let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
+    let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
+    if $n.node.end {
+        let cmp = $n.node | get $_.cmp
+        let scope = resolve-scope null (get-comma 'comma_scope') $flt
+        do $cmp $n.rest $scope
+    } else {
+        $n.node | get $_.sub | transpose k v | each {|x| $x | update v ($x.v | resolve-node) | enrich desc $flt }
+    }
+}
+
+def 'enrich desc' [flt] {
     let o = $in
     let _ = $env.comma_index
     let flt = if $_.flt in $o.v { [...$flt, ...($o.v | get $_.flt)] } else { $flt }
@@ -397,83 +413,6 @@ def enrich-desc [flt] {
     }
 }
 
-def completion [tbl] {
-    let n = $in | tree select $tbl
-    let _ = $env.comma_index
-    let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] }
-    let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
-    let cmp = $n.node | get $_.cmp
-    let scope = resolve-scope null (get-comma 'comma_scope') $flt
-    let menu = do $cmp $n.rest (resolve-scope null (get-comma 'comma_scope') $flt)
-
-    match ($menu | describe -d).type {
-        record => {
-            $menu
-            | transpose k v
-            | each {|x|
-                if ($x.v | describe -d).type == 'closure' {
-                    $x.k
-                } else {
-                    $x | enrich-desc $flt
-                }
-            }
-        }
-        list => { $tbl }
-        _ => { $tbl }
-    }
-}
-
-def complete [tbl] {
-    let argv = $in
-    let _ = $env.comma_index
-    mut tbl = (get-comma)
-    mut flt = []
-    for i in $argv {
-        let c = if ($i | is-empty) {
-            $tbl
-        } else {
-            let tp =  ($tbl | describe -d).type
-            if ($tp == 'record') and ($i in $tbl) {
-                let j = $tbl | get $i
-                if $_.sub in $j {
-                    if $_.flt in $j {
-                        $flt ++= ($j | get $_.flt)
-                    }
-                    $j | get $_.sub
-                } else {
-                    $j
-                }
-            } else {
-                $tbl
-            }
-        }
-        let a = $c | as act
-        if not ($a | is-empty) {
-            let flt = if $_.flt in $a { $flt | append ($a | get $_.flt) } else { $flt }
-            let r = do ($a | get $_.cmp) $argv (resolve-scope null (get-comma 'comma_scope') $flt)
-            $tbl = $r
-        } else {
-            $tbl = $c
-        }
-    }
-    let flt = $flt
-    match ($tbl | describe -d).type {
-        record => {
-            $tbl
-            | transpose k v
-            | each {|x|
-                if ($x.v | describe -d).type == 'closure' {
-                    $x.k
-                } else {
-                    $x | enrich-desc $flt
-                }
-            }
-        }
-        list => { $tbl }
-        _ => { $tbl }
-    }
-}
-
 def gen-vscode [] {
     let o = $in
     $o
@@ -491,7 +430,7 @@ def 'parse argv' [] {
 def compos [...context] {
     $context
     | parse argv
-    | complete (get-comma)
+    | cmpl (get-comma)
 }
 
 export def --wrapped , [
@@ -504,7 +443,8 @@ export def --wrapped , [
         return $r
     }
     if $completion {
-        return
+        let r = $args | cmpl (get-comma)
+        return ($r | to json)
     }
     if not ($args | is-empty) {
         $args | run (get-comma)
