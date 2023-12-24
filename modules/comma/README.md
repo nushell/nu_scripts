@@ -77,18 +77,20 @@ $env.comma = {|_|{
 
 ### todo
 - [ ] scoped test
-    - [ ] tree map
+    - [x] tree map
     - [x] test
     - [ ] tag
-    - [ ] watch
+    - [ ] watch mode
+        - [ ] override sub node watch
     - [x] args
+    - [ ] allow running on leaf node
 - [ ] gen vscode task json file
-    - [ ] tree map
+    - [x] tree map
     - [x] batch mode
     - [ ] shell input
 - [x] resolve-node
     - [x] run
     - [x] cmpl
-        - [ ] bug: redundant filter in description
+        - [ ] fix redundant filter in description
 - [x] theme
     - [x] poll sep bar

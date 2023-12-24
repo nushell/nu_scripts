@@ -17,19 +17,9 @@ def gendict [size: int = 5] {
     }
 }
 
-def lg [tag?] {
+def is [tag?] {
     let o = $in
     print $'---($tag)---($o | describe)(char newline)($o | to yaml)'
-    $o
-}
-
-def log [tag? -c] {
-    let o = $in
-    if ($c) {
-        echo $'---(char newline)' | save -f ~/.cache/comma.log
-    } else {
-        echo $'---($tag)---($o | describe)(char newline)($o | to yaml)' | save -a ~/.cache/comma.log
-    }
     $o
 }
 
@@ -67,22 +57,36 @@ def 'find parent' [] {
 }
 
 def test [fmt, indent, dsc, o] {
-    let rst = do $o.spec? $o.args?
-    let pred = if ($o.expect? | is-empty) {
-        true == $rst
+    let result = do $o.spec? $o.args? | default false
+    let status = if ($o.expect? == null) {
+        true == $result
     } else if ($o.expect? | describe -d).type == 'closure' {
-        do $o.expect $rst $o.args?
+        let r = do $o.expect $result $o.args?
+        if ($r | describe -d).type == 'bool' { $r } else {
+            error make {msg: $"(view source $o.expect) must be bool" }
+        }
     } else {
-        $o.expect? == $rst
+        $o.expect? == $result
     }
     let ctx = if ($o.context? | is-empty) {
-        if $pred { null } else { $rst }
+        if $status { null } else {
+            let e = if ($o.expect? | describe -d).type == 'closure' {
+                    $"<(view source $o.expect)>"
+                } else {
+                    $o.expect?
+                }
+            {
+                args: $o.args?
+                result: $result
+                expect: $e
+            }
+        }
     } else {
-        do $o.context $rst $o.args?
+        do $o.context $result $o.args?
     }
     do $fmt {
         indent: $indent
-        status: $pred
+        status: $status
         message: $dsc
         args: $o.args?
         context: $ctx
@@ -105,7 +109,6 @@ def 'comma file' [] {
           $env.comma_index.wd = $after
           $env.comma_index.session_id = (random chars)
 
-          # echo '' | save -f ~/.cache/comma.log
           source ,.nu
           "
         }
@@ -136,10 +139,18 @@ export-env {
             [watch wth]
             tag
             [expect exp]
+            [test_args args]
         ]
         | gendict 5
         | merge {
             settings: {
+                test_group: {|x|
+                    let indent = '    ' | str repeat $x.indent
+                    let s = $"(ansi bg_dark_gray)GROUP(ansi reset)"
+                    let t = $"(ansi yellow_bold)($x.title)(ansi reset)"
+                    let d = $"(ansi light_gray)($x.desc)(ansi reset)"
+                    print $"($indent)($s) ($t) ($d)"
+                }
                 test_message: {|x|
                     let indent = '    ' | str repeat $x.indent
                     let status = if $x.status {
@@ -167,7 +178,7 @@ export-env {
             }
             os: (os type)
             arch: (uname -m)
-            log: {$in | log}
+            is: {$in | is}
             batch: {
                 let o = $in
                     | lines
@@ -183,6 +194,9 @@ export-env {
                 let fmt = $env.comma_index.settings.test_message
                 test $fmt 0 $dsc $spec
             }
+            T: { true }
+            F: { false }
+            I: {|x| $x }
             config: {|cb|
                 # FIXME: no affected $env
                 $env.comma_index.settings = (do $cb $env.comma_index.settings)
@@ -249,24 +263,101 @@ def 'tree select' [tree --strict] {
     }
 }
 
-def 'tree map' [flt] {
-    let t = $in | resolve node
-    let _ = $env.comma_index
-    tree travel [] $t $flt $_
+def 'run test' [] {
+    let argv = $in
+    let cb = {|pth, g, node, _|
+        let indent = ($pth | length)
+        if $_.exp in $node {
+            #print $"($indent)($pth | last)"
+            let exp = $node | get $_.exp
+            let spec = $node | get $_.act
+            let args = if $_.args in $node { $node | get $_.args }
+            let desc = $pth | last
+            {
+                path: $pth
+                g: $g
+                fmt: $env.comma_index.settings.test_message
+                indent: $indent
+                desc: $desc
+                expect: $exp
+                spec: $spec
+                args: $args
+            }
+        }
+    }
+    let bc = {|node, _|
+        if $_.dsc in $node {
+            $node | get $_.dsc
+        } else {
+            ''
+        }
+    }
+    let specs = $argv
+    | flatten
+    | tree select --strict (resolve comma)
+    | do { $in.node | get $env.comma_index.sub }
+    | tree map $cb $bc
+    mut lv = []
+    for i in $specs {
+        let l = $lv | length
+        let t = $i.path | range ..-2
+        for j in ($t | enumerate) {
+            let desc = $i.g | get $j.index
+            let g = $env.comma_index.settings.test_group
+            if $j.index < $l {
+                let a = $lv | get $j.index
+                if $j.item == $a {
+                } else {
+                    do $g { indent: $j.index title: $j.item desc: $desc}
+                }
+            } else {
+                do $g { indent: $j.index title: $j.item desc: $desc}
+            }
+        }
+        test $i.fmt ($i.indent - 1) $i.desc {
+            expect: $i.expect
+            spec: $i.spec
+            args: $i.args
+        }
+        $lv = $t
+    }
 }
 
-def 'tree travel' [path tree flt _] {
+def summary [argv] {
+    $argv
+    | flatten
+    | tree select --strict (resolve comma)
+    | do { $in.node | get $env.comma_index.sub }
+    | tree map { |pth, g, node| {
+        path: $pth
+        node: $node
+    } }
+}
+
+def 'tree map' [cb bc?] {
+    let t = $in | resolve node
+    let _ = $env.comma_index
+    tree travel [] [] $t $cb $bc $_
+}
+
+def 'tree travel' [path g tree cb bc _] {
     if $tree.end {
-        do $flt $path $tree $_
+        do $cb $path $g $tree $_
     } else {
         $tree | get $_.sub
         | transpose k v
-        | each {|x|
+        | reduce -f [] {|x, a|
             let v = $x.v | resolve node
-            tree travel [...$path $x.k] $v $flt $_
+            let g = if ($bc | describe -d).type == 'closure' {
+                $g | append (do $bc $v $_)
+            } else { $g }
+            let r = tree travel ($path | append $x.k) $g $v $cb $bc $_
+            if ($r | is-empty) {
+                $a
+            } else {
+                $a | append $r
+            }
         }
-        | flatten
-        | filter {|x| not ($x | is-empty) }
     }
 }
 
@@ -329,7 +420,8 @@ def 'resolve comma' [key = 'comma'] {
     }
 }
 
-def 'run watch' [act rest scope w] {
+def 'run watch' [act argv scope w] {
+    if $w == null { return }
     let _ = $env.comma_index
     let cl = $w.clear? | default false
     if 'interval' in $w {
@@ -337,7 +429,7 @@ def 'run watch' [act rest scope w] {
             if $cl {
                 clear
             }
-            do $act $rest $scope
+            do $act $argv $scope
             sleep $w.interval
             print $env.comma_index.settings.theme.watch_separator
         }
@@ -346,7 +438,7 @@ def 'run watch' [act rest scope w] {
             clear
         }
         if not ($w.postpone? | default false) {
-            do $act $rest ($scope | upsert $_.wth { op: null path: null new_path: null })
+            do $act $argv ($scope | upsert $_.wth { op: null path: null new_path: null })
         }
         let ops = if ($w.op? | is-empty) {['Write']} else { $w.op }
         watch . --glob=($w.glob? | default '*') {|op, path, new_path|
@@ -354,7 +446,7 @@ def 'run watch' [act rest scope w] {
                 clear
             }
             if $op in $ops {
-                do $act $rest ($scope | upsert $_.wth {
+                do $act $argv ($scope | upsert $_.wth {
                     op: $op
                     path: $path
                     new_path: $path
@@ -367,7 +459,7 @@ def 'run watch' [act rest scope w] {
     }
 }
 
-def run [tbl] {
+def run [tbl --watch: bool] {
     let n = $in | tree select --strict $tbl
     let _ = $env.comma_index
     if not $n.node.end {
@@ -375,7 +467,11 @@ def run [tbl] {
         return
     }
     let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
-    let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }
+    let wth = if $watch and ($_.wth in $n.node) {
+        $n.node | get $_.wth
+    } else {
+        null
+    }
     let act = $n.node | get $_.act
     let scope = resolve scope $n.rest (resolve comma 'comma_scope') $flt
 
@@ -449,10 +545,13 @@ def 'parse argv' [] {
     | where not ($it | str starts-with '-')
 }
 
-def expose [t] {
+def expose [t, a] {
     match $t {
-        treemap => {
-            resolve comma | tree map { |path, node| $path | path join }
+        test => {
+            $a | run test
+        }
+        summary => {
+            summary $a
         }
         _ => {}
     }
@@ -477,8 +576,10 @@ export def --wrapped , [
         resolve comma | gen vscode | to json
     } else if $completion {
         $args | flatten | cmpl (resolve comma) | to json
+    } else if $test {
+        $args | run test
     } else if not ($expose | is-empty) {
-        expose $expose
+        expose $expose $args
     } else if ($args | is-empty) {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
@@ -494,6 +595,6 @@ export def --wrapped , [
             }
         }
     } else {
-        $args | flatten | run (resolve comma)
+        $args | flatten | run (resolve comma) --watch $watch
     }
 }

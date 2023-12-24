@@ -22,25 +22,39 @@ $env.comma = {|_|{
         a: {
             b: {
                 $_.sub: {
+                    t1: {
+                        $_.act: $_.T
+                        $_.exp: $_.T
+                    }
                     c: {
                         $_.sub: {
                             d: {|| print 'ok'}
                             e: {
                                 $_.sub: {
                                     f: {
-                                        $_.act: {|| true }
+                                        $_.act: $_.T
                                     }
                                     open_file: {
                                         $_.act: {|a, s| open $a.0 }
                                         $_.cmp: {ls | get name}
                                         $_.dsc: 'open a file'
                                         $_.filter: ['q4']
+                                        $_.exp: {|r, a| $r == (open ',.nu') }
+                                        $_.args: [',.nu']
+                                    }
+                                    t3: {
+                                        $_.act: $_.T
+                                        $_.exp: $_.T
                                     }
                                 }
                                 $_.dsc: 'ok'
                                 $_.flt: ['q3']
                             }
                         }
+                    }
+                    t2: {
+                        $_.act: $_.T
+                        $_.exp: $_.T
                     }
                 }
                 $_.dsc: 'this way'
@@ -103,9 +117,9 @@ $env.comma = {|_|{
                 spec: {|x| , -c $x }
                 args: [example a b c e]
             }
-            do $_.test 'tree map' {
-                expect: {|x| false }
-                spec: {, -e treemap }
+            do $_.test 'run test' {
+                expect: $_.T
+                spec: {, -e test example }
             }
         }
         struct: {
