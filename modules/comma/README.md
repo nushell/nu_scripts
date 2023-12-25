@@ -80,7 +80,7 @@ $env.comma = {|_|{
     - [x] tree map
     - [x] test
     - [ ] tag
-    - [ ] watch mode
+    - [x] watch mode
         - [x] override sub node watch
     - [x] args
     - [x] allow running on leaf node

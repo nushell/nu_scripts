@@ -279,6 +279,35 @@ def 'tree select' [tree --strict] {
     }
 }
 
+def 'test suit' [] {
+    let specs = $in
+    mut lv = []
+    for i in $specs {
+        let l = $lv | length
+        let t = $i.path | range ..-2
+        for j in ($t | enumerate) {
+            let desc = $i.g | get $j.index
+            let g = $env.comma_index.settings.test_group
+            if $j.index < $l {
+                let a = $lv | get $j.index
+                if $j.item == $a {
+                } else {
+                    do $g { indent: $j.index title: $j.item desc: $desc}
+                }
+            } else {
+                do $g { indent: $j.index title: $j.item desc: $desc}
+            }
+        }
+        test $i.fmt ($i.indent - 1) $i.desc {
+            expect: $i.expect
+            spec: $i.spec
+            args: $i.args
+            scope: (resolve scope null (resolve comma 'comma_scope') [])
+        }
+        $lv = $t
+    }
+}
+
 def 'run test' [--watch: bool] {
     let argv = $in
     let cb = {|pth, g, node, _|
@@ -321,30 +350,12 @@ def 'run test' [--watch: bool] {
         }
     }
     | tree map $cb $bc
-    mut lv = []
-    for i in $specs {
-        let l = $lv | length
-        let t = $i.path | range ..-2
-        for j in ($t | enumerate) {
-            let desc = $i.g | get $j.index
-            let g = $env.comma_index.settings.test_group
-            if $j.index < $l {
-                let a = $lv | get $j.index
-                if $j.item == $a {
-                } else {
-                    do $g { indent: $j.index title: $j.item desc: $desc}
-                }
-            } else {
-                do $g { indent: $j.index title: $j.item desc: $desc}
-            }
-        }
-        test $i.fmt ($i.indent - 1) $i.desc {
-            expect: $i.expect
-            spec: $i.spec
-            args: $i.args
-            scope: (resolve scope null (resolve comma 'comma_scope') [])
-        }
-        $lv = $t
+    if ($watch | default false) {
+        run watch {
+            $specs | test suit
+        } [] {} { clear: true }
+    } else {
+        $specs | test suit
     }
 }
 
