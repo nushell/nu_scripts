@@ -292,10 +292,19 @@ def 'run test' [] {
             ''
         }
     }
+    let _ = $env.comma_index
     let specs = $argv
     | flatten
     | tree select --strict (resolve comma)
-    | do { $in.node | get $env.comma_index.sub }
+    | do {
+        let i = $in
+        if $_.sub in $i.node {
+            $i.node | get $_.sub
+        } else {
+            let n = $argv | last
+            {$n: ($i.node | reject 'end') }
+        }
+    }
     | tree map $cb $bc
     mut lv = []
     for i in $specs {

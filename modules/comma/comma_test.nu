@@ -121,6 +121,10 @@ $env.comma = {|_|{
                 expect: $_.T
                 spec: {, -e test example }
             }
+            do $_.test 'run leaf test' {
+                expect: $_.F
+                spec: { , -t example a b t1 }
+            }
         }
         struct: {
             $_.act: {
