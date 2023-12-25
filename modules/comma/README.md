@@ -83,7 +83,7 @@ $env.comma = {|_|{
     - [x] watch mode
         - [x] override sub node watch
     - [x] args
-    - [ ] allow running on leaf node
+    - [x] allow running on leaf node
     - [ ] curl integration
 - [ ] gen vscode task json file
     - [x] tree map

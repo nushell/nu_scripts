@@ -57,11 +57,11 @@ def 'find parent' [] {
 }
 
 def test [fmt, indent, dsc, o] {
-    let result = do $o.spec? $o.args? | default false
+    let result = do $o.spec? $o.args? $o.scope? | default false
     let status = if ($o.expect? == null) {
         true == $result
     } else if ($o.expect? | describe -d).type == 'closure' {
-        let r = do $o.expect $result $o.args?
+        let r = do $o.expect $result $o.args? $o.scope?
         if ($r | describe -d).type == 'bool' { $r } else {
             error make {msg: $"(view source $o.expect) must be bool" }
         }
@@ -82,7 +82,7 @@ def test [fmt, indent, dsc, o] {
             }
         }
     } else {
-        do $o.context $result $o.args?
+        do $o.context $result $o.args? $o.scope?
     }
     do $fmt {
         indent: $indent
@@ -263,7 +263,7 @@ def 'tree select' [tree --strict] {
     }
 }
 
-def 'run test' [] {
+def 'run test' [tbl --watch: bool] {
     let argv = $in
     let cb = {|pth, g, node, _|
         let indent = ($pth | length)
@@ -327,6 +327,7 @@ def 'run test' [] {
             expect: $i.expect
             spec: $i.spec
             args: $i.args
+            scope: (resolve scope null $tbl [])
         }
         $lv = $t
     }
@@ -559,10 +560,10 @@ def 'parse argv' [] {
     | where not ($it | str starts-with '-')
 }
 
-def expose [t, a] {
+def expose [t, a, tbl] {
     match $t {
         test => {
-            $a | run test
+            $a | run test $tbl
         }
         summary => {
             summary $a
@@ -591,9 +592,9 @@ export def --wrapped , [
     } else if $completion {
         $args | flatten | cmpl (resolve comma) | to json
     } else if $test {
-        $args | run test
+        $args | flatten | run test (resolve comma) --watch $watch
     } else if not ($expose | is-empty) {
-        expose $expose $args
+        expose $expose $args (resolve comma)
     } else if ($args | is-empty) {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
