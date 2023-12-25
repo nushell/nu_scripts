@@ -263,7 +263,7 @@ def 'tree select' [tree --strict] {
     }
 }
 
-def 'run test' [tbl --watch: bool] {
+def 'run test' [--watch: bool] {
     let argv = $in
     let cb = {|pth, g, node, _|
         let indent = ($pth | length)
@@ -327,7 +327,7 @@ def 'run test' [tbl --watch: bool] {
             expect: $i.expect
             spec: $i.spec
             args: $i.args
-            scope: (resolve scope null $tbl [])
+            scope: (resolve scope null (resolve comma 'comma_scope') [])
         }
         $lv = $t
     }
@@ -563,7 +563,7 @@ def 'parse argv' [] {
 def expose [t, a, tbl] {
     match $t {
         test => {
-            $a | run test $tbl
+            $a | run test
         }
         summary => {
             summary $a
@@ -592,7 +592,7 @@ export def --wrapped , [
     } else if $completion {
         $args | flatten | cmpl (resolve comma) | to json
     } else if $test {
-        $args | flatten | run test (resolve comma) --watch $watch
+        $args | flatten | run test --watch $watch
     } else if not ($expose | is-empty) {
         expose $expose $args (resolve comma)
     } else if ($args | is-empty) {

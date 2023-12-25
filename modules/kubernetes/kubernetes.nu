@@ -526,7 +526,7 @@ export def kgno [] {
 def "nu-complete kube deploys and pods" [context: string, offset: int] {
     let ctx = $context | argx parse
     let ns = $ctx.namespace? | with-flag -n
-    if ($ctx._pos.pod? | default '' | str ends-with '-') {
+    if ($ctx.a? | default false) or ($ctx._pos.pod? | default '' | str ends-with '-') {
         kubectl get $ns pods | from ssv -a | get NAME
     } else {
         kubectl get $ns deployments | from ssv -a | get NAME | each {|x| $"($x)-"}
@@ -588,6 +588,7 @@ export def --wrapped ka [
     --namespace (-n): string@"nu-complete kube ns"
     --container(-c): string@"nu-complete kube ctns"
     --selector(-l): string
+    --all-pods(-a)
     ...args
 ] {
     let n = $namespace | with-flag -n
@@ -634,6 +635,7 @@ export def kl [
     --container(-c): string@"nu-complete kube ctns"
     --follow(-f)
     --previous(-p)
+    --all-pods(-a)
 ] {
     let n = $namespace | with-flag -n
     let c = $container | with-flag -c

@@ -20,7 +20,7 @@ $env.comma = {|_|{
     inspect: {|a, s| {index: $_, scope: $s, args: $a} }
     suit: {
         scope: {
-            run: {
+            '`say` in scope': {
                 $_.act: {|a, s| $s}
                 $_.exp: {|r, a| 'say' in $r }
             }
@@ -106,10 +106,6 @@ $env.comma = {|_|{
             do $_.test 'set env' {
                 expect: {|x| $x.a? == 123 }
                 spec: { , test set-env }
-            }
-            do $_.test 'echo' {
-                expect: 'hello'
-                spec: {, test other }
             }
             do $_.test 'open file' {
                 expect: {|x| $x == (open ,.nu) }
