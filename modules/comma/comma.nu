@@ -498,7 +498,9 @@ def run [tbl --watch: bool] {
 }
 
 def cmpl [tbl] {
-    let n = $in | tree select $tbl
+    let n = $in
+    let n = if ($n | last) == '' { $n | range ..-2 } else { $n }
+    let n = $n | tree select $tbl
     let _ = $env.comma_index
     let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
     let wth = if $_.wth in $n.node { $n.node | get $_.wth } else { null }

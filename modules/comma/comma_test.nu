@@ -25,6 +25,17 @@ $env.comma = {|_|{
                 $_.exp: {|r, a| 'say' in $r }
             }
         }
+        completion: {
+            '`f` in `example a b c e`': {
+                $_.act: {, -c example a b c e }
+                $_.exp: {|r,a| 'f' in $r}
+            }
+            'filter in description': {
+                $_.act: {, -c example a b c e }
+                $_.exp: {|r,a| 'q1|q2|q3|q4| open a file' == ($r | from json | get 1.description) }
+            }
+
+        }
     }
     example: {
         a: {
