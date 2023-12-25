@@ -80,7 +80,7 @@ $env.comma = {|_|{
     - [x] tree map
     - [x] test
     - [ ] tag
-    - [x] watch mode
+    - [ ] watch mode
         - [x] override sub node watch
     - [x] args
     - [x] allow running on leaf node
@@ -89,6 +89,10 @@ $env.comma = {|_|{
         - [ ] filter
     - [x] support many expect (list) for one spec
     - [ ] curl integration
+    - [ ] report
+        - [ ] `$x.report` in `test_message` should be `list<string>`
+        - [x] diff
+    - [ ] run with `nu -c` (dynamic source nu file)
 - [ ] gen vscode task json file
     - [x] tree map
     - [x] batch mode

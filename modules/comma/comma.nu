@@ -59,8 +59,35 @@ def 'find parent' [] {
 def 'run exp' [expect result o] {
     let r = do $expect $result $o.args? $o.scope?
     if ($r | describe -d).type == 'bool' { $r } else {
-        error make {msg: $"(view source $o.expect) must be bool" }
+        error make -u {msg: $"(view source $o.expect) must be bool" }
     }
+}
+
+def diffo [x] {
+    let tbl = $x
+    | transpose k v
+    | do { if ($in | length) != 2 { error make -u { msg: "must be two fields" } } else { $in } }
+    | each {|i|
+        let n = mktemp -t
+        echo ($i.v? | default '' | into string) out> $n
+        $i | insert n $n
+    }
+    let a = $tbl.0
+    let b = $tbl.1
+    let d = ^diff -u $a.n $b.n
+    | lines
+    | each {|x|
+        if ($x | str starts-with $"--- ($a.n)") {
+            $"--- ($a.k)"
+        } else if ($x | str starts-with $"+++ ($b.n)") {
+            $"+++ ($b.k)"
+        } else {
+            $x
+        }
+    }
+    rm -f $a.n
+    rm -f $b.n
+    $d
 }
 
 def test [fmt, indent, dsc, o] {
@@ -78,7 +105,7 @@ def test [fmt, indent, dsc, o] {
     } else {
         $o.expect? == $result
     }
-    let ctx = if ($o.context? | is-empty) {
+    let report = if ($o.context? | is-empty) {
         if $status { null } else {
             let e = if $exp_type == 'closure' {
                 $"<(view source $o.expect)>"
@@ -88,10 +115,15 @@ def test [fmt, indent, dsc, o] {
             } else {
                 $o.expect?
             }
-            {
+            let r = {
                 args: $o.args?
                 result: $result
                 expect: $e
+            }
+            if ($o.report? | is-empty) {
+                $r
+            } else {
+                do $o.report $r
             }
         }
     } else {
@@ -102,7 +134,7 @@ def test [fmt, indent, dsc, o] {
         status: $status
         message: $dsc
         args: $o.args?
-        context: $ctx
+        report: $report
     }
 }
 
@@ -151,8 +183,10 @@ export-env {
             [computed cpu]
             [watch wth]
             tag
+            # test
             [expect exp]
-            [test_args args]
+            [mock test_args]
+            [report rpt]
         ]
         | gendict 5
         | merge {
@@ -172,15 +206,21 @@ export-env {
                         $"(ansi bg_red)FAIL(ansi reset)"
                     }
                     print $"($indent)($status) (ansi yellow_bold)($x.message) (ansi light_gray)($x.args)(ansi reset)"
-                    if not ($x.context | is-empty) {
-                        let ctx = if $indent == 0 {
-                            $x.context | to yaml
+                    if not ($x.report | is-empty) {
+                        let report = if ($x.report | describe -d).type == 'string' {
+                            $x.report
                         } else {
-                            $x.context | to yaml | lines
+                            $x.report | to yaml
+                        }
+                        let report = if $indent == 0 {
+                            $report
+                        } else {
+                            $report
+                            | lines
                             | each {|i| $"($indent)($i)"}
                             | str join (char newline)
                         }
-                        print $"(ansi light_gray)($ctx)(ansi reset)"
+                        print $"(ansi light_gray)($report)(ansi reset)"
                     }
                 }
                 tips: {|m, a|
@@ -213,6 +253,10 @@ export-env {
             T: { true }
             F: { false }
             I: {|x| $x }
+            diff: {|x|
+                let d = diffo {expect: $x.expect, result: $x.result}
+                [$x.args, ('***' | str repeat 10),  ...$d] | str join (char newline)
+            }
             config: {|cb|
                 # FIXME: no affected $env
                 $env.comma_index.settings = (do $cb $env.comma_index.settings)
@@ -301,7 +345,8 @@ def 'test suit' [] {
         test $i.fmt ($i.indent - 1) $i.desc {
             expect: $i.expect
             spec: $i.spec
-            args: $i.args
+            args: $i.mock
+            report: $i.report
             scope: (resolve scope null (resolve comma 'comma_scope') [])
         }
         $lv = $t
@@ -315,7 +360,8 @@ def 'run test' [--watch: bool] {
         if $_.exp in $node {
             let exp = $node | get $_.exp
             let spec = $node | get $_.act
-            let args = if $_.args in $node { $node | get $_.args }
+            let mock = if $_.mock in $node { $node | get $_.mock }
+            let report = if $_.rpt in $node { $node | get $_.rpt }
             let desc = $pth | last
             {
                 path: $pth
@@ -325,7 +371,8 @@ def 'run test' [--watch: bool] {
                 desc: $desc
                 expect: $exp
                 spec: $spec
-                args: $args
+                mock: $mock
+                report: $report
             }
         }
     }
@@ -422,7 +469,7 @@ def 'resolve scope' [args, vars, flts] {
         if $i in $flt {
             $vs = ($vs | merge {$i: (do ($flt | get $i) $args $vs)} )
         } else {
-            error make {msg: $"filter `($i)` not found" }
+            error make -u {msg: $"filter `($i)` not found" }
         }
     }
     $vs
