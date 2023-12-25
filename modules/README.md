@@ -34,7 +34,7 @@ Run a function after the given program (by PID)
 ## api_wrappers
 
 Demo of various API wrappers:
-- [Wolfram Alpha](./api_wrappers/wolframalpha.nu)
+- [Wolfram Alpha](../sourced/api_wrappers/wolframalpha.nu)
 - [AWS]()
 
 ## background_task
@@ -93,33 +93,33 @@ Examples of input/output formatters:
 - [from-cpuinfo](./formats/from-cpuinfo.nu)
 - [from-dmidecode](./formats/from-dmidecode.nu)
 - [to-ini](./formats/to-ini.nu)
-- [remove-diacritics](./strings/remove-diacritics.nu) - Turns `Zażółć gęślą jaźń` into `Zazolc gesla jazn`
+- [remove-diacritics](./formats/remove-diacritics.nu) - Turns `Zażółć gęślą jaźń` into `Zazolc gesla jazn`
 
 
 ## fun
 
-- [spark](./fun/spark.nu) - send an array into spark and get a sparkline out:
+- [spark](../sourced/fun/spark.nu) - send an array into spark and get a sparkline out:
     ```console
     > let v = [2, 250, 670, 890, 2, 430, 11, 908, 123, 57]
     > spark $v
     ▁▂▆▇▁▄▁█▁▁
     ```
-- [website-builder](./fun/website_builder.nu) - converts markdown into their equivalent html pages
+- [website-builder](../sourced/fun/website_builder.nu) - converts markdown into their equivalent html pages
 - [wordle](./fun/wordle.nu) - A Terminal Wordle game. The code is based on this [gist](https://gist.github.com/huytd/6a1a6a7b34a0d0abcac00b47e3d01513), but slightly personalized.
 
 
 ## github
 
-- [branch-protections](./github/branch-protections/) - Do you have hundreds or thousands of GitHub repositories in your organization? Are you tired of manually managing their branch protection rules? Don't! Let nushell do it for you! see [README](./github/branch-protections/)
-- [merged-branches](./github/merged-branches/) - Do your developers often forget to delete their branches after merging PRs? Are you tired of manually going into every repository and deleting them? Don't! Let nushell do it for you! see [README](./github/merged-branches/)
+- [branch-protections](../sourced/github/branch-protections/) - Do you have hundreds or thousands of GitHub repositories in your organization? Are you tired of manually managing their branch protection rules? Don't! Let nushell do it for you! see [README](../sourced/github/branch-protections/README.md)
+- [merged-branches](../sourced/github/merged-branches/) - Do your developers often forget to delete their branches after merging PRs? Are you tired of manually going into every repository and deleting them? Don't! Let nushell do it for you! see [README](../sourced/github/merged-branches/README.md)
 
-## [gitlab](./gitlab/)
+## [gitlab](../sourced/gitlab/)
 Search files on your GitLab server
 
 ## [kubernetes](./kubernetes/)
 ???
  
-## [make_release](./make_release/)
+## [make_release](../make_release/)
 ???
 
 ## [maths](./maths/)
@@ -163,13 +163,13 @@ It is basically a join of the tables produced by the `lsof` command, and the nus
 ## [nvim](./nvim/)
 ??? (not sure how universal this is) Mix of hooks, defs and alias wrapper around neovim.
 
-## [progress_bar](./progress_bar/)
+## [progress_bar](../sourced/progress_bar/)
 ??? (make a module out of these scripts?) - Collection of progress bars
   
 ## [rbenv](./rbenv/)
 ??? (not sure how universal this is) This script provides minimal working rbenv setup.
 
-## [record](./record/)
+## [record](../stdlib-candidate/record/)
 A module to manipulate nu's record
 
 ## [system](./system/)
@@ -185,5 +185,5 @@ The scripts in this directory activate virtual environments for Conda environmen
 These scripts should be used to demonstrate how get your local weather and/or weather forecasts.
 
 
-## [webscraping](./webscraping/)
+## [webscraping](../sourced/webscraping/)
 Simple scripts to demonstrate how to scrape websites in nushell. Requires `query web` plugin
