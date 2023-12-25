@@ -76,18 +76,18 @@ $env.comma = {|_|{
 ```
 
 ### todo
-- [ ] scoped test
+- [x] scoped test
     - [x] tree map
     - [x] test
     - [ ] tag
-    - [x] watch mode
+    - [ ] watch mode
         - [x] override sub node watch
     - [x] args
     - [x] allow running on leaf node
-    - [ ] test action
+    - [x] test action
         - [x] scope
         - [ ] filter
-    - [ ] support many expect (list) for one spec
+    - [x] support many expect (list) for one spec
     - [ ] curl integration
 - [ ] gen vscode task json file
     - [x] tree map

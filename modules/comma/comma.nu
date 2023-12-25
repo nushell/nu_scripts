@@ -56,25 +56,38 @@ def 'find parent' [] {
     $e
 }
 
+def 'run exp' [expect result o] {
+    let r = do $expect $result $o.args? $o.scope?
+    if ($r | describe -d).type == 'bool' { $r } else {
+        error make {msg: $"(view source $o.expect) must be bool" }
+    }
+}
+
 def test [fmt, indent, dsc, o] {
     let result = do $o.spec? $o.args? $o.scope? | default false
-    let status = if ($o.expect? == null) {
+    let exp_type = ($o.expect? | describe -d).type
+    mut stat_list = []
+    let status = if $exp_type == 'nothing' {
         true == $result
-    } else if ($o.expect? | describe -d).type == 'closure' {
-        let r = do $o.expect $result $o.args? $o.scope?
-        if ($r | describe -d).type == 'bool' { $r } else {
-            error make {msg: $"(view source $o.expect) must be bool" }
-        }
+    } else if $exp_type == 'closure' {
+        run exp $o.expect $result $o
+    } else if $exp_type == 'list' {
+        $stat_list = ($o.expect | each {|r| run exp $r $result $o })
+        $stat_list | all {|x| $x == true }
+    } else if $exp_type == 'record' {
     } else {
         $o.expect? == $result
     }
     let ctx = if ($o.context? | is-empty) {
         if $status { null } else {
-            let e = if ($o.expect? | describe -d).type == 'closure' {
-                    $"<(view source $o.expect)>"
-                } else {
-                    $o.expect?
-                }
+            let e = if $exp_type == 'closure' {
+                $"<(view source $o.expect)>"
+            } else if $exp_type == 'list' {
+                $o.expect | zip $stat_list
+                | reduce -f [] {|i,a| $a | append (if $i.1 {'SUCC'} else {$"<(view source $i.0)>"}) }
+            } else {
+                $o.expect?
+            }
             {
                 args: $o.args?
                 result: $result
