@@ -100,3 +100,4 @@ $env.comma = {|_|{
         - [x] fix redundant filter in description
 - [x] theme
     - [x] poll sep bar
+    - [x] tips

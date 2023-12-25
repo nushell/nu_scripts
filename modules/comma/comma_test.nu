@@ -166,8 +166,7 @@ $env.comma = {|_|{
         }
         vscode: {
             gen: {
-                $_.act: {
-                }
+                $_.act: {|a,s| print $a.0 }
                 $_.wth: { glob: '*.nu' }
             }
             complete: {

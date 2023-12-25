@@ -183,6 +183,9 @@ export-env {
                         print $"(ansi light_gray)($ctx)(ansi reset)"
                     }
                 }
+                tips: {|m, a|
+                    print $"(ansi light_gray_italic)($m)(ansi reset) (ansi yellow_bold)($a)(ansi reset)"
+                }
                 theme: {
                     info: 'yellow_italic'
                     batch_hint: 'dark_gray'
@@ -261,7 +264,7 @@ def 'tree select' [tree --strict] {
                 $cur = ($sub | get $i | resolve node)
             } else {
                 if $strict {
-                    $cur = ({ print $"not found `($i)`"} | resolve node)
+                    $cur = ({ do $_.settings.tips "not found" $i } | resolve node)
                 } else {
                     $cur
                 }
@@ -281,7 +284,6 @@ def 'run test' [--watch: bool] {
     let cb = {|pth, g, node, _|
         let indent = ($pth | length)
         if $_.exp in $node {
-            #print $"($indent)($pth | last)"
             let exp = $node | get $_.exp
             let spec = $node | get $_.act
             let args = if $_.args in $node { $node | get $_.args }
@@ -486,7 +488,7 @@ def run [tbl --watch: bool] {
     let n = $in | tree select --strict $tbl
     let _ = $env.comma_index
     if not $n.node.end {
-        print $"require argument: ($n.node | get $_.sub | columns)"
+        do $_.settings.tips "require argument" ($n.node | get $_.sub | columns)
         return
     }
     let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
