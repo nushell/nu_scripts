@@ -21,7 +21,7 @@ def gendict [size extend] {
     }
 }
 
-def is [tag?] {
+def lg [tag?] {
     let o = $in
     print $'---($tag)---($o | describe)(char newline)($o | to yaml)'
     $o
@@ -109,29 +109,25 @@ def test [fmt, indent, dsc, o] {
     } else {
         $o.expect? == $result
     }
-    let report = if ($o.context? | is-empty) {
-        if $status { null } else {
-            let e = if $exp_type == 'closure' {
-                $"<(view source $o.expect)>"
-            } else if $exp_type == 'list' {
-                $o.expect | zip $stat_list
-                | reduce -f [] {|i,a| $a | append (if $i.1 {'SUCC'} else {$"<(view source $i.0)>"}) }
-            } else {
-                $o.expect?
-            }
-            let r = {
-                args: $o.args?
-                result: $result
-                expect: $e
-            }
-            if ($o.report? | is-empty) {
-                $r
-            } else {
-                do $o.report $r
-            }
+    let report = if $status { null } else {
+        let e = if $exp_type == 'closure' {
+            $"<(view source $o.expect)>"
+        } else if $exp_type == 'list' {
+            $o.expect | zip $stat_list
+            | reduce -f [] {|i,a| $a | append (if $i.1 {'SUCC'} else {$"<(view source $i.0)>"}) }
+        } else {
+            $o.expect?
         }
-    } else {
-        do $o.context $result $o.args? $o.scope?
+        let r = {
+            args: $o.args?
+            result: $result
+            expect: $e
+        }
+        if ($o.report? | is-empty) {
+            $r
+        } else {
+            do $o.report $r
+        }
     }
     do $fmt {
         indent: $indent
@@ -237,7 +233,7 @@ export-env {
             }
             os: (os type)
             arch: (uname -m)
-            lg: {$in | is}
+            lg: {$in | lg}
             batch: {
                 let o = $in
                     | lines
