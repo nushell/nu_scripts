@@ -2,6 +2,7 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
 - `,` or `*` need to be exported in order to use `,` directly
 - Directly execute `,` to create a new template file or edit an existing file
 - Custom tasks are written in `$env.comma` and can be nested
+    - no spaces allowed in name (except testing)
 - Generate completions based on the structure of `$env.comma`
 - You can use closure to customize completion
 - In `$_.act` of default closure, you can receive parameters after the current position
@@ -13,14 +14,17 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
     - In watch mode (not Polling) inject `$_.wth`(op, path, new_path) into parameter `$s`
     - when the `interval` field is included, it is polling mode(`clear` defaults to 'false')
 - Identity supports alias
-    - children sub
-    - description desc dsc
-    - action act
-    - completion cmp
-    - filter flt
-    - computed cpu
-    - watch wth
-    - expect exp
+    - children sub s
+    - description desc dsc d
+    - action act a
+    - completion cmp c
+    - filter flt f
+    - computed cpu u
+    - watch wth w
+    - tag
+    - expect exp e x
+    - mock test_args m
+    - report rpt r
 
 
 example:
@@ -76,6 +80,8 @@ $env.comma = {|_|{
 ```
 
 ### todo
+- [x] complete
+    - [x] with args
 - [x] scoped test
     - [x] tree map
     - [x] test
