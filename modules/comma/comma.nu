@@ -187,6 +187,7 @@ export-env {
             [expect exp e x]
             [mock test_args m]
             [report rpt r]
+            dry_run
         ]
         | gendict 5 {
             settings: {
@@ -227,13 +228,13 @@ export-env {
             os: (os type)
             arch: (uname -m)
             lg: {$in | lg}
-            batch: {
+            batch: {|mod=',.nu'|
                 let o = $in
                     | lines
                     | split row ';'
                     | flatten
                     | each {|x| $", ($x | str trim)" }
-                let cmd = ['use comma.nu *' 'source ,.nu' ...$o ]
+                let cmd = ['use comma.nu *' $'source ($mod)' ...$o ]
                     | str join (char newline)
                 print $"(ansi $env.comma_index.settings.theme.batch_hint)($cmd)(ansi reset)"
                 nu -c $cmd
@@ -663,8 +664,12 @@ def expose [t, a, tbl] {
     }
 }
 
-export def --wrapped pw [...x] {
-    print $"($x | flatten | str join ' ')"
+export def --wrapped dry [...x] {
+    if (do -i { $env.comma_index | get $env.comma_index.dry_run } | default false) {
+        $"($x | flatten | str join ' ')"
+    } else {
+        ^$x.0 ($x | range 1..)
+    }
 }
 
 def 'run completion' [...context] {
@@ -709,6 +714,9 @@ export def --wrapped , [
         } else if $expose {
             expose $args.0 ($args | range 1..) $tbl
         } else {
+            if $dry_run {
+                $env.comma_index = ($env.comma_index | upsert $env.comma_index.dry_run true)
+            }
             $args | flatten | run $tbl --watch $watch
         }
     }
