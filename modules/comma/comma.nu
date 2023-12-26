@@ -124,7 +124,7 @@ def test [fmt, indent, dsc, o] {
             expect: $e
         }
         if ($o.report? | is-empty) {
-            $r
+            $r | to yaml | lines
         } else {
             do $o.report $r
         }
@@ -206,19 +206,12 @@ export-env {
                     }
                     print $"($indent)($status) (ansi yellow_bold)($x.message) (ansi light_gray)($x.args)(ansi reset)"
                     if not ($x.report | is-empty) {
-                        let report = if ($x.report | describe -d).type == 'string' {
+                        let report = if $indent == 0 {
                             $x.report
                         } else {
-                            $x.report | to yaml
+                            $x.report | each {|i| $"($indent)($i)"}
                         }
-                        let report = if $indent == 0 {
-                            $report
-                        } else {
-                            $report
-                            | lines
-                            | each {|i| $"($indent)($i)"}
-                            | str join (char newline)
-                        }
+                        | str join (char newline)
                         print $"(ansi light_gray)($report)(ansi reset)"
                     }
                 }
@@ -253,8 +246,7 @@ export-env {
             F: { false }
             I: {|x| $x }
             diff: {|x|
-                let d = diffo {expect: $x.expect, result: $x.result}
-                $d | str join (char newline)
+                diffo {expect: $x.expect, result: $x.result}
             }
             config: {|cb|
                 # FIXME: no affected $env

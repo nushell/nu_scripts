@@ -90,7 +90,7 @@ $env.comma = {|_|{
     - [x] support many expect (list) for one spec
     - [ ] curl integration
     - [ ] report
-        - [ ] `$x.report` in `test_message` should be `list<string>`
+        - [x] `$x.report` in `test_message` should be `list<string>`
         - [x] diff
     - [ ] run with `nu -c` (dynamic source nu file)
 - [ ] gen vscode task json file
