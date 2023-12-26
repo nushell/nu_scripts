@@ -28,11 +28,16 @@ $env.comma = {|_|{
         completion: {
             'example a b c e': {
                 $_.act: {, -c example a b c e }
-                $_.exp: [
+                $_.x: [
                     {|r,a| 'f' in $r}
                     {|r,a| 'q1|q2|q3|q4| open a file' == ($r | from json | get 1.description) }
                     $_.T
                 ]
+            }
+        }
+        vscode: {
+            'gen': {
+                $_.a: {}
             }
         }
     }

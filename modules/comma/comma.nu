@@ -1,4 +1,4 @@
-def gendict [size: int = 5] {
+def gendict [size extend] {
     let keys = $in
     mut k = []
     let n = $keys | length
@@ -8,12 +8,16 @@ def gendict [size: int = 5] {
         let e = $i * $size
         $k ++= ($rk | str substring $b..$e)
     }
-    $keys
+    let ids = $keys
     | zip $k
     | reduce -f {} {|x, acc|
         let id = if ($x.0 | describe -d).type == 'list' { $x.0 } else { [$x.0] }
-        let id = $id | reduce -f {} {|i,a| $a | upsert $i $"($id.0)_($x.1)" }
-        $acc | merge $id
+        $id | reduce -f $acc {|i,a| $a | insert $i $"($id.0)_($x.1)" }
+    }
+    $extend
+    | transpose k v
+    | reduce -f $ids {|x, acc|
+        $acc | insert $x.k { $x.v }
     }
 }
 
@@ -74,7 +78,7 @@ def diffo [x] {
     }
     let a = $tbl.0
     let b = $tbl.1
-    let d = ^diff -u $a.n $b.n
+    let d = ^diff -u --color $a.n $b.n
     | lines
     | each {|x|
         if ($x | str starts-with $"--- ($a.n)") {
@@ -175,21 +179,20 @@ export-env {
     }
     $env.comma_index = (
         [
-            [children sub]
-            [description desc dsc]
-            [action act]
-            [completion cmp]
-            [filter flt]
-            [computed cpu]
-            [watch wth]
+            [children sub s]
+            [description desc dsc d]
+            [action act a]
+            [completion cmp c]
+            [filter flt f]
+            [computed cpu u]
+            [watch wth w]
             tag
             # test
-            [expect exp]
-            [mock test_args]
-            [report rpt]
+            [expect exp e x]
+            [mock test_args m]
+            [report rpt r]
         ]
-        | gendict 5
-        | merge {
+        | gendict 5 {
             settings: {
                 test_group: {|x|
                     let indent = '    ' | str repeat $x.indent
@@ -234,7 +237,7 @@ export-env {
             }
             os: (os type)
             arch: (uname -m)
-            is: {$in | is}
+            lg: {$in | is}
             batch: {
                 let o = $in
                     | lines
@@ -255,7 +258,7 @@ export-env {
             I: {|x| $x }
             diff: {|x|
                 let d = diffo {expect: $x.expect, result: $x.result}
-                [$x.args, ('***' | str repeat 10),  ...$d] | str join (char newline)
+                $d | str join (char newline)
             }
             config: {|cb|
                 # FIXME: no affected $env
@@ -355,6 +358,14 @@ def 'test suit' [] {
 
 def 'run test' [--watch: bool] {
     let argv = $in
+    let _ = $env.comma_index
+    let bc = {|node, _|
+        if $_.dsc in $node {
+            $node | get $_.dsc
+        } else {
+            ''
+        }
+    }
     let cb = {|pth, g, node, _|
         let indent = ($pth | length)
         if $_.exp in $node {
@@ -376,14 +387,6 @@ def 'run test' [--watch: bool] {
             }
         }
     }
-    let bc = {|node, _|
-        if $_.dsc in $node {
-            $node | get $_.dsc
-        } else {
-            ''
-        }
-    }
-    let _ = $env.comma_index
     let specs = $argv
     | flatten
     | tree select --strict (resolve comma)
@@ -622,8 +625,26 @@ def 'enrich desc' [flt] {
 }
 
 def 'gen vscode' [] {
-    let o = $in
-    $o
+    let argv = $in
+    let _ = $env.comma_index
+    let bc = {|node, _|
+        if $_.dsc in $node {
+            $node | get $_.dsc
+        } else {
+            ''
+        }
+    }
+    let cb = {|pth, g, node, _|
+        let indent = ($pth | length)
+        {
+            path: $pth
+            g: $g
+        }
+    }
+    let specs = $argv
+    | flatten
+    | tree select --strict (resolve comma)
+    | tree map $cb $bc
 }
 
 def 'parse argv' [] {
@@ -663,7 +684,7 @@ export def --wrapped , [
     ...args:string@compos
 ] {
     if $vscode {
-        resolve comma | gen vscode | to json
+        resolve comma | gen vscode
     } else if $completion {
         $args | flatten | cmpl (resolve comma) | to json
     } else if $test {
