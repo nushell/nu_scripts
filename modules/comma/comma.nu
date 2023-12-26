@@ -232,7 +232,7 @@ export-env {
             os: (os type)
             arch: (uname -m)
             lg: {$in | lg}
-            batch: {|mod=',.nu'|
+            batch: {|mod|
                 let o = $in
                     | lines
                     | split row ';'
@@ -737,18 +737,7 @@ export def --wrapped , [
         if $vscode {
             let c = $args | gen vscode-tasks (resolve comma)
             if $json {
-                let c = $c | to json
-                let f = [$env.PWD, '.vscode' 'tasks.json'] | path join
-                if ($f | path exists) {
-                    let a = [yes no] | input list 'write to tasks.json (need `augustocdias.tasks-shell-input`) ?'
-                    if $a == 'yes' {
-                        $c | save -f $f
-                    } else {
-                        $c
-                    }
-                } else {
-                    $c | save $f
-                }
+                $c | to json
             } else {
                 $c
             }

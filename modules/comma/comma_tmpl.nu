@@ -15,14 +15,21 @@ $env.comma_scope = {|_|{
 $env.comma = {|_|{
     created: {|a, s| $s.computed }
     inspect: {|a, s| {index: $_, scope: $s, args: $a} | table -e }
+    vscode-tasks: {
+        $_.a: {
+            mkdir .vscode
+            '--vscode -j' | do $_.batch ',.nu' | save -f .vscode/tasks.json
+        }
+        $_.d: "generate .vscode/tasks.json"
+    }
     test: {
         $_.sub: {
-            batch: { 'created; inspect' | do $_.batch }
+            batch: { 'created; inspect' | do $_.batch ',.nu' }
             watch: {
-                $_.action: {|a, s| $s | get $_.watch }
-                $_.completion: {ls *.json | get name}
-                $_.desc: 'inspect watch context'
-                $_.watch: {
+                $_.act: {|a, s| $s | get $_.watch }
+                $_.cmp: {ls *.json | get name}
+                $_.dsc: 'inspect watch context'
+                $_.wth: {
                     glob: '*'
                     op: ['Write', 'Create']
                     postpone: true

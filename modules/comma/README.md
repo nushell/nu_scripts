@@ -103,10 +103,14 @@ $env.comma = {|_|{
     - [x] tree map
     - [x] batch mode
         - [x] run complete in batch mode
-    - [x] augustocdias.tasks-shell-input
-    - [ ] allow rest args
-        - [ ] clean filter output
-    - [ ] generate testing task (one)
+    - [ ] Input variables
+        - [ ] pickString
+        - [x] augustocdias.tasks-shell-input
+        - [ ] allow rest args as `promptString`
+        - https://code.visualstudio.com/docs/editor/variables-reference
+    - [ ] clean filter output
+    - [x] add gen vscode-tasks to template
+    - [ ] test and watch
 - [x] refactor with `resolve node`
     - [x] run
     - [x] complete
