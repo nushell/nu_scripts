@@ -42,7 +42,7 @@ $env.comma = {|_|{
                 $_.x: [
                     {|r,a| 'f' in $r}
                     $_.T
-                    {|r,a| 'q1|q2|q3|q4| open a file' == ($r | from json | get 1.description) }
+                    {|r,a| 'q1|q2|q3|q4| open a file' == ($r | get 1.description) }
                 ]
             }
             'with args': {
@@ -59,14 +59,15 @@ $env.comma = {|_|{
                 $_.x: {|r,a| $r == $a }
             }
             'with multiple args': {
-                $_.act: {|a| , -c suit completion args $a | from json }
+                $_.act: {|a| , -c suit completion args $a }
                 $_.m: [a b c d e f g]
                 $_.x: {|r,a| $r == $a }
             }
         }
         vscode: {
             'gen': {
-                $_.a: { , -e vscode }
+                $_.a: { , --vscode }
+                $_.x: {|r,a| $r.version == '2.0.0' }
             }
         }
     }
@@ -77,6 +78,11 @@ $env.comma = {|_|{
                     t1: {
                         $_.act: $_.T
                         $_.exp: $_.T
+                    }
+                    open_file: {
+                        $_.act: {|a, s| open $a.0 }
+                        $_.cmp: {ls | get name}
+                        $_.dsc: 'open a file'
                     }
                     c: {
                         $_.sub: {
@@ -153,12 +159,12 @@ $env.comma = {|_|{
                 spec: { , example a b c e open_file ,.nu }
             }
             do $_.test 'completion' {
-                expect: {|x| ',.nu' in ( $x | from json) }
+                expect: {|x| ',.nu' in $x }
                 spec: { , -c example a b c e open_file }
                 args: [example a b c e open_file]
             }
             do $_.test 'completion' {
-                expect: {|x| 'f' in ( $x | from json) }
+                expect: {|x| 'f' in $x }
                 spec: {|x| , -c $x }
                 args: [example a b c e]
             }

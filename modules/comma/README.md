@@ -103,7 +103,10 @@ $env.comma = {|_|{
     - [x] tree map
     - [x] batch mode
         - [x] run complete in batch mode
-    - [ ] augustocdias.tasks-shell-input
+    - [x] augustocdias.tasks-shell-input
+    - [ ] allow rest args
+        - [ ] clean filter output
+    - [ ] generate testing task (one)
 - [x] refactor with `resolve node`
     - [x] run
     - [x] complete

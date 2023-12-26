@@ -52,7 +52,6 @@ def 'find parent' [] {
     mut e = ''
     for i in 0..$depth {
         $e = ($cur | path join)
-        #print ($e | path expand)
         if ($e | path exists) { break }
         $cur = ['..', ...$cur]
         $e = ''
@@ -70,7 +69,11 @@ def 'run exp' [expect result o] {
 def diffo [x] {
     let tbl = $x
     | transpose k v
-    | do { if ($in | length) != 2 { error make -u { msg: "must be two fields" } } else { $in } }
+    | if ($in | length) != 2 {
+        error make -u { msg: "must be two fields" }
+    } else {
+        $in
+    }
     | each {|i|
         let n = mktemp -t
         echo ($i.v? | default '' | into string) out> $n
@@ -187,19 +190,20 @@ export-env {
             [expect exp e x]
             [mock test_args m]
             [report rpt r]
+            # internal
             dry_run
         ]
         | gendict 5 {
             settings: {
                 test_group: {|x|
-                    let indent = '    ' | str repeat $x.indent
+                    let indent = '  ' | str repeat $x.indent
                     let s = $"(ansi bg_dark_gray)GROUP(ansi reset)"
                     let t = $"(ansi yellow_bold)($x.title)(ansi reset)"
                     let d = $"(ansi light_gray)($x.desc)(ansi reset)"
                     print $"($indent)($s) ($t) ($d)"
                 }
                 test_message: {|x|
-                    let indent = '    ' | str repeat $x.indent
+                    let indent = '  ' | str repeat $x.indent
                     let status = if $x.status {
                         $"(ansi bg_green)SUCC(ansi reset)"
                     } else {
@@ -257,7 +261,7 @@ export-env {
     )
 }
 
-def 'resolve node' [] { # [endpoint, node]
+def 'resolve node' [] {
     let o = $in
     let _ = $env.comma_index
     let t = ($o | describe -d).type
@@ -403,7 +407,8 @@ def summary [$tbl] {
     $argv
     | flatten
     | tree select --strict $tbl
-    | do { $in.node | get $env.comma_index.sub }
+    | $in.node
+    | get $env.comma_index.sub
     | tree map { |pth, g, node| {
         path: $pth
         node: $node
@@ -614,7 +619,7 @@ def 'enrich desc' [flt] {
     }
 }
 
-def 'gen vscode' [tbl] {
+def 'gen vscode-tasks' [tbl] {
     let argv = $in
     let _ = $env.comma_index
     let bc = {|node, _|
@@ -626,15 +631,53 @@ def 'gen vscode' [tbl] {
     }
     let cb = {|pth, g, node, _|
         let indent = ($pth | length)
-        {
-            path: $pth
-            g: $g
+        if $_.exp in $node {
+            []
+        } else {
+            let label = $g
+                | filter {|x| not ($x | is-empty) }
+                | str join ' | '
+            let command = $pth
+                | str join ' '
+            let id = if $_.cmp in $node { random chars -l 8 }
+            {
+                label: $label
+                command: $command
+                id: $id
+            }
         }
     }
-    let specs = $argv
+    let vs = $argv
     | flatten
     | tree select --strict $tbl
+    | $in.node
+    | reject 'end'
     | tree map $cb $bc
+    let nuc = "nu -c 'use comma.nu *; source ,.nu;"
+    let tasks = $vs
+    | each {|x|
+        let input = if ($x.id | is-empty) { '' } else { $" ${input:($x.id)}"}
+        let label = if ($x.label | is-empty) { '' } else { $" [($x.label)]" }
+        {
+            type: 'shell'
+            label: $"($x.command)"
+            command: $"($nuc) , ($x.command)($input)'"
+            problemMatcher: []
+        }
+    }
+    let inputs = $vs
+    | filter {|x| not ($x.id | is-empty) }
+    | each {|x| {
+        id: $x.id
+        type: 'command'
+        command: 'shellCommand.execute'
+        args: { command: $"($nuc) , -c --vscode ($x.command)'" }
+    } }
+    {
+        version: "2.0.0"
+        tasks: $tasks
+        inputs: $inputs
+    }
 }
 
 def 'parse argv' [] {
@@ -655,7 +698,7 @@ def expose [t, a, tbl] {
             $a | summary $tbl
         }
         vscode => {
-            $a | gen vscode $tbl
+            $a | gen vscode-tasks $tbl
         }
         _ => {
             let _ = $env.comma_index
@@ -680,8 +723,9 @@ def 'run completion' [...context] {
 
 export def --wrapped , [
     # flag with parameters is not supported
-    --vscode
+    --json (-j)
     --completion (-c)
+    --vscode
     --test (-t)
     --tag (-g)
     --watch (-w)
@@ -690,25 +734,57 @@ export def --wrapped , [
     ...args:string@'run completion'
 ] {
     if ($args | is-empty) {
-        if ([$env.PWD, ',.nu'] | path join | path exists) {
+        if $vscode {
+            let c = $args | gen vscode-tasks (resolve comma)
+            if $json {
+                let c = $c | to json
+                let f = [$env.PWD, '.vscode' 'tasks.json'] | path join
+                if ($f | path exists) {
+                    let a = [yes no] | input list 'write to tasks.json (need `augustocdias.tasks-shell-input`) ?'
+                    if $a == 'yes' {
+                        $c | save -f $f
+                    } else {
+                        $c
+                    }
+                } else {
+                    $c | save $f
+                }
+            } else {
+                $c
+            }
+        } else if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
-            let a = [yes no] | input list 'create ,.nu?'
-            if $a == 'yes' {
-                let time = date now | format date '%Y-%m-%d{%w}%H:%M:%S'
-                let file = [($nu.config-path | path dirname) scripts comma_tmpl.nu] | path join
-                open $file
+            let a = [yes no] | input list 'create ,.nu ?'
+            let time = date now | format date '%Y-%m-%d{%w}%H:%M:%S'
+            let txt = [($nu.config-path | path dirname) scripts comma_tmpl.nu]
+                | path join
+                | open $in
                 | str replace '{{time}}' $time
-                | save $",.nu"
+            if $a == 'yes' {
+                $txt | save $",.nu"
                 #source ',.nu'
+            } else {
+                $txt
             }
         }
     } else {
         let tbl = resolve comma
-        if $vscode {
-            $args | gen vscode $tbl
-        } else if $completion {
-            $args | flatten | cmpl $tbl | to json
+        if $completion {
+            let c = $args | flatten | cmpl $tbl
+            if $vscode {
+                $c
+                | each {|x|
+                    if ($x | describe -d).type == 'string' { $x } else {
+                        $"($x.value)||($x.description)|"
+                    }
+                }
+                | str join (char newline)
+            } else if $json {
+                $c | to json
+            } else {
+                $c
+            }
         } else if $test {
             $args | flatten | run test $tbl --watch $watch
         } else if $expose {
