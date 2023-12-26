@@ -344,7 +344,7 @@ def 'test suit' [] {
     }
 }
 
-def 'run test' [--watch: bool] {
+def 'run test' [tbl --watch: bool] {
     let argv = $in
     let _ = $env.comma_index
     let bc = {|node, _|
@@ -377,7 +377,7 @@ def 'run test' [--watch: bool] {
     }
     let specs = $argv
     | flatten
-    | tree select --strict (resolve comma)
+    | tree select --strict $tbl
     | do {
         let i = $in
         if $_.sub in $i.node {
@@ -397,10 +397,11 @@ def 'run test' [--watch: bool] {
     }
 }
 
-def summary [argv] {
+def summary [$tbl] {
+    let argv = $in
     $argv
     | flatten
-    | tree select --strict (resolve comma)
+    | tree select --strict $tbl
     | do { $in.node | get $env.comma_index.sub }
     | tree map { |pth, g, node| {
         path: $pth
@@ -612,7 +613,7 @@ def 'enrich desc' [flt] {
     }
 }
 
-def 'gen vscode' [] {
+def 'gen vscode' [tbl] {
     let argv = $in
     let _ = $env.comma_index
     let bc = {|node, _|
@@ -631,7 +632,7 @@ def 'gen vscode' [] {
     }
     let specs = $argv
     | flatten
-    | tree select --strict (resolve comma)
+    | tree select --strict $tbl
     | tree map $cb $bc
 }
 
@@ -647,12 +648,18 @@ def 'parse argv' [] {
 def expose [t, a, tbl] {
     match $t {
         test => {
-            $a | run test
+            $a | run test $tbl
         }
         summary => {
-            summary $a
+            $a | summary $tbl
         }
-        _ => {}
+        vscode => {
+            $a | gen vscode $tbl
+        }
+        _ => {
+            let _ = $env.comma_index
+            do $_.settings.tips "expose has different arguments" [test summary vscode]
+        }
     }
 }
 
@@ -668,18 +675,10 @@ export def --wrapped , [
     --test (-t)
     --tag (-g)
     --watch (-w)
-    --expose (-e): string # for test
+    --expose (-e) # for test
     ...args:string@compos
 ] {
-    if $vscode {
-        resolve comma | gen vscode
-    } else if $completion {
-        $args | flatten | cmpl (resolve comma) | to json
-    } else if $test {
-        $args | flatten | run test --watch $watch
-    } else if not ($expose | is-empty) {
-        expose $expose $args (resolve comma)
-    } else if ($args | is-empty) {
+    if ($args | is-empty) {
         if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
@@ -694,6 +693,17 @@ export def --wrapped , [
             }
         }
     } else {
-        $args | flatten | run (resolve comma) --watch $watch
+        let tbl = resolve comma
+        if $vscode {
+            $args | gen vscode $tbl
+        } else if $completion {
+            $args | flatten | cmpl $tbl | to json
+        } else if $test {
+            $args | flatten | run test $tbl --watch $watch
+        } else if $expose {
+            expose $args.0 ($args | range 1..) $tbl
+        } else {
+            $args | flatten | run $tbl --watch $watch
+        }
     }
 }

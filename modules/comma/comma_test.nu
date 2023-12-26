@@ -37,7 +37,8 @@ $env.comma = {|_|{
         }
         vscode: {
             'gen': {
-                $_.a: {}
+                $_.a: { , -e vscode }
+                $_.x: $_.F
             }
         }
     }
