@@ -522,11 +522,20 @@ module vscode-tasks {
                     | str join ' | '
                 let command = $pth
                     | str join ' '
-                let id = if $_.cmp in $node { random chars -l 8 }
+                let args = view source ($node | get $_.act)
+                    | str replace -ar $'[ \n]' ''
+                    | parse --regex '\{\|(.+?)\|.+\}'
+                let args = if ($args| is-empty) { '' } else { $args.0.capture0 }
+                let argid = if ($args | is-empty) { '' } else {
+                    $"_($args | str replace -ar $'[ ,\n]' '_')"
+                }
+                let cmp = if $_.cmp in $node { random chars -l 8 }
                 {
                     label: $label
                     command: $command
-                    id: $id
+                    cmp: $cmp
+                    args: $args
+                    argid: $argid
                 }
             }
         }
@@ -539,7 +548,10 @@ module vscode-tasks {
         let nuc = "nu -c 'use comma.nu *; source ,.nu;"
         let tasks = $vs
         | each {|x|
-            let input = if ($x.id | is-empty) { '' } else { $" ${input:($x.id)}"}
+            let input = if ($x.cmp | is-empty) { '' } else { $" ${input:($x.cmp)}"}
+            let input = if ($x.args | is-empty) { $input } else {
+                $"($input) ${input:($x.argid)}"
+            }
             let label = if ($x.label | is-empty) { '' } else { $" [($x.label)]" }
             {
                 type: 'shell'
@@ -549,17 +561,32 @@ module vscode-tasks {
             }
         }
         let inputs = $vs
-        | filter {|x| not ($x.id | is-empty) }
+        | filter {|x| not ($x.cmp | is-empty) }
         | each {|x| {
-            id: $x.id
+            id: $x.cmp
             type: 'command'
             command: 'shellCommand.execute'
             args: { command: $"($nuc) , -c --vscode ($x.command)'" }
         } }
+        let args = $vs
+        | reduce -f {} {|x,a|
+            if ($x.args | is-empty) { $a } else {
+                if $x.argid in $a { $a } else {
+                    $a | insert $x.argid {
+                        "type": "promptString",
+                        "id": $x.argid,
+                        "description": $x.args
+                    }
+                }
+            }
+        }
+        | transpose k v
+        | get v
+
         {
             version: "2.0.0"
             tasks: $tasks
-            inputs: $inputs
+            inputs: [...$inputs ...$args]
         }
     }
 }

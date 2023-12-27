@@ -207,8 +207,7 @@ $env.comma = {|_|{
                 $_.wth: { glob: '*.nu' }
             }
             complete: {
-                $_.act: {
-                }
+                $_.act: $_.T
                 $_.wth: { glob: '*.nu' }
             }
         }
