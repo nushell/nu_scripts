@@ -107,10 +107,10 @@ false
 
 
 Be aware that this method of computing  either an even or odd truth actually
-# will take about 1/2 the number of steps as the passed in initial value. even
-# will be called 1/4th of the number of the initial value and odd will
-# be called the other 1/4th of the times.
-# Thus, large values of  n might take some seconds.
+will take about 1/2 the number of steps as the passed in initial value. even
+will be called 1/4th of the number of the initial value and odd will
+be called the other 1/4th of the times.
+Thus, large values of  n might take some seconds.
 
 
 ## Tips and Caveats
