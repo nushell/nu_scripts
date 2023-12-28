@@ -382,14 +382,16 @@ export extern "yarn remove" [
 ]
 
 def "nu-complete yarn run" [] {
-    let userScripts = (open ./package.json
-    |get scripts
-    |columns)
+    let userScripts = open ./package.json 
+      | get scripts 
+      | transpose 
+      | rename value description
 
-    let binaries = (yarn bin --json
-    |lines
-    |each { |it| $it | from json}
-    |get name)
+    let binaries = yarn bin --json 
+      | lines 
+      | each { |it| $it | from json } 
+      | select name source 
+      | rename value description
 
     $userScripts | append $binaries
 }
