@@ -57,7 +57,7 @@ module utils {
         }
     }
 
-    export def unindent [] {
+    export def outdent [] {
         let txt = $in | lines | range 1..
         let indent = $txt.0 | parse --regex '^(?P<indent>\s*)' | get indent.0 | str length
         $txt
@@ -82,7 +82,7 @@ module tree {
         }
     }
 
-    def op [cur _] {
+    def gather [cur _] {
         mut data = $in
         mut wth = ($data.watch? | default [])
         mut flt = ($data.filter? | default [])
@@ -98,13 +98,13 @@ module tree {
         let ph = $in
         let _ = $env.comma_index
         mut cur = $data | node
-        mut ops = {} | op $cur $_
+        mut ops = {} | gather $cur $_
         mut rest = []
         for i in $ph {
             if $cur.end {
                 $rest ++= $i
             } else {
-                $ops = ($ops | op $cur $_)
+                $ops = ($ops | gather $cur $_)
                 let sub = $cur | get $_.sub
                 if $i in $sub {
                     $cur = ($sub | get $i | node)
@@ -151,6 +151,19 @@ module tree {
             }
         }
     }
+
+
+    export def spread [list lv=0] {
+        $list
+        | each {|x|
+            if ($x | describe -d).type == 'list' {
+                spread $x ($lv + 1)
+            } else {
+                $x
+            }
+        } | flatten
+    }
+
 }
 
 module resolve {
@@ -319,6 +332,44 @@ module run {
             { value: $o.k, description: $"__($suf)" }
         }
     }
+
+    def unnest [list lv=0] {
+        mut cur = []
+        mut rt = []
+        for i in $list {
+            if ($i | describe -d).type == 'list' {
+                $rt = [...$rt, {it: $cur, lv: $lv}, ...(unnest $i ($lv + 1))]
+                $cur = []
+            } else {
+                $cur = [...$cur, $i]
+            }
+        }
+        if not ($cur | is-empty) {
+            $rt = [...$rt, {it: $cur, lv: $lv}]
+        }
+        return $rt
+    }
+
+    export def --wrapped dry [...x --prefix='  ' --strip] {
+        use utils 'str repeat'
+        let w = term size | get columns
+        mut lines = []
+        for a in (unnest (if $strip { $x.0 } else { $x })) {
+            mut nl = ($prefix | str repeat $a.lv)
+            for t in $a.it {
+                let line = $"($nl) ($t)"
+                if ($line | str length) > $w {
+                    $lines ++= $nl
+                    $nl = $"($prefix | str repeat $a.lv) ($t)"
+                } else {
+                    $nl = $line
+                }
+            }
+            $lines ++= $nl
+        }
+        $lines | str join $" \\(char newline)"
+    }
+
 }
 
 module test {
@@ -482,6 +533,7 @@ module test {
         }
         | tree map $cb $bc
         if ($watch | default false) {
+            use run watches
             watches {
                 $specs | suit
             } [] {} { clear: true }
@@ -704,7 +756,6 @@ export-env {
                     | lines
                     | split row ';'
                     | flatten
-                    | each {|x| $", ($x | str trim)" }
                 let cmd = ['use comma.nu *' $'source ($mod)' ...$o ]
                     | str join (char newline)
                 print $"(ansi $env.comma_index.settings.theme.batch_hint)($cmd)(ansi reset)"
@@ -722,6 +773,7 @@ export-env {
                 use test
                 test diffo {expect: $x.expect, result: $x.result}
             }
+            outdent: { $in | outdent }
             config: {|cb|
                 # FIXME: no affected $env
                 $env.comma_index.settings = (do $cb $env.comma_index.settings)
@@ -749,6 +801,9 @@ def 'parse argv' [] {
     let context = $in
     $context.0
     | str substring 0..$context.1
+    | split row ';'
+    | last
+    | str trim -l
     | split row -r '\s+'
     | range 1..
     | where not ($it | str starts-with '-')
@@ -767,18 +822,29 @@ def expose [t, a, tbl] {
             use vscode-tasks
             $a | vscode-tasks gen $tbl
         }
+        dry => {
+            use run
+            run dry $a
+        }
         _ => {
             let _ = $env.comma_index
-            do $_.settings.tips "expose has different arguments" [test summary vscode]
+            do $_.settings.tips "expose has different arguments" [
+                test
+                summary
+                vscode
+            ]
         }
     }
 }
 
-export def --wrapped dry [...x] {
-    if (do -i { $env.comma_index | get $env.comma_index.dry_run } | default false) {
-        $"($x | flatten | str join ' ')"
+# perform or print
+export def --wrapped pp [...x --print] {
+    if $print or (do -i { $env.comma_index | get $env.comma_index.dry_run } | default false) {
+        use run
+        run dry $x --strip
     } else {
-        ^$x.0 ($x | range 1..)
+        use tree spread
+        ^$x.0 (spread ($x | range 1..))
     }
 }
 
@@ -798,7 +864,7 @@ export def --wrapped , [
     --test (-t)
     --tag (-g)
     --watch (-w)
-    --dry-run (-d)
+    --print (-p)
     --expose (-e) # for test
     ...args:string@'completion'
 ] {
@@ -847,7 +913,7 @@ export def --wrapped , [
         } else if $expose {
             expose $args.0 ($args | range 1..) $tbl
         } else {
-            if $dry_run {
+            if $print {
                 $env.comma_index = ($env.comma_index | upsert $env.comma_index.dry_run true)
             }
             use run

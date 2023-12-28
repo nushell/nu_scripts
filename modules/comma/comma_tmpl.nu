@@ -21,6 +21,21 @@ $env.comma = {|_|{
             '--vscode -j' | do $_.batch ',.nu' | save -f .vscode/tasks.json
         }
         $_.d: "generate .vscode/tasks.json"
+        $_.w: { glob: ',.nu' }
+    }
+    dev: {
+        run: {
+            $_.action: {|a,s| nu $a.0 }
+            $_.watch: { glob: '*.nu', clear: true }
+            $_.completion: { ls *.nu | get name }
+            $_.desc: "develop a nu script"
+        }
+        watch: {
+            $_.a: {|a,s| $'dev run ($a.0)' | do $_.batch ',.nu' }
+            $_.x: {|r,a| false }
+            $_.m: [,.nu]
+            $_.c: { ls *.nu | get name }
+        }
     }
     test: {
         $_.sub: {
@@ -35,18 +50,13 @@ $env.comma = {|_|{
                     postpone: true
                 }
             }
-            open_file: {
-                $_.action: {|a, s| open $a.0 }
-                $_.completion: {ls | get name}
-                $_.desc: 'open a file'
-                $_.filter: ['slow']
-            }
             ping: {
                 $_.action: {|a, s| ping -c 2 localhost }
                 $_.watch: {
                     interval: 2sec
                     clear: true
                 }
+                $_.filter: ['slow']
             }
         }
         $_.desc: 'run test'

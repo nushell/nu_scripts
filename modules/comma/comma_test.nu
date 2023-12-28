@@ -26,14 +26,29 @@ $env.comma = {|_|{
             }
         }
         dry_run: {
-            a: { dry pwd }
+            a: { pp pwd }
             no: {
                 $_.a: {, suit dry_run a }
                 $_.x: {|r| ($r | lines | get 0) == $env.PWD }
             }
             yes: {
-                $_.a: {, -d suit dry_run a }
-                $_.x: {|r| $r == 'pwd'}
+                $_.a: {, -p suit dry_run a }
+                $_.x: {|r| $r == ' pwd'}
+            }
+            ee: {
+                $_.a: {
+                    pp --print aaa bbbb ccccc dddddd eeeeee  [
+                        ffffff gggggggggg [
+                            hhhhhhhhh iiiiiiiiii lllllllll
+                        ] mmmmmmmmmmmmm nnnnnnnnnnnn
+                        aaaaaaaaaaaaaaa
+                        xxxxxxxxxxxxxxxx
+                        yyyyyyyyyyyyyyyy
+                        zzzzzzzzzzzzzzz
+                        jjjjjjjjjjjjj
+                    ] oooooooo ppppppppp [qqqqqq [rrrrrr ssssss tttttt] uuuuuu]
+                }
+                $_.x: $_.T
             }
         }
         completion: {
@@ -128,7 +143,7 @@ $env.comma = {|_|{
     test: {
         comma: {
             $_.act: {
-                ', test all' | do $_.batch 'scripts/comma_test.nu'
+                ', test all' | do $_.batch 'comma_test.nu'
             }
             $_.wth: {
                 glob: '*.nu'

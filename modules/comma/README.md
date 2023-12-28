@@ -80,6 +80,11 @@ $env.comma = {|_|{
 ```
 
 ### todo
+- [x] run
+    - [ ] dry
+        - [ ] dry wrap lines
+        - [ ] accept list<string>
+    - [x] formatter: outdent
 - [x] complete
     - [x] with args
 - [x] scoped test
@@ -99,22 +104,27 @@ $env.comma = {|_|{
         - [x] `$x.report` in `test_message` should be `list<string>`
         - [x] diff
     - [ ] run with `nu -c` (dynamic source nu file)
-- [ ] gen vscode task json file
-    - [x] tree map
-    - [x] batch mode
-        - [x] run complete in batch mode
-    - [ ] Input variables
-        - [ ] pickString
-        - [x] augustocdias.tasks-shell-input
-        - [ ] allow rest args as `promptString`
-        - https://code.visualstudio.com/docs/editor/variables-reference
-    - [ ] clean filter output
-    - [x] add gen vscode-tasks to template
-    - [ ] test and watch
-- [x] refactor with `resolve node`
-    - [x] run
-    - [x] complete
-        - [x] fix redundant filter in description
+- [ ] template
+    - [x] vscode-tasks
+    - [ ] should panic when identity not exists
+- [ ] integration
+    - [x] gen vscode task json file
+        - [x] tree map
+        - [x] batch mode
+            - [x] run complete in batch mode
+        - [x] Input variables
+            - [ ] pickString
+            - [x] augustocdias.tasks-shell-input
+            - [x] allow rest args as `promptString`
+            - https://code.visualstudio.com/docs/editor/variables-reference
+        - [ ] clean filter output
+        - [x] add gen vscode-tasks to template
+        - [ ] test and watch
+- [x] modulize
+    - [x] refactor with `resolve node`
+        - [x] run
+        - [x] complete
+            - [x] fix redundant filter in description
 - [x] theme
     - [x] poll sep bar
     - [x] tips
