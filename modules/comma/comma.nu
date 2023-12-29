@@ -350,17 +350,17 @@ module run {
         return $rt
     }
 
-    export def --wrapped dry [...x --prefix='  ' --strip] {
+    export def --wrapped dry [...x --prefix='    ' --strip] {
         use utils 'str repeat'
         let w = term size | get columns
         mut lines = []
         for a in (unnest (if $strip { $x.0 } else { $x })) {
             mut nl = ($prefix | str repeat $a.lv)
             for t in $a.it {
-                let line = $"($nl) ($t)"
+                let line = if ($nl | str replace -a ' ' '' | is-empty) { $"($nl)($t)" } else { $"($nl) ($t)" }
                 if ($line | str length) > $w {
                     $lines ++= $nl
-                    $nl = $"($prefix | str repeat $a.lv) ($t)"
+                    $nl = $"($prefix | str repeat $a.lv)($t)"
                 } else {
                     $nl = $line
                 }

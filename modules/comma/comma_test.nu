@@ -33,7 +33,7 @@ $env.comma = {|_|{
             }
             yes: {
                 $_.a: {, -p suit dry_run a }
-                $_.x: {|r| $r == ' pwd'}
+                $_.x: {|r| $r == 'pwd'}
             }
             ee: {
                 $_.a: {
@@ -48,7 +48,17 @@ $env.comma = {|_|{
                         jjjjjjjjjjjjj
                     ] oooooooo ppppppppp [qqqqqq [rrrrrr ssssss tttttt] uuuuuu]
                 }
-                $_.x: $_.T
+                $_.x: ( '
+                    aaa bbbb ccccc dddddd eeeeee \
+                        ffffff gggggggggg \
+                            hhhhhhhhh iiiiiiiiii lllllllll \
+                        mmmmmmmmmmmmm nnnnnnnnnnnn aaaaaaaaaaaaaaa xxxxxxxxxxxxxxxx yyyyyyyyyyyyyyyy \
+                        zzzzzzzzzzzzzzz jjjjjjjjjjjjj \
+                    oooooooo ppppppppp \
+                        qqqqqq \
+                            rrrrrr ssssss tttttt \
+                        uuuuuu' | do $_.outdent)
+                $_.report: $_.diff
             }
         }
         completion: {
