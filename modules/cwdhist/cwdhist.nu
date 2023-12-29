@@ -77,6 +77,11 @@ export def empty-sqlite [] {
     | decode base64 --binary | gzip -d
 }
 
+export def 'cwd history delete' [cwd] {
+    open $env.cwd_history_file
+    | query db $"delete from cwd_history where cwd = '($cwd)';"
+}
+
 export-env {
     $env.cwd_history_full = false
     $env.cwd_history_file = '~/.cache/nu_cwd_history.sqlite'
