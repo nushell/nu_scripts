@@ -1,12 +1,11 @@
 $env.comma_scope = {|_|{
     created: '{{time}}'
     computed: {$_.computed:{|a, s| $'($s.created)($a)' }}
-    say: {|s| print -e $'(ansi $_.settings.theme.info)($s)(ansi reset)' }
-    quick: {$_.filter:{|a, s| do $s.say 'run a `quick` filter' }}
+    quick: {$_.filter:{|a, s| do $_.tips 'run filter' `quick` }}
     slow: {$_.filter:{|a, s|
-        do $s.say 'run a `slow` filter'
+        do $_.tips 'run filter' `slow`
         sleep 1sec
-        do $s.say 'filter need to be declared'
+        do $_.tips 'filter need to be declared'
         sleep 1sec
         $'($s.computed)<($a)>'
     }}

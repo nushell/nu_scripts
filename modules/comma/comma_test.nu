@@ -55,7 +55,7 @@ $env.comma = {|_|{
             'example a b c e': {
                 $_.act: {, -c example a b c e }
                 $_.x: [
-                    {|r,a| 'f' in $r}
+                    {|r,a| $r | where value == 'f' | not ($in | is-empty) }
                     $_.T
                     {|r,a| 'q1|q2|q3|q4| open a file' == ($r | get 1.description) }
                 ]
@@ -67,6 +67,10 @@ $env.comma = {|_|{
             args: {
                 $_.a: {|a,s| $a }
                 $_.c: {|a,s| $a }
+            }
+            '': {
+                $_.act: { , test -c }
+                $_.x: {|r,a| $r | where value == 'ping' | not ($in | is-empty) }
             }
             'run with args': {
                 $_.act: {|a| , suit completion args $a }
@@ -179,7 +183,7 @@ $env.comma = {|_|{
                 args: [example a b c e open_file]
             }
             do $_.test 'completion' {
-                expect: {|x| 'f' in $x }
+                expect: {|x| $x | where value == 'f' | not ($in | is-empty) }
                 spec: {|x| , -c $x }
                 args: [example a b c e]
             }
@@ -215,6 +219,14 @@ $env.comma = {|_|{
             $_.wth: {
                 interval: 1sec
             }
+        }
+        ping: {
+            $_.action: {|a, s| ping -c 2 localhost }
+            $_.watch: {
+                interval: 2sec
+                clear: true
+            }
+            $_.filter: ['slow']
         }
         vscode: {
             gen: {

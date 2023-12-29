@@ -322,7 +322,7 @@ module run {
         let suf = if ($suf | is-empty) { $suf } else { $"($suf) " }
         if ($o.v | describe -d).type == 'record' {
             let dsc = if $_.dsc in $o.v { $o.v | get $_.dsc } else { '' }
-            if ($dsc | is-empty) {
+            if ($dsc | is-empty) and ($suf | is-empty) {
                 $o.k
             } else {
                 { value: $o.k, description: $"($suf)($dsc)"}
@@ -763,8 +763,12 @@ export-env {
                 let fmt = $env.comma_index.settings.test_message
                 test $fmt 0 $dsc $spec
             }
-            tips: {|m, a|
-                print -e $"(ansi light_gray_italic)($m)(ansi reset) (ansi yellow_bold)($a)(ansi reset)"
+            tips: {|...m|
+                if ($m | length) > 2 {
+                    print -e $"(ansi light_gray_italic)Accepts no more than (ansi yellow_bold)2(ansi reset)(ansi light_gray_italic) parameters(ansi reset)"
+                } else {
+                    print -e $"(ansi light_gray_italic)($m.0)(ansi reset) (ansi yellow_bold)($m.1?)(ansi reset)"
+                }
             }
             T: { true }
             F: { false }
