@@ -22,6 +22,7 @@ def "nu-complete rustup toolchain" [] {
 def "nu-complete rustup toolchain list" [] {
   ^rustup toolchain list
   | lines
+  | str replace " (default)" ""
   | append 'stable'
   | append 'beta'
   | append 'nightly'
@@ -39,6 +40,7 @@ def "nu-complete rustup target" [] {
 def "nu-complete rustup target list" [] {
   ^rustup target list
   | lines
+  | str replace " (installed)" ""
 }
 
 def "nu-complete rustup target list --installed" [] {
@@ -47,8 +49,9 @@ def "nu-complete rustup target list --installed" [] {
 }
 
 def "nu-complete rustup update" [] {
-  ^rustup toolchain list
-  | lines
+  ^rustup toolchain list 
+  | lines 
+  | str replace " (default)" ""
 }
 
 def "nu-complete rustup component" [] {
@@ -63,6 +66,7 @@ def "nu-complete rustup component" [] {
 def "nu-complete rustup component list" [] {
   ^rustup component list
   | lines
+  | str replace " (installed)" ""
 }
 
 def "nu-complete rustup component list installed" [] {
