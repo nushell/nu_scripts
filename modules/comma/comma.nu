@@ -1,6 +1,6 @@
 export def lg [tag?] {
     let o = $in
-    print $'---($tag)---($o | describe)(char newline)($o | to yaml)'
+    print -e $'---($tag)---($o | describe)(char newline)($o | to yaml)'
     $o
 }
 
@@ -110,7 +110,7 @@ module tree {
                     $cur = ($sub | get $i | node)
                 } else {
                     if $strict {
-                        $cur = ({ do $_.settings.tips "not found" $i } | node)
+                        $cur = ({ do $_.tips "not found" $i } | node)
                     } else {
                         $cur
                     }
@@ -221,7 +221,7 @@ module run {
                 }
                 do $act $argv $scope
                 sleep $w.interval
-                print $env.comma_index.settings.theme.watch_separator
+                print -e $env.comma_index.settings.theme.watch_separator
             }
         } else {
             if $cl {
@@ -242,7 +242,7 @@ module run {
                         new_path: $path
                     })
                     if not $cl {
-                        print $env.comma_index.settings.theme.watch_separator
+                        print -e $env.comma_index.settings.theme.watch_separator
                     }
                 }
             }
@@ -256,7 +256,7 @@ module run {
         let n = $n | tree select --strict $tbl
         let _ = $env.comma_index
         if not $n.node.end {
-            do $_.settings.tips "require argument" ($n.node | get $_.sub | columns)
+            do $_.tips "require argument" ($n.node | get $_.sub | columns)
             return
         }
         let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
@@ -668,8 +668,8 @@ def 'comma file' [] {
         {
           condition: {|_, after| $after | path join ',.nu' | path exists}
           code: "
-          print $'(ansi default_underline)(ansi default_bold),(ansi reset).nu (ansi green_italic)detected(ansi reset)...'
-          print $'(ansi $env.comma_index.settings.theme.info)activating(ansi reset) (ansi default_underline)(ansi default_bold),(ansi reset) module with `(ansi default_dimmed)(ansi default_italic)source ,.nu(ansi reset)`'
+          print -e $'(ansi default_underline)(ansi default_bold),(ansi reset).nu (ansi green_italic)detected(ansi reset)...'
+          print -e $'(ansi $env.comma_index.settings.theme.info)activating(ansi reset) (ansi default_underline)(ansi default_bold),(ansi reset) module with `(ansi default_dimmed)(ansi default_italic)source ,.nu(ansi reset)`'
 
           # TODO: allow parent dir
           $env.comma_index.wd = $after
@@ -739,9 +739,6 @@ export-env {
                         print $"(ansi light_gray)($report)(ansi reset)"
                     }
                 }
-                tips: {|m, a|
-                    print $"(ansi light_gray_italic)($m)(ansi reset) (ansi yellow_bold)($a)(ansi reset)"
-                }
                 theme: {
                     info: 'yellow_italic'
                     batch_hint: 'dark_gray'
@@ -758,13 +755,16 @@ export-env {
                     | flatten
                 let cmd = ['use comma.nu *' $'source ($mod)' ...$o ]
                     | str join (char newline)
-                print $"(ansi $env.comma_index.settings.theme.batch_hint)($cmd)(ansi reset)"
+                print -e $"(ansi $env.comma_index.settings.theme.batch_hint)($cmd)(ansi reset)"
                 nu -c $cmd
             }
             test: {|dsc, spec|
                 use test
                 let fmt = $env.comma_index.settings.test_message
                 test $fmt 0 $dsc $spec
+            }
+            tips: {|m, a|
+                print -e $"(ansi light_gray_italic)($m)(ansi reset) (ansi yellow_bold)($a)(ansi reset)"
             }
             T: { true }
             F: { false }
@@ -828,7 +828,7 @@ def expose [t, a, tbl] {
         }
         _ => {
             let _ = $env.comma_index
-            do $_.settings.tips "expose has different arguments" [
+            do $_.tips "expose has different arguments" [
                 test
                 summary
                 vscode

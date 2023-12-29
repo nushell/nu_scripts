@@ -117,7 +117,7 @@ $env.comma = {|_|{
             - [x] augustocdias.tasks-shell-input
             - [x] allow rest args as `promptString`
             - https://code.visualstudio.com/docs/editor/variables-reference
-        - [ ] clean filter output
+        - [x] clean filter output
         - [x] add gen vscode-tasks to template
         - [ ] test and watch
 - [x] modulize

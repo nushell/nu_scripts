@@ -1,7 +1,7 @@
 $env.comma_scope = {|_|{
     created: '{{time}}'
     computed: {$_.computed:{|a, s| $'($s.created)($a)' }}
-    say: {|s| print $'(ansi $_.settings.theme.info)($s)(ansi reset)' }
+    say: {|s| print -e $'(ansi $_.settings.theme.info)($s)(ansi reset)' }
     quick: {$_.filter:{|a, s| do $s.say 'run a `quick` filter' }}
     slow: {$_.filter:{|a, s|
         do $s.say 'run a `slow` filter'
@@ -18,7 +18,7 @@ $env.comma = {|_|{
     vscode-tasks: {
         $_.a: {
             mkdir .vscode
-            '--vscode -j' | do $_.batch ',.nu' | save -f .vscode/tasks.json
+            ', --vscode -j' | do $_.batch ',.nu' | save -f .vscode/tasks.json
         }
         $_.d: "generate .vscode/tasks.json"
         $_.w: { glob: ',.nu' }
@@ -31,7 +31,7 @@ $env.comma = {|_|{
             $_.desc: "develop a nu script"
         }
         watch: {
-            $_.a: {|a,s| $'dev run ($a.0)' | do $_.batch ',.nu' }
+            $_.a: {|a,s| $', dev run ($a.0)' | do $_.batch ',.nu' }
             $_.x: {|r,a| false }
             $_.m: [,.nu]
             $_.c: { ls *.nu | get name }
@@ -39,7 +39,7 @@ $env.comma = {|_|{
     }
     test: {
         $_.sub: {
-            batch: { 'created; inspect' | do $_.batch ',.nu' }
+            batch: { ', created; , inspect' | do $_.batch ',.nu' }
             watch: {
                 $_.act: {|a, s| $s | get $_.watch }
                 $_.cmp: {ls *.json | get name}
