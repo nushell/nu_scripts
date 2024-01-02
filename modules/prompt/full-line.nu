@@ -1,9 +1,9 @@
 # Build a full-line prompt with widgets for: 
-#   current working directory (duh)
-#   git status (branch, branch ahead/behind remote, files changed)
-# ; current position in remembered working directories (`std dirs`, a.k.a. `shells`) (try it to see)
-#   also, as a nu dev special, widget for active nu executable.  (flags `cargo run` vs "installed" and which branch built from)
-#
+#   activated python virtual environment (from `overlay use <ve>/bin/activate.nu`)
+#   current working directory
+#   git status (branch, branch ahead/behind remote, files changed) 
+#   current position in remembered working directories (`std dirs`, a.k.a. `shells`)
+#   also, as a nu dev special, widget for active nu executable (flags `cargo run` vs "installed" and which branch built from).
 # 
 # to use:
 # 1. copy this file to `($nu.default-config-dir | path add 'scripts')` (Or someplace on your $env.NU_LIB_DIRS path, defined in env.nu)
@@ -21,20 +21,21 @@
 # credit panache-git for the git status widget.  
 
 use std dirs
+use std assert
 
-# returns the prompt string
+# build the prompt from segments, looks like:
 #
-# looks like:
-# ---<exeStatus>---------- <workingDirectory> ------ <gitRepoStatus> --- <dirs>
-# >
+# ^(<py ve>) ------------ <workingDirectory> ------ <gitRepoStatus> --- <dirs>$
 #
-# <exeStatus> shows <exe-path> <exe-branch>, but is empty if 
-# * nu exe running from a "bin" folder (based on `$nu.current-exe` path)
-# * nu exe built from a "main" branch (otherwise shows `(version | get branch)`)
+# or, if no git repo current directory
+#
+# ^------------------------------------ <workingDirectory> ------------ <dirs>$
 export def main [
     --pad_char (-p) = '-' # character to fill with
 ] {
-    let left_content = ($"($pad_char + $pad_char + $pad_char)(current_exe)")
+    let left_content = ($"(
+        if 'VIRTUAL_ENV_PROMPT' in $env {'(' + $env.VIRTUAL_ENV_PROMPT + ') '}
+        )($pad_char + $pad_char + $pad_char)(current_exe)")
     let left_content_len = ($left_content | ansi strip | str length -g)
     let mid_content = ($" (dir_string) ")
     let mid_content_len = ($mid_content | ansi strip | str length -g)
