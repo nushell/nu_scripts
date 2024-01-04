@@ -31,34 +31,74 @@ $env.comma = {|_|{
         }
         watch: {
             $_.a: {|a,s| $', dev run ($a.0)' | do $_.batch ',.nu' }
-            $_.x: {|r,a| false }
+            $_.x: (do $_.T {|r,a,s| $s | lg })
             $_.m: [,.nu]
             $_.c: { ls *.nu | get name }
         }
-    }
-    test: {
-        $_.sub: {
-            batch: { ', created; , inspect' | do $_.batch ',.nu' }
-            watch: {
-                $_.act: {|a, s| $s | get $_.watch }
-                $_.cmp: {ls *.json | get name}
-                $_.dsc: 'inspect watch context'
-                $_.wth: {
-                    glob: '*'
-                    op: ['Write', 'Create']
-                    postpone: true
-                }
+        build: {
+            app: {
+                $_.a: {}
+                $_.d: 'build app'
             }
-            ping: {
-                $_.action: {|a, s| ping -c 2 localhost }
-                $_.watch: {
-                    interval: 2sec
-                    clear: true
+            image: {
+                $_.a: {|a,s|
+                    ^$env.docker-cli pull $a.0
+                    let tmp = mktemp
+                    $"
+                    FROM ($a.0)
+
+                    RUN apt update \\
+                     && apt-get upgrade -y \\
+                     && DEBIAN_FRONTEND=noninteractive \\
+                        apt-get install -y --no-install-recommends \\
+                            curl ca-certificates \\
+                     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \\
+                     && curl -sSL ($a.2) | tar zxf - -C /opt/vendor \\
+                     && chown -R 33:33 /opt/vendor"
+                    | do $_.outdent
+                    | save -f $tmp
+
+                    ^$env.docker-cli build -f $tmp -t $a.1 .
+                    rm -f $tmp
+                    ^$env.docker-cli push $a.1
                 }
-                $_.filter: ['slow']
+                $_.c: {|a,s|
+                    let l = $a | length
+                    if $l < 1 {
+                        ['ubuntu', 'alpine', 'nginx']
+                    } else if $l < 2 {
+                        ['target']
+                    } else {
+                        ['vendor']
+                    }
+                }
+                $_.d: 'build docker image'
             }
         }
-        $_.desc: 'run test'
-        $_.filter: ['quick']
+        test: {
+            $_.sub: {
+                batch: { ', created; , inspect' | do $_.batch ',.nu' }
+                watch: {
+                    $_.act: {|a, s| $s | get $_.watch }
+                    $_.cmp: {ls *.json | get name}
+                    $_.dsc: 'inspect watch context'
+                    $_.wth: {
+                        glob: '*'
+                        op: ['Write', 'Create']
+                        postpone: true
+                    }
+                }
+                ping: {
+                    $_.action: {|a, s| ping -c 2 localhost }
+                    $_.watch: {
+                        interval: 2sec
+                        clear: true
+                    }
+                    $_.filter: ['slow']
+                }
+            }
+            $_.desc: 'run test'
+            $_.filter: ['quick']
+        }
     }
 }}
