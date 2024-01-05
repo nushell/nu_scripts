@@ -65,8 +65,8 @@ $env.comma = {|_|{
             'example a b c e': {
                 $_.act: {, -c example a b c e }
                 $_.x: [
-                    {|r,a| $r | where value == 'f' | not ($in | is-empty) }
-                    $_.T
+                    {|r,a,s| $r | where value == 'f' | not ($in | is-empty) }
+                    (do $_.T {|r,a,s| $s | lg 'expect'})
                     {|r,a| 'q1|q2|q3|q4| open a file' == ($r | get 1.description) }
                 ]
             }
@@ -105,8 +105,8 @@ $env.comma = {|_|{
             b: {
                 $_.sub: {
                     t1: {
-                        $_.act: $_.T
-                        $_.exp: $_.T
+                        $_.act: { true }
+                        $_.exp: { true }
                     }
                     open_file: {
                         $_.act: {|a, s| open $a.0 }
@@ -119,7 +119,7 @@ $env.comma = {|_|{
                             e: {
                                 $_.sub: {
                                     f: {
-                                        $_.act: $_.T
+                                        $_.act: { true }
                                     }
                                     open_file: {
                                         $_.act: {|a, s| open $a.0 }
@@ -131,8 +131,8 @@ $env.comma = {|_|{
                                         $_.report: $_.diff
                                     }
                                     t3: {
-                                        $_.act: $_.T
-                                        $_.exp: $_.T
+                                        $_.act: { true }
+                                        $_.exp: { true }
                                     }
                                 }
                                 $_.dsc: 'ok'
@@ -141,8 +141,8 @@ $env.comma = {|_|{
                         }
                     }
                     t2: {
-                        $_.act: $_.T
-                        $_.exp: $_.T
+                        $_.act: { true }
+                        $_.exp: { true }
                     }
                 }
                 $_.dsc: 'this way'
@@ -198,15 +198,15 @@ $env.comma = {|_|{
                 args: [example a b c e]
             }
             do $_.test 'run test' {
-                expect: $_.T
+                expect: { true }
                 spec: {, -e test example }
             }
             do $_.test 'run leaf test' {
-                expect: $_.T
+                expect: { true }
                 spec: { , -t example a b t1 }
             }
             do $_.test 'suit' {
-                expect: $_.T
+                expect: { true }
                 spec: { , -t suit }
             }
         }
@@ -244,7 +244,7 @@ $env.comma = {|_|{
                 $_.wth: { glob: '*.nu' }
             }
             complete: {
-                $_.act: $_.T
+                $_.act: { true }
                 $_.wth: { glob: '*.nu' }
             }
         }

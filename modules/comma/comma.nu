@@ -1,6 +1,12 @@
 export def lg [tag?] {
     let o = $in
-    print -e $'---($tag)---($o | describe)(char newline)($o | to yaml)'
+    let t = [
+        $'(ansi xterm_grey)--------(ansi xterm_olive)($tag)(ansi xterm_grey)--------'
+        $'(ansi xterm_grey39)($o | describe)'
+        $'(ansi xterm_grey66)($o | to yaml)'
+        (ansi reset)
+    ]
+    print -e ($t | str join (char newline))
     $o
 }
 
@@ -190,7 +196,9 @@ module resolve {
         }
         for i in ($flts | default []) {
             if $i in $flt {
-                $vs = ($vs | merge {$i: (do ($flt | get $i) $args $vs)} )
+                let fr = do ($flt | get $i) $args $vs
+                let fr = if ($fr | describe -d).type == 'record' { $fr } else { {} }
+                $vs = ($vs | merge $fr)
             } else {
                 error make -u {msg: $"filter `($i)` not found" }
             }
@@ -770,8 +778,8 @@ export-env {
                     print -e $"(ansi light_gray_italic)($m.0)(ansi reset) (ansi yellow_bold)($m.1?)(ansi reset)"
                 }
             }
-            T: { true }
-            F: { false }
+            T: {|f| {|r,a,s| do $f $r $a $s; true } }
+            F: {|f| {|r,a,s| do $f $r $a $s; false } }
             I: {|x| $x }
             diff: {|x|
                 use test
