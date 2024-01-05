@@ -196,7 +196,9 @@ module resolve {
         }
         for i in ($flts | default []) {
             if $i in $flt {
-                $vs = ($vs | merge {$i: (do ($flt | get $i) $args $vs)} )
+                let fr = do ($flt | get $i) $args $vs
+                let fr = if ($fr | describe -d).type == 'record' { $fr } else { {} }
+                $vs = ($vs | merge $fr)
             } else {
                 error make -u {msg: $"filter `($i)` not found" }
             }
