@@ -440,7 +440,6 @@ export extern "gh ssh-key" [
 ]
 
 export extern "gh status" [
-    command 
     --exclude(-e)   # Comma separated list of repos to exclude in owner/name format
     --org(-o)       # Report status within an organization
     --help          # Show help for command
