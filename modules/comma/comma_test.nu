@@ -31,13 +31,9 @@ $env.comma = {|_|{
                 $_.a: {, suit dry_run a }
                 $_.x: {|r| ($r | lines | get 0) == $env.PWD }
             }
-            yes: {
-                $_.a: {, -p suit dry_run a }
-                $_.x: {|r| $r == 'pwd'}
-            }
-            ee: {
+            pp: {
                 $_.a: {
-                    pp --print aaa bbbb ccccc dddddd eeeeee  [
+                    pp --print --as-str aaa bbbb ccccc dddddd eeeeee  [
                         ffffff gggggggggg [
                             hhhhhhhhh iiiiiiiiii lllllllll
                         ] mmmmmmmmmmmmm nnnnnnnnnnnn
@@ -48,7 +44,7 @@ $env.comma = {|_|{
                         jjjjjjjjjjjjj
                     ] oooooooo ppppppppp [qqqqqq [rrrrrr ssssss tttttt] uuuuuu]
                 }
-                $_.x: ( '
+                $_.x: ('
                     aaa bbbb ccccc dddddd eeeeee \
                         ffffff gggggggggg \
                             hhhhhhhhh iiiiiiiiii lllllllll \
