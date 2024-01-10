@@ -310,31 +310,34 @@ export def kg [
             } else {
                 [-n $namespace]
             }
-    let r = $r | with-flag
-    let l = $selector | with-flag -l
-    if ($jsonpath | is-empty) {
-        let wide = if $wide {[-o wide]} else {[]}
-        if ($verbose) {
-            kubectl get -o json ...$n $k ...$r ...$l | from json | get items
-            | each {|x|
-                {
-                    name: $x.metadata.name
-                    kind: $x.kind
-                    ns: $x.metadata.namespace
-                    created: ($x.metadata.creationTimestamp | into datetime)
-                    metadata: $x.metadata
-                    status: $x.status
-                    spec: $x.spec
+    if ($r | is-empty) {
+        let l = $selector | with-flag -l
+        if ($jsonpath | is-empty) {
+            let wide = if $wide {[-o wide]} else {[]}
+            if ($verbose) {
+                kubectl get -o json ...$n $k ...$l | from json | get items
+                | each {|x|
+                    {
+                        name: $x.metadata.name
+                        kind: $x.kind
+                        ns: $x.metadata.namespace
+                        created: ($x.metadata.creationTimestamp | into datetime)
+                        metadata: $x.metadata
+                        status: $x.status
+                        spec: $x.spec
+                    }
                 }
+                | normalize-column-names
+            } else if $watch {
+                kubectl get ...$n $k ...$l ...$wide --watch
+            } else {
+                kubectl get ...$n $k ...$l ...$wide | from ssv -a | normalize-column-names
             }
-            | normalize-column-names
-        } else if $watch {
-            kubectl get ...$n $k ...$r ...$l ...$wide --watch
         } else {
-            kubectl get ...$n $k ...$r ...$l ...$wide | from ssv -a | normalize-column-names
+            kubectl get ...$n $k $"--output=jsonpath={($jsonpath)}" | from json
         }
     } else {
-        kubectl get ...$n $k ...$r $"--output=jsonpath={($jsonpath)}" | from json
+        kubectl get ...$n $k $r -o json | from json
     }
 }
 
@@ -429,7 +432,11 @@ export def kgp [
     --selector (-l): string
     --all (-a)
 ] {
-    if $all {
+    if not ($r | is-empty) {
+        kubectl get pods ...($namespace | with-flag -n) $r --output=json
+        | from json
+        | {...$in.metadata, ...$in.spec, ...$in.status}
+    } else if $all {
         kg pods -a --wide
     } else {
         kg pods -n $namespace -p $jsonpath -l $selector --wide $r
@@ -597,7 +604,13 @@ export def kgs [
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
-    kg services -n $namespace -p $jsonpath -l $selector $r
+    if ($r | is-empty) {
+        kg services -n $namespace -p $jsonpath -l $selector $r
+    } else {
+        kubectl get svc ...($namespace | with-flag -n) $r --output=json
+        | from json
+        | {...$in.metadata, ...$in.spec, ...$in.status}
+    }
 }
 
 # kubectl edit service

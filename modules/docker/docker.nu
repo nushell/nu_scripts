@@ -32,7 +32,7 @@ def "nu-complete docker ns" [] {
 }
 
 # list containers
-export def container-process-list [
+export def container-list [
     -n: string@"nu-complete docker ns"
     container?: string@"nu-complete docker containers"
     --all(-a)
@@ -465,7 +465,7 @@ export def "bud rm" [
     buildah rm $id
 }
 
-export alias dp = container-process-list
+export alias dp = container-list
 export alias di = image-list
 export alias dl = container-log
 export alias dln = container-log-namespace
