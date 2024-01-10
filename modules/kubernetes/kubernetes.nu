@@ -992,7 +992,7 @@ export def kah [
     --ignore-image (-i) # for kdh
 ] {
     let update = $name in (
-        helm list ($namespace | with-flag -n) --output json
+        helm list ...($namespace | with-flag -n) --output json
         | from json | get name
     )
     let act = if $update { [upgrade] } else { [install] }
