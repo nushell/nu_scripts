@@ -1,6 +1,6 @@
 # cool oneliners
 
-Capturing oneliners to and from the nushell Discourse channel `#cool-oneliners`.
+Capturing oneliners to and from the nushell community.
 
 Consider these a living library.
 Or an ongoing story of how people actually use `nu`.
