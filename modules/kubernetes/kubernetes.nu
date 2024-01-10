@@ -198,6 +198,25 @@ export def 'kconf import' [name: string, path: string] {
 }
 
 export def 'kconf delete' [name: string@"nu-complete kube ctx"] {
+    let kc = (kube-config)
+    let d = $kc.data
+    let ctx = $d | get contexts | where name == $name | get 0
+    let rctx = $d | get contexts | where name != $name
+    let user =  if ($ctx.context.user in ($rctx | get context.user)) {
+        $d | get users
+    } else {
+        $d | get users | where name != $ctx.context.user
+    }
+    let cluster = if ($ctx.context.cluster in ($rctx | get context.cluster)) {
+        $d | get clusters
+    } else {
+        $d | get clusters | where name != $ctx.context.cluster
+    }
+    $d
+    | update contexts $rctx
+    | update users $user
+    | update clusters $cluster
+    | to yaml
 }
 
 export def 'kconf export' [name: string@"nu-complete kube ctx"] {
