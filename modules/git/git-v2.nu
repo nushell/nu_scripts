@@ -45,7 +45,7 @@ export def gst [
     } else if $show {
         git stash show --text
     } else if $all {
-        git stash --all (if $include_untracked {[--include-untracked]} else {[]})
+        git stash --all ...(if $include_untracked {[--include-untracked]} else {[]})
     } else {
         git stash
     }
@@ -120,7 +120,7 @@ export def --env gn [
         } else {
             $local
         }
-        git clone (if $submodule {[--recurse-submodules]} else {[]}) $repo $local
+        git clone ...(if $submodule {[--recurse-submodules]} else {[]}) $repo $local
         cd $local
     }
 }
@@ -170,14 +170,14 @@ export def gp [
                         print $'* switch to ($branch)'
                         git checkout $branch
                     }
-                    git pull $m $a
+                    git pull ...$m ...$a
                 }
             } else {
                 print "* local doesn't have that branch, fetch"
                 git checkout -b $branch
                 git fetch $remote $branch
                 git branch -u $'($remote)/($branch)' $branch
-                git pull $m $a -v
+                git pull ...$m ...$a -v
             }
         } else {
             let bmsg = "* remote doesn't have that branch"
@@ -221,19 +221,19 @@ export def ga [
     if $delete {
         let c = if $cached {[--cached]} else {[]}
         let f = if $force {[--force]} else {[]}
-        git rm $c $f -r $file
+        git rm ...$c ...$f -r ...$file
     } else if $restore {
         let o = $source | with-flag --source
         let s = if $staged {[--staged]} else {[]}
         let file = if ($file | is-empty) { [.] } else { [$file] }
-        git restore $o $s $file
+        git restore ...$o ...$s ...$file
     } else {
         let a = if $all {[--all]} else {[]}
         let p = if $patch {[--patch]} else {[]}
         let u = if $update {[--update]} else {[]}
         let v = if $verbose {[--verbose]} else {[]}
         let file = if ($file | is-empty) { [.] } else { [$file] }
-        git add $a $p $u $v $file
+        git add ...$a ...$p ...$u ...$v ...$file
     }
 
 }
@@ -249,7 +249,7 @@ export def gc [
     let a = if $all {[--all]} else {[]}
     let n = if $amend {[--amend]} else {[]}
     let k = if $keep {[--no-edit]} else {[]}
-    git commit -v $m $a $n $k
+    git commit -v ...$m ...$a ...$n ...$k
 }
 
 # git diff
@@ -262,7 +262,7 @@ export def gd [
     let w = if $word_diff {[--word-diff]} else {[]}
     let c = if $cached {[--cached]} else {[]}
     let s = if $staged {[--staged]} else {[]}
-    git diff $c $s $w ($file | with-flag)
+    git diff ...$c ...$s ...$w ...($file | with-flag)
 }
 
 # git merge
@@ -275,9 +275,9 @@ export def gm [
 ] {
     let x = if $no_squash { [] } else { [--squash] }
     if ($branch | is-empty) {
-        git merge $x $"origin/(git_main_branch)"
+        git merge ...$x $"origin/(git_main_branch)"
     } else {
-        git merge $x $branch
+        git merge ...$x $branch
     }
     if not $no_squash {
         git commit -v
@@ -308,9 +308,9 @@ export def gr [
     } else {
         let i = if $interactive {[--interactive]} else {[]}
         if ($branch | is-empty) {
-            git rebase $i (git_main_branch)
+            git rebase ...$i (git_main_branch)
         } else {
-            git rebase $i $branch
+            git rebase ...$i $branch
         }
     }
 }
@@ -352,7 +352,7 @@ export def grs [
 ] {
     let h = if $hard {[--hard]} else {[]}
     let cm = $commit | with-flag
-    git reset $h $cm
+    git reset ...$h ...$cm
     if $clean {
         git clean -fd
     }

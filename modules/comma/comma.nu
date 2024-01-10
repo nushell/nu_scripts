@@ -45,21 +45,28 @@ module utils {
         $r
     }
 
-    export def 'os type' [] {
-        let info = cat /etc/os-release
-        | lines
-        | reduce -f {} {|x, acc|
-            let a = $x | split row '='
-            $acc | upsert $a.0 ($a.1| str replace -a '"' '')
-        }
-        if 'ID_LIKE' in $info {
-            if not ($info.ID_LIKE | parse -r '(rhel|fedora|redhat)' | is-empty) {
-                'redhat'
-            } else {
-                $info.ID_LIKE
+    export def distro [] {
+        match $nu.os-info.name {
+            'linux' => {
+                let info = cat /etc/os-release
+                | lines
+                | reduce -f {} {|x, acc|
+                    let a = $x | split row '='
+                    $acc | upsert $a.0 ($a.1| str replace -a '"' '')
+                }
+                if 'ID_LIKE' in $info {
+                    if not ($info.ID_LIKE | parse -r '(rhel|fedora|redhat)' | is-empty) {
+                        'redhat'
+                    } else {
+                        $info.ID_LIKE
+                    }
+                } else {
+                    $info.ID
+                }
             }
-        } else {
-            $info.ID
+            _ => {
+                $nu.os-info.name
+            }
         }
     }
 
@@ -257,7 +264,7 @@ module run {
         }
     }
 
-    export def main [tbl --watch: bool] {
+    export def main [tbl --opt: record] {
         let n = $in
         use tree
         use resolve
@@ -268,7 +275,7 @@ module run {
             return
         }
         let flt = if $_.flt in $n.node { [...$n.filter ...($n.node | get $_.flt)] } else { $n.filter }
-        let wth = if $watch {
+        let wth = if $opt.watch {
             if $_.wth in $n.node {
                 [...$n.watch ($n.node | get $_.watch)]
             } else {
@@ -495,7 +502,7 @@ module test {
     }
 
 
-    export def run [tbl --watch: bool] {
+    export def run [tbl --opt: record] {
         let argv = $in
         let _ = $env.comma_index
         use tree
@@ -540,7 +547,7 @@ module test {
             }
         }
         | tree map $cb $bc
-        if ($watch | default false) {
+        if ($opt.watch? | default false) {
             use run watches
             watches {
                 $specs | suit
@@ -552,9 +559,9 @@ module test {
 }
 
 module vscode-tasks {
-    export def merge [args tbl --json: bool] {
+    export def merge [args tbl --opt: record] {
             let c = $args | gen $tbl
-            if $json {
+            if $opt.json {
                 $c | to json
             } else {
                 $c
@@ -670,10 +677,6 @@ def 'find parent' [] {
 def 'comma file' [] {
     [
         {
-          condition: {|_, after| not ($after | path join ',.nu' | path exists)}
-          code: "$env.comma = null"
-        }
-        {
           condition: {|_, after| $after | path join ',.nu' | path exists}
           code: "
           print -e $'(ansi default_underline)(ansi default_bold),(ansi reset).nu (ansi green_italic)detected(ansi reset)...'
@@ -753,8 +756,7 @@ export-env {
                     watch_separator: $"(ansi dark_gray)------------------------------(ansi reset)"
                 }
             }
-            os: (os type)
-            arch: (uname -m)
+            distro: (distro)
             lg: {$in | lg}
             batch: {|mod|
                 let o = $in
@@ -850,13 +852,18 @@ def expose [t, a, tbl] {
 }
 
 # perform or print
-export def --wrapped pp [...x --print] {
+export def --wrapped pp [...x --print --as-str] {
     if $print or (do -i { $env.comma_index | get $env.comma_index.dry_run } | default false) {
         use run
-        run dry $x --strip
+        let r = run dry $x --strip
+        if $as_str {
+            $r
+        } else {
+            print -e $"(ansi light_gray)($r)(ansi reset)(char newline)"
+        }
     } else {
         use tree spread
-        ^$x.0 (spread ($x | range 1..))
+        ^$x.0 ...(spread ($x | range 1..))
     }
 }
 
@@ -884,7 +891,7 @@ export def --wrapped , [
     if ($args | is-empty) {
         if $vscode {
             use vscode-tasks
-            vscode-tasks merge $args (resolve comma) --json $json
+            vscode-tasks merge $args (resolve comma) --opt {json: $json}
         } else if ([$env.PWD, ',.nu'] | path join | path exists) {
             ^$env.EDITOR ,.nu
         } else {
@@ -921,7 +928,7 @@ export def --wrapped , [
             }
         } else if $test {
             use test
-            $args | flatten | test run $tbl --watch $watch
+            $args | flatten | test run $tbl --opt {watch: $watch}
         } else if $expose {
             expose $args.0 ($args | range 1..) $tbl
         } else {
@@ -929,7 +936,7 @@ export def --wrapped , [
                 $env.comma_index = ($env.comma_index | upsert $env.comma_index.dry_run true)
             }
             use run
-            $args | flatten | run $tbl --watch $watch
+            $args | flatten | run $tbl --opt {watch: $watch}
         }
     }
 }
