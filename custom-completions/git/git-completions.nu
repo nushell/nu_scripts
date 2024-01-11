@@ -444,7 +444,7 @@ export extern "git stash show" [
 
 # Drop a stashed change
 export extern "git stash drop" [
-  stash: string@"nu-complete git stash-list"
+  stash?: string@"nu-complete git stash-list"
 ]
 
 # Create a new git repository
