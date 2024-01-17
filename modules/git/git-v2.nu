@@ -12,6 +12,10 @@ def agree [
     ( if $default_not { [no yes] } else { [yes no] } | input list $prompt) in [yes]
 }
 
+def tips [ msg ] {
+    print -e $"(ansi light_gray)($msg)(ansi reset)"
+}
+
 def --wrapped with-flag [...flag] {
     if ($in | is-empty) { [] } else { [...$flag $in] }
 }
@@ -153,43 +157,44 @@ export def gp [
         let m = if $merge { [] } else { [--rebase] }
         let a = if $autostash {[--autostash]} else {[]}
         let branch = if ($branch | is-empty) { (_git_status).branch } else { $branch }
+        let branch_repr = $'(ansi yellow)($branch)(ansi light_gray)'
         let remote = if ($remote|is-empty) { 'origin' } else { $remote }
         let lbs = git branch | lines | each {|x| $x | str substring 2..}
         let rbs = remote_braches | each {|x| $x.1}
         let prev = (_git_status).branch
         if $branch in $rbs {
             if $branch in $lbs {
-                let bmsg = '* both local and remote have the branch'
+                let bmsg = $'both local and remote have ($branch_repr) branch'
                 if $force {
-                    print $'($bmsg), with --force, push'
+                    tips $'($bmsg), with `--force`, push'
                     git branch -u $'($remote)/($branch)' $branch
                     git push --force
                 } else {
-                    print $'($bmsg), pull'
+                    tips $'($bmsg), pull'
                     if $prev != $branch {
-                        print $'* switch to ($branch)'
+                        tips $'switch to ($branch_repr)'
                         git checkout $branch
                     }
                     git pull ...$m ...$a
                 }
             } else {
-                print "* local doesn't have that branch, fetch"
+                tips $"local doesn't have ($branch_repr) branch, fetch"
                 git checkout -b $branch
                 git fetch $remote $branch
                 git branch -u $'($remote)/($branch)' $branch
                 git pull ...$m ...$a -v
             }
         } else {
-            let bmsg = "* remote doesn't have that branch"
+            let bmsg = $"remote doesn't have ($branch_repr) branch"
             let force = if $force {[--force]} else {[]}
             if $branch in $lbs {
-                print $'($bmsg), set upstream and push'
+                tips $'($bmsg), set upstream and push'
                 git checkout $branch
             } else {
-                print $'($bmsg), create and push'
+                tips $'($bmsg), create and push'
                 git checkout -b $branch
             }
-            git push $force --set-upstream $remote $branch
+            git push ...$force --set-upstream $remote $branch
         }
 
         if $back_to_prev {
@@ -198,7 +203,7 @@ export def gp [
 
         let s = (_git_status)
         if $s.ahead > 0 {
-            print '* remote is behind, push'
+            tips 'remote is behind, push'
             git push
         }
     }
