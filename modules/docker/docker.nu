@@ -169,7 +169,7 @@ export def container-log-namespace [ctn: string@"nu-complete docker containers"
     -n: string@"nu-complete docker ns" # namespace
 ] {
     let l = if $l == 0 { [] } else { [--tail $l] }
-    ^$env.docker-cli ...($n | with-flag -n) logs -f $l $ctn
+    ^$env.docker-cli ...($n | with-flag -n) logs -f ...$l $ctn
 }
 
 # attach container
@@ -228,7 +228,7 @@ export def container-history [img: string@"nu-complete docker images" -n: string
 
 # save images
 export def image-save [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
-    ^$env.docker-cli ...($n | with-flag -n) save $img
+    ^$env.docker-cli ...($n | with-flag -n) save ...$img
 }
 
 # load images
@@ -259,13 +259,13 @@ export def image-tag [from: string@"nu-complete docker images"  to: string -n: s
 # push image
 export def image-push [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns" -i] {
     let $insecure = if $i {[--insecure-registry]} else {[]}
-    ^$env.docker-cli ...($n | with-flag -n) $insecure push $img
+    ^$env.docker-cli ...($n | with-flag -n) ...$insecure push $img
 }
 
 # pull image
 export def image-pull [img -n: string@"nu-complete docker ns" -i] {
     let $insecure = if $i {[--insecure-registry]} else {[]}
-    ^$env.docker-cli ...($n | with-flag -n) $insecure pull $img
+    ^$env.docker-cli ...($n | with-flag -n) ...$insecure pull $img
 }
 
 ### list volume
@@ -289,7 +289,7 @@ export def volume-inspect [name: string@"nu-complete docker volume" -n: string@"
 
 # remove volume
 export def volume-remove [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) volume rm $name
+    ^$env.docker-cli ...($n | with-flag -n) volume rm ...$name
 }
 
 ### run
