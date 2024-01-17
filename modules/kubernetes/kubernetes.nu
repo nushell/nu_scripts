@@ -1056,7 +1056,7 @@ export def kdelh [
     name: string@"nu-complete helm list"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
-    helm uninstall $name ($namespace | with-flag -n)
+    helm uninstall $name ...($namespace | with-flag -n)
 }
 
 # helm template
