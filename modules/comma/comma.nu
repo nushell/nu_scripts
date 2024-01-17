@@ -1,4 +1,4 @@
-export def lg [tag?] {
+export def show [tag?] {
     let o = $in
     let t = [
         $'(ansi xterm_grey)--------(ansi xterm_olive)($tag)(ansi xterm_grey)--------'
@@ -34,16 +34,6 @@ module utils {
         }
     }
 
-
-    export def 'str repeat' [n] {
-        let o = $in
-        if $n < 1 { return '' }
-        mut r = ''
-        for i in 0..($n - 1) {
-            $r += $o
-        }
-        $r
-    }
 
     export def distro [] {
         match $nu.os-info.name {
@@ -235,8 +225,10 @@ module run {
                     clear
                 }
                 do $act $argv $scope
+                if not $cl {
+                    do $env.comma_index.settings.theme.watch_separator
+                }
                 sleep $w.interval
-                print -e $env.comma_index.settings.theme.watch_separator
             }
         } else {
             if $cl {
@@ -257,7 +249,7 @@ module run {
                         new_path: $path
                     })
                     if not $cl {
-                        print -e $env.comma_index.settings.theme.watch_separator
+                        do $env.comma_index.settings.theme.watch_separator
                     }
                 }
             }
@@ -366,16 +358,15 @@ module run {
     }
 
     export def --wrapped dry [...x --prefix='    ' --strip] {
-        use utils 'str repeat'
         let w = term size | get columns
         mut lines = []
         for a in (unnest (if $strip { $x.0 } else { $x })) {
-            mut nl = ($prefix | str repeat $a.lv)
+            mut nl = ('' | fill -c $prefix -w $a.lv)
             for t in $a.it {
                 let line = if ($nl | str replace -a ' ' '' | is-empty) { $"($nl)($t)" } else { $"($nl) ($t)" }
                 if ($line | str length) > $w {
                     $lines ++= $nl
-                    $nl = $"($prefix | str repeat $a.lv)($t)"
+                    $nl = $"('' | fill -c $prefix -w $a.lv)($t)"
                 } else {
                     $nl = $line
                 }
@@ -726,14 +717,14 @@ export-env {
         | gendict 5 {
             settings: {
                 test_group: {|x|
-                    let indent = '  ' | str repeat $x.indent
+                    let indent = '' | fill -c '  ' -w $x.indent
                     let s = $"(ansi bg_dark_gray)GROUP(ansi reset)"
                     let t = $"(ansi yellow_bold)($x.title)(ansi reset)"
                     let d = $"(ansi light_gray)($x.desc)(ansi reset)"
                     print $"($indent)($s) ($t) ($d)"
                 }
                 test_message: {|x|
-                    let indent = '  ' | str repeat $x.indent
+                    let indent = '' | fill -c '  ' -w $x.indent
                     let status = if $x.status {
                         $"(ansi bg_green)SUCC(ansi reset)"
                     } else {
@@ -753,11 +744,13 @@ export-env {
                 theme: {
                     info: 'yellow_italic'
                     batch_hint: 'dark_gray'
-                    watch_separator: $"(ansi dark_gray)------------------------------(ansi reset)"
+                    watch_separator: {
+                        let w = term size | get columns
+                        print -e $"(ansi dark_gray)('' | fill -c '-' -w $w)(ansi reset)"
+                    }
                 }
             }
             distro: (distro)
-            lg: {$in | lg}
             batch: {|mod|
                 let o = $in
                     | lines
@@ -773,12 +766,18 @@ export-env {
                 let fmt = $env.comma_index.settings.test_message
                 test $fmt 0 $dsc $spec
             }
+            show: {$in | show}
             tips: {|...m|
                 if ($m | length) > 2 {
                     print -e $"(ansi light_gray_italic)Accepts no more than (ansi yellow_bold)2(ansi reset)(ansi light_gray_italic) parameters(ansi reset)"
                 } else {
                     print -e $"(ansi light_gray_italic)($m.0)(ansi reset) (ansi yellow_bold)($m.1?)(ansi reset)"
                 }
+            }
+            log: {|lv s|
+                let c = ['navy' 'teal' 'xpurplea' 'xgreen' 'olive' 'maroon']
+                let t = date now | format date '%Y-%m-%dT%H:%M:%S'
+                print -e $"(ansi ($c | get $lv))($t) (ansi light_gray)($s)(ansi reset)"
             }
             T: {|f| {|r,a,s| do $f $r $a $s; true } }
             F: {|f| {|r,a,s| do $f $r $a $s; false } }
