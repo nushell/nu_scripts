@@ -10,7 +10,7 @@
 #
 # Example usage: task spawn { echo "Hello, World!" }
 export def spawn [
-  command: closure                    # The closure to run.
+  command: any                        # The closure or nu file to run.
   --working-directory (-w): directory # Specify the working directory the task will be run in.
   --immediate (-i)                    # Immediately start the task.
   --stashed (-s)                      # Create the task in Stashed state. Useful to avoid immediate execution if the queue is empty
@@ -47,13 +47,19 @@ export def spawn [
       $args = ($args | prepend ["--label" $label])
   }
 
-  let source_code = (
-    view source $command
-    | str trim --left --char "{"
-    | str trim --right --char "}"
-  )
+  let script_file = if ($command | describe) == "closure" {
+      let source_code = (view source $command
+        | str trim --left --char "{"
+        | str trim --right --char "}")
+      
+      let tmp_file = (mktemp -t --suffix ".nu")
+      let scripts = ($source_code | save -f $tmp_file)
+  } else {
+      $command
+  }
 
-  (pueue add --print-task-id $args $"nu --config '($nu.config-path)' --env-config '($nu.env-path)' --commands '($source_code)'")
+  let command = $"nu --config '($nu.config-path)' --env-config '($nu.env-path)' '($script_file)'"
+  (pueue add --print-task-id $args $command)
 }
 
 # Remove tasks from the queue.
