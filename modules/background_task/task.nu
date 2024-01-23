@@ -54,6 +54,7 @@ export def spawn [
       
       let tmp_file = (mktemp -t --suffix ".nu")
       let scripts = ($source_code | save -f $tmp_file)
+      $tmp_file
   } else {
       $command
   }
