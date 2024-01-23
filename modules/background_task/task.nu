@@ -66,7 +66,21 @@ export def spawn [
 # Running or paused tasks need to be killed first.
 export def remove [
   ...ids: int # IDs of the tasks to remove from the status list.
+  --group (-g): string # Remove all tasks from the specified group.
 ] {
+  if $group != null {
+    let group_ids = (status | where group == $group | get id)
+    if ($group_ids | length) == 0 {
+      print $"(ansi red)No tasks found for group: ($group)(ansi reset)"
+      return
+    }
+    pueue remove $group_ids
+  
+  } else if ($ids | length) == 0 {
+        print $"(ansi red)No task IDs or group specified.(ansi reset)"
+        return
+  }
+
   pueue remove $ids
 }
 
