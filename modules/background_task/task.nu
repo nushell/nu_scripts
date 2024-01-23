@@ -296,6 +296,7 @@ export def "group add" [
 }
 
 # Remove a group with a name.
+# This will move all tasks in this group to the default group!
 export def "group remove" [
   name: string # The name of the group to be removed.
 ] {
