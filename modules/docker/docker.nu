@@ -160,7 +160,7 @@ export def container-log [ctn: string@"nu-complete docker containers"
     -l: int = 100 # line
 ] {
     let l = if $l == 0 { [] } else { [--tail $l] }
-    ^$env.docker-cli logs -f $l $ctn
+    ^$env.docker-cli logs -f ...$l $ctn
 }
 
 # container log with namespace
@@ -173,7 +173,7 @@ export def container-log-namespace [ctn: string@"nu-complete docker containers"
 }
 
 # attach container
-export def container-attach [
+export def --wrapped container-attach [
     ctn: string@"nu-complete docker containers"
     -n: string@"nu-complete docker ns"
     ...args
@@ -418,17 +418,46 @@ export def "registry show" [
     reg?: string@"nu-complete registry show"
     tag?: string@"nu-complete registry show"
 ] {
-    let auth = if ($env | has 'REGISTRY_TOKEN') {
+    let header = if ($env | has 'REGISTRY_TOKEN') {
         [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
     } else {
         []
     }
+    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
     if ($reg | is-empty) {
-        curl -sSL ...$auth $"($url)/v2/_catalog" | from json | get repositories
+        curl -sSL ...$header $"($url)/v2/_catalog" | from json | get repositories
     } else if ($tag | is-empty) {
-        curl -sSL ...$auth $"($url)/v2/($reg)/tags/list" | from json | get tags
+        curl -sSL ...$header $"($url)/v2/($reg)/tags/list" | from json | get tags
     } else {
-        curl -sSL -H 'Accept: application/vnd.oci.image.manifest.v1+json' ...$auth $"($url)/v2/($reg)/manifests/($tag)" | from json
+        curl -sSL ...$header $"($url)/v2/($reg)/manifests/($tag)" | from json
+    }
+}
+
+### docker registry delete
+export def "registry delete" [
+    url: string
+    reg: string@"nu-complete registry show"
+    tag: string@"nu-complete registry show"
+] {
+    let header = if ($env | has 'REGISTRY_TOKEN') {
+        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
+    } else {
+        []
+    }
+    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
+    #| append [-H 'Accept: application/vnd.docker.distribution.manifest.v2+json']
+    let digest = do -i {
+        curl -sSI ...$header $"($url)/v2/($reg)/manifests/($tag)"
+        | rg docker-content-digest
+        | split row ' '
+        | get 1
+        | str trim
+    }
+    print -e $digest
+    if not ($digest | is-empty) {
+        curl -sSL -X DELETE ...$header $"($url)/v2/($reg)/manifests/($digest)"
+    } else {
+        'not found'
     }
 }
 
