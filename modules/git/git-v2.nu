@@ -226,7 +226,7 @@ export def ga [
     if $delete {
         let c = if $cached {[--cached]} else {[]}
         let f = if $force {[--force]} else {[]}
-        git rm ...$c ...$f -r ...$file
+        git rm ...$c ...$f -r $file
     } else if $restore {
         let o = $source | with-flag --source
         let s = if $staged {[--staged]} else {[]}
@@ -237,8 +237,9 @@ export def ga [
         let p = if $patch {[--patch]} else {[]}
         let u = if $update {[--update]} else {[]}
         let v = if $verbose {[--verbose]} else {[]}
+        let f = if $force {[--force]} else {[]}
         let file = if ($file | is-empty) { [.] } else { [$file] }
-        git add ...$a ...$p ...$u ...$v ...$file
+        git add ...([$a $p $u $v $f $file] | flatten)
     }
 
 }
