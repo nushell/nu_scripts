@@ -425,6 +425,18 @@ export def kgno [] {
     | rename name status roles age version internal-ip external-ip os kernel runtime
 }
 
+def "nu-complete kube nodes" [context: string, offset: int] {
+    let ctx = $context | argx parse
+    kubectl get nodes -o wide | from ssv -a
+    | each {|x| {value: $x.NAME, description: $"($x.INTERNAL-IP)(char tab)($x.ROLES)"} }
+}
+
+def "nu-complete kube deploys" [context: string, offset: int] {
+    let ctx = $context | argx parse
+    let ns = $ctx.namespace? | with-flag -n
+    kubectl get ...$ns deployments | from ssv -a | get NAME
+}
+
 def "nu-complete kube deploys and pods" [context: string, offset: int] {
     let ctx = $context | argx parse
     let ns = $ctx.namespace? | with-flag -n
@@ -671,7 +683,7 @@ export def ked [
 def "nu-complete num9" [] { [0 1 2 3] }
 # kubectl scale deployment
 export def ksd [
-    d: string@"nu-complete kube res via name"
+    d: string@"nu-complete kube deploys"
     num: string@"nu-complete num9"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
@@ -682,9 +694,10 @@ export def ksd [
         kubectl scale ...$ns deployments $d --replicas $num
     }
 }
+
 # kubectl scale deployment with reset
 export def ksdr [
-    d: string@"nu-complete kube res via name"
+    d: string@"nu-complete kube deploys"
     num: int@"nu-complete num9"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
@@ -697,6 +710,29 @@ export def ksdr [
         kubectl scale ...$ns deployments $d --replicas 0
         kubectl scale ...$ns deployments $d --replicas $num
     }
+}
+
+
+# kubectl redistribution deployment
+export def krd [
+    d: string@"nu-complete kube deploys"
+    ...nodes: string@"nu-complete kube nodes"
+    --namespace (-n): string@"nu-complete kube ns"
+] {
+    let ns = $namespace | with-flag -n
+    let nums = kubectl get nodes | from ssv -a | length
+    kubectl scale ...$ns deployments $d --replicas $nums
+    let labels = kubectl get ...$ns deploy $d --output=json
+    | from json
+    | get spec.selector.matchLabels
+    | transpose k v
+    | each {|x| $"($x.k)=($x.v)"}
+    | str join ','
+    let pods = kubectl get ...$ns pods -l $labels -o wide | from ssv -a
+    for p in ($pods | where NODE not-in $nodes) {
+        kubectl delete ...$ns pod --grace-period=0 --force $p.NAME
+    }
+    kubectl scale ...$ns deployments $d --replicas ($pods | where NODE in $nodes | length)
 }
 
 # kubectl rollout status deployment
