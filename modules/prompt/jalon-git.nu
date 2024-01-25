@@ -38,7 +38,7 @@ export def par-left-prompt [modules: list] {
     $'(ansi reset)($ret)'
 }
 
-export def exec-module [name: string] {
+def exec-module [name: string] {
     if $name == 'user-host' {
         (username-style true)
     } else if $name == 'user' {
@@ -60,7 +60,7 @@ export def exec-module [name: string] {
 
 # Styles ----------------------------------------------------------------------
 
-export def get-styles [] {
+def get-styles [] {
     {
         USER_STYLE: (ansi green),
         PATH_STYLE: (ansi light_blue),
@@ -78,7 +78,7 @@ export def get-styles [] {
     }
 }
 
-export def prompt-indicator [] {
+def prompt-indicator [] {
     if ($env.LAST_EXIT_CODE | into int) == 0 {
         $"\r\n(ansi cyan)> "
     } else {
@@ -86,7 +86,7 @@ export def prompt-indicator [] {
     }
 }
 
-export def username-style [show_host: bool] {
+def username-style [show_host: bool] {
     let s = get-styles
     let name = (get-username)
     if $show_host and (is-ssh-session) {
@@ -98,7 +98,7 @@ export def username-style [show_host: bool] {
     }
 }
 
-export def wsl-style [] {
+def wsl-style [] {
     if 'WSLENV' in $env {
         $'(ansi dark_gray)  WSL(ansi reset)'
     } else {
@@ -107,7 +107,7 @@ export def wsl-style [] {
 }
 
 # Get the current directory with home abbreviated
-export def current-dir-style [] {
+def current-dir-style [] {
     let s = get-styles
     let current_dir = ($env.PWD)
 
@@ -132,7 +132,7 @@ export def current-dir-style [] {
     }
 }
 
-export def read-only-style [] {
+def read-only-style [] {
     if (ls -Dl $env.PWD | get readonly.0) {
         $'[(ansi red_bold)ro(ansi reset)]'
     } else {
@@ -140,7 +140,7 @@ export def read-only-style [] {
     }
 }
 
-export def duration-style [] {
+def duration-style [] {
     let s = get-styles
     mut secs = ($env.CMD_DURATION_MS | into int) / 1000
     if $secs > 1 {
@@ -160,7 +160,7 @@ export def duration-style [] {
     }
 }
 
-export def fast-git-style [] {
+def fast-git-style [] {
     let s = get-styles
     let b_info = (do -p { git --no-optional-locks branch -v } | str trim)
     if ($b_info | is-empty) {
@@ -188,7 +188,7 @@ export def fast-git-style [] {
     }
 }
 
-export def full-git-style [] {
+def full-git-style [] {
     let s = get-styles
     let info_lines = (do -p { git --no-optional-locks status --porcelain=2 --branch } | str trim | lines)
     if ($info_lines | is-empty) {
@@ -319,7 +319,7 @@ export def full-git-style [] {
     }
 }
 
-export def update-git-status [
+def update-git-status [
     status: record
     m: string
 ] {
@@ -336,7 +336,7 @@ export def update-git-status [
 
 # Helper ----------------------------------------------------------------------
 
-export def get-username [] {
+def get-username [] {
     if 'USERNAME' in $env {
         $env.USERNAME
     } else if 'USER' in $env {
@@ -346,7 +346,7 @@ export def get-username [] {
     }
 }
 
-export def is-self-user [name: string] {
+def is-self-user [name: string] {
     if 'LOGNAME' in $env {
         ($env.LOGNAME == $name)
     } else {
@@ -354,7 +354,7 @@ export def is-self-user [name: string] {
     }
 }
 
-export def get-hostname [] {
+def get-hostname [] {
     if 'COMPUTERNAME' in $env {
         $env.COMPUTERNAME
     } else if 'HOSTNAME' in $env {
@@ -364,7 +364,7 @@ export def get-hostname [] {
     }
 }
 
-export def is-ssh-session [] {
+def is-ssh-session [] {
     if 'SSH_CONNECTION' in $env {
         true
     } else if 'SSH_CLIENT' in $env {
