@@ -62,7 +62,7 @@ $env.comma = {|_|{
                 $_.act: {, -c example a b c e }
                 $_.x: [
                     {|r,a,s| $r | where value == 'f' | not ($in | is-empty) }
-                    (do $_.T {|r,a,s| $s | show 'expect'})
+                    (do $_.T {|r,a,s| $s | spy 'expect'})
                     {|r,a| 'q1|q2|q3|q4| open a file' == ($r | get 1.description) }
                 ]
             }

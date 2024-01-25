@@ -6,7 +6,8 @@ Working dir task runner, similar to `pwd-module`, but supports completion and de
 `,` or `*` need to be exported in order to use `,` Directly
 
 ```
-use comma.nu *
+use comma/main.nu *
+use comma/utils.nu *
 ```
 
 When you enter a directory, if a `,.nu` file exists, it will be loaded. (Currently you need to press the Enter key again to take effect)
@@ -149,6 +150,56 @@ $env.comma = {|_|{
 }}
 ```
 > requires `augustocdias.tasks-shell-input` to run `$_.completion` closure.
+
+## variables
+### $_.wd
+### $_.distro
+## tips
+
+### outdent
+### ll & spy
+### T, F, I & diff
+### docker image template
+```
+build: {
+    image: {
+        $_.a: {|a,s|
+            ^$env.docker-cli pull $a.0
+            let tmp = mktemp
+            $"
+            FROM ($a.0)
+
+            RUN apt update \\
+             && apt-get upgrade -y \\
+             && DEBIAN_FRONTEND=noninteractive \\
+                apt-get install -y --no-install-recommends \\
+                    curl ca-certificates \\
+             && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \\
+             && curl -sSL ($a.2) | tar zxf - -C /opt/vendor \\
+             && chown -R 33:33 /opt/vendor"
+            | do $_.outdent
+            | save -f $tmp
+
+            ^$env.docker-cli build -f $tmp -t $a.1 .
+            rm -f $tmp
+            ^$env.docker-cli push $a.1
+        }
+        $_.c: {|a,s|
+            let l = $a | length
+            if $l < 1 {
+                ['ubuntu', 'alpine', 'nginx']
+            } else if $l < 2 {
+                ['target']
+            } else {
+                ['vendor']
+            }
+        }
+        $_.d: 'build docker image'
+        $_.f: ['log_args']
+    }
+}
+```
+
 
 ## todo
 - [x] run
