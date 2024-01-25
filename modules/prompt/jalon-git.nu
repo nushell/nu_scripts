@@ -1,8 +1,8 @@
-# let-env PROMPT_INDICATOR = {|| "" }
+# $env.PROMPT_INDICATOR = {|| "" }
 #
-# let-env PROMPT_COMMAND = {|| full-left-prompt }
+# $env.PROMPT_COMMAND = {|| full-left-prompt }
 # or
-# let-env PROMPT_COMMAND = {|| left-prompt [
+# $env.PROMPT_COMMAND = {|| left-prompt [
 #     'user',
 #     'dir',
 #     'fast-git'
@@ -10,7 +10,7 @@
 # ]}
 #
 # Optional:
-# let-env PROMPT_COMMAND_RIGHT = {|| "" }
+# $env.PROMPT_COMMAND_RIGHT = {|| "" }
 
 export def full-left-prompt [] {
     (par-left-prompt [
@@ -60,19 +60,23 @@ def exec-module [name: string] {
 
 # Styles ----------------------------------------------------------------------
 
-let USER_STYLE = $'(ansi green)'
-let PATH_STYLE = $'(ansi light_blue)'
-let BRANCH_STYLE = $'(ansi dark_gray_bold)'
-let AHEAD_STYLE = $'(ansi green)(char branch_ahead)'
-let BEHIND_STYLE = $'(ansi yellow_bold)(char branch_behind)'
-let STAGE_STYLE = $'(ansi blue)S(ansi reset)'
-let UNSTAGE_STYLE = $'(ansi dark_gray)U(ansi reset)'
-let NEW_FILE_STYLE = $'(ansi green)N'
-let ADD_FILE_STYLE = $'(ansi green)A'
-let MODIFY_FILE_STYLE = $'(ansi yellow)M'
-let DELETE_FILE_STYLE = $'(ansi red)D'
-let CONFLICT_FILE_STYLE = $'(ansi light_purple_bold)C'
-let DURATION_STYLE = $'(ansi yellow)'
+def get-styles [] {
+    {
+        USER_STYLE: (ansi green),
+        PATH_STYLE: (ansi light_blue),
+        BRANCH_STYLE: (ansi dark_gray_bold),
+        AHEAD_STYLE: $'(ansi green)(char branch_ahead)',
+        BEHIND_STYLE: $'(ansi yellow_bold)(char branch_behind)',
+        STAGE_STYLE: $'(ansi blue)S(ansi reset)',
+        UNSTAGE_STYLE: $'(ansi dark_gray)U(ansi reset)',
+        NEW_FILE_STYLE: $'(ansi green)N',
+        ADD_FILE_STYLE: $'(ansi green)A',
+        MODIFY_FILE_STYLE: $'(ansi yellow)M',
+        DELETE_FILE_STYLE: $'(ansi red)D',
+        CONFLICT_FILE_STYLE: $'(ansi light_purple_bold)C',
+        DURATION_STYLE: (ansi yellow),
+    }
+}
 
 def prompt-indicator [] {
     if ($env.LAST_EXIT_CODE | into int) == 0 {
@@ -83,11 +87,12 @@ def prompt-indicator [] {
 }
 
 def username-style [show_host: bool] {
+    let s = get-styles
     let name = (get-username)
     if $show_host and (is-ssh-session) {
-        $'($USER_STYLE)($name)(ansi dark_gray)@($USER_STYLE)(get-hostname)(ansi dark_gray):(ansi reset)'
+        $'($s.USER_STYLE)($name)(ansi dark_gray)@($s.USER_STYLE)(get-hostname)(ansi dark_gray):(ansi reset)'
     } else if (is-self-user $name) == false {
-        $'($USER_STYLE)($name)(ansi dark_gray):(ansi reset)'
+        $'($s.USER_STYLE)($name)(ansi dark_gray):(ansi reset)'
     } else {
         ''
     }
@@ -103,6 +108,7 @@ def wsl-style [] {
 
 # Get the current directory with home abbreviated
 def current-dir-style [] {
+    let s = get-styles
     let current_dir = ($env.PWD)
 
     let current_dir_abbreviated = if $current_dir == $nu.home-path {
@@ -122,7 +128,7 @@ def current-dir-style [] {
     if (is-admin) {
         $'(ansi red_bold)($current_dir_abbreviated)(ansi reset)'
     } else {
-        $'($PATH_STYLE)($current_dir_abbreviated)(ansi reset)'
+        $'($s.PATH_STYLE)($current_dir_abbreviated)(ansi reset)'
     }
 }
 
@@ -135,9 +141,10 @@ def read-only-style [] {
 }
 
 def duration-style [] {
+    let s = get-styles
     mut secs = ($env.CMD_DURATION_MS | into int) / 1000
     if $secs > 1 {
-        mut ret = [$'[took ($DURATION_STYLE)']
+        mut ret = [$'[took ($s.DURATION_STYLE)']
 
         if $secs >= 3600 {
             $ret = ($ret | append $'($secs // 3600)h ($secs mod 3600 // 60)m ')
@@ -154,6 +161,7 @@ def duration-style [] {
 }
 
 def fast-git-style [] {
+    let s = get-styles
     let b_info = (do -p { git --no-optional-locks branch -v } | str trim)
     if ($b_info | is-empty) {
         ''
@@ -168,19 +176,20 @@ def fast-git-style [] {
                     ''
                 }
             } else if $p.s.0 == 'ahead' {
-                $' ($AHEAD_STYLE)($p.n.0)(ansi reset)'
+                $' ($s.AHEAD_STYLE)($p.n.0)(ansi reset)'
             } else if $p.s.0 == 'behind' {
-                $' ($BEHIND_STYLE)($p.n.0)'
+                $' ($s.BEHIND_STYLE)($p.n.0)'
             } else {
                 $' (ansi red)($p.s.0) ($p.n.0)'
             }
         })
         let state_str = ($state_list | str join)
-        $'[($BRANCH_STYLE)($info.name.0)(ansi reset)($state_str)(ansi reset)]'
+        $'[($s.BRANCH_STYLE)($info.name.0)(ansi reset)($state_str)(ansi reset)]'
     }
 }
 
 def full-git-style [] {
+    let s = get-styles
     let info_lines = (do -p { git --no-optional-locks status --porcelain=2 --branch } | str trim | lines)
     if ($info_lines | is-empty) {
         ''
@@ -210,21 +219,21 @@ def full-git-style [] {
             if $l.0 == '#' {
                 if $l.1 == 'branch.oid' {
                     let id = ($l.2 | str substring 0..7)
-                    $out = [$"($BRANCH_STYLE)\(HEAD detached at ($id)\)(ansi reset)"]
+                    $out = [$"($s.BRANCH_STYLE)\(HEAD detached at ($id)\)(ansi reset)"]
                 } else if $l.1 == 'branch.head' {
                     if $l.2 != "\(detached\)" {
-                        $out = ($out | update 0 $'($BRANCH_STYLE)($l.2)(ansi reset)')
+                        $out = ($out | update 0 $'($s.BRANCH_STYLE)($l.2)(ansi reset)')
                     }
                 } else if $track {
                     if $l.1 == 'branch.ab' {
                         $remote = true
                         let state = ($l.2 | parse "+{an} -{bn}")
                         if $state.an.0 != '0' {
-                            $out = ($out | append $' ($AHEAD_STYLE)($state.an.0)(ansi reset)')
+                            $out = ($out | append $' ($s.AHEAD_STYLE)($state.an.0)(ansi reset)')
                         }
 
                         if $state.bn.0 != '0' {
-                            $out = ($out | append $' ($BEHIND_STYLE)($state.bn.0)')
+                            $out = ($out | append $' ($s.BEHIND_STYLE)($state.bn.0)')
                         }
                     }
                 }
@@ -268,42 +277,42 @@ def full-git-style [] {
         # Stage string
         mut stage_list = []
         if $info.staged.a > 0 {
-            $stage_list = ($stage_list | append $' ($ADD_FILE_STYLE)($info.staged.a)(ansi reset)')
+            $stage_list = ($stage_list | append $' ($s.ADD_FILE_STYLE)($info.staged.a)(ansi reset)')
         }
 
         if $info.staged.m > 0 {
-            $stage_list = ($stage_list | append $' ($MODIFY_FILE_STYLE)($info.staged.m)(ansi reset)')
+            $stage_list = ($stage_list | append $' ($s.MODIFY_FILE_STYLE)($info.staged.m)(ansi reset)')
         }
 
         if $info.staged.d > 0 {
-            $stage_list = ($stage_list | append $' ($DELETE_FILE_STYLE)($info.staged.d)(ansi reset)')
+            $stage_list = ($stage_list | append $' ($s.DELETE_FILE_STYLE)($info.staged.d)(ansi reset)')
         }
 
         # Unstage string
         mut unstage_list = []
         if $info.unstaged.c > 0 {
-            $unstage_list = ($unstage_list | append $' ($CONFLICT_FILE_STYLE)($info.unstaged.c)(ansi reset)')
+            $unstage_list = ($unstage_list | append $' ($s.CONFLICT_FILE_STYLE)($info.unstaged.c)(ansi reset)')
         }
 
         if $info.unstaged.n > 0 {
-            $unstage_list = ($unstage_list | append $' ($NEW_FILE_STYLE)($info.unstaged.n)(ansi reset)')
+            $unstage_list = ($unstage_list | append $' ($s.NEW_FILE_STYLE)($info.unstaged.n)(ansi reset)')
         }
 
         if $info.unstaged.m > 0 {
-            $unstage_list = ($unstage_list | append $' ($MODIFY_FILE_STYLE)($info.unstaged.m)(ansi reset)')
+            $unstage_list = ($unstage_list | append $' ($s.MODIFY_FILE_STYLE)($info.unstaged.m)(ansi reset)')
         }
 
         if $info.unstaged.d > 0 {
-            $unstage_list = ($unstage_list | append $' ($DELETE_FILE_STYLE)($info.unstaged.d)(ansi reset)')
+            $unstage_list = ($unstage_list | append $' ($s.DELETE_FILE_STYLE)($info.unstaged.d)(ansi reset)')
         }
 
         # Append list
         if ($stage_list | length) > 0 {
-            $out_list = ($out_list | append $' | ($STAGE_STYLE):' | append $stage_list)
+            $out_list = ($out_list | append $' | ($s.STAGE_STYLE):' | append $stage_list)
         }
 
         if ($unstage_list | length) > 0 {
-            $out_list = ($out_list | append $' | ($UNSTAGE_STYLE):' | append $unstage_list)
+            $out_list = ($out_list | append $' | ($s.UNSTAGE_STYLE):' | append $unstage_list)
         }
 
         $'[($out_list | str join)(ansi reset)]'
