@@ -257,9 +257,19 @@ export def image-tag [from: string@"nu-complete docker images"  to: string -n: s
 }
 
 # push image
-export def image-push [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns" -i] {
+export def image-push [
+    img: string@"nu-complete docker images"
+    --tag(-t): string
+    -n: string@"nu-complete docker ns" -i
+] {
     let $insecure = if $i {[--insecure-registry]} else {[]}
-    ^$env.docker-cli ...($n | with-flag -n) ...$insecure push $img
+    if ($tag | is-empty) {
+        ^$env.docker-cli ...($n | with-flag -n) ...$insecure push $img
+    } else {
+        ^$env.docker-cli ...($n | with-flag -n) tag $img $tag
+        ^$env.docker-cli ...($n | with-flag -n) ...$insecure push $tag
+        ^$env.docker-cli ...($n | with-flag -n) rmi $tag
+    }
 }
 
 # pull image
@@ -395,9 +405,9 @@ def has [name] {
 def "nu-complete registry show" [cmd: string, offset: int] {
     let new = $cmd | str ends-with ' '
     let cmd = $cmd | split row ' '
-    let url = $cmd.2?
-    let reg = $cmd.3?
-    let tag = $cmd.4?
+    let url = $cmd.3?
+    let reg = $cmd.4?
+    let tag = $cmd.5?
     let auth = if ($env | has 'REGISTRY_TOKEN') {
         [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
     } else {
