@@ -219,8 +219,8 @@ def get_repo_status [gs os] {
         }
     )
 
-    let GIT_BG = "#C4A000"
-    let GIT_FG = "#000000"
+    const GIT_BG = "#C4A000"
+    const GIT_FG = "#000000"
     # let TERM_BG = "#0C0C0C"
 
     # The multi-color fg colors are good if you just have a black background
@@ -302,9 +302,9 @@ def git_left_prompt [gs os] {
     # f07c or  f115
     # f015 or  f7db
 
-    let GIT_BG = "#C4A000"
-    let GIT_FG = "#000000"
-    let TERM_BG = "#0C0C0C"
+    const GIT_BG = "#C4A000"
+    const GIT_FG = "#000000"
+    const TERM_BG = "#0C0C0C"
 
     let repo_status = (get_repo_status $gs $os)
 
@@ -395,13 +395,13 @@ def git_right_prompt [gs os] {
     let branch_name = (get_branch_name $gs)
     let repo_status = (get_repo_status $gs $os)
     let R = (ansi reset)
-    let TIME_BG = "#D3D7CF"
-    let TERM_FG = "#0C0C0C"
-    let GIT_BG = "#C4A000"
-    let GIT_FG = "#000000"
-    let TERM_BG = "#0C0C0C"
-    let TERM_FG_DEFAULT = "\e[39m"
-    let TERM_BG_DEFAULT = "\e[49m"
+    const TIME_BG = "#D3D7CF"
+    const TERM_FG = "#0C0C0C"
+    const GIT_BG = "#C4A000"
+    const GIT_FG = "#000000"
+    const TERM_BG = "#0C0C0C"
+    const TERM_FG_DEFAULT = "\e[39m"
+    const TERM_BG_DEFAULT = "\e[49m"
 
     let datetime_segment = ([
         (ansi { fg: $TIME_BG bg: $TERM_FG})
