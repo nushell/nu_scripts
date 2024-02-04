@@ -47,13 +47,16 @@ export def spawn [
       $args = ($args | prepend ["--label" $label])
   }
 
-  let source_code = (
+  let source_path = mktemp --tmpdir --suffix "-nu-task"
+
+  (
     view source $command
     | str trim --left --char "{"
     | str trim --right --char "}"
   )
+  | save --force $source_path
 
-  (pueue add --print-task-id ...$args $"nu --config '($nu.config-path)' --env-config '($nu.env-path)' --commands '($source_code)'")
+  (pueue add --print-task-id ...$args $"nu --config '($nu.config-path)' --env-config '($nu.env-path)' ($source_path)")
 }
 
 # Remove tasks from the queue.
