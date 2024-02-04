@@ -305,7 +305,7 @@ export def status [
   }
 }
 
-# Display the log output of finished tasks.
+# Display the output of tasks.
 #
 # Only the last few lines will be shown by default for multiple tasks.
 # If you want to follow the output, use `--tail/-t`.
