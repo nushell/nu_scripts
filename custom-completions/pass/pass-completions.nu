@@ -1,46 +1,8 @@
-def pass_completions_directory [] {
-    if ($env | columns | any { |it| $it == "PASSWORD_STORE_DIR" }) {
-        return $env.PASSWORD_STORE_DIR
-    } else {
-        return ("~/.password-store" | path expand)
-    }
-}
-
-def "nu-complete pass-files" [] {
-    let dir = (pass_completions_directory)
-	ls ($dir | path join "**" | path join "*.gpg")
-		| get name 
-		| each {|it| ( $it
-            | path relative-to $dir
-            | str replace ".gpg" ""
-            )
-        }
-}
-
-def "nu-complete pass-directories" [] {
-    let dir = (pass_completions_directory)
-	ls ($dir | path join **)
-        | get name
-        | filter { |it| not (ls $it | is-empty) }
-		| each {|it| ( $it | path relative-to $dir) }
-}
-
-def "nu-complete pass init" [] {
-	^gpg --list-keys
-		| lines
-		| skip 2
-		| split list ''
-		| each { |entry|
-			{
-				value: ($entry.1 | str trim),
-				description: ($entry.2 | parse --regex '^uid\s*\[[\w\s]*\]\s*(.*?)\s*$' | get 0.capture0)
-			}
-		}
-}
+use nu-complete *
 
 # Initialize new password storage or reencrypt existing passwords.
 export extern "pass init" [
-  ...gpg_ids: string@"nu-complete pass init"  # The ID(s) of the GPG public keys the passwords shall be encrypted with.
+  ...gpg_ids: string@"nu-complete pass-gpg"  # The ID(s) of the GPG public keys the passwords shall be encrypted with.
   --path(-p): string@"nu-complete pass-directories"  # Subfolder to selectively reencrypt.
 ]
 
