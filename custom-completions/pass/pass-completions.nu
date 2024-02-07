@@ -26,7 +26,7 @@ def "nu-complete pass-directories" [] {
 }
 
 def "nu-complete pass init" [] {
-	gpg --list-keys
+	^gpg --list-keys
 		| lines
 		| skip 2
 		| split list ''
