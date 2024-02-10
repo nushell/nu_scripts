@@ -39,6 +39,6 @@ export def just [
     if ($recipes | is-empty) {
         ^just
     } else {
-        ^just $recipes $args
+        ^just $recipes ...$args
     }
 }
