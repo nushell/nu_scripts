@@ -713,6 +713,39 @@ export def ksdr [
 }
 
 
+def "nu-complete kube kind with image" [] {
+    [
+        deployment daemonset statefulset
+        pod replicationcontroller
+        cronjob replicaset
+    ]
+}
+
+# kubectl set image
+export def ksi [
+    k: string@"nu-complete kube kind with image"
+    r: string@"nu-complete kube res"
+    --namespace(-n): string@"nu-complete kube ns"
+    act?: any
+] {
+    let ns = $namespace | with-flag -n
+    let path = match $k {
+        _ => '.spec.template.spec.containers[*]'
+    }
+    let name = kubectl get ...$ns $k $r -o $"jsonpath={($path).name}" | split row ' '
+    let image = kubectl get ...$ns $k $r -o $"jsonpath={($path).image}" | split row ' '
+    let list = $name | zip $image | reduce -f {} {|it,acc| $acc | insert $it.0 $it.1 }
+    if ($act | describe -d).type == 'closure' {
+        let s = do $act $list
+        if ($s | describe -d).type == 'record' {
+            let s = $s | transpose k v | each {|x| $"($x.k)=($x.v)"}
+            kubectl ...$ns set image $"($k)/($r)" ...$s
+        }
+    } else {
+        $list
+    }
+}
+
 # kubectl redistribution deployment
 export def krd [
     d: string@"nu-complete kube deploys"
