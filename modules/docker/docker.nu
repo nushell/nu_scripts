@@ -145,21 +145,27 @@ def "nu-complete docker images" [] {
     | each {|x| $"($x.REPOSITORY):($x.TAG)"}
 }
 
-# container log
-export def container-log [ctn: string@"nu-complete docker containers"
-    -l: int = 100 # line
-] {
-    let l = if $l == 0 { [] } else { [--tail $l] }
-    ^$env.docker-cli logs -f ...$l $ctn
-}
 
-# container log with namespace
-export def container-log-namespace [ctn: string@"nu-complete docker containers"
+# container log
+export def container-log [
+    ctn: string@"nu-complete docker containers"
     -l: int = 100 # line
     -n: string@"nu-complete docker ns" # namespace
 ] {
     let l = if $l == 0 { [] } else { [--tail $l] }
     ^$env.docker-cli ...($n | with-flag -n) logs -f ...$l $ctn
+}
+
+export def container-log-trunc [
+    ctn: string@"nu-complete docker containers"
+    -n: string@"nu-complete docker ns" # namespace
+] {
+    if $env.docker-cli == 'podman' {
+        print -e $'(ansi yellow)podman(ansi dark_gray) isn’t supported(ansi reset)'
+    } else {
+        let f = ^$env.docker-cli ...($n | with-flag -n) inspect --format='{{.LogPath}}' $ctn
+        truncate -s 0 $f
+    }
 }
 
 # attach container
@@ -498,7 +504,7 @@ export def "bud rm" [
 export alias dp = container-list
 export alias di = image-list
 export alias dl = container-log
-export alias dln = container-log-namespace
+export alias dlt = container-log-trunc
 export alias da = container-attach
 export alias dcp = container-copy-file
 export alias dcr = container-remove
