@@ -187,7 +187,7 @@ def "nu-complete licenses list" [] {
 }
 
 export extern "gh repo create" [
-    repo_name: string
+    repo_name?: string
     --help                     # Show help for command
     --add-readme               # Add a README file to the new repository
     --clone(-c)                # Clone the new repository to the current directory
@@ -209,7 +209,7 @@ export extern "gh repo create" [
 ]
 
 export extern "gh repo fork" [
-    repo: string
+    repo?: string
     --clone                # Clone the fork
     --default-branch-only  # Only include the default branch in the fork
     --fork-name: string    # Rename the forked repository
