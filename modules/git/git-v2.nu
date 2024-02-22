@@ -130,8 +130,17 @@ export def --env gn [
 }
 
 # edit .gitignore
-export def gig [] {
-    e $"(git rev-parse --show-toplevel)/.gitignore"
+export def gig [--empty-dir] {
+    if $empty_dir {
+        [
+            '# Ignore everything in this directory'
+            '*'
+            '# Except this file'
+            '!.gitignore'
+        ] | str join (char newline) | save .gitignore
+    } else {
+        e $"(git rev-parse --show-toplevel)/.gitignore"
+    }
 }
 
 # git pull, push and switch
@@ -566,10 +575,9 @@ export def _git_log [v num] {
         _git_log_stat $num
     } else { {} }
     let r = do -i {
-        git log --reverse -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD»¦«%D
+        git log --reverse -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD
         | lines
-        | split column "»¦«" sha message author email date refs
-        | update refs { split row ", " | where not ($it | is-empty) }
+        | split column "»¦«" sha message author email date
         | each {|x| ($x| upsert date ($x.date | into datetime))}
     }
     if $v {
