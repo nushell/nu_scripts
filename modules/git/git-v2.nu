@@ -578,8 +578,7 @@ export def _git_log [v num] {
         git log --reverse -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD»¦«%D
         | lines
         | split column "»¦«" sha message author email date refs
-        | update refs { split row ", " | where not ($it | is-empty) }
-        | update date { into datetime }
+        | upsert date { into datetime }
     }
     if $v {
         $r | merge $stat
