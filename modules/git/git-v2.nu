@@ -139,7 +139,7 @@ export def gig [--empty-dir] {
             '!.gitignore'
         ] | str join (char newline) | save .gitignore
     } else {
-        e $"(git rev-parse --show-toplevel)/.gitignore"
+        ^$env.EDITOR $"(git rev-parse --show-toplevel)/.gitignore"
     }
 }
 
