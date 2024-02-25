@@ -143,5 +143,5 @@ export def nvc [addr: string] {
 }
 
 export def nvdc [addr: string] {
-    neovide --multigrid --maximized --server $addr
+    neovide --maximized --server $addr
 }
