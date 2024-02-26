@@ -438,7 +438,7 @@ export extern "git stash list" [
 
 # Show a stashed change
 export extern "git stash show" [
-  stash: string@"nu-complete git stash-list"
+  stash?: string@"nu-complete git stash-list"
   -U                                                  # show diff
 ]
 
