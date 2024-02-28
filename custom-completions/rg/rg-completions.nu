@@ -41,7 +41,7 @@ export extern "rg" [
     --glob-case-insensitive         # Process all glob patterns case insensitively
     --hidden(-.)                    # Search hidden files and directories. By default, hidden files and directories are skipped
     --iglob: string                 # Include/exclude paths case insensitively
-    --ignore-file: path # Specify additional ignore files
+    --ignore-file: path             # Specify additional ignore files
     --ignore-file-case-insensitive  # Process ignore files case insensitively
     --max-depth(-d): number         # Descend at most NUM directories
     --max-filesize: number          # Ignore files larger than NUM in size
