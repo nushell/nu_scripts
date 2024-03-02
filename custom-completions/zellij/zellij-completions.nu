@@ -78,7 +78,7 @@ def "nu-complete zellij attach" [] {
 }
 
 def "nu-complete sessions" [] {
-  ^zellij ls | lines | str replace '\(current\)' "" | str trim
+  ^zellij ls -n | lines | parse "{value} {description}"
 }
 
 # Turned off since it messes with sub-commands
