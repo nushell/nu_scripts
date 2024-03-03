@@ -20,8 +20,6 @@ jobs:
                 version: '*'
                 check-latest: true
                   # version: "0.80" # Don't use 0.80 here, as it was a float number and will be convert to 0.8, you can use v0.80/0.80.0 or '0.80'
-            - run: print $'Nu version info:(char nl)'; version
-              shell: nu {0}
             - name: Check PR
               shell: nu {0}
               run: |
