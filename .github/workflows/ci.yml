@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@4
+            - uses: actions/checkout@3
 
             - uses: hustcer/setup-nu@v3.9
               with:
