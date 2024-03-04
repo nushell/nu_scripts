@@ -40,22 +40,12 @@ def __cwdhist_menu [] {
 def __cwdhist_keybinding [] {
     {
         name: cwdhist_menu
-        modifier: control
+        modifier: alt
         keycode: char_o
         mode: [emacs, vi_normal, vi_insert]
         event: [
             { send: menu name: cwdhist_menu }
         ]
-    }
-}
-
-def __cwdhist_editing [] {
-    {
-        name: open_command_editor
-        modifier: alt
-        keycode: char_o
-        mode: [emacs, vi_normal, vi_insert]
-        event: { send: openeditor }
     }
 }
 
@@ -118,6 +108,6 @@ export-env {
 
     $env.config = ($env.config
                   | upsert menus ($env.config.menus | append (__cwdhist_menu))
-                  | upsert keybindings ($env.config.keybindings | append [(__cwdhist_keybinding) (__cwdhist_editing) (__cwdhist_switching)])
+                  | upsert keybindings ($env.config.keybindings | append [(__cwdhist_keybinding) (__cwdhist_switching)])
                   )
 }

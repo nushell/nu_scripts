@@ -39,35 +39,6 @@ def nvim_tcd [] {
     ]
 }
 
-export-env {
-    $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
-        let o = ($config | get -i hooks.env_change.PWD)
-        let val = (nvim_tcd)
-        if $o == null {
-            $val
-        } else {
-            $o | append $val
-        }
-    })
-}
-
-def edit [action ...file] {
-    if ($env.NVIM? | is-empty) {
-        nvim ...$file
-    } else {
-        let af = $file
-        | each {|f|
-            if ($f|str substring ..1) in ['/', '~'] {
-                $f
-            } else {
-                $"($env.PWD)/($f)"
-            }
-        }
-        let cmd = $"<cmd>($action) ($af|str join ' ')<cr>"
-        nvim --headless --noplugin --server $env.NVIM --remote-send $cmd
-    }
-}
-
 # nvim tcd
 export def tcd [path?: string] {
     let after = if ($path | is-empty) {
@@ -78,36 +49,16 @@ export def tcd [path?: string] {
     nvim --headless --noplugin --server $env.NVIM --remote-send $"<cmd>lua HookPwdChanged\('($after)', '($env.PWD)')<cr>"
 }
 
-export def e [...file: string] {
-    if ($file|is-empty) {
-        nvim
-    } else {
-        edit vsplit ...$file
-    }
-}
-
-export def c [...file: string] {
-    if ($file|is-empty) {
-        nvim
-    } else {
-        edit split ...$file
-    }
-}
-
-export def v [...file: string] {
-    if ($file|is-empty) {
-        nvim
-    } else {
-        edit vsplit ...$file
-    }
-}
-
-export def x [...file: string] {
-    if ($file|is-empty) {
-        nvim
-    } else {
-        edit tabnew ...$file
-    }
+export-env {
+    $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
+        let o = ($config | get -i hooks.env_change.PWD)
+        let val = (nvim_tcd)
+        if $o == null {
+            $val
+        } else {
+            $o | append $val
+        }
+    })
 }
 
 # drop stdout to nvim buf
@@ -134,6 +85,29 @@ export def nvim-lua [...expr: string] {
 export def opwd [] {
     nvim-lua 'OppositePwd()'
 }
+
+export def nve [action ...file] {
+    if ($env.NVIM? | is-empty) {
+        nvim ...$file
+    } else {
+        let af = $file
+        | each {|f|
+            if ($f|str substring ..1) in ['/', '~'] {
+                $f
+            } else {
+                $"($env.PWD)/($f)"
+            }
+        }
+        let action = if ($file | is-empty) { $action | str replace -r 'sp.*$' 'new' } else { $action }
+        let cmd = $"<cmd>($action) ($af|str join ' ')<cr>"
+        nvim --headless --noplugin --server $env.NVIM --remote-send $cmd
+    }
+}
+
+export alias e = nve vsplit
+export alias v = nve vsplit
+export alias c = nve split
+export alias x = nve tabnew
 
 export def nvs [port: int=9999] {
     nvim --headless --listen $"0.0.0.0:($port)"
