@@ -318,7 +318,7 @@ export def gr [
         git rebase --skip
     } else if $quit {
         git rebase --quit
-    } else if not ($onto | is-empty) {
+    } else if ($onto | is-not-empty) {
         git rebase --onto $branch
     } else {
         let i = if $interactive {[--interactive]} else {[]}

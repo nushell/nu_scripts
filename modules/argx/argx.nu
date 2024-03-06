@@ -7,10 +7,10 @@ export def get-sign [cmd] {
     mut r = []
     for it in $x {
         if $it.parameter_type == 'switch' {
-            if not ($it.short_flag | is-empty) {
+            if ($it.short_flag | is-not-empty) {
                 $s ++= $it.short_flag
             }
-            if not ($it.parameter_name | is-empty) {
+            if ($it.parameter_name | is-not-empty) {
                 $s ++= $it.parameter_name
             }
         } else if $it.parameter_type == 'named' {
