@@ -77,12 +77,24 @@ export def gb [
 ] {
     let bs = git branch | lines | each {|x| $x | str substring 2..}
     if ($branch | is-empty) {
-        let d = {
-            local: (git branch | lines)
-            remote: (git branch --remote | lines)
-            no-merged: (git branch --no-merged | lines)
+        let no_merged =  git branch --no-merged | lines | str trim
+        {
+            local: (git branch)
+            remote: (git branch --remote)
         }
-        print ($d | table -i 1 -e)
+        | transpose k v
+        | each {|x|
+            $x.v | lines
+            | each {|n|
+                let n = $n | parse -r '\s*(?P<c>\*)?\s*(?P<b>[^\s]+)( -> )?(?P<r>[^\s]+)?' | get 0
+                let c = if ($n.c | is-empty) { null } else { true }
+                let r = if ($n.r | is-empty) { null } else { $n.r }
+                let nm = if $n.b in $no_merged { true } else { null }
+                let rm = if $x.k == 'remote' { true } else { null }
+                { current: $c, remote: $rm, branch: $n.b, ref: $r, no-merged: $nm }
+            }
+        }
+        | flatten
     } else if $delete {
         if $branch in $bs and (agree 'branch will be delete!') {
                 git branch -D $branch
