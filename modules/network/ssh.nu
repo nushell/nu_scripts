@@ -1,8 +1,8 @@
 export def ensure-cache [cache paths action] {
     mut cfgs = []
     for i in $paths {
-        let cs = (do -i {ls $i})
-        if not ($cs | is-empty) {
+        let cs = (do -i {ls ($i | into glob)})
+        if ($cs | is-not-empty) {
             $cfgs = ($cfgs | append $cs)
         }
     }
@@ -120,7 +120,7 @@ def "nu-complete scp" [cmd: string, offset: int] {
         | each {|x| $"($n | get 0):($x)"}
     } else {
         let files = (do -i {
-            ls -a $"($p)*"
+            ls -a ($"($p)*" | into glob)
             | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
         })
         $files | append $ssh

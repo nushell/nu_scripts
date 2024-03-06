@@ -1,6 +1,6 @@
 export-env {
     for c in [nerdctl podman docker] {
-        if not (which $c | is-empty) {
+        if (which $c | is-not-empty) {
             $env.docker-cli = $c
             break
         }
@@ -195,7 +195,7 @@ def "nu-complete docker cp" [cmd: string, offset: int] {
         | each {|x| $"($n | get 0):($x)"}
     } else {
         let files = do -i {
-            ls -a $"($p)*"
+            ls -a ($"($p)*" | into glob)
             | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
         }
         $files | append $ctn
@@ -396,7 +396,7 @@ export def container-create [
 }
 
 def has [name] {
-    $name in ($in | columns) and (not ($in | get $name | is-empty))
+    $name in ($in | columns) and ($in | get $name | is-not-empty)
 }
 
 def "nu-complete registry show" [cmd: string, offset: int] {
@@ -461,7 +461,7 @@ export def "docker registry delete" [
         | str trim
     }
     print -e $digest
-    if not ($digest | is-empty) {
+    if ($digest | is-not-empty) {
         curl -sSL -X DELETE ...$header $"($url)/v2/($reg)/manifests/($digest)"
     } else {
         'not found'
