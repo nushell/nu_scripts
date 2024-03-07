@@ -16,6 +16,7 @@ export def main [
     --label: string  # the label to filter the PRs by, e.g. `good-first-issue`
     --pretty # pretty-print for the MarkDown release not
     --no-author # do not group the contributions by author
+    --table # make an Antoine table
 ] {
     mut query_parts = []
 
@@ -54,6 +55,16 @@ export def main [
         | sort-by mergedAt --reverse
         | update author { get login }
     )
+
+    if $table {
+        return (
+            $prs 
+            | update author {md-link $"@($in)" $"https://github.com/($in)"} 
+            | insert PR {|pr| md-link $"#($pr.number)" $pr.url} 
+            | select author title PR 
+            | to md 
+        )
+    }
 
     if $pretty {
         if $no_author {
