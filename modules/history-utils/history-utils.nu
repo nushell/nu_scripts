@@ -53,7 +53,7 @@ export def 'history timing' [
             'duration_ms as duration'
             'command_line as cmd'
             'start_timestamp as start'
-            ...(if $all {['cwd']} else {[]})
+            ...(if $all {[$"replace\(cwd, '($env.HOME)', '~') as cwd"]} else {[]})
             'exit_status as exit'
         ] | str join ', ')
         'from history'
