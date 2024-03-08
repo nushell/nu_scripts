@@ -128,9 +128,35 @@ def "nu-complete docker ps" [] {
 }
 
 def "nu-complete docker containers" [] {
-    ^$env.docker-cli ps
+    ^$env.docker-cli ps -a
     | from ssv -a
-    | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
+    | each {|i|
+        let st = if ($i.STATUS | str starts-with 'Up') { ' ' } else { '!' }
+        { id: $i.'CONTAINER ID', name: $i.NAMES, status: $st }
+    }
+    | group-by name
+    | transpose k v
+    | each {|i|
+        let s = ($i.v | length) == 1
+        $i.v | each {|i|
+            if $s {
+                {value: $i.name, description: $"($i.status) ($i.id)"}
+            } else {
+                {value: $i.id, description: $"($i.status) ($i.name)"}
+            }
+        }
+    }
+    | flatten
+}
+
+# TODO: filter by description
+def "nu-complete docker containers b" [] {
+    ^$env.docker-cli ps -a
+    | from ssv -a
+    | each {|i|
+        let s = if ($i.STATUS | str starts-with 'Up') { ' ' } else { '!' }
+        { value: $i.'CONTAINER ID', description: $"($s) ($i.NAMES)" }
+    }
 }
 
 def "nu-complete docker all containers" [] {
