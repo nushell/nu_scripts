@@ -4,7 +4,11 @@ export-env {
 
 # backup history
 export def 'history backup' [tag?] {
-    ^mkdir -p $env.history_backup_dir
+    if (which sqlite3 | is-empty) {
+        print -e $'(ansi light_gray)please install sqlite3(ansi reset)'
+        return
+    }
+    mkdir $env.history_backup_dir
     let tag = if ($tag | is-empty) { '' } else { $"($tag)::" }
     [
         $".output ($env.history_backup_dir)/($tag)(date now | format date "%y_%m_%d_%H_%M_%S").sql"
@@ -22,8 +26,12 @@ def "nu-complete history_backup_file" [] {
 }
 # restore history
 export def 'history restore' [name: string@"nu-complete history_backup_file"] {
+    if (which sqlite3 | is-empty) {
+        print -e $'(ansi light_gray)please install sqlite3(ansi reset)'
+        return
+    }
     rm -f $nu.history-path
-    cat ([$env.history_backup_dir, $"($name).sql"] | path join)
+    open ([$env.history_backup_dir, $"($name).sql"] | path join)
     | sqlite3 $nu.history-path
     [
         $"update history set cwd = replace\(cwd, '~', '($env.HOME)');"
@@ -39,7 +47,7 @@ export def 'history timing' [
     --all(-a)
 ] {
     let pattern = if ($pattern | is-empty) {['true']} else {['cmd' 'like' $"'%($pattern)%'"]}
-    [
+    let q = [
         "select"
         ([
             'duration_ms as duration'
@@ -50,13 +58,14 @@ export def 'history timing' [
         ] | str join ', ')
         'from history'
         'where' ...$pattern
-        ...(if $all {['and' 'cwd' '=' $"'($env.PWD)'"]} else {[]})
+        ...(if $all {[]} else {['and' 'cwd' '=' $"'($env.PWD)'"]})
         'order by' 'start' 'desc'
         'limit' $num
     ]
     | str join ' '
-    | sqlite3 $nu.history-path -json
-    | from json
+
+    open $nu.history-path
+    | query db $q
     | update duration {|x| $x.duration | default 0 | do { $in * 1_000_000 } | into duration }
     | update start {|x|
         $x.start | into int | do { $in * 1_000_000 } | into datetime
@@ -70,7 +79,7 @@ export def 'history top' [
     let before = if ($before | is-empty) {[]} else {['where' 'start_timestamp' '>' (
         (date now) - $before | into int | do { $in / 1_000_000 }
     )]}
-    [
+    let q = [
         'select'
         ([
             'command_line as cmd'
@@ -83,6 +92,6 @@ export def 'history top' [
         'limit' $num
     ]
     | str join ' '
-    | sqlite3 $nu.history-path -json
-    | from json
+
+    open $nu.history-path | query db $q
 }
