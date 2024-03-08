@@ -9,7 +9,7 @@ def agree [
     } else {
         $'($prompt)'
     }
-    ( if $default_not { [no yes] } else { [yes no] } | input list $prompt) in [yes]
+    (if $default_not { [no yes] } else { [yes no] } | input list $prompt) == 'yes'
 }
 
 def tips [ msg ] {
@@ -117,7 +117,7 @@ export def gb [
             }
         }
     } else if ($branch | is-empty) {
-        let merged =  git branch --merged
+        let merged = git branch --merged
         | lines
         | each { $in | parse -r '\s*\*?\s*(?P<b>[^\s]+)' | get 0.b }
         {
