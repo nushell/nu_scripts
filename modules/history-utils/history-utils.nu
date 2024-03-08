@@ -46,7 +46,7 @@ export def 'history timing' [
     --num(-n)=10
     --all(-a)
 ] {
-    let pattern = if ($pattern | is-empty) {['true']} else {['cmd' 'like' $"'%($pattern)%'"]}
+    let pattern = if ($pattern | is-empty) {[]} else {['and' 'cmd' 'like' $"'%($pattern)%'"]}
     let q = [
         "select"
         ([
@@ -57,7 +57,8 @@ export def 'history timing' [
             'exit_status as exit'
         ] | str join ', ')
         'from history'
-        'where' ...$pattern
+        'where' "cmd not like 'history timing%'"
+        ...$pattern
         ...(if $all {[]} else {['and' 'cwd' '=' $"'($env.PWD)'"]})
         'order by' 'start' 'desc'
         'limit' $num
