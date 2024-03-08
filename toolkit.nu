@@ -37,15 +37,16 @@ export def generate-file-list [] {
 
     let final = "
     for file in $files {
-        # print $\"checking ($file)\"
-        let result = nu-check $file
+        let diagnostics_table = nu --ide-check 10 $file | to text  | ['[', $in, ']'] | str join | from json
+        let result = $diagnostics_table | where type == \"diagnostic\" | is-empty
         if $result {
             # print $\"✔ ($file) is ok\"
         } else {
-            print $\"❌ ($file) is wrong!\"
+            print $\"❌ ($file) has errors:\"
+            print ($diagnostics_table | where type == \"diagnostic\")
         }
-    }"
-
+    }
+    "
 
     $start 
     | append $new_list
