@@ -160,12 +160,6 @@ def "nu-complete docker containers b" [] {
     }
 }
 
-def "nu-complete docker all containers" [] {
-    ^$env.docker-cli ps -a
-    | from ssv -a
-    | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
-}
-
 def "nu-complete docker images" [] {
     ^$env.docker-cli images
     | from ssv
@@ -238,7 +232,7 @@ export def container-copy-file [
 }
 
 # remove container
-export def container-remove [ctn: string@"nu-complete docker all containers" -n: string@"nu-complete docker ns"] {
+export def container-remove [ctn: string@"nu-complete docker containers" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli ...($n | with-flag -n) container rm -f $ctn
 }
 
