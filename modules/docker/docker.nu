@@ -115,6 +115,7 @@ export def image-list [
             os: $r.Os
             size: $r.Size
             labels: $r.Labels?
+            user: $r.Config.User?
             env: $e
             entrypoint: $r.Config.Entrypoint?
             cmd: $r.Config.Cmd?
