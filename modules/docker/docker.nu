@@ -63,9 +63,10 @@ export def container-list [
         {
             name: $r.Name?
             hostname: $r.Config.Hostname?
+            id: $r.Id
+            status: $r.State.Status?
             image: $image
             created: $r.Created
-            id: $r.Id
             ports: $p
             env: $imgEnv
             mounts: $m
