@@ -45,57 +45,76 @@ def quote [...t] {
     $"'($t | str join '')'"
 }
 
+def flatten_fields [args] {
+    let f = $in | default [] | filter {|x| $x | is-not-empty }
+    let prefix = $args.0
+    let inner = $args.1
+    let outer = $args.2
+    if ($f | is-not-empty) {
+        $f
+        | each {|x|
+            if ($x | describe -d).type == list {
+                $x | str join $inner
+            } else {
+                $x
+            }
+        }
+        | str join $outer
+        | do { (if ($prefix | is-empty) {[$in]} else {[$prefix $in]})}
+    } else { [] }
+}
+
+def sql [q] {
+    [
+        [$q.select   ['select',   ' as ', ', ']]
+        [$q.from     ['from',     ' as ', ' join ']]
+        [$q.where?   ['where',    ' ',    ' and ']]
+        [$q.whereOr? ['or',       ' ',    ' or ']]
+        [$q.groupBy? ['group by', null,   ', ']]
+        [$q.orderBy? ['order by', ' ',    ', ']]
+        [$q.limit?   ['limit',    null,   ' offset ']]
+    ]
+    | each {|x| $x.0 | flatten_fields $x.1 }
+    | flatten
+    | str join ' '
+}
+
 export def 'history timing' [
     pattern?
     --exclude(-x): string
     --num(-n)=10
     --all(-a)
 ] {
-    mut cond = ["cmd not like 'history timing%'"]
-    if ($pattern | is-not-empty) {
-        $cond ++= (['cmd' 'like' (quote '%' $pattern '%')] | str join ' ')
-    }
-    if ($exclude | is-not-empty) {
-        $cond ++= (['cmd' 'not' 'like' (quote '%' $exclude '%')] | str join ' ')
-    }
-    if not $all {
-        $cond ++= (['cwd' '=' (quote $env.PWD)] | str join ' ')
-    }
-    let cond = if ($cond | is-empty) {[]} else {['where' ($cond | str join ' and ')]}
-
-    let q = [
-        "select"
-        ([
-            'duration_ms as duration'
-            'command_line as cmd'
-            'start_timestamp as start'
-            ...(if $all {[$"replace\(cwd, '($env.HOME)', '~') as cwd"]} else {[]})
-            'exit_status as exit'
-        ] | str join ', ')
-        'from history'
-        ...$cond
-        'order by' 'start' 'desc'
-        'limit' $num
-    ]
-    | str join ' '
-
-    open $nu.history-path
-    | query db $q
+    open $nu.history-path | query db (sql {
+        from: history
+        where: [
+            "cmd not like 'history timing%'"
+            (if ($pattern | is-not-empty) {[cmd like (quote '%' $pattern '%')]})
+            (if ($exclude | is-not-empty) {[cmd not like (quote '%' $exclude '%')]})
+            (if not $all {[cwd = (quote $env.PWD)]})
+        ]
+        orderBy: [[start desc]]
+        select: [
+            [duration_ms duration]
+            [command_line cmd]
+            [start_timestamp start]
+            (if $all {[$"replace\(cwd, '($env.HOME)', '~')" cwd]})
+            [exit_status exit]
+        ]
+        limit: $num
+    })
     | update duration {|x| $x.duration | default 0 | do { $in * 1_000_000 } | into duration }
-    | update start {|x|
-        $x.start | into int | do { $in * 1_000_000 } | into datetime
-    }
+    | update start {|x| $x.start | into int | do { $in * 1_000_000 } | into datetime }
 }
 
 def "nu-complete history dir" [] {
-    open $nu.history-path | query db "
-        select cwd, count(1) as count
-        from history
-        group by cwd
-        order by count desc
-        limit 20
-        ;
-    "
+    open $nu.history-path | query db (sql {
+        select: [cwd ['count(1)' count]]
+        from: history
+        groupBy: [cwd]
+        orderBy: ['count desc']
+        limit: 20
+    })
     | rename value description
     | update value {|x| $x.value | str replace $env.HOME '~' }
 }
@@ -106,41 +125,24 @@ export def 'history top' [
     --dir (-d)
     --path(-p): list<string@"nu-complete history dir">
 ] {
-    mut cond = []
-    if ($before | is-not-empty) {
-        let ts = (date now) - $before | into int | do { $in / 1_000_000 }
-        $cond ++= (['start_timestamp' '>' $ts] | str join ' ')
-    }
-    if ($path | is-not-empty) {
-        let ps = $path | path expand | each { quote $in } | str join ', '
-        $cond ++= (['cwd' 'in' '(' $ps  ')'] | str join ' ')
-    }
-    let cond = if ($cond | is-empty) {[]} else {['where' ($cond | str join ' and ')]}
-
-    let tk = if $dir {
-        [
-            $"replace\(cwd, '($env.HOME)', '~') as cwd"
-            'cwd'
+    open $nu.history-path | query db (sql {
+        from: history
+        select: [
+            (if $dir {[$"replace\(cwd, '($env.HOME)', '~')" cwd]} else {[command_line cmd]})
+            ['count(1)' count]
         ]
-    } else {
-        [
-            'command_line as cmd'
-            'cmd'
+        where: [
+            (if ($before | is-not-empty) {
+                let ts = (date now) - $before | into int | do { $in / 1_000_000 }
+                [start_timestamp > $ts]
+            })
+            (if ($path | is-not-empty) {
+                let ps = $path | path expand | each { quote $in } | str join ', '
+                [cwd in '(' $ps  ')']
+            })
         ]
-    }
-    let q = [
-        'select'
-        ([
-            $tk.0
-            'count(1) as count'
-        ] | str join ', ')
-        'from history'
-        ...$cond
-        'group by' $tk.1
-        'order by' 'count' 'desc'
-        'limit' $num
-    ]
-    | str join ' '
-
-    open $nu.history-path | query db $q
+        groupBy: [(if $dir {'cwd'} else {'cmd'})]
+        orderBy: [[count desc]]
+        limit: $num
+    })
 }
