@@ -47,12 +47,16 @@ def quote [...t] {
 
 export def 'history timing' [
     pattern?
+    --exclude(-x): string
     --num(-n)=10
     --all(-a)
 ] {
     mut cond = ["cmd not like 'history timing%'"]
     if ($pattern | is-not-empty) {
         $cond ++= (['cmd' 'like' (quote '%' $pattern '%')] | str join ' ')
+    }
+    if ($exclude | is-not-empty) {
+        $cond ++= (['cmd' 'not' 'like' (quote '%' $exclude '%')] | str join ' ')
     }
     if not $all {
         $cond ++= (['cwd' '=' (quote $env.PWD)] | str join ' ')
