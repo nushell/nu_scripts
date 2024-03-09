@@ -32,7 +32,7 @@
 def nvim_tcd [] {
     [
         {|before, after|
-            if not ($env.NVIM? | is-empty) {
+            if ($env.NVIM? | is-not-empty) {
                 nvim --headless --noplugin --server $env.NVIM --remote-send $"<cmd>lua HookPwdChanged\('($after)', '($before)')<cr>"
             }
         }
@@ -122,7 +122,7 @@ export def nvc [
             neovide: [--maximized --server $addr]
         }
         for g in ($gs | transpose prog args) {
-            if not (which $g.prog | is-empty) {
+            if (which $g.prog | is-not-empty) {
                 ^$g.prog ...$g.args
                 break
             }

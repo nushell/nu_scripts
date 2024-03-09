@@ -1,6 +1,6 @@
 export-env {
     for c in [nerdctl podman docker] {
-        if not (which $c | is-empty) {
+        if (which $c | is-not-empty) {
             $env.docker-cli = $c
             break
         }
@@ -63,9 +63,10 @@ export def container-list [
         {
             name: $r.Name?
             hostname: $r.Config.Hostname?
+            id: $r.Id
+            status: $r.State.Status?
             image: $image
             created: $r.Created
-            id: $r.Id
             ports: $p
             env: $imgEnv
             mounts: $m
@@ -114,6 +115,7 @@ export def image-list [
             os: $r.Os
             size: $r.Size
             labels: $r.Labels?
+            user: $r.Config.User?
             env: $e
             entrypoint: $r.Config.Entrypoint?
             cmd: $r.Config.Cmd?
@@ -128,15 +130,35 @@ def "nu-complete docker ps" [] {
 }
 
 def "nu-complete docker containers" [] {
-    ^$env.docker-cli ps
-    | from ssv -a
-    | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
-}
-
-def "nu-complete docker all containers" [] {
     ^$env.docker-cli ps -a
     | from ssv -a
-    | each {|x| {description: $x.'CONTAINER ID' value: $x.NAMES}}
+    | each {|i|
+        let st = if ($i.STATUS | str starts-with 'Up') { ' ' } else { '!' }
+        { id: $i.'CONTAINER ID', name: $i.NAMES, status: $st }
+    }
+    | group-by name
+    | transpose k v
+    | each {|i|
+        let s = ($i.v | length) == 1
+        $i.v | each {|i|
+            if $s {
+                {value: $i.name, description: $"($i.status) ($i.id)"}
+            } else {
+                {value: $i.id, description: $"($i.status) ($i.name)"}
+            }
+        }
+    }
+    | flatten
+}
+
+# TODO: filter by description
+def "nu-complete docker containers b" [] {
+    ^$env.docker-cli ps -a
+    | from ssv -a
+    | each {|i|
+        let s = if ($i.STATUS | str starts-with 'Up') { ' ' } else { '!' }
+        { value: $i.'CONTAINER ID', description: $"($s) ($i.NAMES)" }
+    }
 }
 
 def "nu-complete docker images" [] {
@@ -195,7 +217,7 @@ def "nu-complete docker cp" [cmd: string, offset: int] {
         | each {|x| $"($n | get 0):($x)"}
     } else {
         let files = do -i {
-            ls -a $"($p)*"
+            ls -a ($"($p)*" | into glob)
             | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
         }
         $files | append $ctn
@@ -211,7 +233,7 @@ export def container-copy-file [
 }
 
 # remove container
-export def container-remove [ctn: string@"nu-complete docker all containers" -n: string@"nu-complete docker ns"] {
+export def container-remove [ctn: string@"nu-complete docker containers" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli ...($n | with-flag -n) container rm -f $ctn
 }
 
@@ -396,7 +418,7 @@ export def container-create [
 }
 
 def has [name] {
-    $name in ($in | columns) and (not ($in | get $name | is-empty))
+    $name in ($in | columns) and ($in | get $name | is-not-empty)
 }
 
 def "nu-complete registry show" [cmd: string, offset: int] {
@@ -461,7 +483,7 @@ export def "docker registry delete" [
         | str trim
     }
     print -e $digest
-    if not ($digest | is-empty) {
+    if ($digest | is-not-empty) {
         curl -sSL -X DELETE ...$header $"($url)/v2/($reg)/manifests/($digest)"
     } else {
         'not found'

@@ -9,7 +9,7 @@ def agree [
     } else {
         $'($prompt)'
     }
-    ( if $default_not { [no yes] } else { [yes no] } | input list $prompt) in [yes]
+    (if $default_not { [no yes] } else { [yes no] } | input list $prompt) == 'yes'
 }
 
 def tips [ msg ] {
@@ -70,28 +70,73 @@ export def gl [
 
 # git branch
 export def gb [
-    branch?:          string@"nu-complete git branches"
-    remote?:          string@"nu-complete git remote branches"
+    branch?:                 string@"nu-complete git branches"
+    --remote (-r)='origin':  string@"nu-complete git remotes"
     --delete (-d)
     --no-merged (-n)
 ] {
     let bs = git branch | lines | each {|x| $x | str substring 2..}
-    if ($branch | is-empty) {
-        let d = {
-            local: (git branch | lines)
-            remote: (git branch --remote | lines)
-            no-merged: (git branch --no-merged | lines)
+    if $delete {
+        let remote_branches = (remote_branches)
+        if ($branch | is-empty) {
+            let dels = if $no_merged { gb } else {
+                 gb
+                | where { $in.merged | is-not-empty }
+            }
+            | where { ($in.remote | is-empty) and ($in.current | is-empty) }
+            | each {|x|
+                let pf = if ($x.current | is-empty) { "  " } else { $"(ansi cyan)* " }
+                let nm = if ($x.merged | is-not-empty ) { $"(ansi green)☑ " } else { "  " }
+                $x | insert display $"($nm)($pf)(ansi reset)($x.branch)"
+            }
+            if ($dels | is-empty) {
+                tips "no branches to delete"
+                return
+            }
+            let $dels = $dels
+            | input list -d display --multi
+            | get branch
+            for b in $dels {
+                tips $"delete (ansi yellow)($b)"
+                git branch -D $b
+            }
+            if ($dels | is-not-empty) and (agree 'delete remote branch?!') {
+                for b in ($dels | filter { $"($remote)/($in)" in $remote_branches }) {
+                    tips $"delete (ansi yellow)($remote)/($b)"
+                    git branch -D -r $'($remote)/($b)'
+                    git push $remote -d $b
+                }
+            }
+        } else {
+            if $branch in $bs and (agree 'branch will be delete!') {
+                    git branch -D $branch
+            }
+            if $"($remote)/($branch)" in $remote_branches and (agree 'delete remote branch?!') {
+                git branch -D -r $'($remote)/($branch)'
+                git push $remote -d $branch
+            }
         }
-        print ($d | table -i 1 -e)
-    } else if $delete {
-        if $branch in $bs and (agree 'branch will be delete!') {
-                git branch -D $branch
+    } else if ($branch | is-empty) {
+        let merged = git branch --merged
+        | lines
+        | each { $in | parse -r '\s*\*?\s*(?P<b>[^\s]+)' | get 0.b }
+        {
+            local: (git branch)
+            remote: (git branch --remote)
         }
-        if $branch in (remote_braches | each {|x| $x.1}) and (agree 'delete remote branch?!') {
-            let remote = if ($remote|is-empty) { 'origin' } else { $remote }
-            git branch -D -r $'($remote)/($branch)'
-            git push $remote -d $branch
+        | transpose k v
+        | each {|x|
+            $x.v | lines
+            | each {|n|
+                let n = $n | parse -r '\s*(?P<c>\*)?\s*(?P<b>[^\s]+)( -> )?(?P<r>[^\s]+)?' | get 0
+                let c = if ($n.c | is-empty) { null } else { true }
+                let r = if ($n.r | is-empty) { null } else { $n.r }
+                let m = if $n.b in $merged { true } else { null }
+                let rm = if $x.k == 'remote' { true } else { null }
+                { current: $c, remote: $rm, branch: $n.b, ref: $r, merged: $m }
+            }
         }
+        | flatten
     } else if $branch in $bs {
         git checkout $branch
     } else {
@@ -145,15 +190,15 @@ export def gig [--empty-dir] {
 
 # git pull, push and switch
 export def gp [
-    branch?:             string@"nu-complete git remote branches"
-    remote?:             string@"nu-complete git remote branches"
-    --force (-f)         # git push -f
+    branch?:                 string@"nu-complete git branches"
+    --remote (-r)='origin':  string@"nu-complete git remotes"
+    --force (-f)             # git push -f
     --override
-    --submodule (-s)     # git submodule
-    --init (-i)          # git init
-    --merge (-m)         # git pull (no)--rebase
-    --autostash (-a)     # git pull --autostash
-    --back-to-prev (-b)  # back to branch
+    --submodule (-s)         # git submodule
+    --init (-i)              # git init
+    --merge (-m)             # git pull (no)--rebase
+    --autostash (-a)         # git pull --autostash
+    --back-to-prev (-b)      # back to branch
 ] {
     if $submodule {
         git submodule update
@@ -167,11 +212,10 @@ export def gp [
         let a = if $autostash {[--autostash]} else {[]}
         let branch = if ($branch | is-empty) { (_git_status).branch } else { $branch }
         let branch_repr = $'(ansi yellow)($branch)(ansi light_gray)'
-        let remote = if ($remote|is-empty) { 'origin' } else { $remote }
-        let lbs = git branch | lines | each {|x| $x | str substring 2..}
-        let rbs = remote_braches | each {|x| $x.1}
+        let lbs = git branch | lines | each { $in | str substring 2..}
+        let rbs = (remote_branches)
         let prev = (_git_status).branch
-        if $branch in $rbs {
+        if $"($remote)/($branch)" in $rbs {
             if $branch in $lbs {
                 let bmsg = $'both local and remote have ($branch_repr) branch'
                 if $force {
@@ -318,7 +362,7 @@ export def gr [
         git rebase --skip
     } else if $quit {
         git rebase --quit
-    } else if not ($onto | is-empty) {
+    } else if ($onto | is-not-empty) {
         git rebase --onto $branch
     } else {
         let i = if $interactive {[--interactive]} else {[]}
@@ -623,22 +667,11 @@ def "nu-complete git branches" [] {
     | each {|x| $"($x|str trim)"}
 }
 
-export def remote_braches [] {
+export def remote_branches [] {
     git branch -r
     | lines
     | str trim
     | filter {|x| not ($x | str starts-with 'origin/HEAD') }
-    | each {|x| $x | split row '/'}
-}
-
-def "nu-complete git remote branches" [context: string, offset: int] {
-    let ctx = $context | argx parse
-    let rb = (remote_braches)
-    if ($ctx._args | length) < 3 {
-        $rb | each {|x| {value: $x.1, description: $x.0} }
-    } else {
-        $rb | filter {|x| $x.1 == $ctx.1 } | each {|x| $x.0}
-    }
 }
 
 def "nu-complete git remotes" [] {

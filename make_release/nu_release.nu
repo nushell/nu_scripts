@@ -27,8 +27,8 @@ let subcrates_wave_1 = [
     nu-plugin,
     nu-color-config,
     nu-parser,
+    nu-std,
     nu-table,
-    nu-explore,
     nu-cmd-base,
 ]
 
@@ -39,10 +39,10 @@ let subcrates_wave_2 = [
 
 let subcrates_wave_3 = [
     nu-command,
+    nu-explore,
+    nu-cli,
     nu-cmd-dataframe,
     nu-cmd-extra,
-    nu-cli,
-    nu-std,
     nu-lsp,
 
     nu_plugin_query,

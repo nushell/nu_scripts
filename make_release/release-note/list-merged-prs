@@ -11,21 +11,39 @@ def md-link [
 # list all merged PRs since last release
 export def main [
     repo: string  # the name of the repo, e.g. `nushell/nushell`
-    date?: datetime  # the date of the last release (default to 4 weeks ago, excluded)
+    --date: datetime  # the date of the last release (default to 4 weeks ago, excluded, if no milestone is set)
+    --milestone: string # search PRs by milestone
     --label: string  # the label to filter the PRs by, e.g. `good-first-issue`
     --pretty # pretty-print for the MarkDown release not
     --no-author # do not group the contributions by author
+    --table # make an Antoine table
 ] {
-    let date = $date | default ((date now) - 4wk) | format date "%Y-%m-%d"
+    mut query_parts = []
 
-    let since = (date now | format date %F | into datetime) - ($date | into datetime)
-    log info $"listing PRs in ($repo) since ($date) \(($since) ago\)"
-
-    let query = if $label == null {
-        $"merged:>($date)"
+    let date = if $date == null and $milestone == null {
+        (date now) - 4wk 
     } else {
-        $"merged:>($date) label:($label)"
+        $date
     }
+    | format date "%Y-%m-%d"
+
+    if $date != null {
+        let since = (date now | format date %F | into datetime) - ($date | into datetime)
+        log info $"listing PRs in ($repo) since ($date) \(($since) ago\)"
+        $query_parts ++= [ $"merged:>($date)" ]
+    }
+
+    if $milestone != null {
+        log info $"listing PRs in milestone ($milestone)"
+        $query_parts ++= [ $'milestone:"($milestone)"' ]
+    }
+
+    if $label != null {
+        log info $"listing PRs with label ($label)"
+        $query_parts ++= [ $'label:($label)' ]
+    }
+
+    let query = $query_parts | str join ' '
 
     let prs = (
         gh --repo $repo pr list
@@ -37,6 +55,16 @@ export def main [
         | sort-by mergedAt --reverse
         | update author { get login }
     )
+
+    if $table {
+        return (
+            $prs 
+            | update author {md-link $"@($in)" $"https://github.com/($in)"} 
+            | insert PR {|pr| md-link $"#($pr.number)" $pr.url} 
+            | select author title PR 
+            | to md 
+        )
+    }
 
     if $pretty {
         if $no_author {
