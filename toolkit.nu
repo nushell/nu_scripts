@@ -11,20 +11,11 @@ export def test [
     print "toolkit test: not implemented!"
 }
 
-# formats the pipe input inside backticks, dimmed and italic, as a pretty command
-def pretty-format-command [] {
-    $"`(ansi default_dimmed)(ansi default_italic)($in)(ansi reset)`"
-}
-
 # run all the necessary checks and tests to submit a perfect PR
 export def "check pr" [
 ] {
     generate-file-list
     test
-}
-
-def windows? [] {
-    $nu.os-info.name == windows
 }
 
 export def main [] { help toolkit }
