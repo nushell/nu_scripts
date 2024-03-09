@@ -83,11 +83,24 @@ export def 'history timing' [
     }
 }
 
+def "nu-complete history dir" [] {
+    open $nu.history-path | query db "
+        select cwd, count(1) as count
+        from history
+        group by cwd
+        order by count desc
+        limit 20
+        ;
+    "
+    | rename value description
+    | update value {|x| $x.value | str replace $env.HOME '~' }
+}
+
 export def 'history top' [
     num=10
     --before (-b): duration
     --dir (-d)
-    --path(-p): list<string>
+    --path(-p): list<string@"nu-complete history dir">
 ] {
     mut cond = []
     if ($before | is-not-empty) {
@@ -95,7 +108,7 @@ export def 'history top' [
         $cond ++= (['start_timestamp' '>' $ts] | str join ' ')
     }
     if ($path | is-not-empty) {
-        let ps = $path | each { quote $in } | str join ', '
+        let ps = $path | path expand | each { quote $in } | str join ', '
         $cond ++= (['cwd' 'in' '(' $ps  ')'] | str join ' ')
     }
     let cond = if ($cond | is-empty) {[]} else {['where' ($cond | str join ' and ')]}
