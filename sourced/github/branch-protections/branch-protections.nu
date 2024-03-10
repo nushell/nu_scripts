@@ -5,7 +5,7 @@ let protections = {
         checks: [
             {
                 context: 'YOUR CHECK HERE'
-                app_id: YOUR APP ID HERE
+                app_id: 'YOUR APP ID HERE'
             }
         ]
     }
