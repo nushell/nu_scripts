@@ -16,17 +16,16 @@ def "grab repo name" [ghrepo: string]: [string -> string] {
 #   for example:
 # ```nu
 # let list_of_repos = [
-#     "espanso/espanso"
-#     "espanso/website"
-#     "espanso/hub"
-#     "espanso/hub-frontend"
+#     "nushell/nushell"
+#     "nushell/nu_scripts"
+#     "nushell/vscode-nushell-lang"
 # ]
 #
 # and destination is the location where those repos are cloned
-# $ use oss.nu clone all
-# $ clone all ['espanso/website'] /home/my-dir/
+# $ use clone-all.nu *
+# $ clone all ['nushell/nu_scripts'] /home/my-dir/
 # equals
-# gh repo clone espanso/website /home/my-dir/website
+# gh repo clone nushell/nu_scripts /home/my-dir/nu_scripts
 # (note that it doesn't create the organization folder)
 
 # Clones all the `list_of_repos` into `destination` folder
