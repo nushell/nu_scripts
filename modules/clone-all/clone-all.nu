@@ -3,6 +3,8 @@
 # for exaple 
 # grab repo name "organization/my_special_repo" 
 # returns "myspecial_repo" 
+
+# Grabs the repo name of a github (ORG/repo) string
 def "grab repo name" [ghrepo: string]: [string -> string] {
     $ghrepo | split column "/" | get column2 | last
 }
@@ -26,6 +28,8 @@ def "grab repo name" [ghrepo: string]: [string -> string] {
 # equals
 # gh repo clone espanso/website /home/my-dir/website
 # (note that it doesn't create the organization folder)
+
+# Clones all the `list_of_repos` into `destination` folder
 export def "clone all" [list_of_repos: list<string>, destination: path] {
         print $" creating ($destination) folder"
         mkdir $destination
