@@ -2,11 +2,10 @@
 
 Do you want to automate cloning a list repos into a folder? This script is for you!
 
-
-## requirements:
+## Requirements:
 - [`gh` cli](https://github.com/cli/cli)
 
-## how to use it
+## How to use it
 
 Load the script:
 
