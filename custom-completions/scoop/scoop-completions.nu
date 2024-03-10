@@ -14,7 +14,7 @@ def scoopInstalledApps [] {
   let localAppDir = if ('SCOOP' in $env) { [$env.SCOOP, 'apps'] | path join } else { [$env.USERPROFILE, 'scoop', 'apps'] | path join }
   let localApps   = (ls $localAppDir | get name | path basename)
 
-  let globalAppDir = if ('SCOOP_GLOBAL' in $env) { [$env.SCOOP_GLOBAL), 'apps'] | path join } else { [$env.ProgramData, 'scoop', 'apps'] | path join }
+  let globalAppDir = if ('SCOOP_GLOBAL' in $env) { [$env.SCOOP_GLOBAL, 'apps'] | path join } else { [$env.ProgramData, 'scoop', 'apps'] | path join }
   let globalApps   = if ($globalAppDir | path exists) { ls $globalAppDir | get name | path basename }
 
   $localApps | append $globalApps
