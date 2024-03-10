@@ -1,4 +1,4 @@
-let appID = #YOUR APP_ID
+let appID = "" #YOUR APP_ID
 
 #Fetch simple anwser from WolframAlpha API
 def wolfram [...query #Your query
