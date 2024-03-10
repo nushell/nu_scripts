@@ -66,7 +66,7 @@ def "nu-complete git branches" [] {
 
 export def gl [
     commit?: string@"nu-complete git log"
-    --verbose(-v):bool
+    --verbose(-v)
     --num(-n):int=32
 ] {
     if ($commit|is-empty) {

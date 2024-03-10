@@ -8,7 +8,7 @@ extern "as" [
 	--sectname-subst					# Enable section name substitution sequences
 	--gen-debug(-g)					# Generate debugging information
 	--gstabs					# Generate STABS debugging information
-	--gstabs+					# Generate STABS debug info with GNU extensions
+	# --gstabs+					# (breaks the nu parser) Generate STABS debug info with GNU extensions   
 	--gdwarf-2					# Generate DWARF2 debugging information
 	--gdwarf-sections					# Generate per-function section names for DWARF line information
 	--help					# Show help message and exit
@@ -42,7 +42,7 @@ extern "as yes no" [
 	--sectname-subst					# Enable section name substitution sequences
 	--gen-debug(-g)					# Generate debugging information
 	--gstabs					# Generate STABS debugging information
-	--gstabs+					# Generate STABS debug info with GNU extensions
+	# --gstabs+					# (breaks the nu parser) Generate STABS debug info with GNU extensions   
 	--gdwarf-2					# Generate DWARF2 debugging information
 	--gdwarf-sections					# Generate per-function section names for DWARF line information
 	--help					# Show help message and exit
