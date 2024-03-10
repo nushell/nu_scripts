@@ -2,7 +2,7 @@
 extern "godoc" [
 	--ex					# Show examples in command line mode
 	--html					# Print HTML in command-line mode
-	--httptest.serve					# httptest.NewServer serves on this address and blocks
+	# --httptest.serve					# (this command breaks nu parser) httptest.NewServer serves on this address and blocks
 	--index					# Enable search index
 	--index_files					# Glob pattern specifying index files
 	--links					# Link identifiers to their declarations
