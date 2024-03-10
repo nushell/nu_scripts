@@ -38,3 +38,27 @@ And then you need to pass that variable and a destination folder
 ```nu
 clone all $list_of_repos $"($env.home)/other-repos/nu_repos"
 ```
+
+## Tips
+
+I (@AucaCoyan) use it for cloning both org repos and my forks
+
+```nushell
+let nushell_repos = [
+    "nushell/nushell"
+    "nushell/nu_scripts"
+    "nushell/vscode-nushell-lang"
+]
+
+clone all $nushell_repos $"($env.home)/other-repos/nu"
+
+let nushell_forks = [
+    "AucaCoyan/nushell"
+    "AucaCoyan/nu_scripts"
+    "AucaCoyan/vscode-nushell-lang"
+]
+
+clone all $nushell_forks $"($env.home)/repos"
+```
+
+and do that with every gh org (work or open source!)
