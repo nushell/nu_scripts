@@ -27,6 +27,8 @@ export def generate-file-list [] {
     let new_list = $files | str join ",\n" | append "]"
 
     let final = "
+
+    mut exit_code = 0
     for file in $files {
         let diagnostics_table = nu --ide-check 10 $file | to text  | ['[', $in, ']'] | str join | from json
         let result = $diagnostics_table | where type == \"diagnostic\" | is-empty
@@ -35,9 +37,12 @@ export def generate-file-list [] {
         } else {
             print $\"❌ ($file) has errors:\"
             print ($diagnostics_table | where type == \"diagnostic\")
+            $exit_code = 1
         }
     }
-    "
+
+exit $exit_code
+"
 
     $start 
     | append $new_list
