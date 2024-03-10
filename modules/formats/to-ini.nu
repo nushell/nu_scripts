@@ -4,7 +4,7 @@ export def "to ini" [] {
   | update value {|row|
     $row.value
     | transpose key value
-    | format '{key}={value}'
+    | format pattern "{key}={value}"
     | prepend $"[($row.key)]"
     | str join (char nl)
   }

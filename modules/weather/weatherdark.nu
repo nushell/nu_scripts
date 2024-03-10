@@ -27,7 +27,7 @@ def get_location [index: int] {
 }
 
 # dark sky
-def http get_api [loc] {
+def "http get_api" [loc] {
     let apiKey = "ds_api_key"
     let options = "?lang=en&units=si&exclude=minutely,hourly,flags"
 

@@ -39,4 +39,4 @@ $shell_list | each { |r|
         print $" ($count)"
         [[shell repo stars]; [($r.name) ($r.repo) ($count)]]
     }
-} | flatten | sort-by -r stars | table -n 1
+} | flatten | sort-by -r stars | table --index 1

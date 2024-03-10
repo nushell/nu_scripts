@@ -1,5 +1,6 @@
 #!/usr/bin/env nu
 
+let base_url = ""
 let page_size = 100
 let projects = $"($base_url)/api/v4/projects/"
 

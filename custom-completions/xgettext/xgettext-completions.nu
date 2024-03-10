@@ -6,7 +6,6 @@ extern "xgettext" [
 	--output(-o)					# Write output to specified file
 	--output-dir(-p)					# Output files will be placed in directory DIR
 	--language(-L)					# Recognise the specified programming language
-	--c++(-C)					# Shorthand for --language=C++
 	--from-code					# Encoding of input files (except for Python, Tcl, Glade)
 	--join-existing(-j)					# Join messages with existing file
 	--exclude-file(-x)					# Entries from FILE
@@ -41,3 +40,6 @@ extern "xgettext" [
 	--version(-V)					# Output version information and exit
 	...args
 ]
+
+export alias "xgettext --c++" = ^xgettext --language=C++
+export alias "xgettext -C" = ^xgettext --language=C++
