@@ -31,7 +31,7 @@ export def generate-file-list [ --full ] {
         # do nothing.. as $files has already all files
         print "checking all files..."
     } else {
-        $files = (git diff main --name-only | lines | each { path expand })
+        $files = (git diff --name-status main | lines | each { path expand })
     }
 
 
