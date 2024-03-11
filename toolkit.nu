@@ -20,9 +20,20 @@ export def "check pr" [
 
 export def main [] { help toolkit }
 
-export def generate-file-list [] {
+export def generate-file-list [ --full ] {
     let start = "let files = ["
-    let files  = glob **/*.nu --exclude [before_v0.60/**]
+
+    # mut files = [""]
+    mut $files = glob **/*.nu --exclude [before_v0.60/**]
+    if $full {
+        # all the *.nu files in the repo
+        # exept for `before_v0.60`
+        # do nothing.. as $files has already all files
+        print "checking all files..."
+    } else {
+        $files = (git diff main --name-only | lines | each { path expand })
+    }
+
 
     let new_list = $files | str join ",\n" | append "]"
 
