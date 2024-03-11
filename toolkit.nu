@@ -44,13 +44,14 @@ export def generate-file-list [ --full ] {
         let diagnostics_table = nu --ide-check 10 $file | to text  | ['[', $in, ']'] | str join | from json
         let result = $diagnostics_table | where type == \"diagnostic\" | is-empty
         if $result {
-            # print $\"✔ ($file) is ok\"
+            print $\"✔ ($file) is ok\"
         } else {
             print $\"❌ ($file) has errors:\"
             print ($diagnostics_table | where type == \"diagnostic\")
             $exit_code = 1
         }
     }
+    print $\"💚 All files checked!\"
 
 exit $exit_code
 "
