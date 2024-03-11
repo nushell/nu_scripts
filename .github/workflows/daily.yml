@@ -1,5 +1,9 @@
 on:
-    pull_request: 
+    push:
+        branches: 
+            - main
+    schedule:
+      - cron: '30 0 * * *' # every day at 00:30 AM UTC
 
 env:
     NUSHELL_CARGO_PROFILE: ci
@@ -17,11 +21,11 @@ jobs:
                 version: '*'
                 check-latest: true
                 features: full # dataframe and extra included
-            - name: toolkit check pr
+            - name: toolkit generate-file-list --full
               shell: nu {0}
               run: |
-                nu -c "use toolkit.nu *; check pr"
-            - name: run nu-check on modified files
+                nu -c "use toolkit.nu *; generate-file-list --full"
+            - name: run nu-check on all files
               shell: nu {0}
               run: |
                 nu ./check-files.nu
