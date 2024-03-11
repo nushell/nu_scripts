@@ -7,7 +7,7 @@ export def "from cpuinfo" [] {
         | str trim
         | update column1 {
             get column1
-            | str replace -a -s ' ' '_'
+            | str replace -a ' ' '_'
         }
         | transpose -r -d
         | update flags {
