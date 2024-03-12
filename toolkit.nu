@@ -54,8 +54,6 @@ export def generate-file-list [ --full ] {
     }
     print $\"💚 All files checked!\"
 
-    git branch -r
-
 exit $exit_code
 "
 
