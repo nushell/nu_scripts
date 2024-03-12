@@ -32,7 +32,7 @@ export def generate-file-list [ --full ] {
         print "checking all files..."
         mut $files = glob **/*.nu --exclude [before_v0.60/**]
     } else {
-        $files = (git diff --name-only origin/main | lines | each { path expand })
+        $files = (git diff --name-only origin/main | lines | filter { str ends-with '.nu'} | each { path expand })
     }
 
 
