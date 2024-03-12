@@ -1,0 +1,33 @@
+on:
+    push:
+        branches: 
+            - main
+    schedule:
+      - cron: '30 0 * * *' # every day at 00:30 AM UTC
+
+env:
+    NUSHELL_CARGO_PROFILE: ci
+    NU_LOG_LEVEL: DEBUG
+
+jobs:
+    nu-check:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+            - name: 'Fetch main branch'
+              run: |
+                git fetch origin main --depth 1
+            - uses: hustcer/setup-nu@v3.9
+              with:
+                version: '*'
+                check-latest: true
+                features: full # dataframe and extra included
+            - name: toolkit generate-file-list --full
+              shell: nu {0}
+              run: |
+                nu -c "use toolkit.nu *; generate-file-list --full"
+            - name: run nu-check on all files
+              shell: nu {0}
+              run: |
+                nu ./check-files.nu
