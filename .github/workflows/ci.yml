@@ -11,7 +11,9 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-
+            - name: 'Fetch main branch'
+              run: |
+                git fetch origin main --depth 1
             - uses: hustcer/setup-nu@v3.9
               with:
                 version: '*'
