@@ -14,10 +14,10 @@ export-env {
   $env.MSVS_MSVC_ROOT = (
       if not ($"($env.MSVS_ROOT)/VC/Tools/MSVC/" | path exists) {
         ""
-      } else if (ls $"($env.MSVS_ROOT)/VC/Tools/MSVC/*" | is-empty) {
+      } else if (ls ($"($env.MSVS_ROOT)/VC/Tools/MSVC/*" | into glob) | is-empty) {
         ""
       } else {
-        ((ls $"($env.MSVS_ROOT)/VC/Tools/MSVC/*").name.0 | str replace -a '\\' '/')
+        ((ls ($"($env.MSVS_ROOT)/VC/Tools/MSVC/*" | into glob)).name.0 | str replace -a '\\' '/')
       })
 
   $env.MSVS_MSDK_ROOT = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder | get value)
