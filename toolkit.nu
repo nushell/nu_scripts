@@ -42,7 +42,7 @@ export def generate-file-list [ --full ] {
 
     mut exit_code = 0
     for file in $files {
-        let diagnostics_table = nu --ide-check 10 $file | to text | ['[', $in, ']'] | str join | from json
+        let diagnostics_table = nu --ide-check 10 $file | to text | ['[', $in, ']'] | str join | from json | reject span
         let result = $diagnostics_table | where type == \"diagnostic\" | is-empty
         if $result {
             print $\"✔ ($file) is ok\"
