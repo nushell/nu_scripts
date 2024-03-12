@@ -13,22 +13,25 @@
 #   Add a config hook
 #   > set-env -a config.hooks.pre_prompt 'ellie | print'
 export def --env main [
-  path: cell-path # The environment variable name or nested option path
+  field: cell-path # The environment variable name or nested option cell path
   value: any # The value to set or append
   --append (-a) # Append to the previous value or wrap in a new list
 ]: nothing -> nothing {
-  def 'get or' [default path] { get --ignore-errors $path | default $default }
+  def 'get or' [default field] {
+    get --ignore-errors $field | default $default
+  }
   let value = if $append {
-    $env | get or [] $path | append $value
+    $env | get or [] $field | append $value
   } else {
     $value
   }
-  let path = $path | to text | split row .
-  let value = match $path {
+  let field = $field | to text | split row .
+  let value = match $field {
     [_] => $value
-    [$root, ..$path] => {
-      $env | get or {} $root | upsert ($path | into cell-path) $value
+    [$root, ..$field] => {
+      let field = $field | into cell-path
+      $env | get or {} $root | upsert $field $value
     }
   }
-  load-env { ($path | first): $value }
+  load-env { ($field | first): $value }
 }
