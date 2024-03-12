@@ -1,4 +1,4 @@
-use ../argx/argx.nu
+use argx.nu
 
 def agree [
     prompt
@@ -119,7 +119,7 @@ export def gb [
     } else if ($branch | is-empty) {
         let merged = git branch --merged
         | lines
-        | each { $in | parse -r '\s*\*?\s*(?P<b>[^\s]+)' | get 0.b }
+        | each { $in | parse -r '\s*\*?\s*(?<b>[^\s]+)' | get 0.b }
         {
             local: (git branch)
             remote: (git branch --remote)
@@ -128,7 +128,7 @@ export def gb [
         | each {|x|
             $x.v | lines
             | each {|n|
-                let n = $n | parse -r '\s*(?P<c>\*)?\s*(?P<b>[^\s]+)( -> )?(?P<r>[^\s]+)?' | get 0
+                let n = $n | parse -r '\s*(?<c>\*)?\s*(?<b>[^\s]+)( -> )?(?<r>[^\s]+)?' | get 0
                 let c = if ($n.c | is-empty) { null } else { true }
                 let r = if ($n.r | is-empty) { null } else { $n.r }
                 let m = if $n.b in $merged { true } else { null }
@@ -595,7 +595,7 @@ export def _git_log_stat [n]  {
                     | split row ','
                     | each {|x| $x
                         | str trim
-                        | parse -r "(?P<num>[0-9]+) (?P<col>.+)"
+                        | parse -r "(?<num>[0-9]+) (?<col>.+)"
                         | get 0
                         }
                     | reduce -f {sha: $acc.c file:0 ins:0 del:0} {|i,a|

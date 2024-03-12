@@ -31,7 +31,7 @@ def "nu-complete ssh host" [] {
 
 export def parse-ssh-file [group] {
     $in
-    | parse -r '(?P<k>Host|HostName|User|Port|IdentityFile)\s+(?P<v>.+)'
+    | parse -r '(?<k>Host|HostName|User|Port|IdentityFile)\s+(?<v>.+)'
     | append { k: Host, v: null}
     | reduce -f { rst: [], item: {Host: null} } {|it, acc|
           if $it.k == 'Host' {
