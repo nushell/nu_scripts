@@ -23,13 +23,14 @@ export def main [] { help toolkit }
 export def generate-file-list [ --full ] {
     let start = "let files = ["
 
-    # mut files = [""]
-    mut $files = glob **/*.nu --exclude [before_v0.60/**]
+    mut files = [""]
+
     if $full {
         # all the *.nu files in the repo
         # exept for `before_v0.60`
         # do nothing.. as $files has already all files
         print "checking all files..."
+        mut $files = glob **/*.nu --exclude [before_v0.60/**]
     } else {
         $files = (git diff --name-only main | lines | each { path expand })
     }
