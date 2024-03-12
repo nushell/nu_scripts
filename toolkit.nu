@@ -28,10 +28,10 @@ export def generate-file-list [ --full ] {
     if $full {
         # all the *.nu files in the repo
         # exept for `before_v0.60`
-        # do nothing.. as $files has already all files
         print "checking all files..."
         mut $files = glob **/*.nu --exclude [before_v0.60/**]
     } else {
+        # only the *.nu files changed in comparison with origin/main
         $files = (git diff --name-only origin/main | lines | filter { str ends-with '.nu'} | each { path expand })
     }
 
@@ -42,7 +42,7 @@ export def generate-file-list [ --full ] {
 
     mut exit_code = 0
     for file in $files {
-        let diagnostics_table = nu --ide-check 10 $file | to text  | ['[', $in, ']'] | str join | from json
+        let diagnostics_table = nu --ide-check 10 $file | to text | ['[', $in, ']'] | str join | from json
         let result = $diagnostics_table | where type == \"diagnostic\" | is-empty
         if $result {
             print $\"✔ ($file) is ok\"
