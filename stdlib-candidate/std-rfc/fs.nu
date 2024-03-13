@@ -20,8 +20,8 @@ export def "file bulk-rename" [
     stem_update: closure, # the code to run on the stem of the files: should start with parsing the format and end with reconstructing the same format
     --verbose, # be verbose when moving the files around
 ]: nothing -> nothing {
-    ls --full-paths $directory | insert new {
-        get name | path parse | update stem $stem_update | path join
+    ls --full-paths $directory | insert new {|row|
+        $row.name | path parse | update stem $stem_update | path join
     }
     | each {
         if $verbose {

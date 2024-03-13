@@ -1,7 +1,9 @@
-#[test]
-def test [] {
-    use std assert
+use std assert
+use ../std-rfc "file bulk-rename"
 
+alias rename = file bulk-rename
+
+export def "test file bulk-rename" [] {
     let test_dir = $nu.temp-path | path join (random uuid)
 
     mkdir $test_dir
@@ -22,7 +24,7 @@ def test [] {
     let actual = glob $"($test_dir)/*" | str replace $test_dir "" | str trim --left --char "/"
     assert equal ($actual | sort) $expected
 
-    file bulk-rename $test_dir {
+    rename $test_dir {
         parse "some_{i}_format"
             | get 0
             | update i { fill --alignment r --character 0 --width 3 }
