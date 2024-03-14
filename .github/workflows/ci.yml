@@ -21,5 +21,7 @@ jobs:
                   features: full # dataframe and extra included
             - name: toolkit check pr
               shell: nu {0}
+              # nix STUB_IDE_CHECK when nushell/nushell#12208 fixed
               run: |
-                  nu --commands 'use toolkit.nu *; check pr --and-exit'
+                  use ${{ github.workspace }}/toolkit.nu *
+                  STUB_IDE_CHECK=true check pr --and-exit
