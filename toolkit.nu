@@ -49,12 +49,16 @@ def "with files" [
         [_ true] => (glob **/*.nu --exclude [before_v0.60/**])
         [null _] => (git diff --name-only origin/main | lines)
         [$files _] => $files
+    } | where $it ends-with .nu and ($it | path exists)
+    let error_count = if ($files | length) == 0 {
+        print 'warning: no .nu files found!'
+        0
+    } else {
+        $files
+            | each { path expand }
+            | do $task $files # run the closure with both input and param
+            | math sum # it MUST return a non-empty list of ints
     }
-    let error_count = $files
-        | where $it ends-with .nu and ($it | path exists)
-        | each { path expand }
-        | do $task $files # run the closure with both input and param
-        | math sum # it MUST return a non-empty list of ints
     if $and_exit {
         exit $error_count
     } else {
