@@ -47,7 +47,7 @@ def "with files" [
 ]: [list<path> -> int, nothing -> int] {
     let files = match [$in, $full] {
         [_ true] => (glob **/*.nu --exclude [before_v0.60/**])
-        [null _] => (git diff --name-only origin | lines)
+        [null _] => (git diff --name-only origin/main | lines)
         [$files _] => $files
     }
     let error_count = $files
