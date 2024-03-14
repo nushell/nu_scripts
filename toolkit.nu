@@ -71,7 +71,7 @@ export def "lint ide-check" []: path -> int {
     let file = $in
     let stub = $env.STUB_IDE_CHECK? | default false | into bool
     let diagnostics = if $stub {
-        do { nu -n -c $"use '($file)'" }
+        do { nu --no-config-file --commands $"use '($file)'" }
             | complete
             | [[severity message]; [$in.exit_code $in.stderr]]
             | where severity != 0
