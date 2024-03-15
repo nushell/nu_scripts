@@ -142,7 +142,7 @@ export def from-file-table [base_txt: path] {
 
 # Replace {{baseXX-hex}} with proper colors, such as #ffeedd
 def apply-base16-mustache [template: string] {
-    reduce -f $template {
+    reduce -f $template { |it|
         let subs = $"\{\{($it.item.name)-hex\}\}"  # regex
         let color = $it.item.color
         $it.acc | str replace -a $subs $color
