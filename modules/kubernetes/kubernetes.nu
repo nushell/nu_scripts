@@ -1,4 +1,31 @@
 use argx.nu
+use refine.nu
+
+export def --wrapped ll [lv ...args] {
+    let c = ['navy' 'teal' 'xpurplea' 'xgreen' 'olive' 'maroon']
+    let gray = (ansi light_gray)
+    let dark = (ansi grey39)
+    let t = date now | format date '%Y-%m-%dT%H:%M:%S'
+    let t = $"(ansi ($c | get $lv))($t)"
+    let s = $args
+    | reduce -f {tag: {}, msg:[]} {|x, acc|
+        if ($x | describe -d).type == 'record' {
+            $acc | update tag ($acc.tag | merge $x)
+        } else {
+            $acc | update msg ($acc.msg | append $x)
+        }
+    }
+    let g = $s.tag
+    | transpose k v
+    | each {|y| $"($dark)($y.k)=($gray)($y.v)"}
+    | str join ' '
+    | do { if ($in | is-empty) {''} else {$in} }
+    let m = $"($gray)($s.msg | str join ' ')"
+    let r = [$t $g $m]
+    | where { $in | is-not-empty }
+    | str join $'($dark)│'
+    print -e $r
+}
 
 export def ensure-cache-by-lines [cache path action] {
     let ls = do -i { open $path | lines | length }
@@ -34,12 +61,228 @@ export def `kcache flush` [] {
     rm -rf ~/.cache/nu-complete/k8s-api-resources/
 }
 
+def kube-shortnames [] {
+    kubectl api-resources | from ssv -a
+    | where SHORTNAMES != ''
+    | reduce -f {} {|i,a|
+        $i.SHORTNAMES
+        | split row ','
+        | reduce -f {} {|j,b|
+            $b | insert $j $i.NAME
+        }
+        | merge $a
+    }
+}
+
 export-env {
     $env.KUBERNETES_SCHEMA_URL = $"file:///($env.HOME)/.config/kubernetes-json-schema/all.json"
     $env.KUBERNETES_RESOURCE_ABBR = {
         s: services
         d: deployments
         p: pods
+    }
+    let id = {
+        name: [metadata name]
+        kind: [kind {|x|$x| str downcase}]
+        apiVersion: [apiVersion]
+        labels: [metadata labels]
+        created: [metadata creationTimestamp {|x|$x | into datetime}]
+    }
+    let ids = {...$id, namespace: [metadata namespace] }
+    $env.KUBERNETES_REFINE = {
+        _namespace: [
+            kube-system kube-node-lease kube-public
+            kube-flannel istio-system ingress-nginx
+        ]
+        shortnames: {
+            sc: storageclasses
+            ing: ingresses
+            vs: virtualservices
+            gw: gateways.networking.istio.io
+            gtw: gateways
+            dr: destinationrules
+            ev: events
+            cj: cronjobs
+            hpa: horizontalpodautoscalers
+            sts: statefulsets
+            rs: replicasets
+            deploy: deployments
+            ds: daemonsets
+            crd: customresourcedefinitions
+            svc: services
+            sa: serviceaccounts
+            quota: resourcequotas
+            rc: replicationcontrollers
+            po: pods
+            pv: persistentvolumes
+            pvc: persistentvolumeclaims
+            no: nodes
+            ns: namespaces
+            ep: endpoints
+            cm: configmaps
+        }
+        cluster_resources: {
+            namespaces: {
+                ...$id
+            }
+        }
+        cluster_status: {
+
+        }
+        status: {
+            deployments: {
+                conditions: {
+                    _: [status conditions]
+                    type: [type]
+                    reason: [reason]
+                    message: [message]
+                }
+            }
+            pods: {
+                ...$ids
+                image: [spec containers image]
+                containers: {
+                    _: [spec containers]
+                    name: [name]
+                    image: [image]
+                    serviceAccount: [serviceAccount]
+                    env: [env]
+                    args: [args]
+                    ports: [ports]
+                    volumeMounts: [volumeMounts]
+                    node: [nodeName]
+                    nodeSelector: [nodeSelector]
+                }
+                hostIP: [status hostIP]
+                podIP: [status podIP]
+                phase: [status phase]
+                startTime: [status startTime]
+                conditions: {
+                    _: [status conditions]
+                    type: [type]
+                    reason: [reason]
+                    message: [message]
+                }
+            }
+        }
+        resources: {
+            deployments: {
+                ...$ids
+                replicas: [spec replicas]
+                containers: {
+                    _: [spec template spec containers]
+                    name: [name]
+                    labels: [metadata labels]
+                    image: [image]
+                    imagePullPolicy: [imagePullPolicy]
+                    env: [env]
+                    ports: [ports]
+                    resources: [resources]
+                    args: [args]
+                    label: [label]
+                    replicas: [replicas]
+                }
+            }
+            services: {
+                ...$ids
+                type: [spec type]
+                clusterIP: [spec clusterIP]
+                ports: [spec ports]
+                selector: [spec selector]
+                sessionAffinity: [sessionAffinity]
+            }
+            configmaps: {
+                ...$ids
+                data: [data]
+            }
+            secrets: {
+                ...$ids
+                data: [data]
+                type: [type]
+            }
+            gateways: {
+                ...$ids
+                addresses: [spec addresses]
+                gatewayClassName: [spec gatewayClassName]
+                listeners: {
+                    _: [spec listeners]
+                    name: [name]
+                    port: [port]
+                    protocol: [protocol]
+                    tls: [tls]
+                }
+
+            }
+            httproutes: {
+                ...$ids
+                hostnames: [spec hostnames]
+                parentRefs: [spec parentRefs name]
+                rules: {
+                    _: [spec rules]
+                    backend: {
+                        _: [backendRefs]
+                        name: [name]
+                        port: [port]
+                        weight: [weight]
+                    }
+                    matches: {
+                        _: [matches]
+                        type: [path type]
+                        value: [path value]
+                    }
+
+                }
+            }
+            virtualservices.networking.istio.io: {
+                ...$ids
+                http: [spec http]
+                gateways: {
+                    _: [spec gateways]
+                    hosts: {
+                        _: [spec hosts]
+                    }
+                }
+            }
+            gateways.networking.istio.io: {
+                ...$ids
+                selector: [spec selector]
+                servers: [spec servers]
+
+            }
+            ingresses: {
+                ...$ids
+                annotations: [metadata annotations]
+                rules: {
+                    _: [spec rules]
+                    host: [host]
+                    http: [http]
+                }
+            }
+        }
+    }
+}
+
+def krefine [kind] {
+    let obj = $in
+    let conf = $env.KUBERNETES_REFINE
+    let kind = if $kind in $conf.shortnames {
+        $conf.shortnames | get $kind
+    } else {
+        $kind
+    }
+    let tg = [cluster_resources cluster_status resources status]
+    | reduce -f {} {|i,a|
+        let r = $conf | get $i
+        if $kind in $r {
+            $a | merge ($r | get $kind)
+        } else {
+            $a
+        }
+    }
+    if ($tg | is-empty) {
+        $obj
+    } else {
+        refine $tg $obj
     }
 }
 
@@ -235,17 +478,12 @@ export def 'kconf export' [name: string@"nu-complete kube ctx"] {
     } | to yaml
 }
 
-export def --env kcconf [name: string@"nu-complete kube ctx"] {
+# kubectl change context clone
+export def --env kccc [name: string@"nu-complete kube ctx"] {
     let dist = $"($env.HOME)/.kube/config.d"
     mkdir $dist
     kconf export $name | save -fr $"($dist)/($name)"
     $env.KUBECONFIG = $"($dist)/($name)"
-}
-
-### common
-def "nu-complete kube kind without cache" [] {
-    kubectl api-resources | from ssv -a | get NAME
-    | append (kubectl get crd | from ssv -a | get NAME)
 }
 
 def "nu-complete kube kind" [] {
@@ -254,7 +492,7 @@ def "nu-complete kube kind" [] {
     ensure-cache-by-lines $cache $ctx.path {||
         kubectl api-resources | from ssv -a
         | each {|x| {value: $x.NAME description: $x.SHORTNAMES} }
-        | append (kubectl get crd | from ssv -a | each {|x| {$x.NAME} })
+        | append (kubectl get crd | from ssv -a | get NAME | wrap value)
     }
 }
 
@@ -333,20 +571,10 @@ export def kg [
         let l = $selector | with-flag -l
         if ($jsonpath | is-empty) {
             let wide = if $wide {[-o wide]} else {[]}
-            if ($verbose) {
-                kubectl get -o json ...$n $kind ...$l | from json | get items
-                | each {|x|
-                    {
-                        name: $x.metadata.name
-                        kind: $x.kind
-                        ns: $x.metadata.namespace
-                        created: ($x.metadata.creationTimestamp | into datetime)
-                        metadata: $x.metadata
-                        status: $x.status
-                        spec: $x.spec
-                    }
-                }
-                | normalize-column-names
+            if $verbose {
+                kubectl get -o json ...$n $kind ...$l | from json
+                | get items
+                | krefine $kind
             } else if $watch {
                 kubectl get ...$n $kind ...$l ...$wide --watch
             } else {
@@ -356,7 +584,8 @@ export def kg [
             kubectl get ...$n $kind $"--output=jsonpath={($jsonpath)}" | from json
         }
     } else {
-        kubectl get ...$n $kind $resource -o json | from json
+        let o = kubectl get ...$n $kind $resource -o json | from json
+        if $verbose { $o } else { $o | krefine $kind }
     }
 }
 
@@ -464,9 +693,7 @@ export def kgp [
     --all (-a)
 ] {
     if ($pod | is-not-empty) {
-        kubectl get pods ...($namespace | with-flag -n) $pod --output=json
-        | from json
-        | {...$in.metadata, ...$in.spec, ...$in.status}
+        kg pods -n $namespace $pod
     } else if $all {
         kg pods -a --wide
     } else {
@@ -638,9 +865,7 @@ export def kgs [
     if ($service | is-empty) {
         kg services -n $namespace -p $jsonpath -l $selector $service
     } else {
-        kubectl get svc ...($namespace | with-flag -n) $service --output=json
-        | from json
-        | {...$in.metadata, ...$in.spec, ...$in.status}
+        kg services -n $namespace $service
     }
 }
 
@@ -864,6 +1089,58 @@ export def kgcert [] {
     kubectl get certificaterequests -o wide | from ssv | rename certificaterequests
     kubectl get order.acme -o wide | from ssv | rename order.acme
     kubectl get challenges.acme -o wide | from ssv | rename challenges.acme
+}
+
+### refine kubernetes resources
+export def 'kube refine' [
+    ...namespace: string@"nu-complete kube ns"
+    --kind(-k): list<string@"nu-complete kube kind">
+] {
+    let config = $env.KUBERNETES_REFINE
+
+    let nsf = if ($namespace | is-empty) {
+        {|x| $x not-in $config._namespace }
+    } else {
+        {|x| $x in $namespace}
+    }
+    let cns = kubectl get namespace
+    | from ssv -a
+    | get NAME
+    | filter $nsf
+
+    let resource = kubectl get crd | from ssv | get NAME
+    let resource = kubectl api-resources | from ssv -a | get NAME | append $resource
+
+    mut data = []
+    if ($namespace | is-empty) {
+        ll 4 {stage: cluster}
+        for p in ($config.cluster_resources | transpose k v) {
+            if $p.k not-in $resource { continue }
+            ll 3 {kind: $p.k} list
+            let rs = kubectl get $p.k | from ssv -a | get NAME
+            for r in $rs {
+                ll 1 {kind: $p.k, name: $r} collect
+                let obj = kubectl get $p.k $r --output=json | from json
+                let pyl = refine $p.v $obj
+                $data ++= $pyl
+            }
+        }
+    }
+    ll 4 {stage: namespace}
+    for p in ($config.resources | transpose k v) {
+        if $p.k not-in $resource { continue }
+        for ns in $cns {
+            ll 2 {kind: $p.k, ns: $ns} list
+            let rs = kubectl get $p.k --namespace $ns | from ssv -a | get NAME
+            for r in $rs {
+                ll 0 {kind: $p.k, ns: $ns, name: $r} collect
+                let obj = kubectl get $p.k --namespace $ns $r --output=json | from json
+                let pyl = refine $p.v $obj
+                $data ++= $pyl
+            }
+        }
+    }
+    $data
 }
 
 # kubernetes to docker-compose

@@ -47,6 +47,7 @@ export def container-list [
         let img = ^$cli ...($n | with-flag -n) inspect $image
             | from json
             | get 0
+        let imgCmd = $img.Config.Cmd?
         let imgEnv = $img.Config.Env?
             | reduce -f {} {|i, a|
                 let x = $i | split row '='
@@ -71,6 +72,7 @@ export def container-list [
             env: $imgEnv
             mounts: $m
             entrypoint: $r.Path?
+            cmd: $imgCmd
             args: $r.Args
         }
     }
