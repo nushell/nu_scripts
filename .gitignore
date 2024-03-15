@@ -2,3 +2,5 @@
 
 # ignore the git mailmap file
 .mailmap
+
+check-files.nu

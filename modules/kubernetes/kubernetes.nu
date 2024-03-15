@@ -45,38 +45,38 @@ export-env {
 
 
 # kubectl apply -f
-export def kaf [p: path] {
-    kubectl apply -f $p
+export def kaf [file: path] {
+    kubectl apply -f $file
 }
 
 # kubectl diff -f
-export def kdf [p: path] {
-    kubectl diff -f $p
+export def kdf [file: path] {
+    kubectl diff -f $file
 }
 
 # kubectl delete -f
-export def kdelf [p: path] {
-    kubectl delete -f $p
+export def kdelf [file: path] {
+    kubectl delete -f $file
 }
 
 # kubectl apply -k (kustomize)
-export def kak [p: path] {
-    kubectl apply -k $p
+export def kak [file: path] {
+    kubectl apply -k $file
 }
 
 # kubectl diff -k (kustomize)
-export def kdk [p: path] {
-    kubectl diff -k $p
+export def kdk [file: path] {
+    kubectl diff -k $file
 }
 
 # kubectl delete -k (kustomize)
-export def kdelk [p: path] {
-    kubectl delete -k $p
+export def kdelk [file: path] {
+    kubectl delete -k $file
 }
 
 # kubectl kustomize (template)
-export def kk [p: path] {
-    kubectl kustomize $p
+export def kk [file: path] {
+    kubectl kustomize $file
 }
 
 ### ctx
@@ -121,20 +121,20 @@ def "nu-complete kube ns" [] {
 }
 
 # kubectl change context
-export def kcc [ctx: string@"nu-complete kube ctx"] {
-    kubectl config use-context $ctx
+export def kcc [context: string@"nu-complete kube ctx"] {
+    kubectl config use-context $context
 }
 
 # kubectl (change) namespace
-export def kn [ns: string@"nu-complete kube ns"] {
-    if not ($ns in (kubectl get namespace | from ssv -a | get NAME)) {
-        if ([no yes] | input list $"namespace '($ns)' doesn't exist, create it?") in [yes] {
-            kubectl create namespace $ns
+export def kn [namespace: string@"nu-complete kube ns"] {
+    if not ($namespace in (kubectl get namespace | from ssv -a | get NAME)) {
+        if ([no yes] | input list $"namespace '($namespace)' doesn't exist, create it?") in [yes] {
+            kubectl create namespace $namespace
         } else {
             return
         }
     }
-    kubectl config set-context --current $"--namespace=($ns)"
+    kubectl config set-context --current $"--namespace=($namespace)"
 }
 
 def parse_cellpath [path] {
@@ -312,8 +312,8 @@ def "nu-complete kube jsonpath" [context: string] {
 
 # kubectl get
 export def kg [
-    k: string@"nu-complete kube kind"
-    r?: string@"nu-complete kube res"
+    kind: string@"nu-complete kube kind"
+    resource?: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
@@ -329,12 +329,12 @@ export def kg [
             } else {
                 [-n $namespace]
             }
-    if ($r | is-empty) {
+    if ($resource | is-empty) {
         let l = $selector | with-flag -l
         if ($jsonpath | is-empty) {
             let wide = if $wide {[-o wide]} else {[]}
             if ($verbose) {
-                kubectl get -o json ...$n $k ...$l | from json | get items
+                kubectl get -o json ...$n $kind ...$l | from json | get items
                 | each {|x|
                     {
                         name: $x.metadata.name
@@ -348,74 +348,74 @@ export def kg [
                 }
                 | normalize-column-names
             } else if $watch {
-                kubectl get ...$n $k ...$l ...$wide --watch
+                kubectl get ...$n $kind ...$l ...$wide --watch
             } else {
-                kubectl get ...$n $k ...$l ...$wide | from ssv -a | normalize-column-names
+                kubectl get ...$n $kind ...$l ...$wide | from ssv -a | normalize-column-names
             }
         } else {
-            kubectl get ...$n $k $"--output=jsonpath={($jsonpath)}" | from json
+            kubectl get ...$n $kind $"--output=jsonpath={($jsonpath)}" | from json
         }
     } else {
-        kubectl get ...$n $k $r -o json | from json
+        kubectl get ...$n $kind $resource -o json | from json
     }
 }
 
 # kubectl describe
 export def kd [
-    r: string@"nu-complete kube kind"
-    i: string@"nu-complete kube res"
+    kind: string@"nu-complete kube kind"
+    resource: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
-    kubectl describe ...($namespace | with-flag -n) $r $i
+    kubectl describe ...($namespace | with-flag -n) $kind $resource
 }
 
 # kubectl create
 export def kc [
-    r: string@"nu-complete kube kind"
+    kind: string@"nu-complete kube kind"
     --namespace (-n): string@"nu-complete kube ns"
     name:string
 ] {
-    kubectl create ...($namespace | with-flag -n) $r $name
+    kubectl create ...($namespace | with-flag -n) $kind $name
 }
 
 # kubectl get -o yaml
 export def ky [
-    r: string@"nu-complete kube kind"
-    i: string@"nu-complete kube res"
+    kind: string@"nu-complete kube kind"
+    resource: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
-    kubectl get ...($namespace | with-flag -n) -o yaml $r $i
+    kubectl get ...($namespace | with-flag -n) -o yaml $kind $resource
 }
 
 # kubectl edit
 export def ke [
-    k: string@"nu-complete kube kind"
-    r?: string@"nu-complete kube res"
+    kind: string@"nu-complete kube kind"
+    resource?: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
     --selector(-l): string
 ] {
     let n = $namespace | with-flag -n
-    let r = if ($selector | is-empty) { $r } else {
-        let res = kubectl get $k ...$n -l $selector | from ssv -a | each {|x| $x.NAME}
+    let r = if ($selector | is-empty) { $resource } else {
+        let res = kubectl get $kind ...$n -l $selector | from ssv -a | each {|x| $x.NAME}
         if ($res | length) == 1 {
             $res.0
         } else if ($res | length) == 0 {
             return
         } else {
-            $res | input list $'select ($k) '
+            $res | input list $'select ($kind) '
         }
     }
-    kubectl edit ...$n $k $r
+    kubectl edit ...$n $kind $r
 }
 
 # kubectl delete
 export def kdel [
-    r: string@"nu-complete kube kind"
-    i: string@"nu-complete kube res"
+    kind: string@"nu-complete kube kind"
+    resource: string@"nu-complete kube res"
     --namespace (-n): string@"nu-complete kube ns"
     --force(-f)
 ] {
-    kubectl delete ...($namespace | with-flag -n) ...(if $force {[--grace-period=0 --force]} else {[]}) $r $i
+    kubectl delete ...($namespace | with-flag -n) ...(if $force {[--grace-period=0 --force]} else {[]}) $kind $resource
 }
 
 
@@ -457,36 +457,36 @@ def "nu-complete kube ctns" [context: string, offset: int] {
 
 # kubectl get pods
 export def kgp [
-    r?: string@"nu-complete kube res via name"
+    pod?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
     --all (-a)
 ] {
-    if ($r | is-not-empty) {
-        kubectl get pods ...($namespace | with-flag -n) $r --output=json
+    if ($pod | is-not-empty) {
+        kubectl get pods ...($namespace | with-flag -n) $pod --output=json
         | from json
         | {...$in.metadata, ...$in.spec, ...$in.status}
     } else if $all {
         kg pods -a --wide
     } else {
-        kg pods -n $namespace -p $jsonpath -l $selector --wide $r
+        kg pods -n $namespace -p $jsonpath -l $selector --wide $pod
     }
 }
 
 # kubectl get pods --watch
 export def kwp [
-    r?: string@"nu-complete kube res via name"
+    pod?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --selector (-l): string
 ] {
-    kg pods -n $namespace -w -l $selector --wide $r
+    kg pods -n $namespace -w -l $selector --wide $pod
 }
 
 # kubectl edit pod
 export def kep [
     --namespace (-n): string@"nu-complete kube ns"
-    pod?: string@"nu-complete kube res via name"
+    pod: string@"nu-complete kube res via name"
     --selector (-l): string
 ] {
     ke -n $namespace pod -l $selector $pod
@@ -589,7 +589,7 @@ def "nu-complete kube port" [context: string, offset: int] {
 
 # kubectl port-forward
 export def kpf [
-    res: string@"nu-complete port forward type"
+    kind: string@"nu-complete port forward type"
     target: string@"nu-complete kube res"
     port: string@"nu-complete kube port"
     --local (-l): string
@@ -597,7 +597,7 @@ export def kpf [
 ] {
     let ns = $namespace | with-flag -n
     let port = if ($local | is-empty) { $port } else { $"($local):($port)" }
-    kubectl port-forward ...$ns $"($res)/($target)" $port
+    kubectl port-forward ...$ns $"($kind)/($target)" $port
 }
 
 def "nu-complete kube cp" [cmd: string, offset: int] {
@@ -630,15 +630,15 @@ export def kcp [
 
 # kubectl get services
 export def kgs [
-    r?: string@"nu-complete kube res via name"
+    service?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
-    if ($r | is-empty) {
-        kg services -n $namespace -p $jsonpath -l $selector $r
+    if ($service | is-empty) {
+        kg services -n $namespace -p $jsonpath -l $selector $service
     } else {
-        kubectl get svc ...($namespace | with-flag -n) $r --output=json
+        kubectl get svc ...($namespace | with-flag -n) $service --output=json
         | from json
         | {...$in.metadata, ...$in.spec, ...$in.status}
     }
@@ -646,44 +646,44 @@ export def kgs [
 
 # kubectl edit service
 export def kes [
-    svc?: string@"nu-complete kube res via name"
+    service?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --selector (-l): string
 ] {
-    ke -n $namespace service -l $selector $svc
+    ke -n $namespace service -l $selector $service
 }
 
 # kubectl delete service
 export def kdels [
-    svc: string@"nu-complete kube res via name"
+    service: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
-    kdel -n $namespace service $svc
+    kdel -n $namespace service $service
 }
 
 # kubectl get deployments
 export def kgd [
-    r?: string@"nu-complete kube res via name"
+    deployment?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --jsonpath (-p): string@"nu-complete kube jsonpath"
     --selector (-l): string
 ] {
-    kg -n $namespace deployments -p $jsonpath -l $selector $r
+    kg -n $namespace deployments -p $jsonpath -l $selector $deployment
 }
 
 # kubectl edit deployment
 export def ked [
-    d?: string@"nu-complete kube res via name"
+    deployment?: string@"nu-complete kube res via name"
     --namespace (-n): string@"nu-complete kube ns"
     --selector (-l): string
 ] {
-    ke -n $namespace deployments -l $selector $d
+    ke -n $namespace deployments -l $selector $deployment
 }
 
 def "nu-complete num9" [] { [0 1 2 3] }
 # kubectl scale deployment
 export def ksd [
-    d: string@"nu-complete kube deploys"
+    deployment: string@"nu-complete kube deploys"
     num: string@"nu-complete num9"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
@@ -691,13 +691,13 @@ export def ksd [
         "too large"
     } else {
         let ns = $namespace | with-flag -n
-        kubectl scale ...$ns deployments $d --replicas $num
+        kubectl scale ...$ns deployments $deployment --replicas $num
     }
 }
 
 # kubectl scale deployment with reset
 export def ksdr [
-    d: string@"nu-complete kube deploys"
+    deployment: string@"nu-complete kube deploys"
     num: int@"nu-complete num9"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
@@ -707,8 +707,8 @@ export def ksdr [
         "too small"
     } else {
         let ns = $namespace | with-flag -n
-        kubectl scale ...$ns deployments $d --replicas 0
-        kubectl scale ...$ns deployments $d --replicas $num
+        kubectl scale ...$ns deployments $deployment --replicas 0
+        kubectl scale ...$ns deployments $deployment --replicas $num
     }
 }
 
@@ -723,23 +723,23 @@ def "nu-complete kube kind with image" [] {
 
 # kubectl set image
 export def ksi [
-    k: string@"nu-complete kube kind with image"
-    r: string@"nu-complete kube res"
+    kind: string@"nu-complete kube kind with image"
+    resource: string@"nu-complete kube res"
     --namespace(-n): string@"nu-complete kube ns"
     act?: any
 ] {
     let ns = $namespace | with-flag -n
-    let path = match $k {
+    let path = match $kind {
         _ => '.spec.template.spec.containers[*]'
     }
-    let name = kubectl get ...$ns $k $r -o $"jsonpath={($path).name}" | split row ' '
-    let image = kubectl get ...$ns $k $r -o $"jsonpath={($path).image}" | split row ' '
+    let name = kubectl get ...$ns $kind $resource -o $"jsonpath={($path).name}" | split row ' '
+    let image = kubectl get ...$ns $kind $resource -o $"jsonpath={($path).image}" | split row ' '
     let list = $name | zip $image | reduce -f {} {|it,acc| $acc | insert $it.0 $it.1 }
     if ($act | describe -d).type == 'closure' {
         let s = do $act $list
         if ($s | describe -d).type == 'record' {
             let s = $s | transpose k v | each {|x| $"($x.k)=($x.v)"}
-            kubectl ...$ns set image $"($k)/($r)" ...$s
+            kubectl ...$ns set image $"($kind)/($resource)" ...$s
         }
     } else {
         $list
@@ -748,14 +748,14 @@ export def ksi [
 
 # kubectl redistribution deployment
 export def krd [
-    d: string@"nu-complete kube deploys"
+    deployment: string@"nu-complete kube deploys"
     ...nodes: string@"nu-complete kube nodes"
     --namespace (-n): string@"nu-complete kube ns"
 ] {
     let ns = $namespace | with-flag -n
     let nums = kubectl get nodes | from ssv -a | length
-    kubectl scale ...$ns deployments $d --replicas $nums
-    let labels = kubectl get ...$ns deploy $d --output=json
+    kubectl scale ...$ns deployments $deployment --replicas $nums
+    let labels = kubectl get ...$ns deploy $deployment --output=json
     | from json
     | get spec.selector.matchLabels
     | transpose k v
@@ -765,7 +765,7 @@ export def krd [
     for p in ($pods | where NODE not-in $nodes) {
         kubectl delete ...$ns pod --grace-period=0 --force $p.NAME
     }
-    kubectl scale ...$ns deployments $d --replicas ($pods | where NODE in $nodes | length)
+    kubectl scale ...$ns deployments $deployment --replicas ($pods | where NODE in $nodes | length)
 }
 
 # kubectl rollout status deployment
@@ -777,22 +777,22 @@ export alias kgrs = kubectl get rs
 export def krhd [
     --namespace (-n): string@"nu-complete kube ns"
     --revision (-v): int
-    dpl: string@"nu-complete kube res via name"
+    deployment: string@"nu-complete kube res via name"
 ] {
     let ns = $namespace | with-flag -n
     let v = if ($revision|is-empty) { [] } else { [ $"--revision=($revision)" ] }
-    kubectl ...$ns rollout history $"deployment/($dpl)" ...$v
+    kubectl ...$ns rollout history $"deployment/($deployment)" ...$v
 }
 
 # kubectl rollout undo
 export def krud [
     --namespace (-n): string@"nu-complete kube ns"
     --revision (-v): int
-    dpl: string@"nu-complete kube res via name"
+    deployment: string@"nu-complete kube res via name"
 ] {
     let ns = $namespace | with-flag -n
     let v = if ($revision|is-empty) { [] } else { [ $"--to-revision=($revision)" ] }
-    kubectl ...$ns rollout undo $"deployment/($dpl)" ...$v
+    kubectl ...$ns rollout undo $"deployment/($deployment)" ...$v
 }
 export alias ksss = kubectl scale statefulset
 export alias krsss = kubectl rollout status statefulset

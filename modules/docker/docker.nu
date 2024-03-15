@@ -79,9 +79,9 @@ export def container-list [
 # list images
 export def image-list [
     -n: string@"nu-complete docker ns"
-    img?: string@"nu-complete docker images"
+    image?: string@"nu-complete docker images"
 ] {
-    if ($img | is-empty) {
+    if ($image | is-empty) {
         ^$env.docker-cli ...($n | with-flag -n) images
             | from ssv -a
             | each {|x|
@@ -99,7 +99,7 @@ export def image-list [
                 }
             }
     } else {
-        let r = ^$env.docker-cli ...($n | with-flag -n) inspect $img
+        let r = ^$env.docker-cli ...($n | with-flag -n) inspect $image
             | from json
             | get 0
         let e = $r.Config.Env?
@@ -170,48 +170,48 @@ def "nu-complete docker images" [] {
 
 # container log
 export def container-log [
-    ctn: string@"nu-complete docker containers"
+    container: string@"nu-complete docker containers"
     -l: int = 100 # line
     -n: string@"nu-complete docker ns" # namespace
 ] {
     let l = if $l == 0 { [] } else { [--tail $l] }
-    ^$env.docker-cli ...($n | with-flag -n) logs -f ...$l $ctn
+    ^$env.docker-cli ...($n | with-flag -n) logs -f ...$l $container
 }
 
 export def container-log-trunc [
-    ctn: string@"nu-complete docker containers"
+    container: string@"nu-complete docker containers"
     -n: string@"nu-complete docker ns" # namespace
 ] {
     if $env.docker-cli == 'podman' {
         print -e $'(ansi yellow)podman(ansi dark_gray) isn’t supported(ansi reset)'
     } else {
-        let f = ^$env.docker-cli ...($n | with-flag -n) inspect --format='{{.LogPath}}' $ctn
+        let f = ^$env.docker-cli ...($n | with-flag -n) inspect --format='{{.LogPath}}' $container
         truncate -s 0 $f
     }
 }
 
 # attach container
 export def --wrapped container-attach [
-    ctn: string@"nu-complete docker containers"
+    container: string@"nu-complete docker containers"
     -n: string@"nu-complete docker ns"
     ...args
 ] {
     let ns = $n | with-flag -n
     if ($args|is-empty) {
-        ^$env.docker-cli ...$ns exec -it $ctn /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
+        ^$env.docker-cli ...$ns exec -it $container /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
     } else {
-        ^$env.docker-cli ...$ns exec -it $ctn ...$args
+        ^$env.docker-cli ...$ns exec -it $container ...$args
     }
 }
 
 def "nu-complete docker cp" [cmd: string, offset: int] {
     let argv = $cmd | str substring ..$offset | split row ' '
     let p = if ($argv | length) > 2 { $argv | get 2 } else { $argv | get 1 }
-    let ctn = ^$env.docker-cli ps
+    let container = ^$env.docker-cli ps
         | from ssv -a
         | each {|x| {description: $x.'CONTAINER ID' value: $"($x.NAMES):" }}
     let n = $p | split row ':'
-    if $"($n | get 0):" in ($ctn | get value) {
+    if $"($n | get 0):" in ($container | get value) {
         ^$env.docker-cli exec ($n | get 0) sh -c $"ls -dp ($n | get 1)*"
         | lines
         | each {|x| $"($n | get 0):($x)"}
@@ -220,7 +220,7 @@ def "nu-complete docker cp" [cmd: string, offset: int] {
             ls -a ($"($p)*" | into glob)
             | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }}
         }
-        $files | append $ctn
+        $files | append $container
     }
 }
 
@@ -233,20 +233,20 @@ export def container-copy-file [
 }
 
 # remove container
-export def container-remove [ctn: string@"nu-complete docker containers" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) container rm -f $ctn
+export def container-remove [container: string@"nu-complete docker containers" -n: string@"nu-complete docker ns"] {
+    ^$env.docker-cli ...($n | with-flag -n) container rm -f $container
 }
 
 
 # history
-export def container-history [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) history --no-trunc $img | from ssv -a
+export def container-history [image: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+    ^$env.docker-cli ...($n | with-flag -n) history --no-trunc $image | from ssv -a
 }
 
 
 # save images
-export def image-save [-n: string@"nu-complete docker ns" ...img: string@"nu-complete docker images"] {
-    ^$env.docker-cli ...($n | with-flag -n) save ...$img
+export def image-save [-n: string@"nu-complete docker ns" ...image: string@"nu-complete docker images"] {
+    ^$env.docker-cli ...($n | with-flag -n) save ...$image
 }
 
 # load images
@@ -265,8 +265,8 @@ export def system-prune-all [-n: string@"nu-complete docker ns"] {
 }
 
 # remove image
-export def image-remove [img: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) rmi $img
+export def image-remove [image: string@"nu-complete docker images" -n: string@"nu-complete docker ns"] {
+    ^$env.docker-cli ...($n | with-flag -n) rmi $image
 }
 
 # add new tag
@@ -276,15 +276,15 @@ export def image-tag [from: string@"nu-complete docker images"  to: string -n: s
 
 # push image
 export def image-push [
-    img: string@"nu-complete docker images"
+    image: string@"nu-complete docker images"
     --tag(-t): string
     -n: string@"nu-complete docker ns" -i
 ] {
     let $insecure = if $i {[--insecure-registry]} else {[]}
     if ($tag | is-empty) {
-        ^$env.docker-cli ...($n | with-flag -n) ...$insecure push $img
+        ^$env.docker-cli ...($n | with-flag -n) ...$insecure push $image
     } else {
-        ^$env.docker-cli ...($n | with-flag -n) tag $img $tag
+        ^$env.docker-cli ...($n | with-flag -n) tag $image $tag
         do -i {
             ^$env.docker-cli ...($n | with-flag -n) ...$insecure push $tag
         }
@@ -293,9 +293,9 @@ export def image-push [
 }
 
 # pull image
-export def image-pull [img -n: string@"nu-complete docker ns" -i] {
+export def image-pull [image -n: string@"nu-complete docker ns" -i] {
     let $insecure = if $i {[--insecure-registry]} else {[]}
-    ^$env.docker-cli ...($n | with-flag -n) ...$insecure pull $img
+    ^$env.docker-cli ...($n | with-flag -n) ...$insecure pull $image
 }
 
 ### list volume
@@ -371,7 +371,7 @@ export def container-create [
     --with-x
     --privileged(-P)
     --namespace(-n): string@"nu-complete docker ns"
-    img: string@"nu-complete docker images"             # image
+    image: string@"nu-complete docker images"             # image
     ...cmd                                              # command args
 ] {
     let ns = $namespace | with-flag -n
@@ -409,11 +409,11 @@ export def container-create [
         $debug $appimage $netadmin $with_x
         $mnt $vols $workdir $cache
     ] | flatten
-    let name = $"($img | split row '/' | last | str replace ':' '-')_(date now | format date %m%d%H%M)"
+    let name = $"($image | split row '/' | last | str replace ':' '-')_(date now | format date %m%d%H%M)"
     if $dry_run {
-        echo ([docker $ns run --name $name $args $img $cmd] | flatten | str join ' ')
+        echo ([docker $ns run --name $name $args $image $cmd] | flatten | str join ' ')
     } else {
-        ^$env.docker-cli ...$ns run --name $name ...$args $img ...($cmd | flatten)
+        ^$env.docker-cli ...$ns run --name $name ...$args $image ...($cmd | flatten)
     }
 }
 
