@@ -1,4 +1,4 @@
-use ./path_extensions.nu *
+use path_extensions.nu *
 
 def has-sub [
     folder:    string, 
