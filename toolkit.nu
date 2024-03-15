@@ -4,61 +4,102 @@
 # the main purpose of `toolkit` is to offer an easy to use interface for the
 # developer during a PR cycle.
 
-
-# check that all the tests pass
+# Check that all the tests pass.
+#
+# Input:
+#   Optional file paths to check or infer them from Git
 export def test [
-] {
-    print "toolkit test: not implemented!"
+    --full # Check all files instead of input
+    --and-exit # Exit with error count
+]: [list<path> -> int, nothing -> int] {
+    with files --full=$full --and-exit=$and_exit { |files|
+        print "test: not implemented!"
+        [0] # success code
+    }
 }
 
-# run all the necessary checks and tests to submit a perfect PR
+# Run all the necessary checks and tests to submit a perfect PR.
+#
+# Input:
+#   Optional file paths to check or infer them from Git
 export def "check pr" [
-] {
-    generate-file-list
-    test
+    --full # Check all files instead of input
+    --and-exit # Exit with error count
+]: [list<path> -> int, nothing -> int] {
+    with files --full=$full --and-exit=$and_exit { |files|
+         [
+            { lint }
+            { test }
+         ] | par-each { |task| $files | do $task } # TODO: buffer output
+    }
 }
 
-export def main [] { help toolkit }
+# View subcommands.
+export def main []: nothing -> nothing {
+    help toolkit
+}
 
-export def generate-file-list [ --full ] {
-    let start = "let files = ["
-
-    mut files = [""]
-
-    if $full {
-        # all the *.nu files in the repo
-        # exept for `before_v0.60`
-        print "checking all files..."
-        mut $files = glob **/*.nu --exclude [before_v0.60/**]
+# Wrap file lookup and exit codes.
+def "with files" [
+    task: closure
+    --full
+    --and-exit
+]: [list<path> -> int, nothing -> int] {
+    let files = match [$in, $full] {
+        [_ true] => (glob **/*.nu --exclude [before_v0.60/**])
+        [null _] => (git diff --name-only origin/main | lines)
+        [$files _] => $files
+    } | where $it ends-with .nu and ($it | path exists)
+    let error_count = if ($files | length) == 0 {
+        print 'warning: no .nu files found!'
+        0
     } else {
-        # only the *.nu files changed in comparison with origin/main
-        $files = (git diff --name-only origin/main | lines | filter { str ends-with '.nu'} | each { path expand })
+        $files
+            | each { path expand }
+            | do $task $files # run the closure with both input and param
+            | math sum # it MUST return a non-empty list of ints
     }
-
-
-    let new_list = $files | str join ",\n" | append "]"
-
-    let final = "
-
-    mut exit_code = 0
-    for file in $files {
-        let diagnostics_table = nu --ide-check 10 $file | to text | ['[', $in, ']'] | str join | from json
-        let result = $diagnostics_table | where type == \"diagnostic\" | is-empty
-        if $result {
-            print $\"✔ ($file) is ok\"
-        } else {
-            print $\"❌ ($file) has errors:\"
-            print ($diagnostics_table | where type == \"diagnostic\" | reject span)
-            $exit_code = 1
-        }
+    if $and_exit {
+        exit $error_count
+    } else {
+        $error_count
     }
-    print $\"💚 All files checked!\"
+}
 
-exit $exit_code
-"
+# Check the input file with nu --ide-check.
+export def "lint ide-check" []: path -> int {
+    let file = $in
+    let stub = $env.STUB_IDE_CHECK? | default false | into bool
+    let diagnostics = if $stub {
+        do { nu --no-config-file --commands $"use '($file)'" }
+            | complete
+            | [[severity message]; [$in.exit_code $in.stderr]]
+            | where severity != 0
+    } else {
+        nu --ide-check 10 $file
+            | $"[($in)]"
+            | from nuon
+            | where type == diagnostic
+            | select severity message
+    }
+    let error_count = $diagnostics | length
+    if $error_count == 0 {
+        print $"lint: ✔ ($file) is ok"
+    } else {
+        print $"lint: ❌ ($file) has errors:\n($diagnostics | table)"
+    }
+    $error_count
+}
 
-    $start 
-    | append $new_list
-    | append $final 
-    | save "check-files.nu" --force
+# Check that all the files parse.
+#
+# Input:
+#   Optional file paths to check or infer them from Git
+export def lint [
+    --full # Check all files instead of input
+    --and-exit # Exit with error count
+]: [list<path> -> int, nothing -> int] {
+    with files --full=$full --and-exit=$and_exit {
+        par-each { lint ide-check }
+    }
 }
