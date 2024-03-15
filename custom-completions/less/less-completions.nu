@@ -1,6 +1,6 @@
 # Display help and exit
 extern "less" [
-	--help(-\?)					# Display help and exit
+	--help(-?)					# Display help and exit
 	--search-skip-screen(-a)					# Search after end of screen
 	--auto-buffers(-B)					# Disable automtic buffer allocation
 	--clear-screen(-c)					# Repaint from top
@@ -35,14 +35,16 @@ extern "less" [
 	--HILITE-UNREAD(-W)					# Highlight first unread line on any movement
 	--no-init(-X)					# No termcap init
 	--no-keypad					# No keypad init
-	--tilde(-\~)					# Lines after EOF are blank
-	--shift(-\#)					# Characters to scroll on left/right arrows
+	--tilde(-~)					# Lines after EOF are blank
+	--shift					# Characters to scroll on left/right arrows
+	# this breaks the parser
+	# --shift(-#)					# Characters to scroll on left/right arrows
 	...args
 ]
 
 # Characters to scroll on left/right arrows
 extern "less 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19" [
-	--help(-\?)					# Display help and exit
+	--help(-?)					# Display help and exit
 	--search-skip-screen(-a)					# Search after end of screen
 	--auto-buffers(-B)					# Disable automtic buffer allocation
 	--clear-screen(-c)					# Repaint from top
@@ -77,7 +79,7 @@ extern "less 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19" [
 	--HILITE-UNREAD(-W)					# Highlight first unread line on any movement
 	--no-init(-X)					# No termcap init
 	--no-keypad					# No keypad init
-	--tilde(-\~)					# Lines after EOF are blank
-	--shift(-\#)					# Characters to scroll on left/right arrows
+	--tilde(-~)					# Lines after EOF are blank
+	# --shift(-#)					# Characters to scroll on left/right arrows
 	...args
 ]
