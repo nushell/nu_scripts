@@ -16,7 +16,7 @@ export def number-format [
         $parts.0
         | split chars
         | reverse
-        | reduce -n -f [] {
+        | reduce -f [] {
             |it, acc| if ((($it.index + 1) mod 3) == 0) {
                 $acc.item
                 | append $it.item

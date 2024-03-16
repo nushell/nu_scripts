@@ -22,7 +22,7 @@ export def "from dmidecode" [] {
                         | split column ':'
                         | str trim
                         | str downcase column1
-                        | str replace -a -s ' ' '_' column1
+                        | str replace -a ' ' '_' column1
                         | transpose -r -d
                     }
                 } else {

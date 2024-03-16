@@ -8,7 +8,7 @@ extern "tar" [
 	--list(-t)					# List archive
 	--update(-u)					# Append new files
 	--get(-x)					# Extract from archive
-	--help(-\?)					# Display short option summary
+	--help(-?)					# Display short option summary
 	--usage					# List available options
 	--atime-preserve					# Keep access time
 	--block-size(-b)					# Block size

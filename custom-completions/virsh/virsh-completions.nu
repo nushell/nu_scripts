@@ -4,12 +4,6 @@ extern "virsh" [
 	...args
 ]
 
-# Show version
-extern "virsh short\tShort\ version long\tLong\ version" [
-
-	...args
-]
-
 # Attach device from an XML file
 extern "virsh attach-device" [
 	--persistent					# Make live change persistent

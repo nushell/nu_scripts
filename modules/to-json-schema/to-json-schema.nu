@@ -1,6 +1,6 @@
 # Converts specific JSON to JSON schema.
 def to-json-schema [schema: int, url: string, json: string] {
-    if not $schema in [4, 7] {
+    if ($schema != 4 or $schema != 7) {
         error make { msg: $"'http://json-schema.org/draft-0($schema)/schema' is not supported yet." }
     }
     if url == "" {

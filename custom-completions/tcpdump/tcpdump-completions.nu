@@ -8,7 +8,9 @@ extern "tcpdump" [
 	--list-time-stamp-types(-J)					# List the supported time stamp types for the interface
 	--dont-verify-checksums(-K)					# Dont attempt to verify IP, TCP, or UDP checksums
 	--list-data-link-types(-L)					# List the known data link types for the interface
-	--number(-\#)					# Print an optional packet number
+	--number							# Print an optional packet number
+	# breaks the parser
+	# --number(-\#)					# Print an optional packet number
 	--no-optimize(-O)					# Do not run the packet-matching code optimizer
 	--no-promiscuous-mode(-p)					# Dont put the interface into promiscuous mode
 	--absolute-tcp-sequence-numbers(-S)					# Print absolute TCP sequence numbers

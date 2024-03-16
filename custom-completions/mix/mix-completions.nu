@@ -148,12 +148,13 @@ extern "mix profile.fprof" [
 
 # Runs the given file or expression
 extern "mix run" [
-	--config(-c)					# loads the given configuration file
+	--config(-c)				# loads the given configuration file
 	--eval(-e)					# evaluates the given code
-	--require(-r)					# requires pattern before running the command
-	--parallel-require(-pr)					# requires pattern in parallel
-	--no-compile					# does not compile even if files require compilation
-	--no-deps-check					# does not check dependencies
+	--require(-r)				# requires pattern before running the command
+	--parallel-require			# requires pattern in parallel
+	--pr						# requires pattern in parallel
+	--no-compile				# does not compile even if files require compilation
+	--no-deps-check				# does not check dependencies
 	--no-halt					# does not halt the system after running the command
 	--no-start					# does not start applications after compilation
 	...args
