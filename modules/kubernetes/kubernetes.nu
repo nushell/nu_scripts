@@ -207,6 +207,7 @@ export-env {
                 listeners: {
                     _: [spec listeners]
                     name: [name]
+                    hostname: [hostname]
                     port: [port]
                     protocol: [protocol]
                     tls: [tls]
