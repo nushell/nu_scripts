@@ -1,6 +1,6 @@
 # modules
 export module record/
-export module str.nu
+export module str/
 # commands
 export use fs.nu *
 export use set-env.nu *
