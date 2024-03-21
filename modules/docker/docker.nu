@@ -67,7 +67,7 @@ export def container-list [
             id: $r.Id
             status: $r.State.Status?
             image: $image
-            created: $r.Created
+            created: ($r.Created | into datetime)
             ports: $p
             env: $imgEnv
             mounts: $m
@@ -78,26 +78,51 @@ export def container-list [
     }
 }
 
+def parse-img [] {
+    let n = $in | split row ':'
+    let tag = $n.1? | default 'latest'
+    let repo = $n.0 | split row '/'
+    let image = $repo | last
+    let repo = $repo | range 0..-2 | str join '/'
+    {image: $image, tag: $tag, repo: $repo}
+}
+
+# select image
+export def image-select [name] {
+    let n = $name | parse-img
+    let imgs = (image-list)
+    let fs = [image tag repo]
+    for i in 2..0 {
+        let r = $imgs | filter {|x|
+            $fs | range 0..$i | all {|y| ($n | get $y) == ($x | get $y) }
+        }
+        if ($r | is-not-empty) {
+            return ($r | sort-by -r created | first | get name)
+        }
+    }
+    $name
+}
+
 # list images
 export def image-list [
     -n: string@"nu-complete docker ns"
     image?: string@"nu-complete docker images"
 ] {
     if ($image | is-empty) {
-        ^$env.docker-cli ...($n | with-flag -n) images
-            | from ssv -a
+        let fmt = '{"id":"{{.ID}}", "repo": "{{.Repository}}", "tag":"{{.Tag}}", "size":"{{.Size}}" "created":"{{.CreatedAt}}"}'
+        ^$env.docker-cli ...($n | with-flag -n) images --format $fmt
+            | lines
             | each {|x|
-                let size = $x.SIZE | into filesize
-                let path = $x.REPOSITORY | split row '/'
-                let image = $path | last
-                let repo = $path | range ..(($path|length) - 2) | str join '/'
+                let x = $x | from json
+                let img = $x.repo | parse-img
                 {
-                    repo: $repo
-                    image: $image
-                    tag: $x.TAG
-                    id: $x.'IMAGE ID'
-                    created: $x.CREATED
-                    size: $size
+                    name: $"($x.repo):($x.tag)"
+                    id: $x.id
+                    created: ($x.created | into datetime)
+                    size: ($x.size | into filesize)
+                    repo: $img.repo
+                    image: $img.image
+                    tag: $x.tag
                 }
             }
     } else {
@@ -109,9 +134,14 @@ export def image-list [
                 let x = $i | split row '='
                 $a | upsert $x.0 $x.1?
             }
+        let id = if $env.docker-cli == 'nerdctl' {
+            $r.RepoDigests.0? | split row ':' | get 1 | str substring 0..12
+        } else {
+            $r.Id | str substring 0..12
+        }
         {
-            id: $r.Id
-            created: $r.Created
+            id: $id
+            created: ($r.Created | into datetime)
             author: $r.Author
             arch: $r.Architecture
             os: $r.Os
@@ -236,7 +266,10 @@ export def container-copy-file [
 
 # remove container
 export def container-remove [container: string@"nu-complete docker containers" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) container rm -f $container
+    let cs = ^$env.docker-cli ...($n | with-flag -n) ps -a | from ssv -a | get NAMES
+    if $container in $cs {
+        ^$env.docker-cli ...($n | with-flag -n) container rm -f $container
+    }
 }
 
 
@@ -306,12 +339,14 @@ export def volume-list [-n: string@"nu-complete docker ns"] {
 }
 
 def "nu-complete docker volume" [] {
-    dvl | get name
+    ^$env.docker-cli volume ls
+    | from ssv -a
+    | get 'VOLUME NAME'
 }
 
 # create volume
 export def volume-create [name: string -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) volume create
+    ^$env.docker-cli ...($n | with-flag -n) volume create $name
 }
 
 # inspect volume
@@ -322,6 +357,39 @@ export def volume-inspect [name: string@"nu-complete docker volume" -n: string@"
 # remove volume
 export def volume-remove [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli ...($n | with-flag -n) volume rm ...$name
+}
+
+# dump volume
+export def volume-dump [
+    name: string@"nu-complete docker volume"
+    --image(-i): string='debian'
+    -n: string@"nu-complete docker ns"
+] {
+    let id = random chars -l 6
+    ^$env.docker-cli ...($n | with-flag -n) ...[
+        run --rm
+        -v $"($name):/tmp/($id)"
+        $image
+        sh -c $'cd /tmp/($id); tar -zcf - *'
+    ]
+}
+
+# restore volume
+export def volume-restore [
+    name: string@"nu-complete docker volume"
+    --from(-f): string
+    --image(-i): string='debian'
+    -n: string@"nu-complete docker ns"
+] {
+    let id = random chars -l 6
+    let src = random chars -l 6
+    ^$env.docker-cli ...($n | with-flag -n) ...[
+        run --rm
+        -v $"($name):/tmp/($id)"
+        -v $"(host-path $from):/tmp/($src)"
+        $image
+        sh -c $'cd /tmp/($id); tar -zxf /tmp/($src)'
+    ]
 }
 
 ### run
@@ -346,8 +414,9 @@ def "nu-complete docker run proxy" [] {
 def host-path [path] {
     match ($path | str substring ..1) {
         '/' => { $path }
-        '~' => { [ $nu.home-path ($path | str substring 2..) ] | path join }
-        '$' => { ($env | get ($path | str substring 1..)) }
+        '=' => { $path | str substring 1.. }
+        '~' => { [ $env.HOME ($path | str substring 2..) ] | path join }
+        '$' => { $env | get ($path | str substring 1..) }
         _   => { [ $env.PWD $path ] | path join }
     }
 }
