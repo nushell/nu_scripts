@@ -85,7 +85,7 @@ def get_default_branch [
     $upstream
   ]
 
-  run-external --redirect-stdout "git" "symbolic-ref" $args
+  run-external --redirect-stdout "git" "symbolic-ref" ...$args
   | str trim
   | path basename
 }
@@ -139,7 +139,7 @@ def list_merged [
     ]
   )
 
-  run-external --redirect-stdout "git" "branch" $args
+  run-external --redirect-stdout "git" "branch" ...$args
   | lines
   | filter {|branch|
       $keep
@@ -167,5 +167,5 @@ def switch_branch [
     $branch
   ]
 
-  run-external "git" "switch" $args
+  run-external "git" "switch" ...$args
 }
