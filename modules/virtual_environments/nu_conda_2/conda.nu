@@ -2,7 +2,13 @@ def --env load-conda-info-env [] {
     if (not (has-env CONDA_INFO)) {
         export-env {
             $env.CONDA_INFO = (
-                if not (which mamba | is-empty) {
+                if not (which micromamba | is-empty) {
+                    mut info = micromamba env list --json | from json
+                    let extra_info = micromamba info --json | from json
+                    $info.envs_dirs = $extra_info."envs directories"
+                    $info.root_prefix = $extra_info."base environment"
+                    $info
+                } else if not (which mamba | is-empty) {
                     (mamba info --envs --json --no-banner | from json)
                 } else if not (which conda | is-empty) {
                     (conda info --envs --json | from json)
@@ -21,7 +27,7 @@ export def --env activate [
     load-conda-info-env
     let conda_info = $env.CONDA_INFO
     if ($conda_info == null) {
-        print "Error: No Conda or Mamba install could be found in the environment. Please install either and add them to the environment. See: https://www.nushell.sh/book/environment.html for more info"
+        print "Error: No Conda, Mamba or Micromamba install could be found in the environment. Please install either and add them to the environment. See: https://www.nushell.sh/book/environment.html for more info"
         return
     }
 
