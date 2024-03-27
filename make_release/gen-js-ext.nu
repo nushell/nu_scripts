@@ -1,5 +1,5 @@
 def gen_keywords [] {
-    let cmds = ($nu.scope.commands
+    let cmds = (scope commands
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
@@ -18,7 +18,7 @@ char nl
 char nl
 
 def gen_sub_keywords [] {
-    let sub_cmds = ($nu.scope.commands
+    let sub_cmds = (scope commands
                     | where is_extern == false
                     and is_custom == false
                     and category !~ deprecated
@@ -39,7 +39,7 @@ char nl
 
 def gen_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
-    let cmds = ($nu.scope.commands
+    let cmds = (scope commands
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
@@ -70,7 +70,7 @@ char nl
 
 def gen_sub_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
-    let sub_cmds = ($nu.scope.commands
+    let sub_cmds = (scope commands
                     | where is_extern == false
                     and is_custom == false
                     and category !~ deprecated
