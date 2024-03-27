@@ -391,7 +391,7 @@ export def "winget list" [
             (do $flagify moniker $moniker)
             (do $flagify tag $tag)
             (do $flagify command $command)
-            (do $flagify source $source)
+            # (do $flagify source $source) # see comment below
             (do $flagify count $count)
             (do $flagify exact $exact)
             (do $flagify header $header)
@@ -411,7 +411,11 @@ export def "winget list" [
             $"(ansi light_red)($lines | first)(ansi reset)"
         } else {
             let truncated = $lines | last | $in == "<additional entries truncated due to result limit>"
-            nu-complete winget parse table (if $truncated { $lines | drop } else { $lines }) | reject match
+            nu-complete winget parse table (if $truncated { $lines | drop } else { $lines }) 
+                | reject match
+                # Because of a bug: https://github.com/microsoft/winget-cli/issues/4236
+                # we need to filter it with the "where" command
+                | if ($source | is-not-empty) { $in | where source == $source } else { $in }
         }
     }
 }
