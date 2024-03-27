@@ -23,7 +23,7 @@ def play [
   let title = $topic;
 
   let is_tag_empty = ($tag | empty?);
-  let should_run_all = ($nu.env | default RUN_ALL $false | get RUN_ALL);
+  let should_run_all = ($nu.env | default RUN_ALL false | get RUN_ALL);
 
   if $is_tag_empty {
     do $block
@@ -45,7 +45,7 @@ def expect [
     }
   | all? $it) and (($actual | get | length) == ($to-be | get | length));
 
-  let line = (if $true == $are_equal {
+  let line = (if true == $are_equal {
     $"(ansi green)ok(ansi reset)(char newline)"
   } {
     $"(ansi red)failed(ansi reset)(char newline)"
