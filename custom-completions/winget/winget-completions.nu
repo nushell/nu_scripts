@@ -167,6 +167,7 @@ export extern "winget install" [
     --accept_source_agreements, # Accept all source agreements during source operations
     --help(-?) # Display the help for this command
 ]
+export alias "winget add" = winget install
 
 export def "winget show" [
     pos_query?: string,
@@ -235,6 +236,7 @@ export def "winget show" [
         }
     }
 }
+export alias "winget view" = winget show
 
 # Manage sources of packages
 export extern "winget source" [
@@ -278,18 +280,21 @@ export def "winget source list" [
         }
     }
 }
+export alias "winget source ls" = winget source list
 
 # Update current sources
 export extern "winget source update" [
     --name(-n): string, # Name of the source
     --help(-?) # Display the help for this command
 ]
+export alias "winget source refresh" = winet source update
 
 # Remove current sources
 export extern "winget source remove" [
     --name(-n): string, # Name of the source
     --help(-?) # Display the help for this command
 ]
+export alias "winget source rm" = winget source remove
 
 # Reset sources
 export extern "winget source reset" [
@@ -358,6 +363,7 @@ export def "winget search" [
         }
     }
 }
+export alias "winget find" = winget search
 
 # Display installed packages in a structured way.
 export def "winget list" [
@@ -419,6 +425,7 @@ export def "winget list" [
         }
     }
 }
+export alias "winget ls" = winget list
 
 # Upgrades the given package
 export extern "winget upgrade" [
@@ -443,6 +450,7 @@ export extern "winget upgrade" [
     --all, # Update all installed packages to latest if available
     --help(-?) # Display the help for this command
 ]
+export alias "winget update" = winget upgrade
 
 # Uninstalls the given package
 export extern "winget uninstall" [
@@ -460,6 +468,8 @@ export extern "winget uninstall" [
     --log(-o): path, # Log location (if supported)
     --help(-?) # Display the help for this command
 ]
+export alias "winget remove" = winget uninstall
+export alias "winget rm" = winget uninstall
 
 # Helper to hash installer files
 export extern "winget hash" [
