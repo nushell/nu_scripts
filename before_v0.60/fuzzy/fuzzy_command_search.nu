@@ -33,6 +33,6 @@ def fuzzy-command-search [] {
             )(
                 $it.description
             )" 
-    }) | str collect (char nl) | fzf | split column (char tab)| get Column1 | clip;  paste ) 
+    }) | str join (char nl) | fzf | split column (char tab)| get Column1 | clip;  paste ) 
 }
 

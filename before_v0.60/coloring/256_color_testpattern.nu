@@ -54,7 +54,7 @@ def print_run [start:int, amount:int] {
     } {
       ""
     }
-  } | append "  " | str collect
+  } | append "  " | str join
 }
 
 def print_blocks [start:int, end:int, block-cols:int, block-rows:int, blocks-per-line:int] {
@@ -64,7 +64,7 @@ def print_blocks [start:int, end:int, block-cols:int, block-rows:int, blocks-per
     for row in 0..<$block-rows {
       for block in 0..<$blocks-per-line {
         print_run ($start + $block * $block-length + $row * $block-cols + $i * $block-length * $blocks-per-line) $block-cols
-      } | append (char nl) | str collect | autoview
+      } | append (char nl) | str join | autoview
     }
     char nl | autoview
   }
