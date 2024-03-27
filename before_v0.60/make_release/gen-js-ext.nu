@@ -1,5 +1,5 @@
 def gen_keywords [] {
-    let cmds = (help commands | where description != '' | get name | str collect '|')
+    let cmds = (help commands | where description != '' | get name | str join '|')
     let var_with_dash_or_under_regex = "(([a-zA-Z]+[\\-_]){1,}[a-zA-Z]+\\s)"
     let preamble = "\\b("
     let postamble = ")\\b"
@@ -16,7 +16,7 @@ def gen_sub_keywords [] {
     let postamble = ")\\b"
     let cmds = (for x in $sub_cmds {
         $"($x.base)\\s($x.sub)"
-    } | str collect '|')
+    } | str join '|')
     $'"match": "($preamble)($cmds)($postamble)",'
 }
 $"Generating sub keywords(char nl)"

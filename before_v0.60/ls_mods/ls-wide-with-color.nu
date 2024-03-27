@@ -49,7 +49,7 @@ def ls-wide2 [
                 echo (char newline) | autoview
             } {}
         }
-    } | str collect
+    } | str join
 }
 
 def colorize [thing:any] {

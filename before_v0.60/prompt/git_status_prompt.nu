@@ -25,7 +25,7 @@ def prompt-pwd [] {
               $"($part | str substring [0 1])/"
             }
           })
-          $"~/($short-part | str collect)($path | last)"
+          $"~/($short-part | str join)($path | last)"
         } {
           $"~/($path | last)"
         }
@@ -85,7 +85,7 @@ def git-branch-icon [] {
         } {
           "red"
         })
-        $"|(ansi $branch-colour)($branch)(ansi reset):($modified | get status | uniq | str downcase | each { git-prompt-icons $it })" | str collect
+        $"|(ansi $branch-colour)($branch)(ansi reset):($modified | get status | uniq | str downcase | each { git-prompt-icons $it })" | str join
       }
     } {
       ""

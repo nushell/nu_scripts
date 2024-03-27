@@ -19,5 +19,5 @@ def spark [v: any] {
     for e in $v {
         let i = (($e - $min) / $scale | into int)
         $"($TICKS | nth $i)"
-    } | str collect
+    } | str join
 }

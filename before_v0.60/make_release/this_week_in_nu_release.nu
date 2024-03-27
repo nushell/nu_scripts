@@ -43,10 +43,10 @@ def do-work [] {
               } {
                   $"(char nl)### [($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)(char nl)(char nl)($pr.item.body)(char nl) and (char nl)"
               }
-          } | str collect)
+          } | str join)
 
           $"### **($user_name)**(char nl)(char nl)---(char nl)($user_prs)(char nl)"
-        } | str collect
+        } | str join
         char nl
       }
 
@@ -56,11 +56,11 @@ def do-work [] {
 
   if ($entries | all? (echo $it | empty?)) {
   } {
-    $entries | str collect
+    $entries | str join
   }
 }
 
 # 2019-08-23 was the release of 0.2.0, the first public release
 let week_num = (seq date -b '2019-08-23' -n 7 | length)
 $"# This week in Nushell #($week_num)(char nl)(char nl)"
-do-work | str collect
+do-work | str join

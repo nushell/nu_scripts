@@ -67,7 +67,7 @@ export def "test bits" [] {
             error make {
                 msg: "Test mismatch",
                 label: {
-                    text: $"Expected: ($it), bits: ($bits | str collect ''), result: ($res)"
+                    text: $"Expected: ($it), bits: ($bits | str join ''), result: ($res)"
                     start: $span.start
                     end: $span.end
                 }

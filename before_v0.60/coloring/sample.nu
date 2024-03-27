@@ -15,10 +15,10 @@ echo 40..47 100..107 49 | each { |clbg|
         let row = (echo 0..9 | each { |attr|
             let ansi_str = $"($attr);($clbg);($clfg)m"
             $"(ansi -e $ansi_str) ($ansi_str) (ansi reset)"
-            } | str collect)
+            } | str join)
         $"($row)(char newline)" | autoview
-    } | str collect
-} | str collect
+    } | str join
+} | str join
 
 # Bash Script
 # for clbg in {40..47} {100..107} 49 ; do
