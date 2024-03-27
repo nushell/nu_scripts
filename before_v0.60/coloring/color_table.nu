@@ -1,23 +1,23 @@
 def make_header [hi] {
-    if $hi == $true {
-        let ansi100m = ('100m' | str lpad -l 11 -c ' ')
-        let ansi101m = ('101m' | str lpad -l 9 -c ' ')
-        let ansi102m = ('102m' | str lpad -l 9 -c ' ')
-        let ansi103m = ('103m' | str lpad -l 9 -c ' ')
-        let ansi104m = ('104m' | str lpad -l 9 -c ' ')
-        let ansi105m = ('105m' | str lpad -l 9 -c ' ')
-        let ansi106m = ('106m' | str lpad -l 9 -c ' ')
-        let ansi107m = ('107m' | str lpad -l 9 -c ' ')
+    if $hi == true {
+        let ansi100m = ('100m' | fill --width 11 -c ' ')
+        let ansi101m = ('101m' | fill --width 9 -c ' ')
+        let ansi102m = ('102m' | fill --width 9 -c ' ')
+        let ansi103m = ('103m' | fill --width 9 -c ' ')
+        let ansi104m = ('104m' | fill --width 9 -c ' ')
+        let ansi105m = ('105m' | fill --width 9 -c ' ')
+        let ansi106m = ('106m' | fill --width 9 -c ' ')
+        let ansi107m = ('107m' | fill --width 9 -c ' ')
         $"(char newline)($ansi100m)($ansi101m)($ansi102m)($ansi103m)($ansi104m)($ansi105m)($ansi106m)($ansi107m)(char newline)"
-    } {
-        let ansi40m = ('40m' | str lpad -l 10 -c ' ')
-        let ansi41m = ('41m' | str lpad -l 8 -c ' ')
-        let ansi42m = ('42m' | str lpad -l 8 -c ' ')
-        let ansi43m = ('43m' | str lpad -l 8 -c ' ')
-        let ansi44m = ('44m' | str lpad -l 8 -c ' ')
-        let ansi45m = ('45m' | str lpad -l 8 -c ' ')
-        let ansi46m = ('46m' | str lpad -l 8 -c ' ')
-        let ansi47m = ('47m' | str lpad -l 8 -c ' ')
+    } else {
+        let ansi40m = ('40m' | fill --width 10 -c ' ')
+        let ansi41m = ('41m' | fill --width 8 -c ' ')
+        let ansi42m = ('42m' | fill --width 8 -c ' ')
+        let ansi43m = ('43m' | fill --width 8 -c ' ')
+        let ansi44m = ('44m' | fill --width 8 -c ' ')
+        let ansi45m = ('45m' | fill --width 8 -c ' ')
+        let ansi46m = ('46m' | fill --width 8 -c ' ')
+        let ansi47m = ('47m' | fill --width 8 -c ' ')
         $"(char newline)($ansi40m)($ansi41m)($ansi42m)($ansi43m)($ansi44m)($ansi45m)($ansi46m)($ansi47m)(char newline)"
     }
 }
@@ -36,15 +36,15 @@ def mk_header [color_range:range] {
         let ansi_color = $"($color)m"
         if $color == $min_rng {
             if $min_rng == 100 {
-                ($ansi_color | str lpad -l $hi_start_pad -c ' ')
-            } {
-                ($ansi_color | str lpad -l $lo_start_pad -c ' ')
+                ($ansi_color | fill --width $hi_start_pad -c ' ')
+            } else {
+                ($ansi_color | fill --width $lo_start_pad -c ' ')
             }
-        } {
+        } else {
             if $min_rng >= 100 {
-                ($ansi_color | str lpad -l $hi_regular_pad -c ' ')
-            } {
-                ($ansi_color | str lpad -l $lo_regular_pad -c ' ')
+                ($ansi_color | fill --width $hi_regular_pad -c ' ')
+            } else {
+                ($ansi_color | fill --width $lo_regular_pad -c ' ')
             }
         }
     } | str join

@@ -3,9 +3,9 @@ def show_index_colors [] {
     echo 1..256 | each { |fg|
         let cr = ($"($fg) % 16" | math eval)
         if $cr  == 0 {
-            $"(ansi -e $prefix)($fg)m($fg | into string | str lpad -l 3 -c '0') (char newline)"
-        } {
-            $"(ansi -e $prefix)($fg)m($fg | into string | str lpad -l 3 -c '0') "
+            $"(ansi -e $prefix)($fg)m($fg | into string | fill --width 3 -c '0') (char newline)"
+        } else {
+            $"(ansi -e $prefix)($fg)m($fg | into string | fill --width 3 -c '0') "
         }
     } | str join
 }

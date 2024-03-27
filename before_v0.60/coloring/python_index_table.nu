@@ -11,8 +11,8 @@ echo 0..16 | each { |col|
     let row = (echo 0..16 | each { |row|
         let code = ($col * 16 + $row)
         if $code < 256 {
-            $"(ansi -e '38;5;')($code | into string)m($code | into string | str lpad -l 4 -c ' ')(ansi reset)"
-        } {} # Do nothing in the else
+            $"(ansi -e '38;5;')($code | into string)m($code | into string | fill --width 4 -c ' ')(ansi reset)"
+        } else {} # Do nothing in the else
     } | str join)
     $"($row)(char newline)"
 } | str join
@@ -22,8 +22,8 @@ echo 0..16 | each { |col|
     let row = (echo 0..16 | each { |row|
         let code = ($col * 16 + $row)
         if $code < 256 {
-            $"(ansi -e '48;5;')($code | into string)m($code | into string | str lpad -l 4 -c ' ')(ansi reset)"
-        } {} # do nothing in the else
+            $"(ansi -e '48;5;')($code | into string)m($code | into string | fill --width 4 -c ' ')(ansi reset)"
+        } else {} # do nothing in the else
     } | str join)
     $"($row)(char newline)"
 } | str join

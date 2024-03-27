@@ -29,7 +29,7 @@ def ls-wide2 [
     ] {
     let is_dir_empty = ($dir | empty?)
     let is_columns_empty = ($columns | empty?)
-    let ls_data = (if $is_dir_empty { ls } { ls $dir })
+    let ls_data = (if $is_dir_empty { ls } else { ls $dir })
     let ansi_size = 9 # \x1b[36m + string + \x1b[0m, ~9 characters are added to each string for coloring
     let max_fname_size = ((echo $ls_data | get name | into string | str length | math max) + $ansi_size)
     let max_fsize_size = (echo $ls_data | get size | into string | str length | math max)
@@ -39,15 +39,15 @@ def ls-wide2 [
         # log (build-string $clr_file ' ' $max_fname_size)
         let clr_size = (echo $file.item.size | into string)
         # log (build-string $clr_size ' ' $max_fsize_size)
-        $"($clr_file | str rpad -c ' ' -l $max_fname_size) ($clr_size | str lpad -c ' ' -l $max_fsize_size) " | autoview
+        $"($clr_file | fill --alignment r -c ' ' --width $max_fname_size) ($clr_size | fill -c ' ' --width $max_fsize_size) " | autoview
         if $is_columns_empty {
             if ($file.index + 1) mod 3 == 0 {
                 echo (char newline) | autoview
-            } {}
-        } {
+            } else {}
+        } else {
             if ($file.index + 1) mod $columns == 0 {
                 echo (char newline) | autoview
-            } {}
+            } else {}
         }
     } | str join
 }
@@ -61,12 +61,12 @@ def colorize [thing:any] {
         # build-string (ansi -e '36m') $thing (ansi -e '0m')
         $"(fg_cyan)($thing)(relet)"
         # build-string 'e[36m' $thing 'e[0m'
-    } {
+    } else {
         if $ext == "nu" {
             # build-string (ansi -e '95m') $thing (ansi -e '0m')
             $"(fg_light_magenta)($thing)(relet)"
             # build-string 'e[95m' $thing 'e[0m'
-        } {
+        } else {
             # build-string (ansi -e '92m') $thing (ansi -e '0m')
             $"(fg_light_green)($thing)(relet)"
             # build-string 'e[92m' $thing 'e[0m'
