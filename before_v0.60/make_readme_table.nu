@@ -17,7 +17,7 @@ let nu_table = ($nu_files |
         let cat = ($it.File | path dirname)
         if $cat == "" {
             "not assigned yet"
-        } {
+        } else {
             $cat
         }
     } | where Category !~ ".git" | select Category File | sort-by Category)

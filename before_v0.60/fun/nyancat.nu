@@ -58,10 +58,10 @@ let frames = [
 # it's a little slow - maybe 1 fps but still firmly in the 'fun' category
 ansi cursor_off
 for x in $frames -n {
-    $frames | nth $x.index | get frames | split chars | each -n {|char| if $char.index mod 64 == 0 { $"(ansi -e '0m')(char nl)" } {$"(ansi -e ($map | where symbol == $char.item | get color))(char sp)"}} | str collect
+    $frames | nth $x.index | get frames | split chars | each -n {|char| if $char.index mod 64 == 0 { $"(ansi -e '0m')(char nl)" } {$"(ansi -e ($map | where symbol == $char.item | get color))(char sp)"}} | str join
     ansi -e '0m'
     ansi cls
-} | str collect
+} | str join
 ansi cursor_on
 
 char nl

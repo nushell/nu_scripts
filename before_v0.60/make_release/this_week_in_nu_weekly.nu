@@ -46,17 +46,17 @@ def do-work [] {
               } {
                   $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
               }
-          } | str collect)
+          } | str join)
 
           $"- ($user_name) created ($user_prs) (char nl)"
-        } | str collect
+        } | str join
         char nl
       }
   })
 
   if ($entries | all? ($it | empty?)) {
   } {
-      $entries | str collect
+      $entries | str join
   }
 }
 
@@ -67,5 +67,5 @@ $"# This week in Nushell #($week_num)(char nl)(char nl)"
 if ($nu.env | select GITHUB_USERNAME | empty?) or ($nu.env | select GITHUB_PASSWORD | empty?) {
     echo 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $nu.env to use this script'
 } {
-    do-work | str collect
+    do-work | str join
 }

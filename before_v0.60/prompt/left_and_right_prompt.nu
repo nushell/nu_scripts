@@ -12,7 +12,7 @@ def construct_prompt [] {
 
     # the current bit branch
     # let git_status = (git -c core.quotepath=false -c color.status=false status -uall --short --branch)
-    let git_info = (do -i { git rev-parse --abbrev-ref HEAD  } | str trim -c (char nl) | str collect )
+    let git_info = (do -i { git rev-parse --abbrev-ref HEAD  } | str trim -c (char nl) | str join )
 
     # what to put in the title
     let title_bar = (set_title)
@@ -43,13 +43,13 @@ def construct_prompt [] {
     let calculated_right_len = ($term_width - $left_len + ($right_colored_len - $right_len))
 
     # finally, let's make the prompt
-    let the_prompt = $"($left_colored)($right_colored | str lpad -c ' ' -l $calculated_right_len)(char newline)($decorator) "
+    let the_prompt = $"($left_colored)($right_colored | fill -c ' ' -l $calculated_right_len)(char newline)($decorator) "
 
     # let's update the title bar now
     echo $title_bar
 
     # and last, but not least, let's print the prompt
-    echo $the_prompt | str collect
+    echo $the_prompt | str join
 
     ## put this in your config.toml
     # prompt = "construct_prompt"
@@ -65,7 +65,7 @@ def home_abbrev [] {
         let lin-home = ($nu.home-dir | into string | str find-replace -a '\\' '/' | str downcase)
         let lin-pwd = (pwd | into string | str find-replace -a '\\' '/' | str downcase)
         $lin-pwd | str find-replace $lin-home '~'
-    } {
+    } else {
         pwd
     }
 }
@@ -73,7 +73,7 @@ def home_abbrev [] {
 # Get Git Info custom commands
 
 def git_br [] {
-    $"(ansi gb)(pwd)(ansi reset)(char lparen)(ansi cb)(do -i { git rev-parse --abbrev-ref HEAD  } | str trim -c (char nl) | str collect)(ansi reset)(char rparen)(char newline)(ansi yb)(date now | date format '%m/%d/%Y %I:%M:%S%.3f %p')(ansi reset)¯\\_(char lparen)ツ)_/¯(char prompt) "
+    $"(ansi gb)(pwd)(ansi reset)(char lparen)(ansi cb)(do -i { git rev-parse --abbrev-ref HEAD  } | str trim -c (char nl) | str join)(ansi reset)(char rparen)(char newline)(ansi yb)(date now | date format '%m/%d/%Y %I:%M:%S%.3f %p')(ansi reset)¯\\_(char lparen)ツ)_/¯(char prompt) "
 }
 
 # Set Title String custom commands
@@ -83,15 +83,15 @@ def set_title_str [str-arg] {
 }
 
 # def get_abbrev_pwd_win [] {
-#     echo [(pwd | split row '\' | first (pwd | split row '\' | length | each { $it - 1} ) |  str substring '0,1' | format '{$it}/' | append (pwd | split row '\' | last ) | str collect)] | str collect
+#     echo [(pwd | split row '\' | first (pwd | split row '\' | length | each { $it - 1} ) |  str substring '0,1' | format '{$it}/' | append (pwd | split row '\' | last ) | str join)] | str join
 # }
 
 def get_abbrev_pwd_lin [] {
-    # echo [(pwd | split row '/' | first (pwd | split row '/' | length | each { $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append (pwd | split row '/' | last ) | str collect)] | str collect
-    echo [(home_abbrev | split row '/' | first (home_abbrev | split row '/' | length | each { $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append (home_abbrev | split row '/' | last ) | str collect)] | str collect
+    # echo [(pwd | split row '/' | first (pwd | split row '/' | length | each { $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append (pwd | split row '/' | last ) | str join)] | str join
+    echo [(home_abbrev | split row '/' | first (home_abbrev | split row '/' | length | each { $it - 1} ) | each { str substring '0,1' | format '{$it}/' } | append (home_abbrev | split row '/' | last ) | str join)] | str join
 }
 def set_title [] {
-    set_title_str (build-string (get_abbrev_pwd_lin) ' ' (term size -w) 'x' (term size -t) | str collect)
+    set_title_str (build-string (get_abbrev_pwd_lin) ' ' (term size -w) 'x' (term size -t) | str join)
 }
 def create_second_line [] {
     build-string (ansi gb) (char -u "2514") (char -u "2500") ' $ ' (ansi cb) (char prompt) (ansi reset)
