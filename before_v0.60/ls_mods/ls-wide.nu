@@ -10,13 +10,13 @@ def ls-wide [
     if $is_path_empty {
         if $is_columns_empty {
             run_ls "." $columns_default
-        } {
+        } else {
             run_ls "." $columns
         }
-    } {
+    } else {
         if $is_columns_empty {
             run_ls $path $columns_default
-        } {
+        } else {
             run_ls $path $columns
         }
     }
@@ -30,18 +30,18 @@ def run_ls [
     let max_fsize_size = (ls $path | get size | into string | str length | math max)
 
     ls $path | each -n { |file|
-        let the_file = ($file.item.name | into string | str rpad -c ' ' -l $max_fname_size)
-        let the_size = ($file.item.size | into string | str lpad -c ' ' -l $max_fsize_size)
+        let the_file = ($file.item.name | into string | fill --alignment r -c ' ' --width $max_fname_size)
+        let the_size = ($file.item.size | into string | fill --alignment l -c ' ' --width $max_fsize_size)
         $"($the_file) ($the_size) " | autoview
 
         if $is_columns_empty {
             if ($file.index + 1) mod 3 == 0 {
                 echo (char newline) | autoview
-            } {}
-        } {
+            } else {}
+        } else {
             if ($file.index + 1) mod $columns == 0 {
                 echo (char newline) | autoview
-            } {}
+            } else {}
         }
     } | str join
 }
