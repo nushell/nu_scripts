@@ -7,6 +7,10 @@ export-env {
     }
 }
 
+def --wrapped container [...flag] {
+    ^$env.docker-cli ...$flag
+}
+
 def --wrapped with-flag [...flag] {
     if ($in | is-empty) { [] } else { [...$flag $in] }
 }
@@ -269,6 +273,8 @@ export def container-remove [container: string@"nu-complete docker containers" -
     let cs = ^$env.docker-cli ...($n | with-flag -n) ps -a | from ssv -a | get NAMES
     if $container in $cs {
         ^$env.docker-cli ...($n | with-flag -n) container rm -f $container
+    } else {
+        print -e $"(ansi grey)container (ansi yellow)($container)(ansi grey) not exist(ansi reset)"
     }
 }
 
@@ -594,6 +600,7 @@ export def "bud rm" [
     buildah rm $id
 }
 
+export alias d = container
 export alias dp = container-list
 export alias di = image-list
 export alias dl = container-log
