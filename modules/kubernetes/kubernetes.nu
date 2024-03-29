@@ -1,32 +1,6 @@
 use argx.nu
 use refine.nu
 
-export def --wrapped ll [lv ...args] {
-    let c = ['navy' 'teal' 'xpurplea' 'xgreen' 'olive' 'maroon']
-    let gray = (ansi light_gray)
-    let dark = (ansi grey39)
-    let t = date now | format date '%Y-%m-%dT%H:%M:%S'
-    let t = $"(ansi ($c | get $lv))($t)"
-    let s = $args
-    | reduce -f {tag: {}, msg:[]} {|x, acc|
-        if ($x | describe -d).type == 'record' {
-            $acc | update tag ($acc.tag | merge $x)
-        } else {
-            $acc | update msg ($acc.msg | append $x)
-        }
-    }
-    let g = $s.tag
-    | transpose k v
-    | each {|y| $"($dark)($y.k)=($gray)($y.v)"}
-    | str join ' '
-    | do { if ($in | is-empty) {''} else {$in} }
-    let m = $"($gray)($s.msg | str join ' ')"
-    let r = [$t $g $m]
-    | where { $in | is-not-empty }
-    | str join $'($dark)│'
-    print -e $r
-}
-
 export def ensure-cache-by-lines [cache path action] {
     let ls = do -i { open $path | lines | length }
     if ($ls | is-empty) { return false }
@@ -1097,6 +1071,7 @@ export def 'kube refine' [
     ...namespace: string@"nu-complete kube ns"
     --kind(-k): list<string@"nu-complete kube kind">
 ] {
+    use log.nu
     let config = $env.KUBERNETES_REFINE
 
     let nsf = if ($namespace | is-empty) {
@@ -1114,27 +1089,27 @@ export def 'kube refine' [
 
     mut data = []
     if ($namespace | is-empty) {
-        ll 4 {stage: cluster}
+        log level 4 {stage: cluster}
         for p in ($config.cluster_resources | transpose k v) {
             if $p.k not-in $resource { continue }
-            ll 3 {kind: $p.k} list
+            log level 3 {kind: $p.k} list
             let rs = kubectl get $p.k | from ssv -a | get NAME
             for r in $rs {
-                ll 1 {kind: $p.k, name: $r} collect
+                log level 1 {kind: $p.k, name: $r} collect
                 let obj = kubectl get $p.k $r --output=json | from json
                 let pyl = refine $p.v $obj
                 $data ++= $pyl
             }
         }
     }
-    ll 4 {stage: namespace}
+    log level 4 {stage: namespace}
     for p in ($config.resources | transpose k v) {
         if $p.k not-in $resource { continue }
         for ns in $cns {
-            ll 2 {kind: $p.k, ns: $ns} list
+            log level 2 {kind: $p.k, ns: $ns} list
             let rs = kubectl get $p.k --namespace $ns | from ssv -a | get NAME
             for r in $rs {
-                ll 0 {kind: $p.k, ns: $ns, name: $r} collect
+                log level 0 {kind: $p.k, ns: $ns, name: $r} collect
                 let obj = kubectl get $p.k --namespace $ns $r --output=json | from json
                 let pyl = refine $p.v $obj
                 $data ++= $pyl

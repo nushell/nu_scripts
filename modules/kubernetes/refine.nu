@@ -58,3 +58,8 @@ export def main [tg obj] {
         extract $tg $obj
     }
 }
+
+export def pick [tg ob] {
+
+}
+
