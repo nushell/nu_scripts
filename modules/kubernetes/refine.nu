@@ -59,7 +59,3 @@ export def main [tg obj] {
     }
 }
 
-export def pick [tg ob] {
-
-}
-

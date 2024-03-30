@@ -1,5 +1,5 @@
-use argx.nu
-use refine.nu
+use argx
+export use refine.nu *
 
 export def ensure-cache-by-lines [cache path action] {
     let ls = do -i { open $path | lines | length }
@@ -1071,7 +1071,7 @@ export def 'kube refine' [
     ...namespace: string@"nu-complete kube ns"
     --kind(-k): list<string@"nu-complete kube kind">
 ] {
-    use lg.nu
+    use lg
     let config = $env.KUBERNETES_REFINE
 
     let nsf = if ($namespace | is-empty) {
