@@ -1,13 +1,13 @@
 def get_settings [] {
     {
-        level: ($env.nlog_level? | default 2)
-        file: ($env.nlog_file?)
+        level: ($env.lg_level? | default 2)
+        file: ($env.lg_file?)
     }
 }
 
 export-env {
-    $env.nlog_prefix = ['TRC' 'DBG' 'INF' 'WRN' 'ERR' 'CRT']
-    $env.nlog_prefix_index = {
+    $env.lg_prefix = ['TRC' 'DBG' 'INF' 'WRN' 'ERR' 'CRT']
+    $env.lg_prefix_index = {
         trc: 0
         dbg: 1
         inf: 2  msg: 2
@@ -15,7 +15,7 @@ export-env {
         err: 4
         crt: 5
     }
-    $env.nlog_theme = {
+    $env.lg_theme = {
         default: {
             level : (['navy' 'teal' 'xgreen' 'xpurplea' 'olive' 'maroon'] | each { ansi $in })
             delimiter: $'(ansi grey39)│'
@@ -56,7 +56,7 @@ export def --wrapped level [
 ] {
     let setting = if ($setting | is-empty) { get_settings } else { $setting }
     let theme = if ($setting.file? | is-empty) { 'default' } else { 'colorless' }
-    let theme = $env.nlog_theme | get $theme
+    let theme = $env.lg_theme | get $theme
     let output = if ($setting.file? | is-empty) {{ print -e $in }} else {{ $in | save -af $setting.file }}
     let msg = parse_msg $args
 
@@ -85,7 +85,7 @@ export def --wrapped level [
 }
 
 def 'nu-complete log-prefix' [] {
-    $env.nlog_prefix_index | columns
+    $env.lg_prefix_index | columns
 }
 
 export def --wrapped main [
@@ -94,11 +94,11 @@ export def --wrapped main [
     ...args
 ] {
     let setting = get_settings
-    let lv = $env.nlog_prefix_index | get $level
+    let lv = $env.lg_prefix_index | get $level
     if $lv < $setting.level {
         return
     }
-    let label = $env.nlog_prefix | get $lv
+    let label = $env.lg_prefix | get $lv
     if $multiline {
         level $lv ...$args --label $label --setting $setting --multiline
     } else {
