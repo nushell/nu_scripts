@@ -127,9 +127,10 @@ def "nu-complete scp" [cmd: string, offset: int] {
     }
 }
 
-export def scp [
+export def --wrapped scp [
     lhs: string@"nu-complete scp",
     rhs: string@"nu-complete scp"
+    ...opts
 ] {
-    ^scp -r $lhs $rhs
+    ^scp -r ...$opts $lhs $rhs
 }

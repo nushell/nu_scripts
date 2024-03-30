@@ -1,4 +1,4 @@
-use argx.nu
+use argx
 
 def agree [
     prompt
@@ -210,11 +210,11 @@ export def gp [
     } else {
         let m = if $merge { [] } else { [--rebase] }
         let a = if $autostash {[--autostash]} else {[]}
-        let branch = if ($branch | is-empty) { (_git_status).branch } else { $branch }
+        let prev = (_git_status).branch
+        let branch = if ($branch | is-empty) { $prev } else { $branch }
         let branch_repr = $'(ansi yellow)($branch)(ansi light_gray)'
         let lbs = git branch | lines | each { $in | str substring 2..}
         let rbs = (remote_branches)
-        let prev = (_git_status).branch
         if $"($remote)/($branch)" in $rbs {
             if $branch in $lbs {
                 let bmsg = $'both local and remote have ($branch_repr) branch'

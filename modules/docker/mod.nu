@@ -7,6 +7,10 @@ export-env {
     }
 }
 
+def --wrapped container [...flag] {
+    ^$env.docker-cli ...$flag
+}
+
 def --wrapped with-flag [...flag] {
     if ($in | is-empty) { [] } else { [...$flag $in] }
 }
@@ -47,6 +51,7 @@ export def container-list [
         let img = ^$cli ...($n | with-flag -n) inspect $image
             | from json
             | get 0
+        let imgCmd = $img.Config.Cmd?
         let imgEnv = $img.Config.Env?
             | reduce -f {} {|i, a|
                 let x = $i | split row '='
@@ -66,14 +71,40 @@ export def container-list [
             id: $r.Id
             status: $r.State.Status?
             image: $image
-            created: $r.Created
+            created: ($r.Created | into datetime)
             ports: $p
             env: $imgEnv
             mounts: $m
             entrypoint: $r.Path?
+            cmd: $imgCmd
             args: $r.Args
         }
     }
+}
+
+def parse-img [] {
+    let n = $in | split row ':'
+    let tag = $n.1? | default 'latest'
+    let repo = $n.0 | split row '/'
+    let image = $repo | last
+    let repo = $repo | range 0..-2 | str join '/'
+    {image: $image, tag: $tag, repo: $repo}
+}
+
+# select image
+export def image-select [name] {
+    let n = $name | parse-img
+    let imgs = (image-list)
+    let fs = [image tag repo]
+    for i in 2..0 {
+        let r = $imgs | filter {|x|
+            $fs | range 0..$i | all {|y| ($n | get $y) == ($x | get $y) }
+        }
+        if ($r | is-not-empty) {
+            return ($r | sort-by -r created | first | get name)
+        }
+    }
+    $name
 }
 
 # list images
@@ -82,20 +113,20 @@ export def image-list [
     image?: string@"nu-complete docker images"
 ] {
     if ($image | is-empty) {
-        ^$env.docker-cli ...($n | with-flag -n) images
-            | from ssv -a
+        let fmt = '{"id":"{{.ID}}", "repo": "{{.Repository}}", "tag":"{{.Tag}}", "size":"{{.Size}}" "created":"{{.CreatedAt}}"}'
+        ^$env.docker-cli ...($n | with-flag -n) images --format $fmt
+            | lines
             | each {|x|
-                let size = $x.SIZE | into filesize
-                let path = $x.REPOSITORY | split row '/'
-                let image = $path | last
-                let repo = $path | range ..(($path|length) - 2) | str join '/'
+                let x = $x | from json
+                let img = $x.repo | parse-img
                 {
-                    repo: $repo
-                    image: $image
-                    tag: $x.TAG
-                    id: $x.'IMAGE ID'
-                    created: $x.CREATED
-                    size: $size
+                    name: $"($x.repo):($x.tag)"
+                    id: $x.id
+                    created: ($x.created | into datetime)
+                    size: ($x.size | into filesize)
+                    repo: $img.repo
+                    image: $img.image
+                    tag: $x.tag
                 }
             }
     } else {
@@ -107,9 +138,14 @@ export def image-list [
                 let x = $i | split row '='
                 $a | upsert $x.0 $x.1?
             }
+        let id = if $env.docker-cli == 'nerdctl' {
+            $r.RepoDigests.0? | split row ':' | get 1 | str substring 0..12
+        } else {
+            $r.Id | str substring 0..12
+        }
         {
-            id: $r.Id
-            created: $r.Created
+            id: $id
+            created: ($r.Created | into datetime)
             author: $r.Author
             arch: $r.Architecture
             os: $r.Os
@@ -234,7 +270,12 @@ export def container-copy-file [
 
 # remove container
 export def container-remove [container: string@"nu-complete docker containers" -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) container rm -f $container
+    let cs = ^$env.docker-cli ...($n | with-flag -n) ps -a | from ssv -a | get NAMES
+    if $container in $cs {
+        ^$env.docker-cli ...($n | with-flag -n) container rm -f $container
+    } else {
+        print -e $"(ansi grey)container (ansi yellow)($container)(ansi grey) not exist(ansi reset)"
+    }
 }
 
 
@@ -304,12 +345,14 @@ export def volume-list [-n: string@"nu-complete docker ns"] {
 }
 
 def "nu-complete docker volume" [] {
-    dvl | get name
+    ^$env.docker-cli volume ls
+    | from ssv -a
+    | get 'VOLUME NAME'
 }
 
 # create volume
 export def volume-create [name: string -n: string@"nu-complete docker ns"] {
-    ^$env.docker-cli ...($n | with-flag -n) volume create
+    ^$env.docker-cli ...($n | with-flag -n) volume create $name
 }
 
 # inspect volume
@@ -320,6 +363,39 @@ export def volume-inspect [name: string@"nu-complete docker volume" -n: string@"
 # remove volume
 export def volume-remove [...name: string@"nu-complete docker volume" -n: string@"nu-complete docker ns"] {
     ^$env.docker-cli ...($n | with-flag -n) volume rm ...$name
+}
+
+# dump volume
+export def volume-dump [
+    name: string@"nu-complete docker volume"
+    --image(-i): string='debian'
+    -n: string@"nu-complete docker ns"
+] {
+    let id = random chars -l 6
+    ^$env.docker-cli ...($n | with-flag -n) ...[
+        run --rm
+        -v $"($name):/tmp/($id)"
+        $image
+        sh -c $'cd /tmp/($id); tar -zcf - *'
+    ]
+}
+
+# restore volume
+export def volume-restore [
+    name: string@"nu-complete docker volume"
+    --from(-f): string
+    --image(-i): string='debian'
+    -n: string@"nu-complete docker ns"
+] {
+    let id = random chars -l 6
+    let src = random chars -l 6
+    ^$env.docker-cli ...($n | with-flag -n) ...[
+        run --rm
+        -v $"($name):/tmp/($id)"
+        -v $"(host-path $from):/tmp/($src)"
+        $image
+        sh -c $'cd /tmp/($id); tar -zxf /tmp/($src)'
+    ]
 }
 
 ### run
@@ -344,8 +420,9 @@ def "nu-complete docker run proxy" [] {
 def host-path [path] {
     match ($path | str substring ..1) {
         '/' => { $path }
-        '~' => { [ $nu.home-path ($path | str substring 2..) ] | path join }
-        '$' => { ($env | get ($path | str substring 1..)) }
+        '=' => { $path | str substring 1.. }
+        '~' => { [ $env.HOME ($path | str substring 2..) ] | path join }
+        '$' => { $env | get ($path | str substring 1..) }
         _   => { [ $env.PWD $path ] | path join }
     }
 }
@@ -417,112 +494,7 @@ export def container-create [
     }
 }
 
-def has [name] {
-    $name in ($in | columns) and ($in | get $name | is-not-empty)
-}
-
-def "nu-complete registry show" [cmd: string, offset: int] {
-    let new = $cmd | str ends-with ' '
-    let cmd = $cmd | split row ' '
-    let url = $cmd.3?
-    let reg = $cmd.4?
-    let tag = $cmd.5?
-    let auth = if ($env | has 'REGISTRY_TOKEN') {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
-    } else {
-        []
-    }
-    if ($tag | is-empty) and (not $new) or ($reg | is-empty) {
-        curl -sSL ...$auth $"($url)/v2/_catalog"
-        | from json | get repositories
-    } else {
-        curl -sSL ...$auth $"($url)/v2/($reg)/tags/list"
-        | from json | get tags
-    }
-}
-
-### docker registry show
-export def "docker registry show" [
-    url: string
-    reg?: string@"nu-complete registry show"
-    tag?: string@"nu-complete registry show"
-] {
-    let header = if ($env | has 'REGISTRY_TOKEN') {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
-    } else {
-        []
-    }
-    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
-    if ($reg | is-empty) {
-        curl -sSL ...$header $"($url)/v2/_catalog" | from json | get repositories
-    } else if ($tag | is-empty) {
-        curl -sSL ...$header $"($url)/v2/($reg)/tags/list" | from json | get tags
-    } else {
-        curl -sSL ...$header $"($url)/v2/($reg)/manifests/($tag)" | from json
-    }
-}
-
-### docker registry delete
-export def "docker registry delete" [
-    url: string
-    reg: string@"nu-complete registry show"
-    tag: string@"nu-complete registry show"
-] {
-    let header = if ($env | has 'REGISTRY_TOKEN') {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
-    } else {
-        []
-    }
-    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
-    #| append [-H 'Accept: application/vnd.docker.distribution.manifest.v2+json']
-    let digest = do -i {
-        curl -sSI ...$header $"($url)/v2/($reg)/manifests/($tag)"
-        | rg docker-content-digest
-        | split row ' '
-        | get 1
-        | str trim
-    }
-    print -e $digest
-    if ($digest | is-not-empty) {
-        curl -sSL -X DELETE ...$header $"($url)/v2/($reg)/manifests/($digest)"
-    } else {
-        'not found'
-    }
-}
-
-### buildah
-
-export def "bud img" [] {
-    buildah images
-    | from ssv -a
-    | rename repo tag id created size
-    | upsert size { |i| $i.size | into filesize }
-}
-
-export def "bud ls" [] {
-    buildah list
-    | from ssv -a
-    | rename id builder image-id image container
-}
-
-export def "bud ps" [] {
-    buildah ps
-    | from ssv -a
-    | rename id builder image-id image container
-}
-
-def "nu-complete bud ps" [] {
-    bud ps
-    | select 'CONTAINER ID' "CONTAINER NAME"
-    | rename value description
-}
-
-export def "bud rm" [
-    id: string@"nu-complete bud ps"
-] {
-    buildah rm $id
-}
-
+export alias d = container
 export alias dp = container-list
 export alias di = image-list
 export alias dl = container-log
@@ -544,3 +516,7 @@ export alias dvc = volume-create
 export alias dvi = volume-inspect
 export alias dvr = volume-remove
 export alias dr = container-create
+
+export use registry.nu *
+export use buildah.nu *
+
