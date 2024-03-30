@@ -32,9 +32,10 @@ export-env {
                 terminal: (char newline)
             }
         }
-        line_formatter: {|theme|
-            {|y| $"    ($theme.bg)($y.k) = ($theme.fg)($y.v | to json -r)"}
-        }
+        line_formatter: {|theme, align, max_key_len| {|y|
+            let k = if $align { $y.k | fill -a r -w $max_key_len } else { $y.k }
+            $"    ($theme.bg)($k) = ($theme.fg)($y.v | to json -r)"
+        } }
     }
 }
 
@@ -59,8 +60,8 @@ export def --wrapped level [
     --setting: any
 ] {
     let setting = if ($setting | is-empty) { get_settings } else { $setting }
-    let theme = if ($setting.file? | is-empty) { 'console' } else { 'file' }
-    let theme = $env.lg.theme | get $theme
+    let target = if ($setting.file? | is-empty) { 'console' } else { 'file' }
+    let theme = $env.lg.theme | get $target
     let output = if ($setting.file? | is-empty) {{ print -e $in }} else {{ $in | save -af $setting.file }}
     let msg = parse_msg $args
 
@@ -70,8 +71,10 @@ export def --wrapped level [
     let txt = if ($txt | is-empty) { '' } else { $"($theme.fg)($txt)" }
     let tag = $msg.tag | transpose k v
     let r = if $multiline {
+        let align = $target == 'console'
+        let mkl = if $align { $tag | get k | each { $in | str length } | math max }
         let body = $tag
-        | each (do $env.lg.line_formatter $theme)
+        | each (do $env.lg.line_formatter $theme $align $mkl)
         | str join (char newline)
         let head = [$time $label $txt]
         | filter {|x| $x | is-not-empty }
