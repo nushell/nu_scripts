@@ -15,6 +15,23 @@ export-env {
         err: 4
         crt: 5
     }
+    $env.nlog_theme = {
+        default: {
+            level : (['navy' 'teal' 'xgreen' 'xpurplea' 'olive' 'maroon'] | each { ansi $in })
+            delimiter: $'(ansi grey39)│'
+            fg: (ansi light_gray)
+            bg: (ansi grey39)
+            terminal: (ansi reset)
+        }
+        colorless: {
+            level : ['' '' '' '' '' '']
+            delimiter: '│'
+            fg: ''
+            bg: ''
+            terminal: ''
+        }
+
+    }
 }
 
 def parse_msg [args] {
@@ -31,38 +48,39 @@ def parse_msg [args] {
 }
 
 export def --wrapped level [
-    lv
+    level
     ...args
+    --multiline(-m)
     --label: string
     --setting: any
 ] {
     let setting = if ($setting | is-empty) { get_settings } else { $setting }
+    let theme = if ($setting.file? | is-empty) { 'default' } else { 'colorless' }
+    let theme = $env.nlog_theme | get $theme
+    let output = if ($setting.file? | is-empty) {{ print -e $in }} else {{ $in | save -af $setting.file }}
     let msg = parse_msg $args
-    if ($setting.file? | is-empty) {
-        let c = ['navy' 'teal' 'xgreen' 'xpurplea' 'olive' 'maroon']
-        let gray = ansi light_gray
-        let dark = ansi grey39
-        let time = $"(ansi ($c | get $lv))($msg.time)"
-        let tag = $msg.tag
-        | transpose k v
-        | each {|y| $"($dark)($y.k)=($gray)($y.v)"}
-        | str join ' '
-        let msg = $msg.txt | str join ' '
-        let msg = if ($msg | is-empty) { '' } else { $"($gray)($msg)" }
-        let label = if ($label | is-empty) { '' } else { $"(ansi dark_gray)($label)" }
-        let r = [$time $label $tag $msg]
-        | filter {|x| $x | is-not-empty }
-        | str join $'($dark)│'
-        print -e ($r + (ansi reset))
-    } else {
-        [
-            ''
-            $'#($env.nlog_prefix | get $lv)# ($msg.txt | str join " ")'
-            ...($msg.tag | transpose k v | each {|y| $"($y.k)=($y.v | to json)"})
-            ''
-        ]
+
+    let time = $"($theme.level | get $level)($msg.time)"
+    let label = if ($label | is-empty) { '' } else { $"($theme.fg)($label)" }
+    let txt = $msg.txt | str join ' '
+    let txt = if ($txt | is-empty) { '' } else { $"($theme.fg)($txt)" }
+    let tag = $msg.tag | transpose k v
+    if $multiline {
+        let tag = $tag
+        | each {|y| $"($theme.bg)($y.k)=($theme.fg)($y.v | to json -r)"}
         | str join (char newline)
-        | save -af $setting.file
+        let r = [$time $label $txt]
+        | filter {|x| $x | is-not-empty }
+        | str join $theme.delimiter
+        [$r $tag ''] | str join (char newline) | do $output
+    } else {
+        let tag = $tag
+        | each {|y| $"($theme.bg)($y.k)=($theme.fg)($y.v)"}
+        | str join ' '
+        let r = [$time $label $tag $txt]
+        | filter {|x| $x | is-not-empty }
+        | str join $theme.delimiter
+        $r + $theme.terminal | do $output
     }
 }
 
@@ -71,14 +89,19 @@ def 'nu-complete log-prefix' [] {
 }
 
 export def --wrapped main [
-    lv:string@'nu-complete log-prefix'
+    level: string@'nu-complete log-prefix'
+    --multiline(-m)
     ...args
 ] {
     let setting = get_settings
-    let lv = $env.nlog_prefix_index | get $lv
+    let lv = $env.nlog_prefix_index | get $level
     if $lv < $setting.level {
         return
     }
     let label = $env.nlog_prefix | get $lv
-    level $lv ...$args --label $label --setting $setting
+    if $multiline {
+        level $lv ...$args --label $label --setting $setting --multiline
+    } else {
+        level $lv ...$args --label $label --setting $setting
+    }
 }
