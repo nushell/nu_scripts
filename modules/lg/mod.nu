@@ -16,19 +16,19 @@ export-env {
         crt: 5
     }
     $env.lg_theme = {
-        default: {
+        console: {
             level : (['navy' 'teal' 'xgreen' 'xpurplea' 'olive' 'maroon'] | each { ansi $in })
             delimiter: $'(ansi grey39)│'
             fg: (ansi light_gray)
             bg: (ansi grey39)
             terminal: (ansi reset)
         }
-        colorless: {
+        file: {
             level : ['' '' '' '' '' '']
             delimiter: '│'
             fg: ''
             bg: ''
-            terminal: ''
+            terminal: (char newline)
         }
 
     }
@@ -55,7 +55,7 @@ export def --wrapped level [
     --setting: any
 ] {
     let setting = if ($setting | is-empty) { get_settings } else { $setting }
-    let theme = if ($setting.file? | is-empty) { 'default' } else { 'colorless' }
+    let theme = if ($setting.file? | is-empty) { 'console' } else { 'file' }
     let theme = $env.lg_theme | get $theme
     let output = if ($setting.file? | is-empty) {{ print -e $in }} else {{ $in | save -af $setting.file }}
     let msg = parse_msg $args
@@ -65,23 +65,23 @@ export def --wrapped level [
     let txt = $msg.txt | str join ' '
     let txt = if ($txt | is-empty) { '' } else { $"($theme.fg)($txt)" }
     let tag = $msg.tag | transpose k v
-    if $multiline {
-        let tag = $tag
+    let r = if $multiline {
+        let body = $tag
         | each {|y| $"($theme.bg)($y.k)=($theme.fg)($y.v | to json -r)"}
         | str join (char newline)
-        let r = [$time $label $txt]
+        let head = [$time $label $txt]
         | filter {|x| $x | is-not-empty }
         | str join $theme.delimiter
-        [$r $tag ''] | str join (char newline) | do $output
+        [$head $body] | str join (char newline)
     } else {
         let tag = $tag
         | each {|y| $"($theme.bg)($y.k)=($theme.fg)($y.v)"}
         | str join ' '
-        let r = [$time $label $tag $txt]
+        [$time $label $tag $txt]
         | filter {|x| $x | is-not-empty }
         | str join $theme.delimiter
-        $r + $theme.terminal | do $output
     }
+    $r + $theme.terminal | do $output
 }
 
 def 'nu-complete log-prefix' [] {
