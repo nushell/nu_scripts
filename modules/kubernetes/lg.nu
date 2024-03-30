@@ -35,7 +35,7 @@ export-env {
 }
 
 def parse_msg [args] {
-    let time = date now | format date '%Y-%m-%dT%H:%M:%S'
+    let time = date now | format date '%FT%T.%3f'
     let s = $args
         | reduce -f {tag: {}, txt:[]} {|x, acc|
             if ($x | describe -d).type == 'record' {
