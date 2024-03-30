@@ -25,7 +25,17 @@
 
 ## 1. Minor bump of the version ([example][nushell bump example])
 - [ ] in the repo of Nushell, run `/path/to/nu_scripts/make_release/bump-version.nu`
-- [ ] Also commit `Cargo.lock` AFTER running a Cargo command like `cargo check --workspace`
+- [ ] then, ensure there are no compilation errors with any combination of features by running:
+    ```nushell
+    cargo hack --all --feature-powerset --skip default-no-clipboard,stable,wasi,mimalloc check
+    ```
+    (this will take a while...)
+- [ ] check for build errors by running:
+    ```nushell
+    cargo hack --all build
+    ```
+    (this will build each crate with default features)
+- [ ] commit changes with bumped versions (this includes changes to `Cargo.lock`)
 
 ## 2. Tag the [`nushell`] repo
 > **Warning**
@@ -37,7 +47,6 @@
 > e.g. the `nushell` remote would be `https://github.com/nushell/nushell` or `git@github.com:nushell/nushell`
 
 - [ ] get the latest version bump commit with `git pull nushell main`
-- [ ] run `cargo build` to check if it's ok and check last features
 - [ ] tag the project with `git tag 0.xx.0`
 - [ ] :warning: push the release tag to *GitHub* `git push nushell main --tags` :warning:
 
