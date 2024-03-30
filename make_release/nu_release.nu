@@ -39,26 +39,6 @@ export def main [] {
         nu_plugin_formats,
     ]
 
-    log info "running publish dry run"
-
-    log info "dry-run publishing the first wave of crates"
-    for crate in $subcrates_wave_1 {
-        cargo publish -p $crate --dry-run
-    }
-
-    log info "dry-run publishing the second wave of crates"
-    for crate in $subcrates_wave_2 {
-        cargo publish -p $crate --no-verify --dry-run
-    }
-
-    log info "dry-run publishing the third wave of crates"
-    for crate in $subcrates_wave_3 {
-        cargo publish -p $crate --dry-run
-    }
-
-    cargo publish --dry-run
-
-
     log warning "starting publish"
 
     log warning "publishing the first wave of crates"
