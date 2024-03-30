@@ -67,7 +67,7 @@ export def --wrapped level [
     let tag = $msg.tag | transpose k v
     let r = if $multiline {
         let body = $tag
-        | each {|y| $"($theme.bg)($y.k)=($theme.fg)($y.v | to json -r)"}
+        | each {|y| $"    ($theme.bg)($y.k) = ($theme.fg)($y.v | to json -r)"}
         | str join (char newline)
         let head = [$time $label $txt]
         | filter {|x| $x | is-not-empty }
