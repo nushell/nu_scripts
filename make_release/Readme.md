@@ -1,16 +1,16 @@
 # The release process of Nushell
 ## 0. Release direct dependencies
-> **Note**  
+> **Note**
 > the following procedure is the same for `nu-ansi-term` and `reedline` and needs to be repeated
 
-> **Warning**  
+> **Warning**
 > release `nu-ansi-term` **before** `reedline` and `reedline` **before** Nushell
 
-> **Note**  
+> **Note**
 > `nu-ansi-term` is typically released only when there are changes to publish.
 > `reedline` is typically released on the same schedule as Nushell.
 
-> **Note**  
+> **Note**
 > in the following, `dep` denotes either the `reedline` or the `nu-ansi-term` remote
 > e.g. `https://github.com/nushell/reedline` or `git@github.com:nushell/nu-ansi-term`,
 > depending on the dependency being installed
@@ -25,40 +25,49 @@
 
 ## 1. Minor bump of the version ([example][nushell bump example])
 - [ ] in the repo of Nushell, run `/path/to/nu_scripts/make_release/bump-version.nu`
-- [ ] Also commit `Cargo.lock` AFTER running a Cargo command like `cargo check --workspace`
+- [ ] then, ensure there are no compilation errors with any combination of features by running:
+    ```nushell
+    cargo hack --all --feature-powerset --skip default-no-clipboard,stable,wasi,mimalloc check
+    ```
+    (this will take a while...)
+- [ ] check for build errors by running:
+    ```nushell
+    cargo hack --all build
+    ```
+    (this will build each crate with default features)
+- [ ] commit changes with bumped versions (this includes changes to `Cargo.lock`)
 
 ## 2. Tag the [`nushell`] repo
-> **Warning**  
+> **Warning**
 > this is maybe the most critical step of the whole release process!!
 > this step, once pushed to *GitHub* will trigger the release workflows.
 
-> **Note**  
+> **Note**
 > in the following, `nushell` will be used to pull and push to the [`nushell`] repo,
 > e.g. the `nushell` remote would be `https://github.com/nushell/nushell` or `git@github.com:nushell/nushell`
 
 - [ ] get the latest version bump commit with `git pull nushell main`
-- [ ] run `cargo build` to check if it's ok and check last features
 - [ ] tag the project with `git tag 0.xx.0`
 - [ ] :warning: push the release tag to *GitHub* `git push nushell main --tags` :warning:
 
-:point_right: check the [CI jobs](https://github.com/nushell/nushell/actions)  
+:point_right: check the [CI jobs](https://github.com/nushell/nushell/actions)
 :point_right: check that there is the same number of targets compared to [last release](https://github.com/nushell/nushell/releases/latest)
 
 ## 3. Publish `nu` to *crates.io*
 - [ ] check the order of dependencies with `nushell/nu_scripts/make_release/nu_deps.nu` from the `nushell` repo
 - [ ] release the Nushell crates `nushell/nu_scripts/make_release/nu_release.nu` from the `nushell` repo
 
-> **Note**  
+> **Note**
 > if there is a new crate, you must add it to the `github:nushell:publishing` group (`cargo owner --list`)
 
-> **Note**  
+> **Note**
 > if a step fails
 > - ask the owner to `cargo owner --add github:nushell:publishing`
 > - edit the `nu_release.nu` script to start again where it failed
 > - re-run the script
 
 ## 4. Publish the release note on the website
-> **Note**  
+> **Note**
 > the scripts have been written in such a way they can be run from anywhere
 
 - [ ] inspect the merged PRs to write changelogs with `./make_release/release-note/list-merged-prs nushell/nushell`
