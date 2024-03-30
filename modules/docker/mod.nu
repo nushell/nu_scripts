@@ -494,112 +494,6 @@ export def container-create [
     }
 }
 
-def has [name] {
-    $name in ($in | columns) and ($in | get $name | is-not-empty)
-}
-
-def "nu-complete registry show" [cmd: string, offset: int] {
-    let new = $cmd | str ends-with ' '
-    let cmd = $cmd | split row ' '
-    let url = $cmd.3?
-    let reg = $cmd.4?
-    let tag = $cmd.5?
-    let auth = if ($env | has 'REGISTRY_TOKEN') {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
-    } else {
-        []
-    }
-    if ($tag | is-empty) and (not $new) or ($reg | is-empty) {
-        curl -sSL ...$auth $"($url)/v2/_catalog"
-        | from json | get repositories
-    } else {
-        curl -sSL ...$auth $"($url)/v2/($reg)/tags/list"
-        | from json | get tags
-    }
-}
-
-### docker registry show
-export def "docker registry show" [
-    url: string
-    reg?: string@"nu-complete registry show"
-    tag?: string@"nu-complete registry show"
-] {
-    let header = if ($env | has 'REGISTRY_TOKEN') {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
-    } else {
-        []
-    }
-    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
-    if ($reg | is-empty) {
-        curl -sSL ...$header $"($url)/v2/_catalog" | from json | get repositories
-    } else if ($tag | is-empty) {
-        curl -sSL ...$header $"($url)/v2/($reg)/tags/list" | from json | get tags
-    } else {
-        curl -sSL ...$header $"($url)/v2/($reg)/manifests/($tag)" | from json
-    }
-}
-
-### docker registry delete
-export def "docker registry delete" [
-    url: string
-    reg: string@"nu-complete registry show"
-    tag: string@"nu-complete registry show"
-] {
-    let header = if ($env | has 'REGISTRY_TOKEN') {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
-    } else {
-        []
-    }
-    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
-    #| append [-H 'Accept: application/vnd.docker.distribution.manifest.v2+json']
-    let digest = do -i {
-        curl -sSI ...$header $"($url)/v2/($reg)/manifests/($tag)"
-        | rg docker-content-digest
-        | split row ' '
-        | get 1
-        | str trim
-    }
-    print -e $digest
-    if ($digest | is-not-empty) {
-        curl -sSL -X DELETE ...$header $"($url)/v2/($reg)/manifests/($digest)"
-    } else {
-        'not found'
-    }
-}
-
-### buildah
-
-export def "bud img" [] {
-    buildah images
-    | from ssv -a
-    | rename repo tag id created size
-    | upsert size { |i| $i.size | into filesize }
-}
-
-export def "bud ls" [] {
-    buildah list
-    | from ssv -a
-    | rename id builder image-id image container
-}
-
-export def "bud ps" [] {
-    buildah ps
-    | from ssv -a
-    | rename id builder image-id image container
-}
-
-def "nu-complete bud ps" [] {
-    bud ps
-    | select 'CONTAINER ID' "CONTAINER NAME"
-    | rename value description
-}
-
-export def "bud rm" [
-    id: string@"nu-complete bud ps"
-] {
-    buildah rm $id
-}
-
 export alias d = container
 export alias dp = container-list
 export alias di = image-list
@@ -622,3 +516,7 @@ export alias dvc = volume-create
 export alias dvi = volume-inspect
 export alias dvr = volume-remove
 export alias dr = container-create
+
+export use registry.nu *
+export use buildah.nu *
+
