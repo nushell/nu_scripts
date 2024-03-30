@@ -1,36 +1,40 @@
 def get_settings [] {
     {
-        level: ($env.lg_level? | default 2)
-        file: ($env.lg_file?)
+        level: ($env.lg.level? | default 2)
+        file: ($env.lg.file?)
     }
 }
 
 export-env {
-    $env.lg_prefix = ['TRC' 'DBG' 'INF' 'WRN' 'ERR' 'CRT']
-    $env.lg_prefix_index = {
-        trc: 0
-        dbg: 1
-        inf: 2  msg: 2
-        wrn: 3
-        err: 4
-        crt: 5
-    }
-    $env.lg_theme = {
-        console: {
-            level : (['navy' 'teal' 'xgreen' 'xpurplea' 'olive' 'maroon'] | each { ansi $in })
-            delimiter: $'(ansi grey39)│'
-            fg: (ansi light_gray)
-            bg: (ansi grey39)
-            terminal: (ansi reset)
+    $env.lg = {
+        prefix: ['TRC' 'DBG' 'INF' 'WRN' 'ERR' 'CRT']
+        index: {
+            trc: 0
+            dbg: 1
+            inf: 2  msg: 2
+            wrn: 3
+            err: 4
+            crt: 5
         }
-        file: {
-            level : ['' '' '' '' '' '']
-            delimiter: '│'
-            fg: ''
-            bg: ''
-            terminal: (char newline)
+        theme: {
+            console: {
+                level : (['navy' 'teal' 'xgreen' 'xpurplea' 'olive' 'maroon'] | each { ansi $in })
+                delimiter: $'(ansi grey39)│'
+                fg: (ansi light_gray)
+                bg: (ansi grey39)
+                terminal: (ansi reset)
+            }
+            file: {
+                level : ['' '' '' '' '' '']
+                delimiter: '│'
+                fg: ''
+                bg: ''
+                terminal: (char newline)
+            }
         }
-
+        line_formatter: {|theme|
+            {|y| $"    ($theme.bg)($y.k) = ($theme.fg)($y.v | to json -r)"}
+        }
     }
 }
 
@@ -56,7 +60,7 @@ export def --wrapped level [
 ] {
     let setting = if ($setting | is-empty) { get_settings } else { $setting }
     let theme = if ($setting.file? | is-empty) { 'console' } else { 'file' }
-    let theme = $env.lg_theme | get $theme
+    let theme = $env.lg.theme | get $theme
     let output = if ($setting.file? | is-empty) {{ print -e $in }} else {{ $in | save -af $setting.file }}
     let msg = parse_msg $args
 
@@ -67,7 +71,7 @@ export def --wrapped level [
     let tag = $msg.tag | transpose k v
     let r = if $multiline {
         let body = $tag
-        | each {|y| $"    ($theme.bg)($y.k) = ($theme.fg)($y.v | to json -r)"}
+        | each (do $env.lg.line_formatter $theme)
         | str join (char newline)
         let head = [$time $label $txt]
         | filter {|x| $x | is-not-empty }
@@ -85,7 +89,7 @@ export def --wrapped level [
 }
 
 def 'nu-complete log-prefix' [] {
-    $env.lg_prefix_index | columns
+    $env.lg.index | columns
 }
 
 export def --wrapped main [
@@ -94,11 +98,11 @@ export def --wrapped main [
     ...args
 ] {
     let setting = get_settings
-    let lv = $env.lg_prefix_index | get $level
+    let lv = $env.lg.index | get $level
     if $lv < $setting.level {
         return
     }
-    let label = $env.lg_prefix | get $lv
+    let label = $env.lg.prefix | get $lv
     if $multiline {
         level $lv ...$args --label $label --setting $setting --multiline
     } else {
