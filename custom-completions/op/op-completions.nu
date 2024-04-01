@@ -1,8 +1,10 @@
 # many of the completions run op commands in the background which may prompt addtional verification/unlocks
 # an OP_ACCOUNT environment variable is recommended to avoid this
 
+# commented out aliases work when imported with `use` but not `source`
+
 # 1Password CLI brings 1Password to your terminal.
-export extern main [
+export extern op [
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
     --config=directory: path                                # Use this configuration directory.
@@ -17,7 +19,7 @@ export extern main [
 ]
 
 # Manage your locally configured 1Password accounts
-export extern account [
+export extern "op account" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -34,7 +36,7 @@ export extern account [
 ]
 
 # Add an account to sign in to for the first time
-export extern "account add" [
+export extern "op account add" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -56,7 +58,7 @@ export extern "account add" [
 ]
 
 # Get details about your account
-export extern "account get" [
+export extern "op account get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -73,7 +75,7 @@ export extern "account get" [
 ]
 
 # List users and accounts set up on this device
-export extern "account list" [
+export extern "op account list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -91,7 +93,7 @@ export extern "account list" [
 export alias "account ls" = account list
 
 # Remove a 1Password account from this device
-export extern "account forget" [
+export extern "op account forget" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -111,7 +113,7 @@ export extern "account forget" [
 ]
 
 # Manage Connect server instances and tokens in your 1Password account
-export extern connect [
+export extern "op connect" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -128,7 +130,7 @@ export extern connect [
 ]
 
 # Manage group access to Secrets Automation
-export extern "connect group" [
+export extern "op connect group" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -145,7 +147,7 @@ export extern "connect group" [
 ]
 
 # Grant a group access to manage Secrets Automation
-export extern "connect group grant" [
+export extern "op connect group grant" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -165,7 +167,7 @@ export extern "connect group grant" [
 ]
 
 # Revoke a group's access to manage Secrets Automation
-export extern "connect group revoke" [
+export extern "op connect group revoke" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -185,7 +187,7 @@ export extern "connect group revoke" [
 ]
 
 # Manage Connect servers
-export extern "connect server" [
+export extern "op connect server" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -202,7 +204,7 @@ export extern "connect server" [
 ]
 
 # Set up a Connect server
-export extern "connect server create" [
+export extern "op connect server create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -223,7 +225,7 @@ export extern "connect server create" [
 ]
 
 # Get a Connect server
-export extern "connect server get" [
+export extern "op connect server get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -242,7 +244,7 @@ export extern "connect server get" [
 ]
 
 # Rename a Connect server
-export extern "connect server edit" [
+export extern "op connect server edit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -263,7 +265,7 @@ export extern "connect server edit" [
 
 
 # Remove a Connect server
-export extern "connect server delete" [
+export extern "op connect server delete" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -285,7 +287,7 @@ export alias "connect server remove" = connect server delete
 
 
 # List Connect servers
-export extern "connect server list" [
+export extern "op connect server list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -303,7 +305,7 @@ export extern "connect server list" [
 export alias "connect server ls" = connect server list
 
 # Manage Connect server tokens
-export extern "connect token" [
+export extern "op connect token" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -320,7 +322,7 @@ export extern "connect token" [
 ]
 
 # Issue a token for a 1Password Connect server
-export extern "connect token create" [
+export extern "op connect token create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -342,7 +344,7 @@ export extern "connect token create" [
 ]
 
 # Rename a Connect server token
-export extern "connect token edit" [
+export extern "op connect token edit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -363,7 +365,7 @@ export extern "connect token edit" [
 ]
 
 # Revoke a token for a Connect server
-export extern "connect token delete" [
+export extern "op connect token delete" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -381,12 +383,11 @@ export extern "connect token delete" [
 
     token: string
 ]
-
-export alias "connect token rm" = connect token delete
-export alias "connect token remove" = connect token delete
+# export alias "connect token rm" = connect token delete
+# export alias "connect token remove" = connect token delete
 
 # Get a list of tokens
-export extern "connect token list" [
+export extern "op connect token list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -404,7 +405,7 @@ export extern "connect token list" [
 ]
 
 # Manage Connect server vault access
-export extern "connect vault" [
+export extern "op connect vault" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -421,7 +422,7 @@ export extern "connect vault" [
 ]
 
 # Grant a Connect server access to a vault
-export extern "connect vault grant" [
+export extern "op connect vault grant" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -440,7 +441,7 @@ export extern "connect vault grant" [
 ]
 
 # Revoke a Connect server's access to a vault
-export extern "connect vault revoke" [
+export extern "op connect vault revoke" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -459,7 +460,7 @@ export extern "connect vault revoke" [
 ]
 
 # Perform CRUD operations on Document items in your vaults
-export extern document [
+export extern "op document" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -476,7 +477,7 @@ export extern document [
 ]
 
 # Create a document item
-export extern "document create" [
+export extern "op document create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -499,7 +500,7 @@ export extern "document create" [
 ]
 
 # Download a document
-export extern "document get" [
+export extern "op document get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -524,7 +525,7 @@ export extern "document get" [
 ]
 
 # Edit a document item
-export extern "document edit" [
+export extern "op document edit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -548,7 +549,7 @@ export extern "document edit" [
 ]
 
 # Delete or archive a document item
-export extern "document delete" [
+export extern "op document delete" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -571,7 +572,7 @@ export alias "document rm" = document delete
 export alias "document remove" = document delete
 
 # Get a list of documents
-export extern "document list" [
+export extern "op document list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -591,7 +592,7 @@ export extern "document list" [
 export alias "document ls" = document list
 
 # Manage Events API integrations in your 1Password connect
-export extern events-api [
+export extern "op events"-api [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -608,7 +609,7 @@ export extern events-api [
 ]
 
 # Create an Events API integration token.
-export extern "events-api create" [
+export extern "op events-api create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -629,7 +630,7 @@ export extern "events-api create" [
 ]
 
 # Manage the groups in your 1Password account
-export extern group [
+export extern "op group" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -647,7 +648,7 @@ export extern group [
 
 
 # Create a group
-export extern "group create" [
+export extern "op group create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -667,7 +668,7 @@ export extern "group create" [
 ]
 
 # Get details about a group
-export extern "group get" [
+export extern "op group get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -686,7 +687,7 @@ export extern "group get" [
 ]
 
 # Edit a group's name or description
-export extern "group edit" [
+export extern "op group edit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -707,7 +708,7 @@ export extern "group edit" [
 ]
 
 # Remove a group
-export extern "group delete" [
+export extern "op group delete" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -724,11 +725,11 @@ export extern "group delete" [
 
     group?: string@"nu completion group"                    # [{ <groupName> | <groupID> | - }]
 ]
-export alias "group rm" = group delete
-export alias "group remove" = group delete
+export alias "group rm" = op group delete
+export alias "group remove" = op group delete
 
 # List groups
-export extern "group list" [
+export extern "op group list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -747,7 +748,7 @@ export extern "group list" [
 ]
 
 # Manage group membership
-export extern "group user" [
+export extern "op group user" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -764,7 +765,7 @@ export extern "group user" [
 ]
 
 # Add a user to a group
-export extern "group user grant" [
+export extern "op group user grant" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -784,7 +785,7 @@ export extern "group user grant" [
 ]
 
 # Remove a user from a group
-export extern "group user revoke" [
+export extern "op group user revoke" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -803,7 +804,7 @@ export extern "group user revoke" [
 ]
 
 # Retrieve users that belong to a group
-export extern "group user list" [
+export extern "op group user list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -820,10 +821,10 @@ export extern "group user list" [
 
     group: string@"nu completion group"
 ]
-export alias "group user ls" = group user list
+# export alias "group user ls" = op group user list
 
 # Perform CRUD operations on the 1Password items in your vaults
-export extern item [
+export extern "op item" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -840,7 +841,7 @@ export extern item [
 ]
 
 # Create an item
-export extern "item create" [
+export extern "op item create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                                               # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                                         # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -869,7 +870,7 @@ export extern "item create" [
 ]
 
 # Get an item's details
-export extern "item get" [
+export extern "op item get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -894,7 +895,7 @@ export extern "item get" [
 ]
 
 # Edit an item's details
-export extern "item edit" [
+export extern "op item edit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                                   # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                             # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -922,7 +923,7 @@ export extern "item edit" [
 ]
 
 # Delete or archive an item
-export extern "item delete" [
+export extern "op item delete" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -941,11 +942,11 @@ export extern "item delete" [
 
     items?: string@"nu completion item"                     #  [{ <itemName> | <itemID> | <shareLink> | - }]
 ]
-export alias "item rm" = item delete
-export alias "item remove" = item delete
+export alias "item rm" = op item delete
+export alias "item remove" = op item delete
 
 # List items
-export extern "item list" [
+export extern "op item list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -966,10 +967,10 @@ export extern "item list" [
     --tags=tags: string@"nu completion tag"                                 # Only list items with these tags (comma-separated).
     --vault=vault: string@"nu completion vault"                             # Only list items in this vault.
 ]
-export alias "item ls" = item list
+export alias "item ls" = op item list
 
 # Move an item between vaults
-export extern "item move" [
+export extern "op item move" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"           # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                     # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -988,10 +989,10 @@ export extern "item move" [
 
     items?: string@"nu completion item"                         # [{ <itemName> | <itemID> | <shareLink> | - }]
 ]
-export alias "item mv" = item move
+export alias "item mv" = op item move
 
 # Share an item
-export extern "item share" [
+export extern "op item share" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1014,7 +1015,7 @@ export extern "item share" [
 ]
 
 # Manage templates
-export extern template [
+export extern "op template" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1031,7 +1032,7 @@ export extern template [
 ]
 
 # Get an item template
-export extern "item template get" [
+export extern "op item template get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1053,7 +1054,7 @@ export extern "item template get" [
 ]
 
 # Get a list of templates
-export extern "item template list" [
+export extern "op item template list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1068,10 +1069,10 @@ export extern "item template list" [
 
     --help(-h)                                              # help for list
 ]
-export alias "item template ls" = item template list
+export alias "item template ls" = op item template list
 
 # Manage the shell plugins you use to authenticate third-party CLIs
-export extern plugin [
+export extern "op plugin" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1089,7 +1090,7 @@ export extern plugin [
 
 
 # List all available shell plugins
-export extern "plugin list" [
+export extern "op plugin list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1104,10 +1105,10 @@ export extern "plugin list" [
 
     --help(-h)                                              # help for list
 ]
-export alias "plugin ls" = plugin list
+export alias "plugin ls" = op plugin list
 
 # Clear shell plugin configuration
-export extern "plugin clear" [
+export extern "op plugin clear" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1126,10 +1127,10 @@ export extern "plugin clear" [
 
     plugin_name: string@"nu completion plugin_name"
 ]
-export alias "plugin reset" = plugin clear
+# export alias "plugin reset" = op plugin clear
 
 # Configure a shell plugin
-export extern "plugin init" [
+export extern "op plugin init" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1148,7 +1149,7 @@ export extern "plugin init" [
 ]
 
 # Inspect your existing shell plugin configurations
-export extern "plugin inspect" [
+export extern "op plugin inspect" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1165,10 +1166,10 @@ export extern "plugin inspect" [
 
     plugin_name: string@"nu completion plugin_name"
 ]
-export alias "plugin info" = plugin inspect
+# export alias "plugin info" = op plugin inspect
 
 # Provision credentials from 1Password and run this command
-export extern "plugin run" [
+export extern "op plugin run" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1187,7 +1188,7 @@ export extern "plugin run" [
 ]
 
 # Manage credentials for shell plugins
-export extern "plugin credential" [
+export extern "op plugin credential" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1204,7 +1205,7 @@ export extern "plugin credential" [
 ]
 
 # Import credentials for a shell plugin
-export extern "plugin credential import" [
+export extern "op plugin credential import" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1223,7 +1224,7 @@ export extern "plugin credential import" [
 ]
 
 # Manage service accounts
-export extern service-account [
+export extern "op service-account" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1240,7 +1241,7 @@ export extern service-account [
 ]
 
 # Create a service account
-export extern "service-account create" [
+export extern "op service-account create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                           # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                     # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1263,7 +1264,7 @@ export extern "service-account create" [
 ]
 
 # Retrieve rate limit usage for a service account
-export extern "service-account ratelimit" [
+export extern "op service-account ratelimit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1280,10 +1281,10 @@ export extern "service-account ratelimit" [
 
     account: string                                         # [{ <serviceAccountName> | <serviceAccountID> }]
 ]
-export alias "service-account ratelimits" = service-account ratelimit
+# export alias "service-account ratelimits" = op service-account ratelimit
 
 # Manage users within this 1Password account
-export extern user [
+export extern "op user" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1300,7 +1301,7 @@ export extern user [
 ]
 
 # Provision a user in the authenticated account
-export extern "user provision" [
+export extern "op user provision" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1320,7 +1321,7 @@ export extern "user provision" [
 ]
 
 # Confirm a user
-export extern "user confirm" [
+export extern "op user confirm" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1340,7 +1341,7 @@ export extern "user confirm" [
 ]
 
 # Get details about a user
-export extern "user get" [
+export extern "op user get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1362,7 +1363,7 @@ export extern "user get" [
 ]
 
 # Edit a user's name or Travel Mode status
-export extern "user edit" [
+export extern "op user edit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1383,7 +1384,7 @@ export extern "user edit" [
 ]
 
 # Suspend a user
-export extern "user suspend" [
+export extern "op user suspend" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                                           # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                                     # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1403,7 +1404,7 @@ export extern "user suspend" [
 ]
 
 # Reactivate a suspended user
-export extern "user reactivate" [
+export extern "op user reactivate" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1422,7 +1423,7 @@ export extern "user reactivate" [
 ]
 
 # Remove a user and all their data from the account
-export extern "user delete" [
+export extern "op user delete" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1439,11 +1440,11 @@ export extern "user delete" [
 
     user?: string@"nu completion user"                      # [{ <email> | <name> | <userID> | - }]
 ]
-export alias "user rm" = user delete
-export alias "user remove" = user delete
+export alias "user rm" = op user delete
+export alias "user remove" = op user delete
 
 # List users
-export extern "user list" [
+export extern "op user list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1460,10 +1461,10 @@ export extern "user list" [
     --help(-h)          # help for list
     --vault=vault: string@"nu completion vault"             # List users who have direct access to vault.
 ]
-export alias "user ls" = user list
+export alias "user ls" = op user list
 
 # Manage permissions and perform CRUD operations on your 1Password vaults
-export extern vault [
+export extern "op vault" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1481,7 +1482,7 @@ export extern vault [
 
 
 # Create a new vault
-export extern "vault create" [
+export extern "op vault create" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1503,7 +1504,7 @@ export extern "vault create" [
 ]
 
 # Get details about a vault
-export extern "vault get" [
+export extern "op vault get" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1522,7 +1523,7 @@ export extern "vault get" [
 ]
 
 # Edit a vault's name, description, icon, or Travel Mode status
-export extern "vault edit" [
+export extern "op vault edit" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1545,7 +1546,7 @@ export extern "vault edit" [
 ]
 
 # Remove a vault
-export extern "vault delete" [
+export extern "op vault delete" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1562,11 +1563,11 @@ export extern "vault delete" [
 
     vaults?: string@"nu completion vault"                   # [{ <vaultName> | <vaultID> | - }]
 ]
-export alias "vault rm" = vault delete
-export alias "vault remove" = vault delete
+export alias "vault rm" = op vault delete
+export alias "vault remove" = op vault delete
 
 # List all vaults in the account
-export extern "vault list" [
+export extern "op vault list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"               # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                         # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1584,10 +1585,10 @@ export extern "vault list" [
     --permission=permissions: string@"nu completion permissions"    # List only vaults that the specified user/group has this permission for.
     --user=string: string@"nu completion user"                      # List vaults that a given user has access to.
 ]
-export alias "vault ls" = vault list
+export alias "vault ls" = op vault list
 
 # Manage group vault access
-export extern "vault group" [
+export extern "op vault group" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1604,7 +1605,7 @@ export extern "vault group" [
 ]
 
 # Grant a group permissions to a vault
-export extern "vault group grant" [
+export extern "op vault group grant" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                                   # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                             # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1625,7 +1626,7 @@ export extern "vault group grant" [
 ]
 
 # Revoke a portion or the entire access of a group to a vault
-export extern "vault group revoke" [
+export extern "op vault group revoke" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                                   # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                             # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1646,7 +1647,7 @@ export extern "vault group revoke" [
 ]
 
 # List all the groups that have access to the given vault
-export extern "vault group list" [
+export extern "op vault group list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1664,10 +1665,10 @@ export extern "vault group list" [
     vault?: string@"nu completion vault"
 ]
 
-export alias "vault group ls" = vault group list
+export alias "vault group ls" = op vault group list
 
 # Manage user vault access
-export extern "vault user" [
+export extern "op vault user" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1684,7 +1685,7 @@ export extern "vault user" [
 ]
 
 # Grant a user access to a vault
-export extern "vault user grant" [
+export extern "op vault user grant" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                                   # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                             # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1705,7 +1706,7 @@ export extern "vault user grant" [
 ]
 
 # Revoke a portion or the entire access of a user to a vault
-export extern "vault user revoke" [
+export extern "op vault user revoke" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"                                       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1726,7 +1727,7 @@ export extern "vault user revoke" [
 ]
 
 # List all users with access to the vault and their permissions
-export extern "vault user list" [
+export extern "op vault user list" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1743,10 +1744,10 @@ export extern "vault user list" [
 
     vault: string@"nu completion vault"
 ]
-export alias "vault user ls" = vault user list
+# export alias "vault user ls" = op vault user list
 
 # Generate shell completion information
-export extern completion [
+export extern "op completion" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1765,7 +1766,7 @@ export extern completion [
 ]
 
 # Inject secrets into a config file
-export extern inject [
+export extern "op inject" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1786,7 +1787,7 @@ export extern inject [
 ]
 
 # Read a secret reference
-export extern read [
+export extern "op read" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1809,7 +1810,7 @@ export extern read [
 ]
 
 # Pass secrets as environment variables to a process
-export extern run [
+export extern "op run" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1831,7 +1832,7 @@ export extern run [
 ]
 
 # Sign in to a 1Password account
-export extern signin [
+export extern "op signin" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1850,7 +1851,7 @@ export extern signin [
 ]
 
 # Sign out of a 1Password account
-export extern signout [
+export extern "op signout" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1869,7 +1870,7 @@ export extern signout [
 ]
 
 # Check for and download updates.
-export extern update [
+export extern "op update" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"           # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                     # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
@@ -1888,7 +1889,7 @@ export extern update [
 ]
 
 # Get information about a signed-in account
-export extern whoami [
+export extern "op whoami" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
