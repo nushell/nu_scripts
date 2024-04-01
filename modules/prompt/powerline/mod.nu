@@ -52,7 +52,7 @@ export def "pwd_abbr" [] {
 export def proxy_stat [] {
     {|bg|
         let theme = $env.NU_POWER_THEME.proxy
-        if not (($env.https_proxy? | is-empty) and ($env.http_proxy? | is-empty)) {
+        if ($env.https_proxy? | is-not-empty) or ($env.http_proxy? | is-not-empty) {
             [$bg '']
         } else {
             [$bg null]
@@ -483,7 +483,7 @@ export def --env inject [pos idx define theme? config?] {
 
     let kind = $define.source
 
-    if not ($theme | is-empty) {
+    if ($theme | is-not-empty) {
         let prev_theme = ($env.NU_POWER_THEME | get $kind)
         let prev_cols = ($prev_theme | columns)
         let next_theme = ($theme | transpose k v)
@@ -498,7 +498,7 @@ export def --env inject [pos idx define theme? config?] {
         }
     }
 
-    if not ($config | is-empty) {
+    if ($config | is-not-empty) {
         let prev_cols = ($env.NU_POWER_CONFIG | get $kind | columns)
         for n in ($config | transpose k v) {
             if $n.k in $prev_cols {
@@ -518,7 +518,7 @@ export def --env eject [] {
 
 export def --env hook [] {
     $env.config = ( $env.config | upsert hooks.env_change { |config|
-        let init = [{|before, after| if not ($before | is-empty) { init } }]
+        let init = [{|before, after| if ($before | is-not-empty) { init } }]
         $config.hooks.env_change
         | upsert NU_POWER_MODE $init
         | upsert NU_POWER_SCHEMA $init
@@ -526,7 +526,7 @@ export def --env hook [] {
         | upsert NU_POWER_DECORATOR $init
         | upsert NU_POWER_MENU_MARKER $init
         | upsert NU_POWER_BENCHMARK [{ |before, after|
-            if not ($before | is-empty) {
+            if ($before | is-not-empty) {
                 init
                 rm -f ~/.cache/nushell/power_time.log
             }

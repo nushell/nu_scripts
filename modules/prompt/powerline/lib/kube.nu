@@ -1,6 +1,6 @@
 ### kubernetes
 export def ensure-cache [cache path action] {
-    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
+    let ts = (do -i { ls ($path | into glob) | sort-by modified | reverse | get 0.modified })
     if ($ts | is-empty) { return false }
     let tc = (do -i { ls $cache | get 0.modified })
     if not (($cache | path exists) and ($ts < $tc)) {

@@ -1,17 +1,15 @@
 ### configuration
 ```
-use power.nu
-    use power_git.nu
+use power/power.nu
+    use power/lib/git.nu *
     power inject 0 1 {source: git,   color: '#504945'}
-    use power_kube.nu
+    use power/lib/kube.nu *
     power inject 1 2 {source: kube,  color: '#504945'} {
         context: cyan
     } {
         reverse: true
         separator: '@'
     }
-    use power_utils.nu
-    power inject 0 1 {source: atuin, color: '#4C4B4A'}
     power set time null { style: compact }
 power init
 ```
@@ -30,9 +28,9 @@ $env.NU_POWER_SCHEMA = [
     ]
 ]
 
-use power.nu
-    use power_git.nu
-    use power_kube.nu
+use power/power.nu
+    use power/lib/git.nu
+    use power/lib/kube.nu
 power init
 ```
 `$env.NU_POWER_SCHEMA` support configuring dynamically
