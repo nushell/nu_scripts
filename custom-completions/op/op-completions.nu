@@ -2122,13 +2122,12 @@ def "nu completion item" [] {
     | select value description
 }
 
-const parse_args_rg = "(?<opening_quote>['\"`]?)(?<content>.*?)(?<closing_quote>\\k<opening_quote>)(?<separator>\\s+)"
-const parse_option_name_rg = "(?:--?)(?<option_name>[\\w-]+)"
+def parse_args_rg [] { "(?<opening_quote>['\"`]?)(?<content>.*?)(?<closing_quote>\\k<opening_quote>)(?<separator>\\s+)" }
 
 def "nu completion parse-context" [] string -> {cmd: string, args: list<string>} {
     # context strings starts at cursor position
     let ctx = $in + ' ' # add space to end to ensure last part is parsed🙄
-    mut parse = $ctx | parse --regex $parse_args_rg
+    mut parse = $ctx | parse --regex (parse_args_rg)
     mut content = ''
 
     mut cmd = {cmd: $parse.content.0, args: []}
@@ -2182,7 +2181,7 @@ def "nu completion output" [
 
         let output = $in
         let parse = $ctx + ` `
-        | parse --regex $parse_args_rg
+        | parse --regex (parse_args_rg)
         | last
         let opening_quote = $parse | get opening_quote
         let content = $parse | get content
