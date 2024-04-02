@@ -15,6 +15,7 @@ export def main [] {
         nu-plugin,
         nu-color-config,
         nu-parser,
+        nu-plugin-test-support
         nu-std,
         nu-table,
         nu-cmd-base,
