@@ -25,7 +25,7 @@ def "kube ctx" [] {
         do -i {
             kubectl config get-contexts
             | from ssv -a
-            | where CURRENT == '*'
+            | filter {|x| $x.CURRENT | is-not-empty }
             | get 0
         }
     }
@@ -33,7 +33,7 @@ def "kube ctx" [] {
 
 def kube_stat [] {
     {|bg|
-        let ctx = (kube ctx)
+        let ctx = kube ctx
         if ($ctx | is-empty) {
             [$bg ""]
         } else {

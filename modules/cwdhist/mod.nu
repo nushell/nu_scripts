@@ -74,7 +74,7 @@ export def 'cwd history delete' [cwd] {
 
 export-env {
     $env.cwd_history_full = false
-    $env.cwd_history_file = '~/.cache/nu_cwd_history.sqlite'
+    $env.cwd_history_file = $'($env.HOME)/.cache/nu_cwd_history.sqlite'
 
     if not ($env.cwd_history_file | path exists) {
         empty-sqlite | save -f $env.cwd_history_file

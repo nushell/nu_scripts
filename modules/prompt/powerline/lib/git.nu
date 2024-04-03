@@ -96,6 +96,11 @@ def _git_status [] {
 
 export def git_stat [] {
     {|bg|
+        # FIXME: git rev-parse --is-inside-work-tree
+        if not ([$env.PWD '.git'] | path join | path exists) {
+            return [$bg '']
+        }
+
         let status = (_git_status)
 
         if $status.branch == 'no_branch' { return [$bg ''] }
