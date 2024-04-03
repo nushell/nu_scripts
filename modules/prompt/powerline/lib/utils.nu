@@ -11,6 +11,8 @@ export def atuin_stat [] {
 
 export-env {
     power register atuin (atuin_stat) {
-        on: white
+        theme: {
+            on: white
+        }
     }
 }

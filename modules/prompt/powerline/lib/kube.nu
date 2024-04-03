@@ -51,11 +51,14 @@ def kube_stat [] {
 
 export-env {
     power register kube (kube_stat) {
-        context: cyan
-        separator: purple
-        namespace: yellow
-    } {
-        reverse: false
-        separator: ':'
+        theme: {
+            context: cyan
+            separator: purple
+            namespace: yellow
+        }
+        config: {
+            reverse: false
+            separator: ':'
+        }
     }
 }

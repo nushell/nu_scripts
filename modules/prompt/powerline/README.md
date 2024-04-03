@@ -5,12 +5,17 @@ use power/power.nu
     power inject 0 1 {source: git,   color: '#504945'}
     use power/lib/kube.nu *
     power inject 1 2 {source: kube,  color: '#504945'} {
-        context: cyan
-    } {
-        reverse: true
-        separator: '@'
+        theme: {
+            context: cyan
+        }
+        config: {
+            reverse: true
+            separator: '@'
+        }
     }
-    power set time null { style: compact }
+    power set time {
+        config: { style: compact }
+    }
 power init
 ```
 or

@@ -337,23 +337,23 @@ export def --env init [] {
     hook
 }
 
-export def --env set [name theme config?] {
-    $env.NU_POWER_THEME = (if ($theme | is-empty) {
+export def --env set [name setup] {
+    $env.NU_POWER_THEME = (if ($setup.theme? | is-empty) {
             $env.NU_POWER_THEME
         } else {
             $env.NU_POWER_THEME
-            | upsert $name ($theme
+            | upsert $name ($setup.theme
                 | transpose k v
                 | reduce -f {} {|it, acc|
                     $acc | insert $it.k (ansi -e {fg: $it.v})
                 })
         })
 
-    $env.NU_POWER_CONFIG = (if ($config | is-empty) {
+    $env.NU_POWER_CONFIG = (if ($setup.config? | is-empty) {
             $env.NU_POWER_CONFIG
         } else {
             $env.NU_POWER_CONFIG
-            | upsert $name ($config
+            | upsert $name ($setup.config
                 | transpose k v
                 | reduce -f {} {|it, acc|
                     $acc | insert $it.k $it.v
@@ -361,15 +361,15 @@ export def --env set [name theme config?] {
         })
 }
 
-export def --env register [name source theme config?] {
-    set $name $theme $config
+export def --env register [name source setup] {
+    set $name $setup
 
     $env.NU_PROMPT_COMPONENTS = (
         $env.NU_PROMPT_COMPONENTS | upsert $name {|| $source }
     )
 }
 
-export def --env inject [pos idx define theme? config?] {
+export def --env inject [pos idx define setup?] {
     let prev = $env.NU_POWER_SCHEMA | get $pos
     let next = if $idx == 0 {
         $prev | prepend $define
@@ -388,10 +388,10 @@ export def --env inject [pos idx define theme? config?] {
 
     let kind = $define.source
 
-    if ($theme | is-not-empty) {
+    if ($setup.theme? | is-not-empty) {
         let prev_theme = $env.NU_POWER_THEME | get $kind
         let prev_cols = $prev_theme | columns
-        let next_theme = $theme | transpose k v
+        let next_theme = $setup.theme | transpose k v
         for n in $next_theme {
             if $n.k in $prev_cols {
                 $env.NU_POWER_THEME = (
@@ -403,9 +403,9 @@ export def --env inject [pos idx define theme? config?] {
         }
     }
 
-    if ($config | is-not-empty) {
+    if ($setup.config? | is-not-empty) {
         let prev_cols = $env.NU_POWER_CONFIG | get $kind | columns
-        for n in ($config | transpose k v) {
+        for n in ($setup.config | transpose k v) {
             if $n.k in $prev_cols {
                 $env.NU_POWER_CONFIG = (
                     $env.NU_POWER_CONFIG | update $kind {|conf|
