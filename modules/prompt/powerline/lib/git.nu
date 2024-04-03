@@ -101,7 +101,7 @@ export def git_stat [] {
             return [$bg '']
         }
 
-        let status = (_git_status)
+        let status = _git_status
 
         if $status.branch == 'no_branch' { return [$bg ''] }
 

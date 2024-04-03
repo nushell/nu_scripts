@@ -13,9 +13,9 @@ def related [sub dir] {
 
 export def "pwd_abbr" [] {
     {|bg|
-        let pwd = ($env.PWD)
+        let pwd = $env.PWD
 
-        let to_home = (related $pwd $nu.home-path)
+        let to_home = related $pwd $nu.home-path
 
         let cwd = if $to_home.related == '=' {
             "~"
@@ -28,13 +28,11 @@ export def "pwd_abbr" [] {
         mut dir_comp = ($cwd | split row (char separator))
 
         if ($dir_comp | length) > 5 {
-            let first = ($dir_comp | first)
-            let last = ($dir_comp | last)
-            let body = (
-                $dir_comp
+            let first = $dir_comp | first
+            let last = $dir_comp | last
+            let body = $dir_comp
                 |range 1..-2
                 |each {|x| $x | str substring ..2 }
-                )
             $dir_comp = ([$first $body $last] | flatten)
         }
 
@@ -64,7 +62,7 @@ export def proxy_stat [] {
 def host_abbr [] {
     {|bg|
         let theme = $env.NU_POWER_THEME.host
-        let n = (hostname | str trim)
+        let n = hostname | str trim
         let ucl = if (is-admin) {
                 $theme.is_admin
             } else {
@@ -97,10 +95,10 @@ def time_segment [] {
 
 ### utils
 def logtime [msg act] {
-    let start = (date now)
-    let result = (do $act)
+    let start = date now
+    let result = do $act
     # HACK: serialization
-    let period = ((date now) - $start | format duration ns | str replace ' ' '')
+    let period = (date now) - $start | format duration ns | str replace ' ' ''
 
     echo $'($start | format date '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
     | save -a ~/.cache/nushell/power_time.log
@@ -117,7 +115,7 @@ export def wraptime [message action] {
 }
 
 def get_component [schema] {
-    let component = ($env.NU_PROMPT_COMPONENTS | get $schema.source)
+    let component = $env.NU_PROMPT_COMPONENTS | get $schema.source
     if $env.NU_POWER_BENCHMARK? == true {
         {|bg| logtime $'component ($schema.source)' {|| do $component $bg } }
     } else {
@@ -190,23 +188,23 @@ def decorator [ ] {
 }
 
 def left_prompt [segment] {
-    let decorator = (decorator)
-    let segment = ($segment
+    let decorator = decorator
+    let segment = $segment
         | each {|x|
             [$x.color (get_component $x)]
-        })
+        }
     {||
-        let segment = ($segment
+        let segment = $segment
             | reduce -f [] {|x, acc|
-                let y = (do $x.1 $x.0)
+                let y = do $x.1 $x.0
                 if $y.1 == null {
                     $acc
                 } else {
                     $acc | append [$y]
                 }
-            })
+            }
         let stop = ($segment | length) - 1
-        let cs = ($segment | each {|x| $x.0 } | append $segment.0.0 | range 1..)
+        let cs = $segment | each {|x| $x.0 } | append $segment.0.0 | range 1..
         $segment
         | zip $cs
         | enumerate
@@ -224,15 +222,15 @@ def left_prompt [segment] {
 }
 
 def right_prompt [segment] {
-    let decorator = (decorator)
-    let segment = ($segment
+    let decorator = decorator
+    let segment = $segment
         | each {|x|
             [$x.color (get_component $x)]
-        })
+        }
     {||
         $segment
         | reduce -f [] {|x,acc|
-            let y = (do $x.1 $x.0)
+            let y = do $x.1 $x.0
             if $y.1 == null {
                 $acc
             } else {
@@ -299,8 +297,8 @@ def decorator_gen [
 def squash [thunk] {
     mut r = ""
     for t in $thunk {
-        let v = (do $t.0 null)
-        if ($v.1 != null) {
+        let v = do $t.0 null
+        if $v.1 != null {
             $r += (do $t.1 $v.1)
         }
     }
@@ -309,9 +307,9 @@ def squash [thunk] {
 
 def left_prompt_gen [segment] {
     let stop = ($segment | length) - 1
-    let vs = ($segment | each {|x| [$x.color (get_component $x)]})
-    let cs = ($segment | each {|x| $x.color } | append $segment.0.color | range 1..)
-    let thunk = ($vs
+    let vs = $segment | each {|x| [$x.color (get_component $x)]}
+    let cs = $segment | each {|x| $x.color } | append $segment.0.color | range 1..
+    let thunk = $vs
         | zip $cs
         | enumerate
         | each {|x|
@@ -322,12 +320,12 @@ def left_prompt_gen [segment] {
             } else {
                 [$x.item.0.1 (decorator_gen '>' $x.item.0.0 $x.item.1)]
             }
-        })
+        }
     {|| squash $thunk }
 }
 
 def right_prompt_gen [segment] {
-    let thunk = ( $segment
+    let thunk = $segment
         | each {|x| [$x.color (get_component $x)]}
         | enumerate
         | each {|x|
@@ -336,16 +334,15 @@ def right_prompt_gen [segment] {
             } else {
                 [$x.item.1 (decorator_gen '<' $x.item.0)]
             }
-        })
+        }
     {|| squash $thunk }
 }
 
 def up_prompt [segment] {
-    let thunk = ($segment
-        | each {|y| $y | each {|x| get_component $x }
-        })
+    let thunk = $segment
+        | each {|y| $y | each {|x| get_component $x } }
     { ||
-        let ss = ($thunk
+        let ss = $thunk
             | each {|y|
                 $y
                 | reduce -f [] {|x, acc|
@@ -357,15 +354,15 @@ def up_prompt [segment] {
                     }
                 }
                 | str join $'(ansi light_yellow)|'
-            })
+            }
         # TODO: length of unicode char is 3
-        let fl = (((term size).columns - ($ss | str join ''| ansi strip | str length)) | math abs)
+        let fl = (term size).columns - ($ss | str join ''| ansi strip | str length) | math abs
         $ss | str join $"(ansi xterm_grey)('' | fill -c '-' -w $fl)(ansi reset)"
     }
 }
 
 export def default_env [name value] {
-    if ($name in $env) {
+    if $name in $env {
         $env | get $name
     } else {
         $value
@@ -465,7 +462,7 @@ export def --env register [name source theme config?] {
 }
 
 export def --env inject [pos idx define theme? config?] {
-    let prev = ($env.NU_POWER_SCHEMA | get $pos)
+    let prev = $env.NU_POWER_SCHEMA | get $pos
     let next = if $idx == 0 {
         $prev | prepend $define
     } else {
@@ -484,9 +481,9 @@ export def --env inject [pos idx define theme? config?] {
     let kind = $define.source
 
     if ($theme | is-not-empty) {
-        let prev_theme = ($env.NU_POWER_THEME | get $kind)
-        let prev_cols = ($prev_theme | columns)
-        let next_theme = ($theme | transpose k v)
+        let prev_theme = $env.NU_POWER_THEME | get $kind
+        let prev_cols = $prev_theme | columns
+        let next_theme = $theme | transpose k v
         for n in $next_theme {
             if $n.k in $prev_cols {
                 $env.NU_POWER_THEME = (
@@ -499,7 +496,7 @@ export def --env inject [pos idx define theme? config?] {
     }
 
     if ($config | is-not-empty) {
-        let prev_cols = ($env.NU_POWER_CONFIG | get $kind | columns)
+        let prev_cols = $env.NU_POWER_CONFIG | get $kind | columns
         for n in ($config | transpose k v) {
             if $n.k in $prev_cols {
                 $env.NU_POWER_CONFIG = (
