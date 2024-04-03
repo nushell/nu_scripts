@@ -249,51 +249,6 @@ def right_prompt [segment] {
     }
 }
 
-def decorator_gen [
-    direction?: string
-    color?: string = 'light_yellow'
-    next_color?: string
-] {
-    match $env.NU_POWER_DECORATOR {
-        'plain' => {
-            match $direction {
-                '|>'|'>' => {
-                    let r = $'(ansi light_yellow)|'
-                    {|s| $"($s)($r)" }
-                }
-                '>>' => {
-                    {|s| $s }
-                }
-                '<'|'<<' => {
-                    let l = $'(ansi light_yellow)|'
-                    {|s| $"($l)($s)" }
-                }
-            }
-        }
-        'power' => {
-            match $direction {
-                '|>' => {
-                    let l = $'(ansi -e {bg: $color})'
-                    let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
-                    {|s| $'($l)($s)($r)' }
-                }
-                '>' => {
-                    let r = $'(ansi -e {fg: $color, bg: $next_color})(char nf_left_segment)'
-                    {|s| $'($s)($r)' }
-                }
-                '>>' => {
-                    let r = $'(ansi reset)(ansi -e {fg: $color})(char nf_left_segment)'
-                    {|s| $'($s)($r)' }
-                }
-                '<'|'<<' => {
-                    let l = $'(ansi -e {fg: $color})(char nf_right_segment)(ansi -e {bg: $color})'
-                    {|s| $'($l)($s)' }
-                }
-            }
-        }
-    }
-}
-
 def squash [thunk] {
     mut r = ""
     for t in $thunk {
@@ -303,39 +258,6 @@ def squash [thunk] {
         }
     }
     $r
-}
-
-def left_prompt_gen [segment] {
-    let stop = ($segment | length) - 1
-    let vs = $segment | each {|x| [$x.color (get_component $x)]}
-    let cs = $segment | each {|x| $x.color } | append $segment.0.color | range 1..
-    let thunk = $vs
-        | zip $cs
-        | enumerate
-        | each {|x|
-            if $x.index == $stop {
-                [$x.item.0.1 (decorator_gen '>>' $x.item.0.0 $x.item.1)]
-            } else if $x.index == 0 {
-                [$x.item.0.1 (decorator_gen '|>' $x.item.0.0 $x.item.1)]
-            } else {
-                [$x.item.0.1 (decorator_gen '>' $x.item.0.0 $x.item.1)]
-            }
-        }
-    {|| squash $thunk }
-}
-
-def right_prompt_gen [segment] {
-    let thunk = $segment
-        | each {|x| [$x.color (get_component $x)]}
-        | enumerate
-        | each {|x|
-            if $x.index == 0 {
-                [$x.item.1 (decorator_gen '<<' $x.item.0)]
-            } else {
-                [$x.item.1 (decorator_gen '<' $x.item.0)]
-            }
-        }
-    {|| squash $thunk }
 }
 
 def up_prompt [segment] {
@@ -372,28 +294,14 @@ export def default_env [name value] {
 export def --env init [] {
     match $env.NU_POWER_FRAME {
         'default' => {
-            match $env.NU_POWER_MODE {
-                'power' => {
-                    $env.PROMPT_COMMAND = (wraptime
-                        'dynamic left'
-                        (left_prompt $env.NU_POWER_SCHEMA.0)
-                    )
-                    $env.PROMPT_COMMAND_RIGHT = (wraptime
-                        'dynamic right'
-                        (right_prompt $env.NU_POWER_SCHEMA.1)
-                    )
-                }
-                'fast' => {
-                    $env.PROMPT_COMMAND = (wraptime
-                        'static left'
-                        (left_prompt_gen $env.NU_POWER_SCHEMA.0)
-                    )
-                    $env.PROMPT_COMMAND_RIGHT = (wraptime
-                        'static right'
-                        (right_prompt_gen $env.NU_POWER_SCHEMA.1)
-                    )
-                }
-            }
+            $env.PROMPT_COMMAND = (wraptime
+                'left'
+                (left_prompt $env.NU_POWER_SCHEMA.0)
+            )
+            $env.PROMPT_COMMAND_RIGHT = (wraptime
+                'right'
+                (right_prompt $env.NU_POWER_SCHEMA.1)
+            )
         }
         'fill' => {
             $env.PROMPT_COMMAND = (up_prompt $env.NU_POWER_SCHEMA)
@@ -517,7 +425,6 @@ export def --env hook [] {
     $env.config = ( $env.config | upsert hooks.env_change { |config|
         let init = [{|before, after| if ($before | is-not-empty) { init } }]
         $config.hooks.env_change
-        | upsert NU_POWER_MODE $init
         | upsert NU_POWER_SCHEMA $init
         | upsert NU_POWER_FRAME $init
         | upsert NU_POWER_DECORATOR $init
@@ -535,11 +442,6 @@ export def --env hook [] {
 
 export-env {
     $env.NU_POWER_BENCHMARK = false
-
-    $env.NU_POWER_MODE = (default_env
-        NU_POWER_MODE
-        'power' # power | fast
-    )
 
     $env.NU_POWER_SCHEMA = (default_env
         NU_POWER_SCHEMA
