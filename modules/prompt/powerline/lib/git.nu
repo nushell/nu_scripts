@@ -96,8 +96,7 @@ def _git_status [] {
 
 export def git_stat [] {
     {|bg|
-        # FIXME: git rev-parse --is-inside-work-tree
-        if not ([$env.PWD '.git'] | path join | path exists) {
+        if (git rev-parse --is-inside-work-tree | complete).exit_code > 0 {
             return [$bg '']
         }
 
