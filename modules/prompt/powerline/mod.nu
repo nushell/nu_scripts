@@ -1,28 +1,13 @@
 ### pwd
-def related [sub dir] {
-    if $sub == $dir {
-        return { related: '=', path: '' }
-    }
-    let suffix = (do --ignore-errors { $sub | path relative-to $dir })
-    if ($suffix | is-empty) {
-        { related: '>', path: '' }
-    } else {
-        { related: '<', path: $suffix}
-    }
-}
-
 export def "pwd_abbr" [] {
     {|bg|
-        let pwd = $env.PWD
+        let relative = do -i { $env.PWD | path relative-to $env.HOME }
+        let in_home = ($relative | describe -d).type == 'string'
 
-        let to_home = related $pwd $nu.home-path
-
-        let cwd = if $to_home.related == '=' {
-            "~"
-        } else if $to_home.related == '>' {
-            $pwd
+        let cwd = if $in_home {
+            if ($relative | is-empty) { '~' } else { $'~(char separator)($relative)' }
         } else {
-            $'~(char separator)($to_home.path)'
+            $env.PWD
         }
 
         mut dir_comp = ($cwd | split row (char separator))
@@ -37,10 +22,10 @@ export def "pwd_abbr" [] {
         }
 
         let theme = $env.NU_POWER_THEME.pwd
-        let style = if $to_home.related == '>' {
-            $theme.out_home
-        } else {
+        let style = if $in_home {
             $theme.default
+        } else {
+            $theme.out_home
         }
         [$bg $"($style)($dir_comp | str join (char separator))"]
     }
@@ -93,18 +78,7 @@ def time_segment [] {
     }
 }
 
-### utils
-def logtime [msg act] {
-    let start = date now
-    let result = do $act
-    # HACK: serialization
-    let period = (date now) - $start | format duration ns | str replace ' ' ''
-
-    echo $'($start | format date '%Y-%m-%d_%H:%M:%S%z')(char tab)($period)(char tab)($msg)(char newline)'
-    | save -a ~/.cache/nushell/power_time.log
-
-    $result
-}
+export use lib/profile.nu *
 
 export def wraptime [message action] {
     if $env.NU_POWER_BENCHMARK? == true {
@@ -121,24 +95,6 @@ def get_component [schema] {
     } else {
         $component
     }
-}
-
-export def timelog [] {
-    open ~/.cache/nushell/power_time.log
-    | from tsv -n
-    | rename start duration message
-    | each {|x|
-        $x
-        | update start ($x.start | into datetime -f '%Y-%m-%d_%H:%M:%S%z')
-        | update duration ($x.duration | into duration)
-    }
-}
-
-export def analyze [] {
-    timelog
-    | group-by message
-    | transpose component metrics
-    | each {|x| $x | upsert metrics ($x.metrics | get duration | math avg)}
 }
 
 ### prompt
@@ -247,17 +203,6 @@ def right_prompt [segment] {
         }
         | str join
     }
-}
-
-def squash [thunk] {
-    mut r = ""
-    for t in $thunk {
-        let v = do $t.0 null
-        if $v.1 != null {
-            $r += (do $t.1 $v.1)
-        }
-    }
-    $r
 }
 
 def up_prompt [segment] {
