@@ -1,5 +1,5 @@
 # Omit false conditionals
-extern "as" [
+export extern "as" [
 	--alternate					# Initially turn on alternate macro syntax
 	--nocompress-debug-sections					# Dont compress DWARF debug sections
 	--execstack					# Require executable stack for this object
@@ -33,7 +33,7 @@ extern "as" [
 ]
 
 # Generate ELF common symbols with STT_COMMON type
-extern "as yes no" [
+export extern "as yes no" [
 	--alternate					# Initially turn on alternate macro syntax
 	--nocompress-debug-sections					# Dont compress DWARF debug sections
 	--execstack					# Require executable stack for this object

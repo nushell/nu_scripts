@@ -1,6 +1,6 @@
 # copied from auto-generated completions
 
-extern "ack" [
+export extern "ack" [
     --ignore-case(-i)               # Ignore case
     --smart-case                    # Ignore case when pattern contains no uppercase
     --no-smart-case                 # Dont ignore case
