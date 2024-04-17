@@ -1,5 +1,5 @@
 # Activate conda environment
-export def --env "conda activate" [
+export def --env activate [
     env_name?: string@'nu-complete conda envs' # name of the environment
 ] {
     let conda_info = (conda info --envs --json | from json)
@@ -73,7 +73,7 @@ export def --env "conda activate" [
 }
 
 # Deactivate currently active conda environment
-export def --env "conda deactivate" [] {
+export def --env deactivate [] {
     let path_name = if "PATH" in $env { "PATH" } else { "Path" }
     $env.$path_name = $env.CONDA_OLD_PATH
 
