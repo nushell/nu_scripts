@@ -82,7 +82,17 @@ def "nu-complete sessions" [] {
 }
 
 def "nu-complete zellij layouts" [] {
-	ls ~/.config/zellij/layouts/ 
+	let layout_dir = if 'ZELLIJ_CONFIG_DIR' in $env {
+		[$env.ZELLIJ_CONFIG_DIR "layouts"] | path join
+	} else {
+		match $nu.os-info.name {
+			"linux" => "~/.config/zellij/layouts/"
+			"mac" => "~/Library/Application Support/org.Zellij-Contributors.Zellij/layouts"
+			_ => (error make { msg: "Unsupported OS for zellij" })
+		}
+	}
+
+	ls ( $layout_dir | path expand )
 		| where name =~ "\\.kdl" 
 		| get name 
 		| each { |$it| { value: ($it | path basename | str replace ".kdl" ""), description: $it } }
