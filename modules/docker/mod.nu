@@ -409,7 +409,9 @@ def "nu-complete docker run vol" [] {
 }
 
 def "nu-complete docker run sshkey" [ctx: string, pos: int] {
-    (do { cd ~/.ssh; ls **/*.pub } | get name)
+    ls ~/.ssh/**/*.pub
+    | get name
+    | path relative-to ~/.ssh
 }
 
 def "nu-complete docker run proxy" [] {
