@@ -27,7 +27,7 @@ def gen_sub_keywords [] {
 
     let preamble = '\\b('
     let postamble = ')\\b'
-    let cmds = (for x in $sub_cmds {
+    let cmds = ( $sub_cmds | each {|$x| 
         let parts = ($x | split row ' ')
         $'($parts.0)\\s($parts.1)'
     } | str join '|')
@@ -49,9 +49,9 @@ def gen_keywords_alphabetically [] {
     let preamble = '\\b('
     let postamble = ')\\b'
 
-
-    for alpha in $alphabet {
-        let letter_cmds = (for cmd in $cmds {
+    $alphabet | each { |$alpha| 
+        let letter_cmds = (
+            $cmds | each {|$cmd|
             if ($cmd | str starts-with $alpha) {
                 $cmd
             } else {
@@ -81,8 +81,9 @@ def gen_sub_keywords_alphabetically [] {
     let postamble = ')\\b'
 
 
-    for alpha in $alphabet {
-        let letter_cmds = (for cmd in $sub_cmds {
+    $alphabet | each { |$alpha| 
+        let letter_cmds = (
+            $sub_cmds | each {|$cmd|
             if ($cmd | str starts-with $alpha) {
                 let parts = ($cmd | split row ' ')
                 $'($parts.0)\\s($parts.1)'
