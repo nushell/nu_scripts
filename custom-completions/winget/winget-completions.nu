@@ -28,11 +28,11 @@ def "nu-complete winget source type" [] {
 def "nu-complete winget flagify" [name: string, value: any, --short(-s)] {
   let flag_start = if $short { '-' } else { '--' }
   if $value == null or $value == false {
-    ""
+    []
   } else if $value == true {
-    $"($flag_start)($name)"
+    [$"($flag_start)($name)"]
   } else {
-    $"($flag_start)($name) ($value)"
+    [$"($flag_start)($name)", $"($value)"]
   }
 }
 
@@ -55,7 +55,7 @@ def "nu-complete winget install name" [] {
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
         let data = (winget search | where source == winget | select name id)
-        $data | save $path | ignore
+        $data | save --force $path | ignore
         $data | get name | each { |it| $"(char dq)($it)(char dq)" } | str replace "…" ""
     }
     {
@@ -75,21 +75,23 @@ def "nu-complete winget install id" [] {
     } else {
         # Chinese characters break parsing, filter broken entries with `where source == winget`
         let data = (winget search | where source == winget | select name id)
-        $data | save $path | ignore
+        $data | save --force $path | ignore
         $data | get id | str replace "…" ""
     }
 }
 
 def "nu-complete winget parse table" [lines: any] {
     let header = (
-        $lines | first
-        | parse -r '(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<available>Available\s+)?(?P<source>Source\s*)?'
+        $lines 
+        | first
+        | parse -r '(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<match>Match\s+)?(?P<available>Available\s+)?(?P<source>Source\s*)?'
         | first
     )
     let lengths = {
         name: ($header.name | str length),
         id: ($header.id | str length),
         version: ($header.version | str length),
+        match: ($header.match | str length),
         available: ($header.available | str length),
         source: ($header.source | str length)
     }
@@ -103,16 +105,23 @@ def "nu-complete winget parse table" [lines: any] {
             )
         } else { "" }
 
-        let available = if $lengths.available > 0 {
+        let match = if $lengths.match > 0 {
             (
                 $it | skip ($lengths.name + $lengths.id + $lengths.version)
+                | first $lengths.match | str join | str trim
+            )
+        } else { "" }
+
+        let available = if $lengths.available > 0 {
+            (
+                $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.match)
                 | first $lengths.available | str join | str trim
             )
         } else { "" }
 
         let source = if $lengths.source > 0 {
             (
-                $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.available)
+                $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.match + $lengths.available)
                 | str join | str trim
             )
         } else { "" }
@@ -121,6 +130,7 @@ def "nu-complete winget parse table" [lines: any] {
             name: ($it | first $lengths.name | str join | str trim),
             id: ($it | skip $lengths.name | first $lengths.id | str join | str trim),
             version: $version,
+            match: $match,
             available: $available,
             source: $source
         }
@@ -157,8 +167,9 @@ export extern "winget install" [
     --accept_source_agreements, # Accept all source agreements during source operations
     --help(-?) # Display the help for this command
 ]
+export alias "winget add" = winget install
 
-def "winget show" [
+export def "winget show" [
     pos_query?: string,
     --query(-q): string, # The query used to search for a package
     --id: string, # Filter results by id
@@ -183,9 +194,22 @@ def "winget show" [
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
 
-    let command = ([
-        "winget show"
-        $pos_query,
+    def sanitize-line []: string -> string {
+        let it = $in
+        let parsed = ($it | parse '{name}:{value}')
+        if ($parsed | is-empty) { return $"($it)" }
+        let parsed = ($parsed | first)
+        try {
+            $"($parsed.name):(if ($parsed.value | str trim | is-empty) { '' } else { $"(char space)(char dq)($parsed.value | str trim)(char dq)" })"
+        } catch { 
+            $"($it)"
+        }
+    }
+
+    let params = ([
+        "show"
+    ] | append ([
+        $pos_query
         (do $flagify query $query)
         (do $flagify id $id)
         (do $flagify name $name)
@@ -205,24 +229,27 @@ def "winget show" [
         (do $flagify header $header)
         (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
-    ] | str join ' ')
+    ] | flatten) | filter { not ($in | is-empty)})
 
-    if $raw or $help {
-        ^$command
+    let output = ^winget ...$params
+    if $raw or $help or ($output | str contains "No package selection argument was provided") {
+       $output
     } else {
-        let output = (^$command | lines)
-        if ($output | first) =~ "Multiple packages found matching input criteria." {
-            $"(ansi yellow)($output | first | str trim)(ansi reset)"
-            nu-complete winget parse table ($output | skip 1) | select name id source
-        } else if ($output | first) =~ "No package found matching input criteria." {
-            $"(ansi yellow)($output | first | str trim)(ansi reset)"
+        let lines = ($output | lines)
+
+        if ($lines | first) =~ "Multiple packages found matching input criteria." {
+            $"(ansi yellow)($lines | first | str trim)(ansi reset)"
+            nu-complete winget parse table ($lines | skip 1) | select name id source
+        } else if ($lines | first) =~ "No package found matching input criteria." {
+            $"(ansi yellow)($lines | first | str trim)(ansi reset)"
         } else {
-            let header = ($output | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]')
-            let manifest = ($output | skip 1 | str join (char newline) | from yaml)
-            $header | first | merge {|| $manifest }
+            let header = ($lines | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]')
+            let manifest = ($lines | skip | each { sanitize-line } | str join (char newline) | from yaml)
+            $header | first | merge $manifest
         }
     }
 }
+export alias "winget view" = winget show
 
 # Manage sources of packages
 export extern "winget source" [
@@ -240,25 +267,25 @@ export extern "winget source add" [
 ]
 
 # List current sources
-def "winget source list" [
+export def "winget source list" [
     pos_name?: string, # Name of the source
     --name(-n): string, # Name of the source
     --raw, # Output the raw CLI output instead of structured data
     --help(-?) # Display the help for this command
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
-
-    let command = ([
-        "winget source list"
+    let params = ([
+        "source"
+        "list"
         $pos_name
         (do $flagify name $name)
         (do $flagify help $help)
-    ] | str join ' ')
+    ] | compact --empty)
 
     if $raw or $help {
-        ^$command
+        ^winget ...$params
     } else {
-        let output = (^$command | lines)
+        let output = (^winget ...$params | lines)
         if ($output | length) == 1 {
             $"(ansi light_red)($output | first)(ansi reset)"
         } else {
@@ -266,18 +293,21 @@ def "winget source list" [
         }
     }
 }
+export alias "winget source ls" = winget source list
 
 # Update current sources
 export extern "winget source update" [
     --name(-n): string, # Name of the source
     --help(-?) # Display the help for this command
 ]
+export alias "winget source refresh" = winet source update
 
 # Remove current sources
 export extern "winget source remove" [
     --name(-n): string, # Name of the source
     --help(-?) # Display the help for this command
 ]
+export alias "winget source rm" = winget source remove
 
 # Reset sources
 export extern "winget source reset" [
@@ -293,7 +323,7 @@ export extern "winget source export" [
 ]
 
 # Find and show basic info of packages
-def "winget search" [
+export def "winget search" [
     pos_query?: string,
     --query(-q): string, # The query used to search for a package
     --id: string, # Filter results by id
@@ -311,37 +341,45 @@ def "winget search" [
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
 
-    let command = ([
-        "winget search"
-        $pos_query
-        (do $flagify query $query)
-        (do $flagify id $id)
-        (do $flagify name $name)
-        (do $flagify moniker $moniker)
-        (do $flagify tag $tag)
-        (do $flagify command $command)
-        (do $flagify source $source)
-        (do $flagify count $count)
-        (do $flagify exact $exact)
-        (do $flagify header $header)
-        (do $flagify accept_source_agreements $accept_source_agreements)
-        (do $flagify help $help)
-    ] | str join ' ')
+    let params = [
+            "search"
+            $"($pos_query)"
+        ]
+        | append (
+            [
+                (do $flagify query $query)
+                (do $flagify id $id)
+                (do $flagify name $name)
+                (do $flagify moniker $moniker)
+                (do $flagify tag $tag)
+                (do $flagify command $command)
+                (do $flagify source $source)
+                (do $flagify count $count)
+                (do $flagify exact $exact)
+                (do $flagify header $header)
+                (do $flagify accept_source_agreements $accept_source_agreements)
+                (do $flagify help $help)
+            ]
+            | flatten
+            | where { not ($in | is-empty) }
+        )
 
+    let output = (^winget ...$params)
     if $raw or $help {
-        ^$command
+        $output
     } else {
-        let output = (^$command | lines)
-        if ($output | length) == 1 {
-            $"(ansi light_red)($output | first)(ansi reset)"
+        let lines = ($output | lines)
+        if ($lines | length) == 1 {
+            $"(ansi light_red)($lines | first)(ansi reset)"
         } else {
-            nu-complete winget parse table $output | select name id version source
+            nu-complete winget parse table $lines | select name id version source
         }
     }
 }
+export alias "winget find" = winget search
 
 # Display installed packages in a structured way.
-def "winget list" [
+export def "winget list" [
     pos_query?: string,
     --query(-q): string, # The query used to search for a package
     --id: string, # Filter results by id
@@ -359,34 +397,48 @@ def "winget list" [
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
 
-    let command = ([
-        "winget list"
-        $pos_query,
-        (do $flagify query $query)
-        (do $flagify id $id)
-        (do $flagify name $name)
-        (do $flagify moniker $moniker)
-        (do $flagify tag $tag)
-        (do $flagify command $command)
-        (do $flagify source $source)
-        (do $flagify count $count)
-        (do $flagify exact $exact)
-        (do $flagify header $header)
-        (do $flagify accept_source_agreements $accept_source_agreements)
-        (do $flagify help $help)
-    ] | str join ' ')
+    let params = (
+        [
+            "list"
+        ]
+        | append (
+        [
+            $"($pos_query)"
+            (do $flagify query $query)
+            (do $flagify id $id)
+            (do $flagify name $name)
+            (do $flagify moniker $moniker)
+            (do $flagify tag $tag)
+            (do $flagify command $command)
+            # (do $flagify source $source) # see comment below
+            (do $flagify count $count)
+            (do $flagify exact $exact)
+            (do $flagify header $header)
+            (do $flagify accept_source_agreements $accept_source_agreements)
+            (do $flagify help $help)
+        ] 
+        | flatten
+        | filter { not ($in | is-empty) })
+    )
 
+    let output = ^winget ...$params
     if $help or $raw {
-        ^$command
+        $output
     } else {
-        let output = (^$command | lines)
-        if ($output | length) == 1 {
-            $"(ansi light_red)($output | first)(ansi reset)"
+        let lines = ($output | lines)
+        if ($lines | length) == 1 {
+            $"(ansi light_red)($lines | first)(ansi reset)"
         } else {
-            nu-complete winget parse table $output
+            let truncated = $lines | last | $in == "<additional entries truncated due to result limit>"
+            nu-complete winget parse table (if $truncated { $lines | drop } else { $lines }) 
+                | reject match
+                # Because of a bug: https://github.com/microsoft/winget-cli/issues/4236
+                # we need to filter it with the "where" command
+                | if ($source | is-not-empty) { $in | where source == $source } else { $in }
         }
     }
 }
+export alias "winget ls" = winget list
 
 # Upgrades the given package
 export extern "winget upgrade" [
@@ -411,6 +463,7 @@ export extern "winget upgrade" [
     --all, # Update all installed packages to latest if available
     --help(-?) # Display the help for this command
 ]
+export alias "winget update" = winget upgrade
 
 # Uninstalls the given package
 export extern "winget uninstall" [
@@ -428,6 +481,8 @@ export extern "winget uninstall" [
     --log(-o): path, # Log location (if supported)
     --help(-?) # Display the help for this command
 ]
+export alias "winget remove" = winget uninstall
+export alias "winget rm" = winget uninstall
 
 # Helper to hash installer files
 export extern "winget hash" [
