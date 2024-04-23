@@ -1,9 +1,9 @@
 ### configuration
 ```
 use power/power.nu
-    use power/lib/git.nu *
+    use power/plugin/git.nu *
     power inject 0 1 {source: git,   color: '#504945'}
-    use power/lib/kube.nu *
+    use power/plugin/kube.nu *
     power inject 1 2 {source: kube,  color: '#504945'} {
         theme: {
             context: cyan
@@ -34,8 +34,8 @@ $env.NU_POWER_SCHEMA = [
 ]
 
 use power/power.nu
-    use power/lib/git.nu
-    use power/lib/kube.nu
+    use power/plugin/git.nu
+    use power/plugin/kube.nu
 power init
 ```
 `$env.NU_POWER_SCHEMA` support configuring dynamically

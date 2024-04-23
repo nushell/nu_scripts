@@ -1,35 +1,5 @@
 ### pwd
-export def "pwd_abbr" [] {
-    {|bg|
-        let relative = do -i { $env.PWD | path relative-to $env.HOME }
-        let in_home = ($relative | describe -d).type == 'string'
-
-        let cwd = if $in_home {
-            if ($relative | is-empty) { '~' } else { $'~(char separator)($relative)' }
-        } else {
-            $env.PWD
-        }
-
-        mut dir_comp = ($cwd | split row (char separator))
-
-        if ($dir_comp | length) > 5 {
-            let first = $dir_comp | first
-            let last = $dir_comp | last
-            let body = $dir_comp
-                |range 1..-2
-                |each {|x| $x | str substring ..2 }
-            $dir_comp = ([$first $body $last] | flatten)
-        }
-
-        let theme = $env.NU_POWER_THEME.pwd
-        let style = if $in_home {
-            $theme.default
-        } else {
-            $theme.out_home
-        }
-        [$bg $"($style)($dir_comp | str join (char separator))"]
-    }
-}
+use lib/pwd.nu *
 
 ### proxy
 export def proxy_stat [] {
@@ -426,8 +396,9 @@ export-env {
         NU_POWER_THEME
         {
             pwd: {
-                default: (ansi light_green_bold)
+                default: (ansi xterm_green)
                 out_home: (ansi xterm_gold3b)
+                vcs: (ansi xterm_teal)
             }
             proxy: {
                 on: (ansi yellow)
