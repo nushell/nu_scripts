@@ -28,7 +28,7 @@ def "nu-complete winget source type" [] {
 def "nu-complete winget flagify" [name: string, value: any, --short(-s)] {
   let flag_start = if $short { '-' } else { '--' }
   if $value == null or $value == false {
-    ""
+    []
   } else if $value == true {
     [$"($flag_start)($name)"]
   } else {
@@ -194,10 +194,22 @@ export def "winget show" [
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
 
+    def sanitize-line []: string -> string {
+        let it = $in
+        let parsed = ($it | parse '{name}:{value}')
+        if ($parsed | is-empty) { return $"($it)" }
+        let parsed = ($parsed | first)
+        try {
+            $"($parsed.name):(if ($parsed.value | str trim | is-empty) { '' } else { $"(char space)(char dq)($parsed.value | str trim)(char dq)" })"
+        } catch { 
+            $"($it)"
+        }
+    }
+
     let params = ([
         "show"
-        $"($pos_query)"
-    ] | append [
+    ] | append ([
+        $pos_query
         (do $flagify query $query)
         (do $flagify id $id)
         (do $flagify name $name)
@@ -217,13 +229,14 @@ export def "winget show" [
         (do $flagify header $header)
         (do $flagify accept_source_agreements $accept_source_agreements)
         (do $flagify help $help)
-    ] | filter { not ($in | is-empty)})
+    ] | flatten) | filter { not ($in | is-empty)})
 
     let output = ^winget ...$params
-    if $raw or $help {
+    if $raw or $help or ($output | str contains "No package selection argument was provided") {
        $output
     } else {
         let lines = ($output | lines)
+
         if ($lines | first) =~ "Multiple packages found matching input criteria." {
             $"(ansi yellow)($lines | first | str trim)(ansi reset)"
             nu-complete winget parse table ($lines | skip 1) | select name id source
@@ -231,8 +244,8 @@ export def "winget show" [
             $"(ansi yellow)($lines | first | str trim)(ansi reset)"
         } else {
             let header = ($lines | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]')
-            let manifest = ($lines | skip 1 | str join (char newline) | from yaml)
-            $header | first | merge {|| $manifest }
+            let manifest = ($lines | skip | each { sanitize-line } | str join (char newline) | from yaml)
+            $header | first | merge $manifest
         }
     }
 }
