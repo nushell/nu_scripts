@@ -491,3 +491,70 @@ export extern "git bisect reset" [
 export extern "git help" [
   command: string@"nu-complete git subcommands"       # subcommand to show help for
 ]
+
+# git worktree
+export extern "git worktree" [
+  --help(-h)            # display the help message for this command
+  ...args
+]
+
+# create a new working tree
+export extern "git worktree add" [
+  --help(-h)            # display the help message for this command
+  --force(-f)           # checkout <branch> even if already checked out in other worktree
+  -b                    # create a new branch
+  -B                    # create or reset a branch
+  --detach(-d)          # detach HEAD at named commit
+  --checkout            # populate the new working tree
+  --lock                # keep the new working tree locked
+  --reason              # reason for locking
+  --quiet(-q)           # suppress progress reporting
+  --track               # set up tracking mode (see git-branch(1))
+  --guess-remote        # try to match the new branch name with a remote-tracking branch
+  ...args
+]
+
+# list details of each worktree
+export extern "git worktree list" [
+  --help(-h)            # display the help message for this command
+  --porcelain           # machine-readable output
+  --verbose(-v)         # show extended annotations and reasons, if available
+  --expire              # add 'prunable' annotation to worktrees older than <time>
+  -z                    # terminate records with a NUL character
+  ...args
+]
+
+# prevent a working tree from being pruned
+export extern "git worktree lock" [
+  --help(-h)            # display the help message for this command
+  --reason              # reason for locking
+  ...args
+]
+
+# move a working tree to a new location
+export extern "git worktree move" [
+  --help(-h)            # display the help message for this command
+  --force(-f)           # force move even if worktree is dirty or locked
+  ...args
+]
+
+# prune working tree information
+export extern "git worktree prune" [
+  --help(-h)            # display the help message for this command
+  --dry-run(-n)         # do not remove, show only
+  --verbose(-v)         # report pruned working trees
+  --expire              # expire working trees older than <time>
+  ...args
+]
+
+# remove a working tree
+export extern "git worktree remove" [
+  --help(-h)            # display the help message for this command
+  --force(-f)           # force removal even if worktree is dirty or locked
+  ...args
+]
+
+# allow working tree to be pruned, moved or deleted
+export extern "git worktree unlock" [
+  ...args
+]
