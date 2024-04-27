@@ -38,6 +38,7 @@ export def main [] {
         nu_plugin_inc,
         nu_plugin_gstat,
         nu_plugin_formats,
+        nu_plugin_polars,
     ]
 
     log warning "starting publish"
