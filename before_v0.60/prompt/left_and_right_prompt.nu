@@ -43,7 +43,7 @@ def construct_prompt [] {
     let calculated_right_len = ($term_width - $left_len + ($right_colored_len - $right_len))
 
     # finally, let's make the prompt
-    let the_prompt = $"($left_colored)($right_colored | fill -c ' ' -l $calculated_right_len)(char newline)($decorator) "
+    let the_prompt = $"($left_colored)($right_colored | str lpad -c ' ' -l $calculated_right_len)(char newline)($decorator) "
 
     # let's update the title bar now
     echo $title_bar
@@ -65,7 +65,7 @@ def home_abbrev [] {
         let lin-home = ($nu.home-dir | into string | str find-replace -a '\\' '/' | str downcase)
         let lin-pwd = (pwd | into string | str find-replace -a '\\' '/' | str downcase)
         $lin-pwd | str find-replace $lin-home '~'
-    } else {
+    } {
         pwd
     }
 }

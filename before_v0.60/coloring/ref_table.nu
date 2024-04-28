@@ -4,7 +4,7 @@
 # This prints the column headers
 let nl = (char newline)
 let plus = $"($nl)   + "
-let cols = (seq 0 35 | each { |col| $"($col)" | fill -c ' ' --width 3 } | str join)
+let cols = (seq 0 35 | each { |col| $"($col)" | str lpad -c ' ' -l 3 } | str join)
 $"($plus)($cols)"
 
 let ansi_bg = (ansi -e '48;5;')
@@ -21,7 +21,7 @@ $"($row_header)($row_data)($nl)($nl)"
 # This is the meat of the script that prints the little squares of color
 seq 0 6 | each { |row_idx|
     let r = ($"($row_idx) * 36 + 16" | math eval)
-    let row_header = (echo $r | into string -d 0 | fill -c ' ' --width 4)
+    let row_header = (echo $r | into string -d 0 | str lpad -c ' ' -l 4)
     let row_data = (seq 0 35 | each { |row|
         let val = ($"($r + $row)" | math eval | into string -d 0)
         $"($ansi_bg)($val)m  (ansi -e 'm') "

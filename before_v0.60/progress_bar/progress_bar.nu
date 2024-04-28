@@ -24,24 +24,24 @@ ansi cursor_off
 # Move cursor all the way to the left
 $"(ansi -e '1000D')" | autoview
 # Draw the background for the progress bar
-$bg_fill | fill -c $bg_fill -l $pb_len
+$bg_fill | str lpad -c $bg_fill -l $pb_len
 
 echo 1..<$pb_len | each { |cur_progress|
     # This is kind of a hack because it's not incrementally drawing a new box
     # It's drawing the entire row every time with a different padding amount
-    # echo $blocks.7 | fill -c $blocks.7 -l $it | autoview
+    # echo $blocks.7 | str lpad -c $blocks.7 -l $it | autoview
 
     echo 0..7 | each { |tick|
         let cur_idx = ($tick mod 8)
         let cur_block = (echo $blocks | nth $cur_idx)
-        $"($cur_block | fill -c $blocks.7 -l $cur_progress)" | autoview
+        $"($cur_block | str lpad -c $blocks.7 -l $cur_progress)" | autoview
         $"(ansi -e '1000D')" | autoview
         sleep 5ms
     }
     $"(ansi -e '1000D')" | autoview
 }
 # Fill in the last background block
-$"($blocks.7 | fill -c $blocks.7 -l $pb_len)" | autoview
+$"($blocks.7 | str lpad -c $blocks.7 -l $pb_len)" | autoview
 char newline
 "Done"
 ansi cursor_on
