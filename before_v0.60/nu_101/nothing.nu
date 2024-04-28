@@ -4,9 +4,9 @@ def nada [
     --flat(-f)
 ] {
     if $flat == $nothing {
-        echo true
+        echo $true
     } {
-        echo false
+        echo $false
     }
 }
 
@@ -17,8 +17,8 @@ def nada2 [
     let flat = ($flat | empty?)
 
     if $flat {
-        echo true
+        echo $true
     } {
-        echo false
+        echo $false
     }
 }

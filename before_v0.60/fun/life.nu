@@ -22,9 +22,9 @@ def alive [x-pos: int, y-pos: int, $grid] {
     let $curr = ($data | nth ($x-pos + $y-pos * $width))
 
     if ($total == 3) or ($total == 2 and $curr) {
-        true
+        $true
     } {
-        false
+        $false
     }
 }
 

@@ -69,14 +69,14 @@ def create_color_tables [fg_range:range bg_range:range] {
 }
 
 def color_table [] {
-    # make_header false
+    # make_header $false
     mk_header 40..47
     create_color_tables 30..37 40..47
 
     # put a line between tables
     char newline
 
-    #make_header true
+    #make_header $true
     mk_header 100..107
     create_color_tables 90..97 100..107
 }

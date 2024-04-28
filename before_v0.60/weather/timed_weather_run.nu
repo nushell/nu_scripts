@@ -23,7 +23,7 @@ def timed_weather_run [
         # generate temp file name
         let weather_runtime_file = (($nu.env.TMP) | path join weather_runtime_file.json)
         # does the temp file already exist, meaning we've written it previously
-        if ($weather_runtime_file | path exists) == true {
+        if ($weather_runtime_file | path exists) == $true {
             # $"Weather path exists [($weather_runtime_file)](char nl)"
             # open the file and get the last weather data and run time out of it
             let last_runtime_data = (open $weather_runtime_file)
