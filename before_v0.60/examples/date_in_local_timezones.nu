@@ -11,7 +11,7 @@ def say [block] {
         [[name]; [($person.name | str capitalize)]]
       }
     )
-  } | str join (char newline)
+  } | str collect (char newline)
 }
 
 $people | say {|person| $"($person.name)'s timezone is ($person.tz)"}

@@ -43,7 +43,7 @@ def run_ls [
                 echo (char newline) | autoview
             } {}
         }
-    } | str join
+    } | str collect
 }
 
 # This is a first attempt and some type of logging

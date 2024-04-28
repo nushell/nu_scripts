@@ -131,10 +131,10 @@ $"(ansi -e '?25h')(ansi -e 'm')(ansi -e 'H')"
 #       $"(ansi -e '38;2;')($c);($c);($c)m*"
 #     })
 
-#     echo $cols | str join
+#     echo $cols | str collect
 #   })
 
-#   (ansi -e 'H') + (echo $rows | str join (char nl))
-# } | str join)
+#   (ansi -e 'H') + (echo $rows | str collect (char nl))
+# } | str collect)
 
 # (ansi -e "?25l") + $output + $"(ansi -e '?25h')(ansi -e 'm')(ansi -e 'H')"

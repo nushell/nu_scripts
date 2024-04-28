@@ -1,6 +1,6 @@
 def playground [topic, block] {
   with-env [N 5 REJECT slow] {
-    echo $topic " tests" (char newline) | str join
+    echo $topic " tests" (char newline) | str collect
 
     do $block
   }

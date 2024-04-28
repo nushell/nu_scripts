@@ -9,7 +9,7 @@ def show_index_colors [] {
         } {
             $"($color)($padded_number) (ansi -e 0m)"
         }
-    } | str join
+    } | str collect
 }
 
 show_index_colors

@@ -13,9 +13,9 @@ echo 0..16 | each { |col|
         if $code < 256 {
             $"(ansi -e '38;5;')($code | into string)m($code | into string | str lpad -l 4 -c ' ')(ansi reset)"
         } {} # Do nothing in the else
-    } | str join)
+    } | str collect)
     $"($row)(char newline)"
-} | str join
+} | str collect
 
 # Background Colors
 echo 0..16 | each { |col|
@@ -24,6 +24,6 @@ echo 0..16 | each { |col|
         if $code < 256 {
             $"(ansi -e '48;5;')($code | into string)m($code | into string | str lpad -l 4 -c ' ')(ansi reset)"
         } {} # do nothing in the else
-    } | str join)
+    } | str collect)
     $"($row)(char newline)"
-} | str join
+} | str collect

@@ -52,8 +52,8 @@ def print-grid [$grid] {
             } {
                 "."
             }
-        } | append (char nl) | str join
-    } | str join
+        } | append (char nl) | str collect
+    } | str collect
 }
 
 def main [] {

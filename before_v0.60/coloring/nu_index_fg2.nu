@@ -13,7 +13,7 @@ def show_index_colors [] {
         } {
             $"($color)($padded_number) "
         }
-    } | str join
+    } | str collect
 }
 
 show_index_colors
@@ -22,4 +22,4 @@ show_index_colors
 # it all on one line which wraps in
 # your terminal
 
-#echo 1..256 | each { |idx| echo [(ansi -e '38;5;') (build-string $idx) 'm' (build-string $idx) ' ']} | str join
+#echo 1..256 | each { |idx| echo [(ansi -e '38;5;') (build-string $idx) 'm' (build-string $idx) ' ']} | str collect

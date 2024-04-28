@@ -25,9 +25,9 @@ def gen-ts-cmds [] {
         let line1 = (build-string "      const " $it.camel " = new vscode.CompletionItem('" $it.name "');" (char newline))
         let line2 = (build-string "      " $it.camel ".commitCharacters = [' '];" (char newline) (char newline))
         $line1 + $line2
-    } | str join)
+    } | str collect)
 
-    build-string (echo $ts) (char nl) "      return [ " (echo $updated_cmds | get camel | str join ', ') " ];" (char nl) '      },' (char nl) '    }' (char nl) '  );' (char nl) (char nl) | str join
+    build-string (echo $ts) (char nl) "      return [ " (echo $updated_cmds | get camel | str collect ', ') " ];" (char nl) '      },' (char nl) '    }' (char nl) '  );' (char nl) (char nl) | str collect
 }
 
 # generate typescript from nushell subcommands
@@ -57,9 +57,9 @@ def gen-ts-subs [] {
                 let line08 = (build-string '                    ' $method '.detail = "' $it.item.description '";' (char nl) (char nl))
                 $line07 + $line08
             }
-        } | str join)
+        } | str collect)
 
-        let methods = (echo $it.sub_cmds.name | str camel-case | str join ', ')
+        let methods = (echo $it.sub_cmds.name | str camel-case | str collect ', ')
 
         let lines = $"
                     return [
@@ -75,11 +75,11 @@ def gen-ts-subs [] {
     "
 
         build-string $preamble $lines
-    } | str join)
+    } | str collect)
 
     echo $subs_collection |
         let post01 = (build-string "    context.subscriptions.push(" (char nl))
-        let post02 = (build-string "        " (echo $updated_cmds | get camelProvider | uniq | str join ', ') (char nl))
+        let post02 = (build-string "        " (echo $updated_cmds | get camelProvider | uniq | str collect ', ') (char nl))
         let post03 = (build-string "    );" (char nl) "}" (char nl))
 
         build-string $ts $post01 $post02 $post03

@@ -16,11 +16,11 @@ for x in 0..8 {
         let row = (for a in 40..47 {
             let color = $"($x);($i);($a)"
             $"(ansi -e $color)m\e[($color)(ansi -e '0;37;40')m "
-        } | str join)
+        } | str collect)
         $"($row)(char newline)"
-    } | str join)
+    } | str collect)
     $"($row)(char newline)"
-} | str join
+} | str collect
 
 # Nushell 0.31.0
 # echo 0..8 | each { |style|
@@ -28,8 +28,8 @@ for x in 0..8 {
 #         let row = (echo 40..47 | each { |bg|
 #             let color = $"($style);($fg);($bg)m"
 #             $"(ansi -e $color)($color)(ansi reset)  "
-#         } | str join)
+#         } | str collect)
 #         $"($row)(char newline)"
-#     } | str join)
+#     } | str collect)
 #     $"($row)(char newline)"
-# } | str join
+# } | str collect

@@ -2,7 +2,7 @@ def conda-env [env-name] {
     let conda-info = (conda info --envs --json | from json)
     let suffix = (if $env-name == "base" {""} {(["envs" $env-name] | path join)})
     let env-dir = ([$conda-info.root_prefix $suffix] | path join)
-    let old-path = ($nu.path | str join (path-sep))
+    let old-path = ($nu.path | str collect (path-sep))
     let new-path = (if (windows?) { (conda-create-path-windows $env-dir) } { (conda-create-path-unix $env-dir) })
     let new-env = [[name, value];
                    [CONDA_DEFAULT_ENV $env-name]
@@ -24,7 +24,7 @@ def conda-create-path-windows [env-dir] {
         ([$env-dir "Library" "bin"] | path join)
         ([$env-dir "Library" "usr" "bin"] | path join)
     ]
-    let new-path = ([$env-path $nu.path] | flatten | str join (path-sep))
+    let new-path = ([$env-path $nu.path] | flatten | str collect (path-sep))
     [[name, value]; [Path $new-path]]
 }
 
@@ -32,7 +32,7 @@ def conda-create-path-unix [env-dir] {
     let env-path = [
         ([$env-dir "bin"] | path join)
     ]
-    let new-path = ([$env-path $nu.path] | flatten | str join (path-sep))
+    let new-path = ([$env-path $nu.path] | flatten | str collect (path-sep))
     [[name, value]; [PATH $new-path]]
 }
 

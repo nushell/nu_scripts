@@ -16,7 +16,7 @@ def print [
                 $param.item
             }
         }
-    } | into string | str join
+    } | into string | str collect
 }
 
 # > print 1 2 3 "four" -s '--'
@@ -26,7 +26,7 @@ def print [
 # 123four
 
 # An alternate print command that concatenates arguments together with an optional separator.
-# This one uses str join instead of build-string.
+# This one uses str collect instead of build-string.
 #    By default there will be no newline
 def print2 [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
@@ -35,9 +35,9 @@ def print2 [
     let is_empty = ($separator | empty?)
     let num_of_rest = ($rest | length)
     if $is_empty {
-        $rest | into string | str join
+        $rest | into string | str collect
     } {
-        $rest | into string | str join $separator
+        $rest | into string | str collect $separator
     }
 }
 
@@ -60,7 +60,7 @@ def print3 [
             #log 'sep is empty'
             if (echo $param.item | length) > 1 and $flat {
                 #log 'flatten please'
-                let flatter = ($param.item | flatten | into string | str join)
+                let flatter = ($param.item | flatten | into string | str collect)
                 $flatter
             } {
                 #log 'no flat'
@@ -69,19 +69,19 @@ def print3 [
         } {
             if $num_of_rest > ($param.index + 1) {
                 if ($param.item | length) > 1 and $flat {
-                    let flatter = ($param.item | flatten | into string | str join $separator)
+                    let flatter = ($param.item | flatten | into string | str collect $separator)
                     $"($flatter)($separator)"
                 } {
                     $"($param.item)($separator)"
                 }
             } {
                 if ($param.item | length) > 1 and $flat {
-                    let flatter = ($param.item | flatten | into string | str join $separator)
+                    let flatter = ($param.item | flatten | into string | str collect $separator)
                     $flatter
                 } {
                     $param.item
                 }
             }
         }
-    } | str join
+    } | str collect
 }

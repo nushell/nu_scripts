@@ -47,7 +47,7 @@ def mk_header [color_range:range] {
                 ($ansi_color | str lpad -l $lo_regular_pad -c ' ')
             }
         }
-    } | str join
+    } | str collect
     echo (char newline)
 }
 
@@ -58,14 +58,14 @@ def color_row_range [num:int bg_rg:range] {
         let row_name = $"($num);($back)m"
         let ansi_color = (ansi -e $row_name)
         $"($ansi_color) ($row_name) ($reset)"
-    } | append (char newline) | str join)
+    } | append (char newline) | str collect)
     $"($row_header)($row_data)"
 }
 
 def create_color_tables [fg_range:range bg_range:range] {
     echo $fg_range | each { |fg|
         color_row_range $fg $bg_range
-    } | str join
+    } | str collect
 }
 
 def color_table [] {

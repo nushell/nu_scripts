@@ -7,10 +7,10 @@ def show_index_colors [] {
         } {
             $"(ansi -e $prefix)($fg)m($fg | into string | str lpad -l 3 -c '0') "
         }
-    } | str join
+    } | str collect
 }
 
 show_index_colors
 
 #one-liner
-#echo 0..255 | each { |fg| echo [(ansi -e '38;5;') ($fg | into string) 'm' ($fg | into string) ' ']} | str join
+#echo 0..255 | each { |fg| echo [(ansi -e '38;5;') ($fg | into string) 'm' ($fg | into string) ' ']} | str collect

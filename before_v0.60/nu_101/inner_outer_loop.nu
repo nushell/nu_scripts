@@ -6,6 +6,6 @@ seq 30 39 | each { |outer|
     let row = $"($outer) "
     let data = (seq 40 49 | each { |inner|
         $"($inner) "
-    } | str join)
+    } | str collect)
     $"($row)($data)(char newline)"
-} | str join
+} | str collect
