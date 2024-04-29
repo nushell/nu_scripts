@@ -26,12 +26,30 @@ def "nu-complete docker ns" [] {
 }
 
 # network
-export def containers-network-list [] {
-    ^$env.docker-cli network ls | from ssv -a
-}
-
 def "nu-complete docker network" [] {
     containers-network-list | get NAME
+}
+
+export def containers-network-list [
+    name?: string@"nu-complete docker network"
+    --subnet
+] {
+    if ($name | is-empty) {
+        ^$env.docker-cli network ls | from ssv -a
+    } else {
+        ^$env.docker-cli network inspect $name
+        | from json
+        | do {
+            if $subnet {
+                match $env.docker-cli {
+                    podman => ($in | get subnets.0 )
+                    _ => ($in | get IPAM.Config.0)
+                }
+            } else {
+                $in
+            }
+        }
+    }
 }
 
 def "nu-complete docker network driver" [] {
@@ -45,8 +63,15 @@ export def containers-network-create [
     ^$env.docker-cli network create $name
 }
 
-export def containers-network-remove [network: string@"nu-complete docker network"] {
-    ^$env.docker-cli network rm $network
+export def containers-network-remove [
+    network?: string@"nu-complete docker network"
+    --force(-f)
+] {
+    if ($network | is-empty) {
+        ^$env.docker-cli network prune
+    } else {
+        ^$env.docker-cli network rm $network ...(if $force { [-f] } else { [] })
+    }
 }
 
 # list containers
@@ -509,7 +534,8 @@ export def container-create [
     }
     if ($join | is-not-empty) {
         let c = $"container:($join)"
-        $args ++= [--uts $c --ipc $c --pid $c --network $c]
+        $args ++= [--uts $c --ipc $c --pid $c]
+        if ($network | is-empty) { $args ++= [--network $c] }
     }
     if ($network | is-not-empty) {
         $args ++= [--network $network]
