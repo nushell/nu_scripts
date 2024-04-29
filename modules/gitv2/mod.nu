@@ -229,7 +229,7 @@ export def gp [
 
 # git add, rm and restore
 export def ga [
-    file?:          path
+    ...file:          path
     --all (-A)
     --patch (-p)
     --update (-u)
@@ -241,23 +241,24 @@ export def ga [
     --staged (-s)
     --source (-o):  string
 ] {
+    mut args = []
     if $delete {
-        let c = if $cached {[--cached]} else {[]}
-        let f = if $force {[--force]} else {[]}
-        git rm ...$c ...$f -r $file
+        if $cached { $args ++= [--cached] }
+        if $force { $args ++= [--force] }
+        git rm ...$args -r ...$file
     } else if $restore {
-        let o = $source | with-flag --source
-        let s = if $staged {[--staged]} else {[]}
-        let file = if ($file | is-empty) { [.] } else { [$file] }
-        git restore ...$o ...$s ...$file
+        $args ++= ($source | with-flag --source)
+        if $staged { $args ++= [--staged]}
+        $args ++= if ($file | is-empty) { [.] } else { $file }
+        git restore ...$args
     } else {
-        let a = if $all {[--all]} else {[]}
-        let p = if $patch {[--patch]} else {[]}
-        let u = if $update {[--update]} else {[]}
-        let v = if $verbose {[--verbose]} else {[]}
-        let f = if $force {[--force]} else {[]}
-        let file = if ($file | is-empty) { [.] } else { [$file] }
-        git add ...([$a $p $u $v $f $file] | flatten)
+        if $all { $args ++= [--all] }
+        if $patch { $args ++= [--patch] }
+        if $update { $args ++= [--update] }
+        if $verbose { $args ++= [--verbose] }
+        if $force { $args ++= [--force] }
+        $args ++= if ($file | is-empty) { [.] } else { $file }
+        git add ...$args
     }
 
 }
@@ -269,24 +270,26 @@ export def gc [
     --amend (-a)
     --keep (-k)
 ] {
-    let m = $message | with-flag -m
-    let a = if $all {[--all]} else {[]}
-    let n = if $amend {[--amend]} else {[]}
-    let k = if $keep {[--no-edit]} else {[]}
-    git commit -v ...$m ...$a ...$n ...$k
+    mut args = []
+    $args ++= ($message | with-flag -m)
+    if $all { $args ++= [--all] }
+    if $amend { $args ++= [--amend] }
+    if $keep { $args ++= [--no-edit] }
+    git commit -v ...$args
 }
 
 # git diff
 export def gd [
-    file?:            path
+    ...file:            path
     --cached (-c)     # cached
     --word-diff (-w)  # word-diff
     --staged (-s)     # staged
 ] {
-    let w = if $word_diff {[--word-diff]} else {[]}
-    let c = if $cached {[--cached]} else {[]}
-    let s = if $staged {[--staged]} else {[]}
-    git diff ...$c ...$s ...$w ...($file | with-flag)
+    mut args = []
+    if $word_diff { $args ++= [--word-diff] }
+    if $cached { $args ++= [--cached] }
+    if $staged { $args ++= [--staged] }
+    git diff ...$args ...$file
 }
 
 # git merge
@@ -374,9 +377,10 @@ export def grs [
     --hard (-h)
     --clean (-c)
 ] {
-    let h = if $hard {[--hard]} else {[]}
-    let cm = $commit | with-flag
-    git reset ...$h ...$cm
+    mut args = []
+    if $hard { $args ++= [--hard] }
+    if ($commit | is-not-empty) { $args ++= $commit }
+    git reset ...$args
     if $clean {
         git clean -fd
     }

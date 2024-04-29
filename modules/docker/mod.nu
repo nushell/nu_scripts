@@ -468,7 +468,7 @@ export def container-create [
     --envs(-e): any                                     # { FOO: BAR }
     --daemon(-d)
     --join(-j): string@"nu-complete docker containers"  # join
-    --network(-n): string@"nu-complete docker network"  # network
+    --network: string@"nu-complete docker network"      # network
     --workdir(-w): string                               # workdir
     --entrypoint: string                                # entrypoint
     --dry-run
