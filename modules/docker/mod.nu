@@ -25,6 +25,30 @@ def "nu-complete docker ns" [] {
     }
 }
 
+# network
+export def containers-network-list [] {
+    ^$env.docker-cli network ls | from ssv -a
+}
+
+def "nu-complete docker network" [] {
+    containers-network-list | get NAME
+}
+
+def "nu-complete docker network driver" [] {
+    [bridge host none overlay ipvlan macvlan]
+}
+
+export def containers-network-create [
+    name: string
+    --driver(-d): string = 'bridge'@"nu-complete docker network driver"
+] {
+    ^$env.docker-cli network create $name
+}
+
+export def containers-network-remove [network: string@"nu-complete docker network"] {
+    ^$env.docker-cli network rm $network
+}
+
 # list containers
 export def container-list [
     -n: string@"nu-complete docker ns"
@@ -233,7 +257,7 @@ export def --wrapped container-attach [
     ...args
 ] {
     let ns = $n | with-flag -n
-    if ($args|is-empty) {
+    if ($args | is-empty) {
         ^$env.docker-cli ...$ns exec -it $container /bin/sh -c "[ -e /bin/zsh ] && /bin/zsh || [ -e /bin/bash ] && /bin/bash || /bin/sh"
     } else {
         ^$env.docker-cli ...$ns exec -it $container ...$args
@@ -443,81 +467,88 @@ export def container-create [
     --ports(-p): any                                    # { 8080: 80 }
     --envs(-e): any                                     # { FOO: BAR }
     --daemon(-d)
-    --attach(-a): string@"nu-complete docker containers" # attach
+    --join(-j): string@"nu-complete docker containers"  # join
+    --network(-n): string@"nu-complete docker network"  # network
     --workdir(-w): string                               # workdir
     --entrypoint: string                                # entrypoint
     --dry-run
     --with-x
     --privileged(-P)
     --namespace(-n): string@"nu-complete docker ns"
-    image: string@"nu-complete docker images"             # image
+    image: string@"nu-complete docker images"           # image
     ...cmd                                              # command args
 ] {
-    let ns = $namespace | with-flag -n
-    let entrypoint = $entrypoint | with-flag --entrypoint
-    let daemon = if $daemon { [-d] } else { [--rm -it] }
-    let mnt = $mnt | with-flag -v
-    let workdir = if ($workdir | is-empty) {[]} else {[-w $workdir -v $"($env.PWD):($workdir)"]}
-    let vols = if ($vols|is-empty) { [] } else { $vols | transpose k v | each {|x| [-v $"(host-path $x.k):($x.v)"]} | flatten }
-    let envs = if ($envs|is-empty) { [] } else { $envs | transpose k v | each {|x| [-e $"($x.k)=($x.v)"]} | flatten }
-    let ports = if ($ports|is-empty) { [] } else { $ports | transpose k v | each {|x| [-p $"($x.k):($x.v)"] } | flatten }
-    let debug = if $debug {[--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined]} else {[]}
-    #let appimage = if $appimage {[--device /dev/fuse --security-opt apparmor:unconfined]} else {[]}
-    let privileged = if $privileged {[--privileged]} else {[]}
-    let appimage = if $appimage {[--device /dev/fuse]} else {[]}
-    let netadmin = if $netadmin {[--cap-add=NET_ADMIN --device /dev/net/tun]} else {[]}
-    let with_x = if $with_x {[
-        -e $"DISPLAY=($env.DISPLAY)"
-        -v /tmp/.X11-unix:/tmp/.X11-unix
-        ]} else {[]}
-    let ssh = if ($ssh|is-empty) { [] } else {
+    mut args = []
+
+    $args ++= ($namespace | with-flag -n)
+    $args ++= ($entrypoint | with-flag --entrypoint)
+    if $daemon { $args ++= [-d] } else { $args ++= [--rm -it] }
+    $args ++= ($mnt | with-flag -v)
+    if ($workdir | is-not-empty) {
+        $args ++= [-w $workdir -v $"($env.PWD):($workdir)"]
+    }
+    $args ++= if ($vols | is-empty) { [] } else { $vols | transpose k v | each {|x| [-v $"(host-path $x.k):($x.v)"]} | flatten }
+    $args ++= if ($envs | is-empty) { [] } else { $envs | transpose k v | each {|x| [-e $"($x.k)=($x.v)"]} | flatten }
+    $args ++= if ($ports | is-empty) { [] } else { $ports | transpose k v | each {|x| [-p $"($x.k):($x.v)"] } | flatten }
+    if $debug {
+        $args ++= [--cap-add=SYS_ADMIN --cap-add=SYS_PTRACE --security-opt seccomp=unconfined]
+    }
+    if $appimage { $args ++= [--device /dev/fuse --security-opt apparmor:unconfined] }
+    if $privileged { $args ++= [--privileged] }
+    if $appimage { $args ++= [--device /dev/fuse] }
+    if $netadmin { $args ++= [--cap-add=NET_ADMIN --device /dev/net/tun] }
+    if $with_x {
+        $args ++= [ -e $"DISPLAY=($env.DISPLAY)" -v /tmp/.X11-unix:/tmp/.X11-unix ]
+    }
+    if ($ssh | is-not-empty) {
         let sshkey = cat ([$env.HOME .ssh $ssh] | path join) | split row ' ' | get 1
-        [-e $"ed25519_($sshuser)=($sshkey)"]
+        $args ++= [-e $"ed25519_($sshuser)=($sshkey)"]
     }
-    let proxy = if ($proxy|is-empty) { [] } else {
-        [-e $"http_proxy=($proxy)" -e $"https_proxy=($proxy)"]
+    if ($proxy | is-not-empty) {
+        $args ++= [-e $"http_proxy=($proxy)" -e $"https_proxy=($proxy)"]
     }
-    let attach = if ($attach|is-empty) { [] } else {
-        let c = $"container:($attach)"
-        [--uts $c --ipc $c --pid $c --network $c]
+    if ($join | is-not-empty) {
+        let c = $"container:($join)"
+        $args ++= [--uts $c --ipc $c --pid $c --network $c]
     }
-    let cache = $cache | with-flag -v
-    let args = [
-        $privileged $entrypoint $attach $daemon
-        $ports $envs $ssh $proxy
-        $debug $appimage $netadmin $with_x
-        $mnt $vols $workdir $cache
-    ] | flatten
+    if ($network | is-not-empty) {
+        $args ++= [--network $network]
+    }
+    $args ++= ($cache | with-flag -v)
+
     let name = $"($image | split row '/' | last | str replace ':' '-')_(date now | format date %m%d%H%M)"
     if $dry_run {
-        echo ([docker $ns run --name $name $args $image $cmd] | flatten | str join ' ')
+        echo ([docker run --name $name $args $image $cmd] | flatten | str join ' ')
     } else {
-        ^$env.docker-cli ...$ns run --name $name ...$args $image ...($cmd | flatten)
+        ^$env.docker-cli run --name $name ...$args $image ...($cmd | flatten)
     }
 }
 
 export alias d = container
 export alias dp = container-list
-export alias di = image-list
+export alias dr = container-create
+export alias dcr = container-remove
+export alias da = container-attach
 export alias dl = container-log
 export alias dlt = container-log-trunc
-export alias da = container-attach
 export alias dcp = container-copy-file
-export alias dcr = container-remove
 export alias dh = container-history
-export alias dsv = image-save
-export alias dld = image-load
-export alias dsp = system-prune
-export alias dspall = system-prune-all
-export alias drmi = image-remove
-export alias dt = image-tag
+export alias di = image-list
 export alias dps = image-push
 export alias dpl = image-pull
+export alias dsv = image-save
+export alias dld = image-load
+export alias dt = image-tag
+export alias drmi = image-remove
+export alias dsp = system-prune
+export alias dspall = system-prune-all
 export alias dvl = volume-list
 export alias dvc = volume-create
 export alias dvi = volume-inspect
 export alias dvr = volume-remove
-export alias dr = container-create
+export alias dn = containers-network-list
+export alias dnc = containers-network-create
+export alias dnr = containers-network-remove
 
 export use registry.nu *
 export use buildah.nu *
