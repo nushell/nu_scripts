@@ -534,10 +534,10 @@ export def container-create [
     }
     if ($join | is-not-empty) {
         let c = $"container:($join)"
-        $args ++= [--uts $c --ipc $c --pid $c]
-        if ($network | is-empty) { $args ++= [--network $c] }
+        $args ++= [--pid $c --network $c]
+        if $env.docker-cli in ['podman'] { $args ++= [--uts $c --ipc $c] }
     }
-    if ($network | is-not-empty) {
+    if ($network | is-not-empty) and ($join | is-empty) {
         $args ++= [--network $network]
     }
     $args ++= ($cache | with-flag -v)
