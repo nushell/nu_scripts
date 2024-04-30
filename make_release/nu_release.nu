@@ -32,7 +32,7 @@ export def main [] {
     let subcrates_wave_3 = [
         nu-command,
         nu-explore,
-        nu-plugin-test-support
+        nu-plugin-test-support,
         nu-cli,
         nu-cmd-dataframe,
         nu-cmd-extra,
