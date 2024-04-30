@@ -12,12 +12,16 @@ export def main [] {
         nu-test-support,
         nu-protocol,
         nu-engine,
-        nu-plugin,
+        nu-plugin-protocol,
         nu-color-config,
-        nu-parser,
-        nu-plugin-test-support
-        nu-std,
+        nu-plugin-core,
+        nu-plugin-engine,
         nu-table,
+        nu-cmd-plugin,
+        nu-parser,
+        nu-plugin,
+        nu-std,
+        nuon,
         nu-cmd-base,
     ]
 
@@ -29,6 +33,7 @@ export def main [] {
     let subcrates_wave_3 = [
         nu-command,
         nu-explore,
+        nu-plugin-test-support,
         nu-cli,
         nu-cmd-dataframe,
         nu-cmd-extra,
