@@ -21,6 +21,7 @@ export def main [] {
         nu-parser,
         nu-plugin,
         nu-std,
+        nuon,
         nu-cmd-base,
     ]
 
