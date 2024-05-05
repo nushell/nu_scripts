@@ -89,5 +89,8 @@ def gen-ts-subs [] {
         [$ts $post01 $post02 $post03] | str join
 }
 
+def main [
+]: nothing -> nothing {
+    [ (gen-ts-cmds-begin) (gen-ts-cmds) (gen-ts-subs) ] | str join | save -f extension.ts
+}
 
-[ (gen-ts-cmds-begin) (gen-ts-cmds) (gen-ts-subs) ] | str join | save -f extension.ts
