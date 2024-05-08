@@ -43,5 +43,5 @@ export extern "btm" [
   --time-delta(-d): int                     # Amount changed when zooming in/out
   --tree(-T)                                # Show processes as tree
   --version(-V)                             # Prints version information 
-  --whole-word(-w)                          # Search results match entrie query
+  --whole-word(-w)                          # Search results match entries query
 ]

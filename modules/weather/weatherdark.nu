@@ -62,7 +62,7 @@ def get_airCond [loc] {
     let url = $"https://api.airvisual.com/v2/nearest_city?lat=($lat)&lon=($lon)&key=($apiKey)"
     let aqius = (http get $url).data.current.pollution.aqius
 
-    # clasification (standard)
+    # classification (standard)
     if $aqius < 51 { "Good" } else if $aqius < 101 { "Moderate" } else if $aqius < 151 { "Unhealthy for some" } else if $aqius < 201 { "Unhealthy" } else if $aqius < 301 { "Very unhealthy" } else { "Hazardous" }
 }
 
