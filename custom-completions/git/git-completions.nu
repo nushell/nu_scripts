@@ -194,7 +194,7 @@ export extern "git fetch" [
   --write-fetch-head                            # Write fetched refs in FETCH_HEAD (default)
   --no-write-fetch-head                         # Do not write FETCH_HEAD
   --force(-f)                                   # Always update the local branch
-  --keep(-k)                                    # Keep dowloaded pack
+  --keep(-k)                                    # Keep downloaded pack
   --multiple                                    # Allow several arguments to be specified
   --auto-maintenance                            # Run 'git maintenance run --auto' at the end (default)
   --no-auto-maintenance                         # Don't run 'git maintenance' at the end
@@ -266,7 +266,7 @@ export extern "git pull" [
 export extern "git switch" [
   switch?: string@"nu-complete git switch"        # name of branch to switch to
   --create(-c)                                    # create a new branch
-  --detach(-d): string@"nu-complete git log"      # switch to a commit in a detatched state
+  --detach(-d): string@"nu-complete git log"      # switch to a commit in a detached state
   --force-create(-C): string                      # forces creation of new branch, if it exists then the existing branch will be reset to starting point
   --force(-f)                                     # alias for --discard-changes
   --guess                                         # if there is no local branch which matches then name but there is a remote one then this is checked out

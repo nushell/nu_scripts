@@ -1,5 +1,5 @@
-# Euclid's algorythm for determining greatest common divisor between 2 positive integers
-# Baed on this clear explanation from Rutgers: https://sites.math.rutgers.edu/~greenfie/gs2004/euclid.html
+# Euclid's algorithm for determining greatest common divisor between 2 positive integers
+# Based on this clear explanation from Rutgers: https://sites.math.rutgers.edu/~greenfie/gs2004/euclid.html
 
 # Returns the GCD of its 2 arguments
 def gcd [i1: int, i2: int] -> int {

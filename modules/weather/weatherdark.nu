@@ -1,6 +1,6 @@
 # Weather Script based on IP Address
 # - Weather using dark weather api
-# - Air polution condition using airvisual api
+# - Air pollution condition using airvisual api
 # - Street address using google maps api
 # - Version 2.0
 export def --env weatherds [] {

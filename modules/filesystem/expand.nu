@@ -1,6 +1,6 @@
 
 # A bash like quick string manipulation script
-# the script works by creating a list from brace contents, seperated by a brace.
+# the script works by creating a list from brace contents, separated by a brace.
 
 # Expand the given string into a list on braces like bashes brace expansion 
 export def main [ 

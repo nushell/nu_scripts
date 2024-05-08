@@ -5,7 +5,7 @@
 # I wrote this so I could have weather in my prompt but not pay the price of hitting
 # the web for every prompt.
 
-# this script is depenedent on get-weather
+# this script is dependent on get-weather
 use get-weather.nu get_weather
 
 # Create a mutable weather table to hold the weather data

@@ -122,7 +122,7 @@ def check-if-env-exists [ env_name: string, conda_info: record ] {
 
     let en = ($env_dirs | each {|en| $conda_info.envs | where $it == $en } | where ($it | length) == 1 | flatten)
     if ($en | length) > 1 {
-        error make --unspanned {msg: $"You have enviroments in multiple locations: ($en)"}
+        error make --unspanned {msg: $"You have environments in multiple locations: ($en)"}
     }
     if ($en | length) == 0 {
         error make --unspanned {msg: $"Could not find given environment: ($env_name)"}

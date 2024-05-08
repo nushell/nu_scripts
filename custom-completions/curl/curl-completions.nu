@@ -23,7 +23,7 @@ extern "curl" [
 	--crlfile					# (TLS) Provide a file using PEM format with a Certificate Revocation List
 	--data-ascii					# (HTTP) Alias for -d, --data
 	--data-binary					# (HTTP) Post data exactly as specified with no processing
-	--data-raw					# (HTTP) Post data like --data but without interpeting "@
+	--data-raw					# (HTTP) Post data like --data but without interpreting "@
 	--data-urlencode					# (HTTP) Post data URL-encoded
 	--data(-d)					# (HTTP) Sends the specified data in a POST request to the HTTP server
 	--delegation					# (GSS/kerberos) Tell the server how much it can delegate for user creds
@@ -254,7 +254,7 @@ extern "curl PEM, DER ENG P12" [
 	--crlfile					# (TLS) Provide a file using PEM format with a Certificate Revocation List
 	--data-ascii					# (HTTP) Alias for -d, --data
 	--data-binary					# (HTTP) Post data exactly as specified with no processing
-	--data-raw					# (HTTP) Post data like --data but without interpeting "@
+	--data-raw					# (HTTP) Post data like --data but without interpreting "@
 	--data-urlencode					# (HTTP) Post data URL-encoded
 	--data(-d)					# (HTTP) Sends the specified data in a POST request to the HTTP server
 	--delegation					# (GSS/kerberos) Tell the server how much it can delegate for user creds

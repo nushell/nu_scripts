@@ -1,6 +1,6 @@
 let appID = "" #YOUR APP_ID
 
-#Fetch simple anwser from WolframAlpha API
+#Fetch simple answer from WolframAlpha API
 def wolfram [...query #Your query
 ] {
     let query_string = ($query | str join " ")
@@ -8,7 +8,7 @@ def wolfram [...query #Your query
     $result + ""
 }
 
-#Fetch image with full anwser from WolframAlpha API
+#Fetch image with full answer from WolframAlpha API
 def wolframimg [...query #Your query
 ] {
     let query_string = ($query | str join " ")

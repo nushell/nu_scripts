@@ -91,7 +91,7 @@ export def isleap [year: int] {
 	if ( (($year mod 4) == 0 and ($year mod 100) != 0) or ($year mod 400) == 0 ) { echo "It is a leap year." } else { echo "It is not a leap year."}
 }
 
-#Greatest common divisior (gcd) between 2 integers
+#Greatest common divisor (gcd) between 2 integers
 export def gcd [a: int, b:int] {
 	if $a < $b {
 		gcd $b $a

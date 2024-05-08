@@ -56,7 +56,7 @@ let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
 def get_weather_by_ip [locIdx: int, units: string] {
     # units
     # f = imperial aka Fahrenheit
-    # c = metric aka Celcius
+    # c = metric aka Celsius
     let coords = (get_location_by_ip $locIdx)
     if ($coords | length) > 1 {
         [
@@ -226,7 +226,7 @@ def state_abbrev_lookup [state_name: string] {
 # > get_weather -l 1
 # This changes to location 1. Locations are listed in the locations custom command above
 # > get_weather -l 2 -u c
-# This uses location 2 and Celcius degrees. f = Fahrenheit, c = Celcius
+# This uses location 2 and Celsius degrees. f = Fahrenheit, c = Celsius
 
 # Since I live in the USA I have not tested outside the country.
 # We'll take PRs for things that are broke or augmentations.

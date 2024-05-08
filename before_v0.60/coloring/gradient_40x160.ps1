@@ -15,7 +15,7 @@ function Get-Character {
 # ~1900 ms
 function main {
     # This is the same script as gradient.ps1 but hard coded
-    # to 40x160 for nushell comparisions
+    # to 40x160 for nushell comparisons
     for ($y = 0; $y -le 39; $y++) {
         $Color = 25
         Set-Cursor -x $PSItem -y $y
@@ -31,7 +31,7 @@ function main {
 # Note that the x loop has half the characters so it doesn't count
 function main2 {
     # This is the same script as gradient.ps1 but hard coded
-    # to 40x160 for nushell comparisions
+    # to 40x160 for nushell comparisons
     for ($y = 0; $y -le 39; $y++) {
         $Color = 25
         $row = @()
@@ -44,11 +44,11 @@ function main2 {
     }
 }
 
-# Store the characters in a string and contatenate, then output a row at a time
+# Store the characters in a string and concatenate, then output a row at a time
 # ~265 ms
 function main3 {
     # This is the same script as gradient.ps1 but hard coded
-    # to 40x160 for nushell comparisions
+    # to 40x160 for nushell comparisons
     for ($y = 0; $y -le 39; $y++) {
         $Color = 25
         $row = ""
@@ -65,7 +65,7 @@ function main3 {
 # ~240 ms
 function main4 {
     # This is the same script as gradient.ps1 but hard coded
-    # to 40x160 for nushell comparisions
+    # to 40x160 for nushell comparisons
     $row = [System.Text.StringBuilder]""
     for ($y = 0; $y -le 39; $y++) {
         $Color = 25

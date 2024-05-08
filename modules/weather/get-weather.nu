@@ -56,7 +56,7 @@ def show-error [msg label err] {
 def get_weather_by_ip [locIdx: int, units: string, token: string] {
     # units
     # f = imperial aka Fahrenheit
-    # c = metric aka Celcius
+    # c = metric aka Celsius
     let URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"
     let URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily"
     let coords = (get_location_by_ip $locIdx $token)
@@ -300,7 +300,7 @@ def get_emoji_by_id [id] {
 # > get_weather -l 1
 # This changes to location 1. Locations are listed in the locations custom command above
 # > get_weather -l 2 -u c
-# This uses location 2 and Celcius degrees. f = Fahrenheit, c = Celcius
+# This uses location 2 and Celsius degrees. f = Fahrenheit, c = Celsius
 
 # Since I live in the USA I have not tested outside the country.
 # We'll take PRs for things that are broke or augmentations.
@@ -309,5 +309,5 @@ def get_emoji_by_id [id] {
 # put this in your config.nu file
 # use /path/to/get-weather.nu get_weather
 #
-# then from the nushell commmand prompt type
+# then from the nushell command prompt type
 # get_weather
