@@ -10,7 +10,7 @@ export extern "pass update" [
   --multiline(-m) # Update multiline passwords. If not set, only the first line of a password file is updated.
   --include(-i): string # Only update the passwords that match a regex.
   --exclude(-e): string # Do not update the passwords that match a regex.
-  --edit(-E) # Edit the passwords useing the default editor.
+  --edit(-E) # Edit the passwords using the default editor.
   --force(-f) # Force update.
   --version(-V) # Show version information.
   --help(-h) # Print a help message.

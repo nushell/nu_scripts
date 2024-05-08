@@ -20,7 +20,7 @@ def even [n: int, acc=true] -> any {
 }
 
 
-# Returns true if number is odd. Will cooperate with even in a mutually recursive fashon.
+# Returns true if number is odd. Will cooperate with even in a mutually recursive fashion.
 # Warning: do not pass any numbers less than 0
 def odd [n: int, acc=true] -> bool {
   if $n == 0 { return (not $acc) } else if $n == 1 { 

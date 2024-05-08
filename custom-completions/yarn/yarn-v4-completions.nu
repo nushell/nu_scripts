@@ -237,7 +237,7 @@ def "nu-complete yarn npm audit severity" [] {
 export extern "yarn npm audit" [
   --all(-A) # Audit dependencies from all workspaces
   --recursive(-R) # Audit transitive dependencies as well
-  --enviorment: string # Which enviorments to cover
+  --environment: string # Which environments to cover
   --json # Format the output as an NDJSON stream
   --severity: string@"nu-complete yarn npm audit severity" # Minimal severity requested for packages to be displayed
 ]
@@ -343,7 +343,7 @@ export extern "yarn plugin import" [
   plugin: string@"nu-complete yarn plugin import"
 ]
 
-# List the avalible offical plugins.
+# List the available official plugins.
 export extern "yarn plugin list" [
   --json # Format the output as an NDJSON stream
 ]
@@ -410,7 +410,7 @@ export extern "yarn search" []
 
 export extern "yarn set" []
 
-# Enfore a package resolution
+# Enforce a package resolution
 export extern "yarn set resolution" [
  --save(-s) # Persist the resolution inside the top-level manifest
  descriptor: string
@@ -553,7 +553,7 @@ export extern "yarn workspaces foreach" [
   ...commandName: string
 ]
 
-# List all avalible workspaces
+# List all available workspaces
 export extern "yarn workspaces list" [
   --since # Only include workspaces that have been changed since the specified ref.
   --recursive(-R) # Find packages via dependencies/devDependencies instead of using the workspaces field

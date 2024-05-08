@@ -14,10 +14,10 @@ export extern "btm" [
   --basic(-b)                               # Use a more basic look
   --battery                                 # Show battery widget
   --case_sensitive(-S)                      # Enables case sensitivity
-  --celsius(-c)                             # Sets temp type to celcius
+  --celsius(-c)                             # Sets temp type to celsius
   --color: string@colorScheme               # Use a pre-defined colorscheme
   --config(-C): string                      # Sets the location of the config file
-  --curent_usage(-u)                        # Set CPU% to current system CPU%
+  --current_usage(-u)                        # Set CPU% to current system CPU%
   --default_time_value(-t): int             # Time value for graphs
   --default_widget_count: int               # Sets nth selected widget type to use default widget 
   --default_widget_type: string@widgetType  # Set default select widget
@@ -37,11 +37,11 @@ export extern "btm" [
   --network_use_bytes                       # Network widget as bytes 
   --network_use_logs                        # Network eidget with logs 
   --process_command                         # Show processes as commands
-  --rate(-r): int                           # Sets referesh
+  --rate(-r): int                           # Sets refresh
   --regex(-R)                               # Enable regex by default 
   --show_table_scroll_position              # Show scroll position 
-  --time-delta(-d): int                     # Amout changed when zooming in/out
+  --time-delta(-d): int                     # Amount changed when zooming in/out
   --tree(-T)                                # Show processes as tree
   --version(-V)                             # Prints version information 
-  --whole-word(-w)                          # Search results match entrie query
+  --whole-word(-w)                          # Search results match entries query
 ]

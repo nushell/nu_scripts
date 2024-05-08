@@ -1974,7 +1974,7 @@ extern "virsh pool-edit" [
 
 # Storage pool information
 extern "virsh pool-info" [
-	--bytes					# Reture pool info in bytes
+	--bytes					# Return pool info in bytes
 	...args
 ]
 

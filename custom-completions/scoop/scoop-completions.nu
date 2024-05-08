@@ -119,7 +119,7 @@ def scoopShims [] {
 
 # Windows command line installer
 export extern "scoop" [
-  alias?: string@scoopCommands      # avaible scoop commands and aliases
+  alias?: string@scoopCommands      # available scoop commands and aliases
   --help(-h)                        # Show help for this command.
   --version(-v)                     # Show current scoop and added buckets versions
 ]
@@ -357,7 +357,7 @@ export extern "scoop config NO_JUNCTIONS" [
   value?: string@scoopBooleans
 ]
 
-# Git repository containining scoop source code.
+# Git repository containing scoop source code.
 export extern "scoop config SCOOP_REPO" [
   value?: string@scoopRepos
 ]
@@ -457,7 +457,7 @@ export extern "scoop config aria2-retry-wait" [
   value?: number
 ]
 
-# Number of connections used for downlaod.
+# Number of connections used for download.
 export extern "scoop config aria2-split" [
   value?: number
 ]
@@ -467,7 +467,7 @@ export extern "scoop config aria2-max-connection-per-server" [
   value?: number
 ]
 
-# Downloaded files will be splitted by this configured size and downloaded using multiple connections.
+# Downloaded files will be split by this configured size and downloaded using multiple connections.
 export extern "scoop config aria2-min-split-size" [
   value?: string
 ]

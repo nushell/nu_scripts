@@ -20,7 +20,7 @@ def construct_prompt [] {
     # get the terminal width
     let term_width = (term size -w)
 
-    # get the curren time
+    # get the current time
     let current_time = (date now | date format '%I:%M:%S%.3f %p')
 
     # let's construct the left and right prompt
@@ -39,7 +39,7 @@ def construct_prompt [] {
     # the right prompt length without the ansi escapes
     let right_len = ($right_colored | ansi strip | str length)
 
-    # let's calcuate the length of the right prompt so we know how much to pad the left prompt
+    # let's calculate the length of the right prompt so we know how much to pad the left prompt
     let calculated_right_len = ($term_width - $left_len + ($right_colored_len - $right_len))
 
     # finally, let's make the prompt

@@ -29,7 +29,7 @@ def get-latest-linux [] {
     # update our progress
     $"Copying files from /tmp/($root_file_name)/*/* to ~/.cargo/bin(char newline)"
     # this is for testing so it doesn't overwrite my real nu. this should really
-    # be a paremeter
+    # be a parameter
     mkdir release
     # construct the copy from and to paths
     let cp_from_path = $"/tmp/($root_file_name)/*/*"

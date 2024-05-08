@@ -1,4 +1,4 @@
-# many of the completions run op commands in the background which may prompt addtional verification/unlocks
+# many of the completions run op commands in the background which may prompt additional verification/unlocks
 # an OP_ACCOUNT environment variable is recommended to avoid this
 
 # commented out aliases work when imported with `use` but not `source`

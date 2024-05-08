@@ -127,7 +127,7 @@ export extern "zellij action rename-tab" [
 export extern "zellij action new-tab" [
   --cwd(-c): path # Change the working directory of the new tab
   --help(-h) # Print help information
-  --layout(-l): string@"nu-complete zellij layouts" # Layout ot use for the new tab
+  --layout(-l): string@"nu-complete zellij layouts" # Layout to use for the new tab
   --layout-dir: path # Default folder to look for layouts
   --name(-n): string # Name for the tab
 ]
