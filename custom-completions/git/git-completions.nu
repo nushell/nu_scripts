@@ -558,3 +558,45 @@ export extern "git worktree remove" [
 export extern "git worktree unlock" [
   ...args
 ]
+
+# clones a repo
+export extern "git clone" [
+  --help(-h)                    # display the help message for this command
+  --local(-l)                   # cloning from the local machine
+  --no-local                    # use the git transport mechanism even if cloning from a local path
+  --no-hardlinks                # force git to copy files when cloning from the local machine
+  --shared(-s)                  # setup .git/objects/info/alternates to share objects with the source local repo
+  --reference: string           # setup .git/objects/info/alternates to share objects with the =<reference> local repo
+  --reference-if-able: string   # same as --reference, but skips empty folders
+  --dissociate                  # borrow objects from the referenced repo (--reference)
+  --quiet(-q)                   # suppress progress reporting
+  --verbose(-v)                 # be verbose
+  --progress                    # report progress unless --quiet
+  --server-option: string       # transmit the =<option> to the server
+  --no-checkout(-n)             # no checkout of HEAD
+  --reject-shallow              # reject shallow repository as source
+  --no-reject-shallow           # do not reject shallow repository as source
+  --bare                        # make a bare git repo
+  --sparse                      # initialize the sparse-checkout file
+  --filter: string              # partial clone using the given =<filter-spec>
+  --mirror                      # mirror the source repo
+  --origin(-o): string          # use <name> as the name for the remote origin
+  --branch(-b): string          # point HEAD to <name> branch
+  --upload-pack(-u): string     # use <upload-pack> as the path in the other end when using ssh
+  --template: string            # use <template-dir> as the templates directory
+  --config(-c): string          # set a <key>=<value> config variable
+  --depth: int                  # shallow clone <depth> commits 
+  --shallow-since: string       # shallow clone commits newer than =<date>
+  --shallow-exclude: string     # do not clone commits reachable from <revision> (branch or tag)
+  --single-branch               # clone commit history from a single branch
+  --no-single-Branch            # do not clone only one branch
+  --no-tags                     # do not clone any tags
+  --recurse-submodules: string  # clone the submodules
+  --shallow-submodules          # shallow clone submodules with depth 1
+  --no-shallow-submodules       # do not shallow clone submodules
+  --remote-submodules           # submodules are updating using their remote tracking branch
+  --no-remote-submodules        # do not track submodules remote
+  --separate-git-dir: string    # place the clone at =<git dir> and link it here
+  --jobs(-j): int               # number of simultaneous submodules fetch
+  ...args
+]
