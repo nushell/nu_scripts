@@ -1,0 +1,12 @@
+[default.extend-words]
+Darcula = "Darcula" # theme name
+aci = "aci" # theme name
+ba = "ba" # variable example, i guess it would be better to rename variable
+nd = "nd" # in second
+claus = "claus" # claus in emojis
+Claus = "Claus" # claus in emojis
+iterm = "iterm"
+grup = "grup" # git alias
+
+[files]
+extend-exclude = ['*.png', 'password_generator', 'auto-generate', 'remove-diacritics.nu']
