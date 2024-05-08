@@ -26,7 +26,7 @@ export extern "reflector" [
 	--score: int 																		# Limit the list to the n servers with the highest score.
 	--number(-n): int 															# Return at most n mirrors.
 	--protocol(-p): string@"nu-complete protocol" 	# Match one of the given protocols, e.g. "https" or "ftp". Multiple protocols may be selected using commas (e.g. "https,http") or by passing this option multiple times.
-	--complection-percent: int 											# Set the minimum completion percent for the returned mirrors. Check the mirrorstatus webpage for the meaning of this parameter. Default value: 100.0.
+	--completion-percent: int 											# Set the minimum completion percent for the returned mirrors. Check the mirrorstatus webpage for the meaning of this parameter. Default value: 100.0.
 	--isos	 																				# Only return mirrors that host ISOs.
 	--ipv4 																					# Only return mirrors that support IPv4.
 	--ipv6 																					# Only return mirrors that support IPv6.
