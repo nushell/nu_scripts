@@ -155,8 +155,9 @@ export def gig [--empty-dir] {
 
 # git pull, push and switch
 export def gp [
-    branch?:                 string@"nu-complete git branches"
-    --remote (-r)='origin':  string@"nu-complete git remotes"
+    branch?:                 string@"nu-complete git branches" # branch
+    --remote (-r)='origin':  string@"nu-complete git remotes"  # remote
+    --rebase
     --force (-f)             # git push -f
     --override
     --submodule (-s)         # git submodule
@@ -167,6 +168,8 @@ export def gp [
 ] {
     if $submodule {
         git submodule update
+    } else if $rebase {
+        git pull --rebase
     } else if $override {
         git pull --rebase
         git add --all

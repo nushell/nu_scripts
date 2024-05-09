@@ -480,6 +480,7 @@ def host-path [path] {
 
 # run
 export def container-create [
+    --name: string
     --debug(-x)
     --appimage
     --netadmin
@@ -542,7 +543,14 @@ export def container-create [
     }
     $args ++= ($cache | with-flag -v)
 
-    let name = $"($image | split row '/' | last | str replace ':' '-')_(date now | format date %m%d%H%M)"
+    let name = if ($name | is-empty) {
+        let img = $image | split row '/' | last | str replace ':' '-'
+        let now = date now | format date %m%d%H%M
+        $"($img)_($now)"
+    } else {
+        $name
+    }
+
     if $dry_run {
         echo ([docker run --name $name $args $image $cmd] | flatten | str join ' ')
     } else {

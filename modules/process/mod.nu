@@ -25,7 +25,21 @@ export def 'process ancestor' [pid: int@"nu-complete ps"] {
         let ppid = $s | last | get ppid
         let p = $px | where pid == $ppid
         if ($p | is-empty) { break }
-        $s ++= $p.0
+        $s ++= $p
     }
     $s
+}
+
+export def 'process descendant' [pid: int@"nu-complete ps"] {
+    descendant (ps) $pid
+}
+
+def 'descendant' [ps pid] {
+    let p = $ps | where ppid == $pid
+    if ($p | is-empty) {
+        return []
+    } else {
+        let pd = $p | each {|x| descendant $ps $x.pid } | flatten
+        return [...$p ...$pd]
+    }
 }
