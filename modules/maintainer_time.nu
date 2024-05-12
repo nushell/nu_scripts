@@ -12,9 +12,7 @@ let m_table = (
     ]
 )
 let now = (date now)
-$m_table | update time {
-    each { |name|
-        $now | date to-timezone ($name | get tz) | date format '%c'
-    }
+$m_table | update time {|row|
+    $now | date to-timezone ($row | get tz) | format date '%c'
 }
 
