@@ -1,12 +1,12 @@
 # calculate required tabs/spaces to get a nicely aligned table
 let tablen = 8
-let max-len = (help commands | get subcommands |  each { $it.name | str length } | math max)
-let max-indent = ($max-len / $tablen | into int)
+let max_len = (help commands | each { $in.name | str length } | math max)
+let max_indent = ($max_len / $tablen | into int)
 
-def pad-tabs [input-name] {
-    let input-length = ($input-name| str length) 
-    let required-tabs = $max-indent - ($"($input-length / $tablen | into int)" | str to-int)
-    echo $"( seq $required-tabs | reduce -f "" {$acc + (char tab)})"
+def pad-tabs [input_name] {
+    let input_length = ($input_name | str length) 
+    let required_tabs = $max_indent - ($input_length / $tablen | into int)
+    seq 0 $required_tabs | reduce -f "" {|it, acc| $acc + (char tab)}
 }
 
 # fuzzy search a) commands b) subcommands
@@ -15,24 +15,12 @@ def pad-tabs [input-name] {
 
 
 def fuzzy-command-search [] {
-    help (echo (help commands | get subcommands | each {
-            let name = ($it.name | str trim | ansi strip)
-            $"(
-                $name
-            )( pad-tabs $name
-            )(
-                $it.description
-            )" 
-    }) ( 
-    help commands | reject subcommands | each {
-            let name = ($it.name | str trim | ansi strip)
-            $"(
-                $name
-            )(
-               pad-tabs $name
-            )(
-                $it.description
-            )" 
-    }) | str collect (char nl) | fzf | split column (char tab)| get Column1 | clip;  paste ) 
+    let command = ((help commands | each {|it|
+        let name = ($it.name | str trim | ansi strip)
+        $"($name)(pad-tabs $name)($it.usage)"
+    }) | str join (char nl) | fzf | split column (char tab) | get column1.0)
+    if ($command | is-not-empty) {
+        $command | clip
+        help $command
+    }
 }
-
