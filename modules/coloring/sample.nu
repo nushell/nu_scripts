@@ -1,7 +1,7 @@
 # Background Colors
-echo 40..47 100..107 49 | each { |clbg|
+[40..47 100..107 49] | each { flatten } | flatten | each { |clbg|
     # Foreground Colors
-    echo 30..37 90..97 39 | each { |clfg|
+    [30..37 90..97 39] | each { flatten } | flatten | each { |clfg|
         # 0 Normal
         # 1 Bold or increased intensity
         # 2 Faint or decreased intensity
@@ -12,13 +12,13 @@ echo 40..47 100..107 49 | each { |clbg|
         # 7 Reverse Video
         # 8 Conceal (not widely supported)
         # 9 Strike-through
-        let row = (echo 0..9 | each { |attr|
+        let row = (0..9 | each { |attr|
             let ansi_str = $"($attr);($clbg);($clfg)m"
             $"(ansi -e $ansi_str) ($ansi_str) (ansi reset)"
-            } | str collect)
-        $"($row)(char newline)" | autoview
-    } | str collect
-} | str collect
+            } | str join)
+        $"($row)(char newline)"
+    } | str join
+} | str join
 
 # Bash Script
 # for clbg in {40..47} {100..107} 49 ; do
