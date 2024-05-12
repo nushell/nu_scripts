@@ -3,12 +3,12 @@ def duplicates [
     column: string # Column to look duplicates at
     --count(-c) # set it to display the number of times the value is repeated.
 ] {
-    group-by $column |
-    pivot |
-    insert count { $it.Column1 | flatten | length } |
+    group-by {get $column | into string} |
+    transpose |
+    insert count { $in.column1 | flatten | length } |
     where count > 1 |
-    reject Column0 |
-    if  ($count | empty?) { reject count } { each { $it } }  |
+    reject column0 |
+    if  ($count | is-empty) { reject count } else { each { $in } }  |
     flatten |
     flatten
 }
