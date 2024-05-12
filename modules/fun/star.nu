@@ -79,62 +79,49 @@
 #   WriteConsoleA(handle, s.c_str(), s.length(), &written, NULL);
 # }
 
-#########################################################
-# version 1 that draws each line at a time and you can see it while it's processing
-#########################################################
+
+use std math
+
+def atan2 [y x] {
+    if $x > 0 {
+        $y / $x | math arctan
+    } else if $x < 0 {
+        if $y >= 0 {
+            $math.PI + ($y / $x | math arctan)
+        } else {
+            -1 * $math.PI + ($y / $x | math arctan)
+        }
+    } else {
+        if $y >= 0 {
+            $math.PI / 2
+        } else {
+            -1 * $math.PI / 2
+        }
+    }
+}
+
 let w = 50
 let h = 20
 # if it's fast for your, change w, h to the below lines
-# let w = (term size).width - 2
-# let h = (term size).height - 2
+# let w = (term size).columns - 2
+# let h = (term size).rows - 2
 let mx = ($w / 2 | math floor)
 let my = ($h / 2 | math floor)
-let pi = (math eval pi)
-$"Generating content ...(char nl)"
-$"(ansi -e "?25l")" | autoview
+
+print (ansi -e "?25l")
+
 for i in 0..512 {
-    $"(ansi -e 'H')" | autoview
-    for y in 0..($h) {
-        for x in 0..($w) {
+    let rows = (0..($h) | each  {|y|
+         let cols = (0..($w) | each  {|x|
             let dy = ($y - $my)
             let dx = ($x - $mx)
-            let a = (math eval $"atan2(char lparen)($dy * 2), ($dx)(char rparen) + ($pi)")
-            let c = ((($a / ($pi) * 127) + ($i)) mod 256 | math round)
-            $"(ansi -e '38;2;')($c);($c);($c)m*" | autoview
-        }
-        char nl | autoview
-    }
+            let a = (atan2 ($dy * 2) $dx) + $math.PI
+            let c = ((($a / ($math.PI) * 127) + ($i)) mod 256 | math round)
+            $"(ansi -e '38;2;')($c);($c);($c)m*"
+        })
+        $cols | str join
+    })
+   print ((ansi -e 'H') + ($rows | str join (char nl)))
 }
-$"(ansi -e '?25h')(ansi -e 'm')(ansi -e 'H')"
 
-#########################################################
-# version 2 of the script works a little differently but more like the original samples.
-# it draws all the ansi text to a string and then prints it as one long line
-# be prepared to wait. it took a few minutes to render the string the first time for me.
-#########################################################
-# let w = 50
-# let h = 20
-
-# let mx = $w / 2
-# let my = $h / 2
-
-# let pi = 3.14159265358979323846
-
-# let output = (echo 0..512 | each { |i|
-#   let rows = (echo 0..$h | each { |y|
-#     let cols = (echo 0..$w | each { |x|
-#       let dy = ($y - $my)
-#       let dx = ($x - $mx)
-
-#       let a = (math eval $"atan2(char lparen)($dy * 2), ($dx)(char rparen) + ($pi)")
-#       let c = (((($a / $pi * 127) | into int) + $i) mod 256)
-#       $"(ansi -e '38;2;')($c);($c);($c)m*"
-#     })
-
-#     echo $cols | str collect
-#   })
-
-#   (ansi -e 'H') + (echo $rows | str collect (char nl))
-# } | str collect)
-
-# (ansi -e "?25l") + $output + $"(ansi -e '?25h')(ansi -e 'm')(ansi -e 'H')"
+print $"(ansi -e '?25h')(ansi -e 'm')(ansi -e 'H')"
