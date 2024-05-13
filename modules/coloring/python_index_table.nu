@@ -7,23 +7,23 @@
 #     print u"\u001b[0m"
 
 # Foreground Colors
-echo 0..16 | each { |col|
+print (0..16 | each { |col|
     let row = (echo 0..16 | each { |row|
         let code = ($col * 16 + $row)
         if $code < 256 {
-            $"(ansi -e '38;5;')($code | into string)m($code | into string | str lpad -l 4 -c ' ')(ansi reset)"
-        } {} # Do nothing in the else
-    } | str collect)
+            $"(ansi -e '38;5;')($code | into string)m($code | into string | fill -a l -w 4 -c ' ')(ansi reset)"
+        }
+    } | str join)
     $"($row)(char newline)"
-} | str collect
+} | str join)
 
 # Background Colors
-echo 0..16 | each { |col|
+print (0..16 | each { |col|
     let row = (echo 0..16 | each { |row|
         let code = ($col * 16 + $row)
         if $code < 256 {
-            $"(ansi -e '48;5;')($code | into string)m($code | into string | str lpad -l 4 -c ' ')(ansi reset)"
-        } {} # do nothing in the else
-    } | str collect)
+            $"(ansi -e '48;5;')($code | into string)m($code | into string | fill -a l -w 4 -c ' ')(ansi reset)"
+        }
+    } | str join)
     $"($row)(char newline)"
-} | str collect
+} | str join)
