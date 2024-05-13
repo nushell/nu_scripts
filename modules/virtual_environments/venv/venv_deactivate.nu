@@ -1,4 +1,3 @@
-let path-name = (if ((sys).host.name == "Windows") { "Path" } { "PATH" })
-let-env $path-name = $nu.env.VENV_OLD_PATH
-unlet-env VIRTUAL_ENV
-unlet-env VENV_OLD_PATH
+$env.PATH = $env.VENV_OLD_PATH
+hide-env VIRTUAL_ENV
+hide-env VENV_OLD_PATH
