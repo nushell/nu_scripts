@@ -1,55 +1,54 @@
-def playground [topic, block] {
-  with-env [N 5 REJECT slow] {
-    echo $topic " tests" (char newline) | str collect
+def playground [topic, closure] {
+  with-env {N: 5 REJECT: slow } {
+    print (echo $topic " tests" (char newline) | str join)
 
-    do $block
+    do $closure
   }
 }
 
 def scene [
   topic: any
   --tag: string
-  block: block
+  closure: closure
 ] {
-  $"  ($topic)(char newline)"
-  do $block
+  print $"  ($topic)(char newline)"
+  do $closure
 }
 
 def play [
   topic: any
   --tag: string
-  block: block
+  closure: closure
 ] {
-  let title = $topic;
-
-  let is_tag_empty = ($tag | empty?);
-  let should_run_all = ($nu.env | default RUN_ALL $false | get RUN_ALL);
+  let is_tag_empty = ($tag | is-empty);
+  let should_run_all = ($env | get -i RUN_ALL | default false);
 
   if $is_tag_empty {
-    do $block
-  } {
-    if $tag == $nu.env.REJECT and $should_run_all {
-      $"    ($topic) ... (ansi yellow)skipped(ansi reset) (char newline)"
-    } { do $block }
+      do $closure $topic
+  } else {
+      if $tag == $env.REJECT and $should_run_all {
+          $"    ($topic) ... (ansi yellow)skipped(ansi reset) (char newline)"
+      } else {
+          do $closure $topic
+      }
   }
 }
 
 def expect [
-  actual: any
-  --to-be: any
+  topic: string
+  actual: list<any>
+  --to-be: list<any>
 ] {
-  let are_equal = ($actual | zip { $to-be } | pivot header_names values | each {|case|
-      let values = $case.values;
-
-      $values.0 == $values.1
+  let are_equal = (($actual |  length) == ($to_be | length)) and ($actual | zip $to_be | all {|case|
+      $case.0 == $case.1
     }
-  | all? $it) and (($actual | get | length) == ($to-be | get | length));
+ )
 
-  let line = (if $true == $are_equal {
-    $"(ansi green)ok(ansi reset)(char newline)"
-  } {
-    $"(ansi red)failed(ansi reset)(char newline)"
-  });
-  
-  $"    ($title) ... ($line)"
+  let line = (if true == $are_equal {
+          $"(ansi green)ok(ansi reset)(char newline)"
+      } else {
+          $"(ansi red)failed(ansi reset)(char newline)"
+      }
+  )
+  $"    ($topic) ... ($line)"
 }
