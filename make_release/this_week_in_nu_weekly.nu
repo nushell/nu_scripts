@@ -56,7 +56,7 @@ def query-week-span [] {
 let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
 print $"# This week in Nushell #($week_num)(char nl)"
 
-if ($env | select GITHUB_USERNAME | is-empty) or ($env | select GITHUB_PASSWORD | is-empty) {
+if ($env | get -i GITHUB_USERNAME | is-empty) or ($env | get -i GITHUB_PASSWORD | is-empty) {
     print 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
 } else {
     query-week-span
