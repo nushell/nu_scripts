@@ -17,14 +17,14 @@ let nu_table = ($nu_files |
         let cat = ($it.File | path dirname)
         if $cat == "" {
             "not assigned yet"
-        } {
+        } else {
             $cat
         }
     } | where Category !~ ".git" | select Category File | sort-by Category)
 
 # Let's fix the file now
 let nu_table = ($nu_table | update File { |it|
-    let file_path = ($it.File  | into string | str find-replace '\\' '/')
+    let file_path = ($it.File  | into string | str replace '\' '/' --all)
     let file_name = ($file_path | path basename)
     $"[($file_name)](char lparen)./($file_path)(char rparen)"
 })
