@@ -1,5 +1,5 @@
 def gen_keywords [] {
-    let cmds = ($nu.scope.commands
+    let cmds = (scope commands
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
@@ -18,7 +18,7 @@ char nl
 char nl
 
 def gen_sub_keywords [] {
-    let sub_cmds = ($nu.scope.commands
+    let sub_cmds = (scope commands
                     | where is_extern == false
                     and is_custom == false
                     and category !~ deprecated
@@ -27,7 +27,7 @@ def gen_sub_keywords [] {
 
     let preamble = '\\b('
     let postamble = ')\\b'
-    let cmds = (for x in $sub_cmds {
+    let cmds = ( $sub_cmds | each {|$x| 
         let parts = ($x | split row ' ')
         $'($parts.0)\\s($parts.1)'
     } | str join '|')
@@ -39,7 +39,7 @@ char nl
 
 def gen_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
-    let cmds = ($nu.scope.commands
+    let cmds = (scope commands
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
@@ -49,9 +49,9 @@ def gen_keywords_alphabetically [] {
     let preamble = '\\b('
     let postamble = ')\\b'
 
-
-    for alpha in $alphabet {
-        let letter_cmds = (for cmd in $cmds {
+    $alphabet | each { |$alpha| 
+        let letter_cmds = (
+            $cmds | each {|$cmd|
             if ($cmd | str starts-with $alpha) {
                 $cmd
             } else {
@@ -70,7 +70,7 @@ char nl
 
 def gen_sub_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
-    let sub_cmds = ($nu.scope.commands
+    let sub_cmds = (scope commands
                     | where is_extern == false
                     and is_custom == false
                     and category !~ deprecated
@@ -81,8 +81,9 @@ def gen_sub_keywords_alphabetically [] {
     let postamble = ')\\b'
 
 
-    for alpha in $alphabet {
-        let letter_cmds = (for cmd in $sub_cmds {
+    $alphabet | each { |$alpha| 
+        let letter_cmds = (
+            $sub_cmds | each {|$cmd|
             if ($cmd | str starts-with $alpha) {
                 let parts = ($cmd | split row ' ')
                 $'($parts.0)\\s($parts.1)'
