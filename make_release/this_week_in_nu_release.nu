@@ -56,11 +56,7 @@ def do-work [] {
   $entries | str join
 }
 
-def main [
-]: nothing -> nothing {
-    # 2019-08-23 was the release of 0.2.0, the first public release
-    let week_num = (seq date -b '2019-08-23' -n 7 | length)
-    print $"# This week in Nushell #($week_num)(char nl)(char nl)"
-    print (do-work)
-}
-
+# 2019-08-23 was the release of 0.2.0, the first public release
+let week_num = (seq date -b '2019-08-23' -n 7 | length)
+print $"# This week in Nushell #($week_num)(char nl)(char nl)"
+print (do-work | str join)
