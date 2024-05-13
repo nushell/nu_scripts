@@ -1,7 +1,7 @@
 source lib/scripts.nu
 
 def mock-now [] {
-  "2021-08-29 03:31:21.290597200 -05:00" | str to-datetime
+  "2021-08-29 03:31:21.290597200 -05:00" | into datetime
 }
 
 def people [] {
