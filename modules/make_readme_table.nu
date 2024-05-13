@@ -24,7 +24,7 @@ let nu_table = ($nu_files |
 
 # Let's fix the file now
 let nu_table = ($nu_table | update File { |it|
-    let file_path = ($it.File  | into string | str replace '\\' '/')
+    let file_path = ($it.File  | into string | str replace '\' '/' --all)
     let file_name = ($file_path | path basename)
     $"[($file_name)](char lparen)./($file_path)(char rparen)"
 })
