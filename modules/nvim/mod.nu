@@ -161,7 +161,7 @@ export def nvc [
     }
     if $gui {
         let gs = {
-            neovide: [--maximized --frame=none --vsync]
+            neovide: [--maximized --frame=none --vsync --fork]
         }
         for g in ($gs | transpose prog args) {
             if (which $g.prog | is-not-empty) {
