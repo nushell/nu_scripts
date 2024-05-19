@@ -6,8 +6,8 @@
     event: {
         send: executehostcommand
         cmd: '
-            commandline --replace "use "
-            commandline --insert (
+            commandline edit --replace "use "
+            commandline edit --insert (
                 $env.NU_LIB_DIRS
                 | each {|dir|
                     ls ($dir | path join "**" "*.nu")

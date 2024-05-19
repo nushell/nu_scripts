@@ -55,12 +55,12 @@ def "nu-complete list themes" [] {
 
 # preview completion. For this to work, it should be ran from the nu_scripts folder
 def preview [theme: string@"nu-complete list themes"] {
-    commandline --insert $"use themes/themes/($theme).nu; $env.config.color_config = (char lparen)($theme)(char rparen); preview_theme | table -e"
+    commandline edit --insert $"use themes/themes/($theme).nu; $env.config.color_config = (char lparen)($theme)(char rparen); preview_theme | table -e"
 }
 
 # preview completion. For this to work, it should be ran from the nu_scripts folder
 def preview_small [theme: string@"nu-complete list themes"] {
-    commandline --insert $"use themes/themes/($theme).nu; $env.config.color_config = (char lparen)($theme)(char rparen); preview_theme_small | table -e"
+    commandline edit --insert $"use themes/themes/($theme).nu; $env.config.color_config = (char lparen)($theme)(char rparen); preview_theme_small | table -e"
 }
 
 # Preview the current nushell theme, small mode
