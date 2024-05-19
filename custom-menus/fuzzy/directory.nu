@@ -5,7 +5,7 @@
     mode: [emacs, vi_normal, vi_insert]
     event: {
         send: executehostcommand
-        cmd: "commandline -a (
+        cmd: "commandline edit --append (
             ls **/*
             | where type == dir
             | get name
