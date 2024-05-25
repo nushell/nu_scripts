@@ -2,5 +2,6 @@
 def ls-hidden [
     --dir(-d):any # The directory you want to list
 ] {
-	ls -a $dir | where { ($it.name | into string | str starts-with '.') }
+    let dir = if ($dir | is-empty) { "." } else { $dir }
+	ls -a $dir | filter { ($in.name | into string | str starts-with '.') }
 }
