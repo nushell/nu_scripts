@@ -4,3 +4,5 @@
 .mailmap
 
 check-files.nu
+
+.vscode/
