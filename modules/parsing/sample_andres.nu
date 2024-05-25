@@ -5,17 +5,17 @@ def look_for [word] {
     insert comp {
         get shoes_name |
             split row " " |
-            each --numbered {
-        [[idx, loc]; [$it.index, ($it.item | str index-of $word)]]
-        }
+            enumerate | each {
+        [[idx, loc]; [$in.index, ($in.item | str index-of $word)]]
+        } | flatten
     } |
     flatten |
     where comp.loc >= 0 |
     flatten |
-    update idx { $it.idx + 1 } |
+    update idx { $in + 1 } |
     reject name price loc |
     rename nameWords targetWordIndex
 }
 
-look_for "leather" | to json --pretty 4
-look_for "low-top" | to json --pretty 4
+print (look_for "leather" | to json --indent 4)
+print (look_for "low-top" | to json --indent 4)

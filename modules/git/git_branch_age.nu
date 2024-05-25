@@ -1,13 +1,13 @@
 # Creates a table listing the branches of a git repository and the day of the last commit
-def "git age" [] {
+export def "git age" [] {
     git branch |
     lines |
-    str substring 2, |
+    str substring 2.. |
     wrap name |
     insert last_commit {
         get name |
         each {
-            git show $it --no-patch --format=%as | str to-datetime
+            git show $in --no-patch --format=%as | into datetime
         }
     } |
     sort-by last_commit
