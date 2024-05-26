@@ -1,22 +1,22 @@
 # A print command that concatenates arguments together with an optional separator
 #    By default there will be no newline
-def print [
+def print1 [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
     ...rest                 # All of the parameters
     ] {
-    let is_empty = ($separator | empty?)
+    let is_empty = ($separator | is-empty)
     let num_of_rest = ($rest | length)
-    $rest | each --numbered { |param|
+    $rest | enumerate | each { |param|
         if $is_empty {
             $param.item
-        } {
+        } else {
             if $num_of_rest > ($param.index + 1) {
                 $"($param.item)($separator)"
-            } {
+            } else {
                 $param.item
             }
         }
-    } | into string | str collect
+    } | into string | str join
 }
 
 # > print 1 2 3 "four" -s '--'
@@ -32,17 +32,15 @@ def print2 [
     --separator(-s):any     # Optional separator (not yet flagged as optional?)
     ...rest                 # All of the parameters
     ] {
-    let is_empty = ($separator | empty?)
+    let is_empty = ($separator | is-empty)
     let num_of_rest = ($rest | length)
     if $is_empty {
-        $rest | into string | str collect
-    } {
-        $rest | into string | str collect $separator
+        $rest | into string | str join
+    } else {
+        $rest | into string | str join $separator
     }
-}
+    }
 
-# Bring in the logging command
-#source logging.nu
 
 # A print command that concatenates arguments together with an optional separator.
 # This print command will also concatenate tables like [1 2 3] as well as most other primitives
@@ -52,36 +50,33 @@ def print3 [
     --flat(-f)              # If tables are found, flatten them
     ...rest                 # All of the parameters
     ] {
-    let sep_empty = ($separator | empty?)
+    let sep_empty = ($separator | is-empty)
     let num_of_rest = ($rest | length)
-    let flat = ($flat | empty?)
-    $rest | each --numbered { |param|
+    let flat = ($flat | is-empty)
+    $rest | enumerate | each { |param|
         if $sep_empty {
-            #log 'sep is empty'
-            if (echo $param.item | length) > 1 and $flat {
-                #log 'flatten please'
-                let flatter = ($param.item | flatten | into string | str collect)
+            if ((echo $param.item | str length) > 1) and $flat {
+                let flatter = ($param.item | flatten | into string | str join)
                 $flatter
-            } {
-                #log 'no flat'
+            } else {
                 $param.item
             }
-        } {
+        } else {
             if $num_of_rest > ($param.index + 1) {
                 if ($param.item | length) > 1 and $flat {
-                    let flatter = ($param.item | flatten | into string | str collect $separator)
+                    let flatter = ($param.item | flatten | into string | str join $separator)
                     $"($flatter)($separator)"
-                } {
+                } else {
                     $"($param.item)($separator)"
                 }
-            } {
+            } else {
                 if ($param.item | length) > 1 and $flat {
-                    let flatter = ($param.item | flatten | into string | str collect $separator)
+                    let flatter = ($param.item | flatten | into string | str join $separator)
                     $flatter
-                } {
+                } else {
                     $param.item
                 }
             }
         }
-    } | str collect
+    } | str join
 }
