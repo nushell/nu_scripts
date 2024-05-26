@@ -2,6 +2,5 @@
 def get-row [
     row_num:int # A 0 indexed row
     ] {
-
-    nth $row_num | table --index $row_num
+    $in | get $row_num | table --index $row_num
 }
