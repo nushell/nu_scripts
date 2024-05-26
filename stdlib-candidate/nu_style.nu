@@ -59,7 +59,7 @@ def fg_from_rgb [
     green:int # green component 0-255
     blue:int # blue component 0-255
     ] {
-        echo [(ansi -e '38;2;') $red ';' $green ';' $blue 'm'] | str collect
+        echo [(ansi -e '38;2;') $red ';' $green ';' $blue 'm'] | str join
     }
 
 alias bg_black = ansi -e '40m'
