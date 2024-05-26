@@ -1,5 +1,5 @@
 # This is a work in progress. Not working yet but you can see where I'm going.
-def construct_prompt [] {
+export def construct_prompt [] {
     # let decorator = (char prompt)
     let decorator = (create_second_line)
 

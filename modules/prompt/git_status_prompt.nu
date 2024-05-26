@@ -1,5 +1,5 @@
 # Displays a prompt
-def git-status-prompt [] {
+export def git-status-prompt [] {
   let not_windows = ($nu.os-info.name !~ "windows")
   $"(ansi reset)(ansi green)(if $not_windows {
       $env.USER
