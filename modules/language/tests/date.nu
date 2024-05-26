@@ -1,5 +1,5 @@
-source ../playground/lib.nu
-source ../std/date.nu
+use ../playground *
+use ../std/date.nu *
 
 def mock-now [] {
   "2021-08-29 03:31:21" | into datetime
