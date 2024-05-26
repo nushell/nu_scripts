@@ -1,13 +1,14 @@
 # This script requires that `tokei` be installed and available!
 
 # Count lines of code in a project.
-def "loc" [
+export def main [
     ...rest # args to pass to tokei
 ] {
-    tokei -o json $rest |
+    tokei -o json ...$rest |
     from json |
-    pivot |
+    transpose |
     rename lang lines |
     insert files { get lines.reports | length } |
     select lang files lines.code lines.comments lines.blanks
 }
+
