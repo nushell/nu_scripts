@@ -23,7 +23,7 @@ alias fg_light_gray = ansi -e '97m'
 alias fg_light_white = ansi -e '97m'
 
 # A ls command that approximates the ls -sh command in bash
-def ls-wide2 [
+export def ls-wide2 [
     --dir(-d):any # The directory you want to list
     --columns(-c):int # The number of columns in your output
     ] {
