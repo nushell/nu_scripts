@@ -1,4 +1,4 @@
-export def playground [topic, closure] {
+export def main [topic, closure] {
   with-env {N: 5 REJECT: slow } {
     print (echo $topic " tests" (char newline) | str join)
 
