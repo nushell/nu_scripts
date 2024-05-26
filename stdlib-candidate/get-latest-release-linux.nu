@@ -2,22 +2,23 @@
 # requires nushell 0.36.0 or greater
 def get-latest-linux [] {
     # fetch the information about the latest release
-    let metadata = (fetch https://api.github.com/repos/nushell/nushell/releases/latest)
-    let release_name = ($metadata | get name | split row ' ' | nth 0)
+    let metadata = (http get https://api.github.com/repos/nushell/nushell/releases/latest)
+    let release_name = ($metadata | get name | split row ' ' | first)
     # get the body that shows information about this release
     let body = ($metadata | get body)
     # find the linux download
-    let asset_info = ($metadata | get assets | where name =~ 'linux.tar.gz')
+    let asset_info = ($metadata | get assets | where name =~ 'x86_64-linux-gnu-full.tar.gz' | first)
     # construct the url
     let download_url = ($asset_info | get browser_download_url)
+
     let file_name = ($asset_info | get name)
     # tell you what i'm doing
-    $"Release name is ($release_name)(char newline)(char newline)"
-    $"($body)(char newline)(char newline)Downloading and following redirects ..."
+    print $"Release name is ($release_name)(char newline)(char newline)"
+    print $"($body)(char newline)(char newline)Downloading and following redirects ..."
     # fetch follows redirects now
-    fetch $download_url | save $file_name
+    http get $download_url | save $file_name
     # tell you what i'm doing
-    $"(char newline)Extracting ($file_name) to /tmp(char newline)"
+    print $"(char newline)Extracting ($file_name) to /tmp(char newline)"
     # extract the tar file to the temp folder
     tar -xf ($file_name) -C /tmp
     # parse the $file_name to get the folder
@@ -27,17 +28,17 @@ def get-latest-linux [] {
     # there are two extensions .tar and .gz
     let root_file_name = ($file_name | path parse | get stem | path parse | get stem)
     # update our progress
-    $"Copying files from /tmp/($root_file_name)/*/* to ~/.cargo/bin(char newline)"
+    print $"Copying files from /tmp/($root_file_name)/*/* to ~/.cargo/bin(char newline)"
     # this is for testing so it doesn't overwrite my real nu. this should really
     # be a parameter
     mkdir release
     # construct the copy from and to paths
-    let cp_from_path = $"/tmp/($root_file_name)/*/*"
+    let cp_from_path = $"/tmp/($root_file_name)/**/*"
     let cp_to_path = "./release"
     # actually run the cp command
     # we may want to make this overwrite and not prompt
     cp ($cp_from_path) ($cp_to_path)
     # exec ~/.cargo/bin/nu
-    $"Starting nushell(char nl)"
+    print $"Starting nushell(char nl)"
     exec ./release/nu
 }
