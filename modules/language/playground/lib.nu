@@ -1,4 +1,4 @@
-def playground [topic, closure] {
+export def playground [topic, closure] {
   with-env {N: 5 REJECT: slow } {
     print (echo $topic " tests" (char newline) | str join)
 
@@ -6,7 +6,7 @@ def playground [topic, closure] {
   }
 }
 
-def scene [
+export def scene [
   topic: any
   --tag: string
   closure: closure
@@ -15,7 +15,7 @@ def scene [
   do $closure
 }
 
-def play [
+export def play [
   topic: any
   --tag: string
   closure: closure
@@ -34,7 +34,7 @@ def play [
   }
 }
 
-def expect [
+export def expect [
   topic: string
   actual: list<any>
   --to-be: list<any>
