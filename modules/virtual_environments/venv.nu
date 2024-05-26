@@ -1,4 +1,4 @@
-def --env venv [venv_dir] {
+export def --env activate [venv_dir] {
     let venv_abs_dir = ($venv_dir | path expand)
     let venv_name = ($venv_abs_dir | path basename)
     let old_path = $env.PATH
@@ -15,4 +15,11 @@ def "venv-path" [venv_dir] {
       return {
         PATH: ($env.PATH | prepend $env_path)
       }
+}
+
+export def --env deactivate [] {
+    $env.PATH = $env.VENV_OLD_PATH
+    hide-env VIRTUAL_ENV
+    hide-env VENV_OLD_PATH
+
 }
