@@ -1,5 +1,5 @@
 # duplicates returns the rows that correspond to duplicates of the given column.
-def duplicates [
+export def duplicates  [
     column: string # Column to look duplicates at
     --count(-c) # set it to display the number of times the value is repeated.
 ] {
@@ -15,7 +15,7 @@ def duplicates [
 
 # duplicates files recursively finds duplicate files in the current working folder.
 # It uses a heuristic based on duplicate files having the same size.
-def "duplicates files" [] {
+export def "duplicates files" [] {
     do -i {ls **/*} | duplicates size
 }
 

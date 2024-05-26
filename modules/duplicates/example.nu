@@ -1,5 +1,5 @@
 # duplicates example
-source duplicates.nu
+use mod.nu *
 
 let info = "[{name: "John", lastname: "Doe"}, {name: "John", lastname: "Roe"}, {name: "Jane", lastname: "Soe"}]"
 print ($info | from json)
