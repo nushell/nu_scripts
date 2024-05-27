@@ -22,9 +22,6 @@ As part of this release, we also publish a set of optional plugins you can insta
 
 # Table of content
 - [*Highlights and themes of this release*](#highlights-and-themes-of-this-release-toc)
-- [*Hall of fame*](#hall-of-fame-toc)
-    - [*Bug fixes*](#bug-fixes-toc)
-    - [*Enhancing the documentation*](#enhancing-the-documentation-toc)
 - [*Changes to commands*](#changes-to-commands-toc)
     - [*Additions*](#additions-toc)
     - [*Breaking changes*](#breaking-changes-toc)
@@ -33,6 +30,7 @@ As part of this release, we also publish a set of optional plugins you can insta
     - [*Other changes*](#other-changes-toc)
     - [*Bug fixes*](#bug-fixes-toc)
 - [*All breaking changes*](#all-breaking-changes-toc)
+- [*Hall of fame*](#hall-of-fame-toc)
 - [*Full changelog*](#full-changelog-toc)
 <!-- TODO: please add links to the other sections here
 
@@ -64,19 +62,6 @@ As part of this release, we also publish a set of optional plugins you can insta
 <!-- NOTE: see https://vuepress.github.io/reference/default-theme/markdown.html#custom-containers
     for the list of available *containers*
 -->
-
-# Hall of fame [[toc](#table-of-content)]
-## Bug fixes [[toc](#table-of-content)]
-Thanks to all the contributors below for helping us solve issues and bugs :pray:
-| author                               | description | url                                                     |
-| ------------------------------------ | ----------- | ------------------------------------------------------- |
-| [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
-
-## Enhancing the documentation [[toc](#table-of-content)]
-Thanks to all the contributors below for helping us making the documentation of Nushell commands better :pray:
-| author                               | description | url                                                     |
-| ------------------------------------ | ----------- | ------------------------------------------------------- |
-| [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
 
 # Changes to commands [[toc](#table-of-content)]
 
@@ -128,6 +113,14 @@ Thanks to all the contributors below for helping us making the documentation of 
     ```
     here
 -->
+
+# Hall of fame [[toc](#table-of-content)]
+
+Thanks to all the contributors below for helping us solve issues and improve documentation :pray:
+
+| author                               | title       | url                                                     |
+| ------------------------------------ | ----------- | ------------------------------------------------------- |
+| [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
 
 # Full changelog [[toc](#table-of-content)]
 <!-- TODO:
