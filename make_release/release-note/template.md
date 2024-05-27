@@ -109,7 +109,7 @@ As part of this release, we also publish a set of optional plugins you can insta
 <!-- TODO:
     paste the output of
     ```nu
-    ./make_release/release-note/list-merged-prs nushell/nushell --label breaking-change --pretty --no-author
+    ./make_release/release-note/list-merged-prs nushell/nushell --label pr:breaking-change --pretty --no-author
     ```
     here
 -->
