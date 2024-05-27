@@ -21,7 +21,7 @@ Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/n
 As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
 
 # Table of content
-- [*Themes of this release / New features*](#themes-of-this-release-new-features-toc)
+- [*Highlights and themes of this release*](#highlights-and-themes-of-this-release-toc)
     - [*Hall of fame*](#hall-of-fame-toc)
         - [*Bug fixes*](#bug-fixes-toc)
         - [*Enhancing the documentation*](#enhancing-the-documentation-toc)
@@ -48,7 +48,7 @@ As part of this release, we also publish a set of optional plugins you can insta
 - [*Breaking changes*](#breaking-changes-toc)
 - [*Full changelog*](#full-changelog-toc)
 
-# Themes of this release / New features [[toc](#table-of-content)]
+# Highlights and themes of this release [[toc](#table-of-content)]
 <!-- NOTE: if you wanna write a section about a breaking change, when it's a very important one,
     please add the following snippet to have a "warning" banner :)
     > see [an example](https://www.nushell.sh/blog/2023-09-19-nushell_0_85_0.html#pythonesque-operators-removal)
