@@ -32,6 +32,8 @@ As part of this release, we also publish a set of optional plugins you can insta
     - [*Removals*](#removals-toc)
     - [*Other changes*](#other-changes-toc)
     - [*Bug fixes*](#bug-fixes-toc)
+- [*All breaking changes*](#all-breaking-changes-toc)
+- [*Full changelog*](#full-changelog-toc)
 <!-- TODO: please add links to the other sections here
 
     the following command should help pre-generate a great deal of the table of content.
@@ -47,8 +49,6 @@ As part of this release, we also publish a set of optional plugins you can insta
         | to text
     ```
 -->
-- [*All breaking changes*](#all-breaking-changes-toc)
-- [*Full changelog*](#full-changelog-toc)
 
 # Highlights and themes of this release [[toc](#table-of-content)]
 <!-- NOTE: if you wanna write a section about a breaking change, when it's a very important one,
