@@ -22,14 +22,14 @@ As part of this release, we also publish a set of optional plugins you can insta
 
 # Table of content
 - [*Highlights and themes of this release*](#highlights-and-themes-of-this-release-toc)
-    - [*Hall of fame*](#hall-of-fame-toc)
-        - [*Bug fixes*](#bug-fixes-toc)
-        - [*Enhancing the documentation*](#enhancing-the-documentation-toc)
-    - [*Our set of commands is evolving*](#our-set-of-commands-is-evolving-toc)
-        - [*New commands*](#new-commands-toc)
-        - [*Changes to existing commands*](#changes-to-existing-commands-toc)
-        - [*Deprecated commands*](#deprecated-commands-toc)
-        - [*Removed commands*](#removed-commands-toc)
+- [*Hall of fame*](#hall-of-fame-toc)
+    - [*Bug fixes*](#bug-fixes-toc)
+    - [*Enhancing the documentation*](#enhancing-the-documentation-toc)
+- [*Our set of commands is evolving*](#our-set-of-commands-is-evolving-toc)
+    - [*New commands*](#new-commands-toc)
+    - [*Changes to existing commands*](#changes-to-existing-commands-toc)
+    - [*Deprecated commands*](#deprecated-commands-toc)
+    - [*Removed commands*](#removed-commands-toc)
 <!-- TODO: please add links to the other sections here
 
     the following command should help pre-generate a great deal of the table of content.
@@ -63,26 +63,26 @@ As part of this release, we also publish a set of optional plugins you can insta
     for the list of available *containers*
 -->
 
-## Hall of fame [[toc](#table-of-content)]
-### Bug fixes [[toc](#table-of-content)]
+# Hall of fame [[toc](#table-of-content)]
+## Bug fixes [[toc](#table-of-content)]
 Thanks to all the contributors below for helping us solve issues and bugs :pray:
 | author                               | description | url                                                     |
 | ------------------------------------ | ----------- | ------------------------------------------------------- |
 | [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
 
-### Enhancing the documentation [[toc](#table-of-content)]
+## Enhancing the documentation [[toc](#table-of-content)]
 Thanks to all the contributors below for helping us making the documentation of Nushell commands better :pray:
 | author                               | description | url                                                     |
 | ------------------------------------ | ----------- | ------------------------------------------------------- |
 | [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
 
-## Our set of commands is evolving [[toc](#table-of-content)]
+# Our set of commands is evolving [[toc](#table-of-content)]
 As usual, new release rhyms with changes to commands!
 
-### New commands [[toc](#table-of-content)]
-### Changes to existing commands [[toc](#table-of-content)]
-### Deprecated commands [[toc](#table-of-content)]
-### Removed commands [[toc](#table-of-content)]
+## New commands [[toc](#table-of-content)]
+## Changes to existing commands [[toc](#table-of-content)]
+## Deprecated commands [[toc](#table-of-content)]
+## Removed commands [[toc](#table-of-content)]
 
 <!-- NOTE: to start investigating the contributions of last release, i like to list them all in a raw table.
     to achieve this, one can use the [`list-merged-prs` script from `nu_scripts`](https://github.com/nushell/nu_scripts/blob/main/make_release/release-note/list-merged-prs)
