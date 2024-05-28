@@ -93,7 +93,6 @@ As part of this release, we also publish a set of optional plugins you can insta
         | last
 
     let prs = list-merged-prs nushell/nushell $last_release_date
-        | where author != "app/dependabot"
         | sort-by mergedAt
         | update url {|it| $"[#($it.number)]\(($it.url)\)" }
         | update author { $"[@($in)]\(https://github.com/($in)\)" }
