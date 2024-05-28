@@ -377,8 +377,46 @@ export extern "git diff" [
 export extern "git commit" [
   --all(-a)                                           # automatically stage all modified and deleted files
   --amend                                             # amend the previous commit rather than adding a new one
-  --message(-m)                                       # specify the commit message rather than opening an editor
+  --message(-m): string                               # specify the commit message rather than opening an editor
   --no-edit                                           # don't edit the commit message (useful with --amend)
+  --reuse-message(-C): string                         # reuse the message from a previous commit
+  --reedit-message(-c): string                        # reuse and edit message from a commit
+  --fixup: string                                     # create a fixup/amend commit
+  --squash: string                                    # squash commit for autosquash rebase
+  --reset-author                                      # reset author information
+  --short                                             # short-format output for dry-run
+  --branch                                            # show branch info in short-format
+  --porcelain                                         # porcelain-ready format for dry-run
+  --long                                              # long-format output for dry-run
+  --null(-z)                                          # use NUL instead of LF in output
+  --file(-F): string                                  # read commit message from file
+  --author: string                                    # override commit author
+  --date: string                                      # override author date
+  --template(-t): string                              # use commit message template file
+  --signoff(-s)                                       # add Signed-off-by trailer
+  --no-signoff                                        # do not add Signed-off-by trailer
+  --trailer: string                                   # add trailer to commit message
+  --no-verify(-n)                                     # bypass pre-commit and commit-msg hooks
+  --verify                                            # do not bypass pre-commit and commit-msg hooks
+  --allow-empty                                       # allow commit with no changes
+  --allow-empty-message                               # allow commit with empty message
+  --cleanup: string                                   # cleanup commit message
+  --edit(-e)                                          # edit commit message
+  --no-edit                                           # do not edit commit message
+  --amend                                             # amend previous commit
+  --include(-i)                                       # include given paths in commit
+  --only(-o)                                          # commit only specified paths
+  --pathspec-from-file: string                        # read pathspec from file
+  --pathspec-file-nul                                 # use NUL character for pathspec file
+  --untracked-files(-u): string                       # show untracked files
+  --verbose(-v)                                       # show diff in commit message template
+  --quiet(-q)                                         # suppress commit summary
+  --dry-run                                           # show paths to be committed without committing
+  --status                                            # include git-status output in commit message
+  --no-status                                         # do not include git-status output
+  --gpg-sign(-S):string                               # GPG-sign commit
+  --no-gpg-sign                                       # do not GPG-sign commit
+  ...pathspec: string                                 # commit files matching pathspec
 ]
 
 # List commits
