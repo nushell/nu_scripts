@@ -35,7 +35,6 @@ export def main [] {
         nu-explore,
         nu-plugin-test-support,
         nu-cli,
-        nu-cmd-dataframe,
         nu-cmd-extra,
         nu-lsp,
 
