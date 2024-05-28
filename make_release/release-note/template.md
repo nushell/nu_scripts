@@ -21,17 +21,17 @@ Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/n
 As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
 
 # Table of content
-- [*Highlights and themes of this release*](#highlights-and-themes-of-this-release-toc)
-- [*Changes to commands*](#changes-to-commands-toc)
-    - [*Additions*](#additions-toc)
-    - [*Breaking changes*](#breaking-changes-toc)
-    - [*Deprecations*](#deprecations-toc)
-    - [*Removals*](#removals-toc)
-    - [*Other changes*](#other-changes-toc)
-    - [*Bug fixes*](#bug-fixes-toc)
-- [*All breaking changes*](#all-breaking-changes-toc)
-- [*Hall of fame*](#hall-of-fame-toc)
-- [*Full changelog*](#full-changelog-toc)
+- [_Highlights and themes of this release_](#highlights-and-themes-of-this-release-toc)
+- [_Changes to commands_](#changes-to-commands-toc)
+  - [_Additions_](#additions-toc)
+  - [_Breaking changes_](#breaking-changes-toc)
+  - [_Deprecations_](#deprecations-toc)
+  - [_Removals_](#removals-toc)
+  - [_Other changes_](#other-changes-toc)
+  - [_Bug fixes_](#bug-fixes-toc)
+- [_All breaking changes_](#all-breaking-changes-toc)
+- [_Hall of fame_](#hall-of-fame-toc)
+- [_Full changelog_](#full-changelog-toc)
 <!-- TODO: please add links to the other sections here
 
     the following command should help pre-generate a great deal of the table of content.
@@ -42,7 +42,7 @@ As part of this release, we also publish a set of optional plugins you can insta
         | each {
             str replace '# ' '- '
                 | str replace --all '#' '    '
-                | str replace --regex '- (.*)' '- [*$1*](#$1-toc)'
+                | str replace --regex '- (.*)' '- [_$1_](#$1-toc)'
         }
         | to text
     ```
