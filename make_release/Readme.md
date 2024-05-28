@@ -72,7 +72,7 @@
 
 - [ ] inspect the merged PRs to write changelogs with `./make_release/release-note/list-merged-prs nushell/nushell`
 - [ ] reorder sections by priority, what makes the most sense to the user?
-- [ ] paste the output of  `./make_release/release-note/list-merged-prs nushell/nushell --label breaking-change --pretty --no-author` to the "*Breaking changes*" section
+- [ ] paste the output of `./make_release/release-note/list-merged-prs nushell/nushell --label pr:breaking-change --pretty --no-author` to the "*Breaking changes*" section
 - [ ] make sure breaking changes titles are clear enough
 - [ ] paste the output of `./make_release/release-note/get-full-changelog` to the "*Full changelog*" section
 - [ ] mark as *ready for review* when uploading to *crates.io*
