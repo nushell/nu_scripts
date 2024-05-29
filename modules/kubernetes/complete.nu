@@ -150,7 +150,7 @@ export def "nu-complete kube port" [context: string, offset: int] {
 }
 
 export def "nu-complete kube cp" [cmd: string, offset: int] {
-    let ctx = $cmd | str substring ..$offset | argx parse
+    let ctx = $cmd | str substring ..<$offset | argx parse
     let p = $ctx._args | get (($ctx._args | length) - 1)
     let ns = $ctx.namespace? | with-flag -n
     let c = $ctx.container? | with-flag -c

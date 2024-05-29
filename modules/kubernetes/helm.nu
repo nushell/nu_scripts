@@ -36,7 +36,7 @@ export def kgh [
         | from json
         | update updated {|x|
             $x.updated
-            | str substring ..-4
+            | str substring ..<-4
             | into datetime -f '%Y-%m-%d %H:%M:%S.%f %z'
         }
     } else {

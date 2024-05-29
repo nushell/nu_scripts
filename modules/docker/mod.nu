@@ -290,7 +290,7 @@ export def --wrapped container-attach [
 }
 
 def "nu-complete docker cp" [cmd: string, offset: int] {
-    let argv = $cmd | str substring ..$offset | split row ' '
+    let argv = $cmd | str substring ..<$offset | split row ' '
     let p = if ($argv | length) > 2 { $argv | get 2 } else { $argv | get 1 }
     let container = ^$env.docker-cli ps
         | from ssv -a

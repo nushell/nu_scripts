@@ -1,5 +1,5 @@
 def "nu-complete scp" [cmd: string, offset: int] {
-    let argv = ($cmd | str substring ..$offset | split row ' ')
+    let argv = ($cmd | str substring ..<$offset | split row ' ')
     let p = if ($argv | length) > 2 { $argv | get 2 } else { $argv | get 1 }
     let ssh = (ssh-hosts | get completion
         | each {|x| {value: $"($x.value):" description: $x.uri} }
