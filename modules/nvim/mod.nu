@@ -92,7 +92,7 @@ export def nve [action ...file] {
     } else {
         let af = $file
         | each {|f|
-            if ($f|str substring ..1) in ['/', '~'] {
+            if ($f|str substring ..<1) in ['/', '~'] {
                 $f
             } else {
                 $"($env.PWD)/($f)"

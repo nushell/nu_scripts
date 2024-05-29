@@ -40,7 +40,7 @@ export def _git_status [] {
             '#' => {
                 match ($r.1 | str substring 7..) {
                     'oid' => {
-                        $status.commit_hash = ($r.2 | str substring 0..8)
+                        $status.commit_hash = ($r.2 | str substring 0..<8)
                     }
                     'head' => {
                         $status.branch = $r.2
@@ -55,7 +55,7 @@ export def _git_status [] {
                 }
             }
             '1'|'2' => {
-                match ($r.1 | str substring 0..1) {
+                match ($r.1 | str substring 0..<1) {
                     'A' => {
                         $status.idx_added_staged += 1
                     }
@@ -72,7 +72,7 @@ export def _git_status [] {
                         $status.idx_type_changed += 1
                     }
                 }
-                match ($r.1 | str substring 1..2) {
+                match ($r.1 | str substring 1..<2) {
                     'M' => {
                         $status.wt_modified += 1
                     }
@@ -120,7 +120,7 @@ export def _git_log_stat [n]  {
                         let col = if ($i.col | str starts-with 'file') {
                                 'file'
                             } else {
-                                $i.col | str substring ..3
+                                $i.col | str substring ..<3
                             }
                         let num = $i.num | into int
                         $a | upsert $col $num

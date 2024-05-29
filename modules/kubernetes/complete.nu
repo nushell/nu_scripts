@@ -86,7 +86,7 @@ export def "nu-complete kube jsonpath" [context: string] {
             let m = kubectl get ...$ns $kind $res $"--output=jsonpath={($p)}" | from json
             let l = $row | last
             let c = do -i {$m | get $l}
-            if ($c | is-not-empty) and ($c | describe | str substring 0..5) == 'table' {
+            if ($c | is-not-empty) and ($c | describe | str substring 0..<5) == 'table' {
                 $r = (0..(($c | length) - 1) | each {|x| $'($p).($l)[($x)]'})
             } else {
                 $r = ($m | columns | each {|x| $'($p).($x)'})
