@@ -256,23 +256,35 @@ export def --env set [name setup] {
     $env.NU_POWER_THEME = (if ($setup.theme? | is-empty) {
             $env.NU_POWER_THEME
         } else {
+            let n = $setup.theme
+            | transpose k v
+            | reduce -f {} {|it, acc|
+                $acc | insert $it.k (ansi -e {fg: $it.v})
+            }
+            let o = if $name in $env.NU_POWER_THEME {
+                $env.NU_POWER_THEME | get $name
+            } else {
+                {}
+            }
             $env.NU_POWER_THEME
-            | upsert $name ($setup.theme
-                | transpose k v
-                | reduce -f {} {|it, acc|
-                    $acc | insert $it.k (ansi -e {fg: $it.v})
-                })
+            | upsert $name ($o | merge $n)
         })
 
     $env.NU_POWER_CONFIG = (if ($setup.config? | is-empty) {
             $env.NU_POWER_CONFIG
         } else {
+            let n = $setup.config
+            | transpose k v
+            | reduce -f {} {|it, acc|
+                $acc | insert $it.k $it.v
+            }
+            let o = if $name in $env.NU_POWER_CONFIG {
+                $env.NU_POWER_CONFIG | get $name
+            } else {
+                {}
+            }
             $env.NU_POWER_CONFIG
-            | upsert $name ($setup.config
-                | transpose k v
-                | reduce -f {} {|it, acc|
-                    $acc | insert $it.k $it.v
-                })
+            | upsert $name ($o | merge $n)
         })
 }
 
@@ -366,8 +378,8 @@ export-env {
             ]
             [
                 {source: proxy, color: 'dark_gray'}
-                {source: host,  color: '#353230'}
-                {source: time,  color: '#666560'}
+                {source: host,  color: '#504945'}
+                {source: time,  color: '#353230'}
             ]
         ]
     )
