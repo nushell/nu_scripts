@@ -3,7 +3,7 @@ def "nu-complete make" [] {
 	| find --ignore-case makefile
 	| open $in.0.name
 	| lines 
-	| find ':' 
+	| find --regex '^[\w\.-]+\s*:' 
 	| where ($it | str starts-with '.') == false 
 	| split column ':' target
 	| get target
