@@ -5,10 +5,9 @@ def "nu-complete make" [] {
 	| lines 
 	| find ':' 
 	| where ($it | str starts-with '.') == false 
-	| split column ' ' 
-	| get column1 
-	| find ':' 
-	| str replace ':' ''
+	| split column ':' target
+	| get target
+	| str trim
 }
 
 def "nu-complete make jobs" [] {
