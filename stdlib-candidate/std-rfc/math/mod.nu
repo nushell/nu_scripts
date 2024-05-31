@@ -21,7 +21,7 @@ use std iter scan
 # > 1sec / 3 | math reset-insignificant-digits
 # 333ms
 export def 'reset-insignificant-digits' [
-    n: int = 4 # a number of significant digits
+    significant_digits: int = 4 # a number of first non-zero digits to keep
 ]: [int -> int, float -> float, duration -> duration] {
     let $input = $in
     let $chars = $input | into string | split chars
@@ -35,7 +35,7 @@ export def 'reset-insignificant-digits' [
             } else {$ind}
         }
         | zip $chars
-        | each {|i| if $i.1 =~ '\d' and $i.0 > $n {'0'} else {$i.1}}
+        | each {|i| if $i.1 =~ '\d' and $i.0 > $significant_digits {'0'} else {$i.1}}
         | str join
 
     match ($input | describe) {
