@@ -21,12 +21,12 @@ use std iter scan
 # > 1sec / 3 | math reset-insignificant-digits
 # 333ms
 export def 'reset-insignificant-digits' [
-    n: int = 3 # a number of significant digits
+    n: int = 4 # a number of significant digits
 ]: [int -> int, float -> float, duration -> duration] {
     let $input = $in
-    let $num = $input | into string | split chars
+    let $chars = $input | into string | split chars
 
-    let $rounded_str = $num
+    let $rounded_str = $chars
         | scan --noinit 0 {|ind i|
             if $i =~ '\d' {
                 if $ind == 0 and $i == '0' {
@@ -34,9 +34,8 @@ export def 'reset-insignificant-digits' [
                 } else { $ind + 1 }
             } else {$ind}
         }
-        | wrap digit_ind
-        | merge ($num | wrap d)
-        | each {|i| if $i.d =~ '\d' and $i.digit_ind > $n {'0'} else {$i.d}}
+        | zip $chars
+        | each {|i| if $i.1 =~ '\d' and $i.0 > $n {'0'} else {$i.1}}
         | str join
 
     match ($input | describe) {
