@@ -18,14 +18,10 @@ use std iter scan
 # > 1.2346789 | reset-insignificant-digits 3
 # 1.23
 #
-# > 123456789.89 | reset-insignificant-digits 5 --floor
-# 123450000
-#
 # > 1sec / 3 | math reset-insignificant-digits
 # 333ms
 export def 'reset-insignificant-digits' [
     n: int = 3 # a number of significant digits
-    --floor # use `math floor` for rounding
 ]: [int -> int, float -> float, duration -> duration] {
     let $input = $in
     let $num = $input | into string | split chars
