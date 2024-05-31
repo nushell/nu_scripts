@@ -6,8 +6,11 @@ use ./math
 # convert an integer amount of nanoseconds to a real duration
 def "from ns" [
     --units: string # units to convert duration to (min, sec, ms, µs, ns)
+    --sign-digits: int # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
 ] {
-    math significant-digits
+    if $sign_digits == 0 {} else {
+        math significant-digits $sign_digits
+    }
     | $"($in)ns"
     | into duration
     | if $units != null {
@@ -75,6 +78,7 @@ export def main [
     --pretty # shows the results in human-readable format: "<mean> +/- <stddev>"
     --units: string # units to convert duration to (min, sec, ms, µs, ns)
     --list_timings # list all rounds' timings in a `times` field
+    --sign-digits: int = 4 # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
 ] {
     let times = seq 1 $rounds
         | each {|i|
@@ -85,16 +89,16 @@ export def main [
     if $verbose { print $"($rounds) / ($rounds)" }
 
     {
-        mean: ($times | math avg | from ns --units $units)
-        min: ($times | math min | from ns --units $units)
-        max: ($times | math max | from ns --units $units)
-        std: ($times | math stddev | from ns --units $units)
+        mean: ($times | math avg | from ns --units $units --sign-digits=$sign_digits)
+        min: ($times | math min | from ns --units $units --sign-digits=$sign_digits)
+        max: ($times | math max | from ns --units $units --sign-digits=$sign_digits)
+        std: ($times | math stddev | from ns --units $units --sign-digits=$sign_digits)
     }
     | if $pretty {
         $"($in.mean) +/- ($in.std)"
     } else {
         if $list_timings {
-            # we don't use --units as to enable a user to do final trasnformations
+            # we don't use --units or --sign-digits as to allow a user to make final transformations
             merge { times: ($times | each { from ns }) }
         } else {}
     }
