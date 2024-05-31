@@ -77,7 +77,7 @@ export def main [
     --verbose (-v) # be more verbose (namely prints the progress)
     --pretty # shows the results in human-readable format: "<mean> +/- <stddev>"
     --units: string # units to convert duration to (min, sec, ms, µs, ns)
-    --list_timings # list all rounds' timings in a `times` field
+    --list-timings # list all rounds' timings in a `times` field
     --sign-digits: int = 4 # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
 ] {
     let times = seq 1 $rounds
