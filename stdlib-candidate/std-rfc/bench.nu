@@ -7,7 +7,7 @@ use ./math
 def "from ns" [
     --units: string # units to convert duration to (min, sec, ms, µs, ns)
 ] {
-    math reset-insignificant-digits
+    math significant-digits
     | $"($in)ns"
     | into duration
     | if $units != null {
