@@ -1,3 +1,6 @@
+
+use std iter scan
+
 # replace all insignificant digits with 0
 #
 # | Significant Digits | Maximum Relative Error |
@@ -9,37 +12,40 @@
 # | 5                  | 0.005%                 |
 # | 6                  | 0.0005%                |
 #
-# > 0.0000012346789 | round-significant-digits 2
+# > 0.0000012346789 | reset-insignificant-digits 2
 # 0.0000012
 #
-# > 1.2346789 | round-significant-digits 3
+# > 1.2346789 | reset-insignificant-digits 3
 # 1.23
 #
-# > 123456789.89 | round-significant-digits 5 --floor
+# > 123456789.89 | reset-insignificant-digits 5 --floor
 # 123450000
 #
-# > 1sec / 3 | math round-significant-digits
+# > 1sec / 3 | math reset-insignificant-digits
 # 333ms
-export def 'round-significant-digits' [
+export def 'reset-insignificant-digits' [
     n: int = 3 # a number of significant digits
     --floor # use `math floor` for rounding
-]: [int -> float, float -> float, duration -> duration] {
+]: [int -> int, float -> float, duration -> duration] {
     let $input = $in
-    let $type = $input | describe
+    let $num = $input | into string | split chars
 
-    let $num = match $type {
-        'int' => {$input | into float}
-        'duration' => {$input | into int | into float}
-        _ => {$input}
+    let $rounded_str = $num
+        | scan --noinit 0 {|ind i|
+            if $i =~ '\d' {
+                if $ind == 0 and $i == '0' {
+                    $ind
+                } else { $ind + 1 }
+            } else {$ind}
+        }
+        | wrap digit_ind
+        | merge ($num | wrap d)
+        | each {|i| if $i.d =~ '\d' and $i.digit_ind > $n {'0'} else {$i.d}}
+        | str join
+
+    match ($input | describe) {
+        'duration' => {$rounded_str | into duration}
+        'int' => {$rounded_str | into int}
+        'float' => {$rounded_str | into float}
     }
-
-    let first_digit_pos = 1 + ($num | math abs | math log 10 | math floor)
-    let scaling_factor = 10.0 ** ($n - $first_digit_pos)
-
-    $num * $scaling_factor
-    | if $floor {math floor} else {math round}
-    | $in / $scaling_factor
-    | if $type == 'duration' {
-        $'($in)ns' | into duration
-    } else {}
 }
