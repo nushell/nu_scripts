@@ -98,8 +98,7 @@ export def main [
         $"($in.mean) +/- ($in.std)"
     } else {
         if $list_timings {
-            # we don't use --units or --sign-digits as to allow a user to make final transformations
-            merge { times: ($times | each { from ns }) }
+            merge { times: ($times | each { from ns  --units $units --sign-digits 0 }) }
         } else {}
     }
 }
