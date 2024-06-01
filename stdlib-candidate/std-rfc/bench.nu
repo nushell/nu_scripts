@@ -37,40 +37,39 @@ def "from ns" [
 #
 # # Examples
 #     measure the performance of simple addition
-#     > std bench {1 + 2}
-#     ╭──────┬────────────╮
-#     │ mean │ 3µs 30ns   │
-#     │ min  │ 542ns      │
-#     │ max  │ 12µs 900ns │
-#     │ std  │ 3µs 550ns  │
-#     ╰──────┴────────────╯
-#
-#     measure the performance of simple addition and output each timing
-#     > std bench {1 + 2} --list_timings -n 3 | table -e
-#     ╭───────┬───────────────╮
-#     │ mean  │ 2µs 970ns     │
-#     │ min   │ 833ns         │
-#     │ max   │ 7µs 210ns     │
-#     │ std   │ 3µs           │
-#     │       │ ╭───────────╮ │
-#     │ times │ │ 7µs 210ns │ │
-#     │       │ │     875ns │ │
-#     │       │ │     833ns │ │
-#     │       │ ╰───────────╯ │
-#     ╰───────┴───────────────╯
-#
-#     Output results of a benchmark in `ms`
-#     > std bench {sleep 1sec} --units ms
-#     ╭──────┬─────────╮
-#     │ mean │ 1000 ms │
-#     │ min  │ 1000 ms │
-#     │ max  │ 1010 ms │
-#     │ std  │ 1.87 ms │
-#     ╰──────┴─────────╯
+#     > bench {1 + 2}
+#     ╭──────┬───────────╮
+#     │ mean │ 716ns     │
+#     │ min  │ 583ns     │
+#     │ max  │ 4µs 541ns │
+#     │ std  │ 549ns     │
+#     ╰──────┴───────────╯
 #
 #     get a pretty benchmark report
 #     > std bench {1 + 2} --pretty
 #     922ns +/- 2µs 40ns
+#
+#     format results as `ms`
+#     > bench {sleep 0.1sec; 1 + 2} --units ms --rounds 5
+#     ╭──────┬───────────╮
+#     │ mean │ 104.90 ms │
+#     │ min  │ 103.60 ms │
+#     │ max  │ 105.90 ms │
+#     │ std  │ 0.75 ms   │
+#     ╰──────┴───────────╯
+#
+#     measure the performance of simple addition with 1ms delay and output each timing
+#     > bench {sleep 1ms; 1 + 2} --rounds 2 --list-timings | table -e
+#     ╭───────┬─────────────────────╮
+#     │ mean  │ 1ms 272µs           │
+#     │ min   │ 1ms 259µs           │
+#     │ max   │ 1ms 285µs           │
+#     │ std   │ 13µs 370ns          │
+#     │       │ ╭─────────────────╮ │
+#     │ times │ │ 1ms 285µs 791ns │ │
+#     │       │ │  1ms 259µs 42ns │ │
+#     │       │ ╰─────────────────╯ │
+#     ╰───────┴─────────────────────╯
 export def main [
     code: closure  # the piece of `nushell` code to measure the performance of
     --rounds (-n): int = 50  # the number of benchmark rounds (hopefully the more rounds the less variance)
