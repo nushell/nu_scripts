@@ -18,7 +18,7 @@ jobs:
               with:
                   version: "*"
                   check-latest: true
-                  features: full # dataframe and extra included
+                  # features: full # dataframe and extra included
             - name: toolkit check pr
               shell: nu {0}
               # nix STUB_IDE_CHECK when nushell/nushell#12208 fixed
