@@ -32,7 +32,7 @@ def "nu-complete just args" [context: string, offset: int] {
 
 }
 
-export def just [
+export extern just [
     recipes?: string@"nu-complete just recipes"
     ...args: any@"nu-complete just args"
 ] {
