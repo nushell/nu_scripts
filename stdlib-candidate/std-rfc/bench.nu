@@ -72,10 +72,10 @@ export def main [
     if $verbose { print $"($rounds) / ($rounds)" }
 
     {
-        mean: ($times | math avg | from ns)
-        min: ($times | math min | from ns)
-        max: ($times | math max | from ns)
-        std: ($times | math stddev | from ns)
+        mean: ($times | math avg | from ns --sign-digits 4)
+        min: ($times | math min | from ns --sign-digits 4)
+        max: ($times | math max | from ns --sign-digits 4)
+        std: ($times | math stddev | from ns --sign-digits 4)
     }
     | if $pretty {
         $"($in.mean) +/- ($in.std)"
