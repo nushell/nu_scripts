@@ -49,5 +49,5 @@ This plugin adds the following aliases:
 - use
 
   ```nushell
-  docker-alias + tab
+  docker-aliases + tab
   ```
