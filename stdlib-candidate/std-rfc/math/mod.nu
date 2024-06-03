@@ -1,6 +1,3 @@
-
-use std iter scan
-
 # replace all insignificant digits with 0
 #
 # | Significant Digits | Maximum Relative Error |
@@ -18,29 +15,50 @@ use std iter scan
 # > 1.2346789 | significant-digits 3
 # 1.23
 #
+# > 123456789.89 | significant-digits 5
+# 123450000
+#
 # > 1sec / 3 | math significant-digits
 # 333ms
 export def 'significant-digits' [
-    n: int = 4 # a number of first non-zero digits to keep
+    n: int = 3 # a number of significant digits
 ]: [int -> int, float -> float, duration -> duration] {
     let $input = $in
-    let $chars = $input | into string | split chars
+    let $type = $input | describe
 
-    let $rounded_str = $chars
-        | scan --noinit 0 {|ind i|
-            if $i =~ '\d' {
-                if $ind == 0 and $i == '0' {
-                    $ind
-                } else { $ind + 1 }
-            } else {$ind}
+    let $num = match $type {
+        'duration' => {$input | into int}
+        _ => {$input}
+    }
+
+    let insignif_position = $n - 1 - ($num | math abs | math log 10 | math floor)
+
+    # See the note below the code for an explanation of the construct used.
+    let scaling_factor = 10 ** ($insignif_position | math abs)
+
+    let res = $num
+        | if $insignif_position > 0 {
+            $in * $scaling_factor
+        } else {
+            $in / $scaling_factor
         }
-        | zip $chars
-        | each {|i| if $i.1 =~ '\d' and $i.0 > $n {'0'} else {$i.1}}
-        | str join
+        | math floor
+        | if $insignif_position <= 0 {
+            $in * $scaling_factor
+        } else {
+            $in / $scaling_factor
+        }
 
-    match ($input | describe) {
-        'duration' => {$rounded_str | into duration}
-        'int' => {$rounded_str | into int}
-        'float' => {$rounded_str | into float}
+    match $type {
+        'duration' => {$res | into duration}
+        'int' => {$res | into int}
+        _ => {$res}
     }
 }
+
+# I started with `10.0 ** $insignif_position`, but it was sometimes producing
+# not rounded digits in `$num / $scaling_factor` if `$insignif_position` was negative
+# like with
+# > 3456789 | math round --precision -5
+# 3499999.9999999995
+# so I use what I have now.
