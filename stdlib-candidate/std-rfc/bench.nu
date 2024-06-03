@@ -41,7 +41,7 @@ def "from ns" [
 #     ╰──────┴───────────╯
 #
 #     get a pretty benchmark report
-#     > std bench {1 + 2} --pretty
+#     > bench {1 + 2} --pretty
 #     922ns +/- 2µs 40ns
 #
 #     measure the performance of simple addition with 1ms delay and output each timing
