@@ -19,3 +19,7 @@ export def "test significant-digits-duration" [] {
 export def "test significant-digits-ints" [] {
     assert equal (123456 | math significant-digits 2) 120000
 }
+
+export def "test significant-digits-0" [] {
+    assert equal (0 | math significant-digits 2) 0
+}

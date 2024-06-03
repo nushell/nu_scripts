@@ -31,7 +31,16 @@ export def 'significant-digits' [
         _ => {$input}
     }
 
-    let insignif_position = $n - 1 - ($num | math abs | math log 10 | math floor)
+    let insignif_position = $num
+        | if $in == 0 {
+            0 # it's impoosbile to calculate `math log` from 0, thus 0 errors here
+        } else {
+            math abs
+            | math log 10
+            | math floor
+            | $n - 1 - $in
+        }
+
 
     # See the note below the code for an explanation of the construct used.
     let scaling_factor = 10 ** ($insignif_position | math abs)
