@@ -5,7 +5,7 @@ use ./math
 
 # convert an integer amount of nanoseconds to a real duration
 def "from ns" [
-    --sign-digits: int # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
+    --sign-digits: int = 4 # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
 ] {
     if $sign_digits == 0 {} else {
         math significant-digits $sign_digits
@@ -62,7 +62,6 @@ export def main [
     --verbose (-v) # be more verbose (namely prints the progress)
     --pretty # shows the results in human-readable format: "<mean> +/- <stddev>"
     --list-timings # list all rounds' timings in a `times` field
-    --sign-digits: int = 4 # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
 ] {
     let times = seq 1 $rounds
         | each {|i|
@@ -73,10 +72,10 @@ export def main [
     if $verbose { print $"($rounds) / ($rounds)" }
 
     {
-        mean: ($times | math avg | from ns --sign-digits=$sign_digits)
-        min: ($times | math min | from ns --sign-digits=$sign_digits)
-        max: ($times | math max | from ns --sign-digits=$sign_digits)
-        std: ($times | math stddev | from ns --sign-digits=$sign_digits)
+        mean: ($times | math avg | from ns)
+        min: ($times | math min | from ns)
+        max: ($times | math max | from ns)
+        std: ($times | math stddev | from ns)
     }
     | if $pretty {
         $"($in.mean) +/- ($in.std)"
