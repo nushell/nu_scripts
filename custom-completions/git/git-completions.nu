@@ -264,7 +264,7 @@ export extern "git push" [
 export extern "git pull" [
   remote?: string@"nu-complete git remotes",         # the name of the remote
   ...refs: string@"nu-complete git local branches",  # the branch / refspec
-  --rebase: string@"nu-complete git pull rebase",    # rebase current branch on top of upstream after fetching
+  --rebase(-r): string@"nu-complete git pull rebase",    # rebase current branch on top of upstream after fetching
   --quiet(-q)                                        # suppress output during transfer and merge
   --verbose(-v)                                      # be more verbose
   --commit                                           # perform the merge and commit the result
