@@ -1,3 +1,16 @@
+def "nu-complete kw warnings" [] {
+    [
+        [value description]; 
+        ["1" "not too often, may be relevant"] 
+        ["2" "quite often, may still be relevant"] 
+        ["3" "more obscure, likely ignorable"]
+        ["12" "warns 1 and 2"]
+        ["13" "warns 1 and 3"]
+        ["23" "warns 2 and 3"]
+        ["123" "all warnings"]
+    ]
+}
+
 def "nu-complete kw target" [] {
     ["local", "remote"]
 }
@@ -21,6 +34,10 @@ def "nu-complete kw deploy alert" [] {
     ["s", "v", "sv", "vs", "n"]
 }
 
+def "nu-complete kw cores" [] {
+    1..(sys cpu | length)
+}
+
 # The inglorious kernel developer workflow tool
 export extern "kw" [
     --help(-h)          # Shows help page
@@ -33,8 +50,31 @@ export extern "kw init" [
     --arch: string@"nu-complete kw init arch"           # Sets the variable arch from the newly created kworkflow.config
     --remote: string                                    # <user>@<host>:<port> set the variables ssh_user, ssh_ip, and ssh_port to <user>, <ip>, and <port>, respectively.
     --target: string@"nu-complete kw target"            # Sets default_deploy_target from kworkflow.config
+    --help(-h)                                          # Shows help page
     --verbose                                           # Verbose mode
 ]
+
+# Builds the kernel
+export extern "kw build" [
+    ...flags: string                                 
+    --info(-i)                                          # Displays build information
+    --menu(-n)                                          # Invokes the kernel menuconfig
+    --doc(-d)                                           # Builds the documentation
+    --cpu-scaling(-S): int@"nu-complete kw cores"       # Sets the number of jobs to use for building the kernel (the -j flag)    
+    --ccache                                            # Enable ccache  
+    --warnings(-w): string@"nu-complete kw warnings"    # Sets the warning level for the kernel build
+    --save-log-to(-s): string                           # Saves the build log to a file
+    --llvm                                              # Uses LLVM toolchain during compilation and linking
+    --clean(-c)                                         # Removes build files (keeps the configuration)
+    --full-cleanup(-f)                                  # Runs make distclean to reset the tree to the default state
+    --cflags                                            # Allow passing of flags to the compiler
+    --alert: string
+    --help(-h)                                          # Shows help page
+    --verbose                                           # Verbose mode
+]
+
+export alias "kw b" = kw build
+
 
 # Deploy the kernel
 export extern "kw deploy" [
