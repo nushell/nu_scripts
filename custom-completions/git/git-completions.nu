@@ -258,8 +258,55 @@ export extern "git push" [
 # Pull changes
 export extern "git pull" [
   remote?: string@"nu-complete git remotes",         # the name of the remote
-  ...refs: string@"nu-complete git local branches"   # the branch / refspec
+  ...refs: string@"nu-complete git local branches",  # the branch / refspec
   --rebase                                           # rebase current branch on top of upstream after fetching
+  --quiet(-q)                                        # suppress output during transfer and merge
+  --verbose(-v)                                      # be more verbose
+  --commit                                           # perform the merge and commit the result
+  --no-commit                                        # perform the merge but do not commit the result
+  --edit(-e)                                         # edit the merge commit message
+  --no-edit                                          # use the auto-generated merge commit message
+  --cleanup: string                                  # specify how to clean up the merge commit message
+  --ff                                               # fast-forward if possible
+  --no-ff                                            # create a merge commit in all cases
+  --gpg-sign(-S)                                     # GPG-sign the resulting merge commit
+  --no-gpg-sign                                      # do not GPG-sign the resulting merge commit
+  --log: int                                         # include log messages from merged commits
+  --no-log                                           # do not include log messages from merged commits
+  --signoff                                          # add Signed-off-by trailer
+  --no-signoff                                       # do not add Signed-off-by trailer
+  --stat(-n)                                         # show a diffstat at the end of the merge
+  --no-stat                                          # do not show a diffstat at the end of the merge
+  --squash                                           # produce working tree and index state as if a merge happened
+  --no-squash                                        # perform the merge and commit the result
+  --verify                                           # run pre-merge and commit-msg hooks
+  --no-verify                                        # do not run pre-merge and commit-msg hooks
+  --strategy(-s): string                             # use the given merge strategy
+  --strategy-option(-X): string                      # pass merge strategy-specific option
+  --verify-signatures                                # verify the tip commit of the side branch being merged
+  --no-verify-signatures                             # do not verify the tip commit of the side branch being merged
+  --summary                                          # show a summary of the merge
+  --no-summary                                       # do not show a summary of the merge
+  --autostash                                        # create a temporary stash entry before the operation
+  --no-autostash                                     # do not create a temporary stash entry before the operation
+  --allow-unrelated-histories                        # allow merging histories without a common ancestor
+  --rebase                                           # rebase the current branch on top of the upstream branch
+  --no-rebase                                        # do not rebase the current branch on top of the upstream branch
+  --all                                              # fetch all remotes
+  --append(-a)                                       # append fetched refs to existing contents of FETCH_HEAD
+  --atomic                                           # use an atomic transaction to update local refs
+  --depth: int                                       # limit fetching to the specified number of commits
+  --deepen: int                                      # deepen the history by the specified number of commits
+  --shallow-since: string                            # deepen or shorten the history since a specified date
+  --shallow-exclude: string                          # exclude commits reachable from a specified branch or tag
+  --unshallow                                        # convert a shallow repository to a complete one
+  --update-shallow                                   # update .git/shallow with new refs
+  --tags(-t)                                         # fetch all tags from the remote
+  --jobs(-j): int                                    # number of parallel children for fetching
+  --set-upstream                                     # add upstream (tracking) reference
+  --upload-pack: string                              # specify non-default path for upload-pack on the remote
+  --progress                                         # force progress status even if stderr is not a terminal
+  --server-option(-o): string                        # transmit the given string to the server
 ]
 
 # Switch between branches and commits
