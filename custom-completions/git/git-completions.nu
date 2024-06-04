@@ -150,6 +150,11 @@ def "nu-complete git add" [] {
   nu-complete git files
 }
 
+def "nu-complete git pull rebase" [] {
+  ["false","true","merges","interactive"]
+}
+
+
 # Check out git branches and files
 export extern "git checkout" [
   ...targets: string@"nu-complete git checkout"   # name of the branch or files to checkout
@@ -259,7 +264,7 @@ export extern "git push" [
 export extern "git pull" [
   remote?: string@"nu-complete git remotes",         # the name of the remote
   ...refs: string@"nu-complete git local branches",  # the branch / refspec
-  --rebase                                           # rebase current branch on top of upstream after fetching
+  --rebase: string@"nu-complete git pull rebase",    # rebase current branch on top of upstream after fetching
   --quiet(-q)                                        # suppress output during transfer and merge
   --verbose(-v)                                      # be more verbose
   --commit                                           # perform the merge and commit the result
@@ -290,7 +295,6 @@ export extern "git pull" [
   --autostash                                        # create a temporary stash entry before the operation
   --no-autostash                                     # do not create a temporary stash entry before the operation
   --allow-unrelated-histories                        # allow merging histories without a common ancestor
-  --rebase                                           # rebase the current branch on top of the upstream branch
   --no-rebase                                        # do not rebase the current branch on top of the upstream branch
   --all                                              # fetch all remotes
   --append(-a)                                       # append fetched refs to existing contents of FETCH_HEAD
