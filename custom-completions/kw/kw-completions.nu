@@ -96,3 +96,12 @@ export extern "kw deploy" [
 
 
 export alias "kw d" = kw deploy
+
+# Useful wrapper to the diff command to compare files or directories
+export extern "kw diff" [
+    ...files: string
+    --no-interactive                                # Displays all diff in two columns at once
+    --verbose                                       # Verbose mode
+]
+
+export alias "kw df" = kw diff
