@@ -167,3 +167,43 @@ export extern "kw ssh" [
 ]
 
 export alias "kw s" = kw ssh
+
+export extern "kw codestyle" [
+    path?: string                       # Which files to run checkpatch on. Defaults to the cwd
+    --verbose                           # Verbose mode      
+]
+
+export alias "kw c" = kw codestyle
+
+export extern "kw self-update" [
+    --unstable(-u)                      # Update kw based on the unstable branch
+    --help(-h)                          # Shows help page    
+    --verbose                           # Verbose mode
+]
+
+export alias "kw u" = kw self-update
+
+export extern "kw maintainers" [
+    path?: string                       # Path to the folder to show the maintainers of
+    --authors(-a)                       # Prints (non-recursively) the authors of the top-level target files
+    --update-patch(-u)                  # Include a `To:` field in the patch header
+    --verbose                           # Verbose mode
+]
+
+export alias "kw m" = kw maintainers
+
+export extern "kw kernel-config-manager" [
+    --save: string                      # Creates a snapshot of the .config file with the given name
+    -d: string                          # Sets the description when using --save
+    --force(-f)                         # Supress warnings
+    --get: string                       # Gets the config with the given name and overwrites the current .config file
+    --remove(-r): string                # Removes the config with the given name                               
+    --list(-l)                          # Lists all the configs being managed
+    --fetch                             # Fetches a .config from a target machine
+    --output(-o): string                # Sets the output file when using --fetch
+    --optimize                          # Runs make localmodconfig to procude a config optimized for the target machine when using --fetch
+    --remove: string                    # Sets the remote <user>@<host>:<port> when using --fetch
+    --verbose                           # Verbose mode
+]
+
+export alias "kw k" = kw kernel-config-manager
