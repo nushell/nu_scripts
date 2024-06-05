@@ -105,3 +105,16 @@ export extern "kw diff" [
 ]
 
 export alias "kw df" = kw diff
+
+# Ssh access into any network accessible machine
+export extern "kw ssh" [
+    --command(-c): string                               # Bash command to run on the remote machine
+    --script(-s): string                                # Bash script to run on the remote machine
+    --remote(-r): string                                # <user>@<host>:<port> parameters to ssh into the target machine
+    --send: string                                      # Sends a local file to the remote. Needs to use --to after it
+    --get: string                                       # Gets a remote file to the local. Needs to use --to after it
+    --to: string                                        # The destination path. On the remote if --send. On the local if --get
+    --verbose                                           # Verbose mode
+]
+
+export alias "kw s" = kw ssh
