@@ -76,6 +76,12 @@ def "nu-complete kw cores" [] {
     1..(sys cpu | length)
 }
 
+def "nu-complete kw configs" [] {
+    ^kw config -s 
+    | lines 
+    | parse --regex '\[.*\] (?<value>[a-z_.]+)=(?<description>.+)$'
+}
+
 # The inglorious kernel developer workflow tool
 export extern "kw" [
     subcommand?: string@"nu-complete kw subcommands"  # Subcommand to run
@@ -141,6 +147,7 @@ export extern "kw deploy" [
   --create-package(-p)                               # create a kw package without deploying
   --from-package(-F)                                 # deploy a custom kernel from kw package
   --alert: string@"nu-complete kw deploy alert"      # set alert behaviour upon command completion
+  --help(-h)                          # Shows help page
 ]
 
 
@@ -150,6 +157,7 @@ export alias "kw d" = kw deploy
 export extern "kw diff" [
     ...files: string
     --no-interactive                                # Displays all diff in two columns at once
+    --help(-h)                          # Shows help page
     --verbose                                       # Verbose mode
 ]
 
@@ -163,6 +171,7 @@ export extern "kw ssh" [
     --send: string                                      # Sends a local file to the remote. Needs to use --to after it
     --get: string                                       # Gets a remote file to the local. Needs to use --to after it
     --to: string                                        # The destination path. On the remote if --send. On the local if --get
+    --help(-h)                          # Shows help page
     --verbose                                           # Verbose mode
 ]
 
@@ -170,6 +179,7 @@ export alias "kw s" = kw ssh
 
 export extern "kw codestyle" [
     path?: string                       # Which files to run checkpatch on. Defaults to the cwd
+    --help(-h)                          # Shows help page
     --verbose                           # Verbose mode      
 ]
 
@@ -187,6 +197,7 @@ export extern "kw maintainers" [
     path?: string                       # Path to the folder to show the maintainers of
     --authors(-a)                       # Prints (non-recursively) the authors of the top-level target files
     --update-patch(-u)                  # Include a `To:` field in the patch header
+    --help(-h)                          # Shows help page
     --verbose                           # Verbose mode
 ]
 
@@ -203,7 +214,20 @@ export extern "kw kernel-config-manager" [
     --output(-o): string                # Sets the output file when using --fetch
     --optimize                          # Runs make localmodconfig to procude a config optimized for the target machine when using --fetch
     --remove: string                    # Sets the remote <user>@<host>:<port> when using --fetch
+    --help(-h)                          # Shows help page
     --verbose                           # Verbose mode
 ]
 
 export alias "kw k" = kw kernel-config-manager
+
+export extern "kw config" [
+    option?: string@"nu-complete kw configs"  # Config options to set
+    value?: string                           # Value to set the option to
+    --global(-g)                            # Set the option globally
+    --local(-l)                             # Set the option locally
+    --show(-s)                              # Show the current configurations for a given target
+    --help(-h)                              # Shows help page
+    --verbose                               # Verbose mode
+]
+
+export alias "kw g" = kw config
