@@ -2,19 +2,19 @@
 
 def "nu-complete rustup" [] {
   ^rustup --help 
-  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
-  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | str replace --regex --multiline '(rustup[\s\S]*(?=Commands:))' '' 
+  | str replace --regex --multiline '\n+Arguments:[\s\S]*' ''
   | lines 
-  | where $it starts-with "   " 
+  | where $it starts-with "  " 
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
 def "nu-complete rustup toolchain" [] {
   ^rustup toolchain 
-  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
-  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | str replace --regex --multiline '(rustup[\s\S]*(?=Commands:))' '' 
+  | str replace --regex --multiline '\n+Options:[\s\S]*' ''
   | lines 
-  | where $it starts-with "   " 
+  | where $it starts-with "  " 
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
@@ -22,25 +22,34 @@ def "nu-complete rustup toolchain" [] {
 def "nu-complete rustup toolchain list" [] {
   ^rustup toolchain list
   | lines
-  | str replace " (default)" ""
   | append 'stable'
   | append 'beta'
   | append 'nightly'
+  | each { |line| if ($line | str contains "(default)") {
+    {value: ($line | str replace " (default)" ""), description: "default"}
+    } else {
+      {value: $line, description: ""}
+    } 
+  }
 }
 
 def "nu-complete rustup target" [] {
   ^rustup target 
-  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
-  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | str replace --regex --multiline '(rustup[\s\S]*(?=Commands:))' '' 
+  | str replace --regex --multiline '\n+Options:[\s\S]*' ''
   | lines 
-  | where $it starts-with "   " 
+  | where $it starts-with "  " 
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
 def "nu-complete rustup target list" [] {
   ^rustup target list
   | lines
-  | str replace " (installed)" ""
+  | each {|line| if ($line | str contains "installed") {
+    {value: ($line | str replace " (installed)" ""), description: "installed"}
+  } else {
+    {value: $line, description: ""}
+  }}
 }
 
 def "nu-complete rustup target list --installed" [] {
@@ -51,22 +60,30 @@ def "nu-complete rustup target list --installed" [] {
 def "nu-complete rustup update" [] {
   ^rustup toolchain list 
   | lines 
-  | str replace " (default)" ""
+  | each {|line| if ($line | str contains "default") {
+    {value: ($line | str replace " (default)" ""), description: "default"}
+  } else {
+    {value: $line, description: ""}
+  }}
 }
 
 def "nu-complete rustup component" [] {
   ^rustup component 
-  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
-  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | str replace --regex --multiline '(rustup[\s\S]*(?=Commands:))' '' 
+  | str replace --regex --multiline '\n+Options:[\s\S]*' ''
   | lines 
-  | where $it starts-with "   " 
+  | where $it starts-with "  " 
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
 def "nu-complete rustup component list" [] {
   ^rustup component list
   | lines
-  | str replace " (installed)" ""
+  | each {|line| if ($line | str contains "installed") {
+    {value: ($line | str replace " (installed)" ""), description: "installed"}
+  } else {
+    {value: $line, description: ""}
+  }}
 }
 
 def "nu-complete rustup component list installed" [] {
@@ -77,10 +94,10 @@ def "nu-complete rustup component list installed" [] {
 
 def "nu-complete rustup override" [] {
   ^rustup override 
-  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
-  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | str replace --regex --multiline '(rustup[\s\S]*(?=Commands:))' '' 
+  | str replace --regex --multiline '\n+Options:[\s\S]*' ''
   | lines 
-  | where $it starts-with "   " 
+  | where $it starts-with "  " 
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
@@ -100,19 +117,19 @@ def "nu-complete rustup override list installed" [] {
 
 def "nu-complete rustup self" [] {
   ^rustup self 
-  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
-  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | str replace --regex --multiline '(rustup[\s\S]*(?=Commands:))' '' 
+  | str replace --regex --multiline '\n+Options:[\s\S]*' ''
   | lines 
-  | where $it starts-with "   " 
+  | where $it starts-with "  " 
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
 def "nu-complete rustup set" [] {
   ^rustup set 
-  | str replace --regex --multiline '(rustup[\s\S]*(?=SUBCOMMANDS:))' '' 
-  | str replace --regex --multiline '\n+DISCUSSION[\s\S]*' ''
+  | str replace --regex --multiline '(rustup[\s\S]*(?=Commands:))' '' 
+  | str replace --regex --multiline '\n+Options:[\s\S]*' ''
   | lines 
-  | where $it starts-with "   " 
+  | where $it starts-with "  " 
   | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
 }
 
@@ -140,6 +157,10 @@ export extern "rustup" [
     --quiet(-q)      # Disable progress output
     --help(-h)       # Print help information
     --version(-V)    # Print version information
+]
+
+export extern "rustup help" [
+  command?: string@"nu-complete rustup"
 ]
 
 export extern "rustup update" [
