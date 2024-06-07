@@ -1,14 +1,13 @@
 # A proposal for improving the original `std bench` command by @amtoine
 # https://github.com/nushell/nushell/blob/31f3d2f6642b585f0d88192724723bf0ce330ecf/crates/nu-std/std/mod.nu#L134
 
-use ./math
-
 # convert an integer amount of nanoseconds to a real duration
 def "from ns" [
     --sign-digits: int = 4 # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
 ] {
-    if $sign_digits == 0 {} else {
-        math significant-digits $sign_digits
+    if $in == 0 {0} else { #math log errors on 0
+        math round -p (3 - ($in | math log 10 | math floor)) # rounds to 4th digit including, with maximum realtive err 0.05%
+        | math round # second math round as a fix for `> 123456 | math round -p -5` = 99999.99999999999
     }
     | $"($in)ns"
     | into duration
