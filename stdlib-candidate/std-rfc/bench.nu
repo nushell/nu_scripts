@@ -78,7 +78,7 @@ export def main [
         std: ($times | math stddev | from ns --sign-digits 4)
     }
     | if $pretty {
-        $"($in.mean) +/- ($in.std)"
+        $"($in.mean) ± (($in.std / $in.mean) * 100 | math round -p 2)%"
     } else {
         if $list_timings {
             merge { times: ($times | each { from ns --sign-digits 0 }) }
