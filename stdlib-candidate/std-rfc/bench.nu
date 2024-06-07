@@ -7,7 +7,6 @@ def "from ns" [] {
         math round -p (3 - ($in | math log 10 | math floor)) # rounds to 4th digit including, with maximum realtive err 0.05%
         | math round # second math round as a fix for `> 123456 | math round -p -5` = 99999.99999999999
     }
-    | $"($in)ns"
     | into duration
 }
 
@@ -39,18 +38,18 @@ def "from ns" [] {
 #
 #     get a pretty benchmark report
 #     > bench {1 + 2} --pretty
-#     922ns +/- 2µs 40ns
+#     922ns ± 2µs 40ns
 #
 #     measure the performance of simple addition with 1ms delay and output each timing
-#     > bench {sleep 1ms; 1 + 2} --rounds 2 --list-timings | table -e
+#     > bench {sleep 1ms; 1 + 2} --rounds 2 --timings | table -e
 #     ╭───────┬─────────────────────╮
 #     │ mean  │ 1ms 272µs           │
 #     │ min   │ 1ms 259µs           │
 #     │ max   │ 1ms 285µs           │
 #     │ std   │ 13µs 370ns          │
 #     │       │ ╭─────────────────╮ │
-#     │ times │ │ 1ms 285µs 791ns │ │
-#     │       │ │  1ms 259µs 42ns │ │
+#     │ times │ │ 1ms 285µs       │ │
+#     │       │ │  1ms 259µs      │ │
 #     │       │ ╰─────────────────╯ │
 #     ╰───────┴─────────────────────╯
 export def main [
@@ -58,7 +57,7 @@ export def main [
     --rounds (-n): int = 50  # the number of benchmark rounds (hopefully the more rounds the less variance)
     --verbose (-v) # be more verbose (namely prints the progress)
     --pretty # shows the results in human-readable format: "<mean> +/- <stddev>"
-    --list-timings # list all rounds' timings in a `times` field
+    --timings (-t) # list all rounds' timings in a `times` field
 ] {
     let times = seq 1 $rounds
         | each {|i|
@@ -77,7 +76,7 @@ export def main [
     | if $pretty {
         $"($in.mean) ± (($in.std / $in.mean) * 100 | math round -p 2)%"
     } else {
-        if $list_timings {
+        if $timings {
             merge { times: ($times | each { from ns }) }
         } else {}
     }
