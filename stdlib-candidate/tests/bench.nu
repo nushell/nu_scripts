@@ -7,6 +7,6 @@ export def "test bench-timings" [] {
 }
 
 export def "test bench-pretty" [] {
-    let $test = (bench {1 + 2} --rounds 3 --pretty) =~ '\d.* \+/- \d'
+    let $test = (bench {1 + 2} --rounds 3 --pretty) =~ '\d.* ± \d'
     assert equal $test true
 }
