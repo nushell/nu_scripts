@@ -2,9 +2,7 @@
 # https://github.com/nushell/nushell/blob/31f3d2f6642b585f0d88192724723bf0ce330ecf/crates/nu-std/std/mod.nu#L134
 
 # convert an integer amount of nanoseconds to a real duration
-def "from ns" [
-    --sign-digits: int = 4 # a number of first non-zero digits to keep (default 4; set 0 to disable rounding)
-] {
+def "from ns" [] {
     if $in == 0 {0} else { #math log errors on 0
         math round -p (3 - ($in | math log 10 | math floor)) # rounds to 4th digit including, with maximum realtive err 0.05%
         | math round # second math round as a fix for `> 123456 | math round -p -5` = 99999.99999999999
@@ -71,16 +69,16 @@ export def main [
     if $verbose { print $"($rounds) / ($rounds)" }
 
     {
-        mean: ($times | math avg | from ns --sign-digits 4)
-        min: ($times | math min | from ns --sign-digits 4)
-        max: ($times | math max | from ns --sign-digits 4)
-        std: ($times | math stddev | from ns --sign-digits 4)
+        mean: ($times | math avg | from ns)
+        min: ($times | math min | from ns)
+        max: ($times | math max | from ns)
+        std: ($times | math stddev | from ns)
     }
     | if $pretty {
         $"($in.mean) ± (($in.std / $in.mean) * 100 | math round -p 2)%"
     } else {
         if $list_timings {
-            merge { times: ($times | each { from ns --sign-digits 0 }) }
+            merge { times: ($times | each { from ns }) }
         } else {}
     }
 }
