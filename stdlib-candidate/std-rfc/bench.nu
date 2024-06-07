@@ -38,20 +38,20 @@ def "from ns" [] {
 #
 #     get a pretty benchmark report
 #     > bench {1 + 2} --pretty
-#     922ns ± 2µs 40ns
+#     716ns ± 76.67%
 #
 #     measure the performance of simple addition with 1ms delay and output each timing
 #     > bench {sleep 1ms; 1 + 2} --rounds 2 --timings | table -e
-#     ╭───────┬─────────────────────╮
-#     │ mean  │ 1ms 272µs           │
-#     │ min   │ 1ms 259µs           │
-#     │ max   │ 1ms 285µs           │
-#     │ std   │ 13µs 370ns          │
-#     │       │ ╭─────────────────╮ │
-#     │ times │ │ 1ms 285µs       │ │
-#     │       │ │  1ms 259µs      │ │
-#     │       │ ╰─────────────────╯ │
-#     ╰───────┴─────────────────────╯
+#     ╭───────┬───────────────╮
+#     │ mean  │ 1ms 272µs     │
+#     │ min   │ 1ms 259µs     │
+#     │ max   │ 1ms 285µs     │
+#     │ std   │ 13µs 370ns    │
+#     │       │ ╭───────────╮ │
+#     │ times │ │ 1ms 285µs │ │
+#     │       │ │ 1ms 259µs │ │
+#     │       │ ╰───────────╯ │
+#     ╰───────┴───────────────╯
 export def main [
     code: closure  # the piece of `nushell` code to measure the performance of
     --rounds (-n): int = 50  # the number of benchmark rounds (hopefully the more rounds the less variance)
