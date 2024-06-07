@@ -1,38 +1,42 @@
 export-env {
-  $env.MSVS_BASE_PATH = $env.Path
+  if not ("MSVS_ACTIVATED" in $env) {
+    $env.MSVS_BASE_PATH = $env.Path
 
-  let info = (
-      if not (which vswhere | is-empty) {
-        (vswhere -format json | from json)
-      } else {
-        ('{"installationPath": [""]}' | from json)
-      }
-  )
+    let info = (
+        if not (which vswhere | is-empty) {
+          (vswhere -format json | from json)
+        } else {
+          ('{"installationPath": [""]}' | from json)
+        }
+    )
 
-  $env.MSVS_ROOT = ($info.installationPath.0 | str replace -a '\\' '/')
+    $env.MSVS_ROOT = ($info.installationPath.0 | str replace -a '\\' '/')
 
-  $env.MSVS_MSVC_ROOT = (
-      if not ($"($env.MSVS_ROOT)/VC/Tools/MSVC/" | path exists) {
-        ""
-      } else if (ls ($"($env.MSVS_ROOT)/VC/Tools/MSVC/*" | into glob) | is-empty) {
-        ""
-      } else {
-        ((ls ($"($env.MSVS_ROOT)/VC/Tools/MSVC/*" | into glob)).name.0 | str replace -a '\\' '/')
-      })
+    $env.MSVS_MSVC_ROOT = (
+        if not ($"($env.MSVS_ROOT)/VC/Tools/MSVC/" | path exists) {
+          ""
+        } else if (ls ($"($env.MSVS_ROOT)/VC/Tools/MSVC/*" | into glob) | is-empty) {
+          ""
+        } else {
+          ((ls ($"($env.MSVS_ROOT)/VC/Tools/MSVC/*" | into glob)).name.0 | str replace -a '\\' '/')
+        })
 
-  $env.MSVS_MSDK_ROOT = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder | get value)
+    $env.MSVS_MSDK_ROOT = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder | get value)
 
-  $env.MSVS_MSDK_VER = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' ProductVersion | get value) + ".0"
+    $env.MSVS_MSDK_VER = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' ProductVersion | get value) + ".0"
 
-  $env.MSVS_INCLUDE_PATH = ([
-    $"($env.MSVS_ROOT)/Include/($env.MSVS_MSDK_VER)/cppwinrt/winrt",
-    $"($env.MSVS_MSVC_ROOT)/include",
-    $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/cppwinrt/winrt",
-    $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/shared",
-    $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/ucrt",
-    $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/um",
-    $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/winrt"
-  ] | str join ";")
+    $env.MSVS_INCLUDE_PATH = ([
+      $"($env.MSVS_ROOT)/Include/($env.MSVS_MSDK_VER)/cppwinrt/winrt",
+      $"($env.MSVS_MSVC_ROOT)/include",
+      $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/cppwinrt/winrt",
+      $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/shared",
+      $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/ucrt",
+      $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/um",
+      $"($env.MSVS_MSDK_ROOT)Include/($env.MSVS_MSDK_VER)/winrt"
+    ] | str join ";")
+
+    $env.MSVS_ACTIVATED = false
+  }
 }
 
 export def --env activate [
@@ -41,7 +45,7 @@ export def --env activate [
     --sdk    (-s): string = "latest"  # Version of Windows SDK, must be "latest" or a valid version string
   ] {
   if (($env.MSVS_ROOT | is-empty) or ($env.MSVS_MSVC_ROOT | is-empty)) {
-    print "Either Microsoft Visual Studio or MSVC is valid."
+    print "Neither Microsoft Visual Studio nor MSVC is available."
     return
   }
 
@@ -125,17 +129,12 @@ export def --env activate [
     LIB: $lib_path
   }
 
-  hide-env MSVS_BASE_PATH
-  hide-env MSVS_ROOT
-  hide-env MSVS_MSVC_ROOT
-  hide-env MSVS_MSDK_ROOT
-  hide-env MSVS_MSDK_VER
-  hide-env MSVS_INCLUDE_PATH
+  $env.MSVS_ACTIVATED = true
 }
 
 export def --env deactivate [] {
-  if (($env.MSVS_ROOT | is-empty) or ($env.MSVS_MSVC_ROOT | is-empty)) {
-    print "Either Microsoft Visual Studio or MSVC is valid."
+  if (($env.MSVS_ROOT? | is-empty) or ($env.MSVS_MSVC_ROOT? | is-empty)) {
+    print "Neither Microsoft Visual Studio nor MSVC is available."
     return
   }
 
@@ -144,6 +143,5 @@ export def --env deactivate [] {
     PATH: $env.MSVS_BASE_PATH
   }
 
-  hide-env INCLUDE
-  hide-env LIB
+  $env.MSVS_ACTIVATED = false
 }

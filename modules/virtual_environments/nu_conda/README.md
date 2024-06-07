@@ -3,7 +3,7 @@ A simple module for activating and deactivating Conda environments.
 
 
 ## Prerequisites
-- [nushell](https://github.com/nushell/nushell) >= 0.83.0
+- [nushell](https://github.com/nushell/nushell) >= 0.94.0
 
 
 ## Installation
