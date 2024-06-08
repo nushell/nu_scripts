@@ -1,7 +1,7 @@
 # A proposal for improving the original `std bench` command by @amtoine
 # https://github.com/nushell/nushell/blob/31f3d2f6642b585f0d88192724723bf0ce330ecf/crates/nu-std/std/mod.nu#L134
 
-# convert an integer amount of nanoseconds to a real duration
+# round an integer amount of nanoseconds to 4th digit and convert to a real duration
 def "from ns" [] {
     if $in == 0 {0} else { #math log errors on 0
         math round -p (3 - ($in | math log 10 | math floor)) # rounds to 4th digit including, with maximum realtive err 0.05%
