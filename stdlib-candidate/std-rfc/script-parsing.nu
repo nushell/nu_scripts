@@ -38,7 +38,7 @@ export def parse-arg [
         $in | from nuon
     } catch {
         error make {
-            msg: "invalid NUON",
+            msg: $"(ansi red_bold)invalid NUON(ansi reset)",
             label: {
                 text: "invalid NUON",
                 span: $span,
@@ -48,7 +48,7 @@ export def parse-arg [
 
     if ($val | describe) != $expected_type {
         error make {
-            msg: "bad type",
+            msg: $"(ansi red_bold)bad type(ansi reset)",
             label: {
                 text: $"type: ($val | describe)",
                 span: $span,
