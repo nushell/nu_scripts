@@ -263,3 +263,15 @@ export extern "kw explore" [
 ]
 
 export alias "kw e" = kw explore
+
+export extern "kw pomodoro" [
+    --set-timer(-t): string                             # Define a timer for the pomodoro (h | m | s)
+    --tag(-g): string                                   # Tag the pomodoro
+    --description(-d): string                           # Describe the pomodoro task
+    --check-timer(-c)                                   # Check the current timer
+    --show-tags(-s)                                     # Show all tags used in pomodoros      
+    --help(-h)                                          # Shows help page
+    --verbose                                           # Verbose mode
+]
+
+export alias "kw p" = kw pomodoro
