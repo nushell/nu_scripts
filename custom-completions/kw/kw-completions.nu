@@ -82,6 +82,12 @@ def "nu-complete kw configs" [] {
     | parse --regex '\[.*\] (?<value>[a-z_.]+)=(?<description>.+)$'
 }
 
+def "nu-complete kw remotes" [] {
+    ^kw remote --list
+    | lines
+    | filter {|line| not ($line | str contains " ")}
+}
+
 # The inglorious kernel developer workflow tool
 export extern "kw" [
     subcommand?: string@"nu-complete kw subcommands"  # Subcommand to run
@@ -231,3 +237,14 @@ export extern "kw config" [
 ]
 
 export alias "kw g" = kw config
+
+# Manage set of tracked test machines
+export extern "kw remote" [
+    --global                                            # Force use global config file instead of the local one
+    --add: string                                       # Adds a remote named <name> for the machine at <remote-address>
+    --remove: string@"nu-complete kw remotes"           # Remove the remote named <name>
+    --rename: string@"nu-complete kw remotes"           # Rename the remote named <old-name> to <new-name>
+    --list                                              # List all available remotes.
+    --set-default(-s)                                   # Set the default remote
+    --verbose(-v)                                       # Verbose mode
+]
