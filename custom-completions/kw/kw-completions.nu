@@ -291,3 +291,11 @@ export extern "kw report" [
 ]
 
 export alias "kw r" = kw report
+
+# Retrieve basic hardware information from a target machine
+export extern "kw device" [
+    --local                                             # Show local device information
+    --remote: string                                    # Show remote device information <remote>:<port>
+    --help(-h)                                          # Shows help page
+    --verbose                                           # Verbose mode
+]
