@@ -226,6 +226,7 @@ export extern "kw kernel-config-manager" [
 
 export alias "kw k" = kw kernel-config-manager
 
+#config manager
 export extern "kw config" [
     option?: string@"nu-complete kw configs"  # Config options to set
     value?: string                           # Value to set the option to
@@ -264,6 +265,7 @@ export extern "kw explore" [
 
 export alias "kw e" = kw explore
 
+#pomodoro style time management
 export extern "kw pomodoro" [
     --set-timer(-t): string                             # Define a timer for the pomodoro (h | m | s)
     --tag(-g): string                                   # Tag the pomodoro
@@ -299,3 +301,90 @@ export extern "kw device" [
     --help(-h)                                          # Shows help page
     --verbose                                           # Verbose mode
 ]
+
+# kernel debug
+export extern "nu-complete kw debug" [ 
+    --disable(-d)                                        # Disable all events specified inside --event "" and --ftrace.
+    --list(-l): string                                   # List all available events. If a specific event is informed via --events "<event>", this option will only list specific events related to the "<event>". This feature does not apply to --dmesg option.
+    --history(-k)                                        # Create a debug directory that keeps track of all debugs made by the users. It creates a directory and organizes it based on an ID and date.
+    --follow(-f)                                         # Real time output.
+    --cmd(-c)                                            # If this parameter is used combined with --event or --ftrace, the following sequence will happen: (1) Enable specific trace, (2) collect trace in background, (3) run the command, (4) disable traces. When used with --dmesg, kw will (1) clean the dmesg log, (2) run the command, (3) and collect the log.
+    --verbose                                            # Verbose mode is an option that causes the kw program to display debug messages to track its steps. This functionality is very useful during the debugging process, allowing you to identify possible errors more easily.
+    --help(-h)                                           # Shows help page
+]
+
+
+
+
+# git send-email wrapper
+export extern "nu-complete kw mail" [
+    ...args: string
+    --send(-s): string                                   # Send a patch by email using git send-email to the email addresses specified with --to and --cc.
+    --to: string                                         # Specify the recipients that will receive the patch via e-mail.
+    --cc: string                                         # Specify the recipients that will receive a copy of the patch via e-mail.
+    --simulate                                           # Do everything without actually sending the e-mail.
+    --private                                            # Suppress auto generation of recipients.
+    --rfc                                                # Add a request for comment prefix to the e-mail's subject.
+    --setup(-t): string                                  # Initialize and configure mail functionality. Each argument specifies a <config> to be set with the corresponding <value>.
+    --interactive(-i)                                    # Interactively prompt the user for the values of the options.
+    --no-interactive(-n)                                 # Inhibits interactive properties, particularly from the template option.
+    --local                                              # Forces the commands to be run at a local scope. If nothing is passed all changes will be applied locally, but the listing and verification will happen in all scopes.
+    --global                                             # Same as --local but in the global scope.
+    --force(-f)                                          # Forces the configurations to be added, regardless of conflicts with the current values already set in the system.
+    --verify                                             # Verify that all the settings needed are set and valid.
+    --template: string                                   # Loads the default configuration values based on the given <template>. If no template is given the user will be shown the available templates to choose from.
+    --list(-l)                                           # Lists the settings that mail uses.
+    --verbose                                            # Verbose mode is an option that causes the kw program to display debug messages to track its progress.
+    --help(-h)                                           # Shows help page
+]
+
+
+
+# kw env manager
+export extern "nu-complete kw env" [
+    --create(-c): string                                  # The create parameter expects a string to be used as an env name. When kw creates a new env it instantiates the current kw configurations to the new env.
+    --use(-u): string                                     # Change from one env to another previously created.
+    --destroy(-d): string                                 # The destroy parameter expects a string with the name of the env you want to destroy.
+    --list(-l)                                            # It shows all envs created via --create option.
+    --exit-env(-e)                                        # Allow users to "exit" the env feature. If the user is using a specific env and doesn't want to use it anymore, the --exit-env option will remove all symbolic links and copy the current env's configuration files to the .kw.
+    --verbose                                             # Verbose mode is an option that causes the kw program to display debug messages to track its progress.
+    --help(-h)                                            # Shows help page
+]
+
+
+
+# UI with lore.kernel.org archives
+export extern "nu-complete kw patch-hub" [
+    --help(-h)                                           # Shows help page
+]
+
+# clear files generated by kw
+export extern "nu-complete kw clear-cache" []
+
+# drm subsystem support
+export extern "kw drm" [
+    --local                                                # Show all DRM drivers available in the local machine.                                                   
+    --remote: string                                       # Specify the target device for the drm action, can be a remote or local machine.
+    --load-module: string                                  # Allow user to specify one or more modules to load with or without parameters.
+    --unload-module: string                                # Allow users to unload one or more DRM drivers.
+    --gui-on                                               # Provide a mechanism for turning on the GUI.
+    --gui-off                                              # Turn off the target GUI in the specified target.
+    --conn-available                                       # Show all connectors available in the target machine.
+    --modes                                                # Show all available modes per card.
+    --verbose                                              # Verbose mode that causes the kw program to display debug messages to track its progress.
+    --help(-h)                                             # Shows help page
+]
+
+# commands to work with QEMU VMs
+export extern "kw vm" [
+    --mount(-m)                                           # This mounts the QEMU image in a specific directory, based on the data available in the kworkflow.config file. Only run this command after you turn off your VM.
+    --umount(-n)                                          # This unmounts the previously mounted QEMU image, based on the parameters available in the kworkflow.config file.
+    --up(-u)                                              # This starts the QEMU VM based on parameters in the kworkflow.config file.
+    --alert: string                                       # Defines the alert behaviour upon the command completion. Options: s (sound notification), v (visual notification), sv or vs (both), n (or any other option) disables notifications.
+]
+
+    
+# Show kw man page
+export extern "kw help" []
+
+export alias "kw h" = kw help   
