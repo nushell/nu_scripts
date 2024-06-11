@@ -248,3 +248,18 @@ export extern "kw remote" [
     --set-default(-s)                                   # Set the default remote
     --verbose(-v)                                       # Verbose mode
 ]
+
+# Git grep wrapper
+export extern "kw explore" [
+    expr?: string                                        # Expression to search for
+    --log(-l)                                           # Search using git log with the given string
+    --grep(-g)                                          # Search using grep with the given string
+    --all(-a)                                           # Search using git grep with the given string      
+    --only-source(-c)                                   # Show only results from source code
+    --only-header(-H)                                   # Show only results from header
+    -p: string                                          # Path to where to start the search
+    --help(-h)                                          # Shows help page
+    --verbose                                           # Verbose mode
+]
+
+export alias "kw e" = kw explore
