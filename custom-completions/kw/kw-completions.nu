@@ -275,3 +275,19 @@ export extern "kw pomodoro" [
 ]
 
 export alias "kw p" = kw pomodoro
+
+# User data report support
+export extern "kw report" [
+    --year: string=""                                   # Shows the report for the current year if not specified <year>
+    --month: string=""                                  # Shows the report for the current month if not specified <year>/<month>
+    --week: string=""                                   # Shows the report for the current week if not specified <year>/<week>
+    --day: string=""                                    # Shows the report for the current day if not specified <year>/<month>/<day> 
+    --all                                               # Shows all the data in the report
+    --statistics(-s)                                    # Shows the statistics of the report
+    --pomodoro                                          # Shows the pomodoro data in the report
+    --output: string                                    # Output the report to a file
+    --help(-h)                                          # Shows help page
+    --verbose                                           # Verbose mode
+]
+
+export alias "kw r" = kw report
