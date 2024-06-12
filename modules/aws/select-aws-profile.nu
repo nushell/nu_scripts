@@ -9,16 +9,13 @@
 #
 # Usage
 #     select-aws-profile
-export def select-aws-profile [] {
+export def --env main [] {
     hide AWS_REGION;
 
     (do {
         let creds = (open ($env.HOME + "/.aws/credentials") | from toml)
-            let selectedProfile = (for it in ($creds | transpose name creds) {
-                echo $it.name
-            })
-            
-            selectedProfile = selectedProfile  | str join "\n" | fzf | str trim
+        let profiles = $creds | transpose name creds | each {|x| printf $x.name }            
+        let selectedProfile = $profiles | str join "\n" | fzf | str trim
 
             if $selectedProfile != "" {
                 let out = {
