@@ -304,8 +304,12 @@ export extern "kw device" [
 
 # kernel debug
 export extern "nu-complete kw debug" [ 
+    --dmesg(-g)                                          # Collect dmesg log.
+    --event(-e): string=""                               # Enable specific events to be traced. If no event is specified, all events will be enabled.
+    --ftrace(-t)                                         # Enable ftrace.
+    --reset
     --disable(-d)                                        # Disable all events specified inside --event "" and --ftrace.
-    --list(-l): string                                   # List all available events. If a specific event is informed via --events "<event>", this option will only list specific events related to the "<event>". This feature does not apply to --dmesg option.
+    --list(-l): string=""                                # List all available events. If a specific event is informed via --events "<event>", this option will only list specific events related to the "<event>". This feature does not apply to --dmesg option.
     --history(-k)                                        # Create a debug directory that keeps track of all debugs made by the users. It creates a directory and organizes it based on an ID and date.
     --follow(-f)                                         # Real time output.
     --cmd(-c)                                            # If this parameter is used combined with --event or --ftrace, the following sequence will happen: (1) Enable specific trace, (2) collect trace in background, (3) run the command, (4) disable traces. When used with --dmesg, kw will (1) clean the dmesg log, (2) run the command, (3) and collect the log.
