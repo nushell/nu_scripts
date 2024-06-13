@@ -247,6 +247,7 @@ export extern "kw remote" [
     --rename: string@"nu-complete kw remotes"           # Rename the remote named <old-name> to <new-name>
     --list                                              # List all available remotes.
     --set-default(-s)                                   # Set the default remote
+    --help(-h)                                          # Shows help page
     --verbose(-v)                                       # Verbose mode
 ]
 
