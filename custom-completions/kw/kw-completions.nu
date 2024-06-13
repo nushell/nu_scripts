@@ -129,7 +129,7 @@ export extern "kw build" [
     --clean(-c)                                         # Removes build files (keeps the configuration)
     --full-cleanup(-f)                                  # Runs make distclean to reset the tree to the default state
     --cflags                                            # Allow passing of flags to the compiler
-    --alert: string
+    --alert: string@"nu-complete kw deploy alert"       # set alert behaviour upon command completion
     --help(-h)                                          # Shows help page
     --verbose                                           # Verbose mode
 ]
@@ -385,7 +385,7 @@ export extern "kw vm" [
     --mount(-m)                                           # This mounts the QEMU image in a specific directory, based on the data available in the kworkflow.config file. Only run this command after you turn off your VM.
     --umount(-n)                                          # This unmounts the previously mounted QEMU image, based on the parameters available in the kworkflow.config file.
     --up(-u)                                              # This starts the QEMU VM based on parameters in the kworkflow.config file.
-    --alert: string                                       # Defines the alert behaviour upon the command completion. Options: s (sound notification), v (visual notification), sv or vs (both), n (or any other option) disables notifications.
+    --alert: string@"nu-complete kw deploy alert"         # set alert behaviour upon command completion
 ]
 
     
