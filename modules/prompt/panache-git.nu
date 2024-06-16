@@ -55,7 +55,8 @@ export def repo-structured [] {
     $status
     | where ($it | str starts-with '# branch.head')
     | first
-    | str contains --not '(detached)'
+    | str contains '(detached)'
+    | not $in
   } else {
     false
   })
