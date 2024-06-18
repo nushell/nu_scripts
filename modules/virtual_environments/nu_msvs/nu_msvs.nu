@@ -1,63 +1,65 @@
-export-env {
-  $env.MSVS_BASE_PATH = $env.Path
-  $env.PATH_VAR = (if "Path" in $env { "Path" } else { "PATH" })
+def --env find_msvs [] {
+  export-env {
+    $env.MSVS_BASE_PATH = $env.Path
+    $env.PATH_VAR = (if "Path" in $env { "Path" } else { "PATH" })
 
-  let info = (
-      if not (which vswhere | is-empty) {
-        (vswhere -format json | from json)
-      } else {
-        ('{"installationPath": [""]}' | from json)
-      }
-  )
+    let info = (
+        if not (which vswhere | is-empty) {
+          (vswhere -format json | from json)
+        } else {
+          ('{"installationPath": [""]}' | from json)
+        }
+    )
 
-  $env.MSVS_ROOT = $info.installationPath.0
+    $env.MSVS_ROOT = $info.installationPath.0
 
-  $env.MSVS_MSVC_ROOT = (
-      if not ($'($env.MSVS_ROOT)\VC\Tools\MSVC\' | path exists) {
-        ""
-      } else if (ls ($'($env.MSVS_ROOT)\VC\Tools\MSVC\*' | into glob) | is-empty) {
-        ""
-      } else {
-        ((ls ($'($env.MSVS_ROOT)\VC\Tools\MSVC\*' | into glob)).name.0)
-      })
+    $env.MSVS_MSVC_ROOT = (
+        if not ($'($env.MSVS_ROOT)\VC\Tools\MSVC\' | path exists) {
+          ""
+        } else if (ls ($'($env.MSVS_ROOT)\VC\Tools\MSVC\*' | into glob) | is-empty) {
+          ""
+        } else {
+          ((ls ($'($env.MSVS_ROOT)\VC\Tools\MSVC\*' | into glob)).name.0)
+        })
 
-  $env.MSVS_MSDK_ROOT = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder | get value)
+    $env.MSVS_MSDK_ROOT = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder | get value)
 
-  $env.MSVS_MSDK_VER = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' ProductVersion | get value) + '.0'
+    $env.MSVS_MSDK_VER = (registry query --hklm 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' ProductVersion | get value) + '.0'
 
-  $env.MSVS_INCLUDE_PATH = ([
-    $'($env.MSVS_ROOT)\Include\($env.MSVS_MSDK_VER)\cppwinrt\winrt',
-    $'($env.MSVS_MSVC_ROOT)\Include',
-    $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\cppwinrt\winrt',
-    $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\shared',
-    $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\ucrt',
-    $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\um',
-    $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\winrt'
-  ] | str join (char esep))
+    $env.MSVS_INCLUDE_PATH = ([
+      $'($env.MSVS_ROOT)\Include\($env.MSVS_MSDK_VER)\cppwinrt\winrt',
+      $'($env.MSVS_MSVC_ROOT)\Include',
+      $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\cppwinrt\winrt',
+      $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\shared',
+      $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\ucrt',
+      $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\um',
+      $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\winrt'
+    ] | str join (char esep))
 
-  let esep_path_converter = {
-    from_string: { |s| $s | split row (char esep) }
-    to_string: { |v| $v | path expand | str join (char esep) }
+    let esep_path_converter = {
+      from_string: { |s| $s | split row (char esep) }
+      to_string: { |v| $v | path expand | str join (char esep) }
+    }
+
+    $env.ENV_CONVERSIONS = {
+      Path: $esep_path_converter
+      DYLD_FALLBACK_LIBRARY_PATH: $esep_path_converter
+      PSModulePath: $esep_path_converter
+      MSVS_BASE_PATH: $esep_path_converter
+      MSVS_INCLUDE_PATH: $esep_path_converter
+      INCLUDE: $esep_path_converter
+      LIB: $esep_path_converter
+    }
+
+    # Debugging Info
+    # print $"MSVS_BASE_PATH: ($env.MSVS_BASE_PATH)"
+    # print $"PATH_VAR: ($env.PATH_VAR)"
+    # print $"MSVS_ROOT: ($env.MSVS_ROOT)"
+    # print $"MSVS_MSVC_ROOT: ($env.MSVS_MSVC_ROOT)"
+    # print $"MSVS_MSDK_ROOT: ($env.MSVS_MSDK_ROOT)"
+    # print $"MSVS_MSDK_VER: ($env.MSVS_MSDK_VER)"
+    # print $"MSVS_INCLUDE_PATH: ($env.MSVS_INCLUDE_PATH)"
   }
-
-  $env.ENV_CONVERSIONS = {
-    Path: $esep_path_converter
-    DYLD_FALLBACK_LIBRARY_PATH: $esep_path_converter
-    PSModulePath: $esep_path_converter
-    MSVS_BASE_PATH: $esep_path_converter
-    MSVS_INCLUDE_PATH: $esep_path_converter
-    INCLUDE: $esep_path_converter
-    LIB: $esep_path_converter
-  }
-
-  # Debugging Info
-  # print $"MSVS_BASE_PATH: ($env.MSVS_BASE_PATH)"
-  # print $"PATH_VAR: ($env.PATH_VAR)"
-  # print $"MSVS_ROOT: ($env.MSVS_ROOT)"
-  # print $"MSVS_MSVC_ROOT: ($env.MSVS_MSVC_ROOT)"
-  # print $"MSVS_MSDK_ROOT: ($env.MSVS_MSDK_ROOT)"
-  # print $"MSVS_MSDK_VER: ($env.MSVS_MSDK_VER)"
-  # print $"MSVS_INCLUDE_PATH: ($env.MSVS_INCLUDE_PATH)"
 }
 
 export def --env activate [
@@ -65,6 +67,13 @@ export def --env activate [
     --target (-t): string = x64,    # Target architecture, must be x64 or x86 (case insensitive)
     --sdk    (-s): string = latest  # Version of Windows SDK, must be "latest" or a valid version string
   ] {
+  # I changed export-env {} to a custom command to avoid having export-env run when loading the module
+  # because:
+  # 1. I couldn't use activate because it depends on env vars being set that were hidden with deactivate
+  # 2. It seems that export-env executed at `use`, leaves `$env.FILE_PWD` available in the environment
+  #    which I think may be a bug. So, putting it in a custom command avoids that.
+  find_msvs
+
   if (($env.MSVS_ROOT | is-empty) or ($env.MSVS_MSVC_ROOT | is-empty)) {
     print "Either Microsoft Visual Studio or MSVC is valid."
     return
