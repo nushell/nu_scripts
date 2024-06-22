@@ -238,3 +238,52 @@ def cartesian_product [] {
         [1, 3, 5], [1, 3, 6], [1, 4, 5], [1, 4, 6], [2, 3, 5], [2, 3, 6], [2, 4, 5], [2, 4, 6]
     ]
 }
+
+# `ways-to-add-up-to $n` is a list of all possible strictly-positive-integer sums that add up to `$n`
+#
+# # Example
+# `ways-to-add-up-to 4` will be `[[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2], [4]]]` because $4$
+# can be obtained as follows:
+# $$
+#     4 = 1 + 1 + 1 + 1
+#       = 1 + 1 + 2
+#       = 1 + 3
+#       = 2 + 2
+#       = 4
+# $$
+export def ways-to-add-up-to [n: int]: [ nothing -> list<list<int>> ] {
+    if $n == 0 {
+        return []
+    } else if $n == 1 {
+        return [[1]]
+    }
+
+    ways-to-add-up-to ($n - 1)
+        | each { |it|
+            let a = $it | append [1]
+            let b = seq 0 ($it | length | $in - 1) | each { |i| $it | update $i { $in + 1 } }
+            [$a] ++ $b
+        }
+        | flatten
+        | each { sort }
+        | uniq
+}
+
+#[test]
+def test [] {
+    use std assert
+    for it in [
+        [n, expected];
+
+        [0, []],
+        [1, [[1]]],
+        [2, [[1, 1], [2]]],
+        [2, [[1, 1], [2]]],
+        [3, [[1, 1, 1], [1, 2], [3]]],
+        [4, [[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2], [4]]],
+        [5, [[1, 1, 1, 1, 1], [1, 1, 1, 2], [1, 1, 3], [1, 2, 2], [1, 4], [2, 3], [5]]],
+    ] {
+        assert equal (ways-to-add-up-to $it.n | sort) ($it.expected | sort)
+    }
+    print "tests passed"
+}
