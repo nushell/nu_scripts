@@ -1,6 +1,6 @@
 ### kubernetes
 export def ensure-cache [cache path action] {
-    let ts = (do -i { ls $path | sort-by modified | reverse | get 0.modified })
+    let ts = (do -i { ls ($path | into glob) | sort-by modified | reverse | get 0.modified })
     if ($ts | is-empty) { return false }
     let tc = (do -i { ls $cache | get 0.modified })
     if not (($cache | path exists) and ($ts < $tc)) {
@@ -14,10 +14,10 @@ def "kube ctx" [] {
     mut cache = ''
     mut file = ''
     if ($env.KUBECONFIG? | is-empty) {
-        $cache = $'($env.HOME)/.cache/nu-power/kube.json'
+        $cache = ([$nu.data-dir 'cache' 'power'] | path join 'kube.json')
         $file = $"($env.HOME)/.kube/config"
     } else {
-        $cache = $"($env.HOME)/.cache/nu-power/kube-($env.KUBECONFIG | str replace -a '/' ':').json"
+        $cache = ([$nu.data-dir 'cache' 'power'] | path join $"kube-($env.KUBECONFIG | str replace -a '/' ':').json")
         $file = $env.KUBECONFIG
     }
     if not ($file | path exists) { return null }
@@ -25,7 +25,7 @@ def "kube ctx" [] {
         do -i {
             kubectl config get-contexts
             | from ssv -a
-            | where CURRENT == '*'
+            | filter {|x| $x.CURRENT | is-not-empty }
             | get 0
         }
     }
@@ -33,7 +33,7 @@ def "kube ctx" [] {
 
 def kube_stat [] {
     {|bg|
-        let ctx = (kube ctx)
+        let ctx = kube ctx
         if ($ctx | is-empty) {
             [$bg ""]
         } else {
@@ -51,11 +51,14 @@ def kube_stat [] {
 
 export-env {
     power register kube (kube_stat) {
-        context: cyan
-        separator: purple
-        namespace: yellow
-    } {
-        reverse: false
-        separator: ':'
+        theme: {
+            context: cyan
+            separator: purple
+            namespace: yellow
+        }
+        config: {
+            reverse: false
+            separator: ':'
+        }
     }
 }

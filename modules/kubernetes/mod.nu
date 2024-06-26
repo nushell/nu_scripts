@@ -314,7 +314,7 @@ export def kl [
     let f = if $follow {[-f]} else {[]}
     let p = if $previous {[-p]} else {[]}
     let trg = if ($pod | str ends-with '-') {
-        $"deployment/($pod | str substring ..-1)"
+        $"deployment/($pod | str substring ..<-1)"
         } else {
             $pod
         }
@@ -513,8 +513,8 @@ export def ktp [
             {
                 namespace: $x.namespace
                 name: $x.name
-                cpu: ($x.cpu| str substring ..-1 | into float)
-                mem: ($x.mem | str substring ..-2 | into float)
+                cpu: ($x.cpu| str substring ..<-1 | into float)
+                mem: ($x.mem | str substring ..<-2 | into float)
             }
         }
     } else {
@@ -523,8 +523,8 @@ export def ktp [
         | each {|x|
             {
                 name: $x.name
-                cpu: ($x.cpu| str substring ..-1 | into float)
-                mem: ($x.mem | str substring ..-2 | into float)
+                cpu: ($x.cpu| str substring ..<-1 | into float)
+                mem: ($x.mem | str substring ..<-2 | into float)
             }
         }
     }
@@ -535,10 +535,10 @@ export def ktno [] {
     kubectl top node | from ssv -a | rename name cpu pcpu mem pmem
     | each {|x| {
         name: $x.name
-        cpu: ($x.cpu| str substring ..-1 | into float)
-        cpu%: (($x.pcpu| str substring ..-1 | into float) / 100)
-        mem: ($x.mem | str substring ..-2 | into float)
-        mem%: (($x.pmem | str substring ..-1 | into float) / 100)
+        cpu: ($x.cpu| str substring ..<-1 | into float)
+        cpu%: (($x.pcpu| str substring ..<-1 | into float) / 100)
+        mem: ($x.mem | str substring ..<-2 | into float)
+        mem%: (($x.pmem | str substring ..<-1 | into float) / 100)
     } }
 }
 
