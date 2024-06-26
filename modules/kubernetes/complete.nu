@@ -3,7 +3,7 @@ use utils.nu *
 
 export def "nu-complete kube ctx" [] {
     let k = (kube-config)
-    let cache = $'($env.HOME)/.cache/nu-complete/k8s/($k.path | path basename).json'
+    let cache = ([$nu.data-dir 'cache' 'k8s'] | path join $'($k.path | path basename).json')
     let data = ensure-cache-by-lines $cache $k.path { ||
         let clusters = $k.data | get clusters | select name cluster.server
         let data = $k.data
@@ -38,7 +38,7 @@ export def "nu-complete kube ns" [] {
 
 export def "nu-complete kube kind" [] {
     let ctx = (kube-config)
-    let cache = $'($env.HOME)/.cache/nu-complete/k8s-api-resources/($ctx.data.current-context).json'
+    let cache = ([$nu.data-dir 'cache' 'k8s-api-resources'] | path join $'($ctx.data.current-context).json')
     ensure-cache-by-lines $cache $ctx.path {||
         kubectl api-resources | from ssv -a
         | each {|x| {value: $x.NAME description: $x.SHORTNAMES} }

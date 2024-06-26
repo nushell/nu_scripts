@@ -57,7 +57,7 @@ def fmt-group [p] {
 }
 
 def "ssh-hosts" [] {
-    let cache = $'($env.HOME)/.cache/nu-complete/ssh.json'
+    let cache = ([$nu.data-dir 'cache'] | path join 'ssh.json')
     ensure-cache $cache [~/.ssh/config ~/.ssh/config*/* ] { ||
         let data = (ssh-list | each {|x|
                 let uri = $"($x.User)@($x.HostName):($x.Port)"
