@@ -19,7 +19,10 @@ export def setup []: [ nothing -> record<condition: closure, code: string> ] {
             }
 
             if \(open .env.nu | hash sha256\) not-in $allowed {
-                error make --unspanned { msg: 'not allowed' }
+                error make --unspanned {
+                    msg: $'\(ansi purple\)\('.env.nu' | path expand\)\(ansi reset\) is not allowed',
+                    help: $'please run \(ansi default_dimmed\)nuenv allow\(ansi reset\) first',
+                }
             }
 
             print $'[\(ansi yellow_bold\)hook\(ansi reset\)] loading env file'
