@@ -8,6 +8,13 @@ def get-allowed []: [ nothing -> list<string> ] {
     }
 }
 
+# setup a hook that will try to load `.env.nu` if it is allowed
+#
+# # Example
+# ```nushell
+# use nu-hooks/nuenv/hook.nu [ "nuenv allow", "nuenv disallow" ]
+# $env.config.hooks.env_change.PWD = (use nu-hooks/nuenv/hook.nu; hook setup)
+# ```
 export def setup []: [ nothing -> record<condition: closure, code: string> ] {
     {
         condition: {|_, after| $after | path join '.env.nu' | path exists }
@@ -52,6 +59,7 @@ def check-env-file [] {
     }
 }
 
+# adds `./.env.nu` to the list of allowed "env" files
 export def "nuenv allow" [] {
     check-env-file
 
@@ -68,6 +76,7 @@ export def "nuenv allow" [] {
     info "has been allowed"
 }
 
+# removes `./.env.nu` from the list of allowed "env" files
 export def "nuenv disallow" [] {
     check-env-file
 
