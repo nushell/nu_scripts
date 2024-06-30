@@ -32,7 +32,7 @@ export def setup []: [ nothing -> record<condition: closure, code: string> ] {
                 }
             }
 
-            print $'[\(ansi yellow_bold\)hook\(ansi reset\)] loading env file'
+            print $'[\(ansi yellow_bold\)nu-hooks nuenv\(ansi reset\)] loading env file'
             source .env.nu
         "
     }
