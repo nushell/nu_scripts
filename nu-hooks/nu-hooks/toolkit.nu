@@ -16,11 +16,8 @@ export def setup [
     {
         condition: {|_, after| $after | path join 'toolkit.nu' | path exists }
         code: $"
-            print $'[\(ansi ($color)\)nu-hooks toolkit\(ansi reset\)] loading toolkit'
+            print $'[\(ansi ($color)\)nu-hooks toolkit\(ansi reset\)] loading \(ansi purple\)toolkit.nu\(ansi reset\) as an overlay'
             overlay use --prefix toolkit.nu as ($name)
-            overlay list
-                | str join ', '
-                | print $'[\(ansi ($color)\)nu-hooks toolkit\(ansi reset\)] overlays: \($in\)'
         "
     }
 }
