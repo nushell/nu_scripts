@@ -44,13 +44,7 @@ def "nu-complete mask args" [context: string, offset: int] {
     $rt
 }
 
-export def main [
+export extern "mask" [
     recipes?: string@"nu-complete mask recipes"
     ...args: any@"nu-complete mask args"
-] {
-    if ($recipes | is-empty) {
-        ^mask --help
-    } else {
-        ^mask $recipes $args
-    }
-}
+]
