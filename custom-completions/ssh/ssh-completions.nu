@@ -38,15 +38,20 @@ def "nu-complete ssh-host" [] {
 
     $files | each { |file|
         let lines = $file | open | lines | str trim
-        let hosts = $lines
-        | parse --regex '^Host\s+(?<host>.+)'
-        | get host
 
-        let hostnames = $lines
-        | parse --regex '^HostName\s+(?<hostname>.+)'
-        | get hostname
-        $hosts | zip $hostnames | each { || 
-            {'value': $in.0, 'description': $in.1}
+        mut result = []
+        for $line in $lines {
+            let data = $line | parse  --regex '^Host\s+(?<host>.+)'
+            if ($data | is-not-empty) {
+                $result = ($result | append { 'value': ($data.host | first), 'description': "" })
+                continue;
+            }
+            let data = $line | parse --regex '^HostName\s+(?<hostname>.+)'
+            if ($data | is-not-empty) {
+                let last = $result | last | update 'description' ($data.hostname | first)
+                $result = ($result | drop | append $last)
+            }
         }
+        $result
     } | flatten
 }

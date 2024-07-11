@@ -21,6 +21,8 @@ Host my-ip
     HostName 192.168.50.237
 Host mydomain
     HostName mydomain.example.com
+Host no.hostname
+    ProxyCommand ssh -q -W %h:%p office
 Host my-domain-2
     HostName mydomain-2.example.com
 Host my_domain_3
@@ -34,6 +36,7 @@ When you press the tab key, it will display:
 ❯ | ssh
 my-ip             192.168.50.237
 mydomain          mydomain.example.com
+no.hostname
 my-domain-2       mydomain-2.example.com
 my_domain_3       mydomain_3.example.com
 
