@@ -6,6 +6,8 @@
 # Originally added by @devyn to show what absolute best case performance for IR evaluation can look
 # like. Not super representative of normal Nushell code.
 
+use std bench
+
 def fib [n: int] {
   mut a = 0
   mut b = 1
@@ -16,5 +18,7 @@ def fib [n: int] {
   }
   $b
 }
-use std bench
-bench -n 1000 { 0..50 | each { |n| fib $n } } | reject times
+
+def main [] {
+  print (bench -n 1000 { 0..50 | each { |n| fib $n } } | reject times)
+}
