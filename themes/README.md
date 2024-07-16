@@ -1,16 +1,18 @@
-# Nushell themes
+# Nushell Themes
 
 Credit to @lemnos and [all contributors](https://github.com/lemnos/theme.sh/blob/master/CREDITS.md).
 
 ## Use a colorscheme
 ### The manual way
-Currently, the theme change has to be a bit manual.
-To have access to the list of all the themes,
+
+To list all the themes:
+
 ```rust
 ls ./themes/nu-themes
 ```
 
-To use the `dracula` theme for instance, please run
+To use the `dracula` theme for instance, please run:
+
 ```rust
 use ./themes/nu-themes/dracula.nu
 ```
@@ -18,24 +20,29 @@ use ./themes/nu-themes/dracula.nu
 The theme should be activated!
 
 ### Using Nupm
-- install [Nupm] by following the [Nupm instructions]
-- download the `nu_scripts` repository
-```shell
-git clone https://github.com/nushell/nu_scripts
-```
-- activate the `nupm` module with `use nupm`
-- install the `nu-scripts` package
-```nushell
-nupm install --path --force nu_scripts
-```
 
-> **Note**
-> installing the `nu-scripts` package will install `nu-themes` and other modules
+1. Install [Nupm] by following the [Nupm instructions]
+2. Download the `nu_scripts` repository
 
-- now, add the following in your config
-```nushell
-use nu-themes/nushell-dark.nu
-```
+   ```shell
+   git clone https://github.com/nushell/nu_scripts
+   ```
+
+3. Activate the `nupm` module with `use nupm`
+4. Install the `nu-scripts` package
+
+   ```nushell
+   nupm install --path --force nu_scripts
+   ```
+
+   > **Note**
+   > installing the `nu-scripts` package will install `nu-themes` and other modules
+
+5. Add the following in your config:
+
+   ```nushell
+   use nu-themes/nushell-dark.nu
+   ```
 
 ## Screenshots
 
