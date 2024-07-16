@@ -49,8 +49,7 @@ export def main []: string -> string {
 
     # Get number of spaces on the last line
     let indent = $string
-        | parse -r '\n( *)$'
-        | get 0.capture0
+        | str replace -r '(?ms).*\n( *)$' '$1'
         | str length
 
     # Skip the first and last lines
