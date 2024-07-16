@@ -13,7 +13,6 @@ ls ./themes/nu-themes
 To use the `dracula` theme for instance, please run
 ```rust
 use ./themes/nu-themes/dracula.nu
-$env.config = ($env.config | merge {color_config: (dracula)})
 ```
 
 The theme should be activated!
@@ -36,7 +35,6 @@ nupm install --path --force nu_scripts
 - now, add the following in your config
 ```nushell
 use nu-themes/nushell-dark.nu
-$env.config.color_config = (nushell-dark)
 ```
 
 ## Screenshots
