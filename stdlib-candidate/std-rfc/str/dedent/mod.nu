@@ -1,4 +1,6 @@
 # Removes common indent from a multi-line string based on the number of spaces on the last line.
+# 
+# A.k.a. Unindent
 #
 # Example - Two leading spaces are removed from all lines:
 #
