@@ -52,12 +52,15 @@ export def main []: string -> string {
         | str length
 
     # Skip the first and last lines
-    let lines = $string
-        | lines
-        | skip
-        | drop
+    let lines = (
+        $string
+        | str replace -r '(?ms)^[^\n]*\n(.*)\n[^\n]*$' '$1'
+          # Use `split` instead of `lines`, since `lines` will
+          # drop legitimate trailing empty lines
+        | split row "\n"
         | enumerate
         | rename lineNumber text
+    )
 
     let spaces = ('' | fill -c ' ' -w $indent)
 
@@ -83,4 +86,7 @@ export def main []: string -> string {
         }
       }
     | to text
+      # Remove the trailing newline which indicated
+      # indent level
+    | str replace -r '(?ms)(.*)\n$' '$1'
 }
