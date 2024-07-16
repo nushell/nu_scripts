@@ -116,4 +116,13 @@ export def "test str dedent" [] {
             "
         $s | str dedent
     }
+
+    # Test 10:
+    # "Hidden" whitespace on the first line is allowed
+    assert equal (
+        do {
+            let s = "   \t \n  Identity  \n"
+            $s | str dedent
+        }
+    ) "  Identity  "
 }
