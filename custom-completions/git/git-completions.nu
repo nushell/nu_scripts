@@ -689,3 +689,28 @@ export extern "git clone" [
   --jobs(-j): int               # number of simultaneous submodules fetch
   ...args
 ]
+
+# Restores files in working tree or index to previous versions
+export extern "git restore" [
+  --help(-h)                                    # Display the help message for this command
+  --source(-s)                                  # Restore the working tree files with the content from the given tree
+  --patch(-p)                                   # Interactively choose hunks to restore
+  --worktree(-W)                                # Restore working tree (default if neither --worktree or --staged is used)
+  --staged(-S)                                  # Restore index
+  --quiet(-q)                                   # Quiet, suppress feedback messages
+  --progress                                    # Force progress reporting
+  --no-progress                                 # Suppress progress reporting
+  --ours                                        # Restore from index using our version for unmerged files
+  --theirs                                      # Restore from index using their version for unmerged files
+  --merge(-m)                                   # Restore from index and recreate the conflicted merge in unmerged files
+  --conflict: string                            # Like --merge but changes the conflict presentation with =<style>
+  --ignore-unmerged                             # Restore from index and ignore unmerged entries (unmerged files are left as is)
+  --ignore-skip-worktree-bits                   # Ignore sparse checkout patterns and unconditionally restores any files in <pathspec>
+  --recurse-submodules                          # Restore the contents of sub-modules in working tree
+  --no-recurse-submodules                       # Do not restore the contents of sub-modules in working tree (default)
+  --overlay                                     # Do not remove files that don't exist when restoring from tree with --source
+  --no-overlay                                  # Remove files that don't exist when restoring from tree with --source (default)
+  --pathspec-from-file: string                  # Read pathspec from file
+  --pathspec-file-nul                           # Separate pathspec elements with NUL character when reading from file
+  ...pathspecs: string@"nu-complete git files"  # Target pathspecs to restore
+]
