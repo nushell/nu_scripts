@@ -10,7 +10,36 @@ let SOURCE = {
 }
 let THEMES = ($current_dir | path join "nu-themes")
 
-def make-theme [name: string] {
+def make_theme [ name: string ] {
+    $"
+
+    export-env {
+        use ./($name)_colors.nu
+
+        let theme = \(($name)_colors)
+        $env.config.color_config = $theme
+
+        # Set terminal colors
+        let osc_screen_foreground_color = '10;'
+        let osc_screen_background_color = '11;'
+        let osc_cursor_color = '12;'
+        
+        print $\"
+            \(ansi -o $osc_screen_foreground_color)\($theme.foreground)\(char bel)
+            \(ansi -o $osc_screen_background_color)\($theme.background)\(char bel)
+            \(ansi -o $osc_cursor_color)\($theme.cursor)\(char bel)
+        \"
+    }
+    "
+    | str dedent
+    | save --force ({
+        parent: $THEMES
+        stem: $"($name)"
+        extension: "nu"
+    } | path join)
+
+}
+def make_theme_colors [name: string] {
     let colors = (
         open ($SOURCE.dir | path join $name)
         | lines --skip-empty
@@ -22,11 +51,6 @@ def make-theme [name: string] {
     )
 
     (
-        "
-        export-env {
-            $env.config.color_config = \(main\)
-        }
-        " +
         $'
         export def main [] {
             return {
@@ -117,7 +141,7 @@ def make-theme [name: string] {
     | str dedent
     | save --force ({
         parent: $THEMES
-        stem: $name
+        stem: $"($name)_colors"
         extension: "nu"
     } | path join)
 }
@@ -134,7 +158,8 @@ def main [] {
     | each {|theme|
         print $"Converting ($theme)"
         try {
-            make-theme $theme
+            make_theme_colors $theme
+            make_theme $theme
         } catch {
             print -e $"Error converting ($theme)"
         }
