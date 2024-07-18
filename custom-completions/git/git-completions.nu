@@ -734,7 +734,7 @@ export extern "git grep" [
   --no-recursive                        # Same as --max-depth=0
   --word-regexp(-w)                     # Match the pattern only at word boundary
   --invert-match(-v)                    # Select non-matching lines
-  #-H                                   # (Omitted; doesn't seem to work as documented) Suppress filename in output of matched lines
+  -H                                    # Suppress filename in output of matched lines
   --full-name                           # Force relative path to filename from top directory
   --extended-regexp(-E)                 # Use POSIX extended regexp for patterns
   --basic-regexp(-G)                    # Use POSIX basic regexp for patterns (default)
@@ -744,11 +744,9 @@ export extern "git grep" [
   --files-with-matches(-l)              # Print filenames of files that contains matches
   --name-only                           # Same as --files-with-matches
   --files-without-match(-L)             # Print filenames of files that do not contain matches
-  #--open-files-in-pager(-O): string     # (Omitted; Syntax for using a different pager doesn't parse well from Git to Nu) Open the matching files in the pager. A different =<pager> can be specified.
   --null(-z)                            # Use \0 as the delimiter for pathnames in the output, and print them verbatim
   --only-matching(-o)                   # Print only the matched (non-empty) parts of a matching line, with each such part on a separate output line
   --count(-c)                           # Instead of showing every matched line, show the number of lines that match
-  #--color: string@"nu-complete git grep color"  # (Omitted; Parsing is again weird) Show colored matches. The value must be always (the default), never, or auto.
   --no-color                            # Same as --color=never
   --break                               # Print an empty line between matches from different files.
   --heading                             # Show the filename above the matches in that file instead of at the start of each shown line.
@@ -766,6 +764,5 @@ export extern "git grep" [
   --not                                 # Search for lines that does not match pattern.
   --all-match                           # When giving multiple pattern expressions combined with --or, this flag is specified to limit the match to files that have lines to match all of them.
   --quiet(-q)                           # Do not output matched lines; instead, exit with status 0 when there is a match and with non-zero status when there isn’t.
-  #trees?: string  # Instead of searching tracked files in the working tree, search blobs in the given trees.
   ...pathspecs: string                  # Target pathspecs to limit the scope of the search.
 ]
