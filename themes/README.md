@@ -60,11 +60,11 @@ For example, to load and use the `tokyo-night` theme's colors:
 ```nushell
 > use nu-themes/tokyo-night.nu *
   # Display the values
-> tokyo-night-theme get color_config
+> tokyo-night
   # Set the color_config to that scheme
-> tokyo-night-theme set color_config
+> tokyo-night set color_config
   # Or
-> $env.config.color_config = (tokyo-night get color_config)
+> $env.config.color_config = (tokyo-night)
 ```
 
 ### Set terminal colors
@@ -73,7 +73,7 @@ Again, using the `tokyo-night` theme as an example:
 
 ```nushell
 > use nu-themes/tokyo-night.nu *
-> tokyo-night-theme update terminal
+> tokyo-night update terminal
 ```
 
 ## Screenshots
