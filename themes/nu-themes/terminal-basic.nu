@@ -1,18 +1,6 @@
-
 export-env {
-    use ./terminal-basic_colors.nu
+    use ./theme-colors/terminal-basic.nu *
 
-    let theme = (terminal-basic_colors)
-    $env.config.color_config = $theme
-
-    # Set terminal colors
-    let osc_screen_foreground_color = '10;'
-    let osc_screen_background_color = '11;'
-    let osc_cursor_color = '12;'
-        
-    print $"
-        (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
-        (ansi -o $osc_screen_background_color)($theme.background)(char bel)
-        (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
-    "
+    terminal-basic-theme set color_config
+    terminal-basic-theme update terminal
 }

@@ -1,18 +1,6 @@
-
 export-env {
-    use ./dimmed-monokai_colors.nu
+    use ./theme-colors/dimmed-monokai.nu *
 
-    let theme = (dimmed-monokai_colors)
-    $env.config.color_config = $theme
-
-    # Set terminal colors
-    let osc_screen_foreground_color = '10;'
-    let osc_screen_background_color = '11;'
-    let osc_cursor_color = '12;'
-        
-    print $"
-        (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
-        (ansi -o $osc_screen_background_color)($theme.background)(char bel)
-        (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
-    "
+    dimmed-monokai-theme set color_config
+    dimmed-monokai-theme update terminal
 }

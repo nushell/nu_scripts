@@ -1,18 +1,6 @@
-
 export-env {
-    use ./mono-amber_colors.nu
+    use ./theme-colors/mono-amber.nu *
 
-    let theme = (mono-amber_colors)
-    $env.config.color_config = $theme
-
-    # Set terminal colors
-    let osc_screen_foreground_color = '10;'
-    let osc_screen_background_color = '11;'
-    let osc_cursor_color = '12;'
-        
-    print $"
-        (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
-        (ansi -o $osc_screen_background_color)($theme.background)(char bel)
-        (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
-    "
+    mono-amber-theme set color_config
+    mono-amber-theme update terminal
 }

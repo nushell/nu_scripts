@@ -1,18 +1,6 @@
-
 export-env {
-    use ./equilibrium-light_colors.nu
+    use ./theme-colors/equilibrium-light.nu *
 
-    let theme = (equilibrium-light_colors)
-    $env.config.color_config = $theme
-
-    # Set terminal colors
-    let osc_screen_foreground_color = '10;'
-    let osc_screen_background_color = '11;'
-    let osc_cursor_color = '12;'
-        
-    print $"
-        (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
-        (ansi -o $osc_screen_background_color)($theme.background)(char bel)
-        (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
-    "
+    equilibrium-light-theme set color_config
+    equilibrium-light-theme update terminal
 }

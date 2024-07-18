@@ -8,38 +8,27 @@ let SOURCE = {
     local: ($current_dir | path join "lemnos")
     remote: "https://github.com/lemnos/theme.sh"
 }
-let THEMES = ($current_dir | path join "nu-themes")
+let themes_dir = ($current_dir | path join "nu-themes")
+let color_defs_dir = ($current_dir | path join $themes_dir | path join "theme-colors")
 
 def make_theme [ name: string ] {
     $"
+        export-env {
+            use ./theme-colors/($name).nu *
 
-    export-env {
-        use ./($name)_colors.nu
-
-        let theme = \(($name)_colors)
-        $env.config.color_config = $theme
-
-        # Set terminal colors
-        let osc_screen_foreground_color = '10;'
-        let osc_screen_background_color = '11;'
-        let osc_cursor_color = '12;'
-        
-        print $\"
-            \(ansi -o $osc_screen_foreground_color)\($theme.foreground)\(char bel)
-            \(ansi -o $osc_screen_background_color)\($theme.background)\(char bel)
-            \(ansi -o $osc_cursor_color)\($theme.cursor)\(char bel)
-        \"
-    }
-    "
+            ($name)-theme set color_config
+            ($name)-theme update terminal
+        }
+        "
     | str dedent
     | save --force ({
-        parent: $THEMES
+        parent: $themes_dir
         stem: $"($name)"
         extension: "nu"
     } | path join)
 
 }
-def make_theme_colors [name: string] {
+def make_theme_commands [name: string] {
     let colors = (
         open ($SOURCE.dir | path join $name)
         | lines --skip-empty
@@ -50,9 +39,35 @@ def make_theme_colors [name: string] {
         | into record
     )
 
-    (
-        $'
-        export def main [] {
+    let update_terminal_command = $"
+        export def \"update terminal\" [] {
+            let theme = \(get color_config)
+
+            # Set terminal colors
+            let osc_screen_foreground_color = '10;'
+            let osc_screen_background_color = '11;'
+            let osc_cursor_color = '12;'
+            
+            $\"
+                \(ansi -o $osc_screen_foreground_color)\($theme.foreground)\(char bel)
+                \(ansi -o $osc_screen_background_color)\($theme.background)\(char bel)
+                \(ansi -o $osc_cursor_color)\($theme.cursor)\(char bel)
+            \"
+            | str replace --all \"\\n\" ''
+            | print $in
+        }
+        "
+        | str dedent
+
+    let set_color_config_command = $"
+        export def --env \"set color_config\" [] {
+            $env.config.color_config = \(get color_config)
+        }
+        "
+        | str dedent
+
+    let get_color_config_command = $'
+        export def "get color_config" [] {
             return {
                 separator: "($colors.color7)"
                 leading_trailing_space_bg: { attr: "n" }
@@ -137,17 +152,31 @@ def make_theme_colors [name: string] {
             }
         }
         '
-    )
+        | str dedent
+
+    let fix_indent = {
+        str replace -ra '(.*)' '        $1'
+        | str replace -r '(?m)^        ' ''
+    }
+
+    $"
+    export module \"($name)-theme\" {
+        ($update_terminal_command | do $fix_indent)
+        ($get_color_config_command | do $fix_indent)
+        ($set_color_config_command | do $fix_indent)
+    }
+    "
     | str dedent
     | save --force ({
-        parent: $THEMES
-        stem: $"($name)_colors"
+        parent: $color_defs_dir
+        stem: $"($name)"
         extension: "nu"
     } | path join)
 }
 
 def main [] {
-    mkdir $THEMES
+    mkdir $themes_dir
+    mkdir $color_defs_dir
 
     try { git clone $SOURCE.remote $SOURCE.local }
 
@@ -158,10 +187,11 @@ def main [] {
     | each {|theme|
         print $"Converting ($theme)"
         try {
-            make_theme_colors $theme
+            make_theme_commands $theme
             make_theme $theme
-        } catch {
+        } catch {|e|
             print -e $"Error converting ($theme)"
+            print -e $e.debug 
         }
     }
     | ignore

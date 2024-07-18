@@ -1,18 +1,6 @@
-
 export-env {
-    use ./nightlion-v1_colors.nu
+    use ./theme-colors/nightlion-v1.nu *
 
-    let theme = (nightlion-v1_colors)
-    $env.config.color_config = $theme
-
-    # Set terminal colors
-    let osc_screen_foreground_color = '10;'
-    let osc_screen_background_color = '11;'
-    let osc_cursor_color = '12;'
-        
-    print $"
-        (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
-        (ansi -o $osc_screen_background_color)($theme.background)(char bel)
-        (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
-    "
+    nightlion-v1-theme set color_config
+    nightlion-v1-theme update terminal
 }

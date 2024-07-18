@@ -1,18 +1,6 @@
-
 export-env {
-    use ./windows-10_colors.nu
+    use ./theme-colors/windows-10.nu *
 
-    let theme = (windows-10_colors)
-    $env.config.color_config = $theme
-
-    # Set terminal colors
-    let osc_screen_foreground_color = '10;'
-    let osc_screen_background_color = '11;'
-    let osc_cursor_color = '12;'
-        
-    print $"
-        (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
-        (ansi -o $osc_screen_background_color)($theme.background)(char bel)
-        (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
-    "
+    windows-10-theme set color_config
+    windows-10-theme update terminal
 }

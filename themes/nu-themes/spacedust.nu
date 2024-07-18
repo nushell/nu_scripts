@@ -1,18 +1,6 @@
-
 export-env {
-    use ./spacedust_colors.nu
+    use ./theme-colors/spacedust.nu *
 
-    let theme = (spacedust_colors)
-    $env.config.color_config = $theme
-
-    # Set terminal colors
-    let osc_screen_foreground_color = '10;'
-    let osc_screen_background_color = '11;'
-    let osc_cursor_color = '12;'
-        
-    print $"
-        (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
-        (ansi -o $osc_screen_background_color)($theme.background)(char bel)
-        (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
-    "
+    spacedust-theme set color_config
+    spacedust-theme update terminal
 }
