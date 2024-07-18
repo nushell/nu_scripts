@@ -31,7 +31,7 @@ export def main [] {
         leading_trailing_space_bg: { attr: 'n' }
         header: { fg: '#01a252' attr: 'b' }
         empty: '#01a0e4'
-        bool: {|| if $in { '#cdab53' } else { 'light_gray' } }
+        bool: {|| if $in { '#b5e4f4' } else { 'light_gray' } }
         int: '#a5a2a2'
         filesize: {|e|
             if $e == 0b {
@@ -74,7 +74,7 @@ export def main [] {
         shape_and: { fg: '#a16a94' attr: 'b' }
         shape_binary: { fg: '#a16a94' attr: 'b' }
         shape_block: { fg: '#01a0e4' attr: 'b' }
-        shape_bool: '#cdab53'
+        shape_bool: '#b5e4f4'
         shape_custom: '#01a252'
         shape_datetime: { fg: '#b5e4f4' attr: 'b' }
         shape_directory: '#b5e4f4'
@@ -91,7 +91,7 @@ export def main [] {
         shape_literal: '#01a0e4'
         shape_match_pattern: '#01a252'
         shape_matching_brackets: { attr: 'u' }
-        shape_nothing: '#cdab53'
+        shape_nothing: '#b5e4f4'
         shape_operator: '#fded02'
         shape_or: { fg: '#a16a94' attr: 'b' }
         shape_pipe: { fg: '#a16a94' attr: 'b' }
@@ -104,9 +104,9 @@ export def main [] {
         shape_table: { fg: '#01a0e4' attr: 'b' }
         shape_variable: '#a16a94'
 
-        background: '#f7f7f7'
-        foreground: '#4a4543'
-        cursor: '#4a4543'
+        background: '#090300'
+        foreground: '#a5a2a2'
+        cursor: '#a5a2a2'
     }
 }
 
