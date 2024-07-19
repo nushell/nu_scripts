@@ -3,6 +3,6 @@
     description: "Official candidates for Nushell standard library"
     documentation: "https://github.com/nushell/nu_scripts/blob/main/stdlib-candidate/std-rfc/README.md"
     license: "https://github.com/nushell/nu_scripts/blob/main/LICENSE"
-    version: 0.1.0
+    version: 0.3.0
     type: "module"
 }
