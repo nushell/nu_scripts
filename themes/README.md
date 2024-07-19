@@ -29,14 +29,11 @@ The theme should be activated!
    ```
 
 3. Activate the `nupm` module with `use nupm`
-4. Install the `nu-scripts` package
+4. Install the `nu-themes` package
 
    ```nushell
-   nupm install --path --force nu_scripts
+   nupm install --path --force themes
    ```
-
-   > **Note**
-   > installing the `nu-scripts` package will install `nu-themes` and other modules
 
 5. Add the following in your config, substituting the `theme_name` as desired:
 
@@ -58,7 +55,7 @@ If you would like to do *just* one or the other, you can load a theme's color de
 For example, to load and use the `tokyo-night` theme's colors:
 
 ```nushell
-> use nu-themes/tokyo-night.nu *
+> use nu-themes/tokyo-night.nu
   # Display the values
 > tokyo-night
   # Set the color_config to that scheme
@@ -72,7 +69,7 @@ For example, to load and use the `tokyo-night` theme's colors:
 Again, using the `tokyo-night` theme as an example:
 
 ```nushell
-> use nu-themes/tokyo-night.nu *
+> use nu-themes/tokyo-night.nu
 > tokyo-night update terminal
 ```
 
