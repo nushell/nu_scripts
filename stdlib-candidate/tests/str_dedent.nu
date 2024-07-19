@@ -80,10 +80,26 @@ export def "test str dedent" [] {
         $s | str dedent
     }
 
+    # Test 6.1:
+    # Error - Does not contain an empty first line
+    assert error {||
+        let s = "Error\n \nTesting\n"
+        $s | str dedent
+    }
+
     # Test 7:
     # Error - Does not contain an empty last line
     assert error {||
         let s = "
+            Error"
+        $s | str dedent
+    }
+
+    # Test 7.1:
+    # Error - Does not contain an empty last line
+    assert error {||
+        let s = "
+
             Error"
         $s | str dedent
     }

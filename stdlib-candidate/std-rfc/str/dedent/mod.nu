@@ -35,13 +35,13 @@ export def main []: string -> string {
         }
     }
 
-    if ($string !~ '(?ms)^\s*\n') {
+    if ($string !~ '^\s*\n') {
         return (error make {
             msg: 'First line must be empty'
         })
     }
 
-    if ($string !~ '(?ms)\n\s*$') {
+    if ($string !~ '\n\s*$') {
         return (error make {
             msg: 'Last line must contain only whitespace indicating the dedent'
         })
@@ -49,13 +49,13 @@ export def main []: string -> string {
 
     # Get number of spaces on the last line
     let indent = $string
-        | str replace -r '(?ms).*\n( *)$' '$1'
+        | str replace -r '(?s).*\n( *)$' '$1'
         | str length
 
     # Skip the first and last lines
     let lines = (
         $string
-        | str replace -r '(?ms)^[^\n]*\n(.*)\n[^\n]*$' '$1'
+        | str replace -r '(?s)^[^\n]*\n(.*)\n[^\n]*$' '$1'
           # Use `split` instead of `lines`, since `lines` will
           # drop legitimate trailing empty lines
         | split row "\n"
@@ -89,5 +89,5 @@ export def main []: string -> string {
     | to text
       # Remove the trailing newline which indicated
       # indent level
-    | str replace -r '(?ms)(.*)\n$' '$1'
+    | str replace -r '(?s)(.*)\n$' '$1'
 }
