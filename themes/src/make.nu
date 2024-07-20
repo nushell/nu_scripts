@@ -219,7 +219,7 @@ def main [] {
 
     try { git clone $LEMNOS_SOURCE.remote_repo $LEMNOS_SOURCE.local_repo }
 
-    ls $LEMNOS_SOURCE.dir
+    let lemnos_failed = ls $LEMNOS_SOURCE.dir
     | get name
     | path parse
     | get stem
@@ -229,11 +229,11 @@ def main [] {
             make_theme $theme
         } catch {|e|
             err $"Converting ($theme) failed: ($e.msg)"
+            $theme
         }
     }
-    | ignore
 
-    ls $CUSTOM_SOURCE.dir
+    let custom_failed = ls $CUSTOM_SOURCE.dir
     | get name
     | path parse
     | get stem
@@ -243,8 +243,19 @@ def main [] {
             make_theme $theme "custom"
         } catch {|e|
             err $"Converting ($theme) failed: ($e.msg)"
+            $theme
         }
     }
 
-    print "all done"
+    let failed = $custom_failed | wrap name | insert source "custom" | append (
+        $lemnos_failed | wrap name | insert source "lemnos"
+    )
+
+    print ''
+    if not ($failed | is-empty) {
+        warn "The following themes have failed:"
+        print $failed
+    } else {
+        print "all done"
+    }
 }
