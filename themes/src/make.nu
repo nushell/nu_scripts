@@ -217,7 +217,22 @@ def make_theme [ name: string, origin: string = "lemnos" ] {
 def main [] {
     mkdir $themes_dir
 
-    try { git clone $LEMNOS_SOURCE.remote_repo $LEMNOS_SOURCE.local_repo }
+    if ($LEMNOS_SOURCE.local_repo | path exists) {
+        warn "local copy of Lemnos' themes already exists"
+        info "updating local copy"
+        try {
+            git -C $LEMNOS_SOURCE.local_repo pull origin master
+        } catch {
+            err "failed updating local copy"
+        }
+    } else {
+        info "cloning Lemnos' themes"
+        try {
+            git clone $LEMNOS_SOURCE.remote_repo $LEMNOS_SOURCE.local_repo
+        } catch {
+            error make --unspanned { msg: "failed cloning local copy" }
+        }
+    }
 
     let themes = ls $LEMNOS_SOURCE.dir
         | insert source "lemnos"
