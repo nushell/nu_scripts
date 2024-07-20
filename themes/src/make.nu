@@ -15,6 +15,18 @@ let CUSTOM_SOURCE = {
 
 let themes_dir = ($current_dir | path join "../nu-themes")
 
+def info [msg: string, --no-newline (-n)] {
+    print --no-newline=$no_newline $"(ansi green)[INFO](ansi reset) ($msg)"
+}
+
+def err [msg: string, --no-newline (-n)] {
+    print --no-newline=$no_newline $"(ansi red_bold)[ERR](ansi reset) ($msg)"
+}
+
+def warn [msg: string, --no-newline (-n)] {
+    print --no-newline=$no_newline $"(ansi yellow)[WARNING](ansi reset) ($msg)"
+}
+
 # For lemnos themes, create the color_config from the lemnos theme
 # definition.
 # Custom Nushell themes should be defined in themes/src/custom-nu-themes
@@ -212,12 +224,11 @@ def main [] {
     | path parse
     | get stem
     | each {|theme|
-        print $"Converting ($theme)"
+        info -n $"Converting ($theme)                                       \r"
         try {
             make_theme $theme
         } catch {|e|
-            print -e $"Error converting ($theme)"
-            print -e $e.debug 
+            err $"Converting ($theme) failed: ($e.msg)"
         }
     }
     | ignore
@@ -227,12 +238,11 @@ def main [] {
     | path parse
     | get stem
     | each {|theme|
-        print $"Converting ($theme)"
+        info -n $"Converting ($theme)                                       \r"
         try {
             make_theme $theme "custom"
         } catch {|e|
-            print -e $"Error converting ($theme)"
-            print -e $e.debug 
+            err $"Converting ($theme) failed: ($e.msg)"
         }
     }
 
