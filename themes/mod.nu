@@ -1,5 +1,5 @@
 # Preview the current nushell theme
-def preview_theme [] {
+export def preview_theme [] {
     let ansi_names = (ansi --list | get name)
     let all_ansi_names = $ansi_names ++ (ansi --list | get 'short name' | range 133..388)
     let color_config = ($env.config.color_config | transpose key value)
@@ -64,7 +64,7 @@ def preview_small [theme: string@"nu-complete list themes"] {
 }
 
 # Preview the current nushell theme, small mode
-def preview_theme_small [] {
+export def preview_theme_small [] {
     let ansi_names = (ansi --list | get name)
     let all_ansi_names = $ansi_names ++ (ansi --list | get 'short name' | range 133..388)
     let color_config = ($env.config.color_config | transpose key value)
