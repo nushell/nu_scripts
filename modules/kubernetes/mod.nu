@@ -266,7 +266,7 @@ export def --wrapped ka [
     let n = $namespace | with-flag -n
     let pod = if ($selector | is-empty) {
         if ($pod | str ends-with '-') {
-            $"deployment/($pod | str substring ..-1)"
+            $"deployment/($pod | str trim --char '-' --right)"
         } else {
             $pod
         }

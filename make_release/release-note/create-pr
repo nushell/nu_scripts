@@ -100,7 +100,7 @@ by opening PRs against the `release-notes-($version)` branch.
     git -C $repo remote set-url nushell --push git@github.com:nushell/nushell.github.io.git
 
     log info "creating release branch"
-    git -C $repo checkout -b $branch nushell/main
+    git -C $repo checkout -b $branch
 
     log info "writing release note"
     $release_note | save --force $blog_path

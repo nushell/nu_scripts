@@ -21,13 +21,13 @@ export def main [
     mut query_parts = []
 
     let date = if $date == null and $milestone == null {
-        (date now) - 4wk 
+        (date now) - 4wk
     } else {
         $date
     }
-    | format date "%Y-%m-%d"
 
     if $date != null {
+        let date = $date | format date "%Y-%m-%d"
         let since = (date now | format date %F | into datetime) - ($date | into datetime)
         log info $"listing PRs in ($repo) since ($date) \(($since) ago\)"
         $query_parts ++= [ $"merged:>($date)" ]
@@ -58,11 +58,11 @@ export def main [
 
     if $table {
         return (
-            $prs 
-            | update author {md-link $"@($in)" $"https://github.com/($in)"} 
-            | insert PR {|pr| md-link $"#($pr.number)" $pr.url} 
-            | select author title PR 
-            | to md 
+            $prs
+            | update author {md-link $"@($in)" $"https://github.com/($in)"}
+            | insert PR {|pr| md-link $"#($pr.number)" $pr.url}
+            | select author title PR
+            | to md
         )
     }
 

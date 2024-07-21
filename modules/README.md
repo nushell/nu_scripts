@@ -13,6 +13,7 @@
   - [fun](#fun)
   - [github](#github)
   - [gitlab](#gitlab)
+  - [jc](#jc)
   - [kubernetes](#kubernetes)
   - [make\_release](#make_release)
   - [maths](#maths)
@@ -115,6 +116,46 @@ Examples of input/output formatters:
 
 ## [gitlab](../sourced/gitlab/)
 Search files on your GitLab server
+
+## [jc](./jc/)
+
+Converts the output of many common external commands into nushell data structures.
+
+Example:
+```nushell
+: jc ping -4 -c 2 google.com
+╭──────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────╮
+│ destination_ip       │ 216.58.209.46                                                                            │
+│ data_bytes           │ 56                                                                                       │
+│ pattern              │                                                                                          │
+│ destination          │ google.com                                                                               │
+│ duplicates           │ 0                                                                                        │
+│ packets_transmitted  │ 2                                                                                        │
+│ packets_received     │ 2                                                                                        │
+│ packet_loss_percent  │ 0.00                                                                                     │
+│ time_ms              │ 1001.00                                                                                  │
+│ round_trip_ms_min    │ 3.87                                                                                     │
+│ round_trip_ms_avg    │ 4.04                                                                                     │
+│ round_trip_ms_max    │ 4.21                                                                                     │
+│ round_trip_ms_stddev │ 0.17                                                                                     │
+│                      │ ╭───┬───────┬───────────┬───────┬───────────────┬──────────┬─────┬─────────┬───────────╮ │
+│ responses            │ │ # │ type  │ timestamp │ bytes │  response_ip  │ icmp_seq │ ttl │ time_ms │ duplicate │ │
+│                      │ ├───┼───────┼───────────┼───────┼───────────────┼──────────┼─────┼─────────┼───────────┤ │
+│                      │ │ 0 │ reply │           │    64 │ 216.58.209.46 │        1 │ 120 │    4.21 │ false     │ │
+│                      │ │ 1 │ reply │           │    64 │ 216.58.209.46 │        2 │ 120 │    3.87 │ false     │ │
+│                      │ ╰───┴───────┴───────────┴───────┴───────────────┴──────────┴─────┴─────────┴───────────╯ │
+╰──────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────╯
+```
+```nushell
+: (jc ping -4 -c 2 google.com).round_trip_ms_avg
+6.054
+```
+For supported commands see [JC parsers documentation](https://kellyjonbrazil.github.io/jc/#parsers)
+
+Installation:
+
+  1. Install the `jc` command line: https://kellyjonbrazil.github.io/jc/#installation
+  2. Import this module in your `config.nu`: `import ~/.local/share/nu_scripts/modules/jc/`
 
 ## [kubernetes](./kubernetes/)
 ???

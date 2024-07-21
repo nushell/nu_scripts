@@ -27,8 +27,7 @@ As part of this release, we also publish a set of optional plugins you can insta
   - [_Breaking changes_](#breaking-changes-toc)
   - [_Deprecations_](#deprecations-toc)
   - [_Removals_](#removals-toc)
-  - [_Other changes_](#other-changes-toc)
-  - [_Bug fixes_](#bug-fixes-toc)
+  - [_Bug fixes and other changes_](#bug-fixes-and-other-changes-toc)
 - [_All breaking changes_](#all-breaking-changes-toc)
   - [_Notes for plugin developers_](#notes-for-plugin-developers)
 - [_Hall of fame_](#hall-of-fame-toc)
@@ -74,9 +73,7 @@ As part of this release, we also publish a set of optional plugins you can insta
 
 ## Removals [[toc](#table-of-content)]
 
-## Other changes [[toc](#table-of-content)]
-
-## Bug fixes [[toc](#table-of-content)]
+## Bug fixes and other changes [[toc](#table-of-content)]
 
 <!-- NOTE: to start investigating the contributions of last release, i like to list them all in a raw table.
     to achieve this, one can use the [`list-merged-prs` script from `nu_scripts`](https://github.com/nushell/nu_scripts/blob/main/make_release/release-note/list-merged-prs)
