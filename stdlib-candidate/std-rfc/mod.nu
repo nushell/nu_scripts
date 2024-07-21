@@ -6,3 +6,4 @@ export module math/
 export use bulk-rename.nu *
 export use set-env.nu *
 export use bench.nu
+export use script-parsing.nu [ parse-arg ]
