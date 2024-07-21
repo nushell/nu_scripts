@@ -234,11 +234,13 @@ def main [] {
         }
     }
 
-    let themes = ls $LEMNOS_SOURCE.dir
-        | insert source "lemnos"
-        | append (ls $CUSTOM_SOURCE.dir | insert source "custom")
-        | update name { path parse | get stem }
-        | select name source
+    let themes: table<name: string, source: string> = (
+        ls $LEMNOS_SOURCE.dir
+            | insert source "lemnos"
+            | append (ls $CUSTOM_SOURCE.dir | insert source "custom")
+            | update name { path parse | get stem }
+            | select name source
+    )
 
     let failed = $themes | each { |t|
         info -n $"Converting ($t.name)                                       \r"
