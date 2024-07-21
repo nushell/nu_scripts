@@ -126,20 +126,15 @@ def "nu-complete git built-in-refs" [] {
 }
 
 def "nu-complete git refs" [] {
-  nu-complete git switchable branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete git tags | parse "{value}" | insert description Tag)
-  | append (nu-complete git built-in-refs)
+  nu-complete git switch
+  | update description Branch
+  | append (nu-complete git tags | update description Tag)
+  | append (nu-complete git built-in-refs | wrap value | insert description Ref)
 }
 
 def "nu-complete git files-or-refs" [] {
-  nu-complete git switchable branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete git files | where description == "Modified" | select value)
-  | append (nu-complete git tags | parse "{value}" | insert description Tag)
-  | append (nu-complete git built-in-refs)
+  nu-complete git refs
+  | prepend (nu-complete git files | where description == "Modified")
 }
 
 def "nu-complete git subcommands" [] {
