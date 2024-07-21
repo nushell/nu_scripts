@@ -1,8 +1,5 @@
 # Nushell Scripts
 
-![CI](https://github.com/nushell/nu_scripts/actions/workflows/daily.yml/badge.svg)
-
-
 This is a place to share Nushell scripts with each other. If you'd like to share your scripts, fork this repository, and [create a PR](https://github.com/nushell/nu_scripts/compare) that adds it to the repo.
 
 ## Sections

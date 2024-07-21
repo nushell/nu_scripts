@@ -81,6 +81,23 @@ def "nu-complete sessions" [] {
   ^zellij ls -n | lines | parse "{value} {description}"
 }
 
+def "nu-complete zellij layouts" [] {
+	let layout_dir = if 'ZELLIJ_CONFIG_DIR' in $env {
+		[$env.ZELLIJ_CONFIG_DIR "layouts"] | path join
+	} else {
+		match $nu.os-info.name {
+			"linux" => "~/.config/zellij/layouts/"
+			"mac" => "~/Library/Application Support/org.Zellij-Contributors.Zellij/layouts"
+			_ => (error make { msg: "Unsupported OS for zellij" })
+		}
+	}
+
+	ls ( $layout_dir | path expand )
+		| where name =~ "\\.kdl" 
+		| get name 
+		| each { |$it| { value: ($it | path basename | str replace ".kdl" ""), description: $it } }
+}
+
 # Turned off since it messes with sub-commands
 #export extern "zellij" [
 #  command?: string@"nu-complete zellij"
@@ -104,6 +121,15 @@ export extern "zellij action" [
 # Renames the focused tab
 export extern "zellij action rename-tab" [
   name: string # Name for the tab
+]
+
+# Create a new tab, optionally with a specified tab layout and name
+export extern "zellij action new-tab" [
+  --cwd(-c): path # Change the working directory of the new tab
+  --help(-h) # Print help information
+  --layout(-l): string@"nu-complete zellij layouts" # Layout to use for the new tab
+  --layout-dir: path # Default folder to look for layouts
+  --name(-n): string # Name for the tab
 ]
 
 # Attach to a session

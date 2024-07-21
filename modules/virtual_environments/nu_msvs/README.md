@@ -3,7 +3,7 @@ A module for Using Microsoft Visual Studio (MSVS) command line tools from Nushel
 
 
 ## Prerequisites
-- [nushell](https://github.com/nushell/nushell) >= 0.91.0
+- [nushell](https://github.com/nushell/nushell) >= 0.94.0
 - [vswhere](https://github.com/microsoft/vswhere) standalone or comes with VS
 
 

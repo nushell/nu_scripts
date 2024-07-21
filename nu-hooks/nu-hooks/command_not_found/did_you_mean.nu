@@ -18,9 +18,18 @@
 # ```
 {|cmd|
     let commands_in_path = (
-        $env.PATH | each {|directory|
-            if ($directory | path exists) {
-                ls $directory | get name | path parse | update parent "" | path join
+        if ($nu.os-info.name == windows) {
+            $env.Path | each {|directory|
+                if ($directory | path exists) {
+                    let cmd_exts = $env.PATHEXT | str downcase | split row ';' | str trim --char .
+                    ls $directory | get name | path parse | where {|it| $cmd_exts | any {|ext| $ext == ($it.extension | str downcase)} } | get stem
+                }
+            }
+        } else {
+            $env.PATH | each {|directory|
+                if ($directory | path exists) {
+                    ls $directory | get name | path parse | update parent "" | path join
+                }
             }
         }
         | flatten

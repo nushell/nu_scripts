@@ -14,7 +14,7 @@ let token = (
 
 for $twitter_username in $usernames {
 
-        #getting all the usefull data from the api
+        #getting all the useful data from the api
 
         let variables = {
                 screen_name: $twitter_username,

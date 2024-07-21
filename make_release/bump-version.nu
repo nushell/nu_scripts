@@ -36,5 +36,14 @@ def main [
             | save --force $file
     }
 
+    [
+        "crates/nu_plugin_python/nu_plugin_python_example.py"
+        "crates/nu_plugin_nu_example/nu_plugin_nu_example.nu"
+    ] | each {|file|
+        log debug $"bumping ($file) from ($version) to ($new_version)"
+        open --raw $file
+            | str replace --all $'NUSHELL_VERSION = "($version)"' $'NUSHELL_VERSION = "($new_version)"'
+            | save --force $file
+    }
     null
 }

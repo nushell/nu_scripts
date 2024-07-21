@@ -3,12 +3,11 @@ def "nu-complete make" [] {
 	| find --ignore-case makefile
 	| open $in.0.name
 	| lines 
-	| find ':' 
+	| find --regex '^[\w\.-]+\s*:' 
 	| where ($it | str starts-with '.') == false 
-	| split column ' ' 
-	| get column1 
-	| find ':' 
-	| str replace ':' ''
+	| split column ':' target
+	| get target
+	| str trim
 }
 
 def "nu-complete make jobs" [] {

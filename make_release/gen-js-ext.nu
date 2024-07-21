@@ -3,8 +3,8 @@ def gen_keywords [] {
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
-                and ($it.command | str contains -n ' ')
-                | get command
+                and ($it.name | str contains -n ' ')
+                | get name
                 | str join '|')
 
     let var_with_dash_or_under_regex = '(([a-zA-Z]+[\\-_]){1,}[a-zA-Z]+\\s)'
@@ -12,30 +12,30 @@ def gen_keywords [] {
     let postamble = ')\\b'
     $'"match": "($var_with_dash_or_under_regex)|($preamble)($cmds)($postamble)",'
 }
-$"Generating keywords(char nl)"
-gen_keywords
-char nl
-char nl
+print $"Generating keywords(char nl)"
+print (gen_keywords)
+print (char nl)
+print (char nl)
 
 def gen_sub_keywords [] {
     let sub_cmds = (scope commands
                     | where is_extern == false
                     and is_custom == false
                     and category !~ deprecated
-                    and ($it.command | str contains ' ')
-                    | get command)
+                    and ($it.name | str contains ' ')
+                    | get name)
 
     let preamble = '\\b('
     let postamble = ')\\b'
-    let cmds = ( $sub_cmds | each {|$x| 
+    let cmds = ($sub_cmds | each {|x|
         let parts = ($x | split row ' ')
         $'($parts.0)\\s($parts.1)'
     } | str join '|')
     $'"match": "($preamble)($cmds)($postamble)",'
 }
-$"Generating sub keywords(char nl)"
-gen_sub_keywords
-char nl
+print $"Generating sub keywords(char nl)"
+print (gen_sub_keywords)
+print (char nl)
 
 def gen_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
@@ -43,15 +43,15 @@ def gen_keywords_alphabetically [] {
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
-                and ($it.command | str contains -n ' ')
-                | get command)
+                and ($it.name | str contains -n ' ')
+                | get name)
 
     let preamble = '\\b('
     let postamble = ')\\b'
 
-    $alphabet | each { |$alpha| 
-        let letter_cmds = (
-            $cmds | each {|$cmd|
+
+    $alphabet | each {|alpha|
+        let letter_cmds = ($cmds | each {|cmd|
             if ($cmd | str starts-with $alpha) {
                 $cmd
             } else {
@@ -64,26 +64,25 @@ def gen_keywords_alphabetically [] {
     } | str join "\n"
 }
 
-"Generating keywords alphabetically\n"
-gen_keywords_alphabetically
-char nl
+print "Generating keywords alphabetically\n"
+print (gen_keywords_alphabetically)
+print (char nl)
 
 def gen_sub_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
-    let sub_cmds = (scope commands
+    let sub_cmds = (scope commands |
                     | where is_extern == false
                     and is_custom == false
                     and category !~ deprecated
-                    and ($it.command | str contains ' ')
-                    | get command)
+                    and ($it.name | str contains ' ')
+                    | get name)
 
     let preamble = '\\b('
     let postamble = ')\\b'
 
 
-    $alphabet | each { |$alpha| 
-        let letter_cmds = (
-            $sub_cmds | each {|$cmd|
+    $alphabet | each {|alpha|
+        let letter_cmds = ($sub_cmds | each {|cmd|
             if ($cmd | str starts-with $alpha) {
                 let parts = ($cmd | split row ' ')
                 $'($parts.0)\\s($parts.1)'
@@ -97,6 +96,6 @@ def gen_sub_keywords_alphabetically [] {
     } | str join "\n"
 }
 
-"Generating sub keywords alphabetically\n"
-gen_sub_keywords_alphabetically
-char nl
+print "Generating sub keywords alphabetically\n"
+print (gen_sub_keywords_alphabetically)
+print (char nl)

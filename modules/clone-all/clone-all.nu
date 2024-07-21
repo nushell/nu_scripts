@@ -1,6 +1,6 @@
 # grabs the repo name of a github (ORG/repo) string
 # 
-# for exaple 
+# for example 
 # grab repo name "organization/my_special_repo" 
 # returns "myspecial_repo" 
 

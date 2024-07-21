@@ -9,7 +9,7 @@
 # 2. if the interval has not expired yet, it prints the Cached information
 # 3. if the interval has expired, it runs the weather command again and caches the info
 
-# this script is depenedent on get-weather
+# this script is dependent on get-weather
 source get-weather.nu
 
 #command to run at interval

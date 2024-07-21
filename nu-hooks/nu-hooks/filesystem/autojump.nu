@@ -8,7 +8,7 @@
 #    2. add to your config.nu: `source .config/nushell/autojump.nu`
 #
 # Usage
-#    Run `j` to jump arround
+#    Run `j` to jump around
 
 def autojump_add_to_database [dir] {
         $env.AUTOJUMP_SOURCED = 1

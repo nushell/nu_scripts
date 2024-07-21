@@ -1,6 +1,6 @@
 
 # A bash like quick string manipulation script
-# the script works by creating a list from brace contents, seperated by a brace.
+# the script works by creating a list from brace contents, separated by a brace.
 
 # Expand the given string into a list on braces like bashes brace expansion 
 export def main [ 
@@ -38,8 +38,8 @@ export def help [] {
     $"(ansi green)Examples(ansi reset):"
     $"  > (ansi light_green)expand (ansi green)a/{b,c}/d(ansi reset)"
     $"╭───┬───────╮\n│ 0 │ a/b/d │\n│ 1 │ a/c/d │\n╰───┴───────╯"
-    $"  > (ansi light_green)expand (ansi green)\"my {beautifull,ugly} duckling\"(ansi reset)"
-    $"╭───┬────────────────────────╮\n│ 0 │ my beautifull duckling │\n│ 1 │ my ugly duckling       │\n╰───┴────────────────────────╯"
+    $"  > (ansi light_green)expand (ansi green)\"my {beautiful,ugly} duckling\"(ansi reset)"
+    $"╭───┬────────────────────────╮\n│ 0 │ my beautiful duckling │\n│ 1 │ my ugly duckling       │\n╰───┴────────────────────────╯"
     $"  > (ansi light_green)expand (ansi green).config/nushell/config.nu{,on}(ansi reset)"
     $"╭───┬─────────────────────────────╮\n│ 0 │ .config/nushell/config.nu   │\n│ 1 │ .config/nushell/config.nuon │\n╰───┴─────────────────────────────╯"
     $"  > (ansi light_green)expand (ansi green)a/{b,c}/{d,e,f,g}  (ansi reset)(ansi purple)|(ansi reset)(ansi light_green) each(ansi reset) (ansi light_green){ |d| (ansi reset)(ansi light_green) mkdir(ansi reset) (ansi purple)$d (ansi reset)(ansi light_green)}(ansi reset);(ansi light_green)tree(ansi reset)"

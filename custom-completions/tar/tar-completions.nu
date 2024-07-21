@@ -1,5 +1,5 @@
 # Append archive to archive
-extern "tar" [
+export extern "tar" [
 	--concatenate(-A)					# Append archive to archive
 	--create(-c)					# Create archive
 	--compare(-d)					# Compare archive and filesystem

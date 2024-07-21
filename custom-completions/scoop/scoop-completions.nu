@@ -91,8 +91,26 @@ def scoopShimBuilds [] {
   [ 'kiennq', 'scoopcs', '71']
 }
 
+def scoopCommands [] {
+  scoop help | lines --skip-empty | skip 5 | parse '{value} {description}' | str trim
+}
+
+def scoopAliases [] {
+  scoop alias list | lines --skip-empty | skip 2 | parse '{name} {path}' | get name
+}
+
 def batStyles [] {
   [ 'default', 'auto', 'full', 'plain', 'changes', 'header', 'header-filename', 'header-filesize', 'grid', 'rule', 'numbers', 'snip' ]
+}
+
+def scoopShims [] {
+  let localShimDir = if ('SCOOP' in $env) { [ $env.SCOOP, 'shims' ] | path join } else if (scoop config root_path | path exists) { scoop config root_path } else { [ $env.USERPROFILE, 'scoop', 'shims' ] | path join }
+  let localShims   = if ($localShimDir | path exists) { ls $localShimDir | get name | path parse | select stem extension | where extension == shim | get stem } else { [] }
+
+  let globalShimDir = if ('SCOOP_GLOBAL' in $env) { [ $env.SCOOP_GLOBAL, 'shims' ] | path join } else if (scoop config global_path | path exists) { scoop config global_path } else { [ $env.ProgramData, 'scoop', 'shims' ] | path join }
+  let globalShims   = if ($globalShimDir | path exists) { ls $globalShimDir | get name | path parse | select stem extension | where extension == shim | get stem } else { [] }
+
+  $localShims | append $globalShims | uniq | sort
 }
 
 ################################################################
@@ -101,8 +119,9 @@ def batStyles [] {
 
 # Windows command line installer
 export extern "scoop" [
-  --help(-h)    # Show help for this command.
-  --version(-v) # Show current scoop and added buckets versions
+  alias?: string@scoopCommands      # available scoop commands and aliases
+  --help(-h)                        # Show help for this command.
+  --version(-v)                     # Show current scoop and added buckets versions
 ]
 
 ################################################################
@@ -195,6 +214,87 @@ export extern "scoop status" [
 ]
 
 ################################################################
+# scoop help
+################################################################
+
+# Show help for scoop
+export extern "scoop help" [
+  --help(-h) # Show help for this command.
+
+  command?: string@scoopCommands # Show help for the specified command
+]
+
+################################################################
+# scoop alias
+################################################################
+
+# Add, remove or list Scoop aliases
+export extern "scoop alias" [
+  --help(-h)  # Show help for this command.
+]
+
+# add an alias
+export extern "scoop alias add" [
+  name: string                    # name of the alias
+  command: string                 # scoop command
+  description: string             # description of the alias
+]
+
+# list all aliases
+export extern "scoop alias list" [
+  --verbose(-v)   # Show alias description and table headers (works only for 'list')
+]
+
+# remove an alias
+export extern "scoop alias rm" [
+  ...name: string@scoopAliases # alias that will be removed
+]
+
+
+################################################################
+# scoop shim
+################################################################
+
+# Manipulate Scoop shims
+export extern "scoop shim" [
+  --help(-h)  # Show help for this command.
+]
+
+# add a custom shim
+export extern "scoop shim add" [
+  shim_name: string               # name of the shim
+  command_path: path              # path to executable
+  ...cmd_args                     # additional command arguments
+  --global(-g)                    # Manipulate global shim(s)
+]
+
+# remove shims (CAUTION: this could remove shims added by an app manifest)
+export extern "scoop shim rm" [
+  ...shim_name: string@scoopShims     # shim that will be removed
+  --global(-g)                        # Manipulate global shim(s)
+]
+
+# list all shims or matching shims
+export extern "scoop shim list" [
+  pattern?: string                # list only matching shims
+  --global(-g)                    # Manipulate global shim(s)
+]
+
+# show a shim's information
+export extern "scoop shim info" [
+  shim_name: string@scoopShims      # shim info to retrieve
+  --global(-g)                      # Manipulate global shim(s)
+]
+
+# alternate a shim's target source
+export extern "scoop shim alter" [
+  shim_name: string@scoopShims      # shim that will be alternated
+  --global(-g)                      # Manipulate global shim(s)
+]
+
+
+
+################################################################
 # scoop which
 ################################################################
 
@@ -257,7 +357,7 @@ export extern "scoop config NO_JUNCTIONS" [
   value?: string@scoopBooleans
 ]
 
-# Git repository containining scoop source code.
+# Git repository containing scoop source code.
 export extern "scoop config SCOOP_REPO" [
   value?: string@scoopRepos
 ]
@@ -303,12 +403,12 @@ export extern "scoop config shim" [
 ]
 
 # Path to Scoop root directory.
-export extern "scoop config rootPath" [
+export extern "scoop config root_path" [
   value?: directory
 ]
 
 # Path to Scoop root directory for global apps.
-export extern "scoop config globalPath" [
+export extern "scoop config global_path" [
   value?: directory
 ]
 
@@ -357,7 +457,7 @@ export extern "scoop config aria2-retry-wait" [
   value?: number
 ]
 
-# Number of connections used for downlaod.
+# Number of connections used for download.
 export extern "scoop config aria2-split" [
   value?: number
 ]
@@ -367,7 +467,7 @@ export extern "scoop config aria2-max-connection-per-server" [
   value?: number
 ]
 
-# Downloaded files will be splitted by this configured size and downloaded using multiple connections.
+# Downloaded files will be split by this configured size and downloaded using multiple connections.
 export extern "scoop config aria2-min-split-size" [
   value?: string
 ]
@@ -481,6 +581,12 @@ export extern "scoop search" [
 ################################################################
 
 # Show the download cache
+export extern "scoop cache" [
+  ...?apps: string@scoopInstalledAppsWithStar # apps in question
+  --help(-h) # Show help for this command.
+]
+
+# Show the download cache
 export extern "scoop cache show" [
   ...?apps: string@scoopInstalledAppsWithStar # apps in question
 ]
@@ -510,7 +616,7 @@ export extern "scoop download" [
 ################################################################
 
 def scoopKnownBuckets [] {
- [ "main", "extras", "versions", "nirsoft", "php", "nerd-fonts", "nonportable", "java", "games" ]
+  [ "main", "extras", "versions", "nirsoft", "php", "nerd-fonts", "nonportable", "java", "games" ]
 }
 
 def scoopInstalledBuckets [] {

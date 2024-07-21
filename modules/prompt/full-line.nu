@@ -37,22 +37,21 @@ export def main [
         if 'VIRTUAL_ENV_PROMPT' in $env {'(' + $env.VIRTUAL_ENV_PROMPT + ') '}
         )($pad_char + $pad_char + $pad_char)(current_exe)")
     let left_content_len = ($left_content | ansi strip | str length -g)
+
     let mid_content = ($" (dir_string) ")
     let mid_content_len = ($mid_content | ansi strip | str length -g)
     
-    let term_width = ((term size) | get columns)
-    let left_padding = ((($term_width / 2) - ($mid_content_len / 2)) | into int)
-
     let dirs_segment = $" |(dirs show | each {|it| if $it.active {'V'} else {'.'}} | str join '')|"
     let right_content = ($"(repo-styled)($pad_char + $pad_char + $pad_char)($dirs_segment)")
     let right_content_len = ($right_content | ansi strip | str length -g)
 
-    let right_padding = (($term_width - $left_padding - $mid_content_len) | into int)
+    let term_width = ((term size) | get columns)
+    let mid_padding = ($term_width - $left_content_len - $right_content_len)
     
     [(ansi reset),
-        ($left_content | fill --character $pad_char --width $left_padding --alignment left),
-        $mid_content,
-        ($right_content | fill --character $pad_char --width $right_padding --alignment right),
+        $left_content,
+        ($mid_content | fill --character $pad_char --width  $mid_padding --alignment center),
+        $right_content,
         "\n"
     ] | str join ''
 }
@@ -71,25 +70,12 @@ def current_exe [] {
 }
 
 # build current working directory segment
+## don't get sucked into the path syntax wars: simply color portions of path to flag priviliged vs normal user mode.
 def dir_string [] {
-
-    mut home = ""
-    try {
-        if $nu.os-info.name == "windows" {
-            $home = $env.USERPROFILE
-        } else {
-            $home = $env.HOME
-        }
-    }
-
-    let dir = ([
-        ($env.PWD | str substring 0..($home | str length) | str replace $home "~"),
-        ($env.PWD | str substring ($home | str length)..)
-    ] | str join)
 
     let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
     let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
-    $"($path_color)($dir)(ansi reset)" | str replace --all (char path_sep) $"($separator_color)/($path_color)"
+    $"($path_color)($env.PWD)(ansi reset)" | str replace --all (char path_sep) $"($separator_color)(char path_sep)($path_color)"
 }
 
 # Following code cheerfully ~~stolen~~ adapted from: 
@@ -97,7 +83,7 @@ def dir_string [] {
 
 # Get repository status as structured data
 def repo-structured [] {
-  let in_git_repo = (do --ignore-errors { git rev-parse --abbrev-ref HEAD } | is-empty | nope)
+  let in_git_repo = ((git rev-parse HEAD err> /dev/null | complete | get exit_code) == 0)
 
   let status = (if $in_git_repo {
     git --no-optional-locks status --porcelain=2 --branch | lines
