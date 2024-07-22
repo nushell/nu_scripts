@@ -71,7 +71,8 @@ def --env find_msvs [] {
 export def --env activate [
     --host   (-h): string = x64,    # Host architecture, must be x64 or x86 (case insensitive)
     --target (-t): string = x64,    # Target architecture, must be x64 or x86 (case insensitive)
-    --sdk    (-s): string = latest  # Version of Windows SDK, must be "latest" or a valid version string
+    --sdk    (-s): string = latest,  # Version of Windows SDK, must be "latest" or a valid version string
+    --silent,
   ] {
   # I changed export-env {} to a custom command to avoid having export-env run when loading the module
   # because:
@@ -158,7 +159,9 @@ export def --env activate [
     $'($env.MSVS_MSVC_ROOT)\lib\($ft)',
   ] | str join (char esep))
 
-  print "Activating Microsoft Visual Studio environment."
+  if (not $silent) {
+    print "Activating Microsoft Visual Studio environment."
+  }
   load-env {
     $env.PATH_VAR: $env_path,
     INCLUDE: $env.MSVS_INCLUDE_PATH,
