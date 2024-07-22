@@ -126,20 +126,15 @@ def "nu-complete git built-in-refs" [] {
 }
 
 def "nu-complete git refs" [] {
-  nu-complete git switchable branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete git tags | parse "{value}" | insert description Tag)
-  | append (nu-complete git built-in-refs)
+  nu-complete git switch
+  | update description Branch
+  | append (nu-complete git tags | update description Tag)
+  | append (nu-complete git built-in-refs | wrap value | insert description Ref)
 }
 
 def "nu-complete git files-or-refs" [] {
-  nu-complete git switchable branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete git files | where description == "Modified" | select value)
-  | append (nu-complete git tags | parse "{value}" | insert description Tag)
-  | append (nu-complete git built-in-refs)
+  nu-complete git refs
+  | prepend (nu-complete git files | where description == "Modified")
 }
 
 def "nu-complete git subcommands" [] {
@@ -713,4 +708,56 @@ export extern "git restore" [
   --pathspec-from-file: string                  # Read pathspec from file
   --pathspec-file-nul                           # Separate pathspec elements with NUL character when reading from file
   ...pathspecs: string@"nu-complete git files"  # Target pathspecs to restore
+]
+
+# Print lines matching a pattern
+export extern "git grep" [
+  --help(-h)                            # Display the help message for this command
+  --cached                              # Search blobs registered in the index file instead of worktree
+  --untracked                           # Include untracked files in search
+  --no-index                            # Similar to `grep -r`, but with additional benefits, such as using pathspec patterns to limit paths; Cannot be used together with --cached or --untracked
+  --no-exclude-standard                 # Include ignored files in search (only useful with --untracked)
+  --exclude-standard                    # No not include ignored files in search (only useful with --no-index)
+  --recurse-submodules                  # Recursively search in each submodule that is active and checked out
+  --text(-a)                            # Process binary files as if they were text
+  --textconv                            # Honor textconv filter settings
+  --no-textconv                         # Do not honor textconv filter settings (default)
+  --ignore-case(-i)                     # Ignore case differences between patterns and files
+  -I                                    # Don’t match the pattern in binary files
+  --max-depth: int                      # Max <depth> to descend down directories for each pathspec. A value of -1 means no limit.
+  --recursive(-r)                       # Same as --max-depth=-1
+  --no-recursive                        # Same as --max-depth=0
+  --word-regexp(-w)                     # Match the pattern only at word boundary
+  --invert-match(-v)                    # Select non-matching lines
+  -H                                    # Suppress filename in output of matched lines
+  --full-name                           # Force relative path to filename from top directory
+  --extended-regexp(-E)                 # Use POSIX extended regexp for patterns
+  --basic-regexp(-G)                    # Use POSIX basic regexp for patterns (default)
+  --perl-regexp(-P)                     # Use Perl-compatible regular expressions for patterns
+  --line-number(-n)                     # Prefix the line number to matching lines
+  --column                              # Prefix the 1-indexed byte-offset of the first match from the start of the matching line
+  --files-with-matches(-l)              # Print filenames of files that contains matches
+  --name-only                           # Same as --files-with-matches
+  --files-without-match(-L)             # Print filenames of files that do not contain matches
+  --null(-z)                            # Use \0 as the delimiter for pathnames in the output, and print them verbatim
+  --only-matching(-o)                   # Print only the matched (non-empty) parts of a matching line, with each such part on a separate output line
+  --count(-c)                           # Instead of showing every matched line, show the number of lines that match
+  --no-color                            # Same as --color=never
+  --break                               # Print an empty line between matches from different files.
+  --heading                             # Show the filename above the matches in that file instead of at the start of each shown line.
+  --show-function(-p)                   # Show the preceding line that contains the function name of the match, unless the matching line is a function name itself.
+  --context(-C): int                    # Show <num> leading and trailing lines, and place a line containing -- between contiguous groups of matches.
+  --after-context(-A): int              # Show <num> trailing lines, and place a line containing -- between contiguous groups of matches.
+  --before-context(-B): int             # Show <num> leading lines, and place a line containing -- between contiguous groups of matches.
+  --function-context(-W)                # Show the surrounding text from the previous line containing a function name up to the one before the next function name
+  --max-count(-m): int                  # Limit the amount of matches per file. When using the -v or --invert-match option, the search stops after the specified number of non-matches.
+  --threads: int                        # Number of grep worker threads to use. Use --help for more information on grep threads.
+  -f: string                            # Read patterns from <file>, one per line.
+  -e: string                            # Next parameter is the pattern. Multiple patterns are combined by --or.
+  --and                                 # Search for lines that match multiple patterns.
+  --or                                  # Search for lines that match at least one of multiple patterns. --or is implied between patterns without --and or --not.
+  --not                                 # Search for lines that does not match pattern.
+  --all-match                           # When giving multiple pattern expressions combined with --or, this flag is specified to limit the match to files that have lines to match all of them.
+  --quiet(-q)                           # Do not output matched lines; instead, exit with status 0 when there is a match and with non-zero status when there isn’t.
+  ...pathspecs: string                  # Target pathspecs to limit the scope of the search.
 ]

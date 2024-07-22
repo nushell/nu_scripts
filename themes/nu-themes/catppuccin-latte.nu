@@ -112,7 +112,8 @@ export def main [] {
         background: $color_palette.base
         foreground: $color_palette.text
         cursor: $color_palette.blue
-}}
+    }
+}
 
 # Update the Nushell configuration
 export def --env "set color_config" [] {
