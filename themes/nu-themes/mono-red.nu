@@ -37,7 +37,7 @@ export def main [] {
         string: '#ff3600'
         nothing: '#ff3600'
         binary: '#ff3600'
-        cellpath: '#ff3600'
+        cell-path: '#ff3600'
         row_index: { fg: '#ff3600' attr: 'b' }
         record: '#ff3600'
         list: '#ff3600'

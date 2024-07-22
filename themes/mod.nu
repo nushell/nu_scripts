@@ -1,5 +1,5 @@
 # Preview the current nushell theme
-def preview_theme [] {
+export def "preview theme" [] {
     let ansi_names = (ansi --list | get name)
     let all_ansi_names = $ansi_names ++ (ansi --list | get 'short name' | range 133..388)
     let color_config = ($env.config.color_config | transpose key value)
@@ -64,7 +64,7 @@ def preview_small [theme: string@"nu-complete list themes"] {
 }
 
 # Preview the current nushell theme, small mode
-def preview_theme_small [] {
+export def "preview theme small" [] {
     let ansi_names = (ansi --list | get name)
     let all_ansi_names = $ansi_names ++ (ansi --list | get 'short name' | range 133..388)
     let color_config = ($env.config.color_config | transpose key value)
@@ -86,6 +86,8 @@ def preview_theme_small [] {
         } else {
           [[key]; [$source_code_replaced]]
         }
+      } else if ($row.key == 'background') {
+        [[key]; [$"($row.key) - ($row.value)"]]
       } else if ($row.value | describe | str contains 'record') {
         [[key]; [$"(ansi ($row.value))($row.key) - ($row.value)(ansi reset)"]]
       } else if ($row.value | str starts-with '#') {
@@ -103,10 +105,56 @@ def preview_theme_small [] {
     # echo $table1 | merge $table2
 
     # This draws the table with three tables merged
-    let row_count = ($color_table | length)
-    let row_count_third = (($color_table | length) / 3 | math floor)
-    let table1 = ($color_table | range 0..$row_count_third | rename key1 val1)
-    let table2 = ($color_table | range $row_count_third..($row_count_third * 2) | rename key2 val2)
-    let table3 = ($color_table | range ($row_count_third * 2)..$row_count | rename key3 val3)
-    echo $table1 | merge $table2 | merge $table3
+    let row_count = (
+      $color_table
+      | length
+      | $in / 3
+      | math ceil
+    )
+
+    #return ($color_table | group 19)
+
+    let table1 = ($color_table | group $row_count | get 0 | rename "Column 1")
+    let table2 = ($color_table | group $row_count | get 1 | rename "Column 2")
+    let table3 = ($color_table | group $row_count | get 2 | rename "Column 3")
+
+    $table1
+    | merge $table2
+    | merge $table3
+    | default '' "Column 3"
+    | table -e -i false
+      # Remove heading
+    | str replace -r '^([^\n]+)(\n[^\n]+){2}' '$1'
+}
+
+# Preview what your terminal theme looks like
+export def 'preview terminal' [] {
+    def preview [attr: string] {
+        let color = $in
+        $"(ansi -e {fg: $color attr: $attr})($color)(ansi reset)"
+    }
+
+    let colors = [
+        [normal   rgb];
+
+        [black   '#000000']
+        [red     '#FF0000']
+        [green   '#00FF00']
+        [yellow  '#FFFF00']
+        [blue    '#0000FF']
+        [magenta '#FF00FF']
+        [purple  '#FF00FF']
+        [cyan    '#00FFFF']
+        [white   '#FFFFFF']
+    ]
+
+    $colors | each {|color| {
+        dimmed: ($color.normal | preview d)
+        normal: ($color.normal | preview n)
+        bold: ($color.normal | preview b)
+
+        rgb_dimmed: ($color.rgb | preview d)
+        rgb_normal: ($color.rgb | preview n)
+        rgb_bold: ($color.rgb | preview b)
+    }}
 }

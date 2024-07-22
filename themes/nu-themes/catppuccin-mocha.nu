@@ -1,5 +1,5 @@
 # Retrieve the theme settings
-export def main [] { 
+export def main [] {
     const color_palette = {
         rosewater: "#f5e0dc"
         flamingo: "#f2cdcd"
@@ -27,8 +27,8 @@ export def main [] {
         base: "#1e1e2e"
         mantle: "#181825"
         crust: "#11111b"
-        }
-        
+    }
+
     return {
         separator: $color_palette.overlay0
         leading_trailing_space_bg: { attr: "n" }
@@ -68,7 +68,7 @@ export def main [] {
         string: $color_palette.text
         nothing: $color_palette.text
         binary: $color_palette.text
-        cellpath: $color_palette.text
+        'cell-path': $color_palette.text
         row_index: { fg: $color_palette.mauve attr: "b" }
         record: $color_palette.text
         list: $color_palette.text

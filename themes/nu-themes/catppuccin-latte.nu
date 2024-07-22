@@ -1,5 +1,5 @@
 # Retrieve the theme settings
-export def main [] { 
+export def main [] {
     const color_palette = {
         rosewater: "#dc8a78"
         flamingo: "#dd7878"
@@ -68,7 +68,7 @@ export def main [] {
         string: $color_palette.text
         nothing: $color_palette.text
         binary: $color_palette.text
-        cellpath: $color_palette.text
+        'cell-path': $color_palette.text
         row_index: { fg: $color_palette.mauve attr: "b" }
         record: $color_palette.text
         list: $color_palette.text

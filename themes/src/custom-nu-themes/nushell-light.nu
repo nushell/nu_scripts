@@ -1,4 +1,5 @@
-export def main [] { return {
+export def main [] {
+  return {
     # color for nushell primitives
     separator: dark_gray
     leading_trailing_space_bg: { attr: n } # no fg, no bg, attr none effectively turns this off
@@ -38,7 +39,7 @@ export def main [] { return {
     string: dark_gray
     nothing: dark_gray
     binary: dark_gray
-    cellpath: dark_gray
+    'cell-path': dark_gray
     row_index: green_bold
     record: white
     list: white
@@ -82,7 +83,8 @@ export def main [] { return {
     shape_variable: purple
     shape_vardecl: purple
 
-    background: light_gray
-    foreground: default
-    cursor: red
-}}
+    background: "#f2f2f2"
+    foreground: "#767676"
+    cursor: "#c50f1f"
+  }
+}

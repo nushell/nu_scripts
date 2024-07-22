@@ -3,6 +3,6 @@
     description: "Officially-supported themes for Nushell"
     documentation: "https://github.com/nushell/nu_scripts/blob/main/README.md"
     license: "https://github.com/nushell/nu_scripts/blob/main/LICENSE"
-    version: 0.2.1
+    version: 0.3.0
     type: "module"
 }

@@ -1,4 +1,4 @@
-# Screenshots for Themes folder
+# Screenshots of Theme Previews
 
 ### Theme name: '3024-day'
 ![3024-day](3024-day.png)
@@ -6,8 +6,8 @@
 ### Theme name: '3024-night'
 ![3024-night](3024-night.png)
 
-### Theme name: '3024r'
-![3024r](3024r.png)
+### Theme name: '3024'
+![3024](3024.png)
 
 ### Theme name: 'abyss'
 ![abyss](abyss.png)
@@ -215,6 +215,9 @@
 
 ### Theme name: 'cai'
 ![cai](cai.png)
+
+### Theme name: 'catppuccin-latte'
+![catppuccin-latte](catppuccin-latte.png)
 
 ### Theme name: 'catppuccin-mocha'
 ![catppuccin-mocha](catppuccin-mocha.png)
@@ -1233,6 +1236,9 @@
 ### Theme name: 'tokyo-day'
 ![tokyo-day](tokyo-day.png)
 
+### Theme name: 'tokyo-moon'
+![tokyo-moon](tokyo-moon.png)
+
 ### Theme name: 'tokyo-night'
 ![tokyo-night](tokyo-night.png)
 
@@ -1346,3 +1352,4 @@
 
 ### Theme name: 'zenburn'
 ![zenburn](zenburn.png)
+
