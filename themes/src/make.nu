@@ -84,7 +84,7 @@ def make_color_config [ name: string, source: string = "lemnos" ] {
                     string: '($colors.color7)'
                     nothing: '($colors.color7)'
                     binary: '($colors.color7)'
-                    cellpath: '($colors.color7)'
+                    cell-path: '($colors.color7)'
                     row_index: { fg: '($colors.color2)' attr: 'b' }
                     record: '($colors.color7)'
                     list: '($colors.color7)'
@@ -251,10 +251,11 @@ def main [] {
             $t
         }
     }
+    info -n $"Completed converting (($themes | length) - ($failed | length)) themes         \r"
 
     print ''
     if not ($failed | is-empty) {
-        warn "The following themes have failed:"
+        warn $"The following ($failed | length) themes have failed:"
         print $failed
     } else {
         print "all done"

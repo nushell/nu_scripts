@@ -111,4 +111,5 @@ export def main [] {
         background: $color_palette.base
         foreground: $color_palette.text
         cursor: $color_palette.blue
-}}
+    }
+}
