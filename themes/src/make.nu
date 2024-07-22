@@ -15,6 +15,18 @@ let CUSTOM_SOURCE = {
 
 let themes_dir = ($current_dir | path join "../nu-themes")
 
+def info [msg: string, --no-newline (-n)] {
+    print --no-newline=$no_newline $"(ansi green)[INFO](ansi reset) ($msg)"
+}
+
+def err [msg: string, --no-newline (-n)] {
+    print --no-newline=$no_newline $"(ansi red_bold)[ERR](ansi reset) ($msg)"
+}
+
+def warn [msg: string, --no-newline (-n)] {
+    print --no-newline=$no_newline $"(ansi yellow)[WARNING](ansi reset) ($msg)"
+}
+
 # For lemnos themes, create the color_config from the lemnos theme
 # definition.
 # Custom Nushell themes should be defined in themes/src/custom-nu-themes
@@ -205,36 +217,46 @@ def make_theme [ name: string, origin: string = "lemnos" ] {
 def main [] {
     mkdir $themes_dir
 
-    try { git clone $LEMNOS_SOURCE.remote_repo $LEMNOS_SOURCE.local_repo }
-
-    ls $LEMNOS_SOURCE.dir
-    | get name
-    | path parse
-    | get stem
-    | each {|theme|
-        print $"Converting ($theme)"
+    if ($LEMNOS_SOURCE.local_repo | path exists) {
+        warn "local copy of Lemnos' themes already exists"
+        info "updating local copy"
         try {
-            make_theme $theme
-        } catch {|e|
-            print -e $"Error converting ($theme)"
-            print -e $e.debug 
+            git -C $LEMNOS_SOURCE.local_repo pull origin master
+        } catch {
+            err "failed updating local copy"
         }
-    }
-    | ignore
-
-    ls $CUSTOM_SOURCE.dir
-    | get name
-    | path parse
-    | get stem
-    | each {|theme|
-        print $"Converting ($theme)"
+    } else {
+        info "cloning Lemnos' themes"
         try {
-            make_theme $theme "custom"
-        } catch {|e|
-            print -e $"Error converting ($theme)"
-            print -e $e.debug 
+            git clone $LEMNOS_SOURCE.remote_repo $LEMNOS_SOURCE.local_repo
+        } catch {
+            error make --unspanned { msg: "failed cloning local copy" }
         }
     }
 
-    print "all done"
+    let themes: table<name: string, source: string> = (
+        ls $LEMNOS_SOURCE.dir
+            | insert source "lemnos"
+            | append (ls $CUSTOM_SOURCE.dir | insert source "custom")
+            | update name { path parse | get stem }
+            | select name source
+    )
+
+    let failed = $themes | each { |t|
+        info -n $"Converting ($t.name)                                       \r"
+        try {
+            make_theme $t.name $t.source
+        } catch { |e|
+            err $"Converting ($t.name) failed: ($e.msg)"
+            $t
+        }
+    }
+
+    print ''
+    if not ($failed | is-empty) {
+        warn "The following themes have failed:"
+        print $failed
+    } else {
+        print "all done"
+    }
 }
