@@ -19,7 +19,7 @@
 def home_abbrev [os] {
     let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
     if ($is_home_in_path == true) {
-        if ($os == "Windows") {
+        if ($os == "windows") {
             let home = ($nu.home-path | str replace -ar '\\' '/')
             let pwd = ($env.PWD | str replace -ar '\\' '/')
             $pwd | str replace $home '~'
@@ -82,21 +82,21 @@ export def path_abbrev_if_needed [apath term_width] {
 def get_os_icon [os use_nerd_fonts] {
     # f17c = tux, f179 = apple, f17a = windows
     if $use_nerd_fonts {
-        if ($os =~ Darwin) {
+        if ($os =~ macos) {
             (char -u f179)
-        } else if ($os =~ Linux) {
+        } else if ($os =~ linux) {
             (char -u f17c)
-        } else if ($os =~ Windows) {
+        } else if ($os =~ windows) {
             (char -u f17a)
         } else {
             ''
         }
     } else {
-        if ($os =~ Darwin) {
+        if ($os =~ macos) {
             "M"
-        } else if ($os =~ Linux) {
+        } else if ($os =~ linux) {
             "L"
-        } else if ($os =~ Windows) {
+        } else if ($os =~ windows) {
             "W"
         } else {
             ''
@@ -261,7 +261,7 @@ export def get_right_prompt [os use_nerd_fonts] {
 
 export def get_prompt [nerd?] {
     let use_nerd_fonts = ($nerd != null)
-    let os = ((sys).host.name)
+    let os = $nu.os-info.name
     let left_prompt = (get_left_prompt $os $use_nerd_fonts)
     let right_prompt = (get_right_prompt $os $use_nerd_fonts)
 

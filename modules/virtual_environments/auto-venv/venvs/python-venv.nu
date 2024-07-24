@@ -21,7 +21,7 @@ export def --env auto-venv-on-enter [
     let bin            = ([$virtual_env, "bin"] | path join)
     let virtual_prompt = ""
 
-    let is_windows = ((sys).host.name | str downcase) == 'windows'
+    let is_windows = $nu.os-info.name == 'windows'
     let path_name = if $is_windows {
         if (has-env 'Path') {
             'Path'

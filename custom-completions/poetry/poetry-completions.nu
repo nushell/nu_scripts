@@ -115,12 +115,9 @@ def "nu-complete poetry setting-values" [context: string] nothing -> list<any> {
         return (
             ls | get name | where (($it | path type) == "dir") | each {|it| $it | path expand}
         ) | append (
-            if (
-                ((sys).host.name | str downcase | str ends-with "macos")
-                or ((sys).host.name | str downcase | str ends-with "osx")
-            ) {
+            if ($nu.os-info.name == "macos") {
                 $env.HOME | path join "Library/Caches/pypoetry"
-            } else if ((sys).host.name | str downcase | str ends-with "windows") {
+            } else if ($nu.os-info.name == "windows") {
                 $env.HOME | path join "AppData/Local/pypoetry/Cache"
             } else if ("XDG_CACHE_HOME" in $env) {
                 $env.XDG_CACHE_HOME | path join "pypoetry"

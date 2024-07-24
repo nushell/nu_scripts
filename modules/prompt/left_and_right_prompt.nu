@@ -4,7 +4,7 @@ export def construct_prompt [] {
     let decorator = (create_second_line)
 
     # not using machine name
-    # let machine_name = (sys | get host.hostname)
+    # let machine_name = (sys host | get hostname)
 
     # the current working directory
     # let current_dir = (pwd)
