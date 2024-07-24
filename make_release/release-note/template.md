@@ -29,7 +29,7 @@ As part of this release, we also publish a set of optional plugins you can insta
   - [_Removals_](#removals-toc)
   - [_Bug fixes and other changes_](#bug-fixes-and-other-changes-toc)
 - [_All breaking changes_](#all-breaking-changes-toc)
-  - [_Notes for plugin developers_](#notes-for-plugin-developers)
+- [_Notes for plugin developers_](#notes-for-plugin-developers-toc)
 - [_Hall of fame_](#hall-of-fame-toc)
 - [_Full changelog_](#full-changelog-toc)
 <!-- TODO: please add links to the other sections here
@@ -111,7 +111,7 @@ As part of this release, we also publish a set of optional plugins you can insta
     here
 -->
 
-## Notes for plugin developers
+# Notes for plugin developers [[toc](#table-of-content)]
 
 # Hall of fame [[toc](#table-of-content)]
 
