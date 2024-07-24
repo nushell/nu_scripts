@@ -11,7 +11,7 @@ def "nu-complete make" [] {
 }
 
 def "nu-complete make jobs" [] {
-	seq 1 (sys | get cpu | length)
+	seq 1 (sys cpu | length)
 }
 
 def "nu-complete make files" [] {

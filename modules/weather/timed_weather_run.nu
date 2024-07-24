@@ -18,10 +18,7 @@ def timed_weather_run [
     --interval(-i): duration # The interval duration
     ] {
 
-    # get the type of system we're on
-    let system_name = ((sys).host | get name)
-
-    if $system_name == "Windows" {
+    if $nu.os-info.name == "windows" {
         # $"The system is Windows(char nl)"
         # generate temp file name
         let weather_runtime_file = (($env.TMP) | path join weather_runtime_file.json)
