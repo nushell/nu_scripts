@@ -114,9 +114,9 @@ export def "preview theme small" [] {
 
     #return ($color_table | group 19)
 
-    let table1 = ($color_table | group $row_count | get 0 | rename "Column 1")
-    let table2 = ($color_table | group $row_count | get 1 | rename "Column 2")
-    let table3 = ($color_table | group $row_count | get 2 | rename "Column 3")
+    let table1 = ($color_table | chunks $row_count | get 0 | rename "Column 1")
+    let table2 = ($color_table | chunks $row_count | get 1 | rename "Column 2")
+    let table3 = ($color_table | chunks $row_count | get 2 | rename "Column 3")
 
     $table1
     | merge $table2
@@ -125,6 +125,7 @@ export def "preview theme small" [] {
     | table -e -i false
       # Remove heading
     | str replace -r '^([^\n]+)(\n[^\n]+){2}' '$1'
+    | print $in
 }
 
 # Preview what your terminal theme looks like
@@ -157,4 +158,31 @@ export def 'preview terminal' [] {
         rgb_normal: ($color.rgb | preview n)
         rgb_bold: ($color.rgb | preview b)
     }}
+}
+
+# Updates the terminal colors based on the current color_config
+export def "update terminal" [] {
+    # Set terminal colors
+    let osc_screen_foreground_color = '10;'
+    let osc_screen_background_color = '11;'
+    let osc_cursor_color = '12;'
+
+    let foreground = ($env.config?.color_config?.foreground? | default "#0000FF")
+    print $foreground
+    let background = ($env.config?.color_config?.background? | default "#000000")
+    print $background
+    let cursor = ($env.config?.color_config?.cursor? | default "#FFFFFF")
+    print $cursor
+        
+    $"
+    (ansi -o $osc_screen_foreground_color)($foreground)(char bel)
+    (ansi -o $osc_screen_background_color)($background)(char bel)
+    (ansi -o $osc_cursor_color)($cursor)(char bel)
+    "
+    # Line breaks above are just for source readability
+    # but create extra whitespace when activating. Collapse
+    # to one line
+    | str replace --all "\n" ''
+    | print $in
+
 }
