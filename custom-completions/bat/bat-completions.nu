@@ -1,6 +1,6 @@
 # A cat(1) clone with syntax highlighting and Git integration
 export extern "bat" [
-    file?: string  # file to print / concatenate. Use `-` to read from stdin
+    ...file: path  # file to print / concatenate
     --help         # Print help (see a summary with '-h')
     -h             # Print help (see more with '--help')
     --version      # Print version
