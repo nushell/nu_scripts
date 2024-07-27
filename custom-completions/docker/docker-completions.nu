@@ -21,11 +21,17 @@ def "nu-complete local files" [] {
     ^ls | lines
 }
 
-# Log in to a registry
+# Log in to a Docker registry
 export extern "docker login" [
+    server?: string                                     #Docker registry URL
     --password(-p): string                              #Password
     --password-stdin                                    #Take the password from stdin
     --username(-u): string                              #Username
+]
+
+# Log out from a Docker registry
+export extern "docker logout" [
+    server?: string                                     #Docker registry URL
 ]
 
 # Search Docker Hub for images
@@ -40,6 +46,7 @@ export extern "docker search" [
 # Show the docker  version information
 export extern "docker version" [
     --format(-f): string                                #Format the output using the given Go template
+    --kubeconfig: string                                #Kubernetes config file
 ]
 
 # Inspect changes to files or directories on a container's filesystem
