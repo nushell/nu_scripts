@@ -587,6 +587,12 @@ export alias "docker tag" = docker image tag
 export alias "docker images" = docker image ls
 # Remove one or more images
 export alias "docker rmi" = docker image rm
+# Download an image from a registry
+export alias "docker pull" = docker image pull
+# Upload an image to a registry
+export alias "docker push" = docker image push
+# Save one or more images to a tar archive (streamed to STDOUT by default)
+export alias "docker save" = docker image save
 
 # Inspect changes to files or directories on a container's filesystem
 export alias "docker events" = docker system events
