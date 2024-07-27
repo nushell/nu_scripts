@@ -26,6 +26,7 @@ def "nu-complete eza color-scale-mode" [] {
 
 # A modern, maintained replacement for ls
 export extern "eza" [
+    path?: path                                              # folder to list
     --help                                                  # show list of command-line options
     --version(-v)                                           # show version of eza
     --oneline(-1)                                           # display one entry per line
