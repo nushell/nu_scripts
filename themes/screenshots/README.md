@@ -6,8 +6,8 @@
 ### Theme name: '3024-night'
 ![3024-night](3024-night.png)
 
-### Theme name: '3024'
-![3024](3024.png)
+### Theme name: '3024r'
+![3024r](3024r.png)
 
 ### Theme name: 'abyss'
 ![abyss](abyss.png)
