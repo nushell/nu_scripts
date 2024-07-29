@@ -63,7 +63,7 @@ def make_color_config [ name: string, source: string = "lemnos" ] {
                     record: '($colors.color6)'
                     string: '($colors.color2)'
 
-                    bool: {|| if $in { '($colors.color14)' } else { 'light_gray' } }
+                    bool: {|| if $in { '($colors.color14)' } else { '($colors.color3)' } }
 
                     date: {|| (char lparen)date now(char rparen) - $in |
                         if $in < 1hr {
@@ -136,7 +136,7 @@ def make_color_config [ name: string, source: string = "lemnos" ] {
 
                     empty: '($colors.color4)'
                     header: { fg: '($colors.color2)' attr: 'b' }
-                    hints: 'dark_gray'
+                    hints: '($colors.color8)'
                     leading_trailing_space_bg: { attr: 'n' }
                     row_index: { fg: '($colors.color2)' attr: 'b' }
                     search_result: { fg: '($colors.color1)' bg: '($colors.color7)' }
@@ -242,9 +242,13 @@ def main [] {
         info "cloning Lemnos' themes"
         try {
             git clone $LEMNOS_SOURCE.remote_repo $LEMNOS_SOURCE.local_repo
+            
+            # Rename 3024, since modules can't be ints
+            git -C $LEMNOS_SOURCE.local_repo mv "themes/3024" "themes/3024r"
         } catch {
             error make --unspanned { msg: "failed cloning local copy" }
         }
+
     }
 
     let themes: table<name: string, source: string> = (

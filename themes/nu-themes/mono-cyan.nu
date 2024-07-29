@@ -1,20 +1,23 @@
 # Retrieve the theme settings
 export def main [] {
     return {
-        separator: '#00ccff'
-        leading_trailing_space_bg: { attr: 'n' }
-        header: { fg: '#00ccff' attr: 'b' }
-        empty: '#00ccff'
-        bool: {|| if $in { '#00ccff' } else { 'light_gray' } }
-        int: '#00ccff'
-        filesize: {|e|
-            if $e == 0b {
-                '#00ccff'
-            } else if $e < 1mb {
-                '#00ccff'
-            } else {{ fg: '#00ccff' }}
-        }
+        binary: '#00ccff'
+        block: '#00ccff'
+        cell-path: '#00ccff'
+        closure: '#00ccff'
+        custom: '#00ccff'
         duration: '#00ccff'
+        float: '#00ccff'
+        glob: '#00ccff'
+        int: '#00ccff'
+        list: '#00ccff'
+        nothing: '#00ccff'
+        range: '#00ccff'
+        record: '#00ccff'
+        string: '#00ccff'
+
+        bool: {|| if $in { '#00ccff' } else { '#00ccff' } }
+
         date: {|| (date now) - $in |
             if $in < 1hr {
                 { fg: '#00ccff' attr: 'b' }
@@ -32,35 +35,35 @@ export def main [] {
                 '#00ccff'
             } else { 'dark_gray' }
         }
-        range: '#00ccff'
-        float: '#00ccff'
-        string: '#00ccff'
-        nothing: '#00ccff'
-        binary: '#00ccff'
-        cell-path: '#00ccff'
-        row_index: { fg: '#00ccff' attr: 'b' }
-        record: '#00ccff'
-        list: '#00ccff'
-        block: '#00ccff'
-        hints: 'dark_gray'
-        search_result: { fg: '#00ccff' bg: '#00ccff' }
+
+        filesize: {|e|
+            if $e == 0b {
+                '#00ccff'
+            } else if $e < 1mb {
+                '#00ccff'
+            } else {{ fg: '#00ccff' }}
+        }
 
         shape_and: { fg: '#00ccff' attr: 'b' }
         shape_binary: { fg: '#00ccff' attr: 'b' }
         shape_block: { fg: '#00ccff' attr: 'b' }
         shape_bool: '#00ccff'
+        shape_closure: { fg: '#00ccff' attr: 'b' }
         shape_custom: '#00ccff'
         shape_datetime: { fg: '#00ccff' attr: 'b' }
         shape_directory: '#00ccff'
         shape_external: '#00ccff'
+        shape_external_resolved: '#00ccff'
         shape_externalarg: { fg: '#00ccff' attr: 'b' }
         shape_filepath: '#00ccff'
         shape_flag: { fg: '#00ccff' attr: 'b' }
         shape_float: { fg: '#00ccff' attr: 'b' }
         shape_garbage: { fg: '#FFFFFF' bg: '#FF0000' attr: 'b' }
+        shape_glob_interpolation: { fg: '#00ccff' attr: 'b' }
         shape_globpattern: { fg: '#00ccff' attr: 'b' }
         shape_int: { fg: '#00ccff' attr: 'b' }
         shape_internalcall: { fg: '#00ccff' attr: 'b' }
+        shape_keyword: { fg: '#00ccff' attr: 'b' }
         shape_list: { fg: '#00ccff' attr: 'b' }
         shape_literal: '#00ccff'
         shape_match_pattern: '#00ccff'
@@ -70,17 +73,27 @@ export def main [] {
         shape_or: { fg: '#00ccff' attr: 'b' }
         shape_pipe: { fg: '#00ccff' attr: 'b' }
         shape_range: { fg: '#00ccff' attr: 'b' }
+        shape_raw_string: { fg: '#00ccff' attr: 'b' }
         shape_record: { fg: '#00ccff' attr: 'b' }
         shape_redirection: { fg: '#00ccff' attr: 'b' }
         shape_signature: { fg: '#00ccff' attr: 'b' }
         shape_string: '#00ccff'
         shape_string_interpolation: { fg: '#00ccff' attr: 'b' }
         shape_table: { fg: '#00ccff' attr: 'b' }
+        shape_vardecl: { fg: '#00ccff' attr: 'u' }
         shape_variable: '#00ccff'
 
-        background: '#00222b'
         foreground: '#00ccff'
+        background: '#00222b'
         cursor: '#00ccff'
+
+        empty: '#00ccff'
+        header: { fg: '#00ccff' attr: 'b' }
+        hints: '#00ccff'
+        leading_trailing_space_bg: { attr: 'n' }
+        row_index: { fg: '#00ccff' attr: 'b' }
+        search_result: { fg: '#00ccff' bg: '#00ccff' }
+        separator: '#00ccff'
     }
 }
 
@@ -105,9 +118,9 @@ export def "update terminal" [] {
     "
     # Line breaks above are just for source readability
     # but create extra whitespace when activating. Collapse
-    # to one line
+    # to one line and print with no-newline
     | str replace --all "\n" ''
-    | print $in
+    | print -n $"($in)\r"
 }
 
 export module activate {

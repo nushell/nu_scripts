@@ -1,20 +1,23 @@
 # Retrieve the theme settings
 export def main [] {
     return {
-        separator: '#5b778c'
-        leading_trailing_space_bg: { attr: 'n' }
-        header: { fg: '#977d7c' attr: 'b' }
-        empty: '#977d7c'
-        bool: {|| if $in { '#977d7c' } else { 'light_gray' } }
-        int: '#5b778c'
-        filesize: {|e|
-            if $e == 0b {
-                '#5b778c'
-            } else if $e < 1mb {
-                '#977d7c'
-            } else {{ fg: '#977d7c' }}
-        }
-        duration: '#5b778c'
+        binary: '#9198a3'
+        block: '#977d7c'
+        cell-path: '#5b778c'
+        closure: '#977d7c'
+        custom: '#214d68'
+        duration: '#adb4b9'
+        float: '#818591'
+        glob: '#214d68'
+        int: '#9198a3'
+        list: '#977d7c'
+        nothing: '#818591'
+        range: '#adb4b9'
+        record: '#977d7c'
+        string: '#977d7c'
+
+        bool: {|| if $in { '#977d7c' } else { '#adb4b9' } }
+
         date: {|| (date now) - $in |
             if $in < 1hr {
                 { fg: '#818591' attr: 'b' }
@@ -32,55 +35,65 @@ export def main [] {
                 '#977d7c'
             } else { 'dark_gray' }
         }
-        range: '#5b778c'
-        float: '#5b778c'
-        string: '#5b778c'
-        nothing: '#5b778c'
-        binary: '#5b778c'
-        cell-path: '#5b778c'
-        row_index: { fg: '#977d7c' attr: 'b' }
-        record: '#5b778c'
-        list: '#5b778c'
-        block: '#5b778c'
-        hints: 'dark_gray'
-        search_result: { fg: '#818591' bg: '#5b778c' }
+
+        filesize: {|e|
+            if $e == 0b {
+                '#5b778c'
+            } else if $e < 1mb {
+                '#977d7c'
+            } else {{ fg: '#977d7c' }}
+        }
 
         shape_and: { fg: '#9198a3' attr: 'b' }
         shape_binary: { fg: '#9198a3' attr: 'b' }
         shape_block: { fg: '#977d7c' attr: 'b' }
         shape_bool: '#977d7c'
+        shape_closure: { fg: '#977d7c' attr: 'b' }
         shape_custom: '#977d7c'
         shape_datetime: { fg: '#977d7c' attr: 'b' }
         shape_directory: '#977d7c'
         shape_external: '#977d7c'
+        shape_external_resolved: '#977d7c'
         shape_externalarg: { fg: '#977d7c' attr: 'b' }
         shape_filepath: '#977d7c'
         shape_flag: { fg: '#977d7c' attr: 'b' }
-        shape_float: { fg: '#9198a3' attr: 'b' }
+        shape_float: { fg: '#818591' attr: 'b' }
         shape_garbage: { fg: '#FFFFFF' bg: '#FF0000' attr: 'b' }
+        shape_glob_interpolation: { fg: '#977d7c' attr: 'b' }
         shape_globpattern: { fg: '#977d7c' attr: 'b' }
         shape_int: { fg: '#9198a3' attr: 'b' }
         shape_internalcall: { fg: '#977d7c' attr: 'b' }
+        shape_keyword: { fg: '#9198a3' attr: 'b' }
         shape_list: { fg: '#977d7c' attr: 'b' }
         shape_literal: '#977d7c'
         shape_match_pattern: '#977d7c'
         shape_matching_brackets: { attr: 'u' }
-        shape_nothing: '#977d7c'
+        shape_nothing: '#818591'
         shape_operator: '#adb4b9'
         shape_or: { fg: '#9198a3' attr: 'b' }
         shape_pipe: { fg: '#9198a3' attr: 'b' }
         shape_range: { fg: '#adb4b9' attr: 'b' }
+        shape_raw_string: { fg: '#214d68' attr: 'b' }
         shape_record: { fg: '#977d7c' attr: 'b' }
         shape_redirection: { fg: '#9198a3' attr: 'b' }
         shape_signature: { fg: '#977d7c' attr: 'b' }
         shape_string: '#977d7c'
         shape_string_interpolation: { fg: '#977d7c' attr: 'b' }
         shape_table: { fg: '#977d7c' attr: 'b' }
+        shape_vardecl: { fg: '#977d7c' attr: 'u' }
         shape_variable: '#9198a3'
 
-        background: '#041523'
         foreground: '#5b778c'
+        background: '#041523'
         cursor: '#5b778c'
+
+        empty: '#977d7c'
+        header: { fg: '#977d7c' attr: 'b' }
+        hints: '#7a5759'
+        leading_trailing_space_bg: { attr: 'n' }
+        row_index: { fg: '#977d7c' attr: 'b' }
+        search_result: { fg: '#818591' bg: '#5b778c' }
+        separator: '#5b778c'
     }
 }
 
@@ -105,9 +118,9 @@ export def "update terminal" [] {
     "
     # Line breaks above are just for source readability
     # but create extra whitespace when activating. Collapse
-    # to one line
+    # to one line and print with no-newline
     | str replace --all "\n" ''
-    | print $in
+    | print -n $"($in)\r"
 }
 
 export module activate {
