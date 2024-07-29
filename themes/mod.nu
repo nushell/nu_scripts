@@ -83,35 +83,37 @@ def preview_small [theme: string@"nu-complete list themes"] {
 
 def get_type_keys [] {
     where {|i| $i.key in [
-        string
-        int
-        float
-        bool
-        list
-        record
-        filesize
-        duration
-        date
-        nothing
         binary
-        cell-path
-        range
         block
+        bool
+        cell-path
+        closure
+        custom
+        date
+        duration
+        filesize
+        float
+        glob
+        int
+        list
+        nothing
+        range
+        record
+        string
     ]}
 }
 
 def get_structure_keys [] {
     where {|i| $i.key in [
         foreground
-        background
         cursor
-        separator
+        empty
         header
-        row_index
-        search_result
         hints
         leading_trailing_space_bg
-        empty
+        row_index
+        search_result
+        separator
     ]}
 }
 
@@ -148,7 +150,10 @@ export def "preview theme small" [] {
         $structure
         | where $it.key not-in $conditionals.key
         | each {|row|
-            format basic --short $row
+            match $row.key {
+                "foreground" => (format foreground_background --short $color_config)
+                _ => (format basic --short $row)
+            }
           }
         | str join "\n"
     )
@@ -243,27 +248,36 @@ def no-newline [] string->string {
     $in | str replace -r '\n$' ''
 }
 
+def "format foreground_background" [
+    color_table
+    --short (-s)
+] {
+    let color_record = ($color_table | transpose -dr)
+    let fg_bg = {
+        fg: $color_record.foreground?
+        bg: $color_record.background?
+    }
+    match $short {
+        false => {
+            key: "Foreground/Background"
+            value: $"($color_record.foreground?) on ($color_record.background?)"
+        }
+
+        true => $"(ansi $fg_bg)foreground/background - ($color_record.foreground?) on ($color_record.background?)(ansi reset)"
+    }
+}
+
 def "format basic" [
     color_item: record
     --short (-s)
 ] {
-    # Invert colors for the background key
-    let fg_bg = match $color_item.key {
-        "background" => {
-            fg: ($env.config.color_config.background)
-            bg: ($env.config.color_config.foreground)
-        }
-
-        _ => $color_item.value
-    }
-
     match $short {
         false => {
             key: $color_item.key
-            value: $"(ansi $fg_bg)($color_item.value)(ansi reset)"
+            value: $"(ansi $color_item.value)($color_item.value)(ansi reset)"
         }
 
-        true => $"(ansi $fg_bg)($color_item.key) - ($color_item.value)(ansi reset)"
+        true => $"(ansi $color_item.value)($color_item.key) - ($color_item.value)(ansi reset)"
     }
 }
 

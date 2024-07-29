@@ -48,20 +48,23 @@ def make_color_config [ name: string, source: string = "lemnos" ] {
             # Retrieve the theme settings
             export def main [] {
                 return {
-                    separator: '($colors.color7)'
-                    leading_trailing_space_bg: { attr: 'n' }
-                    header: { fg: '($colors.color2)' attr: 'b' }
-                    empty: '($colors.color4)'
+                    binary: '($colors.color5)'
+                    block: '($colors.color4)'
+                    cell-path: '($colors.color7)'
+                    closure: '($colors.color6)'
+                    custom: '($colors.color15)'
+                    duration: '($colors.color3)'
+                    float: '($colors.color9)'
+                    glob: '($colors.color15)'
+                    int: '($colors.color5)'
+                    list: '($colors.color6)'
+                    nothing: '($colors.color1)'
+                    range: '($colors.color3)'
+                    record: '($colors.color6)'
+                    string: '($colors.color2)'
+
                     bool: {|| if $in { '($colors.color14)' } else { 'light_gray' } }
-                    int: '($colors.color7)'
-                    filesize: {|e|
-                        if $e == 0b {
-                            '($colors.color7)'
-                        } else if $e < 1mb {
-                            '($colors.color6)'
-                        } else {{ fg: '($colors.color4)' }}
-                    }
-                    duration: '($colors.color7)'
+
                     date: {|| (char lparen)date now(char rparen) - $in |
                         if $in < 1hr {
                             { fg: '($colors.color1)' attr: 'b' }
@@ -79,55 +82,65 @@ def make_color_config [ name: string, source: string = "lemnos" ] {
                             '($colors.color4)'
                         } else { 'dark_gray' }
                     }
-                    range: '($colors.color7)'
-                    float: '($colors.color7)'
-                    string: '($colors.color7)'
-                    nothing: '($colors.color7)'
-                    binary: '($colors.color7)'
-                    cell-path: '($colors.color7)'
-                    row_index: { fg: '($colors.color2)' attr: 'b' }
-                    record: '($colors.color7)'
-                    list: '($colors.color7)'
-                    block: '($colors.color7)'
-                    hints: 'dark_gray'
-                    search_result: { fg: '($colors.color1)' bg: '($colors.color7)' }
+
+                    filesize: {|e|
+                        if $e == 0b {
+                            '($colors.color7)'
+                        } else if $e < 1mb {
+                            '($colors.color6)'
+                        } else {{ fg: '($colors.color4)' }}
+                    }
 
                     shape_and: { fg: '($colors.color5)' attr: 'b' }
                     shape_binary: { fg: '($colors.color5)' attr: 'b' }
                     shape_block: { fg: '($colors.color4)' attr: 'b' }
                     shape_bool: '($colors.color14)'
+                    shape_closure: { fg: '($colors.color6)' attr: 'b' }
                     shape_custom: '($colors.color2)'
                     shape_datetime: { fg: '($colors.color6)' attr: 'b' }
                     shape_directory: '($colors.color6)'
                     shape_external: '($colors.color6)'
+                    shape_external_resolved: '($colors.color14)'
                     shape_externalarg: { fg: '($colors.color2)' attr: 'b' }
                     shape_filepath: '($colors.color6)'
                     shape_flag: { fg: '($colors.color4)' attr: 'b' }
-                    shape_float: { fg: '($colors.color5)' attr: 'b' }
+                    shape_float: { fg: '($colors.color9)' attr: 'b' }
                     shape_garbage: { fg: '#FFFFFF' bg: '#FF0000' attr: 'b' }
+                    shape_glob_interpolation: { fg: '($colors.color6)' attr: 'b' }
                     shape_globpattern: { fg: '($colors.color6)' attr: 'b' }
                     shape_int: { fg: '($colors.color5)' attr: 'b' }
                     shape_internalcall: { fg: '($colors.color6)' attr: 'b' }
+                    shape_keyword: { fg: '($colors.color5)' attr: 'b' }
                     shape_list: { fg: '($colors.color6)' attr: 'b' }
                     shape_literal: '($colors.color4)'
                     shape_match_pattern: '($colors.color2)'
                     shape_matching_brackets: { attr: 'u' }
-                    shape_nothing: '($colors.color14)'
+                    shape_nothing: '($colors.color1)'
                     shape_operator: '($colors.color3)'
                     shape_or: { fg: '($colors.color5)' attr: 'b' }
                     shape_pipe: { fg: '($colors.color5)' attr: 'b' }
                     shape_range: { fg: '($colors.color3)' attr: 'b' }
+                    shape_raw_string: { fg: '($colors.color15)' attr: 'b' }
                     shape_record: { fg: '($colors.color6)' attr: 'b' }
                     shape_redirection: { fg: '($colors.color5)' attr: 'b' }
                     shape_signature: { fg: '($colors.color2)' attr: 'b' }
                     shape_string: '($colors.color2)'
                     shape_string_interpolation: { fg: '($colors.color6)' attr: 'b' }
                     shape_table: { fg: '($colors.color4)' attr: 'b' }
+                    shape_vardecl: { fg: '($colors.color4)' attr: 'u' }
                     shape_variable: '($colors.color5)'
 
-                    background: '($colors.background)'
                     foreground: '($colors.foreground)'
+                    background: '($colors.background)'
                     cursor: '($colors.cursor)'
+
+                    empty: '($colors.color4)'
+                    header: { fg: '($colors.color2)' attr: 'b' }
+                    hints: 'dark_gray'
+                    leading_trailing_space_bg: { attr: 'n' }
+                    row_index: { fg: '($colors.color2)' attr: 'b' }
+                    search_result: { fg: '($colors.color1)' bg: '($colors.color7)' }
+                    separator: '($colors.color7)'
                 }
             }
             "
@@ -169,9 +182,9 @@ def make_theme [ name: string, origin: string = "lemnos" ] {
         \"
         # Line breaks above are just for source readability
         # but create extra whitespace when activating. Collapse
-        # to one line
+        # to one line and print with no-newline
         | str replace --all \"\\n\" ''
-        | print $in
+        | print -n $\"\($in)\\r\"
     }
     "
     | str dedent
