@@ -17,7 +17,7 @@ export def proxy_stat [] {
 def host_abbr [] {
     {|bg|
         let theme = $env.NU_POWER_THEME.host
-        let n = hostname | str trim
+        let n = (sys host).hostname
         let ucl = if (is-admin) {
                 $theme.is_admin
             } else {

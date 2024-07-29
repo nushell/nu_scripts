@@ -285,6 +285,7 @@ export def gc [
 export def gd [
     ...file:            path
     --cached (-c)     # cached
+    --unstashed (-u)  # unstashed
     --word-diff (-w)  # word-diff
     --staged (-s)     # staged
 ] {
@@ -292,7 +293,16 @@ export def gd [
     if $word_diff { $args ++= [--word-diff] }
     if $cached { $args ++= [--cached] }
     if $staged { $args ++= [--staged] }
-    git diff ...$args ...$file
+    if ($args | is-empty) {
+        let s = (_git_status)
+        if $s.wt_modified > 0 {
+            git diff ...$file
+        } else if $s.idx_modified_staged > 0 {
+            git diff ...$file --staged
+        }
+    } else {
+        git diff ...$args ...$file
+    }
 }
 
 # git merge
@@ -301,15 +311,18 @@ export def gm [
     --abort (-a)
     --continue (-c)
     --quit (-q)
-    --no-squash (-n) # git merge (no)--squash
+    --squash (-s)
+    --fast-farward (-f)
 ] {
-    let x = if $no_squash { [] } else { [--squash] }
+    mut args = []
+    if $squash { $args ++= [--squash] }
+    if $fast_farward { $args ++= [--ff] } else { $args ++= [--no-ff] }
     if ($branch | is-empty) {
-        git merge ...$x $"origin/(git_main_branch)"
+        git merge ...$args $"origin/(git_main_branch)"
     } else {
-        git merge ...$x $branch
+        git merge ...$args $branch
     }
-    if not $no_squash {
+    if $squash {
         git commit -v
     }
 }

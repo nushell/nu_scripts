@@ -58,7 +58,7 @@ def "nu-complete docker network driver" [] {
 
 export def containers-network-create [
     name: string
-    --driver(-d): string = 'bridge'@"nu-complete docker network driver"
+    --driver(-d): string = "bridge"@"nu-complete docker network driver"
 ] {
     ^$env.docker-cli network create $name
 }

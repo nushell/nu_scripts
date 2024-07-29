@@ -5,16 +5,16 @@ def "nu-complete registry show" [cmd: string, offset: int] {
     let reg = $cmd.4?
     let tag = $cmd.5?
     let auth = if ($env.REGISTRY_TOKEN? | is-not-empty) {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
+        ["Authorization" $"Basic ($env.REGISTRY_TOKEN)"]
     } else {
         []
     }
     if ($tag | is-empty) and (not $new) or ($reg | is-empty) {
-        curl -sSL ...$auth $"($url)/v2/_catalog"
-        | from json | get repositories
+        http get -H $auth $"($url)/v2/_catalog"
+        | get repositories
     } else {
-        curl -sSL ...$auth $"($url)/v2/($reg)/tags/list"
-        | from json | get tags
+        http get -H $auth $"($url)/v2/($reg)/tags/list"
+        | get tags
     }
 }
 
@@ -25,17 +25,18 @@ export def "docker registry show" [
     tag?: string@"nu-complete registry show"
 ] {
     let header = if ($env.REGISTRY_TOKEN? | is-not-empty) {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
+        ["Authorization" $"Basic ($env.REGISTRY_TOKEN)"]
     } else {
         []
     }
-    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
+    | append ['Accept' 'application/vnd.oci.image.manifest.v1+json']
+
     if ($reg | is-empty) {
-        curl -sSL ...$header $"($url)/v2/_catalog" | from json | get repositories
+        http get -H $header $"($url)/v2/_catalog" | get repositories
     } else if ($tag | is-empty) {
-        curl -sSL ...$header $"($url)/v2/($reg)/tags/list" | from json | get tags
+        http get -H $header $"($url)/v2/($reg)/tags/list" | get tags
     } else {
-        curl -sSL ...$header $"($url)/v2/($reg)/manifests/($tag)" | from json
+        http get -H $header $"($url)/v2/($reg)/manifests/($tag)"
     }
 }
 
@@ -46,22 +47,22 @@ export def "docker registry delete" [
     tag: string@"nu-complete registry show"
 ] {
     let header = if ($env.REGISTRY_TOKEN? | is-not-empty) {
-        [-H $"Authorization: Basic ($env.REGISTRY_TOKEN)"]
+        ['Authorization' $'Basic ($env.REGISTRY_TOKEN)']
     } else {
         []
     }
-    | append [-H 'Accept: application/vnd.oci.image.manifest.v1+json']
-    #| append [-H 'Accept: application/vnd.docker.distribution.manifest.v2+json']
+    | append ['Accept' 'application/vnd.oci.image.manifest.v1+json']
+    #| append ['Accept' 'application/vnd.docker.distribution.manifest.v2+json']
     let digest = do -i {
-        curl -sSI ...$header $"($url)/v2/($reg)/manifests/($tag)"
-        | rg docker-content-digest
-        | split row ' '
-        | get 1
-        | str trim
+        http get -H $header -f $"($url)/v2/($reg)/manifests/($tag)"
+        | get headers.response
+        | where name == docker-content-digest
+        | first
+        | get value
     }
     print -e $digest
     if ($digest | is-not-empty) {
-        curl -sSL -X DELETE ...$header $"($url)/v2/($reg)/manifests/($digest)"
+        http delete -H $header $"($url)/v2/($reg)/manifests/($digest)"
     } else {
         'not found'
     }
