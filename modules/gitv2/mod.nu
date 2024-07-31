@@ -281,6 +281,12 @@ export def gc [
     git commit -v ...$args
 }
 
+
+
+def sum_prefix [p] {
+    $in | items {|k,v| if ($k | str starts-with $p) { $v } else { 0 } } | math sum
+}
+
 # git diff
 export def gd [
     ...file:            path
@@ -295,9 +301,9 @@ export def gd [
     if $staged { $args ++= [--staged] }
     if ($args | is-empty) {
         let s = (_git_status)
-        if $s.wt_modified > 0 {
+        if ($s | sum_prefix 'wt_') > 0 {
             git diff ...$file
-        } else if $s.idx_modified_staged > 0 {
+        } else if ($s | sum_prefix 'idx_') > 0 {
             git diff ...$file --staged
         }
     } else {
