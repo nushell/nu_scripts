@@ -16,7 +16,7 @@ def "nu-complete helm list" [context: string, offset: int] {
 def "nu-complete helm charts" [context: string, offset: int] {
     let ctx = $context | argx parse
     let path = $ctx | get _pos.chart?
-    let paths = do -i { ls ($"($path)*" | into glob) | each {|x| if $x.type == dir { $"($x.name)/"} else { $x.name }} }
+    let paths = do -i { ls ($"($path)*/**/Chart.yaml" | into glob) | each { $in.name | path dirname } }
     helm repo list | from ssv -a | rename value description
     | append $paths
 }
@@ -36,7 +36,7 @@ export def kgh [
         | from json
         | update updated {|x|
             $x.updated
-            | str substring ..-4
+            | str substring ..<-4
             | into datetime -f '%Y-%m-%d %H:%M:%S.%f %z'
         }
     } else {

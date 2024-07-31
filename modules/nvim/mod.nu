@@ -92,7 +92,7 @@ export def nve [action ...file] {
     } else {
         let af = $file
         | each {|f|
-            if ($f|str substring ..1) in ['/', '~'] {
+            if ($f|str substring ..<1) in ['/', '~'] {
                 $f
             } else {
                 $"($env.PWD)/($f)"
@@ -113,21 +113,63 @@ export def nvs [port: int=9999] {
     nvim --headless --listen $"0.0.0.0:($port)"
 }
 
+def 'nu-complete nvc' [] {
+    let opts = open $env.NVIM_REMOTE_HISTORY
+    | query db 'select cmd, count from nvim_remote_history order by count desc limit 9;'
+    | rename value description
+    if not ($env.HOME in ($opts | get value)) {[$env.HOME]} else {[]}
+    | append $opts
+}
+
 export def nvc [
-    addr: string
+    args: string@'nu-complete nvc'
     --gui(-g)
+    --verbose(-v)
 ] {
+    if ($env.NVIM_REMOTE_HISTORY? | is-empty) {
+        print -e 'require `$env.NVIM_REMOTE_HISTORY`'
+        return
+    }
+    if not ($env.NVIM_REMOTE_HISTORY | path exists) {
+        "create table if not exists nvim_remote_history (
+            cmd text primary key,
+            count int default 1,
+            recent datetime default (datetime('now', 'localtime'))
+        );" | sqlite3 $env.NVIM_REMOTE_HISTORY
+    }
+    $"insert into nvim_remote_history\(cmd\) values \('($args)'\)
+    on conflict\(cmd\) do
+    update set count = count + 1,
+               recent = datetime\('now', 'localtime'\);"
+    | sqlite3 $env.NVIM_REMOTE_HISTORY
+    mut cmd = []
+    if $args =~ ':[0-9]+$' {
+        mut addr = ''
+        if ($args | str starts-with ':') {
+            $addr = $"localhost($args)"
+        } else {
+            $addr = $args
+        }
+        $cmd = [--server $addr -- $"+\"set title titlestring=($addr)\""]
+    } else if $args == ':' {
+        $cmd = [$"+\"set title titlestring=world\""]
+    } else {
+        $cmd = [$"+\"set title titlestring=($args)\"" -- $args]
+    }
+    if $verbose {
+        print ($cmd | str join ' ')
+    }
     if $gui {
         let gs = {
-            neovide: [--maximized --server $addr]
+            neovide: [--maximized --frame=none --vsync --fork]
         }
         for g in ($gs | transpose prog args) {
             if (which $g.prog | is-not-empty) {
-                ^$g.prog ...$g.args
+                ^$g.prog ...$g.args ...$cmd
                 break
             }
         }
     } else {
-        nvim --remote-ui --server $addr
+        nvim --remote-ui ...$cmd
     }
 }

@@ -1,44 +1,59 @@
 ### configuration
 ```
-use power.nu
-    use power_git.nu
+use power/power.nu
+    use power/plugin/git.nu *
     power inject 0 1 {source: git,   color: '#504945'}
-    use power_kube.nu
+    use power/plugin/kube.nu *
     power inject 1 2 {source: kube,  color: '#504945'} {
-        context: cyan
-    } {
-        reverse: true
-        separator: '@'
+        theme: {
+            context: cyan
+        }
+        config: {
+            reverse: true
+            separator: '@'
+        }
     }
-    use power_utils.nu
-    power inject 0 1 {source: atuin, color: '#4C4B4A'}
-    power set time null { style: compact }
+    power set time {
+        config: { style: compact }
+    }
 power init
 ```
 or
 ```
+use power
+use power/plugin/git.nu *
+use power/plugin/kube.nu *
 $env.NU_POWER_SCHEMA = [
     [
-        {source: pwd,   color: '#353230'}
-        {source: git,   color: '#504945'}
-    ]
+        [source, color];
+        [pwd, xterm_grey23]
+        [git, xterm_grey30]
+    ],
     [
-        {source: proxy, color: 'dark_gray'}
-        {source: host,  color: '#353230'}
-        {source: kube,  color: '#504945'}
-        {source: time,  color: '#666560'}
+        [source, color];
+        [proxy, xterm_grey39]
+        [host, xterm_grey30]
+        [kube, xterm_grey23]
+        [time, xterm_grey27]
     ]
 ]
-
-use power.nu
-    use power_git.nu
-    use power_kube.nu
+power set time {
+    config: { style: compact }
+}
+power set kube {
+    theme: {
+        context: cyan
+    }
+    config: {
+        reverse: true
+        separator: '@'
+    }
+}
 power init
 ```
 `$env.NU_POWER_SCHEMA` support configuring dynamically
 
 ## mode
-- `$env.NU_POWER_MODE = '<power|fast>'` fast mode and default mode (experimental)
 - `$env.NU_POWER_DECORATOR = '<power|plain>'` power mode and plain mode
 - `$env.NU_POWER_FRAME = '<default|fill>'` two line prompt (experimental)
 
@@ -49,11 +64,6 @@ $env.NU_POWER_BENCHMARK = true
 Then execute a few commands casually, such as pressing the Enter key continuously.
 then execute
 
-```
-$env.NU_POWER_MODE = 'fast' # or 'power'
-```
-
-Go ahead and press enter,
 Execute power timelog to analyze the results.
 ```
 power analyze
@@ -61,9 +71,7 @@ power analyze
 
 ## todo
 - [x] source return `null` for hiding
-- [ ] in fast mode, there is still a problem with hideable components on the left
 - [x] proxy stat invalid in plain mode
-    - '<<' not longer hide separator in `fast` mode
 - [ ] implement `power eject`
 - [ ] `$env.config.menus[].maker` can be restored
 - [x] support color theme

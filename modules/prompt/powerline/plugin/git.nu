@@ -35,7 +35,7 @@ def _git_status [] {
             '#' => {
                 match ($r.1 | str substring 7..) {
                     'oid' => {
-                        $status.commit_hash = ($r.2 | str substring 0..8)
+                        $status.commit_hash = ($r.2 | str substring 0..<8)
                     }
                     'head' => {
                         $status.branch = $r.2
@@ -50,7 +50,7 @@ def _git_status [] {
                 }
             }
             '1'|'2' => {
-                match ($r.1 | str substring 0..1) {
+                match ($r.1 | str substring 0..<1) {
                     'A' => {
                         $status.idx_added_staged += 1
                     }
@@ -67,7 +67,7 @@ def _git_status [] {
                         $status.idx_type_changed += 1
                     }
                 }
-                match ($r.1 | str substring 1..2) {
+                match ($r.1 | str substring 1..<2) {
                     'M' => {
                         $status.wt_modified += 1
                     }
@@ -96,7 +96,11 @@ def _git_status [] {
 
 export def git_stat [] {
     {|bg|
-        let status = (_git_status)
+        if (git rev-parse --is-inside-work-tree | complete).exit_code > 0 {
+            return [$bg '']
+        }
+
+        let status = _git_status
 
         if $status.branch == 'no_branch' { return [$bg ''] }
 
@@ -145,7 +149,9 @@ export-env {
     )
 
     power register git (git_stat) {
-        default : blue
-        no_upstream: red
+        theme: {
+            default : blue
+            no_upstream: red
+        }
     }
 }
