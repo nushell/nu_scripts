@@ -4,6 +4,9 @@
 > the following procedure is the same for `nu-ansi-term` and `reedline` and needs to be repeated
 
 > **Warning**
+> we usually can't include an update to `nu-ansi-term` unless `lscolors` has already updated to the newer version. if there's a major update to `nu-ansi-term` it needs to be done well beforehand. if not, don't bump it for Nushell
+
+> **Warning**
 > release `nu-ansi-term` **before** `reedline` and `reedline` **before** Nushell
 
 > **Note**
