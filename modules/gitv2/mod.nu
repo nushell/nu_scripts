@@ -3,6 +3,10 @@ use utils.nu *
 use complete.nu *
 export use stat.nu *
 
+def sum_prefix [p] {
+    $in | items {|k,v| if ($k | str starts-with $p) { $v } else { 0 } } | math sum
+}
+
 # git stash
 export def gst [
     --apply (-a)
@@ -29,7 +33,12 @@ export def gst [
     } else if $all {
         git stash --all ...(if $include_untracked {[--include-untracked]} else {[]})
     } else {
-        git stash
+        let s = (_git_status)
+        if ($s | sum_prefix 'wt_') > 0 {
+            git stash
+        } else {
+            git stash pop
+        }
     }
 }
 
@@ -282,10 +291,6 @@ export def gc [
 }
 
 
-
-def sum_prefix [p] {
-    $in | items {|k,v| if ($k | str starts-with $p) { $v } else { 0 } } | math sum
-}
 
 # git diff
 export def gd [
