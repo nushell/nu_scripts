@@ -144,7 +144,7 @@ export extern "docker container create" [
     --memory-swappiness: int                            #Tune container memory swappiness (0 to 100) (default -1)
     --mount: string                                     #Attach a filesystem mount to the container
     --name: string                                      #Assign a name to the container
-    --network                                           #Connect a container to a network
+    --network: string                                   #Connect a container to a network
     --network-alias: string                             #Add network-scoped alias for the container
     --no-healthcheck                                    #Disable any container-specified HEALTHCHECK
     --oom-kill-disable                                  #Disable OOM Killer
