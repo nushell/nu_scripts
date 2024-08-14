@@ -1,6 +1,6 @@
 
 def "nu-complete git available upstream" [] {
-  ^git branch -a | lines | each { |line| $line | str replace '\* ' "" | str trim }
+  ^git branch -a | lines | each { |line| $line | str replace '* ' "" | str trim }
 }
 
 def "nu-complete git remotes" [] {
@@ -126,15 +126,20 @@ def "nu-complete git built-in-refs" [] {
 }
 
 def "nu-complete git refs" [] {
-  nu-complete git switch
-  | update description Branch
-  | append (nu-complete git tags | update description Tag)
-  | append (nu-complete git built-in-refs | wrap value | insert description Ref)
+  nu-complete git switchable branches
+  | parse "{value}"
+  | insert description Branch
+  | append (nu-complete git tags | parse "{value}" | insert description Tag)
+  | append (nu-complete git built-in-refs)
 }
 
 def "nu-complete git files-or-refs" [] {
-  nu-complete git refs
-  | prepend (nu-complete git files | where description == "Modified")
+  nu-complete git switchable branches
+  | parse "{value}"
+  | insert description Branch
+  | append (nu-complete git files | where description == "Modified" | select value)
+  | append (nu-complete git tags | parse "{value}" | insert description Tag)
+  | append (nu-complete git built-in-refs)
 }
 
 def "nu-complete git subcommands" [] {
@@ -584,6 +589,8 @@ export extern "git worktree" [
 
 # create a new working tree
 export extern "git worktree add" [
+  path: path            # directory to clone the branch
+  branch: string@"nu-complete git available upstream" # Branch to clone
   --help(-h)            # display the help message for this command
   --force(-f)           # checkout <branch> even if already checked out in other worktree
   -b                    # create a new branch
@@ -608,8 +615,14 @@ export extern "git worktree list" [
   ...args
 ]
 
+def "nu-complete worktree list" [] {
+  ^git worktree list | to text | parse --regex '(?P<value>\S+)\s+(?P<commit>\w+)\s+(?P<description>\S.*)'
+}
+
 # prevent a working tree from being pruned
 export extern "git worktree lock" [
+  worktree: string@"nu-complete worktree list"
+  --reason: string      # reason because the tree is locked
   --help(-h)            # display the help message for this command
   --reason              # reason for locking
   ...args
@@ -633,13 +646,14 @@ export extern "git worktree prune" [
 
 # remove a working tree
 export extern "git worktree remove" [
+  worktree: string@"nu-complete worktree list"
   --help(-h)            # display the help message for this command
   --force(-f)           # force removal even if worktree is dirty or locked
-  ...args
 ]
 
 # allow working tree to be pruned, moved or deleted
 export extern "git worktree unlock" [
+  worktree: string@"nu-complete worktree list"
   ...args
 ]
 
