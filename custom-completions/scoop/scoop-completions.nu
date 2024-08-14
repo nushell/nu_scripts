@@ -92,11 +92,25 @@ def scoopShimBuilds [] {
 }
 
 def scoopCommands [] {
-  scoop help | lines --skip-empty | skip 5 | parse '{value} {description}' | str trim
+  ^powershell -nop -nol -c "(scoop help | ConvertTo-Json -Compress)"
+  | decode
+  | lines
+  | last
+  | to text
+  | from json
+  | rename value description
 }
 
 def scoopAliases [] {
-  scoop alias list | lines --skip-empty | skip 2 | parse '{name} {path}' | get name
+  ^powershell -nop -nol -c "(scoop alias list|ConvertTo-Json -Compress)"
+  | decode
+  | str trim
+  | lines
+  | last
+  | to text
+  | '[' + $in + ']'
+  | from json
+  | get Name
 }
 
 def batStyles [] {
