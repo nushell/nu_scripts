@@ -616,7 +616,7 @@ export extern "git worktree list" [
 ]
 
 def "nu-complete worktree list" [] {
-  ^git worktree list | to text | parse --regex '(?P<description>\S+)\s+(?P<commit>\w+)\s+(?P<value>\S.*)'
+  ^git worktree list | to text | parse --regex '(?P<value>\S+)\s+(?P<commit>\w+)\s+(?P<description>\S.*)'
 }
 
 # prevent a working tree from being pruned
