@@ -592,7 +592,7 @@ export extern "op document list" [
 export alias "document ls" = document list
 
 # Manage Events API integrations in your 1Password connect
-export extern "op events"-api [
+export extern "op events-api" [
     # GLOBAL FLAGS
     --account=account: string@"nu completion account"       # Select the account to execute the command by account shorthand, sign-in address, account ID, or user ID. For a list of available accounts, run 'op account list'. Can be set as the OP_ACCOUNT environment variable.
     --cache                                                 # Store and use cached information. Caching is enabled by default on UNIX-like systems. Caching is not available on Windows. Options: true, false. Can also be set with the OP_CACHE environment variable. (default true)
