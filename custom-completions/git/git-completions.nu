@@ -454,7 +454,6 @@ export extern "git commit" [
   --cleanup: string                                   # cleanup commit message
   --edit(-e)                                          # edit commit message
   --no-edit                                           # do not edit commit message
-  --amend                                             # amend previous commit
   --include(-i)                                       # include given paths in commit
   --only(-o)                                          # commit only specified paths
   --pathspec-from-file: string                        # read pathspec from file

@@ -42,6 +42,7 @@ build-completion cargo.fish cargo.nu
 generate and save source to a file
 
 ```nu
+source parse-help.nu
 cargo --help | parse-help | make-completion cargo | save cargo.nu
 ``` 
 
