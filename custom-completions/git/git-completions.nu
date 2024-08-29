@@ -1,6 +1,6 @@
 
 def "nu-complete git available upstream" [] {
-  ^git branch -a | lines | each { |line| $line | str replace '* ' "" | str trim }
+  ^git branch --no-color -a | lines | each { |line| $line | str replace '* ' "" | str trim }
 }
 
 def "nu-complete git remotes" [] {
@@ -24,12 +24,12 @@ def "nu-complete git commits current branch" [] {
 
 # Yield local branches like `main`, `feature/typo_fix`
 def "nu-complete git local branches" [] {
-  ^git branch | lines | each { |line| $line | str replace '* ' "" | str trim }
+  ^git branch --no-color | lines | each { |line| $line | str replace '* ' "" | str trim }
 }
 
 # Yield remote branches like `origin/main`, `upstream/feature-a`
 def "nu-complete git remote branches with prefix" [] {
-  ^git branch -r | lines | parse -r '^\*?(\s*|\s*\S* -> )(?P<branch>\S*$)' | get branch | uniq
+  ^git branch --no-color -r | lines | parse -r '^\*?(\s*|\s*\S* -> )(?P<branch>\S*$)' | get branch | uniq
 }
 
 # Yield remote branches *without* prefix which do not have a local counterpart.
@@ -40,7 +40,7 @@ def "nu-complete git remote branches nonlocal without prefix" [] {
   # for the two remotes `origin` and `upstream`.
   let remotes_regex = (["(", ((nu-complete git remotes | each {|r| [$r, '/'] | str join}) | str join "|"), ")"] | str join)
   let local_branches = (nu-complete git local branches)
-  ^git branch -r | lines | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\S+)'] | flatten | str join) | get branch | uniq | where {|branch| $branch != "HEAD"} | where {|branch| $branch not-in $local_branches }
+  ^git branch --no-color -r | lines | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\S+)'] | flatten | str join) | get branch | uniq | where {|branch| $branch != "HEAD"} | where {|branch| $branch not-in $local_branches }
 }
 
 def "nu-complete git switch" [] {
@@ -82,7 +82,7 @@ def "nu-complete git stash-list" [] {
 }
 
 def "nu-complete git tags" [] {
-  ^git tag | lines
+  ^git tag --no-color | lines
 }
 
 # See `man git-status` under "Short Format"
