@@ -33,7 +33,7 @@ def query-week-span [] {
         if not ($site_json | all { |it| $it | is-empty }) {
             print $"(char nl)## ($repo.site)(char nl)"
 
-            for user in ($site_json | group-by user_login | transpose user prs) {
+            for user in ($site_json | group-by "user.login" | transpose user prs) {
                 let user_name = $user.user
                 let pr_count = ($user.prs | length)
 
