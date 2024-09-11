@@ -497,10 +497,10 @@ export extern "cargo clippy" [
   --fix          # Automatically apply lint suggestions. This flag implies `--no-deps
   --version(-V)  # Prints version information
   --help(-h)     # Prints help information
-  --warn(-W)     # Set lint warnings
-  --allow(-A)    # Set lint allowed
-  --deny(-D)     # Set lint denied
-  --forbid(-F)   # Set lint forbidden
+  --warn(-W): string     # Set lint warnings
+  --allow(-A): string    # Set lint allowed
+  --deny(-D): string     # Set lint denied
+  --forbid(-F): string   # Set lint forbidden
   --package(-p): string@"nu-complete cargo packages" #Check only the specified packages
   --workspace # Check all members in the workspace
   --all # Alias for --workspace (deprecated)
