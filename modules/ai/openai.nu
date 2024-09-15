@@ -94,19 +94,30 @@ export def "ai embed" [
 
 
 def 'nu-complete role' [ctx] {
-    $env.OPENAI_PROMPT | items {|k, v| {value: $k, description: $v.description? } }
+    let args = $ctx | split row '|' | last | str trim -l | split row ' ' | range 2..
+    let len = $args | length
+    match $len {
+        1 => {
+            $env.OPENAI_PROMPT | items {|k, v| {value: $k, description: $v.description? } }
+        }
+        _ => {
+            let role = $env.OPENAI_PROMPT | get $args.0
+            let ph = $role.placeholder? | get ($len - 2)
+            $ph | columns
+        }
+    }
 }
 
 export def 'ai do' [
-    role: string@"nu-complete role"
-    input?: string
+    ...args: string@"nu-complete role"
     --out(-o)
     --model(-m): string@"nu-complete models"
     --debug
 ] {
-    let input = if ($in | is-empty) { $input } else { $in }
+    let input = if ($in | is-empty) { $args | last } else { $in }
+    let argv = if ($in | is-empty) { $args | range 1..<-1 } else { $args | range 1.. }
+    let role = $env.OPENAI_PROMPT | get $args.0
     let placehold = $"<(random chars -l 6)>"
-    let role = $env.OPENAI_PROMPT | get $role
     let model = if ($model | is-empty) {
         $role | get model
     } else {
@@ -119,6 +130,10 @@ export def 'ai do' [
             $x
         }
     } | str join (char newline)
+    let prompt = $argv | enumerate
+    | reduce -f $prompt {|i,a|
+        $a | str replace '{}' (($role.placeholder? | get $i.index) | get $i.item)
+    }
 
     $input | ai chat $model -p $placehold --out=$out --debug=$debug $prompt
 }
