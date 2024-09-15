@@ -18,6 +18,15 @@ export-env {
             model: 'qwen2:1.5b',
             description: 'Analyze JSON content, converting it into a SQL create table statement'
         }
+        'git-diff-summary': {
+            prompt: [
+                "Extract commit logs from git differences, summarizing only the content changes in files while ignoring hash changes."
+                "```"
+                "{}"
+                "```"
+            ]
+            description: 'Summarize from git differences'
+        }
         'trans-to-en': {
             prompt: [
                 "Translate the following text into English:"
