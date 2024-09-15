@@ -1,28 +1,10 @@
 use argx
+use utils.nu *
+use complete.nu *
+export use stat.nu *
 
-def agree [
-    prompt
-    --default-not (-n)
-] {
-    let prompt = if ($prompt | str ends-with '!') {
-        $'(ansi red)($prompt)(ansi reset)'
-    } else {
-        $'($prompt)'
-    }
-    (if $default_not { [no yes] } else { [yes no] } | input list $prompt) == 'yes'
-}
-
-def tips [ msg ] {
-    print -e $"(ansi light_gray)($msg)(ansi reset)"
-}
-
-def --wrapped with-flag [...flag] {
-    if ($in | is-empty) { [] } else { [...$flag $in] }
-}
-
-# git status
-export def gs [] {
-    git status
+def sum_prefix [p] {
+    $in | items {|k,v| if ($k | str starts-with $p) { $v } else { 0 } } | math sum
 }
 
 # git stash
@@ -51,20 +33,12 @@ export def gst [
     } else if $all {
         git stash --all ...(if $include_untracked {[--include-untracked]} else {[]})
     } else {
-        git stash
-    }
-}
-
-# git log
-export def gl [
-    commit?: string@"nu-complete git log"
-    --verbose(-v)
-    --num(-n):int=32
-] {
-    if ($commit|is-empty) {
-        _git_log $verbose $num
-    } else {
-        git log --stat -p -n 1 $commit
+        let s = (_git_status)
+        if ($s | sum_prefix 'wt_') > 0 {
+            git stash
+        } else {
+            git stash pop
+        }
     }
 }
 
@@ -190,8 +164,9 @@ export def gig [--empty-dir] {
 
 # git pull, push and switch
 export def gp [
-    branch?:                 string@"nu-complete git branches"
-    --remote (-r)='origin':  string@"nu-complete git remotes"
+    branch?:                 string@"nu-complete git branches" # branch
+    --remote (-r)='origin':  string@"nu-complete git remotes"  # remote
+    --rebase
     --force (-f)             # git push -f
     --override
     --submodule (-s)         # git submodule
@@ -202,6 +177,8 @@ export def gp [
 ] {
     if $submodule {
         git submodule update
+    } else if $rebase {
+        git pull --rebase
     } else if $override {
         git pull --rebase
         git add --all
@@ -264,7 +241,7 @@ export def gp [
 
 # git add, rm and restore
 export def ga [
-    file?:          path
+    ...file:          path
     --all (-A)
     --patch (-p)
     --update (-u)
@@ -276,23 +253,24 @@ export def ga [
     --staged (-s)
     --source (-o):  string
 ] {
+    mut args = []
     if $delete {
-        let c = if $cached {[--cached]} else {[]}
-        let f = if $force {[--force]} else {[]}
-        git rm ...$c ...$f -r $file
+        if $cached { $args ++= [--cached] }
+        if $force { $args ++= [--force] }
+        git rm ...$args -r ...$file
     } else if $restore {
-        let o = $source | with-flag --source
-        let s = if $staged {[--staged]} else {[]}
-        let file = if ($file | is-empty) { [.] } else { [$file] }
-        git restore ...$o ...$s ...$file
+        $args ++= ($source | with-flag --source)
+        if $staged { $args ++= [--staged]}
+        $args ++= if ($file | is-empty) { [.] } else { $file }
+        git restore ...$args
     } else {
-        let a = if $all {[--all]} else {[]}
-        let p = if $patch {[--patch]} else {[]}
-        let u = if $update {[--update]} else {[]}
-        let v = if $verbose {[--verbose]} else {[]}
-        let f = if $force {[--force]} else {[]}
-        let file = if ($file | is-empty) { [.] } else { [$file] }
-        git add ...([$a $p $u $v $f $file] | flatten)
+        if $all { $args ++= [--all] }
+        if $patch { $args ++= [--patch] }
+        if $update { $args ++= [--update] }
+        if $verbose { $args ++= [--verbose] }
+        if $force { $args ++= [--force] }
+        $args ++= if ($file | is-empty) { [.] } else { $file }
+        git add ...$args
     }
 
 }
@@ -304,24 +282,38 @@ export def gc [
     --amend (-a)
     --keep (-k)
 ] {
-    let m = $message | with-flag -m
-    let a = if $all {[--all]} else {[]}
-    let n = if $amend {[--amend]} else {[]}
-    let k = if $keep {[--no-edit]} else {[]}
-    git commit -v ...$m ...$a ...$n ...$k
+    mut args = []
+    $args ++= ($message | with-flag -m)
+    if $all { $args ++= [--all] }
+    if $amend { $args ++= [--amend] }
+    if $keep { $args ++= [--no-edit] }
+    git commit -v ...$args
 }
+
+
 
 # git diff
 export def gd [
-    file?:            path
+    ...file:            path
     --cached (-c)     # cached
+    --unstashed (-u)  # unstashed
     --word-diff (-w)  # word-diff
     --staged (-s)     # staged
 ] {
-    let w = if $word_diff {[--word-diff]} else {[]}
-    let c = if $cached {[--cached]} else {[]}
-    let s = if $staged {[--staged]} else {[]}
-    git diff ...$c ...$s ...$w ...($file | with-flag)
+    mut args = []
+    if $word_diff { $args ++= [--word-diff] }
+    if $cached { $args ++= [--cached] }
+    if $staged { $args ++= [--staged] }
+    if ($args | is-empty) {
+        let s = (_git_status)
+        if ($s | sum_prefix 'wt_') > 0 {
+            git diff ...$file
+        } else if ($s | sum_prefix 'idx_') > 0 {
+            git diff ...$file --staged
+        }
+    } else {
+        git diff ...$args ...$file
+    }
 }
 
 # git merge
@@ -330,15 +322,18 @@ export def gm [
     --abort (-a)
     --continue (-c)
     --quit (-q)
-    --no-squash (-n) # git merge (no)--squash
+    --squash (-s)
+    --fast-farward (-f)
 ] {
-    let x = if $no_squash { [] } else { [--squash] }
+    mut args = []
+    if $squash { $args ++= [--squash] }
+    if $fast_farward { $args ++= [--ff] } else { $args ++= [--no-ff] }
     if ($branch | is-empty) {
-        git merge ...$x $"origin/(git_main_branch)"
+        git merge ...$args $"origin/(git_main_branch)"
     } else {
-        git merge ...$x $branch
+        git merge ...$args $branch
     }
-    if not $no_squash {
+    if $squash {
         git commit -v
     }
 }
@@ -409,9 +404,10 @@ export def grs [
     --hard (-h)
     --clean (-c)
 ] {
-    let h = if $hard {[--hard]} else {[]}
-    let cm = $commit | with-flag
-    git reset ...$h ...$cm
+    mut args = []
+    if $hard { $args ++= [--hard] }
+    if ($commit | is-not-empty) { $args ++= $commit }
+    git reset ...$args
     if $clean {
         git clean -fd
     }
@@ -486,204 +482,4 @@ export alias gsw = git switch
 export alias gswc = git switch -c
 export alias gts = git tag -s
 
-export def _git_status [] {
-    # TODO: show-stash
-    let raw_status = do -i { git --no-optional-locks status --porcelain=2 --branch | lines }
-
-    let stashes = do -i { git stash list | lines | length }
-
-    mut status = {
-        idx_added_staged    : 0
-        idx_modified_staged : 0
-        idx_deleted_staged  : 0
-        idx_renamed         : 0
-        idx_type_changed    : 0
-        wt_untracked        : 0
-        wt_modified         : 0
-        wt_deleted          : 0
-        wt_type_changed     : 0
-        wt_renamed          : 0
-        ignored             : 0
-        conflicts           : 0
-        ahead               : 0
-        behind              : 0
-        stashes             : $stashes
-        repo_name           : no_repository
-        tag                 : no_tag
-        branch              : no_branch
-        remote              : ''
-    }
-
-    if ($raw_status | is-empty) { return $status }
-
-    for s in $raw_status {
-        let r = $s | split row ' '
-        match $r.0 {
-            '#' => {
-                match ($r.1 | str substring 7..) {
-                    'oid' => {
-                        $status.commit_hash = ($r.2 | str substring 0..8)
-                    }
-                    'head' => {
-                        $status.branch = $r.2
-                    }
-                    'upstream' => {
-                        $status.remote = $r.2
-                    }
-                    'ab' => {
-                        $status.ahead = ($r.2 | into int)
-                        $status.behind = ($r.3 | into int | math abs)
-                    }
-                }
-            }
-            '1'|'2' => {
-                match ($r.1 | str substring 0..1) {
-                    'A' => {
-                        $status.idx_added_staged += 1
-                    }
-                    'M' => {
-                        $status.idx_modified_staged += 1
-                    }
-                    'R' => {
-                        $status.idx_renamed += 1
-                    }
-                    'D' => {
-                        $status.idx_deleted_staged += 1
-                    }
-                    'T' => {
-                        $status.idx_type_changed += 1
-                    }
-                }
-                match ($r.1 | str substring 1..2) {
-                    'M' => {
-                        $status.wt_modified += 1
-                    }
-                    'R' => {
-                        $status.wt_renamed += 1
-                    }
-                    'D' => {
-                        $status.wt_deleted += 1
-                    }
-                    'T' => {
-                        $status.wt_type_changed += 1
-                    }
-                }
-            }
-            '?' => {
-                $status.wt_untracked += 1
-            }
-            'u' => {
-                $status.conflicts += 1
-            }
-        }
-    }
-
-    $status
-}
-
-export def _git_log_stat [n]  {
-    do -i {
-        git log --reverse -n $n --pretty=»¦«%h --stat
-        | lines
-        | reduce -f { c: '', r: [] } {|it, acc|
-            if ($it | str starts-with '»¦«') {
-                $acc | upsert c ($it | str substring 6.. )
-            } else if ($it | find -r '[0-9]+ file.+change' | is-empty) {
-                $acc
-            } else {
-                let x = $it
-                    | split row ','
-                    | each {|x| $x
-                        | str trim
-                        | parse -r "(?<num>[0-9]+) (?<col>.+)"
-                        | get 0
-                        }
-                    | reduce -f {sha: $acc.c file:0 ins:0 del:0} {|i,a|
-                        let col = if ($i.col | str starts-with 'file') {
-                                'file'
-                            } else {
-                                $i.col | str substring ..3
-                            }
-                        let num = $i.num | into int
-                        $a | upsert $col $num
-                    }
-                $acc | upsert r ($acc.r | append $x)
-            }
-        }
-        | get r
-    }
-}
-
-export def _git_log [verbose num] {
-    let r = do -i {
-        git log --reverse -n $num --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD»¦«%D
-        | lines
-        | split column "»¦«" sha message author email date refs
-        | each {|x|
-            let refs = if ($x.refs | is-empty) {
-                $x.refs
-            } else {
-                $x.refs | split row ", "
-            }
-            $x
-            | update date { $x.date | into datetime }
-            | update refs $refs
-        }
-    }
-    if $verbose {
-        $r | merge ( _git_log_stat $num )
-    } else {
-        $r
-    }
-}
-
-def "nu-complete git log" [] {
-    git log -n 32 --pretty=%h»¦«%s
-    | lines
-    | split column "»¦«" value description
-    | each {|x| $x | update value $"($x.value)"}
-}
-
-def "nu-complete git log all" [] {
-    git log --all -n 32 --pretty=%h»¦«%d»¦«%s
-    | lines
-    | split column "»¦«" value branch description
-    | each {|x| $x | update description $"($x.branch) ($x.description)" }
-}
-
-def "nu-complete git branch files" [context: string, offset:int] {
-    let token = $context | split row ' '
-    let branch = $token | get 1
-    let files = $token | skip 2
-    git ls-tree -r --name-only $branch
-    | lines
-    | filter {|x| not ($x in $files)}
-}
-
-def "nu-complete git branches" [] {
-    git branch
-    | lines
-    | filter {|x| not ($x | str starts-with '*')}
-    | each {|x| $"($x|str trim)"}
-}
-
-export def remote_branches [] {
-    git branch -r
-    | lines
-    | str trim
-    | filter {|x| not ($x | str starts-with 'origin/HEAD') }
-}
-
-def "nu-complete git remotes" [] {
-  ^git remote | lines | each { |line| $line | str trim }
-}
-
-def git_main_branch [] {
-    git remote show origin
-    | lines
-    | str trim
-    | find --regex 'HEAD .*?[：: ].+'
-    | first
-    | str replace --regex 'HEAD .*?[：: ](.+)' '$1'
-}
 
