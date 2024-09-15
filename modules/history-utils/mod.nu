@@ -1,5 +1,6 @@
 def quote [...t] {
-    $"'($t | str join '')'"
+    let s = $t | str join '' | str replace -a "'" "''"
+    $"'($s)'"
 }
 
 def flatten_fields [args] {
@@ -40,6 +41,7 @@ export def 'history timing' [
     pattern?
     --exclude(-x): string
     --num(-n)=10
+    --current(-c)
     --all(-a)
 ] {
     open $nu.history-path | query db (sql {
@@ -48,6 +50,7 @@ export def 'history timing' [
             "cmd not like 'history timing%'"
             (if ($pattern | is-not-empty) {[cmd like (quote '%' $pattern '%')]})
             (if ($exclude | is-not-empty) {[cmd not like (quote '%' $exclude '%')]})
+            (if $current {[session_id = (history session)]})
             (if not $all {[cwd = (quote $env.PWD)]})
         ]
         orderBy: [[start desc]]
