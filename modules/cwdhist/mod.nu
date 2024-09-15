@@ -1,3 +1,8 @@
+def quote [...t] {
+    let s = $t | str join '' | str replace -a "'" "''"
+    $"'($s)'"
+}
+
 def __cwdhist_menu [] {
     {
         name: cwdhist_menu
@@ -14,12 +19,12 @@ def __cwdhist_menu [] {
         }
         source: { |buffer, position|
             #$"[($position)]($buffer);(char newline)" | save -a ~/.cache/cwdhist.log
-            let t = ($buffer | split row ' ' | last)
+            let t = quote '%' ($buffer | split row ' ' | last) '%'
             if $env.cwd_history_full {
                 open $nu.history-path | query db $"
-                    select cwd as value, count\(*) as cnt
+                    select cwd as value, count\(*\) as cnt
                     from history
-                    where cwd like '%($t)%'
+                    where cwd like ($t)
                     group by cwd
                     order by cnt desc
                     limit 50
@@ -28,7 +33,7 @@ def __cwdhist_menu [] {
                 open $env.cwd_history_file | query db $"
                     select cwd as value, count
                     from cwd_history
-                    where cwd like '%($t)%'
+                    where cwd like ($t)
                     order by count desc
                     limit 50
                     ;"
@@ -69,12 +74,12 @@ export def empty-sqlite [] {
 
 export def 'cwd history delete' [cwd] {
     open $env.cwd_history_file
-    | query db $"delete from cwd_history where cwd = '($cwd)';"
+    | query db $"delete from cwd_history where cwd = (quote $cwd);"
 }
 
 export-env {
     $env.cwd_history_full = false
-    $env.cwd_history_file = '~/.cache/nu_cwd_history.sqlite'
+    $env.cwd_history_file = ([$nu.data-dir 'cache'] | path join 'nu_cwd_history.sqlite')
 
     if not ($env.cwd_history_file | path exists) {
         empty-sqlite | save -f $env.cwd_history_file
@@ -95,9 +100,9 @@ export-env {
         }
         open $env.cwd_history_file
         | query db $"
-            insert into cwd_history\(cwd)
-                values \('($path)')
-            on conflict\(cwd)
+            insert into cwd_history\(cwd\)
+                values \((quote $path)\)
+            on conflict\(cwd\)
             do update set
                 count = count + 1,
                 recent = datetime\('now', 'localtime');"
