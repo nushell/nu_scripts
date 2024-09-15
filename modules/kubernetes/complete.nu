@@ -3,7 +3,7 @@ use utils.nu *
 
 export def "nu-complete kube ctx" [] {
     let k = (kube-config)
-    let cache = $'($env.HOME)/.cache/nu-complete/k8s/($k.path | path basename).json'
+    let cache = ([$nu.data-dir 'cache' 'k8s'] | path join $'($k.path | path basename).json')
     let data = ensure-cache-by-lines $cache $k.path { ||
         let clusters = $k.data | get clusters | select name cluster.server
         let data = $k.data
@@ -38,7 +38,7 @@ export def "nu-complete kube ns" [] {
 
 export def "nu-complete kube kind" [] {
     let ctx = (kube-config)
-    let cache = $'($env.HOME)/.cache/nu-complete/k8s-api-resources/($ctx.data.current-context).json'
+    let cache = ([$nu.data-dir 'cache' 'k8s-api-resources'] | path join $'($ctx.data.current-context).json')
     ensure-cache-by-lines $cache $ctx.path {||
         kubectl api-resources | from ssv -a
         | each {|x| {value: $x.NAME description: $x.SHORTNAMES} }
@@ -86,7 +86,7 @@ export def "nu-complete kube jsonpath" [context: string] {
             let m = kubectl get ...$ns $kind $res $"--output=jsonpath={($p)}" | from json
             let l = $row | last
             let c = do -i {$m | get $l}
-            if ($c | is-not-empty) and ($c | describe | str substring 0..5) == 'table' {
+            if ($c | is-not-empty) and ($c | describe | str substring 0..<5) == 'table' {
                 $r = (0..(($c | length) - 1) | each {|x| $'($p).($l)[($x)]'})
             } else {
                 $r = ($m | columns | each {|x| $'($p).($x)'})
@@ -150,7 +150,7 @@ export def "nu-complete kube port" [context: string, offset: int] {
 }
 
 export def "nu-complete kube cp" [cmd: string, offset: int] {
-    let ctx = $cmd | str substring ..$offset | argx parse
+    let ctx = $cmd | str substring ..<$offset | argx parse
     let p = $ctx._args | get (($ctx._args | length) - 1)
     let ns = $ctx.namespace? | with-flag -n
     let c = $ctx.container? | with-flag -c
