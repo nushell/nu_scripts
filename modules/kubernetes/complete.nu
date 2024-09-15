@@ -5,13 +5,13 @@ export def "nu-complete kube ctx" [] {
     let k = (kube-config)
     let cache = ([$nu.data-dir 'cache' 'k8s'] | path join $'($k.path | path basename).json')
     let data = ensure-cache-by-lines $cache $k.path { ||
-        let clusters = $k.data | get clusters | select name cluster.server
+        let clusters = $k.data | get clusters | select name cluster.server | rename name server
         let data = $k.data
             | get contexts
             | reduce -f {completion:[], mx_ns: 0, mx_cl: 0} {|x, a|
                 let ns = if ($x.context.namespace? | is-empty) { '' } else { $x.context.namespace }
                 let max_ns = $ns | str length
-                let cluster = $"($x.context.user)@($clusters | where name == $x.context.cluster | get cluster_server.0)"
+                let cluster = $"($x.context.user)@($clusters | where name == $x.context.cluster | first | get server)"
                 let max_cl = $cluster | str length
                 $a
                 | upsert mx_ns (if $max_ns > $a.mx_ns { $max_ns } else $a.mx_ns)
