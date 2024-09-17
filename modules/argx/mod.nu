@@ -85,7 +85,7 @@ export def parse [] {
     for c in $token {
         if ($sw | is-empty) {
             if ($c | str starts-with '-') {
-                let c = if ($c | str substring 1..2) != '-' {
+                let c = if ($c | str substring 1..<2) != '-' {
                     let k = ($c | str substring 1..)
                     if $k in $sign.name {
                         $'($sign.name | get $k)'
