@@ -20,15 +20,14 @@ Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/n
 
 As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
 
-# Table of content
+# Table of contents
 - [_Highlights and themes of this release_](#highlights-and-themes-of-this-release-toc)
-- [_Changes to commands_](#changes-to-commands-toc)
+- [_Changes_](#changes-toc)
   - [_Additions_](#additions-toc)
   - [_Breaking changes_](#breaking-changes-toc)
   - [_Deprecations_](#deprecations-toc)
   - [_Removals_](#removals-toc)
   - [_Bug fixes and other changes_](#bug-fixes-and-other-changes-toc)
-- [_All breaking changes_](#all-breaking-changes-toc)
 - [_Notes for plugin developers_](#notes-for-plugin-developers-toc)
 - [_Hall of fame_](#hall-of-fame-toc)
 - [_Full changelog_](#full-changelog-toc)
@@ -63,7 +62,7 @@ As part of this release, we also publish a set of optional plugins you can insta
     for the list of available *containers*
 -->
 
-# Changes to commands [[toc](#table-of-content)]
+# Changes [[toc](#table-of-content)]
 
 ## Additions [[toc](#table-of-content)]
 
@@ -100,15 +99,6 @@ As part of this release, we also publish a set of optional plugins you can insta
 
     $prs | to md --pretty | clip
     ```
--->
-
-# All breaking changes [[toc](#table-of-content)]
-<!-- TODO:
-    paste the output of
-    ```nu
-    ./make_release/release-note/list-merged-prs nushell/nushell --label pr:breaking-change --pretty --no-author
-    ```
-    here
 -->
 
 # Notes for plugin developers [[toc](#table-of-content)]
