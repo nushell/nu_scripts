@@ -533,7 +533,7 @@ export extern "git stash drop" [
 
 # Create a new git repository
 export extern "git init" [
-  --initial-branch(-b)                                # initial branch name
+  --initial-branch(-b): string                         # initial branch name
 ]
 
 # List or manipulate tags
