@@ -894,6 +894,21 @@ export def diff [
 
     }
 
+    if (($rev1_or_file | describe) != nothing and ($rev2 | describe) == nothing) {
+      
+      return (
+        bash_yadm diff $rev1_or_file ...(
+            generate_viable_bash_string_flags {
+            cached: $cached,
+            name-only: $name_only,
+            name-status: $name_status,
+            no-color: $no_color,
+        }
+      )
+     )
+
+    }
+
      bash_yadm diff $rev1_or_file $rev2 ...(generate_viable_bash_string_flags {
         cached: $cached,
         name-only: $name_only,
