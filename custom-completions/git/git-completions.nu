@@ -126,7 +126,7 @@ def "nu-complete git built-in-refs" [] {
 }
 
 def "nu-complete git refs" [] {
-  nu-complete git switchable branches
+  nu-complete git local branches
   | parse "{value}"
   | insert description Branch
   | append (nu-complete git tags | parse "{value}" | insert description Tag)
@@ -134,7 +134,7 @@ def "nu-complete git refs" [] {
 }
 
 def "nu-complete git files-or-refs" [] {
-  nu-complete git switchable branches
+  nu-complete git local branches
   | parse "{value}"
   | insert description Branch
   | append (nu-complete git files | where description == "Modified" | select value)
@@ -682,7 +682,7 @@ export extern "git clone" [
   --upload-pack(-u): string     # use <upload-pack> as the path in the other end when using ssh
   --template: string            # use <template-dir> as the templates directory
   --config(-c): string          # set a <key>=<value> config variable
-  --depth: int                  # shallow clone <depth> commits 
+  --depth: int                  # shallow clone <depth> commits
   --shallow-since: string       # shallow clone commits newer than =<date>
   --shallow-exclude: string     # do not clone commits reachable from <revision> (branch or tag)
   --single-branch               # clone commit history from a single branch
