@@ -49,3 +49,20 @@ Shows changed packages after running `nixos-rebuild switch/boot` and change in t
 ╰────┴──────────────────┴───────────────────────┴────────┴────────────╯
 ```
 
+### nufetch
+
+nu alternative to `neofetch`/`hyfetch`.
+```
+╭──────────┬───────────────────────────────────╮
+│ kernel   │ 6.11.0                            │
+│ nu       │ 0.98.0                            │
+│          │ ╭─────────────┬────────┬────────╮ │
+│ packages │ │ environment │ number │  size  │ │
+│          │ ├─────────────┼────────┼────────┤ │
+│          │ │ system      │    825 │ 5.7 GB │ │
+│          │ │ sperber     │    352 │ 1.5 GB │ │
+│          │ │ steam       │    929 │ 5.4 GB │ │
+│          │ ╰─────────────┴────────┴────────╯ │
+│ uptime   │ 3hr 1min 18sec                    │
+╰──────────┴───────────────────────────────────╯
+```
