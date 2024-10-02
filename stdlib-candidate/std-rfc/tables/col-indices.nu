@@ -2,7 +2,14 @@ use ../conversions/into.nu *
 use ./select-ranges.nu *
 
 export def main [ ...ranges ] {
-  columns
-  | select ranges $ranges 
+  let indices = (
+    $ranges
+    | reduce -f [] {|range,indices|
+      $indices ++ ($range | into list)
+    }
+  )
+
+  $in | columns
+  | select ranges $indices 
   | get item
 }
