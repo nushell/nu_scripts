@@ -5,3 +5,5 @@ export module math.nu
 export module bench.nu
 export module script-parsing.nu
 export module str_dedent.nu
+export module conversions.nu
+export module tables.nu

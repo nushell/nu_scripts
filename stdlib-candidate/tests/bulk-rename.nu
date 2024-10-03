@@ -40,7 +40,10 @@ export def 'test --verbose' [] {
         _test.nu
     ]
     let renamed = test $fixture {
-        ls $in | bulk-rename --verbose --no-execute { '_' + $in }
+        # Note: Currently failing due to Nushell core #13267
+        # Remove the 'sort' once it is fixed
+        # ls $in | bulk-rename --verbose --no-execute { '_' + $in }
+        ls $in | bulk-rename --verbose --no-execute { '_' + $in } | sort
     }
     assert equal ($renamed.new | each { path basename }) $expects
 }
