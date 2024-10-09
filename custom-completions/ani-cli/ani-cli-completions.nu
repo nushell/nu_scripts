@@ -2,7 +2,7 @@
 # inspired by DWTW
 
 def videoQuality [] {
-  [ "best", "worst", "360", "480", "720", "1080" ]
+  [ "worst", "360p", "480p", "720p", "1080p", "4K", "best" ]
 }
 def common_episodes [] {
   [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13" ]
