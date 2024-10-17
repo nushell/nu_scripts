@@ -289,7 +289,7 @@ export module config {
                 msg:"Invalid Configuration Value"
                 help:"When it comes to cofiguaration a value must be a string boolean number or a list of strings or numbers"
             }
-              
+
         }
 
     }
@@ -582,18 +582,20 @@ export def transcrypt [
         $possible_subjects
     }
     
-    export def main [subject:string@get_completions_for_subject, ] {
+    export def main [subject:string@get_completions_for_subject ] {
       
-      if($subject not-in $possible_subjects) {
+      if $subject not-in $possible_subjects {
 
         let joined_possible_subjects = $possible_subjects 
         | str join ","
 
         error make {
           msg: "Invalid Argument",
-          label: "This value is incorrect!"
-          span:(metadata $subject).span
-          help: $"This value ($subject) isn't correct the ones are ($joined_possible_subjects). " 
+          label: {
+            text:"This value is incorrect!"
+            span:(metadata $subject).span
+          }
+          help: $"This value ($subject) isn't correct the ones are ($joined_possible_subjects)" 
         }
       }
 
