@@ -93,7 +93,7 @@ export def main [
    --yadm-bootstrap 
 ] {
    
-   bash_yadm (
+   bash_yadm ...(
      generate_viable_bash_string_flags {
       yadm-dir:$yadm_dir,
       yadm-data:$yadm_data,
@@ -104,7 +104,6 @@ export def main [
       yadm-bootstrap:$yadm_bootstrap,
      }
    )
-   
    
 }
 
@@ -145,9 +144,8 @@ def generate_type_flag_completions [] {
   
   }
       
-  export module config {
-    
-  
+export module config {
+      
     const yadm_config_characteristics = {
         yadm:{
           alt-copy: { 
@@ -264,8 +262,6 @@ def generate_type_flag_completions [] {
     let yadm_config_characteristic_key_type = $yadm_config_characteristics 
         | get ($cell_path_to_yadm_config_characteristic_key_type)
     
-  
-    
 
     match $yadm_config_characteristic_key_type {
     
@@ -299,10 +295,8 @@ def generate_type_flag_completions [] {
 
 
     }
-
     
-    
-    export def main  [
+export def main  [
       key:string@generate_dot_value_and_descriptions 
       value?:any@get_auto_complete_value_based_on_what_context_gets_from_yadm_config_characteristics_type
       --global 
@@ -341,11 +335,7 @@ def generate_type_flag_completions [] {
       --rename-section:string 
       --comment:string 
       ] { 
-    
-
-
-
-    
+        
         if $key !~ '(?<outer_key>\w+)(?<dot>\.)(?<inner_key>\w+)' {
 
           error make {
@@ -405,7 +395,7 @@ def generate_type_flag_completions [] {
   
   }
 
-  export def gitconfig [
+export def gitconfig [
     key:string 
     value?:any
     --global 
@@ -487,7 +477,7 @@ def generate_type_flag_completions [] {
   }
   
   
-  export module git-crypt  { 
+export module git-crypt  { 
     
 
     # Share the repository using GPG
@@ -520,41 +510,24 @@ def generate_type_flag_completions [] {
     
   }
   
-  export def transcrypt [
+export def transcrypt [
     --cipher(-c):string 
-
     --password(-p):string 
-
     --set-openssl-path:string 
-
     --yes(-y) 
-
     --display(-d) 
-
     --rekey(-r) 
-
     --flush-credentials(-f) 
-
     --force(-F) 
-
     --uninstall(-u) 
-
     --upgrade 
-
     --list(-l) 
-
     --show-raw(-s):string 
-
     --export-gpg(-e):string 
-
     --import-gpg(-i) 
-
     --context(-C) 
-
     --list-contexts 
-
     --version(-v) 
-
     --help(-h) 
   ] { 
     
@@ -594,7 +567,8 @@ def generate_type_flag_completions [] {
   
   export def enter [] { bash_yadm enter }
   
-  export module introspect { 
+  export module introspect {
+   
     const possible_subjects = [
       'commands'
       'repos'
@@ -628,7 +602,6 @@ def generate_type_flag_completions [] {
   }
   
 module git {
-
 
   export module stash { 
             
@@ -699,11 +672,13 @@ module git {
         bash_yadm stash list $log_options 
         
       }
-      bash_yadm stash list  
+
+      bash_yadm stash list
+
     }
  
 
-  export module show {
+export module show {
       
     
     def get-diff-algorithm-completions [] {
@@ -736,7 +711,7 @@ module git {
         ['color' 'plain' 'porcelain' 'none']
     }
 
-      export def main [
+    export def main [
         --no-index
         --cached
         --merge-base
@@ -935,7 +910,7 @@ module git {
                     0:$0
                     include-untracked:$include_untracked
                     only-untracked:$only_untracked
-            }
+                  }
   
        if ($stash | describe) != nothing {
 
@@ -944,9 +919,7 @@ module git {
        }
   
       bash_yadm stash show ...$viable_bash_string_flags
-        
-        
-        
+               
       }
 
      }
@@ -996,25 +969,27 @@ module git {
     }
       
     export def clear [param: string, ] {
+      
       bash_yadm stash clear  
+    
     }
       
     export def drop [--quiet(-q) stash:string ] {
 
-      bash_yadm stash drop $stash ...(
-                  generate_viable_bash_string_flags {
-                      quiet:$quiet
-                    }
-              ) 
+      bash_yadm stash drop $stash ...(generate_viable_bash_string_flags { quiet:$quiet }) 
     
     }
     
     export def create [] {
-      bash_yadm stash create  
+
+      bash_yadm stash create
+
     }
     
     export def store [] {
-      bash_yadm stash store  
+
+      bash_yadm stash store
+
     }
       
   }
@@ -1050,16 +1025,16 @@ module git {
           url:string
         ] {
   
-        bash_yadm remote add $name $url ...(
-          generate_viable_bash_string_flags {
-            t:$t
-            m:$m
-            f:$f
-            no-tags:$no_tags
-            tags:$tags
-            mirror:$mirror
-          }
-        )
+            bash_yadm remote add $name $url ...(
+              generate_viable_bash_string_flags {
+                t:$t
+                m:$m
+                f:$f
+                no-tags:$no_tags
+                tags:$tags
+                mirror:$mirror
+              }
+            )
           
         }
 
@@ -1073,14 +1048,14 @@ module git {
         new:string
         ] {
         
-        bash_yadm remote rename $old $new (
-          generate_viable_bash_string_flags {
-            progress:$progress 
-            no-progress:$no_progress
+            bash_yadm remote rename $old $new (
+              generate_viable_bash_string_flags {
+                progress:$progress 
+                no-progress:$no_progress
 
 
-          }
-        )
+              }
+            )
       
       }
 
@@ -1096,22 +1071,22 @@ module git {
           name:string
       ] {
 
-      bash_yadm remote set-head $name ...(
-        generate_viable_bash_string_flags {
-          auto:$auto
-          delete:$delete
-        }
-      )
+          bash_yadm remote set-head $name ...(
+            generate_viable_bash_string_flags {
+              auto:$auto
+              delete:$delete
+            }
+          )
         
       }
 
       export def set-branches [--add name:string ...branches:string ] {
         
-        bash_yadm remote set-branches $name ...$branches ...(
-          generate_viable_bash_string_flags {
-            add:$add
-          }
-        )
+          bash_yadm remote set-branches $name ...$branches ...(
+            generate_viable_bash_string_flags {
+              add:$add
+            }
+          )
 
       }
 
@@ -1136,13 +1111,13 @@ module git {
       old_url:string 
       ] {
         
-        bash_yadm remote set-url $name $new_url $old_url ...(
-          generate_viable_bash_string_flags {
-            add:$add
-            delete:$delete
-            push:$push
-          }
-        )
+            bash_yadm remote set-url $name $new_url $old_url ...(
+              generate_viable_bash_string_flags {
+                add:$add
+                delete:$delete
+                push:$push
+              }
+            )
       
       }
 
@@ -1172,16 +1147,16 @@ module git {
       export def update [
         --verbose(-v)
         --prune(-p)
-      ...groups_or_remotes:string
+        ...groups_or_remotes:string
         ] {
 
 
-        bash_yadm remote update ...$groups_or_remotes ...(
-          generate_viable_bash_string_flags {
-            verbose:$verbose
-            prune:$prune
-          }
-        )
+            bash_yadm remote update ...$groups_or_remotes ...(
+              generate_viable_bash_string_flags {
+                verbose:$verbose
+                prune:$prune
+              }
+            )
         
       }
 
@@ -1205,7 +1180,6 @@ module git {
 
         if ($commit_ish | describe) != nothing {
 
-
           bash_yadm worktree add $path $commit_ish ...(
             generate_viable_bash_string_flags {
               f:$f
@@ -1220,7 +1194,6 @@ module git {
           )
 
         }
-
 
         bash_yadm worktree add $path ...(
             generate_viable_bash_string_flags {
@@ -1440,7 +1413,7 @@ module git {
     --chmod:string 
     --pathspec-from-file:string 
     --pathspec-file-nul  
-      ...$pathspecs:string
+    ...$pathspecs:string
   ] {
 
     bash_yadm add ...$pathspecs  ...(
@@ -1470,7 +1443,7 @@ module git {
   
   }
 
-  export module branch {
+export module branch {
     
   
   def get-track-completions [] {
@@ -1507,7 +1480,6 @@ module git {
       --edit-description
       branch_name?:string
     ] {
-
 
       let viable_bash_string_flags = generate_viable_bash_string_flags {
               color:$color
@@ -1600,58 +1572,58 @@ export def fetch [
   --ipv6(-6)                                            
 ] {
 
-  let viable_bash_string_flags = generate_viable_bash_string_flags {
-        all:$all                                         
-        append:$append                                  
-        atomic:$atomic                                      
-        depth: int                                  
-        deepen: int                                 
-        shallow-since: string                       
-        shallow-exclude: string                     
-        unshallow:$unshallow                                   
-        update-shallow:$update_shallow                              
-        negotiation-tip: string                     
-        negotiate-only:$negotiate_only                              
-        dry-run:$dry_run                                     
-        write-fetch-head:$write_fetch_head                            
-        no-write-fetch-head:$no_write_fetch_head                         
-        force:$force                                   
-        keep:$keep                                    
-        multiple:$multiple                                    
-        auto-maintenance:$auto_maintenance                            
-        no-auto-maintenance:$no_auto_maintenance                         
-        auto-gc:$auto_gc                                     
-        no-auto-gc:$no_auto_gc                                  
-        write-commit-graph:$write_commit_graph                          
-        no-write-commit-graph:$no_write_commit_graph                       
-        prefetch:$prefetch                                    
-        prune:$prune                                   
-        prune-tags:$prune_tags                              
-        no-tags:$no_tags                                 
-        refmap:$refmap                              
-        tags:$tags                                    
-        recurse-submodules:$recurse_submodules                  
-        jobs:$jobs                               
-        no-recurse-submodules:$no_recurse_submodules                       
-        set-upstream:$set_upstream                                
-        submodule-prefix:$submodule_prefix                    
-        upload-pack:$upload_pack                         
-        quiet:$quiet                                   
-        verbose:$verbose                                 
-        progress:$progress                                    
-        server-option:$server_option                   
-        show-forced-updates:$show_forced_updates                         
-        no-show-forced-updates:$no_show_forced_updates                      
-        ipv4:$ipv4                                            
-        ipv6:$ipv6
-    }
+      let viable_bash_string_flags = generate_viable_bash_string_flags {
+            all:$all                                         
+            append:$append                                  
+            atomic:$atomic                                      
+            depth: int                                  
+            deepen: int                                 
+            shallow-since: string                       
+            shallow-exclude: string                     
+            unshallow:$unshallow                                   
+            update-shallow:$update_shallow                              
+            negotiation-tip: string                     
+            negotiate-only:$negotiate_only                              
+            dry-run:$dry_run                                     
+            write-fetch-head:$write_fetch_head                            
+            no-write-fetch-head:$no_write_fetch_head                         
+            force:$force                                   
+            keep:$keep                                    
+            multiple:$multiple                                    
+            auto-maintenance:$auto_maintenance                            
+            no-auto-maintenance:$no_auto_maintenance                         
+            auto-gc:$auto_gc                                     
+            no-auto-gc:$no_auto_gc                                  
+            write-commit-graph:$write_commit_graph                          
+            no-write-commit-graph:$no_write_commit_graph                       
+            prefetch:$prefetch                                    
+            prune:$prune                                   
+            prune-tags:$prune_tags                              
+            no-tags:$no_tags                                 
+            refmap:$refmap                              
+            tags:$tags                                    
+            recurse-submodules:$recurse_submodules                  
+            jobs:$jobs                               
+            no-recurse-submodules:$no_recurse_submodules                       
+            set-upstream:$set_upstream                                
+            submodule-prefix:$submodule_prefix                    
+            upload-pack:$upload_pack                         
+            quiet:$quiet                                   
+            verbose:$verbose                                 
+            progress:$progress                                    
+            server-option:$server_option                   
+            show-forced-updates:$show_forced_updates                         
+            no-show-forced-updates:$no_show_forced_updates                      
+            ipv4:$ipv4                                            
+            ipv6:$ipv6
+          }
 
-  if ($repository | describe) != nothing  {
+      if ($repository | describe) != nothing  {
 
-    return (bash_yadm fetch $repository ...$viable_bash_string_flags)
-  }
+        return (bash_yadm fetch $repository ...$viable_bash_string_flags)
+      }
 
-  bash_yadm fetch ...$viable_bash_string_flags
+      bash_yadm fetch ...$viable_bash_string_flags
 
 }
 
@@ -1669,7 +1641,7 @@ export def fetch [
       --theirs 
       --conflict
       --patch
-     branch:string
+      branch:string
   ] {
 
     bash_yadm checkout $branch ...(
@@ -1745,7 +1717,7 @@ export def fetch [
               abort:$abort
             }
           )
-      
+  
       }
 
   }
@@ -1838,7 +1810,7 @@ export def fetch [
   }
 
 
-  export module commit { 
+export module commit { 
 
     def get-fixup-completions [] {
         ['amend' 'reword'] | each {|value| $"($value):<commit>" }
@@ -2074,119 +2046,114 @@ export module diff {
       --theirs(-3)
       --0
       ...rest:string
-      
       ] {
 
-      bash_yadm diff ...$rest ...(
-        generate_viable_bash_string_flags {
-            no-index:$no_index
-            cached:$cached
-            merge-base:$merge_base
-            patch:$patch
-            no-patch:$no_patch
-            unified:$unified
-            output:$output
-            output-indicator-new:$output_indicator_new
-            output-indicator-context:$output_indicator_context
-            raw:$raw
-            patch-with-raw:$patch_with_raw
-            indent-heuristic:$indent_heuristic
-            no-indent-heuristic:$no_indent_heuristic
-            minimal:$minimal
-            paitence:$paitence
-            histogram:$histogram
-            anchored:$anchored
-            diff-algorithm:$diff_algorithm
-            stat:$stat
-            stat-width:$stat_width 
-            stat-count:$stat_count
-            stat-name-width:$stat_name_width
-            compact-summary:$compact_summary
-            numstat:$numstat
-            shortstat:$shortstat
-            dirstat:$dirstat
-            cumulative:$cumulative
-            dirstat-by-file:$dirstat_by_file
-            summary:$summary
-            patch-with-stat:$patch_with_stat
-            z:$z
-            name-only:$name_only
-            name-status:$name_status
-            submodule:$submodule
-            color:$color
-            no-color:$no_color
-            color-moved:$color_moved
-            no-color-moved:$no_color_moved
-            color-moved-ws:$color_moved_ws
-            no-color-moved-ws:$no_color_moved_ws
-            word-diff:$word_diff
-            word-diff-regex:$word_diff_regex
-            color-words:$color_words
-            no-renames:$no_renames
-            no-rename-empty:$no_rename_empty
-            check:$check
-            ws-error-highlight:$ws_error_highlight
-            full-index:$full_index
-            binary:$binary
-            abbrev:$abbrev
-            break-rewrites:$break_rewrites
-            find-renames:$find_renames
-            find-copies:$find_copies
-            find-copies-harder:$find_copies_harder
-            irreversible-delete:$irreversible_delete
-            l:$l
-            diff-filter:$diff_filter
-            S:$S
-            G:$G
-            find-object:$find_object
-            pickaxe-all:$pickaxe_all
-            pickaxe-regex:$pickaxe_regex
-            O:$O
-            skip-to:$skip_to
-            rotate-to:$rotate_to
-            R:$R
-            relative:$relative
-            no-relative:$no_relative
-            text:$text
-            ignore-cr-at-eol:$ignore_cr_at_eol
-            ignore-space-at-eol:$ignore_space_at_eol
-            ignore-space-change:$ignore_space_change
-            ignore-all-space:$ignore_all_space
-            ignore-blank-lines:$ignore_blank_lines
-            ignore-matching-lines:$ignore_matching_lines
-            inter-hunk-context:$inter_hunk_context
-            function-context:$function_context
-            exit-code:$exit_code
-            quiet:$quiet
-            ext-diff:$ext_diff
-            no-ext-diff:$no_ext_diff
-            textconv:$textconv
-            no-textconv:$no_textconv
-            ignore-submodules:$ignore_submodules
-            src-prefix:$src_prefix
-            dst-prefix:$dst_prefix
-            no-prefix:$no_prefix
-            default-prefix:$default_prefix
-            line-prefix:$line_prefix
-            ita-invisible-in-index:$ita_invisible_in_index
-            base:$base
-            ours:$ours
-            theirs:$theirs
-            0:$0 
-        }
-      )
+          bash_yadm diff ...$rest ...(
+            generate_viable_bash_string_flags {
+                no-index:$no_index
+                cached:$cached
+                merge-base:$merge_base
+                patch:$patch
+                no-patch:$no_patch
+                unified:$unified
+                output:$output
+                output-indicator-new:$output_indicator_new
+                output-indicator-context:$output_indicator_context
+                raw:$raw
+                patch-with-raw:$patch_with_raw
+                indent-heuristic:$indent_heuristic
+                no-indent-heuristic:$no_indent_heuristic
+                minimal:$minimal
+                paitence:$paitence
+                histogram:$histogram
+                anchored:$anchored
+                diff-algorithm:$diff_algorithm
+                stat:$stat
+                stat-width:$stat_width 
+                stat-count:$stat_count
+                stat-name-width:$stat_name_width
+                compact-summary:$compact_summary
+                numstat:$numstat
+                shortstat:$shortstat
+                dirstat:$dirstat
+                cumulative:$cumulative
+                dirstat-by-file:$dirstat_by_file
+                summary:$summary
+                patch-with-stat:$patch_with_stat
+                z:$z
+                name-only:$name_only
+                name-status:$name_status
+                submodule:$submodule
+                color:$color
+                no-color:$no_color
+                color-moved:$color_moved
+                no-color-moved:$no_color_moved
+                color-moved-ws:$color_moved_ws
+                no-color-moved-ws:$no_color_moved_ws
+                word-diff:$word_diff
+                word-diff-regex:$word_diff_regex
+                color-words:$color_words
+                no-renames:$no_renames
+                no-rename-empty:$no_rename_empty
+                check:$check
+                ws-error-highlight:$ws_error_highlight
+                full-index:$full_index
+                binary:$binary
+                abbrev:$abbrev
+                break-rewrites:$break_rewrites
+                find-renames:$find_renames
+                find-copies:$find_copies
+                find-copies-harder:$find_copies_harder
+                irreversible-delete:$irreversible_delete
+                l:$l
+                diff-filter:$diff_filter
+                S:$S
+                G:$G
+                find-object:$find_object
+                pickaxe-all:$pickaxe_all
+                pickaxe-regex:$pickaxe_regex
+                O:$O
+                skip-to:$skip_to
+                rotate-to:$rotate_to
+                R:$R
+                relative:$relative
+                no-relative:$no_relative
+                text:$text
+                ignore-cr-at-eol:$ignore_cr_at_eol
+                ignore-space-at-eol:$ignore_space_at_eol
+                ignore-space-change:$ignore_space_change
+                ignore-all-space:$ignore_all_space
+                ignore-blank-lines:$ignore_blank_lines
+                ignore-matching-lines:$ignore_matching_lines
+                inter-hunk-context:$inter_hunk_context
+                function-context:$function_context
+                exit-code:$exit_code
+                quiet:$quiet
+                ext-diff:$ext_diff
+                no-ext-diff:$no_ext_diff
+                textconv:$textconv
+                no-textconv:$no_textconv
+                ignore-submodules:$ignore_submodules
+                src-prefix:$src_prefix
+                dst-prefix:$dst_prefix
+                no-prefix:$no_prefix
+                default-prefix:$default_prefix
+                line-prefix:$line_prefix
+                ita-invisible-in-index:$ita_invisible_in_index
+                base:$base
+                ours:$ours
+                theirs:$theirs
+                0:$0 
+            }
+          )
     
       }
  }
 
-
-
- 
 }
 
 
 export module grep { 
-
 
     def get-color-completions [] {
         ['never' 'auto']
@@ -2245,59 +2212,59 @@ export module grep {
      ...$rest:string
    ] {
    
-     bash_yadm grep ...$rest ...(
-      generate_viable_bash_string_flags {
-        cached:$cached
-        untracked:$untracked
-        no-index:$no_index
-        exclude-standard:$exclude_standard
-        no-exclude-standard:$no_exclude_standard
-        recurse-submodules:$recurse_submodules
-        text:$text
-        textconv:$textconv  
-        no-textconv:$no_textconv
-        ignore-case:$ignore_case
-        I:$I
-        max-depth:$max_depth
-        recursive:$recursive
-        no-recursive:$no_recursive
-        word-group:$word_group
-        invert-match:$invert_match
-        h:$h
-        full-name:$full_name
-        basic-regexp:$basic_regexp
-        extended-regexp:$extended_regexp
-        perl-regexp:$perl_regexp
-        fixed-strings:$fixed_strings
-        line-number:$line_number
-        column:$column
-        files-with-machines:$files_with_machines
-        name-only:$name_only
-        files-without-match:$files_without_match
-        open-files-in-pager:$open_files_in_pager
-        'null':$null
-        only-matching:$only_matching
-        count:$count
-        color:$color
-        no-color:$no_color
-        break:$break
-        heading:$heading
-        show-function:$show_function
-        context:$context
-        after-context:$after_context
-        before-context:$before_context
-        function-context:$function_context
-        max-count:$max_count
-        threads:$threads
-        f:$f
-        e:$e
-        and:$and 
-        or:$or
-        not:$not
-        all-match:$all_match
-        quiet:$quiet
-      }
-     )
+        bash_yadm grep ...$rest ...(
+          generate_viable_bash_string_flags {
+            cached:$cached
+            untracked:$untracked
+            no-index:$no_index
+            exclude-standard:$exclude_standard
+            no-exclude-standard:$no_exclude_standard
+            recurse-submodules:$recurse_submodules
+            text:$text
+            textconv:$textconv  
+            no-textconv:$no_textconv
+            ignore-case:$ignore_case
+            I:$I
+            max-depth:$max_depth
+            recursive:$recursive
+            no-recursive:$no_recursive
+            word-group:$word_group
+            invert-match:$invert_match
+            h:$h
+            full-name:$full_name
+            basic-regexp:$basic_regexp
+            extended-regexp:$extended_regexp
+            perl-regexp:$perl_regexp
+            fixed-strings:$fixed_strings
+            line-number:$line_number
+            column:$column
+            files-with-machines:$files_with_machines
+            name-only:$name_only
+            files-without-match:$files_without_match
+            open-files-in-pager:$open_files_in_pager
+            'null':$null
+            only-matching:$only_matching
+            count:$count
+            color:$color
+            no-color:$no_color
+            break:$break
+            heading:$heading
+            show-function:$show_function
+            context:$context
+            after-context:$after_context
+            before-context:$before_context
+            function-context:$function_context
+            max-count:$max_count
+            threads:$threads
+            f:$f
+            e:$e
+            and:$and 
+            or:$or
+            not:$not
+            all-match:$all_match
+            quiet:$quiet
+          }
+        )
    
 }
 
@@ -2393,7 +2360,7 @@ export module grep {
     ['color' 'plain' 'porcelain' 'none']
   }
 
-   export def main [
+  export def main [
      --follow
      --decorate:string@get-decorate-completions
      --no-decorate
@@ -2589,200 +2556,200 @@ export module grep {
       ...rest
      ] {
        
-     bash_yadm log ...$rest ...(
-        generate_viable_bash_string_flags {
-            follow:$follow
-            decorate:$decorate
-            no-decorate:$no_decorate
-            decoate-refs:$decoate_refs
-            decorate-refs-exclude:$decorate_refs_exclude
-            clear-decorations:$clear_decorations
-            source:$source
-            mailmap:$mailmap
-            no-mailmap:$no_mailmap
-            use-mailmap:$use_mailmap
-            no-use-mailmap:$no_use_mailmap
-            full-diff:$full_diff
-            log-size:$log_size
-            L:$L
-            n:$n
-            max-count:$max_count
-            skip:$skip
-            since:$since
-            after:$after
-            since-as-filter:$since_as_filter
-            until:$until
-            before:$before
-            author:$author
-            grep-reflog:$grep_reflog
-            grep:$grep
-            all-match:$all_match
-            invert-grep:$invert_grep
-            regexp-ignore-case:$regexp_ignore_case
-            basic-regexp:$basic_regexp
-            extended-regexp:$extended_regexp
-            fixed-strings:$fixed_strings
-            perl-regexp:$perl_regexp
-            remove-empty:$remove_empty
-            merges:$merges
-            no-merges:$no_merges
-            min-parents:$min_parents
-            no-min-parents:$no_min_parents
-            max-parents:$max_parents
-            no-max-parents:$no_max_parents
-            first-parent:$first_parent
-            exclude-first-parent-only:$exclude_first_parent_only
-            all:$all
-            branches:$branches
-            tags:$tags
-            remotes:$remotes
-            glob:$glob
-            exclude:$exclude
-            exclude-hidden:$exclude_hidden
-            reflog:$reflog
-            alternate-refs:$alternate_refs
-            single-worktree:$single_worktree
-            ignore-missing:$ignore_missing
-            bisect:$bisect
-            stdin:$stdin
-            cherry-mark:$cherry_mark
-            cherry-pick:$cherry_pick
-            left-only:$left_only
-            right-only:$right_only
-            cherry:$cherry
-            walk-reflogs:$walk_reflogs
-            merge:$merge
-            boundary:$boundary
-            simplify-by-decoration:$simplify_by_decoration
-            show-pulls:$show_pulls
-            full-history:$full_history
-            dense:$dense
-            sparse:$sparse
-            simplify-merges:$simplify_merges
-            ancestry-path:$ancestry_path
-            date-order:$date_order
-            author-date-order:$author_date_order
-            topo-order:$topo_order
-            no-walk:$no_walk
-            do-walk:$do_walk
-            pretty:$pretty
-            format:$format
-            abbrev-commit:$abbrev_commit
-            no-abbrev-commit:$no_abbrev_commit
-            oneline:$oneline
-            encoding:$encoding
-            expand-tabs:$expand_tabs
-            no-expand-tabs:$no_expand_tabs
-            notes:$notes
-            no-notes:$no_notes
-            show-notes-by-default:$show_notes_by_default
-            show-notes:$show_notes
-            standard-notes:$standard_notes
-            no-standard-notes:$no_standard_notes
-            show-signature:$show_signature
-            relative-date:$relative_date
-            date:$date
-            parents:$parents
-            children:$children
-            left-right:$left_right
-            graph:$graph
-            show-linear-break:$show_linear_break
-            m:$m
-            c:$c
-            cc:$cc
-            dd:$dd
-            remerge-diff:$remerge_diff
-            no-diff-merges:$no_diff_merges
-            diff-merges:$diff_merges
-            combined-all-paths:$combined_all_paths
-            patch:$patch
-            no-patch:$no_patch
-            unified:$unified
-            output:$output
-            output-indicator-new:$output_indicator_new
-            output-indicator-context:$output_indicator_context
-            raw:$raw
-            patch-with-raw:$patch_with_raw
-            indent-heuristic:$indent_heuristic
-            no-indent-heuristic:$no_indent_heuristic
-            minimal:$minimal
-            paitence:$paitence
-            histogram:$histogram
-            anchored:$anchored
-            diff-algorithm:$diff_algorithm
-            stat:$stat
-            stat-width:$stat_width 
-            stat-count:$stat_count
-            stat-name-width:$stat_name_width
-            compact-summary:$compact_summary
-            numstat:$numstat
-            shortstat:$shortstat
-            dirstat:$dirstat
-            cumulative:$cumulative
-            dirstat-by-file:$dirstat_by_file
-            summary:$summary
-            patch-with-stat:$patch_with_stat
-            z:$z
-            name-only:$name_only
-            name-status:$name_status
-            submodule:$submodule
-            color:$color
-            no-color:$no_color
-            color-moved:$color_moved
-            no-color-moved:$no_color_moved
-            color-moved-ws:$color_moved_ws
-            no-color-moved-ws:$no_color_moved_ws
-            word-diff:$word_diff
-            word-diff-regex:$word_diff_regex
-            color-words:$color_words
-            no-renames:$no_renames
-            no-rename-empty:$no_rename_empty
-            check:$check
-            ws-error-highlight:$ws_error_highlight
-            full-index:$full_index
-            binary:$binary
-            abbrev:$abbrev
-            break-rewrites:$break_rewrites
-            find-renames:$find_renames
-            find-copies:$find_copies
-            find-copies-harder:$find_copies_harder
-            irreversible-delete:$irreversible_delete
-            l:$l
-            diff-filter:$diff_filter
-            S:$S
-            G:$G
-            find-object:$find_object
-            pickaxe-all:$pickaxe_all
-            pickaxe-regex:$pickaxe_regex
-            O:$O
-            skip-to:$skip_to
-            rotate-to:$rotate_to
-            R:$R
-            relative:$relative
-            no-relative:$no_relative
-            text:$text
-            ignore-cr-at-eol:$ignore_cr_at_eol
-            ignore-space-at-eol:$ignore_space_at_eol
-            ignore-space-change:$ignore_space_change
-            ignore-all-space:$ignore_all_space
-            ignore-blank-lines:$ignore_blank_lines
-            ignore-matching-lines:$ignore_matching_lines
-            inter-hunk-context:$inter_hunk_context
-            function-context:$function_context
-            exit-code:$exit_code
-            ext-diff:$ext_diff
-            no-ext-diff:$no_ext_diff
-            textconv:$textconv
-            no-textconv:$no_textconv
-            ignore-submodules:$ignore_submodules
-            src-prefix:$src_prefix
-            dst-prefix:$dst_prefix
-            no-prefix:$no_prefix
-            default-prefix:$default_prefix
-            line-prefix:$line_prefix
-            ita-invisible-in-index:$ita_invisible_in_index
-        }
-      )
+        bash_yadm log ...$rest ...(
+            generate_viable_bash_string_flags {
+                follow:$follow
+                decorate:$decorate
+                no-decorate:$no_decorate
+                decoate-refs:$decoate_refs
+                decorate-refs-exclude:$decorate_refs_exclude
+                clear-decorations:$clear_decorations
+                source:$source
+                mailmap:$mailmap
+                no-mailmap:$no_mailmap
+                use-mailmap:$use_mailmap
+                no-use-mailmap:$no_use_mailmap
+                full-diff:$full_diff
+                log-size:$log_size
+                L:$L
+                n:$n
+                max-count:$max_count
+                skip:$skip
+                since:$since
+                after:$after
+                since-as-filter:$since_as_filter
+                until:$until
+                before:$before
+                author:$author
+                grep-reflog:$grep_reflog
+                grep:$grep
+                all-match:$all_match
+                invert-grep:$invert_grep
+                regexp-ignore-case:$regexp_ignore_case
+                basic-regexp:$basic_regexp
+                extended-regexp:$extended_regexp
+                fixed-strings:$fixed_strings
+                perl-regexp:$perl_regexp
+                remove-empty:$remove_empty
+                merges:$merges
+                no-merges:$no_merges
+                min-parents:$min_parents
+                no-min-parents:$no_min_parents
+                max-parents:$max_parents
+                no-max-parents:$no_max_parents
+                first-parent:$first_parent
+                exclude-first-parent-only:$exclude_first_parent_only
+                all:$all
+                branches:$branches
+                tags:$tags
+                remotes:$remotes
+                glob:$glob
+                exclude:$exclude
+                exclude-hidden:$exclude_hidden
+                reflog:$reflog
+                alternate-refs:$alternate_refs
+                single-worktree:$single_worktree
+                ignore-missing:$ignore_missing
+                bisect:$bisect
+                stdin:$stdin
+                cherry-mark:$cherry_mark
+                cherry-pick:$cherry_pick
+                left-only:$left_only
+                right-only:$right_only
+                cherry:$cherry
+                walk-reflogs:$walk_reflogs
+                merge:$merge
+                boundary:$boundary
+                simplify-by-decoration:$simplify_by_decoration
+                show-pulls:$show_pulls
+                full-history:$full_history
+                dense:$dense
+                sparse:$sparse
+                simplify-merges:$simplify_merges
+                ancestry-path:$ancestry_path
+                date-order:$date_order
+                author-date-order:$author_date_order
+                topo-order:$topo_order
+                no-walk:$no_walk
+                do-walk:$do_walk
+                pretty:$pretty
+                format:$format
+                abbrev-commit:$abbrev_commit
+                no-abbrev-commit:$no_abbrev_commit
+                oneline:$oneline
+                encoding:$encoding
+                expand-tabs:$expand_tabs
+                no-expand-tabs:$no_expand_tabs
+                notes:$notes
+                no-notes:$no_notes
+                show-notes-by-default:$show_notes_by_default
+                show-notes:$show_notes
+                standard-notes:$standard_notes
+                no-standard-notes:$no_standard_notes
+                show-signature:$show_signature
+                relative-date:$relative_date
+                date:$date
+                parents:$parents
+                children:$children
+                left-right:$left_right
+                graph:$graph
+                show-linear-break:$show_linear_break
+                m:$m
+                c:$c
+                cc:$cc
+                dd:$dd
+                remerge-diff:$remerge_diff
+                no-diff-merges:$no_diff_merges
+                diff-merges:$diff_merges
+                combined-all-paths:$combined_all_paths
+                patch:$patch
+                no-patch:$no_patch
+                unified:$unified
+                output:$output
+                output-indicator-new:$output_indicator_new
+                output-indicator-context:$output_indicator_context
+                raw:$raw
+                patch-with-raw:$patch_with_raw
+                indent-heuristic:$indent_heuristic
+                no-indent-heuristic:$no_indent_heuristic
+                minimal:$minimal
+                paitence:$paitence
+                histogram:$histogram
+                anchored:$anchored
+                diff-algorithm:$diff_algorithm
+                stat:$stat
+                stat-width:$stat_width 
+                stat-count:$stat_count
+                stat-name-width:$stat_name_width
+                compact-summary:$compact_summary
+                numstat:$numstat
+                shortstat:$shortstat
+                dirstat:$dirstat
+                cumulative:$cumulative
+                dirstat-by-file:$dirstat_by_file
+                summary:$summary
+                patch-with-stat:$patch_with_stat
+                z:$z
+                name-only:$name_only
+                name-status:$name_status
+                submodule:$submodule
+                color:$color
+                no-color:$no_color
+                color-moved:$color_moved
+                no-color-moved:$no_color_moved
+                color-moved-ws:$color_moved_ws
+                no-color-moved-ws:$no_color_moved_ws
+                word-diff:$word_diff
+                word-diff-regex:$word_diff_regex
+                color-words:$color_words
+                no-renames:$no_renames
+                no-rename-empty:$no_rename_empty
+                check:$check
+                ws-error-highlight:$ws_error_highlight
+                full-index:$full_index
+                binary:$binary
+                abbrev:$abbrev
+                break-rewrites:$break_rewrites
+                find-renames:$find_renames
+                find-copies:$find_copies
+                find-copies-harder:$find_copies_harder
+                irreversible-delete:$irreversible_delete
+                l:$l
+                diff-filter:$diff_filter
+                S:$S
+                G:$G
+                find-object:$find_object
+                pickaxe-all:$pickaxe_all
+                pickaxe-regex:$pickaxe_regex
+                O:$O
+                skip-to:$skip_to
+                rotate-to:$rotate_to
+                R:$R
+                relative:$relative
+                no-relative:$no_relative
+                text:$text
+                ignore-cr-at-eol:$ignore_cr_at_eol
+                ignore-space-at-eol:$ignore_space_at_eol
+                ignore-space-change:$ignore_space_change
+                ignore-all-space:$ignore_all_space
+                ignore-blank-lines:$ignore_blank_lines
+                ignore-matching-lines:$ignore_matching_lines
+                inter-hunk-context:$inter_hunk_context
+                function-context:$function_context
+                exit-code:$exit_code
+                ext-diff:$ext_diff
+                no-ext-diff:$no_ext_diff
+                textconv:$textconv
+                no-textconv:$no_textconv
+                ignore-submodules:$ignore_submodules
+                src-prefix:$src_prefix
+                dst-prefix:$dst_prefix
+                no-prefix:$no_prefix
+                default-prefix:$default_prefix
+                line-prefix:$line_prefix
+                ita-invisible-in-index:$ita_invisible_in_index
+            }
+          )
    
     }
 
@@ -3076,200 +3043,200 @@ export module grep {
       ...rest
      ] {
        
-     bash_yadm reflog ...$rest ...(
-        generate_viable_bash_string_flags {
-            follow:$follow
-            decorate:$decorate
-            no-decorate:$no_decorate
-            decoate-refs:$decoate_refs
-            decorate-refs-exclude:$decorate_refs_exclude
-            clear-decorations:$clear_decorations
-            source:$source
-            mailmap:$mailmap
-            no-mailmap:$no_mailmap
-            use-mailmap:$use_mailmap
-            no-use-mailmap:$no_use_mailmap
-            full-diff:$full_diff
-            log-size:$log_size
-            L:$L
-            n:$n
-            max-count:$max_count
-            skip:$skip
-            since:$since
-            after:$after
-            since-as-filter:$since_as_filter
-            until:$until
-            before:$before
-            author:$author
-            grep-reflog:$grep_reflog
-            grep:$grep
-            all-match:$all_match
-            invert-grep:$invert_grep
-            regexp-ignore-case:$regexp_ignore_case
-            basic-regexp:$basic_regexp
-            extended-regexp:$extended_regexp
-            fixed-strings:$fixed_strings
-            perl-regexp:$perl_regexp
-            remove-empty:$remove_empty
-            merges:$merges
-            no-merges:$no_merges
-            min-parents:$min_parents
-            no-min-parents:$no_min_parents
-            max-parents:$max_parents
-            no-max-parents:$no_max_parents
-            first-parent:$first_parent
-            exclude-first-parent-only:$exclude_first_parent_only
-            all:$all
-            branches:$branches
-            tags:$tags
-            remotes:$remotes
-            glob:$glob
-            exclude:$exclude
-            exclude-hidden:$exclude_hidden
-            reflog:$reflog
-            alternate-refs:$alternate_refs
-            single-worktree:$single_worktree
-            ignore-missing:$ignore_missing
-            bisect:$bisect
-            stdin:$stdin
-            cherry-mark:$cherry_mark
-            cherry-pick:$cherry_pick
-            left-only:$left_only
-            right-only:$right_only
-            cherry:$cherry
-            walk-reflogs:$walk_reflogs
-            merge:$merge
-            boundary:$boundary
-            simplify-by-decoration:$simplify_by_decoration
-            show-pulls:$show_pulls
-            full-history:$full_history
-            dense:$dense
-            sparse:$sparse
-            simplify-merges:$simplify_merges
-            ancestry-path:$ancestry_path
-            date-order:$date_order
-            author-date-order:$author_date_order
-            topo-order:$topo_order
-            no-walk:$no_walk
-            do-walk:$do_walk
-            pretty:$pretty
-            format:$format
-            abbrev-commit:$abbrev_commit
-            no-abbrev-commit:$no_abbrev_commit
-            oneline:$oneline
-            encoding:$encoding
-            expand-tabs:$expand_tabs
-            no-expand-tabs:$no_expand_tabs
-            notes:$notes
-            no-notes:$no_notes
-            show-notes-by-default:$show_notes_by_default
-            show-notes:$show_notes
-            standard-notes:$standard_notes
-            no-standard-notes:$no_standard_notes
-            show-signature:$show_signature
-            relative-date:$relative_date
-            date:$date
-            parents:$parents
-            children:$children
-            left-right:$left_right
-            graph:$graph
-            show-linear-break:$show_linear_break
-            m:$m
-            c:$c
-            cc:$cc
-            dd:$dd
-            remerge-diff:$remerge_diff
-            no-diff-merges:$no_diff_merges
-            diff-merges:$diff_merges
-            combined-all-paths:$combined_all_paths
-            patch:$patch
-            no-patch:$no_patch
-            unified:$unified
-            output:$output
-            output-indicator-new:$output_indicator_new
-            output-indicator-context:$output_indicator_context
-            raw:$raw
-            patch-with-raw:$patch_with_raw
-            indent-heuristic:$indent_heuristic
-            no-indent-heuristic:$no_indent_heuristic
-            minimal:$minimal
-            paitence:$paitence
-            histogram:$histogram
-            anchored:$anchored
-            diff-algorithm:$diff_algorithm
-            stat:$stat
-            stat-width:$stat_width 
-            stat-count:$stat_count
-            stat-name-width:$stat_name_width
-            compact-summary:$compact_summary
-            numstat:$numstat
-            shortstat:$shortstat
-            dirstat:$dirstat
-            cumulative:$cumulative
-            dirstat-by-file:$dirstat_by_file
-            summary:$summary
-            patch-with-stat:$patch_with_stat
-            z:$z
-            name-only:$name_only
-            name-status:$name_status
-            submodule:$submodule
-            color:$color
-            no-color:$no_color
-            color-moved:$color_moved
-            no-color-moved:$no_color_moved
-            color-moved-ws:$color_moved_ws
-            no-color-moved-ws:$no_color_moved_ws
-            word-diff:$word_diff
-            word-diff-regex:$word_diff_regex
-            color-words:$color_words
-            no-renames:$no_renames
-            no-rename-empty:$no_rename_empty
-            check:$check
-            ws-error-highlight:$ws_error_highlight
-            full-index:$full_index
-            binary:$binary
-            abbrev:$abbrev
-            break-rewrites:$break_rewrites
-            find-renames:$find_renames
-            find-copies:$find_copies
-            find-copies-harder:$find_copies_harder
-            irreversible-delete:$irreversible_delete
-            l:$l
-            diff-filter:$diff_filter
-            S:$S
-            G:$G
-            find-object:$find_object
-            pickaxe-all:$pickaxe_all
-            pickaxe-regex:$pickaxe_regex
-            O:$O
-            skip-to:$skip_to
-            rotate-to:$rotate_to
-            R:$R
-            relative:$relative
-            no-relative:$no_relative
-            text:$text
-            ignore-cr-at-eol:$ignore_cr_at_eol
-            ignore-space-at-eol:$ignore_space_at_eol
-            ignore-space-change:$ignore_space_change
-            ignore-all-space:$ignore_all_space
-            ignore-blank-lines:$ignore_blank_lines
-            ignore-matching-lines:$ignore_matching_lines
-            inter-hunk-context:$inter_hunk_context
-            function-context:$function_context
-            exit-code:$exit_code
-            ext-diff:$ext_diff
-            no-ext-diff:$no_ext_diff
-            textconv:$textconv
-            no-textconv:$no_textconv
-            ignore-submodules:$ignore_submodules
-            src-prefix:$src_prefix
-            dst-prefix:$dst_prefix
-            no-prefix:$no_prefix
-            default-prefix:$default_prefix
-            line-prefix:$line_prefix
-            ita-invisible-in-index:$ita_invisible_in_index
-        }
-      )
+        bash_yadm reflog ...$rest ...(
+            generate_viable_bash_string_flags {
+                follow:$follow
+                decorate:$decorate
+                no-decorate:$no_decorate
+                decoate-refs:$decoate_refs
+                decorate-refs-exclude:$decorate_refs_exclude
+                clear-decorations:$clear_decorations
+                source:$source
+                mailmap:$mailmap
+                no-mailmap:$no_mailmap
+                use-mailmap:$use_mailmap
+                no-use-mailmap:$no_use_mailmap
+                full-diff:$full_diff
+                log-size:$log_size
+                L:$L
+                n:$n
+                max-count:$max_count
+                skip:$skip
+                since:$since
+                after:$after
+                since-as-filter:$since_as_filter
+                until:$until
+                before:$before
+                author:$author
+                grep-reflog:$grep_reflog
+                grep:$grep
+                all-match:$all_match
+                invert-grep:$invert_grep
+                regexp-ignore-case:$regexp_ignore_case
+                basic-regexp:$basic_regexp
+                extended-regexp:$extended_regexp
+                fixed-strings:$fixed_strings
+                perl-regexp:$perl_regexp
+                remove-empty:$remove_empty
+                merges:$merges
+                no-merges:$no_merges
+                min-parents:$min_parents
+                no-min-parents:$no_min_parents
+                max-parents:$max_parents
+                no-max-parents:$no_max_parents
+                first-parent:$first_parent
+                exclude-first-parent-only:$exclude_first_parent_only
+                all:$all
+                branches:$branches
+                tags:$tags
+                remotes:$remotes
+                glob:$glob
+                exclude:$exclude
+                exclude-hidden:$exclude_hidden
+                reflog:$reflog
+                alternate-refs:$alternate_refs
+                single-worktree:$single_worktree
+                ignore-missing:$ignore_missing
+                bisect:$bisect
+                stdin:$stdin
+                cherry-mark:$cherry_mark
+                cherry-pick:$cherry_pick
+                left-only:$left_only
+                right-only:$right_only
+                cherry:$cherry
+                walk-reflogs:$walk_reflogs
+                merge:$merge
+                boundary:$boundary
+                simplify-by-decoration:$simplify_by_decoration
+                show-pulls:$show_pulls
+                full-history:$full_history
+                dense:$dense
+                sparse:$sparse
+                simplify-merges:$simplify_merges
+                ancestry-path:$ancestry_path
+                date-order:$date_order
+                author-date-order:$author_date_order
+                topo-order:$topo_order
+                no-walk:$no_walk
+                do-walk:$do_walk
+                pretty:$pretty
+                format:$format
+                abbrev-commit:$abbrev_commit
+                no-abbrev-commit:$no_abbrev_commit
+                oneline:$oneline
+                encoding:$encoding
+                expand-tabs:$expand_tabs
+                no-expand-tabs:$no_expand_tabs
+                notes:$notes
+                no-notes:$no_notes
+                show-notes-by-default:$show_notes_by_default
+                show-notes:$show_notes
+                standard-notes:$standard_notes
+                no-standard-notes:$no_standard_notes
+                show-signature:$show_signature
+                relative-date:$relative_date
+                date:$date
+                parents:$parents
+                children:$children
+                left-right:$left_right
+                graph:$graph
+                show-linear-break:$show_linear_break
+                m:$m
+                c:$c
+                cc:$cc
+                dd:$dd
+                remerge-diff:$remerge_diff
+                no-diff-merges:$no_diff_merges
+                diff-merges:$diff_merges
+                combined-all-paths:$combined_all_paths
+                patch:$patch
+                no-patch:$no_patch
+                unified:$unified
+                output:$output
+                output-indicator-new:$output_indicator_new
+                output-indicator-context:$output_indicator_context
+                raw:$raw
+                patch-with-raw:$patch_with_raw
+                indent-heuristic:$indent_heuristic
+                no-indent-heuristic:$no_indent_heuristic
+                minimal:$minimal
+                paitence:$paitence
+                histogram:$histogram
+                anchored:$anchored
+                diff-algorithm:$diff_algorithm
+                stat:$stat
+                stat-width:$stat_width 
+                stat-count:$stat_count
+                stat-name-width:$stat_name_width
+                compact-summary:$compact_summary
+                numstat:$numstat
+                shortstat:$shortstat
+                dirstat:$dirstat
+                cumulative:$cumulative
+                dirstat-by-file:$dirstat_by_file
+                summary:$summary
+                patch-with-stat:$patch_with_stat
+                z:$z
+                name-only:$name_only
+                name-status:$name_status
+                submodule:$submodule
+                color:$color
+                no-color:$no_color
+                color-moved:$color_moved
+                no-color-moved:$no_color_moved
+                color-moved-ws:$color_moved_ws
+                no-color-moved-ws:$no_color_moved_ws
+                word-diff:$word_diff
+                word-diff-regex:$word_diff_regex
+                color-words:$color_words
+                no-renames:$no_renames
+                no-rename-empty:$no_rename_empty
+                check:$check
+                ws-error-highlight:$ws_error_highlight
+                full-index:$full_index
+                binary:$binary
+                abbrev:$abbrev
+                break-rewrites:$break_rewrites
+                find-renames:$find_renames
+                find-copies:$find_copies
+                find-copies-harder:$find_copies_harder
+                irreversible-delete:$irreversible_delete
+                l:$l
+                diff-filter:$diff_filter
+                S:$S
+                G:$G
+                find-object:$find_object
+                pickaxe-all:$pickaxe_all
+                pickaxe-regex:$pickaxe_regex
+                O:$O
+                skip-to:$skip_to
+                rotate-to:$rotate_to
+                R:$R
+                relative:$relative
+                no-relative:$no_relative
+                text:$text
+                ignore-cr-at-eol:$ignore_cr_at_eol
+                ignore-space-at-eol:$ignore_space_at_eol
+                ignore-space-change:$ignore_space_change
+                ignore-all-space:$ignore_all_space
+                ignore-blank-lines:$ignore_blank_lines
+                ignore-matching-lines:$ignore_matching_lines
+                inter-hunk-context:$inter_hunk_context
+                function-context:$function_context
+                exit-code:$exit_code
+                ext-diff:$ext_diff
+                no-ext-diff:$no_ext_diff
+                textconv:$textconv
+                no-textconv:$no_textconv
+                ignore-submodules:$ignore_submodules
+                src-prefix:$src_prefix
+                dst-prefix:$dst_prefix
+                no-prefix:$no_prefix
+                default-prefix:$default_prefix
+                line-prefix:$line_prefix
+                ita-invisible-in-index:$ita_invisible_in_index
+            }
+          )
    
   }
 
@@ -3400,15 +3367,15 @@ export module grep {
     destination:string
   ] {
     
-    bash_yadm mv $source $destination ...(
-      generate_viable_bash_string_flags {
-        force:$force
-        k:$k
-        dry-run:$dry_run
-        verbose:$verbose
+        bash_yadm mv $source $destination ...(
+          generate_viable_bash_string_flags {
+            force:$force
+            k:$k
+            dry-run:$dry_run
+            verbose:$verbose
 
-      }
-    )
+          }
+        )
   
   }
 
@@ -3506,79 +3473,79 @@ export module grep {
     ] {
 
 
-     let viable_bash_string_flags = generate_viable_bash_string_flags {
-            quiet:$quiet
-            verbose:$verbose
-            recurse-submodules:$recurse_submodules
-            no-recurse-submodules:$no_recurse_submodules
-            commit:$commit
-            no-commit:$no_commit
-            edit:$edit
-            no-edit:$no_edit
-            cleanup:string
-            ff-only:$ff_only
-            ff:$ff
-            no-ff:$no_ff
-            gpg-sign:$gpg_sign
-            no-gpg:$no_gpg_sign
-            signoff:$signoff
-            no-signoff:$no_signoff
-            stat:$stat
-            no-stat:$no_stat
-            squash:$squash
-            no-squash:$no_squash
-            verify:$verify
-            no-verify:$no_verify
-            strategy:$strategy
-            strategy-option:$strategy_option
-            summary:$summary
-            no-summary:$no_summary
-            autostash:$autostash
-            no-autostash:$no_autostash
-            allow-unrelated-histories:$allow_unrelated_histories
-            rebase:$rebase
-            no-rebase:$no_rebase
-            all:$all
-            no-all:$no_all
-            append:$append
-            atomic:$atomic
-            depth:$depth
-            deepen:$deepen
-            shallow-since:$shallow_since
-            shallow-exclude:$shallow_exclude
-            unshallow:$unshallow
-            update-shallow:$update_shallow
-            negotiation-tip:$negotiation_tip
-            negotiate-only:$negotiate_only
-            dry-run:$dry_run
-            porcelain:$porcelain
-            force:$force
-            keep:$keep
-            prefetch:$prefetch
-            prune:$prune
-            no-tags:$no_tags
-            refmap:string
-            tags:$tags
-            jobs:$jobs
-            set-upstream:$set_upstream
-            upload-pack:string
-            progress:$progress
-            server-option:$server_option
-            show-forced-updates:$show_forced_updates
-            no-show-forced-updates:$no_show_forced_updates
-            ipv4:$ipv4
-            ipv6:$ipv6
-        }
+        let viable_bash_string_flags = generate_viable_bash_string_flags {
+                quiet:$quiet
+                verbose:$verbose
+                recurse-submodules:$recurse_submodules
+                no-recurse-submodules:$no_recurse_submodules
+                commit:$commit
+                no-commit:$no_commit
+                edit:$edit
+                no-edit:$no_edit
+                cleanup:string
+                ff-only:$ff_only
+                ff:$ff
+                no-ff:$no_ff
+                gpg-sign:$gpg_sign
+                no-gpg:$no_gpg_sign
+                signoff:$signoff
+                no-signoff:$no_signoff
+                stat:$stat
+                no-stat:$no_stat
+                squash:$squash
+                no-squash:$no_squash
+                verify:$verify
+                no-verify:$no_verify
+                strategy:$strategy
+                strategy-option:$strategy_option
+                summary:$summary
+                no-summary:$no_summary
+                autostash:$autostash
+                no-autostash:$no_autostash
+                allow-unrelated-histories:$allow_unrelated_histories
+                rebase:$rebase
+                no-rebase:$no_rebase
+                all:$all
+                no-all:$no_all
+                append:$append
+                atomic:$atomic
+                depth:$depth
+                deepen:$deepen
+                shallow-since:$shallow_since
+                shallow-exclude:$shallow_exclude
+                unshallow:$unshallow
+                update-shallow:$update_shallow
+                negotiation-tip:$negotiation_tip
+                negotiate-only:$negotiate_only
+                dry-run:$dry_run
+                porcelain:$porcelain
+                force:$force
+                keep:$keep
+                prefetch:$prefetch
+                prune:$prune
+                no-tags:$no_tags
+                refmap:string
+                tags:$tags
+                jobs:$jobs
+                set-upstream:$set_upstream
+                upload-pack:string
+                progress:$progress
+                server-option:$server_option
+                show-forced-updates:$show_forced_updates
+                no-show-forced-updates:$no_show_forced_updates
+                ipv4:$ipv4
+                ipv6:$ipv6
+            }
 
-      match [($repository | describe) ($refspec | describe)] {
+          match [($repository | describe) ($refspec | describe)] {
 
-       [string string] => (bash_yadm pull $repository $refspec ...$viable_bash_string_flags)
-       
-       [string nothing] => (bash_yadm pull $repository ...$viable_bash_string_flags)
+          [string string] => (bash_yadm pull $repository $refspec ...$viable_bash_string_flags)
+          
+          [string nothing] => (bash_yadm pull $repository ...$viable_bash_string_flags)
 
-      _ => (bash_yadm pull ...$viable_bash_string_flags)
+          _ => (bash_yadm pull ...$viable_bash_string_flags)
 
-      } 
+         } 
  
       
 
@@ -3599,41 +3566,41 @@ export module grep {
   
     
   export def main [
-  --all
-  --branches
-  --prune
-  --mirror
-  --dry-run(-n)
-  --porcelain
-  --delete(-d)
-  --tags
-  --follow-tags
-  --signed:string@get-signed-completions
-  --no-signed
-  --atomic
-  --no-atomic
-  --push-option:string
-  --receive-pack
-  --exec
-  --force-with-lease:string
-  --no-force-with-lease
-  --force(-f)
-  --force-if-includes
-  --no-force-if-includes
-  --repo:string
-  --set-upstream(-u)
-  --thin
-  --quiet(-q)
-  --verbose(-v)
-  --progress
-  --recurse-submodules:string@get-recurse-submodules-completions
-  --no-recurse-submodules
-  --verify
-  --no-verify
-  --ipv4(-4)
-  --ipv6(-6)
-  repository?:string
-  refspec?:string
+    --all
+    --branches
+    --prune
+    --mirror
+    --dry-run(-n)
+    --porcelain
+    --delete(-d)
+    --tags
+    --follow-tags
+    --signed:string@get-signed-completions
+    --no-signed
+    --atomic
+    --no-atomic
+    --push-option:string
+    --receive-pack
+    --exec
+    --force-with-lease:string
+    --no-force-with-lease
+    --force(-f)
+    --force-if-includes
+    --no-force-if-includes
+    --repo:string
+    --set-upstream(-u)
+    --thin
+    --quiet(-q)
+    --verbose(-v)
+    --progress
+    --recurse-submodules:string@get-recurse-submodules-completions
+    --no-recurse-submodules
+    --verify
+    --no-verify
+    --ipv4(-4)
+    --ipv6(-6)
+    repository?:string
+    refspec?:string
   ] {
 
       let viable_bash_string_flags = generate_viable_bash_string_flags {
@@ -3703,14 +3670,13 @@ export module grep {
       def get-strategy-completions [] {
           [
             'ort'
-          'recursive'
-          'resolve'
-          'octopus'
-          'ours'
-          'subtree'
-          
+            'recursive'
+            'resolve'
+            'octopus'
+            'ours'
+            'subtree'
           ]
-    }
+      }
     
      export def main [
       --continue
@@ -3823,7 +3789,7 @@ export module grep {
             no-reschedule-failed-exec:$no_reschedule_failed_exec
             update-refs:$update_refs
             no-update-refs:$no_update_refs
-        }
+         }
 
 
         match [($branch | describe) ($start_point | describe) ($end_point | describe)] {
@@ -3849,7 +3815,7 @@ export module grep {
   }
 
 
-  export module restore {
+export module restore {
 
      def get-conflict-completions [] {
          ['merge' 'diff3' 'zdiff3']
@@ -3878,29 +3844,29 @@ export module grep {
       ...pathspecs:string
     ] {
 
-      bash_yadm restore ...$pathspecs ...(
-        generate_viable_bash_string_flags {
-              source:$source
-              parch:$parch
-              worktree:$worktree
-              staged:$staged
-              quiet:$quiet
-              progress:$progress
-              no-progress:$no_progress
-              ours:$ours
-              theirs:$theirs
-              merge:$merge
-              conflict:$conflict
-              ignore-unmerged:$ignore_unmerged
-              ignore-skip-worktree-bits:$ignore_skip_worktree_bits
-              recurse-submodules:$recurse_submodules
-              no-recurse-submodules:$no_recurse_submodules
-              overlay:$overlay 
-              no-overlay:$no_overlay
-              pathspec-from-file:$pathspec_from_file
-              pathspec-file-nul:$pathspec_file_nul
-        }
-      )
+          bash_yadm restore ...$pathspecs ...(
+            generate_viable_bash_string_flags {
+                  source:$source
+                  parch:$parch
+                  worktree:$worktree
+                  staged:$staged
+                  quiet:$quiet
+                  progress:$progress
+                  no-progress:$no_progress
+                  ours:$ours
+                  theirs:$theirs
+                  merge:$merge
+                  conflict:$conflict
+                  ignore-unmerged:$ignore_unmerged
+                  ignore-skip-worktree-bits:$ignore_skip_worktree_bits
+                  recurse-submodules:$recurse_submodules
+                  no-recurse-submodules:$no_recurse_submodules
+                  overlay:$overlay 
+                  no-overlay:$no_overlay
+                  pathspec-from-file:$pathspec_from_file
+                  pathspec-file-nul:$pathspec_file_nul
+            }
+          )
     
     }
 
@@ -3921,19 +3887,19 @@ export module grep {
     ...pathspecs:string
   ] {
 
-    bash_yadm revert ...$pathspecs ...(
-      generate_viable_bash_string_flags {
-        force:$force
-        dry-run:$dry_run
-        r:$r
-        cached:$cached
-        ignore-unmatch:$ignore_unmatch
-        sparse:$sparse
-        quiet:$quiet
-        pathspec-from-file:$pathspec_from_file
-        pathspec-file-nul:$pathspec_file_nul
-      }
-    )
+        bash_yadm revert ...$pathspecs ...(
+          generate_viable_bash_string_flags {
+            force:$force
+            dry-run:$dry_run
+            r:$r
+            cached:$cached
+            ignore-unmatch:$ignore_unmatch
+            sparse:$sparse
+            quiet:$quiet
+            pathspec-from-file:$pathspec_from_file
+            pathspec-file-nul:$pathspec_file_nul
+          }
+        )
 
   }
 
@@ -3951,19 +3917,19 @@ export module grep {
     ...pathspecs:string
   ] {
 
-    bash_yadm rm ...$pathspecs ...(
-      generate_viable_bash_string_flags {
-        force:$force
-        dry-run:$dry_run
-        r:$r
-        cached:$cached
-        ignore-unmatch:$ignore_unmatch
-        sparse:$sparse
-        quiet:$quiet
-        pathspec-from-file:$pathspec_from_file
-        pathspec-file-nul:$pathspec_file_nul
-      }
-    )
+        bash_yadm rm ...$pathspecs ...(
+          generate_viable_bash_string_flags {
+            force:$force
+            dry-run:$dry_run
+            r:$r
+            cached:$cached
+            ignore-unmatch:$ignore_unmatch
+            sparse:$sparse
+            quiet:$quiet
+            pathspec-from-file:$pathspec_from_file
+            pathspec-file-nul:$pathspec_file_nul
+          }
+        )
 
   }
 
@@ -4003,24 +3969,24 @@ export module grep {
       ...objects
     ] {
 
-      bash_yadm show ...$objects ...(
-        generate_viable_bash_string_flags {
-          pretty:$pretty
-          format:$format
-          abbrev-commit:$abbrev_commit
-          no-abbrev-commit:$no_abbrev_commit
-          oneline:$oneline
-          encoding:$encoding
-          expand-tabs:$expand_tabs
-          no-expand-tabs:$no_expand_tabs
-          notes:$notes
-          no-notes:$no_notes
-          show-notes-by-default:$show_notes_by_default 
-          show-notes:$show_notes
-          no-standard-notes:$no_standard_notes
-          show-signature:$show_signature
-        }
-      )
+          bash_yadm show ...$objects ...(
+            generate_viable_bash_string_flags {
+              pretty:$pretty
+              format:$format
+              abbrev-commit:$abbrev_commit
+              no-abbrev-commit:$no_abbrev_commit
+              oneline:$oneline
+              encoding:$encoding
+              expand-tabs:$expand_tabs
+              no-expand-tabs:$no_expand_tabs
+              notes:$notes
+              no-notes:$no_notes
+              show-notes-by-default:$show_notes_by_default 
+              show-notes:$show_notes
+              no-standard-notes:$no_standard_notes
+              show-signature:$show_signature
+            }
+          )
 
     }
 
@@ -4058,27 +4024,27 @@ export module grep {
       ...$pathspecs
     ] {
   
-         bash_yadm status ...$pathspecs ...(
-          generate_viable_bash_string_flags {
-            short:$short
-            branch:$branch
-            show-stash:$show_stash
-            porcelain:$porcelain
-            long:$long
-            verbose:$verbose
-            untracked-files:$untracked_files
-            ignore-submodules:$ignore_submodules
-            ignored:$ignored
-            z:$z
-            column:$column
-            no-column:$no_column
-            ahead-behind:$ahead_behind
-            no-ahead-behind:$no_ahead_behind
-            renames:$renames 
-            no-renames:$no_renames
-            find-renames:$find_renames
-          }
-         )
+            bash_yadm status ...$pathspecs ...(
+                generate_viable_bash_string_flags {
+                  short:$short
+                  branch:$branch
+                  show-stash:$show_stash
+                  porcelain:$porcelain
+                  long:$long
+                  verbose:$verbose
+                  untracked-files:$untracked_files
+                  ignore-submodules:$ignore_submodules
+                  ignored:$ignored
+                  z:$z
+                  column:$column
+                  no-column:$no_column
+                  ahead-behind:$ahead_behind
+                  no-ahead-behind:$no_ahead_behind
+                  renames:$renames 
+                  no-renames:$no_renames
+                  find-renames:$find_renames
+                }
+            )
     }
 
   }
@@ -4135,11 +4101,12 @@ export module switch {
                   ignore-other-worktrees:$ignore_other_worktrees
                   recurse-submodules:$recurse_submodules
                   no-recurse-submodules:$no_recurse_submodules
-      }
+               }
 
       if ($branch | describe) != nothing {
 
         return (bash_yadm switch $branch ...$viable_bash_string_flags) 
+      
       }
 
       bash_yadm switch ...$viable_bash_string_flags 
@@ -4231,6 +4198,5 @@ export module tag {
   }
 
 }
-
 
 export use git *
