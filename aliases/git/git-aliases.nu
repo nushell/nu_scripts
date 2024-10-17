@@ -1,3 +1,6 @@
+# Requires the `gstat` plugin to be installed, 
+# http://www.nushell.sh/commands/docs/gstat.html
+
 export def git_current_branch [] {
     (gstat).branch
 }
