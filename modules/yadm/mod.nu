@@ -1,40 +1,5 @@
-# Scripts for yadm
-
-
-# Needed because yadm is a bash shell
-# The bash_yadm name is to prevent conflicts.
-alias bash_yadm = bash yadm
-
-export def main [
-  --yadm-dir # Override the yadm directory. Yadm stores its configurations relative to this directory
-
-  --yadm-data # Override the yadm data directory Yadm stores its data relative to this directory
-
-  --yadm-repo # Override the location of the yadm repository
-
-  --yadm-config # Override the location of the yadm configuration file
-
-  --yadm-encrypt # Override the location of the yadm encryption configuration
-
-  --yadm-archive # Override the location of the yadm encrypted files archive
-
-  --yadm-bootstrap # Override the location of the yadm bootstrap program
-
-] {
-
- let viable_bash_string_flags = generate_viable_bash_string_flags {
-    yadm-dir: $yadm_dir
-    yadm-data: $yadm_data
-    yadm-repo: $yadm_repo
-    yadm-config: $yadm_config
-    yadm-encrypt: $yadm_encrypt
-    yadm-archive: $yadm_archive
-    yadm-bootstrap: $yadm_bootstrap
-  }
-
-  bash_yadm ...$viable_bash_string_flags
-
-}
+# This module yadm is for.
+# Executing yadm scripts in a refined way.
 
 
 def generate_viable_bash_string_flags [
@@ -93,1580 +58,4077 @@ def generate_viable_bash_string_flags [
 
 }
 
+alias bash_yadm = bash yadm
 
-
-def "nu-complete yadm available upstream" [] {
-  bash_yadm branch --no-color -a | lines | each { |line| $line | str replace '* ' "" | str trim }
-}
-
-def "nu-complete yadm remotes" [] {
-  bash_yadm remote | lines | each { |line| $line | str trim }
-}
-
-def "nu-complete yadm log" [] {
-  bash_yadm log --pretty=%h | lines | each { |line| $line | str trim }
-}
-
-# Yield all existing commits in descending chronological order.
-def "nu-complete yadm commits all" [] {
-  bash_yadm rev-list --all --remotes --pretty=oneline | lines | parse "{value} {description}"
-}
-# yadm rebase`.
-
-#Yield commits of current branch only. This is useful for e.g. cut points in
-def "nu-complete yadm commits current branch" [] {
-  bash_yadm log --pretty="%h %s" | lines | parse "{value} {description}"
-}
-
-# Yield local branches like `bash_yadm`, `feature/typo_fix`
-def "nu-complete yadm local branches" [] {
-  bash_yadm branch --no-color | lines | each { |line| $line | str replace '* ' "" | str trim }
-}
-
-# Yield remote branches like `origin/bash_yadm`, `upstream/feature-a`
-def "nu-complete yadm remote branches with prefix" [] {
-  bash_yadm branch --no-color -r | lines | parse -r '^\*?(\s*|\s*\S* -> )(?P<branch>\S*$)' | get branch | uniq
-}
-
-# with yadm checkout` or`yadm switch`.
-# Yield remote branches *without* prefix which do not have a local counterpart.
-# E.g. `upstream/feature-a` as `feature-a` to checkout and track in one command
-def "nu-complete yadm remote branches nonlocal without prefix" [] {
-  # Get regex to strip remotes prefixes. It will look like `(origin|upstream)`
-  # for the two remotes `origin` and `upstream`.
-  let remotes_regex = (["(", ((nu-complete yadm remotes | each {|r| [$r, '/'] | str join}) | str join "|"), ")"] | str join)
-  let local_branches = (nu-complete yadm local branches)
-  bash_yadm branch --no-color -r | lines | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\S+)'] | flatten | str join) | get branch | uniq | where {|branch| $branch != "HEAD"} | where {|branch| $branch not-in $local_branches }
-}
-
-def "nu-complete yadm switch" [] {
-  (nu-complete yadm local branches)
-  | parse "{value}"
-  | insert description "local branch"
-  | append (nu-complete yadm remote branches nonlocal without prefix
-            | parse "{value}"
-            | insert description "remote branch")
-}
-
-def "nu-complete yadm checkout" [] {
-  (nu-complete yadm local branches)
-  | parse "{value}"
-  | insert description "local branch"
-  | append (nu-complete yadm remote branches nonlocal without prefix
-            | parse "{value}"
-            | insert description "remote branch")
-  | append (nu-complete yadm remote branches with prefix
-            | parse "{value}"
-            | insert description "remote branch")
-  | append (nu-complete yadm commits all)
-  | append (nu-complete yadm files | where description != "Untracked" | select value)
-  # Arguments to yadm rebase --onto<arg1> <arg2>`
-}
-
-def "nu-complete yadm rebase" [] {
-  (nu-complete yadm local branches)
-  | parse "{value}"
-  | insert description "local branch"
-  | append (nu-complete yadm remote branches with prefix
-            | parse "{value}"
-            | insert description "remote branch")
-  | append (nu-complete yadm commits all)
-}
-
-def "nu-complete yadm stash-list" [] {
-  bash_yadm stash list | lines | parse "{value}: {description}"
-}
-
-def "nu-complete yadm tags" [] {
-  bash_yadm tag --no-color | lines
-}
-
-# See `man yadm-status` under "Short Format"
-# This is incomplete, but should cover the most common cases.
-const short_status_descriptions = {
-  ".D": "Deleted"
-  ".M": "Modified"
-  "!" : "Ignored"
-  "?" : "Untracked"
-  "AU": "Staged, not merged"
-  "MD": "Some modifications staged, file deleted in work tree"
-  "MM": "Some modifications staged, some modifications untracked"
-  "R.": "Renamed"
-  "UU": "Both modified (in merge conflict)"
-}
-
-def "nu-complete yadm files" [] {
-  let relevant_statuses = ["?",".M", "MM", "MD", ".D", "UU"]
-  bash_yadm status --u --porcelain=2
-  | lines
-  | each { |$it|
-    if $it starts-with "1 " {
-      $it | parse --regex "1 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
-    } else if $it starts-with "2 " {
-      $it | parse --regex "2 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
-    } else if $it starts-with "u " {
-      $it | parse --regex "u (?P<short_status>\\S+) (?:\\S+\\s?){8} (?P<value>\\S+)"
-    } else if $it starts-with "? " {
-      $it | parse --regex "(?P<short_status>.{1}) (?P<value>.+)"
-    } else {
-      { short_status: 'unknown', value: $it }
-    }
-  }
-  | flatten
-  | where $it.short_status in $relevant_statuses
-  | insert "description" { |e| $short_status_descriptions | get $e.short_status}
-}
-
-def "nu-complete yadm built-in-refs" [] {
-  [HEAD FETCH_HEAD ORIG_HEAD]
-}
-
-def "nu-complete yadm refs" [] {
-  nu-complete yadm switchable branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete yadm tags | parse "{value}" | insert description Tag)
-  | append (nu-complete yadm built-in-refs)
-}
-
-def "nu-complete yadm files-or-refs" [] {
-  nu-complete yadm switchable branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete yadm files | where description == "Modified" | select value)
-  | append (nu-complete yadm tags | parse "{value}" | insert description Tag)
-  | append (nu-complete yadm built-in-refs)
-}
-
-def "nu-complete yadm subcommands" [] {
-  bash_yadm help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
-}
-
-def "nu-complete yadm add" [] {
-  nu-complete yadm files
-}
-
-def "nu-complete yadm pull rebase" [] {
-  ["false","true","merges","interactive"]
-}
-
-
-# Check out yadm branches and files
-export def checkout [
-  ...targets: string@"nu-complete yadm checkout"   # name of the branch or files to checkout
-  --conflict: string                              # conflict style (merge or diff3)
-  --detach(-d)                             # detach HEAD at named commit
-  --force(-f)                            # force checkout (throw away local modifications)
-  --guess                              # second guess 'yadm checkout <no-such-branch>' (default)
-  --ignore-other-worktrees         # do not check if another worktree is holding the given ref
-  --ignore-skip-worktree-bits                  # do not limit pathspecs to sparse entries only
-  --merge(-m)                                  # perform a 3-way merge with the new branch
-  --orphan: string                             # new unparented branch
-  --ours(-2)                                   # checkout our version for unmerged files
-  --overlay                                    # use overlay mode (default)
-  --overwrite-ignore                           # update ignored files (default)
-  --patch(-p)                                  # select hunks interactively
-  --pathspec-from-file: string                 # read pathspec from file
-  --progress                                   # force progress reporting
-  --quiet(-q)                                  # suppress progress reporting
-  --recurse-submodules                         # control recursive updating of submodules
-  --theirs(-3)                                 # checkout their version for unmerged files
-  --track(-t)                                  # set upstream info for new branch
-  -b                                           # create and checkout a new branch
-  -B: string                                   # create/reset and checkout a branch
-  -l                                           # create reflog for new branch
-] {
-  
-  bash_yadm checkout ...(
-      generate_viable_bash_string_flags {
-          conflict: $conflict,
-          detach: $detach,
-          force: $force
-          guess: $guess,
-          ignore-other-worktrees: $ignore_other_worktrees,
-          ignore-skip-worktree-bits: $ignore_skip_worktree_bits
-          merge:$merge
-          orphan: $orphan
-          ours: $ours
-          overlay: $overlay,
-          overwrite-ignore: $overwrite_ignore
-          patch: $patch
-          pathspec-from-file: $patch
-          progress: $progress
-          quiet: $quiet
-          recurse-submodules: $recurse_submodules
-          theirs: $theirs
-          track: $track
-          b: $b
-          B: $B
-          l: $l
-        }
-    )  
-}
-
-# Download objects and refs from another repository
-export def fetch [
-  repository?: string@"nu-complete yadm remotes" # name of the branch to fetch
-  --all                                         # Fetch all remotes
-  --append(-a)                                  # Append ref names and object names to .yadm/FETCH_HEAD
-  --atomic                                      # Use an atomic transaction to update local refs.
-  --depth: int                                  # Limit fetching to n commits from the tip
-  --deepen: int                                 # Limit fetching to n commits from the current shallow boundary
-  --shallow-since: string                       # Deepen or shorten the history by date
-  --shallow-exclude: string                     # Deepen or shorten the history by branch/tag
-  --unshallow                                   # Fetch all available history
-  --update-shallow                              # Update .yadm/shallow to accept new refs
-  --negotiation-tip: string                     # Specify which commit/glob to report while fetching
-  --negotiate-only                              # Do not fetch, only print common ancestors
-  --dry-run                                     # Show what would be done
-  --write-fetch-head                            # Write fetched refs in FETCH_HEAD (default)
-  --no-write-fetch-head                         # Do not write FETCH_HEAD
-  --force(-f)                                   # Always update the local branch
-  --keep(-k)                                    # Keep downloaded pack
-  --multiple                                    # Allow several arguments to be specified
-  --auto-bash_yadmtenance                            # Run 'yadm bash_yadmtenance run --auto' at the end (default)
-  --no-auto-bash_yadmtenance                         # Don't run 'yadm bash_yadmtenance' at the end
-  --auto-gc                                     # Run 'yadm bash_yadmtenance run --auto' at the end (default)
-  --no-auto-gc                                  # Don't run 'yadm bash_yadmtenance' at the end
-  --write-commit-graph                          # Write a commit-graph after fetching
-  --no-write-commit-graph                       # Don't write a commit-graph after fetching
-  --prefetch                                    # Place all refs into the refs/prefetch/ namespace
-  --prune(-p)                                   # Remove obsolete remote-tracking references
-  --prune-tags(-P)                              # Remove any local tags that do not exist on the remote
-  --no-tags(-n)                                 # Disable automatic tag following
-  --refmap: string                              # Use this refspec to map the refs to remote-tracking branches
-  --tags(-t)                                    # Fetch all tags
-  --recurse-submodules: string                  # Fetch new commits of populated submodules (yes/on-demand/no)
-  --jobs(-j): int                               # Number of parallel children
-  --no-recurse-submodules                       # Disable recursive fetching of submodules
-  --set-upstream                                # Add upstream (tracking) reference
-  --submodule-prefix: string                    # Prepend to paths printed in informative messages
-  --upload-pack: string                         # Non-default path for remote command
-  --quiet(-q)                                   # Silence internally used yadm commands
-  --verbose(-v)                                 # Be verbose
-  --progress                                    # Report progress on stderr
-  --server-option(-o): string                   # Pass options for the server to handle
-  --show-forced-updates                         # Check if a branch is force-updated
-  --no-show-forced-updates                      # Don't check if a branch is force-updated
-  -4                                            # Use IPv4 addresses, ignore IPv6 addresses
-  -6                                            # Use IPv6 addresses, ignore IPv4 addresses
+export def init [
+  --initial-branch(-b)
+  --f 
+  --w  
   ] {
-    
-  bash_yadm fetch ...(
-      generate_viable_bash_string_flags {
-          all: $all,
-          append: $append,
-          atomic: $atomic,
-          depth: $depth,
-          deepen: $deepen,
-          shallow-since: $shallow_since,
-          shallow-exclude: $shallow_exclude,
-          unshallow: $unshallow,
-          update-shallow: $update_shallow,
-          negotiation-tip: $negotiation_tip,
-          negotiate-only: $negotiate_only,
-          dry-run: $dry_run,
-          write-fetch-head: $write_fetch_head,
-          no-write-fetch-head: $no_write_fetch_head,
-          force: $force,
-          keep: $keep,
-          multiple: $multiple,
-          auto-bash_yadmtenance: $auto_bash_yadmtenance,
-          no-auto-bash_yadmtenance: $no_auto_bash_yadmtenance,
-          auto-gc: $auto_gc,
-          no-auto-gc: $no_auto_gc, 
-          write-commit-graph: $write_commit_graph,
-          no-write-commit-graph: $no_write_commit_graph,
-          prefetch: $prefetch,
-          prune:$prune,
-          prune-tags: $prune_tags,
-          no-tags: $no_tags,
-          refmap: $refmap,
-          tags: $tags,
-          recurse-submodules: $recurse_submodules,
-          jobs: $jobs,
-          no-recurse-submodules: $no_recurse_submodules,
-          set-upstream: $set_upstream,
-          submodule-prefix: $submodule_prefix,
-          upload-pack: $upload_pack,
-          quiet: $quiet,
-          verbose:$verbose, 
-          progress:$progress,
-          server-option: $server_option,
-          show-forced-updates: $show_forced_updates,
-          no-show-forced-updates: $no_show_forced_updates,
-          4:$4,
-          6:$6
-        }
-     ) 
-}
 
-# Push changes
-export def push [
-  remote?: string@"nu-complete yadm remotes"         # the name of the remote
-  ...refs: string@"nu-complete yadm local branches"   # the branch / refspec
-  --all                                              # push all refs
-  --atomic                                           # request atomic transaction on remote side
-  --delete(-d)                                       # delete refs
-  --dry-run(-n)                                      # dry run
-  --exec: string                                     # receive pack program
-  --follow-tags                                      # push missing but relevant tags
-  --force-with-lease                                 # require old value of ref to be at this value
-  --force(-f)                                        # force updates
-  --ipv4(-4)                                         # use IPv4 addresses only
-  --ipv6(-6)                                         # use IPv6 addresses only
-  --mirror                                           # mirror all refs
-  --no-verify                                        # bypass pre-push hook
-  --porcelain                                        # machine-readable output
-  --progress                                         # force progress reporting
-  --prune                                            # prune locally removed refs
-  --push-option(-o): string                          # option to transmit
-  --quiet(-q)                                        # be more quiet
-  --receive-pack: string                             # receive pack program
-  --recurse-submodules: string                       # control recursive pushing of submodules
-  --repo: string                                     # repository
-  --set-upstream(-u)                                 # set upstream for yadm pull/status
-  --signed: string                                   # GPG sign the push
-  --tags                                             # push tags (can't be used with --all or --mirror)
-  --thin                                             # use thin pack
-  --verbose(-v)                                      # be more verbose
-] {
+  bash_yadm init (
+    generate_viable_bash_string_flags {
+      initial-branch:$initial_branch
+      f:$f
+      w:$w
+    }
+  )
 
-
- if ($remote| describe) == nothing {
-
-     return (
-        bash_yadm push ...$refs ...(
-              generate_viable_bash_string_flags {
-                  all:$all,
-                  atomic:$atomic,
-                  delete:$delete,
-                  dry-run:$dry_run
-                  exec:$exec,
-                  follow-tags:$follow_tags
-                  force-with-lease:$force_with_lease
-                  force:$force,
-                  ipv4:ipv4,
-                  ipv6:$ipv6,
-                  mirror:$mirror,
-                  no-verify:$no_verify
-                  porcelain:$porcelain,
-                  progress:$progress,
-                  prune:$prune,
-                  push-option:push_option
-                  quiet:$quiet,
-                  receive-pack:$receive_pack
-                  recurse-submodules:$recurse_submodules
-                  repo:$repo,
-                  set-upstream:$set_upstream
-                  signed:$signed,
-                  tags:$tags,
-                  thin:$thin,
-                  verbose:$verbose,      
-                }
-             )
-          )
- 
  }
 
- bash_yadm push $remote ...$refs ...(
-    generate_viable_bash_string_flags {
-        all:$all,
-        atomic:$atomic,
-        delete:$delete,
-        dry-run:$dry_run
-        exec:$exec,
-        follow-tags:$follow_tags
-        force-with-lease:$force_with_lease
-        force:$force,
-        ipv4:ipv4,
-        ipv6:$ipv6,
-        mirror:$mirror,
-        no-verify:$no_verify
-        porcelain:$porcelain,
-        progress:$progress,
-        prune:$prune,
-        push-option:push_option
-        quiet:$quiet,
-        receive-pack:$receive_pack
-        recurse-submodules:$recurse_submodules
-        repo:$repo,
-        set-upstream:$set_upstream
-        signed:$signed,
-        tags:$tags,
-        thin:$thin,
-        verbose:$verbose,      
-      }
-  )
- 
- 
-}
 
+export def main [
+    --yadm-dir(-Y) # Override the yadm  directory. yadm stores its configurations relative to this directory.
 
+   --yadm-data # Override the yadm data directory.  yadm stores its data relative to this directory.
 
-# Pull changes
-export def pull [
-  remote?: string@"nu-complete yadm remotes" = '',         # the name of the remote
-  ...refs: string@"nu-complete yadm local branches",  # the branch / refspec
-  --rebase(-r): string@"nu-complete yadm pull rebase",    # rebase current branch on top of upstream after fetching
-  --quiet(-q)                                        # suppress output during transfer and merge
-  --verbose(-v)                                      # be more verbose
-  --commit                                           # perform the merge and commit the result
-  --no-commit                                        # perform the merge but do not commit the result
-  --edit(-e)                                         # edit the merge commit message
-  --no-edit                                          # use the auto-generated merge commit message
-  --cleanup: string                                  # specify how to clean up the merge commit message
-  --ff                                               # fast-forward if possible
-  --no-ff                                            # create a merge commit in all cases
-  --gpg-sign(-S)                                     # GPG-sign the resulting merge commit
-  --no-gpg-sign                                      # do not GPG-sign the resulting merge commit
-  --log: int                                         # include log messages from merged commits
-  --no-log                                           # do not include log messages from merged commits
-  --signoff                                          # add Signed-off-by trailer
-  --no-signoff                                       # do not add Signed-off-by trailer
-  --stat(-n)                                         # show a diffstat at the end of the merge
-  --no-stat                                          # do not show a diffstat at the end of the merge
-  --squash                                           # produce working tree and index state as if a merge happened
-  --no-squash                                        # perform the merge and commit the result
-  --verify                                           # run pre-merge and commit-msg hooks
-  --no-verify                                        # do not run pre-merge and commit-msg hooks
-  --strategy(-s): string                             # use the given merge strategy
-  --strategy-option(-X): string                      # pass merge strategy-specific option
-  --verify-signatures                                # verify the tip commit of the side branch being merged
-  --no-verify-signatures                             # do not verify the tip commit of the side branch being merged
-  --summary                                          # show a summary of the merge
-  --no-summary                                       # do not show a summary of the merge
-  --autostash                                        # create a temporary stash entry before the operation
-  --no-autostash                                     # do not create a temporary stash entry before the operation
-  --allow-unrelated-histories                        # allow merging histories without a common ancestor
-  --no-rebase                                        # do not rebase the current branch on top of the upstream branch
-  --all                                              # fetch all remotes
-  --append(-a)                                       # append fetched refs to existing contents of FETCH_HEAD
-  --atomic                                           # use an atomic transaction to update local refs
-  --depth: int                                       # limit fetching to the specified number of commits
-  --deepen: int                                      # deepen the history by the specified number of commits
-  --shallow-since: string                            # deepen or shorten the history since a specified date
-  --shallow-exclude: string                          # exclude commits reachable from a specified branch or tag
-  --unshallow                                        # convert a shallow repository to a complete one
-  --update-shallow                                   # update .yadm/shallow with new refs
-  --tags(-t)                                         # fetch all tags from the remote
-  --jobs(-j): int                                    # number of parallel children for fetching
-  --set-upstream                                     # add upstream (tracking) reference
-  --upload-pack: string                              # specify non-default path for upload-pack on the remote
-  --progress                                         # force progress status even if stderr is not a terminal
-  --server-option(-o): string                        # transmit the given string to the server
+   --yadm-repo # Override the location of the yadm repository.
+
+   --yadm-config # Override the location of the yadm configuration file.
+
+   --yadm-encrypt # Override the location of the yadm encryption configuration.
+
+   --yadm-archive # Override the location of the yadm encrypted files archive.
+
+   --yadm-bootstrap # Override the location of the yadm bootstrap program. 
 ] {
-
-
-if ($remote | describe) == nothing {
-
-  bash_yadm pull ...(
-      generate_viable_bash_string_flags {
-          rebase: $rebase
-          quiet: $quiet
-          verbose: $verbose
-          commit: $commit
-          no-commit: $no_commit
-          edit: $edit
-          no-edit: $no_edit
-          cleanup: $cleanup
-          ff: $ff
-          no-ff: $no_ff
-          gpg-sign: $gpg_sign
-          no-gpg-sign: $no_gpg_sign
-          log: $log
-          no-log: $no_log
-          signoff: $signoff
-          no-signoff: $no_signoff
-          stat: $stat
-          no-stat: $no_stat
-          squash: $squash
-          no-squash: $no_squash
-          verify: $verify
-          no-verify: $no_verify
-          strategy: $strategy
-          strategy-option: $strategy_option
-          verify-signatures: $verify_signatures
-          no-verify-signatures: $no_verify_signatures
-          summary: $summary
-          no-summary: $no_summary
-          autostash: $autostash
-          no-autostash: $no_autostash
-          allow-unrelated-histories: $allow_unrelated_histories
-          no-rebase: $no_rebase
-          all: $all
-          append: $append
-          atomic: $atomic
-          depth: $depth
-          deepen: $deepen
-          shallow-since: $shallow_since
-          shallow-exclude: $shallow_exclude
-          unshallow: $unshallow
-          update-shallow: $update_shallow
-          tags: $tags
-          jobs: $jobs
-          set-upstream: $set_upstream
-          upload-pack: $upload_pack
-          progress: $progress
-          server-option: $server_option
-        }
-      )
-  
+   
+   bash_yadm (
+     generate_viable_bash_string_flags {
+      yadm-dir:$yadm_dir,
+      yadm-data:$yadm_data,
+      yadm-repo:$yadm_repo,
+      yadm-config:$yadm_config,
+      yadm-encrypt:$yadm_encrypt,
+      yadm-archive:$yadm_archive,
+      yadm-bootstrap:$yadm_bootstrap,
+     }
+   )
+   
+   
 }
 
 
-  bash_yadm pull $remote ...$refs ...(
-        generate_viable_bash_string_flags {
-          rebase: $rebase
-          quiet: $quiet
-          verbose: $verbose
-          commit: $commit
-          no-commit: $no_commit
-          edit: $edit
-          no-edit: $no_edit
-          cleanup: $cleanup
-          ff: $ff
-          no-ff: $no_ff
-          gpg-sign: $gpg_sign
-          no-gpg-sign: $no_gpg_sign
-          log: $log
-          no-log: $no_log
-          signoff: $signoff
-          no-signoff: $no_signoff
-          stat: $stat
-          no-stat: $no_stat
-          squash: $squash
-          no-squash: $no_squash
-          verify: $verify
-          no-verify: $no_verify
-          strategy: $strategy
-          strategy-option: $strategy_option
-          verify-signatures: $verify_signatures
-          no-verify-signatures: $no_verify_signatures
-          summary: $summary
-          no-summary: $no_summary
-          autostash: $autostash
-          no-autostash: $no_autostash
-          allow-unrelated-histories: $allow_unrelated_histories
-          no-rebase: $no_rebase
-          all: $all
-          append: $append
-          atomic: $atomic
-          depth: $depth
-          deepen: $deepen
-          shallow-since: $shallow_since
-          shallow-exclude: $shallow_exclude
-          unshallow: $unshallow
-          update-shallow: $update_shallow
-          tags: $tags
-          jobs: $jobs
-          set-upstream: $set_upstream
-          upload-pack: $upload_pack
-          progress: $progress
-          server-option: $server_option
-        }
-      )
- 
- 
-}
-
-# Switch between branches and commits
-export def switch [
-  switch?: string@"nu-complete yadm switch"     # name of branch to switch to
-  --create(-c)                                    # create a new branch
-  --detach(-d): string@"nu-complete yadm log"      # switch to a commit in a detached state
-  --force-create(-C): string                      # forces creation of new branch, if it exists then the existing branch will be reset to starting point
-  --force(-f)                                     # alias for --discard-changes
-  --guess                                         # if there is no local branch which matches then name but there is a remote one then this is checked out
-  --ignore-other-worktrees                        # switch even if the ref is held by another worktree
-  --merge(-m)                                     # attempts to merge changes when switching branches if there are local changes
-  --no-guess                                      # do not attempt to match remote branch names
-  --no-progress                                   # do not report progress
-  --no-recurse-submodules                         # do not update the contents of sub-modules
-  --no-track                                      # do not set "upstream" configuration
-  --orphan: string                                # create a new orphaned branch
-  --progress                                      # report progress status
-  --quiet(-q)                                     # suppress feedback messages
-  --recurse-submodules                            # update the contents of sub-modules
-  --track(-t)                                     # set "upstream" configuration
-  ] {
+def generate_type_flag_completions [] {
+       [
+        'bool'
+        'int'
+        'bool-or-int'
+        'bool-or-str'
+        'path'
+        'expiry-date'
+       ]
+    }
 
 
-  bash_yadm switch $switch ...(
-        generate_viable_bash_string_flags {       
-            create:$create,
-            detach:$detach,
-            force-create: $force_create,
-            force:$force,
-            guess:$guess,
-            ignore-other-worktrees: $ignore_other_worktrees,
-            merge:$merge,
-            no-guess: $no_guess,
-            no-progress: $no_progress,
-            no-recurse-submodules: $no_recurse_submodules,
-            no-track: $no_track,
-            orphan: $orphan,
-            progress: $progress,
-            quiet:$quiet,
-            recurse-submodules: $recurse_submodules
-            track:$track
-        }
-     )
-
-}
-
-# Apply the change introduced by an existing commit
-export def cherry-pick [
-  commit?: string@"nu-complete yadm commits all" # The commit ID to be cherry-picked
-  --edit(-e)                                    # Edit the commit message prior to committing
-  --no-commit(-n)                               # Apply changes without making any commit
-  --signoff(-s)                                 # Add Signed-off-by line to the commit message
-  --ff                                          # Fast-forward if possible
-  --continue                                    # Continue the operation in progress
-  --abort                                       # Cancel the operation
-  --skip                                        # Skip the current commit and continue with the rest of the sequence
-  ] {
     
-  bash_yadm cherry-pick $commit ...(
-         generate_viable_bash_string_flags {
-            edit: $edit
-            no-commit: $no_commit
-            signoff: $signoff
-            ff: $ff
-            continue: $continue
-            abort: $abort
-            skip: $skip
-        }
-      )
-
-
-}
-
-# Rebase the current branch
-export def rebase [
-  branch?: string@"nu-complete yadm rebase"    # name of the branch to rebase onto
-  upstream?: string@"nu-complete yadm rebase" # upstream branch to compare against
-  --continue                                  # restart rebasing process after editing/resolving a conflict
-  --abort                                     # abort rebase and reset HEAD to original branch
-  --quit                                      # abort rebase but do not reset HEAD
-  --interactive(-i)                           # rebase interactively with list of commits in editor
-  --onto: string@"nu-complete yadm rebase"    # starting point at which to create the new commits
-  --root                                      # start rebase from root commit
-] {
+  export def clone [
+    url:string
+    -f 
+    --no-bootstrap
+    --bootstrap
+    -w:string
+    --branch(-b):string
+    ] {
   
-  bash_yadm rebase $branch $upstream ...(
+    
+          bash_yadm clone $url ...(
+            generate_viable_bash_string_flags {
+              f:$f
+              bootstrap:$bootstrap
+              no-bootstrap:$no_bootstrap
+              w:$w
+              branch:$branch
+            }
+          )
+  
+  
+  }
+      
+  export module config {
+    
+  
+    const yadm_config_characteristics = {
+        yadm:{
+          alt-copy: { 
+            type: bool
+            description: "Make alternate files copies instead of sym‐bolic links"
+            }
+          auto-alt: { 
+            type: bool
+            description: "Disable the automatic linking"
+            }
+          auto-exclude: { 
+            type: bool
+            description: "Disable the automatic exclusion of patterns defined in the encryption file"
+            }
+          auto-perms: { 
+            type: bool
+            description: "Disable the automatic permission changes"
+            }
+          auto-private-dirs: { 
+            type: bool
+            description: "Disable the automatic creating of private directories"
+            }
+          cipher: { 
+            type: ['gpg', 'openssl']
+            description: "Configure which encryption system is used by the encrypt/decrypt command"
+          }
+          git-program: { 
+            type:string
+            description: "Specify an alternate program to use instead of git" 
+          }
+          gpg-perms: { 
+            type: bool
+            description: "Disable the permission changes to the gnupg folder"
+            }
+          gpg-program: { 
+            type: string
+            description: "Specify an alternate program to use instead of gpg"
+            }
+          gpg-recipient: { 
+            type:string
+            description:"Specify which cipher should be used by openssl"
+            }
+          openssl-ciphername: { 
+            type:string
+            description:"Provide  a 'key ID' to specify which public key to encrypt with"
+            }
+          openssl-old: { 
+            type: bool
+            description: "Use older versions of openssl"
+            }
+          openssl-program: { 
+            type:string
+            description:"Specify an alternate program to use instead  of  'openssl'"
+            }
+          ssh-perms: { 
+            type: bool
+            description: "Disable the permission changes to the ssh folder"
+            }
+
+        }
+        local:{
+          class: {
+            type: string
+            description: 'Specify a class for the purpose of symlinking alternate files'
+          }
+          arch:{
+            type: string
+            description: 'Override  the  architecture for the purpose of symlinking alternate files'
+          }
+          hostname:{
+              type:string
+              description: 'Override the hostname for the purpose of symlinking alternate files'
+          }
+          os:{
+              type:string
+              description: 'Override the OS for the purpose of symlinking alternate files'
+          }
+          user:{
+              type:string
+              description: 'Override the user for the purpose of symlinking alternate files'
+          }
+        }
+      }
+    
+    def generate_dot_value_and_descriptions [] {
+
+    
+      $yadm_config_characteristics
+      | items { |outer_key outer_value|
+
+        $outer_value 
+        | items { |inner_key inner_value|
+
+          {
+            value: $"($outer_key).($inner_key)" 
+            description: $inner_value.description
+          }
+        
+        }
+      
+      } | flatten
+
+
+    }
+
+
+    def get_auto_complete_value_based_on_what_context_gets_from_yadm_config_characteristics_type [context: string, ] {
+    
+    let cell_path_to_yadm_config_characteristic_key_type = $context 
+      | split row "." 
+      | append 'type' 
+      | into cell-path
+
+    let yadm_config_characteristic_key_type = $yadm_config_characteristics 
+        | get ($cell_path_to_yadm_config_characteristic_key_type)
+    
+  
+    
+
+    match $yadm_config_characteristic_key_type {
+    
+        string => null
+        
+        bool => [true false]
+        
+        $it if ($it | describe | str starts-with list) => {
+
+        if ($it | any { |value| $value in [true false] }) {
+
+            error make {
+                msg: "Invalid Configuration Value",
+                help: "Please don't use place bool values in an array use the bool word instead"
+            }
+        
+        }
+
+        $it
+
+        }
+        _ => {
+            error make {
+                msg:"Invalid Configuration Value"
+                help:"When it comes to cofiguaration a value must be a string boolean number or a list of strings or numbers"
+            }  
+        }
+
+    }
+
+
+
+    }
+
+    
+    
+    export def main  [
+      key:string@generate_dot_value_and_descriptions 
+      value?:any@get_auto_complete_value_based_on_what_context_gets_from_yadm_config_characteristics_type
+      --global # use global config file
+      --local # use repository config file
+      --system # use system config file
+      --worktree # use per-worktree config file
+      --list # list all
+      --edit # open an editor
+      --type:string@generate_type_flag_completions
+      --bool # value is "true" or "false"
+      --int # value is decimal number
+      --bool-or-int # value is --bool or --int
+      --bool-or-str # value is --bool or string
+      --path # value is a path (file or directory name)
+      --expiry-date # value is an expiry date
+      --fixed-value # use string equality when comparing values to 'value-pattern'
+      --null(-z) # terminate values with NUL byte
+      --name-only # show variable names only
+      --includes # respect include directives on lookup
+      --show-origin # show origin of config (file, standard input, blob, command line)
+      --show-scope # show scope of config (worktree, local, global, system, command)
+      --file:string # use given config file
+      --blob:string # read config from given blob object
+      --get:string # get value: name [value-pattern]
+      --default:string # with --get, use default value when missing entry
+      --get-all:string # get all values: key [value-pattern]
+      --get-regexp:string # get values for regexp: name-regex [value-pattern]
+      --get-urlmatch:string # get value specific for the URL: section[.var] URL
+      --replace-all: string # replace all matching variables: name value [value-pattern] 
+      --get-color:string # find the color setting: slot [stdout-is-tty]
+      --get-colorbool:string # find the color configured: slot [default]
+      --add:string # add a new variable: name value
+      --unset:string # remove a variable: name [value-pattern]
+      --unset-all:string # remove all matches: name [value-pattern]
+      --remove-section:string # remove a section: name
+      --rename-section:string # rename section: old-name new-name
+      --comment:string # human-readable comment string (# will be prepended as needed)
+      ] { 
+    
+
+
+
+    
+        if $key !~ '(?<outer_key>\w+)(?<dot>\.)(?<inner_key>\w+)' {
+
+          error make {
+            msg: 'Invalid Argument',
+            label:{
+              text: $"This key ($key) is invalid"
+              span: (metadata $key).span
+            }
+          }
+
+        }
+        
+
+      
+        bash_yadm config ...(
+          generate_viable_bash_string_flags {
+              global:$global 
+              local:$local 
+              system:$system 
+              worktree:$worktree 
+              list:$list
+              edit:$edit
+              bool:$bool
+              int:$int
+              bool-or-int:$bool_or_int
+              bool-or-str:$bool_or_str
+              path:$path
+              expiry-date:$expiry_date
+              fixed-value:$fixed_value
+              'null':$null
+              name-only:$name_only
+              includes:$includes
+              show-origin:$show_origin
+              show-scope:$show_scope
+              file:$file
+              blob:$blob
+              get:$get
+              default:$default 
+              get-all:$get_all 
+              get-regexp:$get_regexp 
+              get-urlmatch:$get_urlmatch 
+              get-color:$get_color 
+              get-colorbool:$get_colorbool
+              replace-all:$replace_all 
+              add:$add 
+              unset:$unset 
+              unset-all:$unset_all 
+              remove-section:$remove_section
+              rename-section:$rename_section
+              comment:$comment
+            }
+        )
+      
+      
+    }
+    
+  
+  }
+
+  export def gitconfig [
+    key:string 
+    value?:any
+    --global # use global config file
+    --local # use repository config file
+    --system # use system config file
+    --worktree # use per-worktree config file
+    --list # list all
+    --edit # open an editor
+    --type:string@generate_type_flag_completions
+    --bool # value is "true" or "false"
+    --int # value is decimal number
+    --bool-or-int # value is --bool or --int
+    --bool-or-str # value is --bool or string
+    --path # value is a path (file or directory name)
+    --expiry-date # value is an expiry date
+    --fixed-value # use string equality when comparing values to 'value-pattern'
+    --null(-z) # terminate values with NUL byte
+    --name-only # show variable names only
+    --includes # respect include directives on lookup
+    --show-origin # show origin of config (file, standard input, blob, command line)
+    --show-scope # show scope of config (worktree, local, global, system, command)
+    --file:string # use given config file
+    --blob:string # read config from given blob object
+    --get:string # get value: name [value-pattern]
+    --default:string # with --get, use default value when missing entry
+    --get-all:string # get all values: key [value-pattern]
+    --get-regexp:string # get values for regexp: name-regex [value-pattern]
+    --get-urlmatch:string # get value specific for the URL: section[.var] URL
+    --replace-all: string # replace all matching variables: name value [value-pattern] 
+    --get-color:string # find the color setting: slot [stdout-is-tty]
+    --get-colorbool:string # find the color configured: slot [default]
+    --add:string # add a new variable: name value
+    --unset:string # remove a variable: name [value-pattern]
+    --unset-all:string # remove all matches: name [value-pattern]
+    --remove-section:string # remove a section: name
+    --rename-section:string # rename section: old-name new-name
+    --comment:string # human-readable comment string (# will be prepended as needed)
+    ] { 
+    
+      bash_yadm gitconfig ...(
         generate_viable_bash_string_flags {
-          continue: $continue,
-          abort:$abort,
-          quit:$quit
-          interactive:$interactive,
-          onto: $onto,
-          root: $root
+            global:$global 
+            local:$local 
+            system:$system 
+            worktree:$worktree 
+            list:$list
+            edit:$edit
+            bool:$bool
+            int:$int
+            bool-or-int:$bool_or_int
+            bool-or-str:$bool_or_str
+            path:$path
+            expiry-date:$expiry_date
+            fixed-value:$fixed_value
+            'null':$null
+            name-only:$name_only
+            includes:$includes
+            show-origin:$show_origin
+            show-scope:$show_scope
+            file:$file
+            blob:$blob
+            get:$get
+            default:$default 
+            get-all:$get_all 
+            get-regexp:$get_regexp 
+            get-urlmatch:$get_urlmatch 
+            get-color:$get_color 
+            get-colorbool:$get_colorbool
+            replace-all:$replace_all 
+            add:$add 
+            unset:$unset 
+            unset-all:$unset_all 
+            remove-section:$remove_section
+            rename-section:$rename_section
+            comment:$comment
+          }
+      )
+    
+  }
+  
+  
+  export module git-crypt  { 
+    
+
+    # Share the repository using GPG
+    export def add-gpg-user [user_id:string] {
+      
+      bash_yadm git-crypt add-gpg-user $user_id
+
+    }
+    
+    # Configure a repository to use git-crypt
+    export def init [] {
+      
+      bash_yadm git-crypt init
+
+    }
+    
+    # Unlock encrypted files
+    export def unlock [] {
+      
+      bash_yadm git-crypt unlock
+
+    }
+
+    # Export a symmetric secret key
+    export def export-key [key_file_path:string] {
+      
+      bash_yadm git-crypt export-key $key_file_path
+ 
+    }
+    
+  }
+  
+  export def transcrypt [
+    --cipher(-c):string #the symmetric cipher to utilize for encryption; defaults to aes-256-cbc
+
+    --password(-p):string # the password to derive the key from; defaults to 30 random base64 characters
+
+    --set-openssl-path:string # use OpenSSL at this path; defaults to 'openssl' in $PATH
+
+    --yes(-y) # assume yes and accept defaults for non-specified options
+
+    --display(-d) # display the current repository's cipher and password
+
+    --rekey(-r) # re-encrypt all encrypted files using new credentials
+
+    --flush-credentials(-f) # remove the locally cached encryption credentials and  re-encrypt any files that had been previously decrypted
+
+    --force(-F) # ignore whether the git directory is clean, proceed with the possibility that uncommitted changes are overwritten
+
+    --uninstall(-u) # remove  all  transcrypt  configuration  from  the repository and leave files in the current working copy decrypted
+
+    --upgrade # uninstall and re-install transcrypt configuration in the repository to apply the newest scripts and .gitattributes configuration
+
+    --list(-l) # list all of the transparently encrypted files in the repository, relative to the top-level directory
+
+    --show-raw(-s):string # show  the  raw file as stored in the git commit object; use this to check if files are encrypted as expected
+
+    --export-gpg(-e):string # export  the  repository's cipher and password to a file encrypted for a gpg recipient
+
+    --import-gpg(-i) #  import the password and cipher from a gpg encrypted file
+
+    --context(-C) # name for a context  with a different passphrase  and cipher from the  'default' context
+
+    --list-contexts # list all contexts configured in the  repository,  and warn about incompletely configured contexts
+
+    --version(-v) # print the version information
+
+    --help(-h) # view this help message
+  ] { 
+    
+  bash_yadm transcrypt (
+      generate_viable_bash_string_flags {
+        cipher:$cipher
+        password:$password
+        set-openssl-path:$set_openssl_path
+        yes:$yes
+        display:$display
+        rekey:$rekey
+        flush-credentials:$flush_credentials
+        force:$force
+        uninstall:$uninstall
+        upgrade:$upgrade
+        show-raw:$show_raw
+        export-gpg:$export_gpg
+        import-gpg:$import_gpg
+        context:$context
+        list-contexts:$list_contexts
+        version:$version
+        help:$help
+      }
+    )
+  
+  }
+  
+  export def alt [file_path:string] { bash_yadm alt $file_path }
+  
+  export def encrypt [] { bash_yadm encrypt }
+  
+  export def decrypt [] { bash_yadm decrypt }
+  
+  export def perms [file_path:string] { bash_yadm perms $file_path }
+  
+  export def bootstrap [] { bash_yadm bootstrap }
+  
+  export def enter [] { bash_yadm enter }
+  
+  export module introspect { 
+    const possible_subjects = [
+      'commands'
+      'repos'
+      'switches'
+      'configs'
+    ]
+
+    def get_completions_for_subject [] {
+        $possible_subjects
+    }
+    
+    export def main [subject:string@get_completions_for_subject, ] {
+      
+      if($subject  not-in $possible_subjects) {
+
+        let joined_possible_subjects = $possible_subjects 
+        | str join ","
+
+        error make {
+          msg: "Invalid Argument",
+          label: "This value is incorrect!"
+          span:(metadata $subject).span
+          help: $"This value ($value) isn't correct the ones are ($joined_possible_subjects). " 
+        }
+      }
+
+      bash_yadm introspect $subject
+      
+    }
+  
+  }
+  
+module git {
+
+
+  export module stash { 
+            
+    export def push [
+      --patch(-p)
+      --staged(-S)
+      --keep-index(-k)
+      --includes(-u)
+      --all
+      --quiet(-q)
+      --message(-m)
+      --pathspec-from-file:path
+      --pathspec-file-nul
+      ...pathspecs:string
+    ] {
+
+      bash_yadm stash push ...$pathspecs ...(
+        generate_viable_bash_string_flags {
+          patch:$patch
+          staged:$staged
+          keep-index:$keep_index
+          includes:$includes
+          all:$all
+          quiet:$quiet
+          message:$message
+          pathspec-from-file:$pathspec_from_file
+          pathspec-file-nul:$pathspec_file_nul
+        }
+      )  
+
+    }
+      
+    export def save [
+      --patch(-p) 
+      --staged(-S) 
+      --keep-index(-k) 
+      --no-keep-index 
+      --include-untracked(-u)
+      --all(-a)
+      --quiet(-q)
+       message?:string
+     ] {
+
+     let viable_bash_string_flags = generate_viable_bash_string_flags {
+                patch:$patch
+                staged: $staged
+                keep-index:$keep_index
+                no-keep-index:$no_keep_index
+                include-untracked:$include_untracked
+                all:$all
+                quiet:$quiet
+                }
+
+      if ($message | describe) != nothing {
+        
+        bash_yadm stash save $message ...$viable_bash_string_flags 
+      }
+
+      bash_yadm stash save ...$viable_bash_string_flags
+    
+    }
+
+
+    export def list [log_options?:string ] {
+
+      if ($log_options | describe) == string  {
+      
+        bash_yadm stash list $log_options 
+        
+      }
+      bash_yadm stash list  
+    }
+ 
+
+  export module show {
+      
+    
+    def get-diff-algorithm-completions [] {
+        ['patience' 'minimal' 'histogram' 'myers']
+    }
+    
+    def get-submodule-completions [] {
+        ['short' 'log' 'diff']
+    }
+
+    def get-color-completions [] {
+        ['never' 'always' 'auto']
+    }
+    
+    def get-color-moved-completions [] {
+        ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
+    }
+
+    def get-color-moved-ws-completions [] {
+        [
+        'no' 
+        'ingore-space-at-eol'
+        'ingore-space-change'
+        'ingore-all-space'
+        'allow-indentation-change'
+        ]
+    }
+
+    def get-word-diff-completions [] {
+        ['color' 'plain' 'porcelain' 'none']
+    }
+
+      export def main [
+        --no-index
+        --cached
+        --merge-base
+        --patch(-p)
+        --no-patch(-s)
+        --unified(-U)
+        --output
+        --output-indicator-new
+        --output-indicator-context
+        --raw
+        --patch-with-raw
+        --indent-heuristic
+        --no-indent-heuristic
+        --minimal
+        --paitence
+        --histogram
+        --anchored
+        --diff-algorithm:string@get-diff-algorithm-completions
+        --stat:string
+        --stat-width:int 
+        --stat-count:int
+        --stat-name-width:string
+        --compact-summary
+        --numstat
+        --shortstat
+        --dirstat(-X):string
+        --cumulative
+        --dirstat-by-file
+        --summary
+        --patch-with-stat
+        --z
+        --name-only
+        --name-status
+        --submodule:string@get-submodule-completions
+        --output
+        --color:string@get-color-completions
+        --no-color
+        --color-moved:string@get-color-moved-completions
+        --no-color-moved
+        --color-moved-ws:string@get-color-moved-ws-completions
+        --no-color-moved-ws
+        --word-diff:string@get-word-diff-completions
+        --word-diff-regex:string
+        --color-words:string
+        --no-renames
+        --no-rename-empty
+        --check
+        --ws-error-highlight:string
+        --full-index
+        --binary
+        --abbrev:string
+        --break-rewrites(-B):string
+        --find-renames(-M):string
+        --find-copies(-C):string
+        --find-copies-harder
+        --irreversible-delete(-D)
+        --l:int
+        --diff-filter:string
+        --S:string
+        --G:string
+        --find-object:string
+        --pickaxe-all
+        --pickaxe-regex
+        --O:string
+        --skip-to:path
+        --rotate-to:path
+        --R
+        --relative:path
+        --no-relative
+        --text(-a)
+        --ignore-cr-at-eol
+        --ignore-space-at-eol
+        --ignore-space-change(-b)
+        --ignore-all-space(-w)
+        --ignore-blank-lines
+        --ignore-matching-lines(-I)
+        --inter-hunk-context:string
+        --function-context(-W)
+        --exit-code
+        --quiet
+        --ext-diff
+        --no-ext-diff
+        --textconv
+        --no-textconv
+        --ignore-submodules:string
+        --src-prefix:string
+        --dst-prefix:string
+        --no-prefix
+        --default-prefix
+        --line-prefix
+        --ita-invisible-in-index
+        --base(-1)
+        --ours(-2)
+        --theirs(-3)
+        --0
+        --include-untracked(-u)
+        --only-untracked 
+        stash?:string
+        ] {
+  
+       let viable_bash_string_flags = generate_viable_bash_string_flags {
+                    no-index:$no_index
+                    cached:$cached
+                    merge-base:$merge_base
+                    patch:$patch
+                    no-patch:$no_patch
+                    unified:$unified
+                    output:$output
+                    output-indicator-new:$output_indicator_new
+                    output-indicator-context:$output_indicator_context
+                    raw:$raw
+                    patch-with-raw:$patch_with_raw
+                    indent-heuristic:$indent_heuristic
+                    no-indent-heuristic:$no_indent_heuristic
+                    minimal:$minimal
+                    paitence:$paitence
+                    histogram:$histogram
+                    anchored:$anchored
+                    diff-algorithm:$diff_algorithm
+                    stat:$stat
+                    stat-width:$stat_width 
+                    stat-count:$stat_count
+                    stat-name-width:$stat_name_width
+                    compact-summary:$compact_summary
+                    numstat:$numstat
+                    shortstat:$shortstat
+                    dirstat:$dirstat
+                    cumulative:$cumulative
+                    dirstat-by-file:$dirstat_by_file
+                    summary:$summary
+                    patch-with-stat:$patch_with_stat
+                    z:$z
+                    name-only:$name_only
+                    name-status:$name_status
+                    submodule:$submodule
+                    output:$output
+                    color:$color
+                    no-color:$no_color
+                    color-moved:$color_moved
+                    no-color-moved:$no_color_moved
+                    color-moved-ws:$color_moved_ws
+                    no-color-moved-ws:$no_color_moved_ws
+                    word-diff:$word_diff
+                    word-diff-regex:$word_diff_regex
+                    color-words:$color_words
+                    no-renames:$no_renames
+                    no-rename-empty:$no_rename_empty
+                    check:$check
+                    ws-error-highlight:$ws_error_highlight
+                    full-index:$full_index
+                    binary:$binary
+                    abbrev:$abbrev
+                    break-rewrites:$break_rewrites
+                    find-renames:$find_renames
+                    find-copies:$find_copies
+                    find-copies-harder:$find_copies_harder
+                    irreversible-delete:$irreversible_delete
+                    l:$l
+                    diff-filter:$diff_filter
+                    S:$S
+                    G:$G
+                    find-object:$find_object
+                    pickaxe-all:$pickaxe_all
+                    pickaxe-regex:$pickaxe_regex
+                    O:$O
+                    skip-to:$skip_to
+                    rotate-to:$rotate_to
+                    R:$R
+                    relative:$relative
+                    no-relative:$no_relative
+                    text:$text
+                    ignore-cr-at-eol:$ignore_cr_at_eol
+                    ignore-space-at-eol:$ignore_space_at_eol
+                    ignore-space-change:$ignore_space_change
+                    ignore-all-space:$ignore_all_space
+                    ignore-blank-lines:$ignore_blank_lines
+                    ignore-matching-lines:$ignore_matching_lines
+                    inter-hunk-context:$inter_hunk_context
+                    function-context:$function_context
+                    exit-code:$exit_code
+                    quiet:$quiet
+                    ext-diff:$ext_diff
+                    no-ext-diff:$no_ext_diff
+                    textconv:$textconv
+                    no-textconv:$no_textconv
+                    ignore-submodules:$ignore_submodules
+                    src-prefix:$src_prefix
+                    dst-prefix:$dst_prefix
+                    no-prefix:$no_prefix
+                    default-prefix:$default_prefix
+                    line-prefix:$line_prefix
+                    ita-invisible-in-index:$ita_invisible_in_index
+                    base:$base
+                    ours:$ours
+                    theirs:$theirs
+                    0:$0
+                    include-untracked:$include_untracked
+                    only-untracked:$only_untracked
+            }
+  
+       if ($stash | describe) != nothing {
+
+         return (bash_yadm stash show $stash ...$viable_bash_string_flags) 
+        
+       }
+  
+      bash_yadm stash show ...$viable_bash_string_flags
+        
+        
+        
+      }
+
+     }
+      
+    export def pop [
+      --index 
+      --quiet(-q) 
+      stash:string 
+    ] {
+
+      bash_yadm stash pop $stash  ...(
+            generate_viable_bash_string_flags {
+                index:$index
+                quiet:$quiet
+             }
+          )
+    
+    }
+      
+    export def apply [
+      --index
+      --quiet(-q) 
+      stash:string
+    ] {
+
+      bash_yadm stash apply $stash ...(
+            generate_viable_bash_string_flags {
+                index:$index
+                quiet:$quiet
+              }
+          )
+
+    }
+      
+    export def branch [branchname:string stash?:string ] {
+
+
+      if ($stash | describe) != nothing {
+              
+        return (bash_yadm stash branch $branchname $stash)  
+
+      }
+
+      bash_yadm stash branch $branchname 
+    
+    
+    }
+      
+    export def clear [param: string, ] {
+      bash_yadm stash clear  
+    }
+      
+    export def drop [--quiet(-q) stash:string ] {
+
+      bash_yadm stash drop $stash ...(
+                  generate_viable_bash_string_flags {
+                      quiet:$quiet
+                    }
+              ) 
+    
+    }
+    
+    export def create [] {
+      bash_yadm stash create  
+    }
+    
+    export def store [] {
+      bash_yadm stash store  
+    }
+      
+  }
+
+
+  export module remote { 
+       
+     export def main [--verbose(-v)] {
+      
+        bash_yadm remote ...(
+          generate_viable_bash_string_flags {
+            verbose:$verbose
+          }
+        )
+     
+      }
+
+
+     export module add {
+
+        def get-mirror-completions [] {
+          ['fetch' 'push']
+        }
+
+        export def main [
+          --t:string 
+          --m:string 
+          --f 
+          --no-tags
+          --tags 
+          --mirror:string@get-mirror-completions
+          name:string
+          url:string
+        ] {
+  
+        bash_yadm remote add $name $url ...(
+          generate_viable_bash_string_flags {
+            t:$t
+            m:$m
+            f:$f
+            no-tags:$no_tags
+            tags:$tags
+            mirror:$mirror
+          }
+        )
+          
+        }
+
+       }
+
+
+      export def rename [
+        --progress 
+        --no-progress  
+        old:string 
+        new:string
+        ] {
+        
+        bash_yadm remote rename $old $new (
+          generate_viable_bash_string_flags {
+            progress:$progress 
+            no-progress:$no_progress
+
+
+          }
+        )
+      
+      }
+
+      export def remove [name: string, ] {
+      
+          bash_yadm remote remove $name
+
+      }
+
+      export def set-head [ 
+        --auto(-a):string
+        --delete(-d):string
+          name:string
+      ] {
+
+      bash_yadm remote set-head $name ...(
+        generate_viable_bash_string_flags {
+          auto:$auto
+          delete:$delete
         }
       )
+        
+      }
+
+      export def set-branches [--add name:string ...branches:string ] {
+        
+        bash_yadm remote set-branches $name ...$branches ...(
+          generate_viable_bash_string_flags {
+            add:$add
+          }
+        )
+
+      }
+
+      export def get-url [--all --push, name:string] {
+        
+        bash_yadm remote get-url $name ...(
+          generate_viable_bash_string_flags { 
+            push:$push
+            all:$all
+          }
+        )
+
+      }
 
 
-}
+      export def set-url [
+      --add
+      --delete
+      --push 
+      name:string 
+      new_url:string 
+      old_url:string 
+      ] {
+        
+        bash_yadm remote set-url $name $new_url $old_url ...(
+          generate_viable_bash_string_flags {
+            add:$add
+            delete:$delete
+            push:$push
+          }
+        )
+      
+      }
 
-# List or change branches
-export def branch [
-  branch?: string@"nu-complete yadm local branches"   # name of branch to operate on
-  --abbrev                                                       # use short commit hash prefixes
-  --edit-description                                             # open editor to edit branch description
-  --merged                                                      # list reachable branches
-  --no-merged                                                    # list unreachable branches
-  --set-upstream-to: string@"nu-complete yadm available upstream" # set upstream for branch
-  --unset-upstream                                               # remote upstream for branch
-  --all                                                          # list both remote and local branches
-  --copy                                                         # copy branch together with config and reflog
-  --format                                                       # specify format for listing branches
-  --move                                                         # rename branch
-  --points-at                                                    # list branches that point at an object
-  --show-current                                                 # print the name of the current branch
-  --verbose                                                      # show commit and upstream for each branch
-  --color                                                        # use color in output
-  --quiet                                                        # suppress messages except errors
-  --delete(-d)                                                   # delete branch
-  --list                                                         # list branches
-  --contains: string@"nu-complete yadm commits all"               # show only branches that contain the specified commit
-  --no-contains                                                  # show only branches that don't contain specified commit
-  --track(-t)                                                    # when creating a branch, set upstream
-] {
+      export def show [--verbose(-v), --n name:string] {
+      
+        bash_yadm remote prune $name ...(
+          generate_viable_bash_string_flags {
+            verbose: $verbose
+            n:$n
+          }
+        )
+
+      }
+      
+      
+      export def prune [--dry-run(-n), ...names:string] {
+      
+        bash_yadm remote prune ...$names ...(
+          generate_viable_bash_string_flags {
+            dry-run: $dry_run
+          }
+        )
+
+      }
 
 
+      export def update [
+        --verbose(-v)
+        --prune(-p)
+      ...groups_or_remotes:string
+        ] {
 
-  if ($branch | describe) != nothing and ($all == true or $list == true) {
+
+        bash_yadm remote update ...$groups_or_remotes ...(
+          generate_viable_bash_string_flags {
+            verbose:$verbose
+            prune:$prune
+          }
+        )
+        
+      }
 
 
-    error make {
-      msg: "The --all or --list flag and a value isn't supposed to passed at the same time",
-      label:{
-        text: "Remove this"
-        span: (metadata $branch).span
-      } 
+      
+  }
+
+  export module worktree { 
+
+      export def add [
+        --f 
+        --detach
+        --checkout
+        --lock
+        --reason:string
+        --orphan
+        --b(-B):string
+        path:string
+        commit_ish?:string
+        ] {
+
+        if ($commit_ish | describe) != nothing {
+
+
+          bash_yadm worktree add $path $commit_ish ...(
+            generate_viable_bash_string_flags {
+              f:$f
+              detach:$detach
+              checkout:$checkout
+              lock:$lock
+              reason:$reason
+              orphan: $orphan
+              b:$b
+
+            }
+          )
+
+        }
+
+
+        bash_yadm worktree add $path ...(
+            generate_viable_bash_string_flags {
+              f:$f
+              detach:$detach
+              checkout:$checkout
+              lock:$lock
+              reason:$reason
+              orphan: $orphan
+              b:$b
+            }
+          )
+
+        
+      }
+
+
+      export def list [-v --porcelain -z ] {
+      
+        bash_yadm worktree list ...(
+          generate_viable_bash_string_flags {
+            v:$v
+            porcelain:$porcelain
+            z:$z
+          }
+        )
+
+      }
+
+      export def lock [--reason worktree: string, ] {
+      
+        bash_yadm worktree lock $worktree ...(
+          generate_viable_bash_string_flags {
+            reason:reason
+          }
+        )
+
+      }
+
+      export def move [worktree:string new_path:string] {
+        
+        bash_yadm worktree move $worktree $new_path 
+      
+      }
+
+      export def prune [--n --v --expire:string] {
+
+        bash_yadm worktree prune ...(
+          generate_viable_bash_string_flags {
+            n:$n
+            v:$v
+            expire:$expire
+          }
+        )
+
+      }
+
+      export def remove [-f worktree:string, ] {
+        
+        bash_yadm worktree remove $worktree ...(
+          generate_viable_bash_string_flags { 
+            f:$f 
+            }
+        ) 
+
+      }
+
+      export def repair [ ...path:string ] {
+        
+        bash_yadm worktree repair ...$path
+
+      }
+
+      export def unlock [worktree:string] {
+        
+        bash_yadm worktree unlock $worktree
+
+      }
+
+
+  }
+
+  export module bisect {
+
+
+    export def start [
+      --term-bad:string
+      --term-new:string
+      --term-good:string
+      --term-old:string
+      --no-checkout
+      --first-parent
+      bad:string
+      good:string
+    ] {
+      
+        bash_yadm bisect start $good $bad ...(
+              generate_viable_bash_string_flags {
+                  term-bad:$term_bad
+                  term-new:term_new
+                  term-good:term_good
+                  term-old:term_old
+                  no-checkout:$no_checkout
+                  first-parent:$first_parent
+              }
+        ) 
+
+    }
+
+
+    export def good [term:string] {
+            
+       bash_yadm bisect good $term
+    
+    }
+    
+    export def old [term:string] {
+            
+       bash_yadm bisect old $term
+    
+    }
+
+    export def bad [term:string] {
+            
+       bash_yadm bisect bad $term
+    
+    }
+    
+    export def new [term:string] {
+            
+       bash_yadm bisect new $term
+    
+    }
+
+    export def terms [
+      --term-bad:string
+      --term-new:string
+      --term-good:string
+      --term-old:string
+    ] {
+        
+        bash_yadm bisect terms ...(
+              generate_viable_bash_string_flags {
+                  term-bad:$term_bad
+                  term-new:term_new
+                  term-good:term_good
+                  term-old:term_old
+              }
+        ) 
+
+    }
+
+    export def skip [rev_or_range:string] {
+            
+        bash_yadm bisect skip $rev_or_range
+    
+    }
+
+    export def visualize [--stat --p] {
+            
+        bash_yadm bisect visualize ...(
+          generate_viable_bash_string_flags {
+            p:$p
+            stat:$stat
+          }
+        ) 
+    
+    }
+
+    export alias view = visualize
+
+    export def replay [logfile:string] {
+            
+      bash_yadm bisect replay $logfile
+    
+    }
+
+    export def log [] {
+            
+      bash_yadm bisect log 
+    
+    }
+
+    export def run [...cmd:string] {
+            
+      bash_yadm bisect run ...$cmd 
+    
+    }
+
+    export def help [] {
+            
+      bash_yadm bisect help 
+    
     }
 
   }
+
+
+  export def add [
+    --verbose(-v) 
+    --dry-run(-n) 
+    --force(-f) 
+    --interactive(-i) 
+    --patch(-p)       
+    --edit(-e)
+    --no-all
+    --all(-A) 
+    --no-ignore-removal
+    --ignore-removal
+    --update(-u) 
+    --sparse               
+    --intent-to-add(-N) 
+    --refresh
+    --ignore-errors 
+    --ignore-missing 
+    --renormalize   
+    --chmod:string 
+    --pathspec-from-file:string 
+    --pathspec-file-nul  
+      ...$pathspecs:string
+  ] {
+
+    bash_yadm add ...$pathspecs  ...(
+      generate_viable_bash_string_flags {
+        verbose:$verbose 
+        dry-run :$dry_run
+        force:$force 
+        interactive:$interactive
+        patch:$patch      
+        edit:$edit
+        no-all:$no_all
+        all:$all 
+        no-ignore-removal:$no_ignore_removal
+        ignore-removal:$ignore_removal
+        update:$update 
+        sparse:$sparse               
+        intent-to-add:$intent_to_add 
+        refresh:$refresh
+        ignore-errors:$ignore_errors 
+        ignore-missing:$ignore_missing 
+        renormalize:$renormalize  
+        chmod:$chmod 
+        pathspec-from-file:$pathspec_from_file 
+        pathspec-file-nul:$pathspec_file_nul
+      }
+    )
   
-  let viable_bash_string_flags = generate_viable_bash_string_flags {
-          abbrev:$abbrev,
-          edit-description: $edit_description, 
-          merged: $merged, 
-          no-merged: $no_merged,
-          set-upstream-to: $set_upstream_to,
-          unset-upstream: $unset_upstream,
-          all: $all,
-          copy: $copy,
-          format: $format,
-          move:$move,
-          points-at: $points_at,
-          show-current: $show_current, 
-          verbose:$verbose
-          color:$color
-          quiet:$quiet
-          delete:$delete
-          list:$list,
-          contains: $contains,
-          no-contains: $no_contains,
-          track: $track
-     }
+  }
 
-
-     if ($all == true or $list == true) {
-
-      return (bash_yadm branch ...$viable_bash_string_flags)
-    }
-     
-
-     bash_yadm branch $branch ...$viable_bash_string_flags
-}
-
-export module remote { 
-
-# List or change tracked repositories
-export def main [
-  --verbose(-v)                            # Show URL for remotes
-] {
-  bash_yadm remote ...(generate_viable_bash_string_flags, {verbose:$verbose})
-}
-
-# Add a new tracked repository
-export def add [remote:string] {
-  bash_yadm remote add $remote
-}
-
-# Rename a tracked repository
-export def rename [
-  remote: string@"nu-complete yadm remotes"             # remote to rename
-  new_name: string                                     # new name for remote
-] {
-  bash_yadm remote rename $remote $new_name
-}
-
-# Remove a tracked repository
-export def remove [
-  remote: string@"nu-complete yadm remotes"             # remote to remove
-] {
-  bash_yadm remove $remote
-}
-
-# Get the URL for a tracked repository
-export def get-url [
-  remote: string@"nu-complete yadm remotes"             # remote to get URL for
-] {
-  bash_yadm remote get-url $remote 
-}
-
-# Set the URL for a tracked repository
-export def set-url [
-  remote: string@"nu-complete yadm remotes"             # remote to set URL for
-  url: string                                          # new URL for remote
-] {
-  bash_yadm remote set-url $remote $url
-}
-
-
-
-}
-
-# Show changes between commits, working tree etc
-export def diff [
-  rev1_or_file?: string@"nu-complete yadm files-or-refs"
-  rev2?: string@"nu-complete yadm refs" 
-  --cached                                             # show staged changes
-  --name-only                                          # only show names of changed files
-  --name-status                                        # show changed files and kind of change
-  --no-color                                           # disable color output
-] {
-
+  export module branch {
     
-    if (($rev1_or_file | describe) == nothing and ($rev2 | describe) == nothing)  {
+  
+  def get-track-completions [] {
+    ['direct' 'inherit']
+  }
+    
+  export def main [
+      --color:string
+      --no-color
+      --show-current
+      --abbrev:string
+      --no-abbrev
+      --column:string
+      --no-column
+      --sort:string
+      --merged:string
+      --no-merged:string
+      --contains:string
+      --no-contains:string
+      --points-at:string
+      --format:string
+      --remotes(-r)
+      --all(-a)
+      --list
+      --pattern
+      --track:string@get-track-completions
+      --no-track
+      --set-upstream-to:string
+      --u:string
+      --unset-upstream
+      --m(-M):string
+      --c(-C):string
+      --d(-D):string
+      --edit-description
+      branch_name?:string
+    ] {
 
-      bash_yadm diff ...(
+
+      let viable_bash_string_flags = generate_viable_bash_string_flags {
+              color:$color
+              no-color:$no_color
+              show-current:$show_current
+              abbrev:$abbrev
+              no-abbrev:$no_abbrev
+              column:$column
+              no-column:$no_column
+              sort:$sort
+              merged:$merged
+              no-merged:$no_merged
+              contains:$contains
+              no-contains:$no_contains
+              points-at:$points_at
+              format:$format
+              remotes:$remotes
+              all:$all
+              list:$list
+              pattern:$pattern
+              track:$track
+              no-track:$no_track
+              set-upsteam-to:$set_upstream_to
+              u:$u
+              unset-upstream:$unset_upstream
+              m:$m
+              c:$c
+              d:$d
+              edit-description:$edit_description
+            }
+
+
+      if (branch_name | describe) != nothing {
+
+        return (bash_yadm branch $branch_name ...$viable_bash_string_flags)
+
+      }
+
+      bash_yadm branch ...$viable_bash_string_flags
+        
+    }
+
+
+   }
+
+
+  export def checkout [
+      --q
+      --f
+      --m
+      --detach
+      --b(-B)
+      --orphan
+      --pathspec-from-file:string
+      --pathspec-file-nul
+      --ours
+      --theirs 
+      --conflict
+      --patch
+     branch:string
+  ] {
+
+    bash_yadm checkout $branch ...(
+      generate_viable_bash_string_flags {
+         q:$q
+         f:$f
+         detach:$detach
+         b:$b
+         orphan:$orphan
+         pathspec-from-file:$pathspec_from_file
+         pathspec-file-nul:$pathspec_file_nul
+         ours:$ours
+         theirs:$theirs
+         patch:$patch
+      }
+    ) 
+  
+  }
+
+
+  export module cherry-pick {
+
+    def get-empty-completions [] {
+        ['drop' 'keep' 'stop']
+    }
+    
+    export def main [
+        --edit(-e)
+        --no-commit(-n)
+        --mainline(-m):string
+        --signoff(-s)
+        --x
+        --cleanup
+        --gpg-sign(-S):string
+        --ff
+        --allow-empty
+        --empty:string@get-empty-completions
+        --allow-empty-message
+        --keep-redundant-commits
+        --strategy:string
+        --strategy-option:string
+        --rerere-autoupdate
+        --no-rerere-autoupdate
+        --continue
+        --skip
+        --quit
+        --abort
+        ...commits:string
+        ] {
+    
+        bash_yadm cherry-pick ...$commits ...(
             generate_viable_bash_string_flags {
-              cached: $cached,
-              name-only: $name_only,
-              name-status: $name_status,
-              no-color: $no_color,
+              edit:$edit
+              no-commit:$no_commit
+              cleanup:$cleanup
+              mainline:$mainline
+              signoff:$signoff
+              x:$x
+              ff:$ff
+              allow-empty:$allow_empty
+              allow-empty-message:$allow_empty_message
+              gpg-sign:$gpg_sign
+              empty:$empty
+              allow-empty:allow_empty
+              allow-empty-message:$allow_empty_message
+              keep-redundant-commits:$keep_redundant_commits
+              strategy:$strategy
+              strategy-option:$strategy_option
+              rerere-autoupdate:$rerere_autoupdate
+              continue:$continue
+              skip:$skip
+              quit:$quit
+              abort:$abort
+            }
+          )
+      
+      }
+
+  }
+
+
+  export def clone [
+    --local(-l)
+    --no-hardlinks
+    --shared(-s)
+    --reference
+    --reference-if-able
+    --disssociate
+    --quiet(-q)
+    --verbose(-v)
+    --progress
+    --server-option:string
+    --no-checkout(-n)
+    --reject-shallow
+    --no-reject-shallow
+    --bare
+    --sparse
+    --filter:string
+    --also-filter-submodules
+    --mirror
+    --origin(-o):string
+    --branch(-b):string
+    --upload-pack(-u):string
+    --template:string
+    --config(-c):string
+    --depth
+    --shallow-since:string
+    --shallow-exclude:string
+    --single-branch
+    --no-single-branch
+    --no-tags
+    --recurse-submodules:string
+    --shalow-submodules
+    --no-shalow-submodules
+    --remote-submodules
+    --no-remote-submodules
+    --separate-git-dir:string
+    --ref-format:string
+    --jobs(-j):int
+    repository:string
+    directory:string
+  ] {
+
+    bash_yadm clone $repository $directory ...(
+      generate_viable_bash_string_flags {
+          local:$local
+          no-hardlinks:$no_hardlinks
+          shared:$shared
+          reference:$reference
+          reference-if-able:$reference_if_able
+          disssociate:$disssociate
+          quiet:$quiet
+          verbose:$verbose
+          progress:$progress
+          server-option:server_option
+          no-checkout:$no_checkout
+          reject-shallow:$reject_shallow
+          no-reject-shallow:$no_reject_shallow
+          bare:$bare
+          sparse:$sparse
+          filter:$filter
+          also-filter-submodules:$also_filter_submodules
+          mirror:$mirror
+          origin:$origin
+          branch:$branch
+          upload-pack:$upload_pack
+          template:$template
+          config:$config
+          depth:$depth
+          shallow-since:$shallow_since
+          shallow-exclude:$shallow_exclude
+          single-branch:$single_branch
+          no-single-branch:$no_single_branch
+          no-tags:$no_tags
+          recurse-submodules:$recurse_submodules
+          shalow-submodules:$shalow_submodules
+          no-shalow-submodules:$no_shalow_submodules
+          remote-submodules:$remote_submodules
+          no-remote-submodules:$no_remote_submodules
+          separate-git-dir:$separate_git_dir
+          ref-format:$ref_format
+          jobs:$jobs
+      }
+    )
+  
+  }
+
+
+  export module commit { 
+
+    def get-fixup-completions [] {
+        ['amend' 'reword'] | each {|value| $"($value):<commit>" }
+    }
+
+    def get-cleanup-completions [] {
+        ['strip' 'whitespace' 'verbatim' 'scissors' 'default']
+    }
+    
+    export def main [
+     --all(-a)
+     --patch(-p)
+     --reuse-message(-c)
+     --reedit-message(-C)
+     --fixup
+     --squash
+     --reset-author
+     --short
+     --branch
+     --porcelain
+     --long
+     --null(-z)
+     --file(-F)
+     --author
+     --date
+     --template(-t):string
+     --signoff
+     --no-signoff
+     --trailer:string
+     --verify
+     --no-verify(-n)
+     --allow-empty
+     --allow-empty-message
+     --cleanup:string@get-cleanup-completions
+     --edit(-e)
+     --no-edit
+     --amend
+     --no-post-rewrite
+     --include(-i)
+     --only(-o)
+     --pathspec-from-file:string
+     --pathspec-file-nul
+     --untracked-files(-u):string
+     --verbose(-v)
+     --quiet(-q)
+     --dry-run
+     --status
+     --no-status
+     --gpg-sign
+     --no-gpg-sign
+     --message(-m):string   
+    ...pathspec:string
+      ] {
+      
+      bash_yadm commit ...$pathspec ...(
+        generate_viable_bash_string_flags {
+          all:$all
+          patch:$patch
+          reuse-message:$reuse_message
+          reedit-message:$reedit_message
+          fixup:$fixup
+          squash:$squash
+          reset-author:$reset_author
+          short:$short
+          branch:$branch
+          porcelain:$porcelain
+          long:$long
+          "null":$null
+          file:$file
+          author:$author
+          date:$date
+          template:$template
+          signoff:$signoff
+          no-signoff:$no_signoff
+          trailer:$trailer
+          verify:$verify
+          no-verify:$no_verify
+          allow-empty:$allow_empty
+          allow-empty-message:$allow_empty_message
+          cleanup:$cleanup
+          edit:$edit
+          no-edit:$no_edit
+          amend:$amend
+          no-post-rewrite:$no_post_rewrite
+          include:$include
+          only:$only
+          pathspec-from-file:$pathspec_from_file
+          pathspec-file-nul:$pathspec_file_nul
+          untracked-files:$untracked_files
+          verbose:$verbose
+          quiet:$quiet
+          dry-run:$dry_run
+          status:$status
+          no-status:$no_status
+          gpg-sign:$gpg_sign
+          no-gpg-sign:$no_gpg_sign
+          message:$message
+        }
+      )  
+    
+    }
+
+}
+
+
+
+export module diff {
+  
+    def get-diff-algorithm-completions [] {
+        ['patience' 'minimal' 'histogram' 'myers']
+    }
+    
+    def get-submodule-completions [] {
+        ['short' 'log' 'diff']
+    }
+
+    def get-color-completions [] {
+        ['never' 'always' 'auto']
+    }
+    
+    def get-color-moved-completions [] {
+        ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
+    }
+
+    def get-color-moved-ws-completions [] {
+        [
+        'no' 
+        'ingore-space-at-eol'
+        'ingore-space-change'
+        'ingore-all-space'
+        'allow-indentation-change'
+        ]
+    }
+
+    def get-word-diff-completions [] {
+        ['color' 'plain' 'porcelain' 'none']
+    }
+
+    export def main [
+      --no-index
+      --cached
+      --merge-base
+      --patch(-p)
+      --no-patch(-s)
+      --unified(-U)
+      --output
+      --output-indicator-new
+      --output-indicator-context
+      --raw
+      --patch-with-raw
+      --indent-heuristic
+      --no-indent-heuristic
+      --minimal
+      --paitence
+      --histogram
+      --anchored
+      --diff-algorithm:string@get-diff-algorithm-completions
+      --stat:string
+      --stat-width:int 
+      --stat-count:int
+      --stat-name-width:string
+      --compact-summary
+      --numstat
+      --shortstat
+      --dirstat(-X):string
+      --cumulative
+      --dirstat-by-file
+      --summary
+      --patch-with-stat
+      --z
+      --name-only
+      --name-status
+      --submodule:string@get-submodule-completions
+      --output
+      --color:string@get-color-completions
+      --no-color
+      --color-moved:string@get-color-moved-completions
+      --no-color-moved
+      --color-moved-ws:string@get-color-moved-ws-completions
+      --no-color-moved-ws
+      --word-diff:string@get-word-diff-completions
+      --word-diff-regex:string
+      --color-words:string
+      --no-renames
+      --no-rename-empty
+      --check
+      --ws-error-highlight:string
+      --full-index
+      --binary
+      --abbrev:string
+      --break-rewrites(-B):string
+      --find-renames(-M):string
+      --find-copies(-C):string
+      --find-copies-harder
+      --irreversible-delete(-D)
+      --l:int
+      --diff-filter:string
+      --S:string
+      --G:string
+      --find-object:string
+      --pickaxe-all
+      --pickaxe-regex
+      --O:string
+      --skip-to:path
+      --rotate-to:path
+      --R
+      --relative:path
+      --no-relative
+      --text(-a)
+      --ignore-cr-at-eol
+      --ignore-space-at-eol
+      --ignore-space-change(-b)
+      --ignore-all-space(-w)
+      --ignore-blank-lines
+      --ignore-matching-lines(-I)
+      --inter-hunk-context:string
+      --function-context(-W)
+      --exit-code
+      --quiet
+      --ext-diff
+      --no-ext-diff
+      --textconv
+      --no-textconv
+      --ignore-submodules:string
+      --src-prefix:string
+      --dst-prefix:string
+      --no-prefix
+      --default-prefix
+      --line-prefix
+      --ita-invisible-in-index
+      --base(-1)
+      --ours(-2)
+      --theirs(-3)
+      --0
+      ...rest:string
+      
+      ] {
+
+      bash_yadm diff ...$rest ...(
+        generate_viable_bash_string_flags {
+            no-index:$no_index
+            cached:$cached
+            merge-base:$merge_base
+            patch:$patch
+            no-patch:$no_patch
+            unified:$unified
+            output:$output
+            output-indicator-new:$output_indicator_new
+            output-indicator-context:$output_indicator_context
+            raw:$raw
+            patch-with-raw:$patch_with_raw
+            indent-heuristic:$indent_heuristic
+            no-indent-heuristic:$no_indent_heuristic
+            minimal:$minimal
+            paitence:$paitence
+            histogram:$histogram
+            anchored:$anchored
+            diff-algorithm:$diff_algorithm
+            stat:$stat
+            stat-width:$stat_width 
+            stat-count:$stat_count
+            stat-name-width:$stat_name_width
+            compact-summary:$compact_summary
+            numstat:$numstat
+            shortstat:$shortstat
+            dirstat:$dirstat
+            cumulative:$cumulative
+            dirstat-by-file:$dirstat_by_file
+            summary:$summary
+            patch-with-stat:$patch_with_stat
+            z:$z
+            name-only:$name_only
+            name-status:$name_status
+            submodule:$submodule
+            color:$color
+            no-color:$no_color
+            color-moved:$color_moved
+            no-color-moved:$no_color_moved
+            color-moved-ws:$color_moved_ws
+            no-color-moved-ws:$no_color_moved_ws
+            word-diff:$word_diff
+            word-diff-regex:$word_diff_regex
+            color-words:$color_words
+            no-renames:$no_renames
+            no-rename-empty:$no_rename_empty
+            check:$check
+            ws-error-highlight:$ws_error_highlight
+            full-index:$full_index
+            binary:$binary
+            abbrev:$abbrev
+            break-rewrites:$break_rewrites
+            find-renames:$find_renames
+            find-copies:$find_copies
+            find-copies-harder:$find_copies_harder
+            irreversible-delete:$irreversible_delete
+            l:$l
+            diff-filter:$diff_filter
+            S:$S
+            G:$G
+            find-object:$find_object
+            pickaxe-all:$pickaxe_all
+            pickaxe-regex:$pickaxe_regex
+            O:$O
+            skip-to:$skip_to
+            rotate-to:$rotate_to
+            R:$R
+            relative:$relative
+            no-relative:$no_relative
+            text:$text
+            ignore-cr-at-eol:$ignore_cr_at_eol
+            ignore-space-at-eol:$ignore_space_at_eol
+            ignore-space-change:$ignore_space_change
+            ignore-all-space:$ignore_all_space
+            ignore-blank-lines:$ignore_blank_lines
+            ignore-matching-lines:$ignore_matching_lines
+            inter-hunk-context:$inter_hunk_context
+            function-context:$function_context
+            exit-code:$exit_code
+            quiet:$quiet
+            ext-diff:$ext_diff
+            no-ext-diff:$no_ext_diff
+            textconv:$textconv
+            no-textconv:$no_textconv
+            ignore-submodules:$ignore_submodules
+            src-prefix:$src_prefix
+            dst-prefix:$dst_prefix
+            no-prefix:$no_prefix
+            default-prefix:$default_prefix
+            line-prefix:$line_prefix
+            ita-invisible-in-index:$ita_invisible_in_index
+            base:$base
+            ours:$ours
+            theirs:$theirs
+            0:$0 
+        }
+      )
+    
+      }
+ }
+
+
+
+ 
+}
+
+
+export module grep { 
+
+
+    def get-color-completions [] {
+        ['never' 'auto']
+    }
+
+   export def main [
+     --cached
+     --untracked
+     --no-index
+     --exclude-standard
+     --no-exclude-standard
+     --recurse-submodules
+     --text(-a)
+     --textconv  
+     --no-textconv
+     --ignore-case(-i)
+     -I
+     --max-depth:int
+     --recursive(-r):int
+     --no-recursive
+     --word-group(-w)
+     --invert-match(-v)
+     --h(-H)
+     --full-name
+     --basic-regexp(-G)
+     --extended-regexp(-E)
+     --perl-regexp(-P)
+     --fixed-strings(-F)
+     --line-number(-n)
+     --column
+     --files-with-machines(-l)
+     --name-only(-L)
+     --files-without-match
+     --open-files-in-pager(-O)
+     --null(-z)
+     --only-matching(-o)
+     --count(-c)
+     --color:string@get-color-completions
+     --no-color
+     --break
+     --heading
+     --show-function(-p)
+     --context(-C):int
+     --after-context(-A):int
+     --before-context(-B):int
+     --function-context(-W)
+     --max-count(-m):int
+     --threads:int
+     -f:string
+     -e
+     --and 
+     --or
+     --not
+     --all-match
+     --quiet(-q)
+     ...$rest:string
+   ] {
+   
+     bash_yadm grep ...$rest ...(
+      generate_viable_bash_string_flags {
+        cached:$cached
+        untracked:$untracked
+        no-index:$no_index
+        exclude-standard:$exclude_standard
+        no-exclude-standard:$no_exclude_standard
+        recurse-submodules:$recurse_submodules
+        text:$text
+        textconv:$textconv  
+        no-textconv:$no_textconv
+        ignore-case:$ignore_case
+        I:$I
+        max-depth:$max_depth
+        recursive:$recursive
+        no-recursive:$no_recursive
+        word-group:$word_group
+        invert-match:$invert_match
+        h:$h
+        full-name:$full_name
+        basic-regexp:$basic_regexp
+        extended-regexp:$extended_regexp
+        perl-regexp:$perl_regexp
+        fixed-strings:$fixed_strings
+        line-number:$line_number
+        column:$column
+        files-with-machines:$files_with_machines
+        name-only:$name_only
+        files-without-match:$files_without_match
+        open-files-in-pager:$open_files_in_pager
+        'null':$null
+        only-matching:$only_matching
+        count:$count
+        color:$color
+        no-color:$no_color
+        break:$break
+        heading:$heading
+        show-function:$show_function
+        context:$context
+        after-context:$after_context
+        before-context:$before_context
+        function-context:$function_context
+        max-count:$max_count
+        threads:$threads
+        f:$f
+        e:$e
+        and:$and 
+        or:$or
+        not:$not
+        all-match:$all_match
+        quiet:$quiet
+      }
+     )
+   
+}
+
+
+ export module log { 
+
+  def get-decorate-completions [] {
+     ['short' 'full' 'auto' 'no']
+  }
+
+  def get-exclude-hidden-completions [] {
+      ['fetch' 'receive' 'uploadpack']
+  }
+
+  def get-no-walk-completions [] {
+      ['sorted' 'unsorted']
+  }
+
+  def get-pretty-completions [] {
+      [
+        'oneline',
+        'short',
+        'medium',
+        'full',
+        'fuller',
+        'reference',
+        'email',
+        'mxboard',
+        raw
+      ]
+  }
+
+  def get-date-completions [] {
+      [
+        'relative'
+        'local'
+        'iso'
+        'iso-strict'
+        'rfc'
+        'short'
+        'raw'
+        'human'
+        'unix'
+        'default'
+      ]
+  }
+
+  def get-diff-merges-completions [] {
+      [
+        'off'
+        'none'
+        'on'
+        'm'
+        'first-parent'
+        '1'
+        'separate'
+        'combined'
+        'c'
+        'dense-combined'
+        'cc'
+        'remerge'
+        'r'
+      ]
+  }
+
+  def get-diff-algorithm-completions [] {
+      ['patience' 'minimal' 'histogram' 'myers']
+  }
+
+  def get-submodule-completions [] {
+      ['short' 'log' 'diff']
+  }
+
+    def get-color-completions [] {
+       ['never' 'always' 'auto']
+  }
+    
+  def get-color-moved-completions [] {
+      ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
+  }
+
+  def get-color-moved-ws-completions [] {
+      [
+      'no' 
+      'ingore-space-at-eol'
+      'ingore-space-change'
+      'ingore-all-space'
+      'allow-indentation-change'
+      ]
+  }
+
+  def get-word-diff-completions [] {
+    ['color' 'plain' 'porcelain' 'none']
+  }
+
+   export def main [
+     --follow
+     --decorate:string@get-decorate-completions
+     --no-decorate
+     --decoate-refs:string
+     --decorate-refs-exclude:string
+     --clear-decorations
+     --source
+     --mailmap
+     --no-mailmap
+     --use-mailmap
+     --no-use-mailmap
+     --full-diff
+     --log-size
+     -L:string
+     -n:int
+     --max-count:int
+     --skip:int
+     --since:string
+     --after:string
+     --since-as-filter:string
+     --until:string
+     --before:string
+     --author:string
+     --grep-reflog:string
+     --grep:string
+     --all-match
+     --invert-grep
+     --regexp-ignore-case(-i)
+     --basic-regexp
+     --extended-regexp(-E)
+     --fixed-strings(-F)
+     --perl-regexp(-P)
+     --remove-empty
+     --merges
+     --no-merges
+     --min-parents:int
+     --no-min-parents
+     --max-parents:int
+     --no-max-parents
+     --first-parent
+     --exclude-first-parent-only
+     --all
+     --branches:string
+     --tags:string
+     --remotes:string
+     --glob:glob
+     --exclude:glob
+     --exclude-hidden:string@get-exclude-hidden-completions
+     --reflog:string
+     --alternate-refs
+     --single-worktree
+     --ignore-missing
+     --bisect
+     --stdin
+     --cherry-mark
+     --cherry-pick
+     --left-only
+     --right-only
+     --cherry
+     --walk-reflogs(-g)
+     --merge
+     --boundary
+     --simplify-by-decoration
+     --show-pulls
+     --full-history
+     --dense
+     --sparse
+     --simplify-merges
+     --ancestry-path:string
+     --date-order
+     --author-date-order
+     --topo-order
+     --no-walk:string@get-no-walk-completions
+     --do-walk
+     --pretty:string@get-pretty-completions
+     --format:string@get-pretty-completions
+     --abbrev-commit
+     --no-abbrev-commit
+     --oneline
+     --encoding:string
+     --expand-tabs:int
+     --no-expand-tabs
+     --notes:string
+     --no-notes
+     --show-notes-by-default
+     --show-notes:string
+     --standard-notes
+     --no-standard-notes
+     --show-signature
+     --relative-date
+     --date:string@get-date-completions
+     --parents
+     --children
+     --left-right
+     --graph
+     --show-linear-break:string
+     --patch(-p)
+     --patch(-u)
+     --no-patch(-s)
+     -m
+     -c
+     --cc
+     --dd
+     --remerge-diff
+     --no-diff-merges
+     --diff-merges:string@get-diff-merges-completions
+     --combined-all-paths
+     --unified(-U)
+      --output
+      --output-indicator-new
+      --output-indicator-context
+      --raw
+      --patch-with-raw
+      --indent-heuristic
+      --no-indent-heuristic
+      --minimal
+      --paitence
+      --histogram
+      --anchored
+      --diff-algorithm:string@get-diff-algorithm-completions
+      --stat:string
+      --stat-width:int 
+      --stat-count:int
+      --stat-name-width:string
+      --compact-summary
+      --numstat
+      --shortstat
+      --dirstat(-X):string
+      --cumulative
+      --dirstat-by-file
+      --summary
+      --patch-with-stat
+      --z
+      --name-only
+      --name-status
+      --submodule:string@get-submodule-completions
+      --output
+      --color:string@get-color-completions
+      --no-color
+      --color-moved:string@get-color-moved-completions
+      --no-color-moved
+      --color-moved-ws:string@get-color-moved-ws-completions
+      --no-color-moved-ws
+      --word-diff:string@get-word-diff-completions
+      --word-diff-regex:string
+      --color-words:string
+      --no-renames
+      --no-rename-empty
+      --check
+      --ws-error-highlight:string
+      --full-index
+      --binary
+      --abbrev:string
+      --break-rewrites(-B):string
+      --find-renames(-M):string
+      --find-copies(-C):string
+      --find-copies-harder
+      --irreversible-delete(-D)
+      --l:int
+      --diff-filter:string
+      --S:string
+      --G:string
+      --find-object:string
+      --pickaxe-all
+      --pickaxe-regex
+      --O:string
+      --skip-to:path
+      --rotate-to:path
+      --R
+      --relative:path
+      --no-relative
+      --text(-a)
+      --ignore-cr-at-eol
+      --ignore-space-at-eol
+      --ignore-space-change(-b)
+      --ignore-all-space(-w)
+      --ignore-blank-lines
+      --ignore-matching-lines(-I)
+      --inter-hunk-context:string
+      --function-context(-W)
+      --exit-code
+      --ext-diff
+      --no-ext-diff
+      --textconv
+      --no-textconv
+      --ignore-submodules:string
+      --src-prefix:string
+      --dst-prefix:string
+      --no-prefix
+      --default-prefix
+      --line-prefix
+      --ita-invisible-in-index
+      ...rest
+     ] {
+       
+     bash_yadm log ...$rest ...(
+        generate_viable_bash_string_flags {
+            follow:$follow
+            decorate:$decorate
+            no-decorate:$no_decorate
+            decoate-refs:$decoate_refs
+            decorate-refs-exclude:$decorate_refs_exclude
+            clear-decorations:$clear_decorations
+            source:$source
+            mailmap:$mailmap
+            no-mailmap:$no_mailmap
+            use-mailmap:$use_mailmap
+            no-use-mailmap:$no_use_mailmap
+            full-diff:$full_diff
+            log-size:$log_size
+            L:$L
+            n:$n
+            max-count:$max_count
+            skip:$skip
+            since:$since
+            after:$after
+            since-as-filter:$since_as_filter
+            until:$until
+            before:$before
+            author:$author
+            grep-reflog:$grep_reflog
+            grep:$grep
+            all-match:$all_match
+            invert-grep:$invert_grep
+            regexp-ignore-case:$regexp_ignore_case
+            basic-regexp:$basic_regexp
+            extended-regexp:$extended_regexp
+            fixed-strings:$fixed_strings
+            perl-regexp:$perl_regexp
+            remove-empty:$remove_empty
+            merges:$merges
+            no-merges:$no_merges
+            min-parents:$min_parents
+            no-min-parents:$no_min_parents
+            max-parents:$max_parents
+            no-max-parents:$no_max_parents
+            first-parent:$first_parent
+            exclude-first-parent-only:$exclude_first_parent_only
+            all:$all
+            branches:$branches
+            tags:$tags
+            remotes:$remotes
+            glob:$glob
+            exclude:$exclude
+            exclude-hidden:$exclude_hidden
+            reflog:$reflog
+            alternate-refs:$alternate_refs
+            single-worktree:$single_worktree
+            ignore-missing:$ignore_missing
+            bisect:$bisect
+            stdin:$stdin
+            cherry-mark:$cherry_mark
+            cherry-pick:$cherry_pick
+            left-only:$left_only
+            right-only:$right_only
+            cherry:$cherry
+            walk-reflogs:$walk_reflogs
+            merge:$merge
+            boundary:$boundary
+            simplify-by-decoration:$simplify_by_decoration
+            show-pulls:$show_pulls
+            full-history:$full_history
+            dense:$dense
+            sparse:$sparse
+            simplify-merges:$simplify_merges
+            ancestry-path:$ancestry_path
+            date-order:$date_order
+            author-date-order:$author_date_order
+            topo-order:$topo_order
+            no-walk:$no_walk
+            do-walk:$do_walk
+            pretty:$pretty
+            format:$format
+            abbrev-commit:$abbrev_commit
+            no-abbrev-commit:$no_abbrev_commit
+            oneline:$oneline
+            encoding:$encoding
+            expand-tabs:$expand_tabs
+            no-expand-tabs:$no_expand_tabs
+            notes:$notes
+            no-notes:$no_notes
+            show-notes-by-default:$show_notes_by_default
+            show-notes:$show_notes
+            standard-notes:$standard_notes
+            no-standard-notes:$no_standard_notes
+            show-signature:$show_signature
+            relative-date:$relative_date
+            date:$date
+            parents:$parents
+            children:$children
+            left-right:$left_right
+            graph:$graph
+            show-linear-break:$show_linear_break
+            m:$m
+            c:$c
+            cc:$cc
+            dd:$dd
+            remerge-diff:$remerge_diff
+            no-diff-merges:$no_diff_merges
+            diff-merges:$diff_merges
+            combined-all-paths:$combined_all_paths
+            patch:$patch
+            no-patch:$no_patch
+            unified:$unified
+            output:$output
+            output-indicator-new:$output_indicator_new
+            output-indicator-context:$output_indicator_context
+            raw:$raw
+            patch-with-raw:$patch_with_raw
+            indent-heuristic:$indent_heuristic
+            no-indent-heuristic:$no_indent_heuristic
+            minimal:$minimal
+            paitence:$paitence
+            histogram:$histogram
+            anchored:$anchored
+            diff-algorithm:$diff_algorithm
+            stat:$stat
+            stat-width:$stat_width 
+            stat-count:$stat_count
+            stat-name-width:$stat_name_width
+            compact-summary:$compact_summary
+            numstat:$numstat
+            shortstat:$shortstat
+            dirstat:$dirstat
+            cumulative:$cumulative
+            dirstat-by-file:$dirstat_by_file
+            summary:$summary
+            patch-with-stat:$patch_with_stat
+            z:$z
+            name-only:$name_only
+            name-status:$name_status
+            submodule:$submodule
+            color:$color
+            no-color:$no_color
+            color-moved:$color_moved
+            no-color-moved:$no_color_moved
+            color-moved-ws:$color_moved_ws
+            no-color-moved-ws:$no_color_moved_ws
+            word-diff:$word_diff
+            word-diff-regex:$word_diff_regex
+            color-words:$color_words
+            no-renames:$no_renames
+            no-rename-empty:$no_rename_empty
+            check:$check
+            ws-error-highlight:$ws_error_highlight
+            full-index:$full_index
+            binary:$binary
+            abbrev:$abbrev
+            break-rewrites:$break_rewrites
+            find-renames:$find_renames
+            find-copies:$find_copies
+            find-copies-harder:$find_copies_harder
+            irreversible-delete:$irreversible_delete
+            l:$l
+            diff-filter:$diff_filter
+            S:$S
+            G:$G
+            find-object:$find_object
+            pickaxe-all:$pickaxe_all
+            pickaxe-regex:$pickaxe_regex
+            O:$O
+            skip-to:$skip_to
+            rotate-to:$rotate_to
+            R:$R
+            relative:$relative
+            no-relative:$no_relative
+            text:$text
+            ignore-cr-at-eol:$ignore_cr_at_eol
+            ignore-space-at-eol:$ignore_space_at_eol
+            ignore-space-change:$ignore_space_change
+            ignore-all-space:$ignore_all_space
+            ignore-blank-lines:$ignore_blank_lines
+            ignore-matching-lines:$ignore_matching_lines
+            inter-hunk-context:$inter_hunk_context
+            function-context:$function_context
+            exit-code:$exit_code
+            ext-diff:$ext_diff
+            no-ext-diff:$no_ext_diff
+            textconv:$textconv
+            no-textconv:$no_textconv
+            ignore-submodules:$ignore_submodules
+            src-prefix:$src_prefix
+            dst-prefix:$dst_prefix
+            no-prefix:$no_prefix
+            default-prefix:$default_prefix
+            line-prefix:$line_prefix
+            ita-invisible-in-index:$ita_invisible_in_index
+        }
+      )
+   
+    }
+
+  }
+
+ export module reflog {
+
+  def get-decorate-completions [] {
+      ['short' 'full' 'auto' 'no']
+  }
+
+  def get-exclude-hidden-completions [] {
+      ['fetch' 'receive' 'uploadpack']
+  }
+
+  def get-no-walk-completions [] {
+      ['sorted' 'unsorted']
+  }
+
+  def get-pretty-completions [] {
+      [
+        'oneline',
+        'short',
+        'medium',
+        'full',
+        'fuller',
+        'reference',
+        'email',
+        'mxboard',
+        raw
+      ]
+  }
+
+  def get-date-completions [] {
+      [
+        'relative'
+        'local'
+        'iso'
+        'iso-strict'
+        'rfc'
+        'short'
+        'raw'
+        'human'
+        'unix'
+        'default'
+      ]
+  }
+
+  def get-diff-merges-completions [] {
+      [
+        'off'
+        'none'
+        'on'
+        'm'
+        'first-parent'
+        '1'
+        'separate'
+        'combined'
+        'c'
+        'dense-combined'
+        'cc'
+        'remerge'
+        'r'
+
+      ]
+  }
+
+  def get-diff-algorithm-completions [] {
+      ['patience' 'minimal' 'histogram' 'myers']
+    }
+
+  def get-submodule-completions [] {
+      ['short' 'log' 'diff']
+    }
+
+    def get-color-completions [] {
+       ['never' 'always' 'auto']  
+    }
+    
+    def get-color-moved-completions [] {
+        ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
+    }
+
+    def get-color-moved-ws-completions [] {
+        [
+        'no' 
+        'ingore-space-at-eol'
+        'ingore-space-change'
+        'ingore-all-space'
+        'allow-indentation-change'
+        ]
+    }
+
+    def get-word-diff-completions [] {
+        ['color' 'plain' 'porcelain' 'none']
+    }
+
+   export def main [
+     --follow
+     --decorate:string@get-decorate-completions
+     --no-decorate
+     --decoate-refs:string
+     --decorate-refs-exclude:string
+     --clear-decorations
+     --source
+     --mailmap
+     --no-mailmap
+     --use-mailmap
+     --no-use-mailmap
+     --full-diff
+     --log-size
+     -L:string
+     -n:int
+     --max-count:int
+     --skip:int
+     --since:string
+     --after:string
+     --since-as-filter:string
+     --until:string
+     --before:string
+     --author:string
+     --grep-reflog:string
+     --grep:string
+     --all-match
+     --invert-grep
+     --regexp-ignore-case(-i)
+     --basic-regexp
+     --extended-regexp(-E)
+     --fixed-strings(-F)
+     --perl-regexp(-P)
+     --remove-empty
+     --merges
+     --no-merges
+     --min-parents:int
+     --no-min-parents
+     --max-parents:int
+     --no-max-parents
+     --first-parent
+     --exclude-first-parent-only
+     --all
+     --branches:string
+     --tags:string
+     --remotes:string
+     --glob:glob
+     --exclude:glob
+     --exclude-hidden:string@get-exclude-hidden-completions
+     --reflog:string
+     --alternate-refs
+     --single-worktree
+     --ignore-missing
+     --bisect
+     --stdin
+     --cherry-mark
+     --cherry-pick
+     --left-only
+     --right-only
+     --cherry
+     --walk-reflogs(-g)
+     --merge
+     --boundary
+     --simplify-by-decoration
+     --show-pulls
+     --full-history
+     --dense
+     --sparse
+     --simplify-merges
+     --ancestry-path:string
+     --date-order
+     --author-date-order
+     --topo-order
+     --no-walk:string@get-no-walk-completions
+     --do-walk
+     --pretty:string@get-pretty-completions
+     --format:string@get-pretty-completions
+     --abbrev-commit
+     --no-abbrev-commit
+     --oneline
+     --encoding:string
+     --expand-tabs:int
+     --no-expand-tabs
+     --notes:string
+     --no-notes
+     --show-notes-by-default
+     --show-notes:string
+     --standard-notes
+     --no-standard-notes
+     --show-signature
+     --relative-date
+     --date:string@get-date-completions
+     --parents
+     --children
+     --left-right
+     --graph
+     --show-linear-break:string
+     --patch(-p)
+     --patch(-u)
+     --no-patch(-s)
+     -m
+     -c
+     --cc
+     --dd
+     --remerge-diff
+     --no-diff-merges
+     --diff-merges:string@get-diff-merges-completions
+     --combined-all-paths
+     --unified(-U)
+      --output
+      --output-indicator-new
+      --output-indicator-context
+      --raw
+      --patch-with-raw
+      --indent-heuristic
+      --no-indent-heuristic
+      --minimal
+      --paitence
+      --histogram
+      --anchored
+      --diff-algorithm:string@get-diff-algorithm-completions
+      --stat:string
+      --stat-width:int 
+      --stat-count:int
+      --stat-name-width:string
+      --compact-summary
+      --numstat
+      --shortstat
+      --dirstat(-X):string
+      --cumulative
+      --dirstat-by-file
+      --summary
+      --patch-with-stat
+      --z
+      --name-only
+      --name-status
+      --submodule:string@get-submodule-completions
+      --output
+      --color:string@get-color-completions
+      --no-color
+      --color-moved:string@get-color-moved-completions
+      --no-color-moved
+      --color-moved-ws:string@get-color-moved-ws-completions
+      --no-color-moved-ws
+      --word-diff:string@get-word-diff-completions
+      --word-diff-regex:string
+      --color-words:string
+      --no-renames
+      --no-rename-empty
+      --check
+      --ws-error-highlight:string
+      --full-index
+      --binary
+      --abbrev:string
+      --break-rewrites(-B):string
+      --find-renames(-M):string
+      --find-copies(-C):string
+      --find-copies-harder
+      --irreversible-delete(-D)
+      --l:int
+      --diff-filter:string
+      --S:string
+      --G:string
+      --find-object:string
+      --pickaxe-all
+      --pickaxe-regex
+      --O:string
+      --skip-to:path
+      --rotate-to:path
+      --R
+      --relative:path
+      --no-relative
+      --text(-a)
+      --ignore-cr-at-eol
+      --ignore-space-at-eol
+      --ignore-space-change(-b)
+      --ignore-all-space(-w)
+      --ignore-blank-lines
+      --ignore-matching-lines(-I)
+      --inter-hunk-context:string
+      --function-context(-W)
+      --exit-code
+      --ext-diff
+      --no-ext-diff
+      --textconv
+      --no-textconv
+      --ignore-submodules:string
+      --src-prefix:string
+      --dst-prefix:string
+      --no-prefix
+      --default-prefix
+      --line-prefix
+      --ita-invisible-in-index
+      ...rest
+     ] {
+       
+     bash_yadm reflog ...$rest ...(
+        generate_viable_bash_string_flags {
+            follow:$follow
+            decorate:$decorate
+            no-decorate:$no_decorate
+            decoate-refs:$decoate_refs
+            decorate-refs-exclude:$decorate_refs_exclude
+            clear-decorations:$clear_decorations
+            source:$source
+            mailmap:$mailmap
+            no-mailmap:$no_mailmap
+            use-mailmap:$use_mailmap
+            no-use-mailmap:$no_use_mailmap
+            full-diff:$full_diff
+            log-size:$log_size
+            L:$L
+            n:$n
+            max-count:$max_count
+            skip:$skip
+            since:$since
+            after:$after
+            since-as-filter:$since_as_filter
+            until:$until
+            before:$before
+            author:$author
+            grep-reflog:$grep_reflog
+            grep:$grep
+            all-match:$all_match
+            invert-grep:$invert_grep
+            regexp-ignore-case:$regexp_ignore_case
+            basic-regexp:$basic_regexp
+            extended-regexp:$extended_regexp
+            fixed-strings:$fixed_strings
+            perl-regexp:$perl_regexp
+            remove-empty:$remove_empty
+            merges:$merges
+            no-merges:$no_merges
+            min-parents:$min_parents
+            no-min-parents:$no_min_parents
+            max-parents:$max_parents
+            no-max-parents:$no_max_parents
+            first-parent:$first_parent
+            exclude-first-parent-only:$exclude_first_parent_only
+            all:$all
+            branches:$branches
+            tags:$tags
+            remotes:$remotes
+            glob:$glob
+            exclude:$exclude
+            exclude-hidden:$exclude_hidden
+            reflog:$reflog
+            alternate-refs:$alternate_refs
+            single-worktree:$single_worktree
+            ignore-missing:$ignore_missing
+            bisect:$bisect
+            stdin:$stdin
+            cherry-mark:$cherry_mark
+            cherry-pick:$cherry_pick
+            left-only:$left_only
+            right-only:$right_only
+            cherry:$cherry
+            walk-reflogs:$walk_reflogs
+            merge:$merge
+            boundary:$boundary
+            simplify-by-decoration:$simplify_by_decoration
+            show-pulls:$show_pulls
+            full-history:$full_history
+            dense:$dense
+            sparse:$sparse
+            simplify-merges:$simplify_merges
+            ancestry-path:$ancestry_path
+            date-order:$date_order
+            author-date-order:$author_date_order
+            topo-order:$topo_order
+            no-walk:$no_walk
+            do-walk:$do_walk
+            pretty:$pretty
+            format:$format
+            abbrev-commit:$abbrev_commit
+            no-abbrev-commit:$no_abbrev_commit
+            oneline:$oneline
+            encoding:$encoding
+            expand-tabs:$expand_tabs
+            no-expand-tabs:$no_expand_tabs
+            notes:$notes
+            no-notes:$no_notes
+            show-notes-by-default:$show_notes_by_default
+            show-notes:$show_notes
+            standard-notes:$standard_notes
+            no-standard-notes:$no_standard_notes
+            show-signature:$show_signature
+            relative-date:$relative_date
+            date:$date
+            parents:$parents
+            children:$children
+            left-right:$left_right
+            graph:$graph
+            show-linear-break:$show_linear_break
+            m:$m
+            c:$c
+            cc:$cc
+            dd:$dd
+            remerge-diff:$remerge_diff
+            no-diff-merges:$no_diff_merges
+            diff-merges:$diff_merges
+            combined-all-paths:$combined_all_paths
+            patch:$patch
+            no-patch:$no_patch
+            unified:$unified
+            output:$output
+            output-indicator-new:$output_indicator_new
+            output-indicator-context:$output_indicator_context
+            raw:$raw
+            patch-with-raw:$patch_with_raw
+            indent-heuristic:$indent_heuristic
+            no-indent-heuristic:$no_indent_heuristic
+            minimal:$minimal
+            paitence:$paitence
+            histogram:$histogram
+            anchored:$anchored
+            diff-algorithm:$diff_algorithm
+            stat:$stat
+            stat-width:$stat_width 
+            stat-count:$stat_count
+            stat-name-width:$stat_name_width
+            compact-summary:$compact_summary
+            numstat:$numstat
+            shortstat:$shortstat
+            dirstat:$dirstat
+            cumulative:$cumulative
+            dirstat-by-file:$dirstat_by_file
+            summary:$summary
+            patch-with-stat:$patch_with_stat
+            z:$z
+            name-only:$name_only
+            name-status:$name_status
+            submodule:$submodule
+            color:$color
+            no-color:$no_color
+            color-moved:$color_moved
+            no-color-moved:$no_color_moved
+            color-moved-ws:$color_moved_ws
+            no-color-moved-ws:$no_color_moved_ws
+            word-diff:$word_diff
+            word-diff-regex:$word_diff_regex
+            color-words:$color_words
+            no-renames:$no_renames
+            no-rename-empty:$no_rename_empty
+            check:$check
+            ws-error-highlight:$ws_error_highlight
+            full-index:$full_index
+            binary:$binary
+            abbrev:$abbrev
+            break-rewrites:$break_rewrites
+            find-renames:$find_renames
+            find-copies:$find_copies
+            find-copies-harder:$find_copies_harder
+            irreversible-delete:$irreversible_delete
+            l:$l
+            diff-filter:$diff_filter
+            S:$S
+            G:$G
+            find-object:$find_object
+            pickaxe-all:$pickaxe_all
+            pickaxe-regex:$pickaxe_regex
+            O:$O
+            skip-to:$skip_to
+            rotate-to:$rotate_to
+            R:$R
+            relative:$relative
+            no-relative:$no_relative
+            text:$text
+            ignore-cr-at-eol:$ignore_cr_at_eol
+            ignore-space-at-eol:$ignore_space_at_eol
+            ignore-space-change:$ignore_space_change
+            ignore-all-space:$ignore_all_space
+            ignore-blank-lines:$ignore_blank_lines
+            ignore-matching-lines:$ignore_matching_lines
+            inter-hunk-context:$inter_hunk_context
+            function-context:$function_context
+            exit-code:$exit_code
+            ext-diff:$ext_diff
+            no-ext-diff:$no_ext_diff
+            textconv:$textconv
+            no-textconv:$no_textconv
+            ignore-submodules:$ignore_submodules
+            src-prefix:$src_prefix
+            dst-prefix:$dst_prefix
+            no-prefix:$no_prefix
+            default-prefix:$default_prefix
+            line-prefix:$line_prefix
+            ita-invisible-in-index:$ita_invisible_in_index
+        }
+      )
+   
+  }
+
+
+ 
+    export def list [] {
+      
+      bash_yadm reflog list
+    
+    }
+    
+    export def expire [
+      --all
+      --single-worktree
+      --expire:string
+      --expire-unreachable:string
+      --rewrite
+      --updateref
+      --stale-fix
+      --dry-run(-n)
+      --verbose
+      ...refs:string
+    ] {
+      
+      bash_yadm reflog expire ...$refs ...(
+          generate_viable_bash_string_flags {
+            all:$all
+            single-worktree:$single_worktree
+            expire:$expire
+            expire-unreachable:$expire_unreachable
+            rewrite:$rewrite
+            updateref:$updateref
+            stale-fix:$stale_fix
+            dry-run:$dry_run
+            verbose:$verbose
           }
       )
-
+    
+    }
+    
+    export def delete [
+      --rewrite
+      --updateref
+      --stale-fix
+      --dry-run(-n)
+      --verbose
+      ref:string
+    ] {
+      
+      bash_yadm reflog delete $ref ...(
+          generate_viable_bash_string_flags {
+            rewrite:$rewrite
+            updateref:$updateref
+            stale-fix:$stale_fix
+            dry-run:$dry_run
+            verbose:$verbose
+          }
+      )
+    
     }
 
-    if (($rev1_or_file | describe) != nothing and ($rev2 | describe) == nothing) {
+
+    export def exists [ref:string] {
+      
+      bash_yadm reflog exists $ref
+    
+    }
+  
+   
+  }
+
+}
+
+  export def reset [
+    --quiet(-q)
+    --patch(-p)
+    --soft
+    --mixed(-N)
+    --hard
+    --merge
+    --keep
+    --recurse-submodules
+    --no-recurse-submodules
+    --refresh 
+    --no-refresh
+    --pathspec-from-file:string
+    --pathspec-file-nul
+    value?:string
+  ] {
+
+  
+      let viable_bash_string_flags = generate_viable_bash_string_flags {
+                quiet:$quiet
+                patch:$patch
+                soft:$soft
+                mixed:$mixed
+                hard:$hard
+                merge:$merge
+                keep:$keep
+                recurse-submodules:$recurse_submodules
+                no-recurse-submodules:$no_recurse_submodules
+                refresh:$refresh 
+                no-refresh:$no_refresh
+                pathspec-from-file:$pathspec_from_file
+                pathspec-file-nul:$pathspec_file_nul
+          }
+        
+
+    if $value != nothing {
       
       return (
-        bash_yadm diff $rev1_or_file ...(
-            generate_viable_bash_string_flags {
-            cached: $cached,
-            name-only: $name_only,
-            name-status: $name_status,
-            no-color: $no_color,
-        }
+         bash_yadm reset $value ...$viable_bash_string_flags
       )
-     )
-
+    
     }
 
-     bash_yadm diff $rev1_or_file $rev2 ...(
-          generate_viable_bash_string_flags {
-            cached: $cached,
-            name-only: $name_only,
-            name-status: $name_status,
-            no-color: $no_color,
-        }
-     )
-}
+    bash_yadm reset ...$viable_bash_string_flags
 
-# Commit changes
-export def commit [
-  --all(-a)                                           # automatically stage all modified and deleted files
-  --amend                                             # amend the previous commit rather than adding a new one
-  --message(-m): string                               # specify the commit message rather than opening an editor
-  --no-edit                                           # don't edit the commit message (useful with --amend)
-  --reuse-message(-C): string                         # reuse the message from a previous commit
-  --reedit-message(-c): string                        # reuse and edit message from a commit
-  --fixup: string                                     # create a fixup/amend commit
-  --squash: string                                    # squash commit for autosquash rebase
-  --reset-author                                      # reset author information
-  --short                                              # short-format output for dry-run
-  --branch                                            # show branch info in short-format
-  --porcelain                                         # porcelain-ready format for dry-run
-  --long                                              # long-format output for dry-run
-  --null(-z)                                          # use NUL instead of LF in output
-  --file(-F): string                                  # read commit message from file
-  --author: string                                    # override commit author
-  --date: string                                      # override author date
-  --template(-t): string                              # use commit message template file
-  --signoff(-s)                                       # add Signed-off-by trailer
-  --no-signoff                                        # do not add Signed-off-by trailer
-  --trailer: string                                   # add trailer to commit message
-  --no-verify(-n)                                     # bypass pre-commit and commit-msg hooks
-  --verify                                            # do not bypass pre-commit and commit-msg hooks
-  --allow-empty                                       # allow commit with no changes
-  --allow-empty-message                               # allow commit with empty message
-  --cleanup: string                                   # cleanup commit message
-  --edit(-e)                                          # edit commit message
-  --no-edit                                           # do not edit commit message
-  --include(-i)                                       # include given paths in commit
-  --only(-o)                                          # commit only specified paths
-  --pathspec-from-file: string                        # read pathspec from file
-  --pathspec-file-nul                                 # use NUL character for pathspec file
-  --untracked-files(-u): string                       # show untracked files
-  --verbose(-v)                                       # show diff in commit message template
-  --quiet(-q)                                         # suppress commit summary
-  --dry-run                                           # show paths to be committed without committing
-  --status                                            # include yadm-status output in commit message
-  --no-status                                         # do not include yadm-status output
-  --gpg-sign(-S):string                               # GPG-sign commit
-  --no-gpg-sign                                       # do not GPG-sign commit
-  ...pathspec: string                                 # commit files matching pathspec
-] {
-
-    bash_yadm commit ...$pathspec ...(
-          generate_viable_bash_string_flags {
-              all: $all
-              amend: $amend
-              message: $message
-              no-edit: $no_edit
-              reuse-message: $reuse_message
-              reedit-message: $reedit_message
-              fixup: $fixup
-              squash: $squash
-              reset-author: $reset_author
-              short: $short
-              branch: $branch
-              porcelain: $porcelain
-              long: $long
-              null: $null
-              file: $file
-              author: $author
-              date: $date
-              template: $template
-              signoff: $signoff
-              no-signoff: $no_signoff
-              trailer: $trailer
-              no-verify: $no_verify
-              verify: $verify
-              allow-empty: $allow_empty
-              allow-empty-message: $allow_empty_message
-              cleanup: $cleanup
-              edit: $edit
-              no-edit: $no_edit
-              include: $include
-              only: $only
-              pathspec-from-file: $pathspec_from_file
-              pathspec-file-nul: $pathspec_file_nul
-              untracked-files: $untracked_files
-              verbose: $verbose
-              quiet: $quiet
-              dry-run: $dry_run
-              status: $status
-              no-status: $no_status
-              gpg-sign: $gpg_sign
-              no-gpg-sign: $no_gpg_sign   
-          }
-       ) 
- 
- 
-}
-
-# List commits
-export def log [
-   -U                        # show diffs
-  --follow                  # show history beyond renames (single file only)
-  --grep: string            # show log entries matching supplied regular expression
-] {
-
-  bash_yadm log ...(generate_viable_bash_string_flags {
-        U:$U
-        follow:$follow
-        grep:$grep
-      })
-}
-
-# Show or change the reflog
-export def reflog [] {
-     bash_yadm reflog
-}
-
-# Stage files
-export def add [
-  ...file: string@"nu-complete yadm add"               # file to add
-  --all(-A)                                           # add all files
-  --dry-run(-n)                                       # don't actually add the file(s), just show if they exist and/or will be ignored
-  --edit(-e)                                          # open the diff vs. the index in an editor and let the user edit it
-  --force(-f)                                         # allow adding otherwise ignored files
-  --interactive(-i)                                   # add modified contents in the working tree interactively to the index
-  --patch(-p)                                         # interactively choose hunks to stage
-  --verbose(-v)                                       # be verbose
-] {
-
-  bash_yadm add ...$file ...(
-        generate_viable_bash_string_flags {
-          all:$all 
-          dry-run:$dry_run
-          edit:$edit
-          force:$force
-          interactive:$interactive
-          patch:$patch
-          verbose:$verbose
-        }
-      )
+  }
 
 
-}
-
-# Delete file from the working tree and the index
-export def rm [
-  ...file: string@"nu-complete yadm add"               # file to add
-  -r                                                   # recursive
-  --force(-f)                                          # override the up-to-date check
-  --dry-run(-n)                                        # Don't actually remove any file(s)
-  --cached                                             # unstage and remove paths only from the index
-] {
-
-  bash_yadm rm ...$file ...(
+  export def mv [
+    --force(-f)
+    -k
+    --dry-run(-n)
+    --verbose(-v)
+    source:string
+    destination:string
+  ] {
+    
+    bash_yadm mv $source $destination ...(
       generate_viable_bash_string_flags {
-        r:$r, 
-        force:$force,
-        dry-run: $dry_run, 
-        cached:$cached 
+        force:$force
+        k:$k
+        dry-run:$dry_run
+        verbose:$verbose
+
       }
     )
-
-}
-
-# Show the working tree status
-export def status [
-  --verbose(-v)                                       # be verbose
-  --short(-s)                                         # show status concisely
-  --branch(-b)                                        # show branch information
-  --show-stash                                        # show stash information
-] {
- 
- bash_yadm status ...(
-      generate_viable_bash_string_flags {
-        verbose:$verbose,
-        short:$short,
-        branch:$branch,
-        show-stash:$show_stash
-      }
-    )
-
-}
-
-# Stash changes for later
-export module stash {
-
-export def push [
-  --patch(-p)                                         # interactively choose hunks to stash
-] {
-     bash_yadm stash push ...({patch: $patch})
-}
-
-# Unstash previously stashed changes
-export def pop [
-  stash?: string@"nu-complete yadm stash-list"          # stash to pop
-  --index(-i)                                          # try to reinstate not only the working tree's changes, but also the index's ones
-]  {
-     bash_yadm stash pop ...({index: $index})
-}
-
-# List stashed changes
-export def list []  {
-  bash_yadm stash list
-}
-
-# Show a stashed change
-export def show [
-  stash?: string@"nu-complete yadm stash-list"
-  -U  # show diff
-] {
-     bash_yadm stash show $stash
-}
-
-# Drop a stashed change
-export def drop [
-  stash?: string@"nu-complete yadm stash-list"
-] {
-     bash_yadm stash drop $stash
-}
   
-}
+  }
 
 
-# Create a new yadm repository
-export def init [
-  --initial-branch(-b)                                # initial branch name
-] {
-     bash_yadm init ...(generate_viable_bash_string_flags {initial-branch: $initial_branch})
-}
+  export module pull {
 
-
-# List or manipulate tags
-export def tag [
-    tag?:string,
-  --annotate(-a):string  # Creates an annotated tag with a message.
-  --message(-m):string # Sets the tag message.
-  --list(-l) # Lists tags that match the given pattern.
-  --force(-f)  # Forces the creation of a tag, even if a tag with the same name already exists.
-  --delete(-d): string@"nu-complete yadm tags"   # delete a tag
-] {
-
-
-    if (describe | $tag) == nothing and $list == false {
-
-      error make {
-        msg: "Invalid Argument",
-        label:{
-          text: "The tag is empty but"
-          span: (metadata $tag).span 
-        }
-        help: "If you want to use yadm tag without passing in a value please pass in the list flag"
-      }
-
+    def get-recurse-submodules-completions [] {
+        ['yes' 'on-demand' 'no']
     }
 
-     bash_yadm tag $tag ...(
-          generate_viable_bash_string_flags { 
-            annotate:$annotate 
-            message: $message
-            list: $list
-            force: $force
-            delete: $delete
-          }
-        )
-}
+    def get-rebase-completions [] {
+        ['false' 'true' 'merges' 'interactive']
+    }
 
-# Prune all unreachable objects
-export def prune [
-  --dry-run(-n)                                       # dry run
-  --expire: string                                    # expire objects older than
-  --progress                                          # show progress
-  --verbose(-v)                                       # report all removed objects
-  ]  {
+    def get-negotation-tip-completions [] {
+        ['commit' 'glob']
+    }
+
+    def get-strategy-completions [] {
+        [
+          'ort'
+        'recursive'
+        'resolve'
+        'octopus'
+        'ours'
+        'subtree'
+        
+        ]
+    }
+
+    export def main [
+      --quiet(-q)
+      --verbose(-v)
+      --recurse-submodules:string@get-recurse-submodules-completions
+      --no-recurse-submodules
+      --commit
+      --no-commit
+      --edit(-e)
+      --no-edit
+      --cleanup:string
+      --ff-only
+      --ff
+      --no-ff
+      --gpg-sign(-S):string
+      --no-gpg-sign
+      --signoff
+      --no-signoff
+      --stat
+      --no-stat(-n)
+      --squash
+      --no-squash
+      --verify
+      --no-verify
+      --strategy(-s):string@get-strategy-completions
+      --strategy-option(-X):string
+      --summary
+      --no-summary
+      --autostash
+      --no-autostash
+      --allow-unrelated-histories
+      --rebase(-r):string@get-rebase-completions
+      --no-rebase
+      --all
+      --no-all
+      --append(-a)
+      --atomic
+      --depth:int
+      --deepen:int
+      --shallow-since:string
+      --shallow-exclude:string
+      --unshallow
+      --update-shallow
+      --negotiation-tip:string@get-negotation-tip-completions
+      --negotiate-only
+      --dry-run
+      --porcelain
+      --force(-f)
+      --keep(-k)
+      --prefetch
+      --prune(-p)
+      --no-tags
+      --refmap:string
+      --tags(-t)
+      --jobs(-j):int
+      --set-upstream
+      --upload-pack:string
+      --progress
+      --server-option(-o)
+      --show-forced-updates
+      --no-show-forced-updates
+      --ipv4(-4)
+      --ipv6(-6)
+      repository?:string
+      refspec?:string
+    ] {
+
+
+     let viable_bash_string_flags = generate_viable_bash_string_flags {
+            quiet:$quiet
+            verbose:$verbose
+            recurse-submodules:$recurse_submodules
+            no-recurse-submodules:$no_recurse_submodules
+            commit:$commit
+            no-commit:$no_commit
+            edit:$edit
+            no-edit:$no_edit
+            cleanup:string
+            ff-only:$ff_only
+            ff:$ff
+            no-ff:$no_ff
+            gpg-sign:$gpg_sign
+            no-gpg:$no_gpg_sign
+            signoff:$signoff
+            no-signoff:$no_signoff
+            stat:$stat
+            no-stat:$no_stat
+            squash:$squash
+            no-squash:$no_squash
+            verify:$verify
+            no-verify:$no_verify
+            strategy:$strategy
+            strategy-option:$strategy_option
+            summary:$summary
+            no-summary:$no_summary
+            autostash:$autostash
+            no-autostash:$no_autostash
+            allow-unrelated-histories:$allow_unrelated_histories
+            rebase:$rebase
+            no-rebase:$no_rebase
+            all:$all
+            no-all:$no_all
+            append:$append
+            atomic:$atomic
+            depth:$depth
+            deepen:$deepen
+            shallow-since:$shallow_since
+            shallow-exclude:$shallow_exclude
+            unshallow:$unshallow
+            update-shallow:$update_shallow
+            negotiation-tip:$negotiation_tip
+            negotiate-only:$negotiate_only
+            dry-run:$dry_run
+            porcelain:$porcelain
+            force:$force
+            keep:$keep
+            prefetch:$prefetch
+            prune:$prune
+            no-tags:$no_tags
+            refmap:string
+            tags:$tags
+            jobs:$jobs
+            set-upstream:$set_upstream
+            upload-pack:string
+            progress:$progress
+            server-option:$server_option
+            show-forced-updates:$show_forced_updates
+            no-show-forced-updates:$no_show_forced_updates
+            ipv4:$ipv4
+            ipv6:$ipv6
+        }
+
+      match [($repository | describe) ($refspec | describe)] {
+
+       [string string] => (bash_yadm pull $repository $refspec ...$viable_bash_string_flags)
+       
+       [string nothing] => (bash_yadm pull $repository ...$viable_bash_string_flags)
+
+      _ => (bash_yadm pull ...$viable_bash_string_flags)
+
+      } 
+ 
+      
+
     
-    bash_yadm prune ...(
-          generate_viable_bash_string_flags {
-            dry-run: $dry_run
-            expire: $expire
-            progress: $progress
-            verbose: $verbose
-          }
-        )
-
-}
-
-# Start a binary search to find the commit that introduced a bug
-
-export module bisect {
-
-export def start [] {
-     bash_yadm bisect start 
-}
-
-# Mark the current (or specified) revision as bad
-export def bad [
-  bad_commit?: string               # a commit that has the bug
-] {
-     bash_yadm bisect bad $bad_commit
-}
-
-# Mark the current (or specified) revision as good
-export def good [
-  good_commit?: string                # a commit that doesn't have the bug
-
-] {
-     bash_yadm bisect good $good_commit
-}
-
-# Skip the current (or specified) revision
-export def skip [
-  commit:string
-] {
-     bash_yadm bisect skip $commit
-}
-
-# End bisection
-export def reset [] {
-    bash_yadm bisect reset
-}
+    }
+  }
 
 
-}
+  export module push {
 
-# Show help for a yadm subcommand
-export def help [
-  command: string@"nu-complete yadm subcommands"       # subcommand to show help for
-] {
-     bash_yadm help $command
-}
+  def get-signed-completions [] {
+      ['true' 'false' 'if-asked']
+  }
 
-# TODO: Work on the worktree commands
-
-export module worktree {
-
-export def main [
-  --help(-h)            # display the help message for this command
-  ...args
-] {
-     bash_yadm worktree ...$args ...(
-            generate_viable_bash_string_flags {
-                help: $help
-            }
-         )
-} 
-
-# create a new working tree
-export def add [
-  path: path            # directory to clone the branch
-  branch: string@"nu-complete yadm available upstream" # Branch to clone
-  --help(-h)            # display the help message for this command
-  --force(-f)           # checkout <branch> even if already checked out in other worktree
-  -b                    # create a new branch
-  -B                    # create or reset a branch
-  --detach(-d)          # detach HEAD at named commit
-  --checkout            # populate the new working tree
-  --lock                # keep the new working tree locked
-  --reason              # reason for locking
-  --quiet(-q)           # suppress progress reporting
-  --track               # set up tracking mode (see yadm-branch(1))
-  --guess-remote        # try to match the new branch name with a remote-tracking branch
-  ...args
-] {
-
-     bash_yadm worktree add  ...(
-          generate_viable_bash_string_flags {
-                help: $help
-                force: $force
-                b: $b
-                B: $B
-                detach: $detach
-                checkout: $checkout
-                lock: $lock
-                reason: $reason
-                quiet: $quiet
-                track: $track
-                guess-remote: $guess_remote
-            }
-         )
-
-}
-
-# list details of each worktree
-export def list [
-  --help(-h)            # display the help message for this command
-  --porcelain           # machine-readable output
-  --verbose(-v)         # show extended annotations and reasons, if available
-  --expire              # add 'prunable' annotation to worktrees older than <time>
-  -z                    # terminate records with a NUL character
-  ...args
-  ] {
-
-    bash_yadm worktree list ...$args ...(
-        generate_viable_bash_string_flags {
-            help: $help
-            porcelain: $porcelain
-            verbose: $verbose
-            expire: $expire
-            z: $z
-          }
-        ) 
-}
-
-def "nu-complete worktree list" [] {
-  bash_yadm worktree list | to text | parse --regex '(?P<value>\S+)\s+(?P<commit>\w+)\s+(?P<description>\S.*)'
-}
-
-# termoator
-
-
-# prevent a working tree from being pruned
-export def lock [
-  worktree: string@"nu-complete worktree list"
-  --reason: string      # reason because the tree is locked
-  --help(-h)            # display the help message for this command
-  --reason              # reason for locking
-  ...args
-  ] {
+  def get-recurse-submodules-completions [] {
+      ['check' 'on-demand' 'only' 'no']
+  }
+  
     
-    bash_yadm worktree lock $worktree ...$args ...(
-        generate_viable_bash_string_flags {
-            reason: $reason
-            help:$help
-            reason: $reason
-          }
-        )
-
-}
-
-# move a working tree to a new location
-export def move [
-  --help(-h)            # display the help message for this command
-  --force(-f)           # force move even if worktree is dirty or locked
-  ...args
+  export def main [
+  --all
+  --branches
+  --prune
+  --mirror
+  --dry-run(-n)
+  --porcelain
+  --delete(-d)
+  --tags
+  --follow-tags
+  --signed:string@get-signed-completions
+  --no-signed
+  --atomic
+  --no-atomic
+  --push-option:string
+  --receive-pack
+  --exec
+  --force-with-lease:string
+  --no-force-with-lease
+  --force(-f)
+  --force-if-includes
+  --no-force-if-includes
+  --repo:string
+  --set-upstream(-u)
+  --thin
+  --quiet(-q)
+  --verbose(-v)
+  --progress
+  --recurse-submodules:string@get-recurse-submodules-completions
+  --no-recurse-submodules
+  --verify
+  --no-verify
+  --ipv4(-4)
+  --ipv6(-6)
+  repository?:string
+  refspec?:string
   ] {
+
+      let viable_bash_string_flags = generate_viable_bash_string_flags {
+              all:$all
+              branches:$branches
+              prune:$prune
+              mirror:$mirror
+              dry-run:$dry_run
+              porcelain:$porcelain
+              delete:$delete
+              tags:$tags
+              follow-tags:$follow_tags
+              signed:$signed
+              no-signed:$no_signed
+              atomic:$atomic
+              no-atomic:$no_atomic
+              push-option:$push_option
+              receive-pack:$receive_pack
+              exec:$exec
+              force-with-lease:string
+              no-force-with-lease:$no_force_with_lease
+              force:$force
+              force-if-includes:$force_if_includes
+              no-force-if-includes:$no_force_if_includes
+              repo:string
+              set-upstream:$set_upstream
+              thin:$thin
+              quiet:$quiet
+              verbose:$verbose
+              progress:$progress
+              recurse-submodules:$recurse_submodules
+              no-recurse-submodules:$no_recurse_submodules
+              verify:$verify
+              no-verify:$no_verify
+              ipv4:$ipv4
+              ipv6:$ipv6
+      }
+
+
+      match [($repository | describe) ($refspec | describe)] {
+
+      [string string] => (bash yadm pull $repository $refspec ...$viable_bash_string_flags)
+      
+      [string nothing] => (bash yadm pull $repository ...$viable_bash_string_flags)
+      
+      _ =>  (bash_yadm push ...$viable_bash_string_flags)
+
+      }
+
     
-    bash_yadm worktree move ...$args ...(
-        generate_viable_bash_string_flags {
-            help:$help,
-            force:$force,
-          }
-        ) 
-}
+    }
 
-# prune working tree information
-export def prune [
-  --help(-h)            # display the help message for this command
-  --dry-run(-n)         # do not remove, show only
-  --verbose(-v)         # report pruned working trees
-  --expire              # expire working trees older than <time>
-  ...args
-  ] {
+  }
+
+
+  export module rebase {
+
+
+      def get-empty-completions [] {
+          ['drop' 'keep' 'stop']
+      }
+
+      def get-rebase-merges-completions [] {
+          ['rebase-cousins' 'no-rebase-cousins']
+      }
+
+      def get-strategy-completions [] {
+          [
+            'ort'
+          'recursive'
+          'resolve'
+          'octopus'
+          'ours'
+          'subtree'
+          
+          ]
+    }
     
-   bash_yadm worktree prune ...$args  ...(
+     export def main [
+      --continue
+      --skip
+      --abort
+      --quit
+      --edit-todo
+      --show-current-patch
+      --onto:string
+      --keep-base
+      --apply
+      --empty:string@get-empty-completions
+      --keep-empty
+      --no-keep-empty
+      --reapply-cherry-picks
+      --no-reapply-cherry-picks
+      --allow-empty-message
+      --merge(-m)
+      --strategy(-s):string@get-strategy-completions
+      --strategy-option(-X):string
+      --rerere-autoupdate
+      --no-rerere-autoupdate
+      --gpg-sign:string 
+      --no-gpg-sign
+      --quiet(-q)
+      --verbose(-v)
+      --stat
+      --no-stat
+      --no-verify
+      --verify
+      -C:int
+      --no-ff
+      --force-rebase(-f)
+      --fork-point
+      --no-fork-point
+      --ignore-whitespace
+      --whitespace
+      --committer-date-is-author-date
+      --ignore-date 
+      --reset-author-date
+      --signoff
+      --interactive(-i)
+      --rebase-merges
+      --no-rebase-merges
+      --exec(-x):string
+      --root
+      --autosquash 
+      --no-autosquash
+      --autostash 
+      --no-autostash
+      --reschedule-failed-exec 
+      --no-reschedule-failed-exec
+      --update-refs
+      --no-update-refs
+      branch?:string
+      start_point?:string 
+      end_point?:string
+      ] {
+
+        let viable_bash_string_flags = generate_viable_bash_string_flags {
+            continue:$continue
+            skip:$skip
+            abort:$abort
+            quit:$quit
+            edit-todo:$edit_todo
+            show-current-patch:$show_current_patch
+            onto:$onto
+            keep-base:$keep_base
+            apply:$apply
+            empty:$empty
+            keep-empty:$keep_empty
+            no-keep-empty:$no_keep_empty
+            reapply-cherry-picks:$reapply_cherry_picks
+            no-reapply-cherry-picks:$no_reapply_cherry_picks
+            allow-empty-message:$allow_empty_message
+            merge:$merge
+            strategy:$strategy
+            strategy-option:$strategy_option
+            rerere-autoupdate:$rerere_autoupdate
+            no-rerere-autoupdate:$no_rerere_autoupdate
+            gpg-sign:string 
+            no-gpg-sign:$no_gpg_sign
+            quiet:$quiet
+            verbose:$verbose
+            stat:$stat
+            no-stat:$no_stat
+            no-verify:$no_verify
+            verify:$verify
+            C:$C
+            no-ff:$no_ff
+            force-rebase:$force_rebase
+            fork-point:$fork_point
+            no-fork-point:$no_fork_point
+            ignore-whitespace:$ignore_whitespace
+            whitespace:$whitespace
+            committer-date-is-author-date:$committer_date_is_author_date
+            ignore-date:$ignore_date 
+            reset-author-date:$reset_author_date
+            signoff:$signoff
+            interactive:$interactive
+            rebase-merges:$rebase_merges
+            no-rebase-merges:$no_rebase_merges
+            exec:$exec
+            root:$root
+            autosquash:$autosquash 
+            no-autosquash:$no_autosquash
+            autostash:$autostash 
+            no-autostash:$no_autostash
+            reschedule-failed-exec:$reschedule_failed_exec 
+            no-reschedule-failed-exec:$no_reschedule_failed_exec
+            update-refs:$update_refs
+            no-update-refs:$no_update_refs
+        }
+
+
+        match [($branch | describe) ($start_point | describe) ($end_point | describe)] {
+          
+          [string string string] => (
+            bash_yadm rebase $branch $start_point $end_point ...$viable_bash_string_flags
+            ) 
+          
+          [string string nothing] => (
+            bash_yadm rebase $branch $start_point ...$viable_bash_string_flags
+            ) 
+          
+          [string nothing nothing] => (
+            bash_yadm rebase $branch ...$viable_bash_string_flags
+            ) 
+          
+          _ => (bash_yadm rebase ...$viable_bash_string_flags)
+        }
+
+      
+      }
+
+  }
+
+
+  export module restore {
+
+     def get-conflict-completions [] {
+         ['merge' 'diff3' 'zdiff3']
+     }
+
+    export def main  [
+      --source(-s):string
+      --parch(-p)
+      --worktree(-W)
+      --staged(-S)
+      --quiet(-q)
+      --progress
+      --no-progress
+      --ours
+      --theirs
+      --merge(-m)
+      --conflict:string@get-conflict-completions
+      --ignore-unmerged
+      --ignore-skip-worktree-bits
+      --recurse-submodules
+      --no-recurse-submodules
+      --overlay 
+      --no-overlay
+      --pathspec-from-file:string
+      --pathspec-file-nul
+      ...pathspecs:string
+    ] {
+
+      bash_yadm restore ...$pathspecs ...(
         generate_viable_bash_string_flags {
-            help: $help
-            dry-run: $dry_run
-            verbose: $verbose
-            expire: $expire
-          }
-       ) 
+              source:$source
+              parch:$parch
+              worktree:$worktree
+              staged:$staged
+              quiet:$quiet
+              progress:$progress
+              no-progress:$no_progress
+              ours:$ours
+              theirs:$theirs
+              merge:$merge
+              conflict:$conflict
+              ignore-unmerged:$ignore_unmerged
+              ignore-skip-worktree-bits:$ignore_skip_worktree_bits
+              recurse-submodules:$recurse_submodules
+              no-recurse-submodules:$no_recurse_submodules
+              overlay:$overlay 
+              no-overlay:$no_overlay
+              pathspec-from-file:$pathspec_from_file
+              pathspec-file-nul:$pathspec_file_nul
+        }
+      )
+    
+    }
 
-}
-
-# remove a working tree
-export def remove [
-  worktree: string@"nu-complete worktree list"
-  --help(-h)            # display the help message for this command
-  --force(-f)           # force removal even if worktree is dirty or locked
-  ] {
-
-    bash_yadm worktree remove $worktree ...(
-        generate_viable_bash_string_flags {
-            help: $help
-            force: $force
-          }
-        )
-}
-
-# allow working tree to be pruned, moved or deleted
-export def unlock [
-  worktree: string@"nu-complete worktree list"
-  ...args
-] { 
-  bash_yadm worktree unlock $worktree ...$args
   }
 
 
 
-}
-
-
-# yadm worktree
-
-# clones a repo
-export def clone [
-  --help(-h)                    # display the help message for this command
-  --local(-l)                   # cloning from the local machine
-  --no-local                    # use the yadm transport mechanism even if cloning from a local path
-  --no-hardlinks                # force yadm to copy files when cloning from the local machine
-  --shared(-s)                  # setup .yadm/objects/info/alternates to share objects with the source local repo
-  --reference: string           # setup .yadm/objects/info/alternates to share objects with the =<reference> local repo
-  --reference-if-able: string   # same as --reference, but skips empty folders
-  --dissociate                  # borrow objects from the referenced repo (--reference)
-  --quiet(-q)                   # suppress progress reporting
-  --verbose(-v)                 # be verbose
-  --progress                    # report progress unless --quiet
-  --server-option: string       # transmit the =<option> to the server
-  --no-checkout(-n)             # no checkout of HEAD
-  --reject-shallow              # reject shallow repository as source
-  --no-reject-shallow           # do not reject shallow repository as source
-  --bare                        # make a bare yadm repo
-  --sparse                      # initialize the sparse-checkout file
-  --filter: string              # partial clone using the given =<filter-spec>
-  --mirror                      # mirror the source repo
-  --origin(-o): string          # use <name> as the name for the remote origin
-  --branch(-b): string          # point HEAD to <name> branch
-  --upload-pack(-u): string     # use <upload-pack> as the path in the other end when using ssh
-  --template: string            # use <template-dir> as the templates directory
-  --config(-c): string          # set a <key>=<value> config variable
-  --depth: int                  # shallow clone <depth> commits 
-  --shallow-since: string       # shallow clone commits newer than =<date>
-  --shallow-exclude: string     # do not clone commits reachable from <revision> (branch or tag)
-  --single-branch               # clone commit history from a single branch
-  --no-single-branch            # do not clone only one branch
-  --no-tags                     # do not clone any tags
-  --recurse-submodules: string  # clone the submodules
-  --shallow-submodules          # shallow clone submodules with depth 1
-  --no-shallow-submodules       # do not shallow clone submodules
-  --remote-submodules           # submodules are updating using their remote tracking branch
-  --no-remote-submodules        # do not track submodules remote
-  --separate-yadm-dir: string    # place the clone at =<yadm dir> and link it here
-  --jobs(-j): int               # number of simultaneous submodules fetch
-  ...args
+  export def revert [
+    --force(-f)
+    --dry-run(-n)
+    -r
+    --cached
+    --ignore-unmatch
+    --sparse
+    --quiet
+    --pathspec-from-file:string
+    --pathspec-file-nul
+    ...pathspecs:string
   ] {
 
-     bash_yadm clone ...$args ...(
-          generate_viable_bash_string_flags {
-            help: $help
-            local: $local
-            no-local: $no_local
-            no-hardlinks: $no_hardlinks
-            shared:$shared
-            reference: $reference
-            reference-if-able: $reference_if_able
-            dissociate: $dissociate
-            quiet: $quiet
-            verbose: $verbose
-            progress:$progress
-            server-option: $server_option
-            no-checkout: $no_checkout
-            reject-shallow: $reject_shallow
-            no-reject-shallow: $no_reject_shallow
-            bare: $bare
-            sparse: $sparse
-            filter: $filter
-            mirror: $mirror
-            origin:$origin
-            branch:$branch
-            upload-pack:$upload_pack
-            template: $template
-            config: $config
-            depth: $depth 
-            shallow-since: $shallow_since
-            shallow-exclude: $shallow_exclude
-            single-branch: $single_branch
-            no-single-branch: $no_single_branch
-            no-tags:$no_tags
-            recurse-submodules: $recurse_submodules
-            shallow-submodules: $shallow_submodules
-            no-shallow-submodules: $no_shallow_submodules
-            remote-submodules: $remote_submodules
-            no-remote-submodules: $no_remote_submodules
-            separate-yadm-dir: $separate_yadm_dir
-            jobs:$jobs
-          }
-        )
-
-}
-
-# Restores files in working tree or index to previous versions
-export def restore [
-  --help(-h)                                    # Display the help message for this command
-  --source(-s)                                  # Restore the working tree files with the content from the given tree
-  --patch(-p)                                   # Interactively choose hunks to restore
-  --worktree(-W)                                # Restore working tree (default if neither --worktree or --staged is used)
-  --staged(-S)                                  # Restore index
-  --quiet(-q)                                   # Quiet, suppress feedback messages
-  --progress                                    # Force progress reporting
-  --no-progress                                 # Suppress progress reporting
-  --ours                                        # Restore from index using our version for unmerged files
-  --theirs                                      # Restore from index using their version for unmerged files
-  --merge(-m)                                   # Restore from index and recreate the conflicted merge in unmerged files
-  --conflict: string                            # Like --merge but changes the conflict presentation with =<style>
-  --ignore-unmerged                             # Restore from index and ignore unmerged entries (unmerged files are left as is)
-  --ignore-skip-worktree-bits                   # Ignore sparse checkout patterns and unconditionally restores any files in <pathspec>
-  --recurse-submodules                          # Restore the contents of sub-modules in working tree
-  --no-recurse-submodules                       # Do not restore the contents of sub-modules in working tree (default)
-  --overlay                                     # Do not remove files that don't exist when restoring from tree with --source
-  --no-overlay                                  # Remove files that don't exist when restoring from tree with --source (default)
-  --pathspec-from-file: string                  # Read pathspec from file
-  --pathspec-file-nul                           # Separate pathspec elements with NUL character when reading from file
-  ...pathspecs: string@"nu-complete yadm files"  # Target pathspecs to restore
-  ] {
-    
-   bash_yadm restore ...$pathspecs ...(
-         generate_viable_bash_string_flags {
-              help: $help,
-              source: $source,
-              patch: $patch,
-              worktree:$worktree,
-              staged: $staged,
-              quiet:$quiet,
-              progress:$progress,
-              no-progress: $no_progress,
-              ours:$ours,
-              theirs: $theirs,
-              merge: $merge,
-              conflict: $conflict,
-              ignore-unmerged: $ignore_unmerged,
-              ignore-skip-worktree-bits: $ignore_skip_worktree_bits,
-              recurse-submodules: $recurse_submodules,
-              no-recurse-submodules: $no_recurse_submodules,
-              overlay: $overlay,
-              no-overlay: $no_overlay,
-              pathspec-from-file: $pathspec_from_file
-              pathspec-file-nul: $pathspec_from_file
-          }
-       ) 
-}
-
-# Print lines matching a pattern
-export def grep [
-  --help(-h)                            # Display the help message for this command
-  --cached                              # Search blobs registered in the index file instead of worktree
-  --untracked                           # Include untracked files in search
-  --no-index                            # Similar to `grep -r`, but with additional benefits, such as using pathspec patterns to limit paths; Cannot be used together with --cached or --untracked
-  --no-exclude-standard                 # Include ignored files in search (only useful with --untracked)
-  --exclude-standard                    # No not include ignored files in search (only useful with --no-index)
-  --recurse-submodules                  # Recursively search in each submodule that is active and checked out
-  --text(-a)                            # Process binary files as if they were text
-  --textconv                            # Honor textconv filter settings
-  --no-textconv                         # Do not honor textconv filter settings (default)
-  --ignore-case(-i)                     # Ignore case differences between patterns and files
-  -I                                    # Don’t match the pattern in binary files
-  --max-depth: int                      # Max <depth> to descend down directories for each pathspec. A value of -1 means no limit.
-  --recursive(-r)                       # Same as --max-depth=-1
-  --no-recursive                        # Same as --max-depth=0
-  --word-regexp(-w)                     # Match the pattern only at word boundary
-  --invert-match(-v)                    # Select non-matching lines
-  -H                                    # Suppress filename in output of matched lines
-  --full-name                           # Force relative path to filename from top directory
-  --extended-regexp(-E)                 # Use POSIX extended regexp for patterns
-  --basic-regexp(-G)                    # Use POSIX basic regexp for patterns (default)
-  --perl-regexp(-P)                     # Use Perl-compatible regular expressions for patterns
-  --line-number(-n)                     # Prefix the line number to matching lines
-  --column                              # Prefix the 1-indexed byte-offset of the first match from the start of the matching line
-  --files-with-matches(-l)              # Print filenames of files that contains matches
-  --name-only                           # Same as --files-with-matches
-  --files-without-match(-L)             # Print filenames of files that do not contain matches
-  --null(-z)                            # Use \0 as the delimiter for pathnames in the output, and print them verbatim
-  --only-matching(-o)                   # Print only the matched (non-empty) parts of a matching line, with each such part on a separate output line
-  --count(-c)                           # Instead of showing every matched line, show the number of lines that match
-  --no-color                            # Same as --color=never
-  --break                               # Print an empty line between matches from different files.
-  --heading                             # Show the filename above the matches in that file instead of at the start of each shown line.
-  --show-function(-p)                   # Show the preceding line that contains the function name of the match, unless the matching line is a function name itself.
-  --context(-C): int                    # Show <num> leading and trailing lines, and place a line containing  # between contiguous groups of matches.
-  --after-context(-A): int              # Show <num> trailing lines, and place a line containing  # between contiguous groups of matches.
-  --before-context(-B): int             # Show <num> leading lines, and place a line containing  # between contiguous groups of matches.
-  --function-context(-W)                # Show the surrounding text from the previous line containing a function name up to the one before the next function name
-  --max-count(-m): int                  # Limit the amount of matches per file. When using the -v or --invert-match option, the search stops after the specified number of non-matches.
-  --threads: int                        # Number of grep worker threads to use. Use --help for more information on grep threads.
-  -f: string                            # Read patterns from <file>, one per line.
-  -e: string                            # Next parameter is the pattern. Multiple patterns are combined by --or.
-  --and                                 # Search for lines that match multiple patterns.
-  --or                                  # Search for lines that match at least one of multiple patterns. --or is implied between patterns without --and or --not.
-  --not                                 # Search for lines that does not match pattern.
-  --all-match                           # When giving multiple pattern expressions combined with --or, this flag is specified to limit the match to files that have lines to match all of them.
-  --quiet(-q)                           # Do not output matched lines; instead, exit with status 0 when there is a match and with non-zero status when there isn’t.
-  ...pathspecs: string                  # Target pathspecs to limit the scope of the search.
-  ]  {
-
-
-  bash_yadm grep ...$pathspecs ...(
+    bash_yadm revert ...$pathspecs ...(
       generate_viable_bash_string_flags {
-          help:$help,
-          cached:$cached,
-          untracked:$untracked,
-          no-index: $no_index,
-          no-exclude-standard: $no_exclude_standard,
-          exclude-standard: $exclude_standard,
-          recurse-submodules: $recurse_submodules,
-          text: $text,
-          textconv: $textconv,
-          no-textconv: $no_textconv,
-          ignore-case: $ignore_case,
-          -I:$I,
-          max-depth: $max_depth,
-          recursive: $recursive,
-          no-recursive: $no_recursive,
-          word-regexp: $word_regexp,
-          invert-match: $invert_match,
-          -H:$H,
-          full-name: $full_name
-          extended-regexp: $extended_regexp
-          basic-regexp: $basic_regexp
-          perl-regexp: $perl_regexp
-          line-number: $line_number
-          column: $column
-          files-with-matches: $files_with_matches
-          name-only: $name_only
-          files-without-match: $files_without_match
-          null: $null
-          only-matching: $only_matching
-          count: $count
-          no-color: $no_color
-          break: $break
-          heading: $heading
-          show-function: $show_function
-          context: $context
-          after-context: $after_context
-          before-context: $before_context
-          function-context: $function_context
-          max-count: $max_count
-          threads: $threads
-          f: $f
-          e: $e
-          and: $and
-          or: $or
-          not: $not
-          all-match: $all_match
-          quiet: $quiet
+        force:$force
+        dry-run:$dry_run
+        r:$r
+        cached:$cached
+        ignore-unmatch:$ignore_unmatch
+        sparse:$sparse
+        quiet:$quiet
+        pathspec-from-file:$pathspec_from_file
+        pathspec-file-nul:$pathspec_file_nul
+      }
+    )
+
+  }
+
+
+  export def rm [
+    --force(-f)
+    --dry-run(-n)
+    -r
+    --cached
+    --ignore-unmatch
+    --sparse
+    --quiet
+    --pathspec-from-file:string
+    --pathspec-file-nul
+    ...pathspecs:string
+  ] {
+
+    bash_yadm rm ...$pathspecs ...(
+      generate_viable_bash_string_flags {
+        force:$force
+        dry-run:$dry_run
+        r:$r
+        cached:$cached
+        ignore-unmatch:$ignore_unmatch
+        sparse:$sparse
+        quiet:$quiet
+        pathspec-from-file:$pathspec_from_file
+        pathspec-file-nul:$pathspec_file_nul
+      }
+    )
+
+  }
+
+
+  export module show {
+
+    def get-pretty-completions [] {
+        [
+          'oneline'
+          'short'
+          'medium'
+          'full'
+          'fuller'
+          'reference'
+          'email'
+          'mxboard'
+          'raw'
+        ]
+  }
+
+
+    export def main [
+      --pretty:string@get-pretty-completions
+      --format:string@get-pretty-completions
+      --abbrev-commit
+      --no-abbrev-commit
+      --oneline
+      --encoding:string
+      --expand-tabs:int
+      --no-expand-tabs
+      --notes:string
+      --no-notes
+      --show-notes-by-default 
+      --show-notes:string
+      --no-standard-notes
+      --show-signature
+      ...objects
+    ] {
+
+      bash_yadm show ...$objects ...(
+        generate_viable_bash_string_flags {
+          pretty:$pretty
+          format:$format
+          abbrev-commit:$abbrev_commit
+          no-abbrev-commit:$no_abbrev_commit
+          oneline:$oneline
+          encoding:$encoding
+          expand-tabs:$expand_tabs
+          no-expand-tabs:$no_expand_tabs
+          notes:$notes
+          no-notes:$no_notes
+          show-notes-by-default:$show_notes_by_default 
+          show-notes:$show_notes
+          no-standard-notes:$no_standard_notes
+          show-signature:$show_signature
         }
       )
 
-}
+    }
+
+  }
+
+
+  export module status {
+
+   def get-ignore-submodules-completions [] {
+      ['untracked' 'dirty' 'all']
+   }
+
+   def get-ignored-completions [] {
+      ['trditional' 'no' 'matching']
+   }
+    
+   export def main [
+      --short(-s)
+      --branch(-b)
+      --show-stash
+      --porcelain:string
+      --long
+      --verbose(-v)
+      --untracked-files(-u)
+      --ignore-submodules:string@get-ignore-submodules-completions
+      --ignored:string@get-ignored-completions
+      -z
+      --column:string
+      --no-column
+      --ahead-behind
+      --no-ahead-behind
+      --renames 
+      --no-renames
+      --find-renames:int
+      ...$pathspecs
+    ] {
   
+         bash_yadm status ...$pathspecs ...(
+          generate_viable_bash_string_flags {
+            short:$short
+            branch:$branch
+            show-stash:$show_stash
+            porcelain:$porcelain
+            long:$long
+            verbose:$verbose
+            untracked-files:$untracked_files
+            ignore-submodules:$ignore_submodules
+            ignored:$ignored
+            z:$z
+            column:$column
+            no-column:$no_column
+            ahead-behind:$ahead_behind
+            no-ahead-behind:$no_ahead_behind
+            renames:$renames 
+            no-renames:$no_renames
+            find-renames:$find_renames
+          }
+         )
+    }
+
+  }
+
+
+export module switch {
+
+  def get-conflict-completions [] {
+      ['merge' 'diff3' 'zdiff3']
+  }
+  
+  def get-track-completions [] {
+      ['direct' 'inherit']
+  }
+  
+  export def main [
+    --create(-c):string
+    --force-create(-C):string
+    --detach(-d)
+    --guess
+    --no-guess
+    --force(-f)
+    --discard-changes
+    --merge(-m)
+    --conflict:string@get-conflict-completions
+    --quiet(-q)
+    --progress
+    --no-progress
+    --track(-t):string@get-track-completions
+    --no-track
+    --orphan:string
+    --ignore-other-worktrees
+    --recurse-submodules
+    --no-recurse-submodules
+    branch?:string
+  ] {
+
+      let viable_bash_string_flags = generate_viable_bash_string_flags {
+                  create:$create
+                  force-create:$force_create
+                  detach:$detach
+                  guess:$guess
+                  no-guess:$no_guess
+                  force:$force
+                  discard-changes:$discard_changes
+                  merge:$merge
+                  conflict:$conflict
+                  quiet:$quiet
+                  progress:$progress
+                  no-progress:$no_progress
+                  track:$track
+                  no-track:$no_track
+                  orphan:$orphan
+                  ignore-other-worktrees:$ignore_other_worktrees
+                  recurse-submodules:$recurse_submodules
+                  no-recurse-submodules:$no_recurse_submodules
+      }
+
+      if ($branch | describe) != nothing {
+
+        return (bash_yadm switch $branch ...$viable_bash_string_flags) 
+      }
+
+      bash_yadm switch ...$viable_bash_string_flags 
+
+  
+  }
+
+}
+
+
+export module tag {
+
+  def get-color-completions [] {
+      ['never' 'always' 'auto']  
+  }
+
+  def get-cleanup-completions [] {
+      ['strip' 'whitespace' 'verbatim']
+  }
+
+  export def main [
+    --annotate(-a)
+    --sign(-s)
+    --no-sign
+    --local-user(-u)
+    --force(-f)
+    --delete(-d)
+    --verify(-v)
+    --num:int
+    --list(-l)
+    --sort:string
+    --color:string@get-color-completions
+    --ignore-case(-i)
+    --omit-empty 
+    --column:string 
+    --no-column
+    --contains:string 
+    --no-contains:string 
+    --merged:string 
+    --no-merged:string
+    --message(-m):string
+    --file(-F):string
+    --edit(-e)
+    --cleanup:string@get-cleanup-completions
+    --create-reflog
+    --format:string 
+     tag?:string
+     commit?:string
+  ] {
+
+    let viable_bash_string_flags = generate_viable_bash_string_flags {
+          annotate:$annotate
+          sign:$sign
+          no-sign:$no_sign
+          local-user:$local_user
+          force:$force
+          delete:$delete
+          verify:$verify
+          num:$num
+          list:$list
+          sort:$sort
+          color:$color
+          ignore-case:$ignore_case
+          omit-empty:$omit_empty 
+          column:$column 
+          no-column:$no_column
+          contains:$contains 
+          no-contains:$no_contains 
+          merged:$merged 
+          no-merged:$no_merged
+          message:$message
+          file:$file
+          edit:$edit
+          cleanup:$cleanup
+          create-reflog:$create_reflog
+          format:$format 
+    }
+
+    match [($tag | describe) ($commit | describe) ] {
+      
+    [string string] => (bash_yadm tag $tag $commit ...$viable_bash_string_flags)
+      
+    [string nothing] => (bash_yadm tag $tag ...$viable_bash_string_flags)
+      
+    _ => (bash_yadm tag ...$viable_bash_string_flags)
+
+    }
+
+  }
+
+}
+
+
+export use git *
