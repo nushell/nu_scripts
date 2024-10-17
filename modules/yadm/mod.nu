@@ -1596,10 +1596,62 @@ export def fetch [
   --server-option(-o): string                   
   --show-forced-updates                         
   --no-show-forced-updates                      
-  -4                                            
-  -6                                            
+  --ipv4(-4)                                            
+  --ipv6(-6)                                            
 ] {
 
+  let viable_bash_string_flags = generate_viable_bash_string_flags {
+        all:$all                                         
+        append:$append                                  
+        atomic:$atomic                                      
+        depth: int                                  
+        deepen: int                                 
+        shallow-since: string                       
+        shallow-exclude: string                     
+        unshallow:$unshallow                                   
+        update-shallow:$update_shallow                              
+        negotiation-tip: string                     
+        negotiate-only:$negotiate_only                              
+        dry-run:$dry_run                                     
+        write-fetch-head:$write_fetch_head                            
+        no-write-fetch-head:$no_write_fetch_head                         
+        force:$force                                   
+        keep:$keep                                    
+        multiple:$multiple                                    
+        auto-maintenance:$auto_maintenance                            
+        no-auto-maintenance:$no_auto_maintenance                         
+        auto-gc:$auto_gc                                     
+        no-auto-gc:$no_auto_gc                                  
+        write-commit-graph:$write_commit_graph                          
+        no-write-commit-graph:$no_write_commit_graph                       
+        prefetch:$prefetch                                    
+        prune:$prune                                   
+        prune-tags:$prune_tags                              
+        no-tags:$no_tags                                 
+        refmap:$refmap                              
+        tags:$tags                                    
+        recurse-submodules:$recurse_submodules                  
+        jobs:$jobs                               
+        no-recurse-submodules:$no_recurse_submodules                       
+        set-upstream:$set_upstream                                
+        submodule-prefix:$submodule_prefix                    
+        upload-pack:$upload_pack                         
+        quiet:$quiet                                   
+        verbose:$verbose                                 
+        progress:$progress                                    
+        server-option:$server_option                   
+        show-forced-updates:$show_forced_updates                         
+        no-show-forced-updates:$no_show_forced_updates                      
+        ipv4:$ipv4                                            
+        ipv6:$ipv6
+    }
+
+  if ($repository | describe) != nothing  {
+
+    return (bash_yadm fetch $repository ...$viable_bash_string_flags)
+  }
+
+  bash_yadm fetch ...$viable_bash_string_flags
 
 }
 
