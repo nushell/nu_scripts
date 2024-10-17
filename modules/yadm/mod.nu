@@ -10,10 +10,10 @@ def generate_viable_bash_string_flags [
 
   let not_all_flag_record_values_are_acceptable_bash_types = $flag_record 
   | values 
-  | all { |value| ($value | describe) not-in$acceptable_bash_types }
+  | all { |value| ($value | describe) not-in $acceptable_bash_types }
   
 
-# Since bash can only accept strings and string-like values the user must typethem.
+# Since bash can only accept strings and string-like values the user must type them.
   if $not_all_flag_record_values_are_acceptable_bash_types {
 
     let joined_acceptable_bash_types = $acceptable_bash_types | str join " , "
@@ -37,7 +37,7 @@ def generate_viable_bash_string_flags [
   
   let viable_types = [string int float duration filesize binary]
   
-    # If flag value is a non-bool primitive create--key=value flag.  
+    # If flag value is a non-bool primitive create --key=value flag.  
         if $value_type in $viable_types { 
 
           return $"--($key)=($value)"
@@ -47,7 +47,7 @@ def generate_viable_bash_string_flags [
 
       if $value_type == nothing or $value == false { return null }
   
-    # If flag value is a bool primitive create --keyflag. 
+    # If flag value is a bool primitive create --key flag. 
 
         $"--($key)"
         
@@ -62,8 +62,8 @@ alias bash_yadm = bash yadm
 
 export def init [
   --initial-branch(-b)
-  --f
-  --w 
+  --f 
+  --w  
   ] {
 
   bash_yadm init (
@@ -78,19 +78,19 @@ export def init [
 
 
 export def main [
-    --yadm-dir(-Y)
+    --yadm-dir(-Y) 
 
-   --yadm-data
+   --yadm-data 
 
-   --yadm-repo
+   --yadm-repo 
 
-   --yadm-config
+   --yadm-config 
 
-   --yadm-encrypt
+   --yadm-encrypt 
 
-   --yadm-archive
+   --yadm-archive 
 
-   --yadm-bootstrap
+   --yadm-bootstrap 
 ] {
    
    bash_yadm (
@@ -124,7 +124,7 @@ def generate_type_flag_completions [] {
     
   export def clone [
     url:string
-    -f
+    -f 
     --no-bootstrap
     --bootstrap
     -w:string
@@ -150,23 +150,23 @@ def generate_type_flag_completions [] {
   
     const yadm_config_characteristics = {
         yadm:{
-          alt-copy:{ 
+          alt-copy: { 
             type: bool
             description: "Make alternate files copies instead of symbolic links"
             }
-          auto-alt:{ 
+          auto-alt: { 
             type: bool
             description: "Disable the automatic linking"
             }
-          auto-exclude:{ 
+          auto-exclude: { 
             type: bool
             description: "Disable the automatic exclusion of patterns defined in the encryption file"
             }
-          auto-perms:{ 
+          auto-perms: { 
             type: bool
             description: "Disable the automatic permission changes"
             }
-          auto-private-dirs:{ 
+          auto-private-dirs: { 
             type: bool
             description: "Disable the automatic creating of private directories"
             }
@@ -174,35 +174,35 @@ def generate_type_flag_completions [] {
             type: ['gpg', 'openssl']
             description: "Configure which encryption system is used by the encrypt/decrypt command"
           }
-          git-program:{ 
+          git-program: { 
             type:string
             description: "Specify an alternate program to use instead of git" 
           }
-          gpg-perms:{ 
+          gpg-perms: { 
             type: bool
             description: "Disable the permission changes to the gnupg folder"
             }
-          gpg-program:{ 
+          gpg-program: { 
             type: string
             description: "Specify an alternate program to use instead of gpg"
             }
-          gpg-recipient:{ 
+          gpg-recipient: { 
             type:string
             description:"Specify which cipher should be used by openssl"
             }
-          openssl-ciphername:{ 
+          openssl-ciphername: { 
             type:string
             description:"Provide  a 'key ID' to specify which public key to encrypt with"
             }
-          openssl-old:{ 
+          openssl-old: { 
             type: bool
             description: "Use older versions of openssl"
             }
-          openssl-program:{ 
+          openssl-program: { 
             type:string
             description:"Specify an alternate program to use instead  of  'openssl'"
             }
-          ssh-perms:{ 
+          ssh-perms: { 
             type: bool
             description: "Disable the permission changes to the ssh folder"
             }
@@ -273,7 +273,7 @@ def generate_type_flag_completions [] {
         
         bool => [true false]
         
-        $it if ($it | describe | str starts-with list)=> {
+        $it if ($it | describe | str starts-with list) => {
 
         if ($it | any { |value| $value in [true false] }) {
 
@@ -305,41 +305,41 @@ def generate_type_flag_completions [] {
     export def main  [
       key:string@generate_dot_value_and_descriptions 
       value?:any@get_auto_complete_value_based_on_what_context_gets_from_yadm_config_characteristics_type
-      --global
-      --local
-      --system
-      --worktree
-      --list
-      --edit
+      --global 
+      --local 
+      --system 
+      --worktree 
+      --list 
+      --edit 
       --type:string@generate_type_flag_completions
-      --bool
-      --int
-      --bool-or-int
-      --bool-or-str
-      --path
-      --expiry-date
-      --fixed-value
-      --null(-z)
-      --name-only
-      --includes
-      --show-origin
-      --show-scope
-      --file:string
-      --blob:string
-      --get:string
-      --default:string
-      --get-all:string
-      --get-regexp:string
-      --get-urlmatch:string
-      --replace-all: string
-      --get-color:string
-      --get-colorbool:string
-      --add:string
-      --unset:string
-      --unset-all:string
-      --remove-section:string
-      --rename-section:string
-      --comment:string
+      --bool 
+      --int 
+      --bool-or-int 
+      --bool-or-str 
+      --path 
+      --expiry-date 
+      --fixed-value 
+      --null(-z) 
+      --name-only 
+      --includes 
+      --show-origin 
+      --show-scope 
+      --file:string 
+      --blob:string 
+      --get:string 
+      --default:string 
+      --get-all:string 
+      --get-regexp:string 
+      --get-urlmatch:string 
+      --replace-all: string 
+      --get-color:string 
+      --get-colorbool:string 
+      --add:string 
+      --unset:string 
+      --unset-all:string 
+      --remove-section:string 
+      --rename-section:string 
+      --comment:string 
       ] { 
     
 
@@ -408,41 +408,41 @@ def generate_type_flag_completions [] {
   export def gitconfig [
     key:string 
     value?:any
-    --global
-    --local
-    --system
-    --worktree
-    --list
-    --edit
+    --global 
+    --local 
+    --system 
+    --worktree 
+    --list 
+    --edit 
     --type:string@generate_type_flag_completions
-    --bool
-    --int
-    --bool-or-int
-    --bool-or-str
-    --path
-    --expiry-date
-    --fixed-value
-    --null(-z)
-    --name-only
-    --includes
-    --show-origin
-    --show-scope
-    --file:string
-    --blob:string
-    --get:string
-    --default:string
-    --get-all:string
-    --get-regexp:string
-    --get-urlmatch:string
-    --replace-all: string
-    --get-color:string
-    --get-colorbool:string
-    --add:string
-    --unset:string
-    --unset-all:string
-    --remove-section:string
-    --rename-section:string
-    --comment:string
+    --bool 
+    --int 
+    --bool-or-int 
+    --bool-or-str 
+    --path 
+    --expiry-date 
+    --fixed-value 
+    --null(-z) 
+    --name-only 
+    --includes 
+    --show-origin 
+    --show-scope 
+    --file:string 
+    --blob:string 
+    --get:string 
+    --default:string 
+    --get-all:string 
+    --get-regexp:string 
+    --get-urlmatch:string 
+    --replace-all: string 
+    --get-color:string 
+    --get-colorbool:string 
+    --add:string 
+    --unset:string 
+    --unset-all:string 
+    --remove-section:string 
+    --rename-section:string 
+    --comment:string 
     ] { 
     
       bash_yadm gitconfig ...(
@@ -487,75 +487,75 @@ def generate_type_flag_completions [] {
   }
   
   
-  export module git-crypt { 
+  export module git-crypt  { 
     
 
     # Share the repository using GPG
-    export def add-gpg-user[user_id:string] {
+    export def add-gpg-user [user_id:string] {
       
-      bash_yadm git-crypt add-gpg-user$user_id
+      bash_yadm git-crypt add-gpg-user $user_id
 
     }
     
     # Configure a repository to use git-crypt
     export def init [] {
       
-      bash_yadm git-cryptinit
+      bash_yadm git-crypt init
 
     }
     
     # Unlock encrypted files
     export def unlock [] {
       
-      bash_yadm git-cryptunlock
+      bash_yadm git-crypt unlock
 
     }
 
     # Export a symmetric secret key
-    export def export-key[key_file_path:string] {
+    export def export-key [key_file_path:string] {
       
-      bash_yadm git-crypt export-key$key_file_path
+      bash_yadm git-crypt export-key $key_file_path
  
     }
     
   }
   
   export def transcrypt [
-    --cipher(-c):string
+    --cipher(-c):string 
 
-    --password(-p):string
+    --password(-p):string 
 
-    --set-openssl-path:string
+    --set-openssl-path:string 
 
-    --yes(-y)
+    --yes(-y) 
 
-    --display(-d)
+    --display(-d) 
 
-    --rekey(-r)
+    --rekey(-r) 
 
-    --flush-credentials(-f)
+    --flush-credentials(-f) 
 
-    --force(-F)
+    --force(-F) 
 
-    --uninstall(-u)
+    --uninstall(-u) 
 
-    --upgrade
+    --upgrade 
 
-    --list(-l)
+    --list(-l) 
 
-    --show-raw(-s):string
+    --show-raw(-s):string 
 
-    --export-gpg(-e):string
+    --export-gpg(-e):string 
 
-    --import-gpg(-i)
+    --import-gpg(-i) 
 
-    --context(-C)
+    --context(-C) 
 
-    --list-contexts
+    --list-contexts 
 
-    --version(-v)
+    --version(-v) 
 
-    --help(-h)
+    --help(-h) 
   ] { 
     
   bash_yadm transcrypt (
@@ -608,7 +608,7 @@ def generate_type_flag_completions [] {
     
     export def main [subject:string@get_completions_for_subject, ] {
       
-      if($subject  not-in$possible_subjects) {
+      if($subject  not-in $possible_subjects) {
 
         let joined_possible_subjects = $possible_subjects 
         | str join ","
@@ -662,10 +662,10 @@ module git {
     }
       
     export def save [
-      --patch(-p)
-      --staged(-S)
-      --keep-index(-k)
-      --no-keep-index
+      --patch(-p) 
+      --staged(-S) 
+      --keep-index(-k) 
+      --no-keep-index 
       --include-untracked(-u)
       --all(-a)
       --quiet(-q)
@@ -706,23 +706,23 @@ module git {
   export module show {
       
     
-    def get-diff-algorithm-completions[] {
+    def get-diff-algorithm-completions [] {
         ['patience' 'minimal' 'histogram' 'myers']
     }
     
-    def get-submodule-completions[] {
+    def get-submodule-completions [] {
         ['short' 'log' 'diff']
     }
 
-    def get-color-completions[] {
+    def get-color-completions [] {
         ['never' 'always' 'auto']
     }
     
-    def get-color-moved-completions[] {
+    def get-color-moved-completions [] {
         ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
     }
 
-    def get-color-moved-ws-completions[] {
+    def get-color-moved-ws-completions [] {
         [
         'no' 
         'ingore-space-at-eol'
@@ -732,7 +732,7 @@ module git {
         ]
     }
 
-    def get-word-diff-completions[] {
+    def get-word-diff-completions [] {
         ['color' 'plain' 'porcelain' 'none']
     }
 
@@ -756,7 +756,7 @@ module git {
         --anchored
         --diff-algorithm:string@get-diff-algorithm-completions
         --stat:string
-        --stat-width:int
+        --stat-width:int 
         --stat-count:int
         --stat-name-width:string
         --compact-summary
@@ -833,7 +833,7 @@ module git {
         --theirs(-3)
         --0
         --include-untracked(-u)
-        --only-untracked
+        --only-untracked 
         stash?:string
         ] {
   
@@ -952,8 +952,8 @@ module git {
      }
       
     export def pop [
-      --index
-      --quiet(-q)
+      --index 
+      --quiet(-q) 
       stash:string 
     ] {
 
@@ -968,7 +968,7 @@ module git {
       
     export def apply [
       --index
-      --quiet(-q)
+      --quiet(-q) 
       stash:string
     ] {
 
@@ -999,7 +999,7 @@ module git {
       bash_yadm stash clear  
     }
       
-    export def drop [--quiet(-q) stash:string] {
+    export def drop [--quiet(-q) stash:string ] {
 
       bash_yadm stash drop $stash ...(
                   generate_viable_bash_string_flags {
@@ -1035,16 +1035,16 @@ module git {
 
      export module add {
 
-        def get-mirror-completions[] {
+        def get-mirror-completions [] {
           ['fetch' 'push']
         }
 
         export def main [
-          --t:string
-          --m:string
-          --f
+          --t:string 
+          --m:string 
+          --f 
           --no-tags
-          --tags
+          --tags 
           --mirror:string@get-mirror-completions
           name:string
           url:string
@@ -1067,8 +1067,8 @@ module git {
 
 
       export def rename [
-        --progress
-        --no-progress 
+        --progress 
+        --no-progress  
         old:string 
         new:string
         ] {
@@ -1090,13 +1090,13 @@ module git {
 
       }
 
-      export def set-head[ 
+      export def set-head [ 
         --auto(-a):string
         --delete(-d):string
           name:string
       ] {
 
-      bash_yadm remote set-head$name ...(
+      bash_yadm remote set-head $name ...(
         generate_viable_bash_string_flags {
           auto:$auto
           delete:$delete
@@ -1105,9 +1105,9 @@ module git {
         
       }
 
-      export def set-branches[--add name:string...branches:string ] {
+      export def set-branches [--add name:string ...branches:string ] {
         
-        bash_yadm remote set-branches$name ...$branches ...(
+        bash_yadm remote set-branches $name ...$branches ...(
           generate_viable_bash_string_flags {
             add:$add
           }
@@ -1115,9 +1115,9 @@ module git {
 
       }
 
-      export def get-url[--all--push, name:string] {
+      export def get-url [--all --push, name:string] {
         
-        bash_yadm remote get-url$name ...(
+        bash_yadm remote get-url $name ...(
           generate_viable_bash_string_flags { 
             push:$push
             all:$all
@@ -1127,16 +1127,16 @@ module git {
       }
 
 
-      export def set-url[
+      export def set-url [
       --add
       --delete
-      --push
+      --push 
       name:string 
       new_url:string 
       old_url:string 
       ] {
         
-        bash_yadm remote set-url$name $new_url $old_url ...(
+        bash_yadm remote set-url $name $new_url $old_url ...(
           generate_viable_bash_string_flags {
             add:$add
             delete:$delete
@@ -1146,7 +1146,7 @@ module git {
       
       }
 
-      export def show [--verbose(-v), --nname:string] {
+      export def show [--verbose(-v), --n name:string] {
       
         bash_yadm remote prune $name ...(
           generate_viable_bash_string_flags {
@@ -1162,7 +1162,7 @@ module git {
       
         bash_yadm remote prune ...$names ...(
           generate_viable_bash_string_flags {
-            dry-run:$dry_run
+            dry-run: $dry_run
           }
         )
 
@@ -1192,7 +1192,7 @@ module git {
   export module worktree { 
 
       export def add [
-        --f
+        --f 
         --detach
         --checkout
         --lock
@@ -1238,7 +1238,7 @@ module git {
       }
 
 
-      export def list [-v --porcelain -z] {
+      export def list [-v --porcelain -z ] {
       
         bash_yadm worktree list ...(
           generate_viable_bash_string_flags {
@@ -1250,7 +1250,7 @@ module git {
 
       }
 
-      export def lock [--reason worktree:string, ] {
+      export def lock [--reason worktree: string, ] {
       
         bash_yadm worktree lock $worktree ...(
           generate_viable_bash_string_flags {
@@ -1266,7 +1266,7 @@ module git {
       
       }
 
-      export def prune [--n --v--expire:string] {
+      export def prune [--n --v --expire:string] {
 
         bash_yadm worktree prune ...(
           generate_viable_bash_string_flags {
@@ -1278,7 +1278,7 @@ module git {
 
       }
 
-      export def remove [-fworktree:string, ] {
+      export def remove [-f worktree:string, ] {
         
         bash_yadm worktree remove $worktree ...(
           generate_viable_bash_string_flags { 
@@ -1379,7 +1379,7 @@ module git {
     
     }
 
-    export def visualize [--stat--p] {
+    export def visualize [--stat --p] {
             
         bash_yadm bisect visualize ...(
           generate_viable_bash_string_flags {
@@ -1420,33 +1420,33 @@ module git {
 
 
   export def add [
-    --verbose(-v)
-    --dry-run(-n)
-    --force(-f)
-    --interactive(-i)
-    --patch(-p)      
+    --verbose(-v) 
+    --dry-run(-n) 
+    --force(-f) 
+    --interactive(-i) 
+    --patch(-p)       
     --edit(-e)
     --no-all
-    --all(-A)
+    --all(-A) 
     --no-ignore-removal
     --ignore-removal
-    --update(-u)
-    --sparse              
-    --intent-to-add(-N)
+    --update(-u) 
+    --sparse               
+    --intent-to-add(-N) 
     --refresh
-    --ignore-errors
-    --ignore-missing
-    --renormalize  
-    --chmod:string
-    --pathspec-from-file:string
-    --pathspec-file-nul 
+    --ignore-errors 
+    --ignore-missing 
+    --renormalize   
+    --chmod:string 
+    --pathspec-from-file:string 
+    --pathspec-file-nul  
       ...$pathspecs:string
   ] {
 
     bash_yadm add ...$pathspecs  ...(
       generate_viable_bash_string_flags {
         verbose:$verbose 
-        dry-run:$dry_run
+        dry-run :$dry_run
         force:$force 
         interactive:$interactive
         patch:$patch      
@@ -1473,7 +1473,7 @@ module git {
   export module branch {
     
   
-  def get-track-completions[] {
+  def get-track-completions [] {
     ['direct' 'inherit']
   }
     
@@ -1555,49 +1555,49 @@ module git {
 
 export def fetch [
   repository?: string
-  --all                                        
-  --append(-a)                                 
-  --atomic                                     
-  --depth: int                                 
-  --deepen: int                                
-  --shallow-since: string                      
-  --shallow-exclude: string                    
-  --unshallow                                  
-  --update-shallow                             
-  --negotiation-tip: string                    
-  --negotiate-only                             
-  --dry-run                                    
-  --write-fetch-head                           
-  --no-write-fetch-head                        
-  --force(-f)                                  
-  --keep(-k)                                   
-  --multiple                                   
-  --auto-maintenance                           
-  --no-auto-maintenance                        
-  --auto-gc                                    
-  --no-auto-gc                                 
-  --write-commit-graph                         
-  --no-write-commit-graph                      
-  --prefetch                                   
-  --prune(-p)                                  
-  --prune-tags(-P)                             
-  --no-tags(-n)                                
-  --refmap: string                             
-  --tags(-t)                                   
-  --recurse-submodules: string                 
-  --jobs(-j): int                              
-  --no-recurse-submodules                      
-  --set-upstream                               
-  --submodule-prefix: string                   
-  --upload-pack: string                        
-  --quiet(-q)                                  
-  --verbose(-v)                                
-  --progress                                   
-  --server-option(-o): string                  
-  --show-forced-updates                        
-  --no-show-forced-updates                     
-  -4
-  -6
+  --all                                         
+  --append(-a)                                  
+  --atomic                                      
+  --depth: int                                  
+  --deepen: int                                 
+  --shallow-since: string                       
+  --shallow-exclude: string                     
+  --unshallow                                   
+  --update-shallow                              
+  --negotiation-tip: string                     
+  --negotiate-only                              
+  --dry-run                                     
+  --write-fetch-head                            
+  --no-write-fetch-head                         
+  --force(-f)                                   
+  --keep(-k)                                    
+  --multiple                                    
+  --auto-maintenance                            
+  --no-auto-maintenance                         
+  --auto-gc                                     
+  --no-auto-gc                                  
+  --write-commit-graph                          
+  --no-write-commit-graph                       
+  --prefetch                                    
+  --prune(-p)                                   
+  --prune-tags(-P)                              
+  --no-tags(-n)                                 
+  --refmap: string                              
+  --tags(-t)                                    
+  --recurse-submodules: string                  
+  --jobs(-j): int                               
+  --no-recurse-submodules                       
+  --set-upstream                                
+  --submodule-prefix: string                    
+  --upload-pack: string                         
+  --quiet(-q)                                   
+  --verbose(-v)                                 
+  --progress                                    
+  --server-option(-o): string                   
+  --show-forced-updates                         
+  --no-show-forced-updates                      
+  -4                                            
+  -6                                            
 ] {
 
 
@@ -1614,7 +1614,7 @@ export def fetch [
       --pathspec-from-file:string
       --pathspec-file-nul
       --ours
-      --theirs
+      --theirs 
       --conflict
       --patch
      branch:string
@@ -1638,9 +1638,9 @@ export def fetch [
   }
 
 
-  export module cherry-pick{
+  export module cherry-pick {
 
-    def get-empty-completions[] {
+    def get-empty-completions [] {
         ['drop' 'keep' 'stop']
     }
     
@@ -1668,7 +1668,7 @@ export def fetch [
         ...commits:string
         ] {
     
-        bash_yadm cherry-pick...$commits ...(
+        bash_yadm cherry-pick ...$commits ...(
             generate_viable_bash_string_flags {
               edit:$edit
               no-commit:$no_commit
@@ -1788,11 +1788,11 @@ export def fetch [
 
   export module commit { 
 
-    def get-fixup-completions[] {
+    def get-fixup-completions [] {
         ['amend' 'reword'] | each {|value| $"($value):<commit>" }
     }
 
-    def get-cleanup-completions[] {
+    def get-cleanup-completions [] {
         ['strip' 'whitespace' 'verbatim' 'scissors' 'default']
     }
     
@@ -1837,7 +1837,7 @@ export def fetch [
      --no-status
      --gpg-sign
      --no-gpg-sign
-     --message(-m):string  
+     --message(-m):string   
     ...pathspec:string
       ] {
       
@@ -1895,23 +1895,23 @@ export def fetch [
 
 export module diff {
   
-    def get-diff-algorithm-completions[] {
+    def get-diff-algorithm-completions [] {
         ['patience' 'minimal' 'histogram' 'myers']
     }
     
-    def get-submodule-completions[] {
+    def get-submodule-completions [] {
         ['short' 'log' 'diff']
     }
 
-    def get-color-completions[] {
+    def get-color-completions [] {
         ['never' 'always' 'auto']
     }
     
-    def get-color-moved-completions[] {
+    def get-color-moved-completions [] {
         ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
     }
 
-    def get-color-moved-ws-completions[] {
+    def get-color-moved-ws-completions [] {
         [
         'no' 
         'ingore-space-at-eol'
@@ -1921,7 +1921,7 @@ export module diff {
         ]
     }
 
-    def get-word-diff-completions[] {
+    def get-word-diff-completions [] {
         ['color' 'plain' 'porcelain' 'none']
     }
 
@@ -1945,7 +1945,7 @@ export module diff {
       --anchored
       --diff-algorithm:string@get-diff-algorithm-completions
       --stat:string
-      --stat-width:int
+      --stat-width:int 
       --stat-count:int
       --stat-name-width:string
       --compact-summary
@@ -2136,7 +2136,7 @@ export module diff {
 export module grep { 
 
 
-    def get-color-completions[] {
+    def get-color-completions [] {
         ['never' 'auto']
     }
 
@@ -2148,7 +2148,7 @@ export module grep {
      --no-exclude-standard
      --recurse-submodules
      --text(-a)
-     --textconv 
+     --textconv  
      --no-textconv
      --ignore-case(-i)
      -I
@@ -2185,7 +2185,7 @@ export module grep {
      --threads:int
      -f:string
      -e
-     --and
+     --and 
      --or
      --not
      --all-match
@@ -2252,19 +2252,19 @@ export module grep {
 
  export module log { 
 
-  def get-decorate-completions[] {
+  def get-decorate-completions [] {
      ['short' 'full' 'auto' 'no']
   }
 
-  def get-exclude-hidden-completions[] {
+  def get-exclude-hidden-completions [] {
       ['fetch' 'receive' 'uploadpack']
   }
 
-  def get-no-walk-completions[] {
+  def get-no-walk-completions [] {
       ['sorted' 'unsorted']
   }
 
-  def get-pretty-completions[] {
+  def get-pretty-completions [] {
       [
         'oneline',
         'short',
@@ -2278,7 +2278,7 @@ export module grep {
       ]
   }
 
-  def get-date-completions[] {
+  def get-date-completions [] {
       [
         'relative'
         'local'
@@ -2293,7 +2293,7 @@ export module grep {
       ]
   }
 
-  def get-diff-merges-completions[] {
+  def get-diff-merges-completions [] {
       [
         'off'
         'none'
@@ -2311,23 +2311,23 @@ export module grep {
       ]
   }
 
-  def get-diff-algorithm-completions[] {
+  def get-diff-algorithm-completions [] {
       ['patience' 'minimal' 'histogram' 'myers']
   }
 
-  def get-submodule-completions[] {
+  def get-submodule-completions [] {
       ['short' 'log' 'diff']
   }
 
-    def get-color-completions[] {
+    def get-color-completions [] {
        ['never' 'always' 'auto']
   }
     
-  def get-color-moved-completions[] {
+  def get-color-moved-completions [] {
       ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
   }
 
-  def get-color-moved-ws-completions[] {
+  def get-color-moved-ws-completions [] {
       [
       'no' 
       'ingore-space-at-eol'
@@ -2337,7 +2337,7 @@ export module grep {
       ]
   }
 
-  def get-word-diff-completions[] {
+  def get-word-diff-completions [] {
     ['color' 'plain' 'porcelain' 'none']
   }
 
@@ -2463,7 +2463,7 @@ export module grep {
       --anchored
       --diff-algorithm:string@get-diff-algorithm-completions
       --stat:string
-      --stat-width:int
+      --stat-width:int 
       --stat-count:int
       --stat-name-width:string
       --compact-summary
@@ -2738,19 +2738,19 @@ export module grep {
 
  export module reflog {
 
-  def get-decorate-completions[] {
+  def get-decorate-completions [] {
       ['short' 'full' 'auto' 'no']
   }
 
-  def get-exclude-hidden-completions[] {
+  def get-exclude-hidden-completions [] {
       ['fetch' 'receive' 'uploadpack']
   }
 
-  def get-no-walk-completions[] {
+  def get-no-walk-completions [] {
       ['sorted' 'unsorted']
   }
 
-  def get-pretty-completions[] {
+  def get-pretty-completions [] {
       [
         'oneline',
         'short',
@@ -2764,7 +2764,7 @@ export module grep {
       ]
   }
 
-  def get-date-completions[] {
+  def get-date-completions [] {
       [
         'relative'
         'local'
@@ -2779,7 +2779,7 @@ export module grep {
       ]
   }
 
-  def get-diff-merges-completions[] {
+  def get-diff-merges-completions [] {
       [
         'off'
         'none'
@@ -2798,23 +2798,23 @@ export module grep {
       ]
   }
 
-  def get-diff-algorithm-completions[] {
+  def get-diff-algorithm-completions [] {
       ['patience' 'minimal' 'histogram' 'myers']
     }
 
-  def get-submodule-completions[] {
+  def get-submodule-completions [] {
       ['short' 'log' 'diff']
     }
 
-    def get-color-completions[] {
+    def get-color-completions [] {
        ['never' 'always' 'auto']  
     }
     
-    def get-color-moved-completions[] {
+    def get-color-moved-completions [] {
         ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
     }
 
-    def get-color-moved-ws-completions[] {
+    def get-color-moved-ws-completions [] {
         [
         'no' 
         'ingore-space-at-eol'
@@ -2824,7 +2824,7 @@ export module grep {
         ]
     }
 
-    def get-word-diff-completions[] {
+    def get-word-diff-completions [] {
         ['color' 'plain' 'porcelain' 'none']
     }
 
@@ -2950,7 +2950,7 @@ export module grep {
       --anchored
       --diff-algorithm:string@get-diff-algorithm-completions
       --stat:string
-      --stat-width:int
+      --stat-width:int 
       --stat-count:int
       --stat-name-width:string
       --compact-summary
@@ -3301,7 +3301,7 @@ export module grep {
     --keep
     --recurse-submodules
     --no-recurse-submodules
-    --refresh
+    --refresh 
     --no-refresh
     --pathspec-from-file:string
     --pathspec-file-nul
@@ -3363,19 +3363,19 @@ export module grep {
 
   export module pull {
 
-    def get-recurse-submodules-completions[] {
+    def get-recurse-submodules-completions [] {
         ['yes' 'on-demand' 'no']
     }
 
-    def get-rebase-completions[] {
+    def get-rebase-completions [] {
         ['false' 'true' 'merges' 'interactive']
     }
 
-    def get-negotation-tip-completions[] {
+    def get-negotation-tip-completions [] {
         ['commit' 'glob']
     }
 
-    def get-strategy-completions[] {
+    def get-strategy-completions [] {
         [
           'ort'
         'recursive'
@@ -3537,11 +3537,11 @@ export module grep {
 
   export module push {
 
-  def get-signed-completions[] {
+  def get-signed-completions [] {
       ['true' 'false' 'if-asked']
   }
 
-  def get-recurse-submodules-completions[] {
+  def get-recurse-submodules-completions [] {
       ['check' 'on-demand' 'only' 'no']
   }
   
@@ -3640,15 +3640,15 @@ export module grep {
   export module rebase {
 
 
-      def get-empty-completions[] {
+      def get-empty-completions [] {
           ['drop' 'keep' 'stop']
       }
 
-      def get-rebase-merges-completions[] {
+      def get-rebase-merges-completions [] {
           ['rebase-cousins' 'no-rebase-cousins']
       }
 
-      def get-strategy-completions[] {
+      def get-strategy-completions [] {
           [
             'ort'
           'recursive'
@@ -3681,7 +3681,7 @@ export module grep {
       --strategy-option(-X):string
       --rerere-autoupdate
       --no-rerere-autoupdate
-      --gpg-sign:string
+      --gpg-sign:string 
       --no-gpg-sign
       --quiet(-q)
       --verbose(-v)
@@ -3697,7 +3697,7 @@ export module grep {
       --ignore-whitespace
       --whitespace
       --committer-date-is-author-date
-      --ignore-date
+      --ignore-date 
       --reset-author-date
       --signoff
       --interactive(-i)
@@ -3705,11 +3705,11 @@ export module grep {
       --no-rebase-merges
       --exec(-x):string
       --root
-      --autosquash
+      --autosquash 
       --no-autosquash
-      --autostash
+      --autostash 
       --no-autostash
-      --reschedule-failed-exec
+      --reschedule-failed-exec 
       --no-reschedule-failed-exec
       --update-refs
       --no-update-refs
@@ -3739,7 +3739,7 @@ export module grep {
             strategy-option:$strategy_option
             rerere-autoupdate:$rerere_autoupdate
             no-rerere-autoupdate:$no_rerere_autoupdate
-            gpg-sign:string
+            gpg-sign:string 
             no-gpg-sign:$no_gpg_sign
             quiet:$quiet
             verbose:$verbose
@@ -3799,7 +3799,7 @@ export module grep {
 
   export module restore {
 
-     def get-conflict-completions[] {
+     def get-conflict-completions [] {
          ['merge' 'diff3' 'zdiff3']
      }
 
@@ -3819,7 +3819,7 @@ export module grep {
       --ignore-skip-worktree-bits
       --recurse-submodules
       --no-recurse-submodules
-      --overlay
+      --overlay 
       --no-overlay
       --pathspec-from-file:string
       --pathspec-file-nul
@@ -3918,7 +3918,7 @@ export module grep {
 
   export module show {
 
-    def get-pretty-completions[] {
+    def get-pretty-completions [] {
         [
           'oneline'
           'short'
@@ -3944,7 +3944,7 @@ export module grep {
       --no-expand-tabs
       --notes:string
       --no-notes
-      --show-notes-by-default
+      --show-notes-by-default 
       --show-notes:string
       --no-standard-notes
       --show-signature
@@ -3977,11 +3977,11 @@ export module grep {
 
   export module status {
 
-   def get-ignore-submodules-completions[] {
+   def get-ignore-submodules-completions [] {
       ['untracked' 'dirty' 'all']
    }
 
-   def get-ignored-completions[] {
+   def get-ignored-completions [] {
       ['trditional' 'no' 'matching']
    }
     
@@ -4000,7 +4000,7 @@ export module grep {
       --no-column
       --ahead-behind
       --no-ahead-behind
-      --renames
+      --renames 
       --no-renames
       --find-renames:int
       ...$pathspecs
@@ -4034,11 +4034,11 @@ export module grep {
 
 export module switch {
 
-  def get-conflict-completions[] {
+  def get-conflict-completions [] {
       ['merge' 'diff3' 'zdiff3']
   }
   
-  def get-track-completions[] {
+  def get-track-completions [] {
       ['direct' 'inherit']
   }
   
@@ -4100,11 +4100,11 @@ export module switch {
 
 export module tag {
 
-  def get-color-completions[] {
+  def get-color-completions [] {
       ['never' 'always' 'auto']  
   }
 
-  def get-cleanup-completions[] {
+  def get-cleanup-completions [] {
       ['strip' 'whitespace' 'verbatim']
   }
 
@@ -4121,19 +4121,19 @@ export module tag {
     --sort:string
     --color:string@get-color-completions
     --ignore-case(-i)
-    --omit-empty
-    --column:string
+    --omit-empty 
+    --column:string 
     --no-column
-    --contains:string
-    --no-contains:string
-    --merged:string
+    --contains:string 
+    --no-contains:string 
+    --merged:string 
     --no-merged:string
     --message(-m):string
     --file(-F):string
     --edit(-e)
     --cleanup:string@get-cleanup-completions
     --create-reflog
-    --format:string
+    --format:string 
      tag?:string
      commit?:string
   ] {
