@@ -3,10 +3,12 @@
 
 
 def generate_viable_bash_string_flags [
-  flag_record:record # A object filled all known flags and their values.  
+flag_record:record # A object filled all known flags and their values.  
 ] -> list<string> {
 
-  const acceptable_bash_types = [string int float duration filesize binary, bool]
+
+
+  const acceptable_bash_types = [string int float duration filesize binary bool]
 
   let not_all_flag_record_values_are_acceptable_bash_types = $flag_record 
   | values 
@@ -20,18 +22,23 @@ def generate_viable_bash_string_flags [
 
     error make {
       msg: "Wrong values",
-      label: $"The values for these flags aren't good please use.
-      These ($joined_acceptable_bash_types) types.
-      Bash can't use any of these types at all. 
-      "
+      label: {
+        text: $"The values for these flags aren't good please use.
+                These ($joined_acceptable_bash_types) types.
+                Bash can't use any of these types at all. 
+              "
       span: (metadata $flag_record).span
+      }
+
       help: $"Please use one of these ($joined_acceptable_bash_types) for each flag"
       }
 
   }
 
+
+
   $flag_record 
-  | items {  |key, value| 
+  | items {  |key value| 
   
   let value_type = ( $value | describe )
   
@@ -66,7 +73,7 @@ export def init [
   --w  
   ] {
 
-  bash_yadm init (
+  bash_yadm init ...(
     generate_viable_bash_string_flags {
       initial-branch:$initial_branch
       f:$f
@@ -122,7 +129,7 @@ def generate_type_flag_completions [] {
 
     
   export def clone [
-    url:string
+     url:string
     -f 
     --no-bootstrap
     --bootstrap
@@ -338,7 +345,7 @@ export def main  [
       --comment:string 
       ] { 
         
-        if $key !~ '(?<outer_key>\w+)(?<dot>\.)(?<inner_key>\w+)' {
+        if string !~ '(?<outer_key>\w+)(?<dot>\.)(?<inner_key>\w+)' {
 
           error make {
             msg: 'Invalid Argument',
@@ -398,7 +405,7 @@ export def main  [
   }
 
 export def gitconfig [
-    key:string 
+  key:string 
     value?:any
     --global 
     --local 
@@ -1072,7 +1079,7 @@ export module show {
       export def set-head [ 
         --auto(-a):string
         --delete(-d):string
-          name:string
+        name:string
       ] {
 
           bash_yadm remote set-head $name ...(
@@ -1094,8 +1101,8 @@ export module show {
 
       }
 
-      export def get-url [--all --push, name:string] {
-        
+      export def get-url [--all --push,name:string] {
+      
         bash_yadm remote get-url $name ...(
           generate_viable_bash_string_flags { 
             push:$push
@@ -1191,7 +1198,7 @@ export module show {
               checkout:$checkout
               lock:$lock
               reason:$reason
-              orphan: $orphan
+              orphan:$orphan
               b:$b
 
             }
@@ -1206,7 +1213,7 @@ export module show {
               checkout:$checkout
               lock:$lock
               reason:$reason
-              orphan: $orphan
+              orphan:$orphan
               b:$b
             }
           )
@@ -1231,7 +1238,7 @@ export module show {
       
         bash_yadm worktree lock $worktree ...(
           generate_viable_bash_string_flags {
-            reason:reason
+          reason:$reason
           }
         )
 
@@ -1297,9 +1304,9 @@ export module show {
         bash_yadm bisect start $good $bad ...(
               generate_viable_bash_string_flags {
                   term-bad:$term_bad
-                  term-new:term_new
-                  term-good:term_good
-                  term-old:term_old
+                  term-new:$term_new
+                  term-good:$term_good
+                  term-old:$term_old
                   no-checkout:$no_checkout
                   first-parent:$first_parent
               }
@@ -1342,9 +1349,9 @@ export module show {
         bash_yadm bisect terms ...(
               generate_viable_bash_string_flags {
                   term-bad:$term_bad
-                  term-new:term_new
-                  term-good:term_good
-                  term-old:term_old
+                  term-new:$term_new
+                  term-good:$term_good
+                  term-old:$term_old
               }
         ) 
 
@@ -1417,13 +1424,13 @@ export module show {
     --chmod:string 
     --pathspec-from-file:string 
     --pathspec-file-nul  
-    ...$pathspecs:string
+    ...pathspecs:string
   ] {
 
     bash_yadm add ...$pathspecs  ...(
       generate_viable_bash_string_flags {
         verbose:$verbose 
-        dry-run :$dry_run
+        dry-run:$dry_run
         force:$force 
         interactive:$interactive
         patch:$patch      
@@ -1560,8 +1567,8 @@ export def fetch [
   --no-tags(-n)                                 
   --refmap: string                              
   --tags(-t)                                    
-  --recurse-submodules: string                  
-  --jobs(-j): int                               
+  --recurse-submodules:string                  
+  --jobs(-j):int                               
   --no-recurse-submodules                       
   --set-upstream                                
   --submodule-prefix: string                    
@@ -1580,13 +1587,13 @@ export def fetch [
             all:$all                                         
             append:$append                                  
             atomic:$atomic                                      
-            depth: int                                  
-            deepen: int                                 
-            shallow-since: string                       
-            shallow-exclude: string                     
+            depth:$depth                                  
+            deepen:$deepen                                 
+            shallow-since:$shallow_since                       
+            shallow-exclude:$shallow_exclude                     
             unshallow:$unshallow                                   
             update-shallow:$update_shallow                              
-            negotiation-tip: string                     
+            negotiation-tip:$negotiation_tip                     
             negotiate-only:$negotiate_only                              
             dry-run:$dry_run                                     
             write-fetch-head:$write_fetch_head                            
@@ -1709,8 +1716,6 @@ export def fetch [
               allow-empty-message:$allow_empty_message
               gpg-sign:$gpg_sign
               empty:$empty
-              allow-empty:allow_empty
-              allow-empty-message:$allow_empty_message
               keep-redundant-commits:$keep_redundant_commits
               strategy:$strategy
               strategy-option:$strategy_option
@@ -1780,7 +1785,7 @@ export def fetch [
           quiet:$quiet
           verbose:$verbose
           progress:$progress
-          server-option:server_option
+          server-option:$server_option
           no-checkout:$no_checkout
           reject-shallow:$reject_shallow
           no-reject-shallow:$no_reject_shallow
@@ -1827,19 +1832,19 @@ export module commit {
     export def main [
      --all(-a)
      --patch(-p)
-     --reuse-message(-c)
-     --reedit-message(-C)
-     --fixup
-     --squash
+     --reuse-message(-c):string
+     --reedit-message(-C):string
+     --fixup:string@get-fixup-completions
+     --squash:string
      --reset-author
      --short
      --branch
      --porcelain
      --long
      --null(-z)
-     --file(-F)
-     --author
-     --date
+     --file(-F):string
+     --author:string
+     --date:string
      --template(-t):string
      --signoff
      --no-signoff
@@ -1863,13 +1868,14 @@ export module commit {
      --dry-run
      --status
      --no-status
-     --gpg-sign
+     --gpg-sign:string
      --no-gpg-sign
-     --message(-m):string   
+     --message(-m):string
     ...pathspec:string
       ] {
       
-      bash_yadm commit ...$pathspec ...(
+     bash_yadm commit ...$pathspec ...(
+
         generate_viable_bash_string_flags {
           all:$all
           patch:$patch
@@ -1882,7 +1888,7 @@ export module commit {
           branch:$branch
           porcelain:$porcelain
           long:$long
-          "null":$null
+          'null':$null
           file:$file
           author:$author
           date:$date
@@ -2270,6 +2276,8 @@ export module grep {
           }
         )
    
+}
+
 }
 
 
@@ -3312,8 +3320,6 @@ export module grep {
    
   }
 
-}
-
   export def reset [
     --quiet(-q)
     --patch(-p)
@@ -3486,7 +3492,7 @@ export module grep {
                 no-commit:$no_commit
                 edit:$edit
                 no-edit:$no_edit
-                cleanup:string
+                cleanup:$cleanup
                 ff-only:$ff_only
                 ff:$ff
                 no-ff:$no_ff
@@ -3528,11 +3534,11 @@ export module grep {
                 prefetch:$prefetch
                 prune:$prune
                 no-tags:$no_tags
-                refmap:string
+                refmap:$refmap
                 tags:$tags
                 jobs:$jobs
                 set-upstream:$set_upstream
-                upload-pack:string
+                upload-pack:$upload_pack
                 progress:$progress
                 server-option:$server_option
                 show-forced-updates:$show_forced_updates
@@ -3624,12 +3630,12 @@ export module grep {
               push-option:$push_option
               receive-pack:$receive_pack
               exec:$exec
-              force-with-lease:string
+              force-with-lease:$force_with_lease
               no-force-with-lease:$no_force_with_lease
               force:$force
               force-if-includes:$force_if_includes
               no-force-if-includes:$no_force_if_includes
-              repo:string
+              repo:$repo
               set-upstream:$set_upstream
               thin:$thin
               quiet:$quiet
@@ -3642,7 +3648,6 @@ export module grep {
               ipv4:$ipv4
               ipv6:$ipv6
       }
-
 
       match [($repository | describe) ($refspec | describe)] {
 
@@ -3761,7 +3766,7 @@ export module grep {
             strategy-option:$strategy_option
             rerere-autoupdate:$rerere_autoupdate
             no-rerere-autoupdate:$no_rerere_autoupdate
-            gpg-sign:string 
+            gpg-sign:$gpg_sign 
             no-gpg-sign:$no_gpg_sign
             quiet:$quiet
             verbose:$verbose
@@ -4025,7 +4030,7 @@ export module restore {
       --renames 
       --no-renames
       --find-renames:int
-      ...$pathspecs
+      ...pathspecs
     ] {
   
             bash_yadm status ...$pathspecs ...(
