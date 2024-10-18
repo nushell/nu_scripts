@@ -29,6 +29,7 @@ flag_record:record # A object filled all known flags and their values.
               "
       span: (metadata $flag_record).span
       }
+
       help: $"Please use one of these ($joined_acceptable_bash_types) for each flag"
       }
 
@@ -305,7 +306,7 @@ export module config {
     }
     
 export def main  [
-    key:string@generate_dot_value_and_descriptions 
+      key:string@generate_dot_value_and_descriptions 
       value?:any@get_auto_complete_value_based_on_what_context_gets_from_yadm_config_characteristics_type
       --global 
       --local 
@@ -349,8 +350,8 @@ export def main  [
           error make {
             msg: 'Invalid Argument',
             label:{
-              text: $"This key (string) is invalid"
-              span: (metadata string).span
+              text: $"This key ($key) is invalid"
+              span: (metadata $key).span
             }
           }
 
@@ -512,7 +513,7 @@ export module git-crypt  {
     # Export a symmetric secret key
     export def export-key [key_file_path:string] {
       
-      bash_yadm git-crypt export-key string_file_path
+      bash_yadm git-crypt export-key $key_file_path
  
     }
     
@@ -937,7 +938,7 @@ export module show {
     export def pop [
       --index 
       --quiet(-q) 
-    stash:string 
+      stash:string 
     ] {
 
       bash_yadm stash pop $stash  ...(
@@ -952,7 +953,7 @@ export module show {
     export def apply [
       --index
       --quiet(-q) 
-    stash:string
+      stash:string
     ] {
 
       bash_yadm stash apply $stash ...(
@@ -1101,7 +1102,7 @@ export module show {
       }
 
       export def get-url [--all --push,name:string] {
-        
+      
         bash_yadm remote get-url $name ...(
           generate_viable_bash_string_flags { 
             push:$push
@@ -1873,8 +1874,8 @@ export module commit {
     ...pathspec:string
       ] {
       
-
      bash_yadm commit ...$pathspec ...(
+
         generate_viable_bash_string_flags {
           all:$all
           patch:$patch
@@ -3317,7 +3318,7 @@ export module grep {
     }
   
    
-}
+  }
 
   export def reset [
     --quiet(-q)
@@ -3647,7 +3648,6 @@ export module grep {
               ipv4:$ipv4
               ipv6:$ipv6
       }
-
 
       match [($repository | describe) ($refspec | describe)] {
 
