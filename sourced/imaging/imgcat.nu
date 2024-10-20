@@ -21,7 +21,7 @@ def --env b64_encode [fn] {
 }
 
 def --env b64_decode [fn] {
-    $fn | decode base64 -b
+    $fn | decode base64
 }
 
 def print_image [
