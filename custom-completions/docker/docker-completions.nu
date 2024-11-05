@@ -649,5 +649,3 @@ export alias "docker save" = docker image save
 
 # Inspect changes to files or directories on a container's filesystem
 export alias "docker events" = docker system events
-
-export alias "docker com" = docker compose
