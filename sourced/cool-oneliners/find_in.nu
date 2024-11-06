@@ -3,10 +3,10 @@ def "find in" [
 	glob: glob, # the glob expression
 	...rest: any # terms to search
 ]: nothing -> table<path: string, line: int, data: string> {
-	glob $glob
+	glob --no-dir $glob
 		| par-each {|e|
 			open $e | lines | enumerate | rename line data |
-			find -c [data] ...$rest |
+			find --columns [data] ...$rest |
 			each {|match| {path: ($e | path relative-to $env.PWD), ...$match}}
 	} | flatten
 }
