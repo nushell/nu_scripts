@@ -17,6 +17,10 @@ def "nu-complete docker pull" [] {
     [always, missing, never]
 }
 
+def "nu-complete docker remove image" [] {
+    [local, all]
+}
+
 def "nu-complete local files" [] {
     ^ls | lines
 }
@@ -519,52 +523,58 @@ export extern "docker buildx" [
     --builder: string                                   #Override the configured builder instance (default "default")
 ]
 
-# Run docker compose using docker-compose.yml
+# Stop and remove containers, networks
+export extern "docker compose down" [
+    --dry-run                                           #Execute command in dry run mode
+    --remove-orphans                                    #Remove containers for services not defined in the Compose file
+    --rmi: string@"nu-complete docker remove image"     #Remove images used by services. "local" remove only images that don't have a custom tag ("local"|"all")
+    --timeout(-t): int                                  #Specify a shutdown timeout in seconds
+    --volumes(-v)                                       #Remove named volumes declared in the "volumes" section of the Compose file and anonymous volumes attached to containers
+]
+
+# Stop containers
+export extern "docker compose stop" [
+    --dry-run                                           #Execute command in dry run mode
+    --timeout(-t): int                                  #Specify a shutdown timeout in seconds
+]
+
+# Restart service containers
+export extern "docker compose restart" [
+    --dry-run                                           #Execute command in dry run mode
+    --no-deps                                           #Don't restart dependent services
+    --timeout(-t): int                                  #Specify a shutdown timeout in seconds
+]
+
+# Create and start containers
 export extern "docker compose up" [
     --abort-on-container-exit                           #Stops all containers if any container was stopped. Incompatible with -d/--detach
     --abort-on-container-failure                        #Stops all containers if any container had a non-zero exit code. Incompatible with -d/--detach
     --always-recreate-deps                              #Recreate dependent containers. Incompatible with --no-recreate
-    --attach: list<string>                              #Restrict attaching to the specified services. Incompatible with --attach-dependencies
+    # --attach: list<string>                              #Restrict attaching to the specified services. Incompatible with --attach-dependencies
     --attach-dependencies                               #Automatically attach to log output of all dependent services
     --build                                             #Build images before starting containers
-
-    --detach                                            #Detached mode: Run containers in the background
+    --detach(-d)                                        #Detached mode: Run containers in the background
     --dry-run                                           #Execute command in dry run mode
-    --exit-code-from string                             #Return the exit code of the selected service container. Implies --abort-on-container-exit
+    --exit-code-from: string                            #Return the exit code of the selected service container. Implies --abort-on-container-exit
     --force-recreate                                    #Recreate containers even if their configuration and image haven't changed
     --menu                                              #Enable interactive shortcuts when running attached. Incompatible with --detach. Can also be enable/disable
-    --no-attach: list<string>                           #Do not attach (stream logs) to the specified services
+    # --no-attach: list<string>                           #Do not attach (stream logs) to the specified services
     --no-build                                          #Don't build an image, even if it's policy
     --no-color                                          #Produce monochrome output
     --no-deps                                           #Don't start linked services
     --no-log-prefix                                     #Don't print prefix in logs
     --no-recreate                                       #If containers already exist, don't recreate them. Incompatible with --force-recreate
     --no-start                                          #Don't start the services after creating them
-    --pull: string                                      #Pull image before running ("always"|"missing"|"never") (default "policy")
+    --pull: string@"nu-complete docker pull"            #Pull image before running ("always"|"missing"|"never") (default "policy")
     --quite-pull                                        #Pull without printing progress information
     --remove-orphans                                    #Remove containers for services not defined in the Compose file
-
-    --renew-anon-volumes                                #Recreate anonymous volumes instead of retrieving data from the previous containers
-    --timeout: int                                      #Use this timeout in seconds for container shutdown when attached or when containers are already running
+    --renew-anon-volumes(-V)                            #Recreate anonymous volumes instead of retrieving data from the previous containers
+    # --scale: scale                                      #Scale SERVICE to NUM instances. Overrides the scale setting in the Compose file if present
+    --timeout(-t): int                                  #Use this timeout in seconds for container shutdown when attached or when containers are already running
     --timestamps                                        #Show timestamps
     --wait                                              #Wait for services to be running|healthy. Implies detached mode
     --wait-timeout: int                                 #Maximum duration to wait for the project to be running|healthy
-
-    --watch                                             #Watch source code and rebuild|refresh containers when files are updated
-]
-
-# Destory and remove resources created by docker-compose.yml
-export extern "docker compose down" [
-    --dry-run                                           #Execute command in dry run mode
-    --remove-orphans                                    #Remove containers for services not defined in the Compose file
-    --rmi: string                                       #Remove images used by services. "local" remove only images that don't have a custom tag ("local"|"all")
-    --timeout: int                                      #Specify a shutdown timeout in seconds
-    --volumes                                           #Remove named volumes declared in the "volumes" section of the Compose file and anonymous volumes attached to containers
-]
-
-export extern "docker compose stop" [
-    --dry-run                                           #Execute command in dry run mode.
-    --timeout: int                                      #Specify a shutdown timeout in seconds.
+    --watch(-w)                                         #Watch source code and rebuild|refresh containers when files are updated
 ]
 
 # An open-source container management platform.
