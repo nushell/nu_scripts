@@ -25,9 +25,13 @@ def "nu-complete local files" [] {
     ^ls | lines
 }
 
-def "nu-complete compose ps" [] {
+def "nu-complete docker compose ps" [] {
     ^docker compose ps -a --format "{{.ID}} {{.Names}}" | lines 
         | parse "{value} {description}"
+}
+
+def "nu-complete docker compose service status" [] {
+    [paused restarting removing running dead created exited]
 }
 
 # Log in to a Docker registry
@@ -532,6 +536,19 @@ export extern "docker compose down" [
     --volumes(-v)                                       #Remove named volumes declared in the "volumes" section of the Compose file and anonymous volumes attached to containers
 ]
 
+# List containers
+export extern "docker compose ps" [
+    --all(-a)                                           #Show all stopped containers (including those created by the run command)
+    --dry-run                                           #Execute command in dry run mode
+    --filter: string                                    #Filter services by a property (supported filters: status)
+    --format: string                                    #Format output using a custom template: 'table': Print output in table; format with column headers (default) 'table TEMPLATE': Print output in table; format using the given Go template 'json': Print in JSON format; 'TEMPLATE': Print output using the given Go template; Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates (default "table")
+    --no-truncate                                       #Don't truncate output
+    --orphans                                           #Include orphaned services (not declared by project) (default true)
+    --quite(-q)                                         #Only display IDs
+    --services                                          #Display services
+    --status: string@"nu-complete docker compose service status" #Filter services by status. Values: [paused | restarting | removing | running | dead | created | exited]
+]
+
 # Stop containers
 export extern "docker compose stop" [
     --dry-run                                           #Execute command in dry run mode
@@ -550,7 +567,7 @@ export extern "docker compose up" [
     --abort-on-container-exit                           #Stops all containers if any container was stopped. Incompatible with -d/--detach
     --abort-on-container-failure                        #Stops all containers if any container had a non-zero exit code. Incompatible with -d/--detach
     --always-recreate-deps                              #Recreate dependent containers. Incompatible with --no-recreate
-    # --attach: list<string>                              #Restrict attaching to the specified services. Incompatible with --attach-dependencies
+    --attach: string                                    #Restrict attaching to the specified services. Incompatible with --attach-dependencies
     --attach-dependencies                               #Automatically attach to log output of all dependent services
     --build                                             #Build images before starting containers
     --detach(-d)                                        #Detached mode: Run containers in the background
@@ -558,7 +575,7 @@ export extern "docker compose up" [
     --exit-code-from: string                            #Return the exit code of the selected service container. Implies --abort-on-container-exit
     --force-recreate                                    #Recreate containers even if their configuration and image haven't changed
     --menu                                              #Enable interactive shortcuts when running attached. Incompatible with --detach. Can also be enable/disable
-    # --no-attach: list<string>                           #Do not attach (stream logs) to the specified services
+    --no-attach: string                                 #Do not attach (stream logs) to the specified services
     --no-build                                          #Don't build an image, even if it's policy
     --no-color                                          #Produce monochrome output
     --no-deps                                           #Don't start linked services
