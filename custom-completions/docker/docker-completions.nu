@@ -17,8 +17,21 @@ def "nu-complete docker pull" [] {
     [always, missing, never]
 }
 
+def "nu-complete docker remove image" [] {
+    [local, all]
+}
+
 def "nu-complete local files" [] {
     ^ls | lines
+}
+
+def "nu-complete docker compose ps" [] {
+    ^docker compose ps -a --format "{{.ID}} {{.Names}}" | lines 
+        | parse "{value} {description}"
+}
+
+def "nu-complete docker compose service status" [] {
+    [paused restarting removing running dead created exited]
 }
 
 # Log in to a Docker registry
@@ -512,6 +525,73 @@ export extern "docker image save" [
 # Extended build capabilities with BuildKit
 export extern "docker buildx" [
     --builder: string                                   #Override the configured builder instance (default "default")
+]
+
+# Stop and remove containers, networks
+export extern "docker compose down" [
+    --dry-run                                           #Execute command in dry run mode
+    --remove-orphans                                    #Remove containers for services not defined in the Compose file
+    --rmi: string@"nu-complete docker remove image"     #Remove images used by services. "local" remove only images that don't have a custom tag ("local"|"all")
+    --timeout(-t): int                                  #Specify a shutdown timeout in seconds
+    --volumes(-v)                                       #Remove named volumes declared in the "volumes" section of the Compose file and anonymous volumes attached to containers
+]
+
+# List containers
+export extern "docker compose ps" [
+    --all(-a)                                           #Show all stopped containers (including those created by the run command)
+    --dry-run                                           #Execute command in dry run mode
+    --filter: string                                    #Filter services by a property (supported filters: status)
+    --format: string                                    #Format output using a custom template: 'table': Print output in table; format with column headers (default) 'table TEMPLATE': Print output in table; format using the given Go template 'json': Print in JSON format; 'TEMPLATE': Print output using the given Go template; Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates (default "table")
+    --no-truncate                                       #Don't truncate output
+    --orphans                                           #Include orphaned services (not declared by project) (default true)
+    --quite(-q)                                         #Only display IDs
+    --services                                          #Display services
+    --status: string@"nu-complete docker compose service status" #Filter services by status. Values: [paused | restarting | removing | running | dead | created | exited]
+]
+
+# Stop containers
+export extern "docker compose stop" [
+    --dry-run                                           #Execute command in dry run mode
+    --timeout(-t): int                                  #Specify a shutdown timeout in seconds
+]
+
+# Restart service containers
+export extern "docker compose restart" [
+    --dry-run                                           #Execute command in dry run mode
+    --no-deps                                           #Don't restart dependent services
+    --timeout(-t): int                                  #Specify a shutdown timeout in seconds
+]
+
+# Create and start containers
+export extern "docker compose up" [
+    --abort-on-container-exit                           #Stops all containers if any container was stopped. Incompatible with -d/--detach
+    --abort-on-container-failure                        #Stops all containers if any container had a non-zero exit code. Incompatible with -d/--detach
+    --always-recreate-deps                              #Recreate dependent containers. Incompatible with --no-recreate
+    --attach: string                                    #Restrict attaching to the specified services. Incompatible with --attach-dependencies
+    --attach-dependencies                               #Automatically attach to log output of all dependent services
+    --build                                             #Build images before starting containers
+    --detach(-d)                                        #Detached mode: Run containers in the background
+    --dry-run                                           #Execute command in dry run mode
+    --exit-code-from: string                            #Return the exit code of the selected service container. Implies --abort-on-container-exit
+    --force-recreate                                    #Recreate containers even if their configuration and image haven't changed
+    --menu                                              #Enable interactive shortcuts when running attached. Incompatible with --detach. Can also be enable/disable
+    --no-attach: string                                 #Do not attach (stream logs) to the specified services
+    --no-build                                          #Don't build an image, even if it's policy
+    --no-color                                          #Produce monochrome output
+    --no-deps                                           #Don't start linked services
+    --no-log-prefix                                     #Don't print prefix in logs
+    --no-recreate                                       #If containers already exist, don't recreate them. Incompatible with --force-recreate
+    --no-start                                          #Don't start the services after creating them
+    --pull: string@"nu-complete docker pull"            #Pull image before running ("always"|"missing"|"never") (default "policy")
+    --quite-pull                                        #Pull without printing progress information
+    --remove-orphans                                    #Remove containers for services not defined in the Compose file
+    --renew-anon-volumes(-V)                            #Recreate anonymous volumes instead of retrieving data from the previous containers
+    # --scale: scale                                      #Scale SERVICE to NUM instances. Overrides the scale setting in the Compose file if present
+    --timeout(-t): int                                  #Use this timeout in seconds for container shutdown when attached or when containers are already running
+    --timestamps                                        #Show timestamps
+    --wait                                              #Wait for services to be running|healthy. Implies detached mode
+    --wait-timeout: int                                 #Maximum duration to wait for the project to be running|healthy
+    --watch(-w)                                         #Watch source code and rebuild|refresh containers when files are updated
 ]
 
 # An open-source container management platform.
