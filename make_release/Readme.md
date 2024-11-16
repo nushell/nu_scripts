@@ -71,19 +71,13 @@
 > - edit the `nu_release.nu` script to start again where it failed
 > - re-run the script
 
-## 4. Publish the release note on the website
-> **Note**
-> the scripts have been written in such a way they can be run from anywhere
+## 4. Publish the release notes on the website
 
-- [ ] inspect the merged PRs to write changelogs with `./make_release/release-note/list-merged-prs nushell/nushell`
-- [ ] reorder sections by priority, what makes the most sense to the user?
-- [ ] paste the output of `./make_release/release-note/list-merged-prs nushell/nushell --label pr:breaking-change --pretty --no-author` to the "*Breaking changes*" section
-- [ ] make sure breaking changes titles are clear enough
-- [ ] paste the output of `./make_release/release-note/get-full-changelog` to the "*Full changelog*" section
-- [ ] mark as *ready for review* when uploading to *crates.io*
+- [ ] follow and finish the TODOs in the release notes file
+- [ ] mark as ready for review when uploading to crates.io
 - [ ] land when
     - **fully uploaded** to *crates.io*
-    - **before** the *GitHub* release
+    - **before** the GitHub release
 
 ## 5. Publish the release on *GitHub*
 - [ ] go to the draft release on the [release page](https://github.com/nushell/nushell/releases)
