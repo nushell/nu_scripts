@@ -7,9 +7,9 @@ excerpt: Today, we're releasing version {{VERSION}} of Nu. This release adds...
 ---
 <!-- TODO: complete the excerpt above -->
 
-# Nushell {{VERSION}}
+<!-- NOTE: start from the TODO all the way at the bottom (and sort of work your way up) -->
 
-Nushell, or Nu for short, is a new shell that takes a modern, structured approach to your command line. It works seamlessly with the data from your filesystem, operating system, and a growing number of file formats to make it easy to build powerful command line pipelines.
+# Nushell {{VERSION}}
 
 <!-- TODO: write this excerpt -->
 Today, we're releasing version {{VERSION}} of Nu. This release adds...
@@ -21,33 +21,11 @@ Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/n
 As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
 
 # Table of contents
-- [_Highlights and themes of this release_](#highlights-and-themes-of-this-release-toc)
-- [_Changes_](#changes-toc)
-  - [_Additions_](#additions-toc)
-  - [_Breaking changes_](#breaking-changes-toc)
-  - [_Deprecations_](#deprecations-toc)
-  - [_Removals_](#removals-toc)
-  - [_Bug fixes and other changes_](#bug-fixes-and-other-changes-toc)
-- [_Notes for plugin developers_](#notes-for-plugin-developers-toc)
-- [_Hall of fame_](#hall-of-fame-toc)
-- [_Full changelog_](#full-changelog-toc)
-<!-- TODO: please add links to the other sections here
 
-    the following command should help pre-generate a great deal of the table of content.
-    be careful with the format and false-positives :wink:
-    ```nushell
-    rg '^#+ ' blog/...
-        | lines
-        | each {
-            str replace '# ' '- '
-                | str replace --all '#' '    '
-                | str replace --regex '- (.*)' '- [_$1_](#$1-toc)'
-        }
-        | to text
-    ```
--->
+<!-- TODO: once all the content below is finished and committed, `use nu_scripts/make_release/release-note/notes.nu *` and run `write-toc $this_file`. -->
 
-# Highlights and themes of this release [[toc](#table-of-content)]
+# Highlights and themes of this release
+
 <!-- NOTE: if you wanna write a section about a breaking change, when it's a very important one,
     please add the following snippet to have a "warning" banner :)
     > see [an example](https://www.nushell.sh/blog/2023-09-19-nushell_0_85_0.html#pythonesque-operators-removal)
@@ -62,60 +40,38 @@ As part of this release, we also publish a set of optional plugins you can insta
     for the list of available *containers*
 -->
 
-# Changes [[toc](#table-of-content)]
+# Changes
 
-## Additions [[toc](#table-of-content)]
+## Additions
 
-## Breaking changes [[toc](#table-of-content)]
+## Breaking changes
 
-## Deprecations [[toc](#table-of-content)]
+## Deprecations
 
-## Removals [[toc](#table-of-content)]
+## Removals
 
-## Bug fixes and other changes [[toc](#table-of-content)]
+## Bug fixes and other changes
 
-<!-- NOTE: to start investigating the contributions of last release, i like to list them all in a raw table.
-    to achieve this, one can use the [`list-merged-prs` script from `nu_scripts`](https://github.com/nushell/nu_scripts/blob/main/make_release/release-note/list-merged-prs)
-    as follows:
+# Notes for plugin developers
 
-    ```nushell
-    use ./make_release/release-note/list-merged-prs
-    use std clip
+# Hall of fame
 
-    let last_release_date = ^gh api /repos/nushell/nushell/releases
-        | from json
-        | into datetime published_at
-        | get published_at
-        | sort
-        | last
+Thanks to all the contributors below for helping us solve issues, improve documentation, refactor code, and more! :pray:
 
-    let prs = list-merged-prs nushell/nushell $last_release_date
-        | sort-by mergedAt
-        | update url {|it| $"[#($it.number)]\(($it.url)\)" }
-        | update author { $"[@($in)]\(https://github.com/($in)\)" }
-        | select author title url
-        | rename -c {url: pr}
-        | to md --pretty
-
-    $prs | to md --pretty | clip
-    ```
--->
-
-# Notes for plugin developers [[toc](#table-of-content)]
-
-# Hall of fame [[toc](#table-of-content)]
-
-Thanks to all the contributors below for helping us solve issues and improve documentation :pray:
-
-| author                               | title       | url                                                     |
+| author                               | title       | link                                                    |
 | ------------------------------------ | ----------- | ------------------------------------------------------- |
 | [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
 
-# Full changelog [[toc](#table-of-content)]
+# Full changelog
+
 <!-- TODO:
-    paste the output of
-    ```nu
-    ./make_release/release-note/get-full-changelog
-    ```
-    here
+    - `use nu_scripts/make_release/release-note/notes.nu *`
+    - run `list-prs --milestone v{{VERSION}} | pr-table`
+    - paste the output here
+
+Afterwards, go through each PR and clasify it as one of the following:
+    - A user-facing change. These PRs should go into the `# Changes` section.
+    - A plugin-facing change. These PRs should go in `# Notes for plugin developers`. Some plugin-facing changes might also be a user-facing change and vice versa.
+    - A documentation improvement, error message improvement, refactoring PR, clippy fix, typo fix, etc. These PRs go into the `# Hall of fame`. You can just copy the table row in this section and paste it to the `# Hall of fame` section above. Note that major refactorings may warrant a section in `# Highlights`.
+    - Dependabot PRs and version bumps should be ignored. They will only be mentioned in `# Full changelog`.
 -->
