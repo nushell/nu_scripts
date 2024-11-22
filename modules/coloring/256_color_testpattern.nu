@@ -62,12 +62,13 @@ def print_blocks [start:int, end:int, block_cols:int, block_rows:int, blocks_per
   } | str join
 }
 
-print (print_run 0 16) # The first 16 colours are spread over the whole spectrum
-print ""             # Single line
-print (print_blocks 16 123 6 6 3) # 6x6x6 colour cube between 16 and 123 inclusive
-print (print_blocks 124 231 6 6 3) # 6x6x6 colour cube between 124 and 231 inclusive
-print (print_blocks 232 255 12 2 1) # Not 50, but 24 Shades of Grey
-
+export def main [] {
+  print (print_run 0 16) # The first 16 colours are spread over the whole spectrum
+  print ""             # Single line
+  print (print_blocks 16 123 6 6 3) # 6x6x6 colour cube between 16 and 123 inclusive
+  print (print_blocks 124 231 6 6 3) # 6x6x6 colour cube between 124 and 231 inclusive
+  print (print_blocks 232 255 12 2 1) # Not 50, but 24 Shades of Grey
+}
 
 # bash:
 
