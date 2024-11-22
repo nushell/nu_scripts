@@ -69,7 +69,7 @@ Thanks to all the contributors below for helping us solve issues, improve docume
     - run `list-prs --milestone v{{VERSION}} | pr-table`
     - paste the output here
 
-Afterwards, go through each PR and clasify it as one of the following:
+Afterwards, go through each PR and classify it as one of the following:
     - A user-facing change. These PRs should go into the `# Changes` section.
     - A plugin-facing change. These PRs should go in `# Notes for plugin developers`. Some plugin-facing changes might also be a user-facing change and vice versa.
     - A documentation improvement, error message improvement, refactoring PR, clippy fix, typo fix, etc. These PRs go into the `# Hall of fame`. You can just copy the table row in this section and paste it to the `# Hall of fame` section above. Note that major refactorings may warrant a section in `# Highlights`.

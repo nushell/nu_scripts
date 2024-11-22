@@ -17,7 +17,7 @@ export extern "bmc run" [
     --version           # Show version number
 ]
 
-# Import a new bussiness from a token
+# Import a new business from a token
 export extern "bmc import" [
     apiToken: string      # command
     --help              # Show help

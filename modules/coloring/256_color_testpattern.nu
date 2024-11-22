@@ -113,7 +113,7 @@ print (print_blocks 232 255 12 2 1) # Not 50, but 24 Shades of Grey
 #
 #     # Uncomment the below for more precise luminance calculations
 #
-#     # # Calculate percieved brightness
+#     # # Calculate perceived brightness
 #     # # See https://www.w3.org/TR/AERT#color-contrast
 #     # # and http://www.itu.int/rec/R-REC-BT.601
 #     # # Luminance is in range 0..5000 as each value is 0..5

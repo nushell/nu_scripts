@@ -1,6 +1,6 @@
 # authour: DWTW
 
-def platformOveride [] {
+def platformOverride [] {
   [ "linux", "macos", "windows", "sunos", "osx", "android" ]
 }
 
@@ -13,7 +13,7 @@ export extern "tldr" [
   string?
   --list(-l)                                # Lists all commands in the cache
   --render(-f): string                      # Render a specific markdown file
-  --platform(-f): string@platformOveride    # Override the operating system
+  --platform(-f): string@platformOverride   # Override the operating system
   --language(-L): string                    # Override the language
   --update(-u)                              # Update the local cache
   --no-auto-update                          # If auto update is configured. disable it for this run

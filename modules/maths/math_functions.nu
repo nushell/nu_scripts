@@ -211,7 +211,7 @@ export def "cartesian product" [
 def cartesian_product [] {
     use std assert
 
-    # emptyness
+    # emptiness
     assert equal (cartesian product [] []) []
     assert equal (cartesian product []) []
     assert equal (cartesian product) []

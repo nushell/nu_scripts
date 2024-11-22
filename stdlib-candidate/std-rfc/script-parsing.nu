@@ -19,7 +19,7 @@
 # }
 # ```
 #
-# it's possible to write a much stronger script whith `parse-arg`
+# it's possible to write a much stronger script with `parse-arg`
 # ```nushell
 # def main [
 #     x: string, # list<int>

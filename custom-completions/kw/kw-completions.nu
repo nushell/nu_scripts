@@ -38,9 +38,9 @@ def "nu-complete kw man pages" [] {
 
 def "nu-complete kw warnings" [] {
     [
-        [value description]; 
-        ["1" "not too often, may be relevant"] 
-        ["2" "quite often, may still be relevant"] 
+        [value description];
+        ["1" "not too often, may be relevant"]
+        ["2" "quite often, may still be relevant"]
         ["3" "more obscure, likely ignorable"]
         ["12" "warns 1 and 2"]
         ["13" "warns 1 and 3"]
@@ -59,9 +59,9 @@ def "nu-complete kw init template" [] {
 
 def "nu-complete kw init arch" [] {
     if ("arch" | path exists) {
-        ls arch 
-        | where type == "dir" 
-        | get name 
+        ls arch
+        | where type == "dir"
+        | get name
         | each {|el| $el | str replace 'arch/' ''}
     } else {
         []
@@ -77,8 +77,8 @@ def "nu-complete kw cores" [] {
 }
 
 def "nu-complete kw configs" [] {
-    ^kw config -s 
-    | lines 
+    ^kw config -s
+    | lines
     | parse --regex '\[.*\] (?<value>[a-z_.]+)=(?<description>.+)$'
 }
 
@@ -105,7 +105,7 @@ export extern "kw version" [
     ...args: string
 ]
 
-# Initalize kworkflow config file
+# Initialize kworkflow config file
 export extern "kw init" [
     --template: string@"nu-complete kw init template"   # Uses a template as the kworkflow.config
     --arch: string@"nu-complete kw init arch"           # Sets the variable arch from the newly created kworkflow.config
@@ -117,12 +117,12 @@ export extern "kw init" [
 
 # Builds the kernel
 export extern "kw build" [
-    ...flags: string                                 
+    ...flags: string
     --info(-i)                                          # Displays build information
     --menu(-n)                                          # Invokes the kernel menuconfig
     --doc(-d)                                           # Builds the documentation
-    --cpu-scaling(-S): int@"nu-complete kw cores"       # Sets the number of jobs to use for building the kernel (the -j flag)    
-    --ccache                                            # Enable ccache  
+    --cpu-scaling(-S): int@"nu-complete kw cores"       # Sets the number of jobs to use for building the kernel (the -j flag)
+    --ccache                                            # Enable ccache
     --warnings(-w): string@"nu-complete kw warnings"    # Sets the warning level for the kernel build
     --save-log-to(-s): string                           # Saves the build log to a file
     --llvm                                              # Uses LLVM toolchain during compilation and linking
@@ -186,14 +186,14 @@ export alias "kw s" = kw ssh
 export extern "kw codestyle" [
     path?: string                       # Which files to run checkpatch on. Defaults to the cwd
     --help(-h)                          # Shows help page
-    --verbose                           # Verbose mode      
+    --verbose                           # Verbose mode
 ]
 
 export alias "kw c" = kw codestyle
 
 export extern "kw self-update" [
     --unstable(-u)                      # Update kw based on the unstable branch
-    --help(-h)                          # Shows help page    
+    --help(-h)                          # Shows help page
     --verbose                           # Verbose mode
 ]
 
@@ -212,9 +212,9 @@ export alias "kw m" = kw maintainers
 export extern "kw kernel-config-manager" [
     --save: string                      # Creates a snapshot of the .config file with the given name
     -d: string                          # Sets the description when using --save
-    --force(-f)                         # Supress warnings
+    --force(-f)                         # Suppress warnings
     --get: string                       # Gets the config with the given name and overwrites the current .config file
-    --remove(-r): string                # Removes the config with the given name                               
+    --remove(-r): string                # Removes the config with the given name
     --list(-l)                          # Lists all the configs being managed
     --fetch                             # Fetches a .config from a target machine
     --output(-o): string                # Sets the output file when using --fetch
@@ -256,7 +256,7 @@ export extern "kw explore" [
     expr?: string                                        # Expression to search for
     --log(-l)                                           # Search using git log with the given string
     --grep(-g)                                          # Search using grep with the given string
-    --all(-a)                                           # Search using git grep with the given string      
+    --all(-a)                                           # Search using git grep with the given string
     --only-source(-c)                                   # Show only results from source code
     --only-header(-H)                                   # Show only results from header
     -p: string                                          # Path to where to start the search
@@ -272,7 +272,7 @@ export extern "kw pomodoro" [
     --tag(-g): string                                   # Tag the pomodoro
     --description(-d): string                           # Describe the pomodoro task
     --check-timer(-c)                                   # Check the current timer
-    --show-tags(-s)                                     # Show all tags used in pomodoros      
+    --show-tags(-s)                                     # Show all tags used in pomodoros
     --help(-h)                                          # Shows help page
     --verbose                                           # Verbose mode
 ]
@@ -284,7 +284,7 @@ export extern "kw report" [
     --year: string=""                                   # Shows the report for the current year if not specified <year>
     --month: string=""                                  # Shows the report for the current month if not specified <year>/<month>
     --week: string=""                                   # Shows the report for the current week if not specified <year>/<week>
-    --day: string=""                                    # Shows the report for the current day if not specified <year>/<month>/<day> 
+    --day: string=""                                    # Shows the report for the current day if not specified <year>/<month>/<day>
     --all                                               # Shows all the data in the report
     --statistics(-s)                                    # Shows the statistics of the report
     --pomodoro                                          # Shows the pomodoro data in the report
@@ -304,7 +304,7 @@ export extern "kw device" [
 ]
 
 # kernel debug
-export extern "kw debug" [ 
+export extern "kw debug" [
     --dmesg(-g)                                          # Collect dmesg log.
     --event(-e): string=""                               # Enable specific events to be traced. If no event is specified, all events will be enabled.
     --ftrace(-t)                                         # Enable ftrace.
@@ -368,7 +368,7 @@ export extern "kw clear-cache" []
 
 # drm subsystem support
 export extern "kw drm" [
-    --local                                                # Show all DRM drivers available in the local machine.                                                   
+    --local                                                # Show all DRM drivers available in the local machine.
     --remote: string                                       # Specify the target device for the drm action, can be a remote or local machine.
     --load-module: string                                  # Allow user to specify one or more modules to load with or without parameters.
     --unload-module: string                                # Allow users to unload one or more DRM drivers.
@@ -388,8 +388,8 @@ export extern "kw vm" [
     --alert: string@"nu-complete kw deploy alert"         # set alert behaviour upon command completion
 ]
 
-    
+
 # Show kw man page
 export extern "kw help" []
 
-export alias "kw h" = kw help   
+export alias "kw h" = kw help

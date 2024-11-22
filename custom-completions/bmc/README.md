@@ -13,7 +13,7 @@ This CLI can:
 - create a new client action
 - and rename an existing client action
 
-This `bmc` module particulary adds the completions for the [nushell](nushell.sh/) shell
+This `bmc` module particularly adds the completions for the [nushell](nushell.sh/) shell
 
 ## How to install
 

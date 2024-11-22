@@ -129,7 +129,7 @@ let status_color_8 = $"(ansi idx_fg)70m"
 let status_color_failure_8 = $"(ansi idx_fg)226m"
 
 let status_bg_color = ""
-let status_bg_color_faiure = ""
+let status_bg_color_failure = ""
 let status_color = ""
 let status_color_failure = ""
 let status_icon = ""
