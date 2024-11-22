@@ -1,5 +1,5 @@
 # this script uses foreground ansi index colors to print
-# a table of 16 rows by 16 colums where each item is a
+# a table of 16 rows by 16 columns where each item is a
 # different color
 def show_index_colors [] {
     let prefix = "38;5;"
@@ -24,4 +24,6 @@ def one_liner [] {
 }
 
 
-show_index_colors
+export def main [] {
+  show_index_colors
+}

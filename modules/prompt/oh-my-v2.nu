@@ -2,168 +2,168 @@
 # modes
 # * 8bit
 # * 24bit
-let color_mode = "8bit"
+const color_mode = "8bit"
 
 # setup separate characters
-let left_prompt_separator_diff_color = (char -u 'e0b0')
-let left_prompt_separator_same_color = (char -u 'e0b1')
-let right_prompt_separator_diff_color = (char -u 'e0b2')
-let right_prompt_separator_same_color = (char -u 'e0b3')
+const left_prompt_separator_diff_color = (char -u 'e0b0')
+const left_prompt_separator_same_color = (char -u 'e0b1')
+const right_prompt_separator_diff_color = (char -u 'e0b2')
+const right_prompt_separator_same_color = (char -u 'e0b3')
 
 # setup color variables for 24bit and 8bit
 # prompt
-let prompt_color_frame_and_connection_24 = (ansi -e { fg: "#6C6C6C" })
-let prompt_color_separator_same_color_24 = (ansi -e { fg: "#949494" })
-let prompt_color_frame_and_connection_8 = $"(ansi idx_fg)242m"
-let prompt_color_separator_same_color_8 = $"(ansi idx_fg)246m"
-let prompt_add_new_line_before = false
-let prompt_color_frame_and_connection = ""
-let prompt_color_separator_same_color = ""
+const prompt_color_frame_and_connection_24 = (ansi -e { fg: "#6C6C6C" })
+const prompt_color_separator_same_color_24 = (ansi -e { fg: "#949494" })
+const prompt_color_frame_and_connection_8 = $"(ansi idx_fg)242m"
+const prompt_color_separator_same_color_8 = $"(ansi idx_fg)246m"
+const prompt_add_new_line_before = false
+const prompt_color_frame_and_connection = ""
+const prompt_color_separator_same_color = ""
 
-let left_separator_diff_color = ""
-let left_separator_same_color = ""
-let left_items = []
-let left_prefix = ""
-let left_suffix = ""
+const left_separator_diff_color = ""
+const left_separator_same_color = ""
+const left_items = []
+const left_prefix = ""
+const left_suffix = ""
 
-let right_separator_diff_color = ""
-let right_separator_same_color = ""
-let right_items = []
-let right_prefix = ""
-let right_suffix = ""
+const right_separator_diff_color = ""
+const right_separator_same_color = ""
+const right_items = []
+const right_prefix = ""
+const right_suffix = ""
 
 # cmd
-let cmd_duration_bg_color_24 = (ansi -e { bg: "#C4A000" })
-let cmd_duration_color_24 = (ansi -e { fg: "#000000" })
-let cmd_duration_bg_color_8 = $"(ansi idx_bg)178m"
-let cmd_duration_color_8 = $"(ansi idx_fg)16m"
-let cmd_bg_color = ""
-let cmd_color = ""
-let cmd_decimals = 2
-let cmd_icon = ""
+const cmd_duration_bg_color_24 = (ansi -e { bg: "#C4A000" })
+const cmd_duration_color_24 = (ansi -e { fg: "#000000" })
+const cmd_duration_bg_color_8 = $"(ansi idx_bg)178m"
+const cmd_duration_color_8 = $"(ansi idx_fg)16m"
+const cmd_bg_color = ""
+const cmd_color = ""
+const cmd_decimals = 2
+const cmd_icon = ""
 
 # git
-let git_bg_color_24 = (ansi -e { bg: "#4E9A06" })
-let git_bg_color_unstable_24 = (ansi -e { bg: "#C4A000" })
-let git_bg_color_urgent_24 = (ansi -e { bg: "#CC0000" })
-let git_color_branch_24 = (ansi -e { fg: "#000000" })
-let git_color_conflicted_24 = (ansi -e { fg: "#000000" })
-let git_color_dirty_24 = (ansi -e { fg: "#000000" })
-let git_color_operation_24 = (ansi -e { fg: "#000000" })
-let git_color_staged_24 = (ansi -e { fg: "#000000" })
-let git_color_stash_24 = (ansi -e { fg: "#000000" })
-let git_color_untracked_24 = (ansi -e { fg: "#000000" })
-let git_color_upstream_24 = (ansi -e { fg: "#000000" })
+const git_bg_color_24 = (ansi -e { bg: "#4E9A06" })
+const git_bg_color_unstable_24 = (ansi -e { bg: "#C4A000" })
+const git_bg_color_urgent_24 = (ansi -e { bg: "#CC0000" })
+const git_color_branch_24 = (ansi -e { fg: "#000000" })
+const git_color_conflicted_24 = (ansi -e { fg: "#000000" })
+const git_color_dirty_24 = (ansi -e { fg: "#000000" })
+const git_color_operation_24 = (ansi -e { fg: "#000000" })
+const git_color_staged_24 = (ansi -e { fg: "#000000" })
+const git_color_stash_24 = (ansi -e { fg: "#000000" })
+const git_color_untracked_24 = (ansi -e { fg: "#000000" })
+const git_color_upstream_24 = (ansi -e { fg: "#000000" })
 
-let git_bg_color_8 = $"(ansi idx_bg)70m"
-let git_bg_color_unstable_8 = $"(ansi idx_bg)178m"
-let git_bg_color_urgent_8 = $"(ansi idx_bg)160m"
-let git_color_branch_8 = $"(ansi idx_fg)16m"
-let git_color_conflicted_8 = $"(ansi idx_fg)16m"
-let git_color_dirty_8 = $"(ansi idx_fg)16m"
-let git_color_operation_8 = $"(ansi idx_fg)16m"
-let git_color_staged_8 = $"(ansi idx_fg)16m"
-let git_color_stash_8 = $"(ansi idx_fg)16m"
-let git_color_untracked_8 = $"(ansi idx_fg)16m"
-let git_color_upstream_8 = $"(ansi idx_fg)16m"
+const git_bg_color_8 = $"(ansi idx_bg)70m"
+const git_bg_color_unstable_8 = $"(ansi idx_bg)178m"
+const git_bg_color_urgent_8 = $"(ansi idx_bg)160m"
+const git_color_branch_8 = $"(ansi idx_fg)16m"
+const git_color_conflicted_8 = $"(ansi idx_fg)16m"
+const git_color_dirty_8 = $"(ansi idx_fg)16m"
+const git_color_operation_8 = $"(ansi idx_fg)16m"
+const git_color_staged_8 = $"(ansi idx_fg)16m"
+const git_color_stash_8 = $"(ansi idx_fg)16m"
+const git_color_untracked_8 = $"(ansi idx_fg)16m"
+const git_color_upstream_8 = $"(ansi idx_fg)16m"
 
-let git_bg_color = ""
-let git_bg_color_unstable = ""
-let git_bg_color_urgent = ""
-let git_color_branch = ""
-let git_color_conflicted = ""
-let git_color_dirty = ""
-let git_color_operation = ""
-let git_color_staged = ""
-let git_color_stash = ""
-let git_color_untracked = ""
-let git_color_upstream = ""
+const git_bg_color = ""
+const git_bg_color_unstable = ""
+const git_bg_color_urgent = ""
+const git_color_branch = ""
+const git_color_conflicted = ""
+const git_color_dirty = ""
+const git_color_operation = ""
+const git_color_staged = ""
+const git_color_stash = ""
+const git_color_untracked = ""
+const git_color_upstream = ""
 
 # os
-let os_bg_color_24 = (ansi -e { bg: "#CED7CF" })
-let os_color_24 = (ansi -e { fg: "#080808" })
-let os_bg_color_8 = $"(ansi idx_bg)188m"
-let os_color_8 = $"(ansi idx_fg)232m"
-let os_bg_color = ""
-let os_color = ""
+const os_bg_color_24 = (ansi -e { bg: "#CED7CF" })
+const os_color_24 = (ansi -e { fg: "#080808" })
+const os_bg_color_8 = $"(ansi idx_bg)188m"
+const os_color_8 = $"(ansi idx_fg)232m"
+const os_bg_color = ""
+const os_color = ""
 
 # pwd
-let pwd_bg_color_24 = (ansi -e { bg: "#3465A4" })
-let pwd_color_anchors_24 = (ansi -e { fg: "#E4E4E4" })
-let pwd_color_dirs_24 = (ansi -e { fg: "#E4E4E4" })
-let pwd_color_truncated_dirs_24 = (ansi -e { fg: "#BCBCBC" })
+const pwd_bg_color_24 = (ansi -e { bg: "#3465A4" })
+const pwd_color_anchors_24 = (ansi -e { fg: "#E4E4E4" })
+const pwd_color_dirs_24 = (ansi -e { fg: "#E4E4E4" })
+const pwd_color_truncated_dirs_24 = (ansi -e { fg: "#BCBCBC" })
 
-let pwd_bg_color_8 = $"(ansi idx_bg)61m"
-let pwd_color_anchors_8 = $"(ansi idx_fg)254m"
-let pwd_color_dirs_8 = $"(ansi idx_fg)254m"
-let pwd_color_truncated_dirs_8 = $"(ansi idx_fg)250m"
+const pwd_bg_color_8 = $"(ansi idx_bg)61m"
+const pwd_color_anchors_8 = $"(ansi idx_fg)254m"
+const pwd_color_dirs_8 = $"(ansi idx_fg)254m"
+const pwd_color_truncated_dirs_8 = $"(ansi idx_fg)250m"
 
-let pwd_bg_color = ""
-let pwd_color_anchors = ""
-let pwd_color_dirs = ""
-let pwd_color_truncated_dirs = ""
-let pwd_icon = ""
-let pwd_icon_home = ""
-let pwd_icon_unwritable = ""
-let pwd_markers = []
+const pwd_bg_color = ""
+const pwd_color_anchors = ""
+const pwd_color_dirs = ""
+const pwd_color_truncated_dirs = ""
+const pwd_icon = ""
+const pwd_icon_home = ""
+const pwd_icon_unwritable = ""
+const pwd_markers = []
 
 # rustc
-let rustc_bg_color_24 = (ansi -e { bg: "#F74C00" })
-let rustc_color_24 = (ansi -e { fg: "#000000" })
-let rustc_bg_color_8 = $"(ansi idx_bg)202m"
-let rustc_color_8 = $"(ansi idx_fg)16m"
+const rustc_bg_color_24 = (ansi -e { bg: "#F74C00" })
+const rustc_color_24 = (ansi -e { fg: "#000000" })
+const rustc_bg_color_8 = $"(ansi idx_bg)202m"
+const rustc_color_8 = $"(ansi idx_fg)16m"
 
-let rustc_bg_color = ""
-let rustc_color = ""
-let rustc_icon = ""
+const rustc_bg_color = ""
+const rustc_color = ""
+const rustc_icon = ""
 
 # status
-let status_bg_color_24 = (ansi -e { bg: "#2E3436" })
-let status_bg_color_failure_24 = (ansi -e { bg: "#CC0000" })
-let status_color_24 = (ansi -e { fg: "#4E9A06" })
-let status_color_failure_24 = (ansi -e { fg: "#FFFF00" })
+const status_bg_color_24 = (ansi -e { bg: "#2E3436" })
+const status_bg_color_failure_24 = (ansi -e { bg: "#CC0000" })
+const status_color_24 = (ansi -e { fg: "#4E9A06" })
+const status_color_failure_24 = (ansi -e { fg: "#FFFF00" })
 
-let status_bg_color_8 = $"(ansi idx_bg)236m"
-let status_bg_color_failure_8 = $"(ansi idx_bg)160m"
-let status_color_8 = $"(ansi idx_fg)70m"
-let status_color_failure_8 = $"(ansi idx_fg)226m"
+const status_bg_color_8 = $"(ansi idx_bg)236m"
+const status_bg_color_failure_8 = $"(ansi idx_bg)160m"
+const status_color_8 = $"(ansi idx_fg)70m"
+const status_color_failure_8 = $"(ansi idx_fg)226m"
 
-let status_bg_color = ""
-let status_bg_color_faiure = ""
-let status_color = ""
-let status_color_failure = ""
-let status_icon = ""
-let status_icon_failure = ""
+const status_bg_color = ""
+const status_bg_color_failure = ""
+const status_color = ""
+const status_color_failure = ""
+const status_icon = ""
+const status_icon_failure = ""
 
 # time
-let time_bg_color_24 = (ansi -e { bg: "#D3D7CF" })
-let time_color_24 = (ansi -e { fg: "#000000" })
-let time_bg_color_8 = $"(ansi idx_bg)188m"
-let time_color_8 = $"(ansi idx_fg)16m"
+const time_bg_color_24 = (ansi -e { bg: "#D3D7CF" })
+const time_color_24 = (ansi -e { fg: "#000000" })
+const time_bg_color_8 = $"(ansi idx_bg)188m"
+const time_color_8 = $"(ansi idx_fg)16m"
 
-let time_bg_color = ""
-let time_color = ""
-let time_format = ""
+const time_bg_color = ""
+const time_color = ""
+const time_format = ""
 
 # indicator
-let indicator_color_24 = (ansi -e { fg: "#3465a4" })
-let indicator_bg_color_24 = (ansi -e { bg: "#000000" })
-let indicator_color_8 = $"(ansi idx_fg)61m"
-let indicator_bg_color_8 = $"(ansi idx_bg)16m"
+const indicator_color_24 = (ansi -e { fg: "#3465a4" })
+const indicator_bg_color_24 = (ansi -e { bg: "#000000" })
+const indicator_color_8 = $"(ansi idx_fg)61m"
+const indicator_bg_color_8 = $"(ansi idx_bg)16m"
 
 # terminal background color
-let terminal_color_24 = (ansi -e { fg: "#c7c7c7" })
-let terminal_color_8 = (ansi white)
-let terminal_bg_color_24 = (ansi -e { bg: "#000000" })
-let terminal_bg_color_8 = (ansi black)
+const terminal_color_24 = (ansi -e { fg: "#c7c7c7" })
+const terminal_color_8 = (ansi white)
+const terminal_bg_color_24 = (ansi -e { bg: "#000000" })
+const terminal_bg_color_8 = (ansi black)
 
 # cmd_duration_ms
-let cmd_duration_ms_color_24 = (ansi -e { fg: "#606060" })
-let cmd_duration_ms_color_8 = $"(ansi idx_fg)244m"
-let cmd_duration_ms_bg_color_24 = (ansi -e { fg: "#000000" })
-let cmd_duration_ms_bg_color_8 = (ansi black)
+const cmd_duration_ms_color_24 = (ansi -e { fg: "#606060" })
+const cmd_duration_ms_color_8 = $"(ansi idx_fg)244m"
+const cmd_duration_ms_bg_color_24 = (ansi -e { fg: "#000000" })
+const cmd_duration_ms_bg_color_8 = (ansi black)
 
-let runtime_colors = [
+const runtime_colors = [
     { name: prompt_color_frame_and_connection, '8bit': $prompt_color_frame_and_connection_8, '24bit': $prompt_color_frame_and_connection_24 },
     { name: prompt_color_separator_same_color, '8bit': $prompt_color_separator_same_color_8, '24bit': $prompt_color_separator_same_color_24 },
     { name: left_separator_diff_color, '8bit': $left_prompt_separator_diff_color, '24bit': $left_prompt_separator_diff_color },

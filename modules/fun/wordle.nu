@@ -1,7 +1,7 @@
-# A Terminal Wordle game. 
+# A Terminal Wordle game.
 # The code is based on https://gist.github.com/huytd/6a1a6a7b34a0d0abcac00b47e3d01513 ,but slightly personalized.
 
-# a simple termninal Wordle game!
+# a simple terminal Wordle game!
 export def main [
   --unlimited(-u) # Play the game in unlimited mode.
   --max_count(-M) : int = 6 # Give yourself more chances than default
@@ -23,7 +23,7 @@ export def main [
       if (((($words | where column1 =~ $guess) | length) >= 1) and ($guess | str length) == 5) {
         mut out = ""
         mut checked = $word
-        for i in ($guess | split chars) -n {
+        for i in ($guess | split chars | enumerate) {
           if ($i.item == ($word | str substring ($i.index)..($i.index + 1)) ) {
             $out += $"(ansi green_reverse)($i.item)(ansi reset)"
             $avail = ($avail | str replace $i.item $"(ansi green_reverse)($i.item)(ansi white_reverse)")
@@ -46,7 +46,7 @@ export def main [
       } else {
       echo "please enter a valid [5 letter] word!"
       $guess_count -= 1
-      }    
+      }
     } else {
       echo $"(ansi yellow )You loose, the word was: (ansi red)($word)(ansi reset)"
       $end = true

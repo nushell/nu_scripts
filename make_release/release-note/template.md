@@ -5,6 +5,7 @@ author_site: https://twitter.com/nu_shell
 author_image: https://www.nushell.sh/blog/images/nu_logo.png
 excerpt: Today, we're releasing version {{VERSION}} of Nu. This release adds...
 ---
+
 <!-- TODO: complete the excerpt above -->
 
 <!-- NOTE: start from the TODO all the way at the bottom (and sort of work your way up) -->
@@ -12,6 +13,7 @@ excerpt: Today, we're releasing version {{VERSION}} of Nu. This release adds...
 # Nushell {{VERSION}}
 
 <!-- TODO: write this excerpt -->
+
 Today, we're releasing version {{VERSION}} of Nu. This release adds...
 
 # Where to get it
@@ -58,9 +60,9 @@ As part of this release, we also publish a set of optional plugins you can insta
 
 Thanks to all the contributors below for helping us solve issues, improve documentation, refactor code, and more! :pray:
 
-| author                               | title       | link                                                    |
-| ------------------------------------ | ----------- | ------------------------------------------------------- |
-| [@author](https://github.com/author) | ...         | [#12345](https://github.com/nushell/nushell/pull/12345) |
+| author                               | title | link                                                    |
+| ------------------------------------ | ----- | ------------------------------------------------------- |
+| [@author](https://github.com/author) | ...   | [#12345](https://github.com/nushell/nushell/pull/12345) |
 
 # Full changelog
 
@@ -69,7 +71,7 @@ Thanks to all the contributors below for helping us solve issues, improve docume
     - run `list-prs --milestone v{{VERSION}} | pr-table`
     - paste the output here
 
-Afterwards, go through each PR and clasify it as one of the following:
+Afterwards, go through each PR and classify it as one of the following:
     - A user-facing change. These PRs should go into the `# Changes` section.
     - A plugin-facing change. These PRs should go in `# Notes for plugin developers`. Some plugin-facing changes might also be a user-facing change and vice versa.
     - A documentation improvement, error message improvement, refactoring PR, clippy fix, typo fix, etc. These PRs go into the `# Hall of fame`. You can just copy the table row in this section and paste it to the `# Hall of fame` section above. Note that major refactorings may warrant a section in `# Highlights`.

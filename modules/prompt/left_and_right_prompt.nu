@@ -20,7 +20,7 @@ export def construct_prompt [] {
     # get the terminal width
     let term_width = (term size).columns
 
-    # get the curren time
+    # get the current time
     let current_time = (date now | format date '%I:%M:%S%.3f %p')
 
     # let's construct the left and right prompt
@@ -33,7 +33,7 @@ export def construct_prompt [] {
     # the right side of the prompt with ansi colors
     let right_colored = $"(ansi blue)($env.CMD_DURATION_MS)|(ansi dark_gray)($current_time)(ansi reset)"
 
-    # let's calcuate the length of the right prompt so we know how much to pad the left prompt
+    # let's calculate the length of the right prompt so we know how much to pad the left prompt
     let calculated_right_len = ($term_width - $left_len)
     # finally, let's make the prompt
     let the_prompt = $"($left_colored)($right_colored | fill -a r -c ' ' -w $calculated_right_len)(char newline)($decorator) "

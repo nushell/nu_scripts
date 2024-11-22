@@ -13,7 +13,7 @@ use ./row-indices.nu *
 # ls / | select 5
 #
 # Example - Select the 4th row.
-# Note that the difference beteen this
+# Note that the difference between this
 # and `select 3` is that the index (#)
 # column shows the *original* (pre-select)
 # position in the table.

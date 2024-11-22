@@ -20,9 +20,9 @@ def "nu-complete adb wait-for-transport" [] {
 
 def "nu-complete adb reboot-type" [] {
     [
-        bootloader 
-        recovery 
-        edl 
+        bootloader
+        recovery
+        edl
         sideload # Reboots into recovery and automatically starts sideload mode.
         sideload-auto-reboot
         " "
@@ -38,7 +38,7 @@ export extern "adb" [
     -H: string                                                # name of adb server host [default=localhost]
     -P: int                                                   # port of adb server [default=5037]
     -L: string                                                #  listen on given socket for adb server [default=tcp:localhost:5037]
-    
+
     --exit-on-write-error                                     # exit if stdout is closed
 ]
 
@@ -55,7 +55,7 @@ export extern "adb connect" [
 
 # Disconnect from given TCP/IP device [default PORT=5555], or all.
 export extern "adb disconnect" [
-    host_port?: string #  Disconnect device via TCP/IP [default PORT=5555] (disconnec all if no ip given).
+    host_port?: string #  Disconnect device via TCP/IP [default PORT=5555] (disconnect all if no ip given).
 ]
 
 # Pair with a device for secure TCP/IP communication.
@@ -157,7 +157,7 @@ export extern "adb install-multi-package" [
 # Remove specified application from the device
 export extern "adb uninstall" [
     APPLICATION_ID: string # Remove this APPLICATION_ID from the device.
-    -k      
+    -k
 ]
 
 # Run remote shell command (interactive shell if no command given)
@@ -202,7 +202,7 @@ export extern "adb sync" [
 ]
 
 # Ensure that there is a server running.
-export extern "adb start-server" [ #  only allowed with 'start-server' or 'server nodaemon', 
+export extern "adb start-server" [ #  only allowed with 'start-server' or 'server nodaemon',
     --one-device: string@"nu-complete adb one-device-args"    #server will only connect to one USB device, specified by a serial number or USB device address.
 ]
 
@@ -281,7 +281,7 @@ export extern "adb remount" [
 
 #  Reboot the device; defaults to booting system image but supports bootloader and recovery too.
 export extern "adb reboot" [
-    type:string@"nu-complete adb reboot-type"                 
+    type:string@"nu-complete adb reboot-type"
 ]
 
 #  Sideload the given full OTA package
@@ -301,4 +301,4 @@ export extern "adb usb" []
 # Restart adbd listening on TCP on PORT.
 export extern "adb tcpip" [
     PORT:string
-]  
+]

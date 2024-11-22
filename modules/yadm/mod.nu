@@ -3,17 +3,17 @@
 
 
 def generate_viable_bash_string_flags [
-flag_record:record # A object filled all known flags and their values.  
+flag_record:record # A object filled all known flags and their values.
 ] -> list<string> {
 
 
 
   const acceptable_bash_types = [string int float duration filesize binary bool]
 
-  let not_all_flag_record_values_are_acceptable_bash_types = $flag_record 
-  | values 
+  let not_all_flag_record_values_are_acceptable_bash_types = $flag_record
+  | values
   | all { |value| ($value | describe) not-in $acceptable_bash_types }
-  
+
 
 # Since bash can only accept strings and string-like values the user must type them.
   if $not_all_flag_record_values_are_acceptable_bash_types {
@@ -25,7 +25,7 @@ flag_record:record # A object filled all known flags and their values.
       label: {
         text: $"The values for these flags aren't good please use.
                 These ($joined_acceptable_bash_types) types.
-                Bash can't use any of these types at all. 
+                Bash can't use any of these types at all.
               "
       span: (metadata $flag_record).span
       }
@@ -37,31 +37,31 @@ flag_record:record # A object filled all known flags and their values.
 
 
 
-  $flag_record 
-  | items {  |key value| 
-  
+  $flag_record
+  | items {  |key value|
+
   let value_type = ( $value | describe )
-  
+
   let viable_types = [string int float duration filesize binary]
-  
-    # If flag value is a non-bool primitive create --key=value flag.  
-        if $value_type in $viable_types { 
+
+    # If flag value is a non-bool primitive create --key=value flag.
+        if $value_type in $viable_types {
 
           return $"--($key)=($value)"
-        } 
-  
-    # If flag value is a nothing return null 
+        }
+
+    # If flag value is a nothing return null
 
       if $value_type == nothing or $value == false { return null }
-  
-    # If flag value is a bool primitive create --key flag. 
+
+    # If flag value is a bool primitive create --key flag.
 
         $"--($key)"
-        
-    
+
+
     }
-  | filter { |value| ( $value | describe ) != nothing } 
-        
+  | filter { |value| ( $value | describe ) != nothing }
+
 
 }
 
@@ -69,8 +69,8 @@ alias bash_yadm = bash yadm
 
 export def init [
   --initial-branch(-b)
-  --f 
-  --w  
+  --f
+  --w
   ] {
 
   bash_yadm init ...(
@@ -85,21 +85,21 @@ export def init [
 
 
 export def main [
-    --yadm-dir(-Y) 
+    --yadm-dir(-Y)
 
-   --yadm-data 
+   --yadm-data
 
-   --yadm-repo 
+   --yadm-repo
 
-   --yadm-config 
+   --yadm-config
 
-   --yadm-encrypt 
+   --yadm-encrypt
 
-   --yadm-archive 
+   --yadm-archive
 
-   --yadm-bootstrap 
+   --yadm-bootstrap
 ] {
-   
+
    bash_yadm ...(
      generate_viable_bash_string_flags {
       yadm-dir:$yadm_dir,
@@ -111,7 +111,7 @@ export def main [
       yadm-bootstrap:$yadm_bootstrap,
      }
    )
-   
+
 }
 
 
@@ -127,17 +127,17 @@ def generate_type_flag_completions [] {
     }
 
 
-    
+
   export def clone [
      url:string
-    -f 
+    -f
     --no-bootstrap
     --bootstrap
     -w:string
     --branch(-b):string
     ] {
-  
-    
+
+
           bash_yadm clone $url ...(
             generate_viable_bash_string_flags {
               f:$f
@@ -147,67 +147,67 @@ def generate_type_flag_completions [] {
               branch:$branch
             }
           )
-  
-  
+
+
   }
-      
+
 export module config {
-      
+
     const yadm_config_characteristics = {
         yadm:{
-          alt-copy: { 
+          alt-copy: {
             type: bool
             description: "Make alternate files copies instead of symbolic links"
             }
-          auto-alt: { 
+          auto-alt: {
             type: bool
             description: "Disable the automatic linking"
             }
-          auto-exclude: { 
+          auto-exclude: {
             type: bool
             description: "Disable the automatic exclusion of patterns defined in the encryption file"
             }
-          auto-perms: { 
+          auto-perms: {
             type: bool
             description: "Disable the automatic permission changes"
             }
-          auto-private-dirs: { 
+          auto-private-dirs: {
             type: bool
             description: "Disable the automatic creating of private directories"
             }
-          cipher: { 
+          cipher: {
             type: ['gpg', 'openssl']
             description: "Configure which encryption system is used by the encrypt/decrypt command"
           }
-          git-program: { 
+          git-program: {
             type:string
-            description: "Specify an alternate program to use instead of git" 
+            description: "Specify an alternate program to use instead of git"
           }
-          gpg-perms: { 
+          gpg-perms: {
             type: bool
             description: "Disable the permission changes to the gnupg folder"
             }
-          gpg-program: { 
+          gpg-program: {
             type: string
             description: "Specify an alternate program to use instead of gpg"
             }
-          gpg-recipient: { 
+          gpg-recipient: {
             type:string
             description:"Specify which cipher should be used by openssl"
             }
-          openssl-ciphername: { 
+          openssl-ciphername: {
             type:string
             description:"Provide  a 'key ID' to specify which public key to encrypt with"
             }
-          openssl-old: { 
+          openssl-old: {
             type: bool
             description: "Use older versions of openssl"
             }
-          openssl-program: { 
+          openssl-program: {
             type:string
             description:"Specify an alternate program to use instead  of  'openssl'"
             }
-          ssh-perms: { 
+          ssh-perms: {
             type: bool
             description: "Disable the permission changes to the ssh folder"
             }
@@ -236,23 +236,23 @@ export module config {
           }
         }
       }
-    
+
     def generate_dot_value_and_descriptions [] {
 
-    
+
       $yadm_config_characteristics
       | items { |outer_key outer_value|
 
-        $outer_value 
+        $outer_value
         | items { |inner_key inner_value|
 
           {
-            value: $"($outer_key).($inner_key)" 
+            value: $"($outer_key).($inner_key)"
             description: $inner_value.description
           }
-        
+
         }
-      
+
       } | flatten
 
 
@@ -260,22 +260,22 @@ export module config {
 
 
     def get_auto_complete_value_based_on_what_context_gets_from_yadm_config_characteristics_type [context: string, ] {
-    
-    let cell_path_to_yadm_config_characteristic_key_type = $context 
-      | split row "." 
-      | append 'type' 
+
+    let cell_path_to_yadm_config_characteristic_key_type = $context
+      | split row "."
+      | append 'type'
       | into cell-path
 
-    let yadm_config_characteristic_key_type = $yadm_config_characteristics 
+    let yadm_config_characteristic_key_type = $yadm_config_characteristics
         | get ($cell_path_to_yadm_config_characteristic_key_type)
-    
+
 
     match $yadm_config_characteristic_key_type {
-    
+
         string => null
-        
+
         bool => [true false]
-        
+
         $it if ($it | describe | str starts-with list) => {
 
         if ($it | any { |value| $value in [true false] }) {
@@ -284,7 +284,7 @@ export module config {
                 msg: "Invalid Configuration Value",
                 help: "Please don't use place bool values in an array use the bool word instead"
             }
-        
+
         }
 
         $it
@@ -304,47 +304,47 @@ export module config {
 
 
     }
-    
+
 export def main  [
-      key:string@generate_dot_value_and_descriptions 
+      key:string@generate_dot_value_and_descriptions
       value?:any@get_auto_complete_value_based_on_what_context_gets_from_yadm_config_characteristics_type
-      --global 
-      --local 
-      --system 
-      --worktree 
-      --list 
-      --edit 
+      --global
+      --local
+      --system
+      --worktree
+      --list
+      --edit
       --type:string@generate_type_flag_completions
-      --bool 
-      --int 
-      --bool-or-int 
-      --bool-or-str 
-      --path 
-      --expiry-date 
-      --fixed-value 
-      --null(-z) 
-      --name-only 
-      --includes 
-      --show-origin 
-      --show-scope 
-      --file:string 
-      --blob:string 
-      --get:string 
-      --default:string 
-      --get-all:string 
-      --get-regexp:string 
-      --get-urlmatch:string 
-      --replace-all: string 
-      --get-color:string 
-      --get-colorbool:string 
-      --add:string 
-      --unset:string 
-      --unset-all:string 
-      --remove-section:string 
-      --rename-section:string 
-      --comment:string 
-      ] { 
-        
+      --bool
+      --int
+      --bool-or-int
+      --bool-or-str
+      --path
+      --expiry-date
+      --fixed-value
+      --null(-z)
+      --name-only
+      --includes
+      --show-origin
+      --show-scope
+      --file:string
+      --blob:string
+      --get:string
+      --default:string
+      --get-all:string
+      --get-regexp:string
+      --get-urlmatch:string
+      --replace-all: string
+      --get-color:string
+      --get-colorbool:string
+      --add:string
+      --unset:string
+      --unset-all:string
+      --remove-section:string
+      --rename-section:string
+      --comment:string
+      ] {
+
         if string !~ '(?<outer_key>\w+)(?<dot>\.)(?<inner_key>\w+)' {
 
           error make {
@@ -356,15 +356,15 @@ export def main  [
           }
 
         }
-        
 
-      
+
+
         bash_yadm config ...(
           generate_viable_bash_string_flags {
-              global:$global 
-              local:$local 
-              system:$system 
-              worktree:$worktree 
+              global:$global
+              local:$local
+              system:$system
+              worktree:$worktree
               list:$list
               edit:$edit
               bool:$bool
@@ -382,74 +382,74 @@ export def main  [
               file:$file
               blob:$blob
               get:$get
-              default:$default 
-              get-all:$get_all 
-              get-regexp:$get_regexp 
-              get-urlmatch:$get_urlmatch 
-              get-color:$get_color 
+              default:$default
+              get-all:$get_all
+              get-regexp:$get_regexp
+              get-urlmatch:$get_urlmatch
+              get-color:$get_color
               get-colorbool:$get_colorbool
-              replace-all:$replace_all 
-              add:$add 
-              unset:$unset 
-              unset-all:$unset_all 
+              replace-all:$replace_all
+              add:$add
+              unset:$unset
+              unset-all:$unset_all
               remove-section:$remove_section
               rename-section:$rename_section
               comment:$comment
             }
         )
-      
-      
+
+
     }
-    
-  
+
+
   }
 
 export def gitconfig [
-  key:string 
+  key:string
     value?:any
-    --global 
-    --local 
-    --system 
-    --worktree 
-    --list 
-    --edit 
+    --global
+    --local
+    --system
+    --worktree
+    --list
+    --edit
     --type:string@generate_type_flag_completions
-    --bool 
-    --int 
-    --bool-or-int 
-    --bool-or-str 
-    --path 
-    --expiry-date 
-    --fixed-value 
-    --null(-z) 
-    --name-only 
-    --includes 
-    --show-origin 
-    --show-scope 
-    --file:string 
-    --blob:string 
-    --get:string 
-    --default:string 
-    --get-all:string 
-    --get-regexp:string 
-    --get-urlmatch:string 
-    --replace-all: string 
-    --get-color:string 
-    --get-colorbool:string 
-    --add:string 
-    --unset:string 
-    --unset-all:string 
-    --remove-section:string 
-    --rename-section:string 
-    --comment:string 
-    ] { 
-    
+    --bool
+    --int
+    --bool-or-int
+    --bool-or-str
+    --path
+    --expiry-date
+    --fixed-value
+    --null(-z)
+    --name-only
+    --includes
+    --show-origin
+    --show-scope
+    --file:string
+    --blob:string
+    --get:string
+    --default:string
+    --get-all:string
+    --get-regexp:string
+    --get-urlmatch:string
+    --replace-all: string
+    --get-color:string
+    --get-colorbool:string
+    --add:string
+    --unset:string
+    --unset-all:string
+    --remove-section:string
+    --rename-section:string
+    --comment:string
+    ] {
+
       bash_yadm gitconfig ...(
         generate_viable_bash_string_flags {
-            global:$global 
-            local:$local 
-            system:$system 
-            worktree:$worktree 
+            global:$global
+            local:$local
+            system:$system
+            worktree:$worktree
             list:$list
             edit:$edit
             bool:$bool
@@ -467,79 +467,79 @@ export def gitconfig [
             file:$file
             blob:$blob
             get:$get
-            default:$default 
-            get-all:$get_all 
-            get-regexp:$get_regexp 
-            get-urlmatch:$get_urlmatch 
-            get-color:$get_color 
+            default:$default
+            get-all:$get_all
+            get-regexp:$get_regexp
+            get-urlmatch:$get_urlmatch
+            get-color:$get_color
             get-colorbool:$get_colorbool
-            replace-all:$replace_all 
-            add:$add 
-            unset:$unset 
-            unset-all:$unset_all 
+            replace-all:$replace_all
+            add:$add
+            unset:$unset
+            unset-all:$unset_all
             remove-section:$remove_section
             rename-section:$rename_section
             comment:$comment
           }
       )
-    
+
   }
-  
-  
-export module git-crypt  { 
-    
+
+
+export module git-crypt  {
+
 
     # Share the repository using GPG
     export def add-gpg-user [user_id:string] {
-      
+
       bash_yadm git-crypt add-gpg-user $user_id
 
     }
-    
+
     # Configure a repository to use git-crypt
     export def init [] {
-      
+
       bash_yadm git-crypt init
 
     }
-    
+
     # Unlock encrypted files
     export def unlock [] {
-      
+
       bash_yadm git-crypt unlock
 
     }
 
     # Export a symmetric secret key
     export def export-key [key_file_path:string] {
-      
+
       bash_yadm git-crypt export-key $key_file_path
- 
+
     }
-    
+
   }
-  
+
 export def transcrypt [
-    --cipher(-c):string 
-    --password(-p):string 
-    --set-openssl-path:string 
-    --yes(-y) 
-    --display(-d) 
-    --rekey(-r) 
-    --flush-credentials(-f) 
-    --force(-F) 
-    --uninstall(-u) 
-    --upgrade 
-    --list(-l) 
-    --show-raw(-s):string 
-    --export-gpg(-e):string 
-    --import-gpg(-i) 
-    --context(-C) 
-    --list-contexts 
-    --version(-v) 
-    --help(-h) 
-  ] { 
-    
+    --cipher(-c):string
+    --password(-p):string
+    --set-openssl-path:string
+    --yes(-y)
+    --display(-d)
+    --rekey(-r)
+    --flush-credentials(-f)
+    --force(-F)
+    --uninstall(-u)
+    --upgrade
+    --list(-l)
+    --show-raw(-s):string
+    --export-gpg(-e):string
+    --import-gpg(-i)
+    --context(-C)
+    --list-contexts
+    --version(-v)
+    --help(-h)
+  ] {
+
   bash_yadm transcrypt (
       generate_viable_bash_string_flags {
         cipher:$cipher
@@ -561,23 +561,23 @@ export def transcrypt [
         help:$help
       }
     )
-  
+
   }
-  
+
   export def alt [file_path:string] { bash_yadm alt $file_path }
-  
+
   export def encrypt [] { bash_yadm encrypt }
-  
+
   export def decrypt [] { bash_yadm decrypt }
-  
+
   export def perms [file_path:string] { bash_yadm perms $file_path }
-  
+
   export def bootstrap [] { bash_yadm bootstrap }
-  
+
   export def enter [] { bash_yadm enter }
-  
+
   export module introspect {
-   
+
     const possible_subjects = [
       'commands'
       'repos'
@@ -588,12 +588,12 @@ export def transcrypt [
     def get_completions_for_subject [] {
         $possible_subjects
     }
-    
+
     export def main [subject:string@get_completions_for_subject ] {
-      
+
       if $subject not-in $possible_subjects {
 
-        let joined_possible_subjects = $possible_subjects 
+        let joined_possible_subjects = $possible_subjects
         | str join ","
 
         error make {
@@ -602,20 +602,20 @@ export def transcrypt [
             text:"This value is incorrect!"
             span:(metadata $subject).span
           }
-          help: $"This value ($subject) isn't correct the ones are ($joined_possible_subjects)" 
+          help: $"This value ($subject) isn't correct the ones are ($joined_possible_subjects)"
         }
       }
 
       bash_yadm introspect $subject
-      
+
     }
-  
+
   }
-  
+
 module git {
 
-  export module stash { 
-            
+  export module stash {
+
     export def push [
       --patch(-p)
       --staged(-S)
@@ -641,15 +641,15 @@ module git {
           pathspec-from-file:$pathspec_from_file
           pathspec-file-nul:$pathspec_file_nul
         }
-      )  
+      )
 
     }
-      
+
     export def save [
-      --patch(-p) 
-      --staged(-S) 
-      --keep-index(-k) 
-      --no-keep-index 
+      --patch(-p)
+      --staged(-S)
+      --keep-index(-k)
+      --no-keep-index
       --include-untracked(-u)
       --all(-a)
       --quiet(-q)
@@ -667,35 +667,35 @@ module git {
                 }
 
       if ($message | describe) != nothing {
-        
-        bash_yadm stash save $message ...$viable_bash_string_flags 
+
+        bash_yadm stash save $message ...$viable_bash_string_flags
       }
 
       bash_yadm stash save ...$viable_bash_string_flags
-    
+
     }
 
 
     export def list [log_options?:string ] {
 
       if ($log_options | describe) == string  {
-      
-        bash_yadm stash list $log_options 
-        
+
+        bash_yadm stash list $log_options
+
       }
 
       bash_yadm stash list
 
     }
- 
+
 
 export module show {
-      
-    
+
+
     def get-diff-algorithm-completions [] {
         ['patience' 'minimal' 'histogram' 'myers']
     }
-    
+
     def get-submodule-completions [] {
         ['short' 'log' 'diff']
     }
@@ -703,17 +703,17 @@ export module show {
     def get-color-completions [] {
         ['never' 'always' 'auto']
     }
-    
+
     def get-color-moved-completions [] {
         ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
     }
 
     def get-color-moved-ws-completions [] {
         [
-        'no' 
-        'ingore-space-at-eol'
-        'ingore-space-change'
-        'ingore-all-space'
+        'no'
+        'ignore-space-at-eol'
+        'ignore-space-change'
+        'ignore-all-space'
         'allow-indentation-change'
         ]
     }
@@ -737,12 +737,12 @@ export module show {
         --indent-heuristic
         --no-indent-heuristic
         --minimal
-        --paitence
+        --patience
         --histogram
         --anchored
         --diff-algorithm:string@get-diff-algorithm-completions
         --stat:string
-        --stat-width:int 
+        --stat-width:int
         --stat-count:int
         --stat-name-width:string
         --compact-summary
@@ -819,10 +819,10 @@ export module show {
         --theirs(-3)
         --0
         --include-untracked(-u)
-        --only-untracked 
+        --only-untracked
         stash?:string
         ] {
-  
+
        let viable_bash_string_flags = generate_viable_bash_string_flags {
                     no-index:$no_index
                     cached:$cached
@@ -838,12 +838,12 @@ export module show {
                     indent-heuristic:$indent_heuristic
                     no-indent-heuristic:$no_indent_heuristic
                     minimal:$minimal
-                    paitence:$paitence
+                    patience:$patience
                     histogram:$histogram
                     anchored:$anchored
                     diff-algorithm:$diff_algorithm
                     stat:$stat
-                    stat-width:$stat_width 
+                    stat-width:$stat_width
                     stat-count:$stat_count
                     stat-name-width:$stat_name_width
                     compact-summary:$compact_summary
@@ -922,23 +922,23 @@ export module show {
                     include-untracked:$include_untracked
                     only-untracked:$only_untracked
                   }
-  
+
        if ($stash | describe) != nothing {
 
-         return (bash_yadm stash show $stash ...$viable_bash_string_flags) 
-        
+         return (bash_yadm stash show $stash ...$viable_bash_string_flags)
+
        }
-  
+
       bash_yadm stash show ...$viable_bash_string_flags
-               
+
       }
 
      }
-      
+
     export def pop [
-      --index 
-      --quiet(-q) 
-      stash:string 
+      --index
+      --quiet(-q)
+      stash:string
     ] {
 
       bash_yadm stash pop $stash  ...(
@@ -947,12 +947,12 @@ export module show {
                 quiet:$quiet
              }
           )
-    
+
     }
-      
+
     export def apply [
       --index
-      --quiet(-q) 
+      --quiet(-q)
       stash:string
     ] {
 
@@ -964,58 +964,58 @@ export module show {
           )
 
     }
-      
+
     export def branch [branchname:string stash?:string ] {
 
 
       if ($stash | describe) != nothing {
-              
-        return (bash_yadm stash branch $branchname $stash)  
+
+        return (bash_yadm stash branch $branchname $stash)
 
       }
 
-      bash_yadm stash branch $branchname 
-    
-    
+      bash_yadm stash branch $branchname
+
+
     }
-      
+
     export def clear [param: string, ] {
-      
-      bash_yadm stash clear  
-    
+
+      bash_yadm stash clear
+
     }
-      
+
     export def drop [--quiet(-q) stash:string ] {
 
-      bash_yadm stash drop $stash ...(generate_viable_bash_string_flags { quiet:$quiet }) 
-    
+      bash_yadm stash drop $stash ...(generate_viable_bash_string_flags { quiet:$quiet })
+
     }
-    
+
     export def create [] {
 
       bash_yadm stash create
 
     }
-    
+
     export def store [] {
 
       bash_yadm stash store
 
     }
-      
+
   }
 
 
-  export module remote { 
-       
+  export module remote {
+
      export def main [--verbose(-v)] {
-      
+
         bash_yadm remote ...(
           generate_viable_bash_string_flags {
             verbose:$verbose
           }
         )
-     
+
       }
 
 
@@ -1026,16 +1026,16 @@ export module show {
         }
 
         export def main [
-          --t:string 
-          --m:string 
-          --f 
+          --t:string
+          --m:string
+          --f
           --no-tags
-          --tags 
+          --tags
           --mirror:string@get-mirror-completions
           name:string
           url:string
         ] {
-  
+
             bash_yadm remote add $name $url ...(
               generate_viable_bash_string_flags {
                 t:$t
@@ -1046,37 +1046,37 @@ export module show {
                 mirror:$mirror
               }
             )
-          
+
         }
 
        }
 
 
       export def rename [
-        --progress 
-        --no-progress  
-        old:string 
+        --progress
+        --no-progress
+        old:string
         new:string
         ] {
-        
+
             bash_yadm remote rename $old $new (
               generate_viable_bash_string_flags {
-                progress:$progress 
+                progress:$progress
                 no-progress:$no_progress
 
 
               }
             )
-      
+
       }
 
       export def remove [name: string, ] {
-      
+
           bash_yadm remote remove $name
 
       }
 
-      export def set-head [ 
+      export def set-head [
         --auto(-a):string
         --delete(-d):string
         name:string
@@ -1088,11 +1088,11 @@ export module show {
               delete:$delete
             }
           )
-        
+
       }
 
       export def set-branches [--add name:string ...branches:string ] {
-        
+
           bash_yadm remote set-branches $name ...$branches ...(
             generate_viable_bash_string_flags {
               add:$add
@@ -1102,9 +1102,9 @@ export module show {
       }
 
       export def get-url [--all --push,name:string] {
-      
+
         bash_yadm remote get-url $name ...(
-          generate_viable_bash_string_flags { 
+          generate_viable_bash_string_flags {
             push:$push
             all:$all
           }
@@ -1116,12 +1116,12 @@ export module show {
       export def set-url [
       --add
       --delete
-      --push 
-      name:string 
-      new_url:string 
-      old_url:string 
+      --push
+      name:string
+      new_url:string
+      old_url:string
       ] {
-        
+
             bash_yadm remote set-url $name $new_url $old_url ...(
               generate_viable_bash_string_flags {
                 add:$add
@@ -1129,11 +1129,11 @@ export module show {
                 push:$push
               }
             )
-      
+
       }
 
       export def show [--verbose(-v), --n name:string] {
-      
+
         bash_yadm remote prune $name ...(
           generate_viable_bash_string_flags {
             verbose: $verbose
@@ -1142,10 +1142,10 @@ export module show {
         )
 
       }
-      
-      
+
+
       export def prune [--dry-run(-n), ...names:string] {
-      
+
         bash_yadm remote prune ...$names ...(
           generate_viable_bash_string_flags {
             dry-run: $dry_run
@@ -1168,17 +1168,17 @@ export module show {
                 prune:$prune
               }
             )
-        
+
       }
 
 
-      
+
   }
 
-  export module worktree { 
+  export module worktree {
 
       export def add [
-        --f 
+        --f
         --detach
         --checkout
         --lock
@@ -1218,12 +1218,12 @@ export module show {
             }
           )
 
-        
+
       }
 
 
       export def list [-v --porcelain -z ] {
-      
+
         bash_yadm worktree list ...(
           generate_viable_bash_string_flags {
             v:$v
@@ -1235,7 +1235,7 @@ export module show {
       }
 
       export def lock [--reason worktree: string, ] {
-      
+
         bash_yadm worktree lock $worktree ...(
           generate_viable_bash_string_flags {
           reason:$reason
@@ -1245,9 +1245,9 @@ export module show {
       }
 
       export def move [worktree:string new_path:string] {
-        
-        bash_yadm worktree move $worktree $new_path 
-      
+
+        bash_yadm worktree move $worktree $new_path
+
       }
 
       export def prune [--n --v --expire:string] {
@@ -1263,23 +1263,23 @@ export module show {
       }
 
       export def remove [-f worktree:string, ] {
-        
+
         bash_yadm worktree remove $worktree ...(
-          generate_viable_bash_string_flags { 
-            f:$f 
+          generate_viable_bash_string_flags {
+            f:$f
             }
-        ) 
+        )
 
       }
 
       export def repair [ ...path:string ] {
-        
+
         bash_yadm worktree repair ...$path
 
       }
 
       export def unlock [worktree:string] {
-        
+
         bash_yadm worktree unlock $worktree
 
       }
@@ -1300,7 +1300,7 @@ export module show {
       bad:string
       good:string
     ] {
-      
+
         bash_yadm bisect start $good $bad ...(
               generate_viable_bash_string_flags {
                   term-bad:$term_bad
@@ -1310,33 +1310,33 @@ export module show {
                   no-checkout:$no_checkout
                   first-parent:$first_parent
               }
-        ) 
+        )
 
     }
 
 
     export def good [term:string] {
-            
+
        bash_yadm bisect good $term
-    
+
     }
-    
+
     export def old [term:string] {
-            
+
        bash_yadm bisect old $term
-    
+
     }
 
     export def bad [term:string] {
-            
+
        bash_yadm bisect bad $term
-    
+
     }
-    
+
     export def new [term:string] {
-            
+
        bash_yadm bisect new $term
-    
+
     }
 
     export def terms [
@@ -1345,7 +1345,7 @@ export module show {
       --term-good:string
       --term-old:string
     ] {
-        
+
         bash_yadm bisect terms ...(
               generate_viable_bash_string_flags {
                   term-bad:$term_bad
@@ -1353,114 +1353,114 @@ export module show {
                   term-good:$term_good
                   term-old:$term_old
               }
-        ) 
+        )
 
     }
 
     export def skip [rev_or_range:string] {
-            
+
         bash_yadm bisect skip $rev_or_range
-    
+
     }
 
     export def visualize [--stat --p] {
-            
+
         bash_yadm bisect visualize ...(
           generate_viable_bash_string_flags {
             p:$p
             stat:$stat
           }
-        ) 
-    
+        )
+
     }
 
     export alias view = visualize
 
     export def replay [logfile:string] {
-            
+
       bash_yadm bisect replay $logfile
-    
+
     }
 
     export def log [] {
-            
-      bash_yadm bisect log 
-    
+
+      bash_yadm bisect log
+
     }
 
     export def run [...cmd:string] {
-            
-      bash_yadm bisect run ...$cmd 
-    
+
+      bash_yadm bisect run ...$cmd
+
     }
 
     export def help [] {
-            
-      bash_yadm bisect help 
-    
+
+      bash_yadm bisect help
+
     }
 
   }
 
 
   export def add [
-    --verbose(-v) 
-    --dry-run(-n) 
-    --force(-f) 
-    --interactive(-i) 
-    --patch(-p)       
+    --verbose(-v)
+    --dry-run(-n)
+    --force(-f)
+    --interactive(-i)
+    --patch(-p)
     --edit(-e)
     --no-all
-    --all(-A) 
+    --all(-A)
     --no-ignore-removal
     --ignore-removal
-    --update(-u) 
-    --sparse               
-    --intent-to-add(-N) 
+    --update(-u)
+    --sparse
+    --intent-to-add(-N)
     --refresh
-    --ignore-errors 
-    --ignore-missing 
-    --renormalize   
-    --chmod:string 
-    --pathspec-from-file:string 
-    --pathspec-file-nul  
+    --ignore-errors
+    --ignore-missing
+    --renormalize
+    --chmod:string
+    --pathspec-from-file:string
+    --pathspec-file-nul
     ...pathspecs:string
   ] {
 
     bash_yadm add ...$pathspecs  ...(
       generate_viable_bash_string_flags {
-        verbose:$verbose 
+        verbose:$verbose
         dry-run:$dry_run
-        force:$force 
+        force:$force
         interactive:$interactive
-        patch:$patch      
+        patch:$patch
         edit:$edit
         no-all:$no_all
-        all:$all 
+        all:$all
         no-ignore-removal:$no_ignore_removal
         ignore-removal:$ignore_removal
-        update:$update 
-        sparse:$sparse               
-        intent-to-add:$intent_to_add 
+        update:$update
+        sparse:$sparse
+        intent-to-add:$intent_to_add
         refresh:$refresh
-        ignore-errors:$ignore_errors 
-        ignore-missing:$ignore_missing 
-        renormalize:$renormalize  
-        chmod:$chmod 
-        pathspec-from-file:$pathspec_from_file 
+        ignore-errors:$ignore_errors
+        ignore-missing:$ignore_missing
+        renormalize:$renormalize
+        chmod:$chmod
+        pathspec-from-file:$pathspec_from_file
         pathspec-file-nul:$pathspec_file_nul
       }
     )
-  
+
   }
 
 export module branch {
-    
-  
+
+
   def get-track-completions [] {
     ['direct' 'inherit']
   }
-    
+
   export def main [
       --color:string
       --no-color
@@ -1513,7 +1513,7 @@ export module branch {
               pattern:$pattern
               track:$track
               no-track:$no_track
-              set-upsteam-to:$set_upstream_to
+              set-upstream-to:$set_upstream_to
               u:$u
               unset-upstream:$unset_upstream
               m:$m
@@ -1530,7 +1530,7 @@ export module branch {
       }
 
       bash_yadm branch ...$viable_bash_string_flags
-        
+
     }
 
 
@@ -1538,94 +1538,94 @@ export module branch {
 
 export def fetch [
   repository?: string
-  --all                                         
-  --append(-a)                                  
-  --atomic                                      
-  --depth: int                                  
-  --deepen: int                                 
-  --shallow-since: string                       
-  --shallow-exclude: string                     
-  --unshallow                                   
-  --update-shallow                              
-  --negotiation-tip: string                     
-  --negotiate-only                              
-  --dry-run                                     
-  --write-fetch-head                            
-  --no-write-fetch-head                         
-  --force(-f)                                   
-  --keep(-k)                                    
-  --multiple                                    
-  --auto-maintenance                            
-  --no-auto-maintenance                         
-  --auto-gc                                     
-  --no-auto-gc                                  
-  --write-commit-graph                          
-  --no-write-commit-graph                       
-  --prefetch                                    
-  --prune(-p)                                   
-  --prune-tags(-P)                              
-  --no-tags(-n)                                 
-  --refmap: string                              
-  --tags(-t)                                    
-  --recurse-submodules:string                  
-  --jobs(-j):int                               
-  --no-recurse-submodules                       
-  --set-upstream                                
-  --submodule-prefix: string                    
-  --upload-pack: string                         
-  --quiet(-q)                                   
-  --verbose(-v)                                 
-  --progress                                    
-  --server-option(-o): string                   
-  --show-forced-updates                         
-  --no-show-forced-updates                      
-  --ipv4(-4)                                            
-  --ipv6(-6)                                            
+  --all
+  --append(-a)
+  --atomic
+  --depth: int
+  --deepen: int
+  --shallow-since: string
+  --shallow-exclude: string
+  --unshallow
+  --update-shallow
+  --negotiation-tip: string
+  --negotiate-only
+  --dry-run
+  --write-fetch-head
+  --no-write-fetch-head
+  --force(-f)
+  --keep(-k)
+  --multiple
+  --auto-maintenance
+  --no-auto-maintenance
+  --auto-gc
+  --no-auto-gc
+  --write-commit-graph
+  --no-write-commit-graph
+  --prefetch
+  --prune(-p)
+  --prune-tags(-P)
+  --no-tags(-n)
+  --refmap: string
+  --tags(-t)
+  --recurse-submodules:string
+  --jobs(-j):int
+  --no-recurse-submodules
+  --set-upstream
+  --submodule-prefix: string
+  --upload-pack: string
+  --quiet(-q)
+  --verbose(-v)
+  --progress
+  --server-option(-o): string
+  --show-forced-updates
+  --no-show-forced-updates
+  --ipv4(-4)
+  --ipv6(-6)
 ] {
 
       let viable_bash_string_flags = generate_viable_bash_string_flags {
-            all:$all                                         
-            append:$append                                  
-            atomic:$atomic                                      
-            depth:$depth                                  
-            deepen:$deepen                                 
-            shallow-since:$shallow_since                       
-            shallow-exclude:$shallow_exclude                     
-            unshallow:$unshallow                                   
-            update-shallow:$update_shallow                              
-            negotiation-tip:$negotiation_tip                     
-            negotiate-only:$negotiate_only                              
-            dry-run:$dry_run                                     
-            write-fetch-head:$write_fetch_head                            
-            no-write-fetch-head:$no_write_fetch_head                         
-            force:$force                                   
-            keep:$keep                                    
-            multiple:$multiple                                    
-            auto-maintenance:$auto_maintenance                            
-            no-auto-maintenance:$no_auto_maintenance                         
-            auto-gc:$auto_gc                                     
-            no-auto-gc:$no_auto_gc                                  
-            write-commit-graph:$write_commit_graph                          
-            no-write-commit-graph:$no_write_commit_graph                       
-            prefetch:$prefetch                                    
-            prune:$prune                                   
-            prune-tags:$prune_tags                              
-            no-tags:$no_tags                                 
-            refmap:$refmap                              
-            tags:$tags                                    
-            recurse-submodules:$recurse_submodules                  
-            jobs:$jobs                               
-            no-recurse-submodules:$no_recurse_submodules                       
-            set-upstream:$set_upstream                                
-            submodule-prefix:$submodule_prefix                    
-            upload-pack:$upload_pack                         
-            quiet:$quiet                                   
-            verbose:$verbose                                 
-            progress:$progress                                    
-            server-option:$server_option                   
-            show-forced-updates:$show_forced_updates                         
-            no-show-forced-updates:$no_show_forced_updates                      
-            ipv4:$ipv4                                            
+            all:$all
+            append:$append
+            atomic:$atomic
+            depth:$depth
+            deepen:$deepen
+            shallow-since:$shallow_since
+            shallow-exclude:$shallow_exclude
+            unshallow:$unshallow
+            update-shallow:$update_shallow
+            negotiation-tip:$negotiation_tip
+            negotiate-only:$negotiate_only
+            dry-run:$dry_run
+            write-fetch-head:$write_fetch_head
+            no-write-fetch-head:$no_write_fetch_head
+            force:$force
+            keep:$keep
+            multiple:$multiple
+            auto-maintenance:$auto_maintenance
+            no-auto-maintenance:$no_auto_maintenance
+            auto-gc:$auto_gc
+            no-auto-gc:$no_auto_gc
+            write-commit-graph:$write_commit_graph
+            no-write-commit-graph:$no_write_commit_graph
+            prefetch:$prefetch
+            prune:$prune
+            prune-tags:$prune_tags
+            no-tags:$no_tags
+            refmap:$refmap
+            tags:$tags
+            recurse-submodules:$recurse_submodules
+            jobs:$jobs
+            no-recurse-submodules:$no_recurse_submodules
+            set-upstream:$set_upstream
+            submodule-prefix:$submodule_prefix
+            upload-pack:$upload_pack
+            quiet:$quiet
+            verbose:$verbose
+            progress:$progress
+            server-option:$server_option
+            show-forced-updates:$show_forced_updates
+            no-show-forced-updates:$no_show_forced_updates
+            ipv4:$ipv4
             ipv6:$ipv6
           }
 
@@ -1649,7 +1649,7 @@ export def fetch [
       --pathspec-from-file:string
       --pathspec-file-nul
       --ours
-      --theirs 
+      --theirs
       --conflict
       --patch
       branch:string
@@ -1668,8 +1668,8 @@ export def fetch [
          theirs:$theirs
          patch:$patch
       }
-    ) 
-  
+    )
+
   }
 
 
@@ -1678,7 +1678,7 @@ export def fetch [
     def get-empty-completions [] {
         ['drop' 'keep' 'stop']
     }
-    
+
     export def main [
         --edit(-e)
         --no-commit(-n)
@@ -1702,7 +1702,7 @@ export def fetch [
         --abort
         ...commits:string
         ] {
-    
+
         bash_yadm cherry-pick ...$commits ...(
             generate_viable_bash_string_flags {
               edit:$edit
@@ -1726,7 +1726,7 @@ export def fetch [
               abort:$abort
             }
           )
-  
+
       }
 
   }
@@ -1738,7 +1738,7 @@ export def fetch [
     --shared(-s)
     --reference
     --reference-if-able
-    --disssociate
+    --dissociate
     --quiet(-q)
     --verbose(-v)
     --progress
@@ -1781,7 +1781,7 @@ export def fetch [
           shared:$shared
           reference:$reference
           reference-if-able:$reference_if_able
-          disssociate:$disssociate
+          dissociate:$dissociate
           quiet:$quiet
           verbose:$verbose
           progress:$progress
@@ -1815,11 +1815,11 @@ export def fetch [
           jobs:$jobs
       }
     )
-  
+
   }
 
 
-export module commit { 
+export module commit {
 
     def get-fixup-completions [] {
         ['amend' 'reword'] | each {|value| $"($value):<commit>" }
@@ -1828,7 +1828,7 @@ export module commit {
     def get-cleanup-completions [] {
         ['strip' 'whitespace' 'verbatim' 'scissors' 'default']
     }
-    
+
     export def main [
      --all(-a)
      --patch(-p)
@@ -1873,7 +1873,7 @@ export module commit {
      --message(-m):string
     ...pathspec:string
       ] {
-      
+
      bash_yadm commit ...$pathspec ...(
 
         generate_viable_bash_string_flags {
@@ -1919,8 +1919,8 @@ export module commit {
           no-gpg-sign:$no_gpg_sign
           message:$message
         }
-      )  
-    
+      )
+
     }
 
 }
@@ -1928,11 +1928,11 @@ export module commit {
 
 
 export module diff {
-  
+
     def get-diff-algorithm-completions [] {
         ['patience' 'minimal' 'histogram' 'myers']
     }
-    
+
     def get-submodule-completions [] {
         ['short' 'log' 'diff']
     }
@@ -1940,17 +1940,17 @@ export module diff {
     def get-color-completions [] {
         ['never' 'always' 'auto']
     }
-    
+
     def get-color-moved-completions [] {
         ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
     }
 
     def get-color-moved-ws-completions [] {
         [
-        'no' 
-        'ingore-space-at-eol'
-        'ingore-space-change'
-        'ingore-all-space'
+        'no'
+        'ignore-space-at-eol'
+        'ignore-space-change'
+        'ignore-all-space'
         'allow-indentation-change'
         ]
     }
@@ -1974,12 +1974,12 @@ export module diff {
       --indent-heuristic
       --no-indent-heuristic
       --minimal
-      --paitence
+      --patience
       --histogram
       --anchored
       --diff-algorithm:string@get-diff-algorithm-completions
       --stat:string
-      --stat-width:int 
+      --stat-width:int
       --stat-count:int
       --stat-name-width:string
       --compact-summary
@@ -2074,12 +2074,12 @@ export module diff {
                 indent-heuristic:$indent_heuristic
                 no-indent-heuristic:$no_indent_heuristic
                 minimal:$minimal
-                paitence:$paitence
+                patience:$patience
                 histogram:$histogram
                 anchored:$anchored
                 diff-algorithm:$diff_algorithm
                 stat:$stat
-                stat-width:$stat_width 
+                stat-width:$stat_width
                 stat-count:$stat_count
                 stat-name-width:$stat_name_width
                 compact-summary:$compact_summary
@@ -2153,17 +2153,17 @@ export module diff {
                 base:$base
                 ours:$ours
                 theirs:$theirs
-                0:$0 
+                0:$0
             }
           )
-    
+
       }
  }
 
 }
 
 
-export module grep { 
+export module grep {
 
     def get-color-completions [] {
         ['never' 'auto']
@@ -2177,7 +2177,7 @@ export module grep {
      --no-exclude-standard
      --recurse-submodules
      --text(-a)
-     --textconv  
+     --textconv
      --no-textconv
      --ignore-case(-i)
      -I
@@ -2214,14 +2214,14 @@ export module grep {
      --threads:int
      -f:string
      -e
-     --and 
+     --and
      --or
      --not
      --all-match
      --quiet(-q)
      ...$rest:string
    ] {
-   
+
         bash_yadm grep ...$rest ...(
           generate_viable_bash_string_flags {
             cached:$cached
@@ -2231,7 +2231,7 @@ export module grep {
             no-exclude-standard:$no_exclude_standard
             recurse-submodules:$recurse_submodules
             text:$text
-            textconv:$textconv  
+            textconv:$textconv
             no-textconv:$no_textconv
             ignore-case:$ignore_case
             I:$I
@@ -2268,20 +2268,20 @@ export module grep {
             threads:$threads
             f:$f
             e:$e
-            and:$and 
+            and:$and
             or:$or
             not:$not
             all-match:$all_match
             quiet:$quiet
           }
         )
-   
-}
 
 }
 
+}
 
- export module log { 
+
+ export module log {
 
   def get-decorate-completions [] {
      ['short' 'full' 'auto' 'no']
@@ -2353,17 +2353,17 @@ export module grep {
     def get-color-completions [] {
        ['never' 'always' 'auto']
   }
-    
+
   def get-color-moved-completions [] {
       ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
   }
 
   def get-color-moved-ws-completions [] {
       [
-      'no' 
-      'ingore-space-at-eol'
-      'ingore-space-change'
-      'ingore-all-space'
+      'no'
+      'ignore-space-at-eol'
+      'ignore-space-change'
+      'ignore-all-space'
       'allow-indentation-change'
       ]
   }
@@ -2489,12 +2489,12 @@ export module grep {
       --indent-heuristic
       --no-indent-heuristic
       --minimal
-      --paitence
+      --patience
       --histogram
       --anchored
       --diff-algorithm:string@get-diff-algorithm-completions
       --stat:string
-      --stat-width:int 
+      --stat-width:int
       --stat-count:int
       --stat-name-width:string
       --compact-summary
@@ -2567,7 +2567,7 @@ export module grep {
       --ita-invisible-in-index
       ...rest
      ] {
-       
+
         bash_yadm log ...$rest ...(
             generate_viable_bash_string_flags {
                 follow:$follow
@@ -2685,12 +2685,12 @@ export module grep {
                 indent-heuristic:$indent_heuristic
                 no-indent-heuristic:$no_indent_heuristic
                 minimal:$minimal
-                paitence:$paitence
+                patience:$patience
                 histogram:$histogram
                 anchored:$anchored
                 diff-algorithm:$diff_algorithm
                 stat:$stat
-                stat-width:$stat_width 
+                stat-width:$stat_width
                 stat-count:$stat_count
                 stat-name-width:$stat_name_width
                 compact-summary:$compact_summary
@@ -2762,7 +2762,7 @@ export module grep {
                 ita-invisible-in-index:$ita_invisible_in_index
             }
           )
-   
+
     }
 
   }
@@ -2838,19 +2838,19 @@ export module grep {
     }
 
     def get-color-completions [] {
-       ['never' 'always' 'auto']  
+       ['never' 'always' 'auto']
     }
-    
+
     def get-color-moved-completions [] {
         ['no' 'default' 'plain' 'blocks' 'zebra' 'dimmed-zebra']
     }
 
     def get-color-moved-ws-completions [] {
         [
-        'no' 
-        'ingore-space-at-eol'
-        'ingore-space-change'
-        'ingore-all-space'
+        'no'
+        'ignore-space-at-eol'
+        'ignore-space-change'
+        'ignore-all-space'
         'allow-indentation-change'
         ]
     }
@@ -2976,12 +2976,12 @@ export module grep {
       --indent-heuristic
       --no-indent-heuristic
       --minimal
-      --paitence
+      --patience
       --histogram
       --anchored
       --diff-algorithm:string@get-diff-algorithm-completions
       --stat:string
-      --stat-width:int 
+      --stat-width:int
       --stat-count:int
       --stat-name-width:string
       --compact-summary
@@ -3054,7 +3054,7 @@ export module grep {
       --ita-invisible-in-index
       ...rest
      ] {
-       
+
         bash_yadm reflog ...$rest ...(
             generate_viable_bash_string_flags {
                 follow:$follow
@@ -3172,12 +3172,12 @@ export module grep {
                 indent-heuristic:$indent_heuristic
                 no-indent-heuristic:$no_indent_heuristic
                 minimal:$minimal
-                paitence:$paitence
+                patience:$patience
                 histogram:$histogram
                 anchored:$anchored
                 diff-algorithm:$diff_algorithm
                 stat:$stat
-                stat-width:$stat_width 
+                stat-width:$stat_width
                 stat-count:$stat_count
                 stat-name-width:$stat_name_width
                 compact-summary:$compact_summary
@@ -3249,17 +3249,17 @@ export module grep {
                 ita-invisible-in-index:$ita_invisible_in_index
             }
           )
-   
+
   }
 
 
- 
+
     export def list [] {
-      
+
       bash_yadm reflog list
-    
+
     }
-    
+
     export def expire [
       --all
       --single-worktree
@@ -3272,7 +3272,7 @@ export module grep {
       --verbose
       ...refs:string
     ] {
-      
+
       bash_yadm reflog expire ...$refs ...(
           generate_viable_bash_string_flags {
             all:$all
@@ -3286,9 +3286,9 @@ export module grep {
             verbose:$verbose
           }
       )
-    
+
     }
-    
+
     export def delete [
       --rewrite
       --updateref
@@ -3297,7 +3297,7 @@ export module grep {
       --verbose
       ref:string
     ] {
-      
+
       bash_yadm reflog delete $ref ...(
           generate_viable_bash_string_flags {
             rewrite:$rewrite
@@ -3307,17 +3307,17 @@ export module grep {
             verbose:$verbose
           }
       )
-    
+
     }
 
 
     export def exists [ref:string] {
-      
+
       bash_yadm reflog exists $ref
-    
+
     }
-  
-   
+
+
   }
 
   export def reset [
@@ -3330,14 +3330,14 @@ export module grep {
     --keep
     --recurse-submodules
     --no-recurse-submodules
-    --refresh 
+    --refresh
     --no-refresh
     --pathspec-from-file:string
     --pathspec-file-nul
     value?:string
   ] {
 
-  
+
       let viable_bash_string_flags = generate_viable_bash_string_flags {
                 quiet:$quiet
                 patch:$patch
@@ -3348,19 +3348,19 @@ export module grep {
                 keep:$keep
                 recurse-submodules:$recurse_submodules
                 no-recurse-submodules:$no_recurse_submodules
-                refresh:$refresh 
+                refresh:$refresh
                 no-refresh:$no_refresh
                 pathspec-from-file:$pathspec_from_file
                 pathspec-file-nul:$pathspec_file_nul
           }
-        
+
 
     if $value != nothing {
-      
+
       return (
          bash_yadm reset $value ...$viable_bash_string_flags
       )
-    
+
     }
 
     bash_yadm reset ...$viable_bash_string_flags
@@ -3376,7 +3376,7 @@ export module grep {
     source:string
     destination:string
   ] {
-    
+
         bash_yadm mv $source $destination ...(
           generate_viable_bash_string_flags {
             force:$force
@@ -3386,7 +3386,7 @@ export module grep {
 
           }
         )
-  
+
   }
 
 
@@ -3400,7 +3400,7 @@ export module grep {
         ['false' 'true' 'merges' 'interactive']
     }
 
-    def get-negotation-tip-completions [] {
+    def get-negotiation-tip-completions [] {
         ['commit' 'glob']
     }
 
@@ -3412,7 +3412,7 @@ export module grep {
         'octopus'
         'ours'
         'subtree'
-        
+
         ]
     }
 
@@ -3458,7 +3458,7 @@ export module grep {
       --shallow-exclude:string
       --unshallow
       --update-shallow
-      --negotiation-tip:string@get-negotation-tip-completions
+      --negotiation-tip:string@get-negotiation-tip-completions
       --negotiate-only
       --dry-run
       --porcelain
@@ -3550,16 +3550,16 @@ export module grep {
           match [($repository | describe) ($refspec | describe)] {
 
           [string string] => (bash_yadm pull $repository $refspec ...$viable_bash_string_flags)
-          
+
           [string nothing] => (bash_yadm pull $repository ...$viable_bash_string_flags)
 
           _ => (bash_yadm pull ...$viable_bash_string_flags)
 
-         } 
- 
-      
+         }
 
-    
+
+
+
     }
   }
 
@@ -3573,8 +3573,8 @@ export module grep {
   def get-recurse-submodules-completions [] {
       ['check' 'on-demand' 'only' 'no']
   }
-  
-    
+
+
   export def main [
     --all
     --branches
@@ -3652,14 +3652,14 @@ export module grep {
       match [($repository | describe) ($refspec | describe)] {
 
       [string string] => (bash yadm pull $repository $refspec ...$viable_bash_string_flags)
-      
+
       [string nothing] => (bash yadm pull $repository ...$viable_bash_string_flags)
-      
+
       _ =>  (bash_yadm push ...$viable_bash_string_flags)
 
       }
 
-    
+
     }
 
   }
@@ -3686,7 +3686,7 @@ export module grep {
             'subtree'
           ]
       }
-    
+
      export def main [
       --continue
       --skip
@@ -3708,7 +3708,7 @@ export module grep {
       --strategy-option(-X):string
       --rerere-autoupdate
       --no-rerere-autoupdate
-      --gpg-sign:string 
+      --gpg-sign:string
       --no-gpg-sign
       --quiet(-q)
       --verbose(-v)
@@ -3724,7 +3724,7 @@ export module grep {
       --ignore-whitespace
       --whitespace
       --committer-date-is-author-date
-      --ignore-date 
+      --ignore-date
       --reset-author-date
       --signoff
       --interactive(-i)
@@ -3732,16 +3732,16 @@ export module grep {
       --no-rebase-merges
       --exec(-x):string
       --root
-      --autosquash 
+      --autosquash
       --no-autosquash
-      --autostash 
+      --autostash
       --no-autostash
-      --reschedule-failed-exec 
+      --reschedule-failed-exec
       --no-reschedule-failed-exec
       --update-refs
       --no-update-refs
       branch?:string
-      start_point?:string 
+      start_point?:string
       end_point?:string
       ] {
 
@@ -3766,7 +3766,7 @@ export module grep {
             strategy-option:$strategy_option
             rerere-autoupdate:$rerere_autoupdate
             no-rerere-autoupdate:$no_rerere_autoupdate
-            gpg-sign:$gpg_sign 
+            gpg-sign:$gpg_sign
             no-gpg-sign:$no_gpg_sign
             quiet:$quiet
             verbose:$verbose
@@ -3782,7 +3782,7 @@ export module grep {
             ignore-whitespace:$ignore_whitespace
             whitespace:$whitespace
             committer-date-is-author-date:$committer_date_is_author_date
-            ignore-date:$ignore_date 
+            ignore-date:$ignore_date
             reset-author-date:$reset_author_date
             signoff:$signoff
             interactive:$interactive
@@ -3790,11 +3790,11 @@ export module grep {
             no-rebase-merges:$no_rebase_merges
             exec:$exec
             root:$root
-            autosquash:$autosquash 
+            autosquash:$autosquash
             no-autosquash:$no_autosquash
-            autostash:$autostash 
+            autostash:$autostash
             no-autostash:$no_autostash
-            reschedule-failed-exec:$reschedule_failed_exec 
+            reschedule-failed-exec:$reschedule_failed_exec
             no-reschedule-failed-exec:$no_reschedule_failed_exec
             update-refs:$update_refs
             no-update-refs:$no_update_refs
@@ -3802,23 +3802,23 @@ export module grep {
 
 
         match [($branch | describe) ($start_point | describe) ($end_point | describe)] {
-          
+
           [string string string] => (
             bash_yadm rebase $branch $start_point $end_point ...$viable_bash_string_flags
-            ) 
-          
+            )
+
           [string string nothing] => (
             bash_yadm rebase $branch $start_point ...$viable_bash_string_flags
-            ) 
-          
+            )
+
           [string nothing nothing] => (
             bash_yadm rebase $branch ...$viable_bash_string_flags
-            ) 
-          
+            )
+
           _ => (bash_yadm rebase ...$viable_bash_string_flags)
         }
 
-      
+
       }
 
   }
@@ -3846,7 +3846,7 @@ export module restore {
       --ignore-skip-worktree-bits
       --recurse-submodules
       --no-recurse-submodules
-      --overlay 
+      --overlay
       --no-overlay
       --pathspec-from-file:string
       --pathspec-file-nul
@@ -3870,13 +3870,13 @@ export module restore {
                   ignore-skip-worktree-bits:$ignore_skip_worktree_bits
                   recurse-submodules:$recurse_submodules
                   no-recurse-submodules:$no_recurse_submodules
-                  overlay:$overlay 
+                  overlay:$overlay
                   no-overlay:$no_overlay
                   pathspec-from-file:$pathspec_from_file
                   pathspec-file-nul:$pathspec_file_nul
             }
           )
-    
+
     }
 
   }
@@ -3971,7 +3971,7 @@ export module restore {
       --no-expand-tabs
       --notes:string
       --no-notes
-      --show-notes-by-default 
+      --show-notes-by-default
       --show-notes:string
       --no-standard-notes
       --show-signature
@@ -3990,7 +3990,7 @@ export module restore {
               no-expand-tabs:$no_expand_tabs
               notes:$notes
               no-notes:$no_notes
-              show-notes-by-default:$show_notes_by_default 
+              show-notes-by-default:$show_notes_by_default
               show-notes:$show_notes
               no-standard-notes:$no_standard_notes
               show-signature:$show_signature
@@ -4011,7 +4011,7 @@ export module restore {
    def get-ignored-completions [] {
       ['trditional' 'no' 'matching']
    }
-    
+
    export def main [
       --short(-s)
       --branch(-b)
@@ -4027,12 +4027,12 @@ export module restore {
       --no-column
       --ahead-behind
       --no-ahead-behind
-      --renames 
+      --renames
       --no-renames
       --find-renames:int
       ...pathspecs
     ] {
-  
+
             bash_yadm status ...$pathspecs ...(
                 generate_viable_bash_string_flags {
                   short:$short
@@ -4049,7 +4049,7 @@ export module restore {
                   no-column:$no_column
                   ahead-behind:$ahead_behind
                   no-ahead-behind:$no_ahead_behind
-                  renames:$renames 
+                  renames:$renames
                   no-renames:$no_renames
                   find-renames:$find_renames
                 }
@@ -4064,11 +4064,11 @@ export module switch {
   def get-conflict-completions [] {
       ['merge' 'diff3' 'zdiff3']
   }
-  
+
   def get-track-completions [] {
       ['direct' 'inherit']
   }
-  
+
   export def main [
     --create(-c):string
     --force-create(-C):string
@@ -4114,13 +4114,13 @@ export module switch {
 
       if ($branch | describe) != nothing {
 
-        return (bash_yadm switch $branch ...$viable_bash_string_flags) 
-      
+        return (bash_yadm switch $branch ...$viable_bash_string_flags)
+
       }
 
-      bash_yadm switch ...$viable_bash_string_flags 
+      bash_yadm switch ...$viable_bash_string_flags
 
-  
+
   }
 
 }
@@ -4129,7 +4129,7 @@ export module switch {
 export module tag {
 
   def get-color-completions [] {
-      ['never' 'always' 'auto']  
+      ['never' 'always' 'auto']
   }
 
   def get-cleanup-completions [] {
@@ -4149,19 +4149,19 @@ export module tag {
     --sort:string
     --color:string@get-color-completions
     --ignore-case(-i)
-    --omit-empty 
-    --column:string 
+    --omit-empty
+    --column:string
     --no-column
-    --contains:string 
-    --no-contains:string 
-    --merged:string 
+    --contains:string
+    --no-contains:string
+    --merged:string
     --no-merged:string
     --message(-m):string
     --file(-F):string
     --edit(-e)
     --cleanup:string@get-cleanup-completions
     --create-reflog
-    --format:string 
+    --format:string
      tag?:string
      commit?:string
   ] {
@@ -4179,27 +4179,27 @@ export module tag {
           sort:$sort
           color:$color
           ignore-case:$ignore_case
-          omit-empty:$omit_empty 
-          column:$column 
+          omit-empty:$omit_empty
+          column:$column
           no-column:$no_column
-          contains:$contains 
-          no-contains:$no_contains 
-          merged:$merged 
+          contains:$contains
+          no-contains:$no_contains
+          merged:$merged
           no-merged:$no_merged
           message:$message
           file:$file
           edit:$edit
           cleanup:$cleanup
           create-reflog:$create_reflog
-          format:$format 
+          format:$format
     }
 
     match [($tag | describe) ($commit | describe) ] {
-      
+
     [string string] => (bash_yadm tag $tag $commit ...$viable_bash_string_flags)
-      
+
     [string nothing] => (bash_yadm tag $tag ...$viable_bash_string_flags)
-      
+
     _ => (bash_yadm tag ...$viable_bash_string_flags)
 
     }

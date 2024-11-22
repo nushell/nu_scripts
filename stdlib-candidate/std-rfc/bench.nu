@@ -4,7 +4,7 @@
 # round an integer amount of nanoseconds to 4th digit and convert to a real duration
 def "from ns" [] {
     if $in == 0 {0} else { #math log errors on 0
-        math round -p (3 - ($in | math log 10 | math floor)) # rounds to 4th digit including, with maximum realtive err 0.05%
+        math round -p (3 - ($in | math log 10 | math floor)) # rounds to 4th digit including, with maximum relative err 0.05%
         | math round # second math round as a fix for `> 123456 | math round -p -5` = 99999.99999999999
     }
     | into duration

@@ -9,8 +9,8 @@ def get-recipes [] {
 
 def "nu-complete just" [] {
     get-recipes
-        | select recipe doc parameters 
-        | each {|recipe| 
+        | select recipe doc parameters
+        | each {|recipe|
             let name = $recipe.recipe
             mut desc = $recipe.doc | default " "
             for $p in $recipe.parameters {
@@ -33,7 +33,7 @@ def "nu-complete args" [context:string,offset:int] {
     get-just-arg $name $position
 }
 
-# Provides argument of recipe $name at position $positions. 
+# Provides argument of recipe $name at position $positions.
 def get-just-arg [name:string,position:int] {
     let recipes = (
         get-recipes
@@ -46,7 +46,7 @@ def get-just-arg [name:string,position:int] {
     } else {
         $recipes
             | get $position
-            | each {|recipe| 
+            | each {|recipe|
                 let name = $recipe.name
                 if not ($recipe.default | is-empty) {
                     [[value description];
@@ -63,7 +63,7 @@ def get-just-arg [name:string,position:int] {
     }
 }
 
-# Veriables and Assignments are apparently the same thing...
+# Variables and Assignments are apparently the same thing...
 def "nu-complete just assignments" [] {
     ^just --dump --dump-format json
         | from json
@@ -121,7 +121,7 @@ export extern "just" [
     --shell-arg                                     # Invoke shell with <SHELL-ARG> as an argument
     --show(-s):string@"nu-complete just"            # Show information about <RECIPE>
     --working-directory(-d)                         # Use <WORKING-DIRECTORY> as working directory. --justfile must also be set
-] 
+]
 
 def "nu-complete just format" [] {
     [ "just", "json" ]
