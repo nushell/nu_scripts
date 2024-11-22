@@ -24,4 +24,6 @@ def one_liner [] {
 }
 
 
-show_index_colors
+export def main [] {
+  show_index_colors
+}

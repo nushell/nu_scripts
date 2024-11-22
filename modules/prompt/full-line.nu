@@ -41,7 +41,7 @@ export def main [
     let mid_content = ($" (dir_string) ")
     let mid_content_len = ($mid_content | ansi strip | str length -g)
 
-    let dirs_segment = $" |(dirs show | each {|it| if $it.active {'V'} else {'.'}} | str join '')|"
+    let dirs_segment = $" |(dirs | each {|it| if $it.active {'V'} else {'.'}} | str join '')|"
     let right_content = ($"(repo-styled)($pad_char + $pad_char + $pad_char)($dirs_segment)")
     let right_content_len = ($right_content | ansi strip | str length -g)
 

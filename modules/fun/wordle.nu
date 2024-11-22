@@ -23,7 +23,7 @@ export def main [
       if (((($words | where column1 =~ $guess) | length) >= 1) and ($guess | str length) == 5) {
         mut out = ""
         mut checked = $word
-        for i in ($guess | split chars) -n {
+        for i in ($guess | split chars | enumerate) {
           if ($i.item == ($word | str substring ($i.index)..($i.index + 1)) ) {
             $out += $"(ansi green_reverse)($i.item)(ansi reset)"
             $avail = ($avail | str replace $i.item $"(ansi green_reverse)($i.item)(ansi white_reverse)")

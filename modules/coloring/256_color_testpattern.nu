@@ -38,7 +38,7 @@ def print_colour [ colour:int ] {
     $bg_color + $fg_color + $text + " "
 }
 
-let printable_colours = 256
+const printable_colours = 256
 
 def print_run [start:int, amount:int] {
   $start..<($start + $amount) | each { |i|
