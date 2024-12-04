@@ -1,4 +1,3 @@
 # std-lib candidate
 
-This folder is where we can add scripts that might want to be in std-lib at some point. It can serve both as a holding place for scripts that are waiting on nushell changes, as well as a place to develop and discuss such scripts.
-
+This is the deprecated `stdlib-candidate` module. Please see the [new version](https://github.com/nushell/nu_scripts/tree/main/stdlib-candidate). If you have a submission here, you can move it to the new repo. Please refer to the [README](https://github.com/nushell/nu_scripts/blob/main/stdlib-candidate/README.md) there for the process.

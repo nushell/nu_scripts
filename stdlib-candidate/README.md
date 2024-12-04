@@ -35,6 +35,6 @@ When submitting a PR, please bump the module's `nupm.nuon`.
 
 # Previous Repo
 
-Note: As of December 2024, the candidate module has been "reset" to start fresh. The previous version has been moved to https://github.com/nushell/nu_scripts/tree/main/stdlib-candidate/old
+Note: As of December 2024, the candidate module has been "reset" to start fresh. The previous version has been moved to https://github.com/nushell/nu_scripts/tree/main/stdlib-candidate-old
 
 
