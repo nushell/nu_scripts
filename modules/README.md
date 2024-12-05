@@ -158,8 +158,45 @@ Installation:
   2. Import this module in your `config.nu`: `import ~/.local/share/nu_scripts/modules/jc/`
 
 ## [kubernetes](./kubernetes/)
-???
- 
+
+| Category | Command | Description | Options |
+|----------|---------|-------------|----------|
+| File Operations | `kaf <file>` | kubectl apply -f | |
+| | `kdf <file>` | kubectl diff -f | |
+| | `kdelf <file>` | kubectl delete -f | |
+| | `kak <file>` | kubectl apply -k (kustomize) | |
+| | `kdk <file>` | kubectl diff -k (kustomize) | |
+| | `kdelk <file>` | kubectl delete -k (kustomize) | |
+| | `kk <file>` | kubectl kustomize (template) | |
+| Context & Namespace | `kcc <context>` | change context | |
+| | `kn <namespace>` | change namespace | |
+| | `kccc <name>` | clone context to ~/.kube/config.d/ | |
+| Resource Management | `kg <kind> [resource]` | get resources | `-n/--namespace`: specify namespace<br>`-p/--jsonpath`: use jsonpath<br>`-l/--selector`: label selector<br>`-v/--verbose`: detailed output<br>`-w/--watch`: watch resources<br>`-W/--wide`: wide output<br>`-a/--all`: all namespaces |
+| | `kd <kind> <resource>` | describe resource | |
+| | `kc <kind> <name>` | create resource | |
+| | `ky <kind> <resource>` | get yaml output | |
+| | `ke <kind> [resource]` | edit resource | |
+| | `kdel <kind> <resource>` | delete resource | |
+| Pods | `kgp` | get pods | |
+| | `kdp <pod>` | describe pod | |
+| | `kdelp <pod>` | delete pod | |
+| | `kep <pod>` | edit pod | |
+| | `kl <pod>` | logs from pod | `-n/--namespace`: specify namespace<br>`-c/--container`: specify container<br>`-f/--follow`: follow logs<br>`-p/--previous`: show previous logs |
+| | `kep <pod>` | exec into pod | |
+| Services | `kgs` | get services | |
+| | `kds <svc>` | describe service | |
+| | `kdels <svc>` | delete service | |
+| | `kes <svc>` | edit service | |
+| Deployments | `kgd` | get deployments | |
+| | `kdel deployment <deploy>` | delete deployment | |
+| | `ked <deploy>` | edit deployment | |
+| | `ksd <deploy> <num>` | scale deployment | |
+| | `ksdr <deploy> <num>` | scale deployment with reset | |
+| | `krhd <deploy>` | rollout history deployment | |
+| | `krud <deploy>` | rollout undo deployment | |
+| Config & Utils | `kube-config` | get kubeconfig info | |
+| | `kube-refine [namespace] -k [kind]` | extract structured info from resources | |
+
 ## [make_release](../make_release/)
 ???
 
