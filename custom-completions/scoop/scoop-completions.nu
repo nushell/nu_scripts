@@ -92,13 +92,29 @@ def scoopShimBuilds [] {
 }
 
 def scoopCommands [] {
-  ^powershell -nop -nol -c "(scoop help | ConvertTo-Json -Compress)"
-  | decode
-  | lines
-  | last
-  | to text
-  | from json
-  | rename value description
+  let libexecDir = if ('SCOOP' in $env) {
+    [ $env.SCOOP, 'apps', 'scoop', 'current', 'libexec' ] | path join
+  } else {
+    [ $env.USERPROFILE, 'scoop', 'apps', 'scoop', 'current', 'libexec' ] | path join
+  }
+
+  let commands = (
+   ls $libexecDir
+   | each {|command|
+       [
+         [value, description];
+         [
+           # eg. scoop-help.ps1 -> help
+           ($command.name | path basename | str substring 6..-4),
+           # second line is starts with '# Summary: '
+           # eg. '# Summary: Install apps' -> 'Install apps'
+           (open $command.name | lines | skip 1 | first | str substring 11..)
+         ]
+       ]
+     }
+   | flatten
+  )
+  $commands
 }
 
 def scoopAliases [] {
