@@ -1,8 +1,8 @@
 def signatures [] {
   let sig = ([
       { name: "nu-nu"
-        usage: "signature test for nu-nu"
-        extra_usage: ""
+        description: "signature test for nu-nu"
+        extra_description: ""
         required_positional: [
             {
                 name: "a"
