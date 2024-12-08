@@ -25,6 +25,6 @@
     source: { |buffer, position|
         scope commands
         | where name =~ $buffer
-        | each { |it| {value: $it.name description: $it.usage} }
+        | each { |it| {value: $it.name description: $it.description } }
     }
 }
