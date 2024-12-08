@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 # generate typescript from nushell commands
 def gen-ts-cmds [] {
-    let cmds = (scope commands | where usage != '' | select name usage)
+    let cmds = (scope commands | where description != '' | select name description)
     let updated_cmds = (echo $cmds | insert camel {|it| $it.name + 'Completion' | str camel-case } )
 
     let ts = (echo $updated_cmds |
@@ -38,10 +38,10 @@ def gen-ts-cmds [] {
 
 # generate typescript from nushell subcommands
 def gen-ts-subs [] {
-    let cmds = (scope commands | where is_sub == true | select name usage | insert base { get name | split column ' ' base sub } | flatten --all)
+    let cmds = (scope commands | where is_sub == true | select name description | insert base { get name | split column ' ' base sub } | flatten --all)
     let updated_cmds = (echo $cmds | insert camelProvider {|row| $row.base + 'SubCommandsProvider' | str camel-case } | insert method {|row| $row.name | str camel-case})
-    let subs_count = (scope commands | where is_sub == true | select name usage | insert base { get name | split column ' ' base sub} | flatten --all | group-by base | transpose cmd cmd_count | update cmd_count { get cmd_count | length })
-    let subs_collection = (scope commands | where is_sub == true | select name usage | insert base { get name | split column ' ' base sub} | flatten --all | group-by base | transpose  cmd sub_cmds)
+    let subs_count = (scope commands | where is_sub == true | select name description | insert base { get name | split column ' ' base sub} | flatten --all | group-by base | transpose cmd cmd_count | update cmd_count { get cmd_count | length })
+    let subs_collection = (scope commands | where is_sub == true | select name description | insert base { get name | split column ' ' base sub} | flatten --all | group-by base | transpose  cmd sub_cmds)
 
     let ts = ($subs_collection | each {|it|
         let preamble = (get sub_cmds | enumerate | each {|it|
@@ -55,11 +55,11 @@ def gen-ts-subs [] {
                 let line05 = ([ "                const linePrefix = document.lineAt(position).text.substr(0, position.character);" (char nl) ] | str join)
                 let line06 = ([ "                if (linePrefix.endsWith('" $it.item.base " ')) {" (char nl) (char nl) ] | str join)
                 let line07 = ([ "                    const " $method " = new vscode.CompletionItem('" $it.item.sub "', vscode.CompletionItemKind.Method);" (char nl) ] | str join)
-                let line08 = ([ '                    ' $method '.detail = "' $it.item.usage '";' (char nl) (char nl) ] | str join)
+                let line08 = ([ '                    ' $method '.detail = "' $it.item.description '";' (char nl) (char nl) ] | str join)
                 $line01 + $line02 + $line03 + $line04 + $line05 + $line06 + $line07 + $line08
             } else {
                 let line07 = ([ "                    const " $method " = new vscode.CompletionItem('" $it.item.sub "', vscode.CompletionItemKind.Method);" (char nl) ] | str join)
-                let line08 = ([ '                    ' $method '.detail = "' $it.item.usage '";' (char nl) (char nl) ] | str join)
+                let line08 = ([ '                    ' $method '.detail = "' $it.item.description '";' (char nl) (char nl) ] | str join)
                 $line07 + $line08
             }
         } | str join)
