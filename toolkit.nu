@@ -35,7 +35,7 @@ export def "check pr" [
 }
 
 # View subcommands.
-export def main []: nothing -> nothing {
+export def main []: nothing -> string {
     help toolkit
 }
 
