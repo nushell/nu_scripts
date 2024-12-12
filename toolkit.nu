@@ -36,7 +36,7 @@ export def "check pr" [
 
 # View subcommands.
 export def main []: nothing -> nothing {
-    help toolkit
+    print (help toolkit)
 }
 
 # Wrap file lookup and exit codes.
