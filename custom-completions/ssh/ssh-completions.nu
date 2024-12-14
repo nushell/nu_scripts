@@ -34,14 +34,21 @@ def "nu-complete ssh-host" [] {
     let files = [
         '/etc/ssh/ssh_config',
         '~/.ssh/config'
-    ] | filter { |file| $file | path exists } 
+    ] | filter {|file| $file | path exists }
 
-    $files | each { |file|
+    let included_files = $files | each {|file|
+        let folder = $file | path expand | path dirname
+        let rel_subfiles = $file | open | lines | str trim | where { |s| $s | str starts-with 'Include' } | each { |s| $s | parse --regex '^Include\s+(?<subfile>.+)' | get subfile | str replace -a '"' '' } | flatten
+        $rel_subfiles | each { |f| $folder | path join $f }
+    } | flatten | filter { |p| $p | path exists }
+
+
+    [ ...$files, ...$included_files ] | each {|file|
         let lines = $file | open | lines | str trim
 
         mut result = []
         for $line in $lines {
-            let data = $line | parse  --regex '^Host\s+(?<host>.+)'
+            let data = $line | parse  --regex '^Host\s+(?<host>[-\.\w]+)'
             if ($data | is-not-empty) {
                 $result = ($result | append { 'value': ($data.host | first), 'description': "" })
                 continue;
