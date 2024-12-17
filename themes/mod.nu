@@ -244,7 +244,7 @@ export def "update terminal" [] {
 
 }
 
-def no-newline [] string->string {
+def no-newline []: string -> string {
     $in | str replace -r '\n$' ''
 }
 
