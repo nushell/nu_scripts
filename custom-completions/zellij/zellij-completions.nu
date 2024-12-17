@@ -10,12 +10,16 @@ def "nu-complete zellij" [] {
     { value: "convert-config", description: "" },
     { value: "convert-layout", description: "" },
     { value: "convert-theme", description: "" },
+    { value: "delete-all-sessions", description: "Delete all sessions [aliases: da]" },
+    { value: "delete-session", description: "Delete a specific session [aliases: d]" },
     { value: "edit", description: "Edit file with default $EDITOR / $VISUAL [aliases: e]" },
     { value: "help", description: "Print this message or the help of the given subcommand(s)" },
     { value: "kill-all-sessions", description: "Kill all sessions [aliases: ka]" },
     { value: "kill-session", description: "Kill the specific session [aliases: k]" },
     { value: "list-sessions", description: "List active sessions [aliases: ls]" },
     { value: "options", description: "Change behaviour of zellij" },
+    { value: "pipe", description: "Send data to one or more plugins, launch them if they are not running" },
+    { value: "plugin", description: "Load a plugin [aliases: p]" },
     { value: "run", description: "Run a command in a new pane [aliases: r]" },
     { value: "setup", description: "Setup zellij and check its configuration" },
   
@@ -23,9 +27,12 @@ def "nu-complete zellij" [] {
     { value: "ac", description: "Alias for `action`" },
     { value: "a", description: "Alias for `attach`" },
     { value: "e", description: "Alias for `edit`" },
+    { value: "da", description: "Alias for `delete-all-sessions`" },
+    { value: "d", description: "Alias for `delete-session`" },
     { value: "ka", description: "Alias for `kill-all-sessions`" },
     { value: "k", description: "Alias for `kill-session`" },
     { value: "ls", description: "Alias for `list-sessions`" },
+    { value: "p", description: "Alias for `plugin`" },
     { value: "r", description: "Alias for `run`" },
   ]
 }
@@ -178,6 +185,19 @@ export extern "zellij help" [
   command?: string@"nu-complete subcommands"
 ]
 
+# Delete all sessions
+export extern "zellij delete-all-sessions" [
+  --force(-f) # Kill the sessions if they're running before deleting them
+  --help(-h)  # Print help information
+  --yes(-y) # Automatic yes to prompts
+]
+
+# Delete the specific session
+export extern "zellij delete-session" [
+  --force(-f) # Kill the sessions if they're running before deleting them
+  --help(-h)  # Print help information
+]
+
 # Kill all sessions
 export extern "zellij kill-all-sessions" [
   --help(-h) # Print help information
@@ -230,6 +250,29 @@ export extern "zellij options" [
   --theme: string # <THEME> Set the default theme
   --theme-dir: path # <THEME_DIR> Set the theme_dir, defaults to subdirectory of config dir
 ]
+
+# Send data to one or more plugins, launch them if they are not running
+export extern "zellij pipe" [
+  --name(-n): string # <NAME> The name of the pipe
+  --args(-a): string # <ARGS> The args of the pipe
+  --plugin(-p): string # <PLUGIN> The plugin url (eg. file:/tmp/my-plugin.wasm) to direct this pipe to, if not specified, will be sent to all plugins, if specified and is not running, the plugin will be launched
+  --plugin-configuration(-c): string # <PLUGIN_CONFIGURATION> The plugin configuration (note: the same plugin with different configuration is considered a different plugin for the purposes of determining the pipe destination)
+  --help(-h) # Print help information
+]
+
+# Load a plugin
+export extern "zellij plugin" [
+   --configuration(-c): string # <CONFIGURATION> Plugin configuration
+   --floating(-f) # Open the new pane in floating mode
+   --help(-h) # Print help information
+   --height: any # <HEIGHT> The height if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+   --in-place(-i) # Open the new pane in place of the current pane, temporarily suspending it
+   --skip-plugin-cache(-s) # Skip the memory and HD cache and force recompile of the plugin (good for development)
+   --width: any # <WIDTH> The width if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+   --x(-x): any # <X> The x coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+   --y(-y): any # <Y> The y coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+]
+
 
 # Run a command in a new pane
 export extern "zellij run" [
