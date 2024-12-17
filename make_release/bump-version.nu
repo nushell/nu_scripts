@@ -29,7 +29,21 @@ def main [
             | save --force $file.name
     }
 
-    "crates/nu-utils/src/sample_config/default_{config,env}.nu" | str expand | each {|file|
+    "crates/nu-utils/src/default_files/doc_{config,env}.nu" | str expand | each {|file|
+        log debug $"bumping ($file) from ($version) to ($new_version)"
+        open --raw $file
+            | str replace --all $'version = "($version)"' $'version = "($new_version)"'
+            | save --force $file
+    }
+
+    "crates/nu-utils/src/default_files/default_{config,env}.nu" | str expand | each {|file|
+        log debug $"bumping ($file) from ($version) to ($new_version)"
+        open --raw $file
+            | str replace --all $'version = "($version)"' $'version = "($new_version)"'
+            | save --force $file
+    }
+
+    "crates/nu-utils/src/default_files/scaffold_{config,env}.nu" | str expand | each {|file|
         log debug $"bumping ($file) from ($version) to ($new_version)"
         open --raw $file
             | str replace --all $'version = "($version)"' $'version = "($new_version)"'
