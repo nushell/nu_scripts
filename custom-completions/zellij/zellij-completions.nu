@@ -194,6 +194,7 @@ export extern "zellij delete-all-sessions" [
 
 # Delete the specific session
 export extern "zellij delete-session" [
+  session_name: string@"nu-complete sessions" # <TARGET_SESSION> Name of target session
   --force(-f) # Kill the sessions if they're running before deleting them
   --help(-h)  # Print help information
 ]
