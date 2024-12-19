@@ -139,7 +139,7 @@ def conda-create-path-unix [env_dir: path] {
         ([$env_dir "bin"] | path join)
     ]
 
-    let new_path = ([$env_path $env.PATH]
+    let new_path = ([$env_path (system-path)]
         | flatten
         | str join (char esep))
 
@@ -151,7 +151,7 @@ def windows? [] {
 }
 
 def system-path [] {
-    if "PATH" in $env { $env.PATH } else { $env.Path }
+    if "PATH" in $env { $env.PATH } else { $env.Path } | path expand -n
 }
 
 def has-env [name: string] {
