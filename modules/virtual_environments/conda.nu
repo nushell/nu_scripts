@@ -151,7 +151,7 @@ def windows? [] {
 }
 
 def system-path [] {
-    if "PATH" in $env { $env.PATH } else { $env.Path } | path expand
+    if "PATH" in $env { $env.PATH } else { $env.Path } | path expand -n
 }
 
 def has-env [name: string] {
