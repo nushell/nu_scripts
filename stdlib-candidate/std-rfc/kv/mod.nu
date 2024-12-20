@@ -23,12 +23,21 @@
 # Example:
 # ls ~ | kv set "home snapshot"
 # kv set foo 5
-export def "kv set" [key: string, value?: any] {
+export def "kv set" [
+  key: string
+  value_or_closure?: any
+  --return (-r): string   # Whether and what to return to the pipeline output
+] {
   # Pipeline input is preferred, but prioritize
   # parameter if present. This allows $in to be
   # used in the parameter if needed.
   let input = $in
-  let value = $value | default $input
+
+  let arg_type = ($value_or_closure | describe)
+  let value = match $arg_type {
+    closure => { $input | do $value_or_closure }
+    _ => ($value_or_closure | default $input)
+  }
 
   # Store values as nuons for type-integrity
   let kv_pair = {
@@ -38,16 +47,16 @@ export def "kv set" [key: string, value?: any] {
 
   # Create the table if it doesn't exist
   try {
-    stor create -t kv_mod_store -c {key: str, value: str} | ignore
+    stor create -t std_kv_store -c {key: str, value: str} | ignore
   }
 
   # Does the key exist yet?
-  let key_exists = ( $key in (stor open | $in.kv_mod_store?.key?))
+  let key_exists = ( $key in (stor open | $in.std_kv_store?.key?))
   
   # If so, we need an update rather than an insert
   let stor_action = match $key_exists {
-    true => {{stor update -t kv_mod_store --where-clause $"key = '($key)'"}}
-    false  => {{stor insert -t kv_mod_store}}
+    true => {{stor update -t std_kv_store --where-clause $"key = '($key)'"}}
+    false  => {{stor insert -t std_kv_store}}
   }
 
   # Execute the update-or-insert action
@@ -55,14 +64,32 @@ export def "kv set" [key: string, value?: any] {
 
   # Returns the kv table itself in case it's
   # useful in the pipeline
-  kv list
+  match ($return | default 'value') {
+    'all' => (kv list)
+    'a' => (kv list)
+    'value' => $value
+    'v' => $value
+    'input' => $input
+    'in' => $input
+    'ignore' => null
+    'i' => null
+    _  => {
+      error make {
+        msg: "Invalid --return option"
+        label: {
+          text: "Must be 'all'/'a', 'value'/'v', 'input'/'in', or 'ignore'/'i'"
+          span: (metadata $return).span
+        }
+      }
+    }
+  }
 }
 
 def kv_key_completions [] {
   try {
     stor open
     # Hack to turn a SQLiteDatabase into a table
-  | $in.kv_mod_store | wrap temp | get temp
+  | $in.std_kv_store | wrap temp | get temp
   | get key? 
   } catch {
     # Return no completions
@@ -82,12 +109,12 @@ export def "kv get" [
   key: string@kv_key_completions    # Key of the kv-pair to retrieve
 ] {
   try {
-    stor create -t kv_mod_store -c {key: str, value: str} | ignore
+    stor create -t std_kv_store -c {key: str, value: str} | ignore
   }
 
   stor open
     # Hack to turn a SQLiteDatabase into a table
-  | $in.kv_mod_store | wrap temp | get temp
+  | $in.std_kv_store | wrap temp | get temp
   | where key == $key
     # Should only be one occurence of each key in the stor
   | get -i value | first
@@ -106,10 +133,10 @@ export def "kv get" [
 export def "kv list" [] {
   # Create the table if it doesn't exist
   try {
-    stor create -t kv_mod_store -c {key: str, value: str} | ignore
+    stor create -t std_kv_store -c {key: str, value: str} | ignore
   }
 
-  stor open | $in.kv_mod_store | each {|kv_pair|
+  stor open | $in.std_kv_store | each {|kv_pair|
     {
       key: $kv_pair.key
       value: ($kv_pair.value | from nuon )
@@ -123,15 +150,15 @@ export def "kv drop" [
 ] {
   # Create the table if it doesn't exist
   try {
-    stor create -t kv_mod_store -c {key: str, value: str} | ignore
+    stor create -t std_kv_store -c {key: str, value: str} | ignore
   }
 
   try {
     stor open
       # Hack to turn a SQLiteDatabase into a table
-    | $in.kv_mod_store | wrap temp | get temp
+    | $in.std_kv_store | wrap temp | get temp
     | where key == $key
-      # Should only be one occurence of each key in the stor
+      # Should only be one occurrence of each key in the stor
     | get -i value | first
     | match $in {
         # Key not found
@@ -140,7 +167,7 @@ export def "kv drop" [
         # Key found
         _ => {
           let value = $in
-          stor delete --table-name kv_mod_store --where-clause $"key = '($key)'"
+          stor delete --table-name std_kv_store --where-clause $"key = '($key)'"
           $value | from nuon
         }
     }
