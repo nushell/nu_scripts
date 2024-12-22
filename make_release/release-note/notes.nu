@@ -74,6 +74,7 @@ export def write-toc [file: path] {
             get line | split chars | take while { $in == '#' } | length
         }
         | insert nocomment {
+            # We assume that comments only have one `#`
             if ($in.level != 1) {
                 return true
             }
@@ -83,6 +84,8 @@ export def write-toc [file: path] {
             if ($known_h1s | any {|| $line =~ $in}) {
                 return true
             }
+
+            # We don't know so let's ask
             let user = ([Ignore Accept] |
                 input list $"Is this a code comment or a markdown h1 heading:(char nl)(ansi blue)($line)(ansi reset)(char nl)Choose if we include it in the TOC!")
             match $user {
