@@ -94,8 +94,6 @@ export def write-toc [file: path] {
         }
     )
 
-    print $data
-
     let table_of_contents = (
         $data
         | where level in 1..=3 and nocomment == true
