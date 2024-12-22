@@ -12,7 +12,7 @@
 
 # Return true if number is even. Calls mutually recursive odd function
 # if number is greater than 1.
-def even [n: int, acc=true] -> any {
+def even [n: int, acc=true]: nothing -> any {
   if $n == 0 { return $acc } else if $n == 1 {
     return (not $acc) } else {
     {|| odd ($n - 2) (not $acc) }
@@ -22,7 +22,7 @@ def even [n: int, acc=true] -> any {
 
 # Returns true if number is odd. Will cooperate with even in a mutually recursive fashion.
 # Warning: do not pass any numbers less than 0
-def odd [n: int, acc=true] -> bool {
+def odd [n: int, acc=true]: nothing -> bool {
   if $n == 0 { return (not $acc) } else if $n == 1 { 
     return $acc } else {
     {|| even ($n - 2) (not $acc) }

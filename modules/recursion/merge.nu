@@ -1,7 +1,7 @@
 # merge 2 sorted lists
 
 # Merge 2 sorted lists
-def merge-2 [l: list, r: list] -> list {
+def merge-2 [l: list, r: list]: nothing -> list {
   mut ol = []
 mut lprime = $l; mut rprime = $r
   let mx = ($l | length) + ($r | length)
@@ -24,7 +24,7 @@ mut lprime = $l; mut rprime = $r
 # Merge sort a list
 # This version is non tail call optimized and might blow the stack for
 # large lists.
-def sort-nontail [x: list] -> list {
+def sort-nontail [x: list]: nothing -> list {
   let $n = ($x | length)
  let n_2: int = $n // 2
 

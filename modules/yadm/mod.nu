@@ -4,7 +4,7 @@
 
 def generate_viable_bash_string_flags [
 flag_record:record # A object filled all known flags and their values.
-] -> list<string> {
+]: nothing -> list<string> {
 
 
 

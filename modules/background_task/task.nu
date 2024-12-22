@@ -19,7 +19,7 @@ export def spawn [
   --after (-a): int                   # Start the task once all specified tasks have successfully finished. As soon as one of the dependencies fails, this task will fail as well.
   --priority (-o): string             # Start this task with a higher priority. The higher the number, the faster it will be processed.
   --label (-l): string                # Label the task. This string will be shown in the `status` column of `task status`.
-] -> int {
+]: nothing -> int {
   mut args = []
 
   if $working_directory != null {
