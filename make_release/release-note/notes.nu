@@ -48,6 +48,14 @@ const toc = '[[toc](#table-of-contents)]'
 
 # Generate and write the table of contents to a release notes file
 export def write-toc [file: path] {
+    let known_h1s = [
+        "# Highlights and themes of this release",
+        "# Changes",
+        "# Notes for plugin developers",
+        "# Hall of fame",
+        "# Full changelog",
+    ]
+
     let lines = open $file | lines | each { str trim -r }
 
     let content_start = 2 + (
@@ -65,11 +73,32 @@ export def write-toc [file: path] {
         | insert level {
             get line | split chars | take while { $in == '#' } | length
         }
+        | insert nocomment {
+            if ($in.level == 1) {
+                let line = $in.line
+
+                # Try to use the whitelist first
+                if ($known_h1s | any {|| $line =~ $in}) {
+                    return true
+                }
+                let user = ([Ignore Accept] |
+                    input list $"Is this a code comment or a markdown h1 heading:(char nl)(ansi blue)($line)(ansi reset)(char nl)Choose if we include it in the TOC!")
+                match $user {
+                    "Accept" => {true}
+                    "Ignore" => {false}
+                }
+
+            } else {
+                return true
+            }
+        }
     )
+
+    print $data
 
     let table_of_contents = (
         $data
-        | where level in 1..=3
+        | where level in 1..=3 and nocomment == true
         | each {|header|
             let indent = '- ' | fill -w ($header.level * 2) -a right
 
@@ -91,7 +120,7 @@ export def write-toc [file: path] {
     )
 
     let content = $data | each {
-        if $in.level in 1..=3 and not ($in.line ends-with $toc) {
+        if $in.level in 1..=3 and not ($in.line ends-with $toc) and $in.nocomment {
             $'($in.line) ($toc)'
         } else {
             $in.line
