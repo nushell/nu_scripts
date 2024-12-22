@@ -26,7 +26,7 @@ export def create [thunk: any] {
 # The parameter val must be either a terminating value or closure, which will get run until
 # the terminating value is returned from the current closure which
 # is returned from this function.
-export def test [val: any] -> any {
+export def test [val: any]: nothing -> any {
   let cl = (create $val)
   do $cl
 }
@@ -43,7 +43,7 @@ export def test [val: any] -> any {
 
 # Explicitly bounces the trampoline over a recursive function without first
 # creating a closure .
-export def recurse [val: any] -> any {
+export def recurse [val: any]: nothing -> any {
   mut maybe_thunk = $val
   while ($maybe_thunk | describe) == closure {
     $maybe_thunk = (do $maybe_thunk)
