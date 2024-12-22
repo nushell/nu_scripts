@@ -83,13 +83,7 @@ export def write-toc [file: path] {
             let link = (
                 $text
                 | str downcase
-                | str replace -a '`' ''
-                | str replace -a '+' ''
-                | str replace -a '.' ''
-                | str replace -a '?' ''
-                | str replace -a ' ' '-'
-                | str replace -a '_' '-'
-                | str replace -a -r '--+' '-'
+                | str kebab-case
             )
 
             $"($indent)[_($text)_]\(#($link)-toc\)"
