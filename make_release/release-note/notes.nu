@@ -44,7 +44,7 @@ export def pr-table [] {
     | to md
 }
 
-const toc = '[[toc](#table-of-content)]'
+const toc = '[[toc](#table-of-contents)]'
 
 # Generate and write the table of contents to a release notes file
 export def write-toc [file: path] {
@@ -82,8 +82,13 @@ export def write-toc [file: path] {
 
             let link = (
                 $text
+                | str downcase
                 | str replace -a '`' ''
+                | str replace -a '+' ''
+                | str replace -a '.' ''
+                | str replace -a '?' ''
                 | str replace -a ' ' '-'
+                | str replace -a '_' '-'
                 | str replace -a -r '--+' '-'
             )
 
