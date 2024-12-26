@@ -3,7 +3,7 @@ def gen_keywords [] {
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
-                and ($it.name | str contains -n ' ')
+                and not ($it.name | str contains ' ')
                 | get name
                 | str join '|')
 
@@ -43,7 +43,7 @@ def gen_keywords_alphabetically [] {
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
-                and ($it.name | str contains -n ' ')
+                and not ($it.name | str contains ' ')
                 | get name)
 
     let preamble = '\\b('

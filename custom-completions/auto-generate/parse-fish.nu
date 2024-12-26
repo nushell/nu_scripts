@@ -60,7 +60,7 @@ def pair-args [] {
             {$"($pair.0 | str trim -c '-')": ($pair.1 | unquote)}   # turn into a [{<flag> :<arg>}] removing quotes
         ]
     }
-    | reduce { |it, acc| $acc | merge { $it }}                      # merge the list of records into one big record
+    | reduce { |it, acc| $acc | merge $it }                         # merge the list of records into one big record
 }
 
 def unquote [] {

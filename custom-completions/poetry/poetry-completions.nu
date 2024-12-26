@@ -8,7 +8,7 @@ def "nu-complete poetry python-versions" []: nothing -> list<string> {
 # Default package source names
 #
 # The default package source names available to install packages from
-def "nu-complete poetry default-package-source-names" []: nothing -> list<string> {
+def "nu-complete poetry default-package-source-names" [] nothing -> list<string> {
     [pypi test test.pypi.org internal-pypi]
 }
 
