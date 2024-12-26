@@ -84,11 +84,10 @@ def make-commands-completion [] {
     }
 }
 
-let quote = '"' # "
-
 # make the action nu completion string from subcommand and args
 # subcommand can be empty which will be the root command
 def make-subcommands-completion [parents: list] {
+    let quote = '"' # "
     let fishes = $in
     $fishes
     | group-by a                                                                      # group by sub command (a flag)
