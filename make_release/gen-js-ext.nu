@@ -3,7 +3,7 @@ def gen_keywords [] {
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
-                and ($it.name | str contains -n ' ')
+                and not ($it.name | str contains ' ')
                 | get name
                 | str join '|')
 
@@ -12,10 +12,6 @@ def gen_keywords [] {
     let postamble = ')\\b'
     $'"match": "($var_with_dash_or_under_regex)|($preamble)($cmds)($postamble)",'
 }
-print $"Generating keywords(char nl)"
-print (gen_keywords)
-print (char nl)
-print (char nl)
 
 def gen_sub_keywords [] {
     let sub_cmds = (scope commands
@@ -33,9 +29,6 @@ def gen_sub_keywords [] {
     } | str join '|')
     $'"match": "($preamble)($cmds)($postamble)",'
 }
-print $"Generating sub keywords(char nl)"
-print (gen_sub_keywords)
-print (char nl)
 
 def gen_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
@@ -43,7 +36,7 @@ def gen_keywords_alphabetically [] {
                 | where is_extern == false
                 and is_custom == false
                 and category !~ deprecated
-                and ($it.name | str contains -n ' ')
+                and not ($it.name | str contains ' ')
                 | get name)
 
     let preamble = '\\b('
@@ -64,9 +57,6 @@ def gen_keywords_alphabetically [] {
     } | str join "\n"
 }
 
-print "Generating keywords alphabetically\n"
-print (gen_keywords_alphabetically)
-print (char nl)
 
 def gen_sub_keywords_alphabetically [] {
     let alphabet = [a b c d e f g h i j k l m n o p q r s t u v w x y z]
@@ -96,6 +86,21 @@ def gen_sub_keywords_alphabetically [] {
     } | str join "\n"
 }
 
-print "Generating sub keywords alphabetically\n"
-print (gen_sub_keywords_alphabetically)
-print (char nl)
+export def main [] {
+    print $"Generating keywords(char nl)"
+    print (gen_keywords)
+    print (char nl)
+    print (char nl)
+
+    print $"Generating sub keywords(char nl)"
+    print (gen_sub_keywords)
+    print (char nl)
+
+    print "Generating keywords alphabetically\n"
+    print (gen_keywords_alphabetically)
+    print (char nl)
+
+    print "Generating sub keywords alphabetically\n"
+    print (gen_sub_keywords_alphabetically)
+    print (char nl)
+}
