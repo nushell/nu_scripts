@@ -1,4 +1,6 @@
-# Update extension of input files.
+# Update extension of input file paths.
+#
+# Note that it doesn't change the file name locally.
 #
 # # Example
 # - setting path ext to `rs`
