@@ -71,7 +71,7 @@ export def "lint ide-check" []: path -> int {
     let file = $in
     let stub = $env.STUB_IDE_CHECK? | default false | into bool
     const current_path = (path self)
-    let candidate_path = $current_path | path join "stdlib-candidate"
+    let candidate_path = $current_path | path dirname | path join "stdlib-candidate"
     let diagnostics = if $stub {
         do { nu -I $candidate_path --no-config-file --commands $"use '($file)'" }
             | complete
