@@ -161,11 +161,11 @@ export def ($test_function_name) [] {
     | str join (char nl)
     | save $rendered_module_path
 
+    const current_path = (path self)
     let result = (
-        ^$nu.current-exe --no-config-file -c $"use ($rendered_module_path) *; ($test_function_name)|to nuon"
+        ^$nu.current-exe -I ($current_path | path dirname) --no-config-file -c $"use ($rendered_module_path) *; ($test_function_name)|to nuon"
         | complete
     )
-
     rm $rendered_module_path
 
     return $result

@@ -1,4 +1,4 @@
-use std *
+use path
 use std/assert
 
 #[test]
