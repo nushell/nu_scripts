@@ -32,6 +32,13 @@ export def "check pr" [
             { test }
          ] | par-each { |task| $files | do $task } # TODO: buffer output
     }
+
+    test-stdlib-candidate
+}
+
+export def test-stdlib-candidate [] {
+    use stdlib-candidate/testing.nu
+    testing run-tests --path stdlib-candidate/
 }
 
 # View subcommands.
