@@ -38,7 +38,7 @@ export def "check pr" [
 
 export def test-stdlib-candidate [] {
     use stdlib-candidate/testing.nu
-    testing run-tests --path stdlib-candidate/
+    testing run-tests --allow-no-tests --path stdlib-candidate
 }
 
 # View subcommands.

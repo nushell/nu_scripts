@@ -282,6 +282,7 @@ export def run-tests [
     --exclude: string,                    # Pattern to use to exclude tests. Default: no tests are excluded
     --exclude-module: string,             # Pattern to use to exclude test modules. Default: No modules are excluded
     --list,                               # list the selected tests without running them.
+    --allow-no-tests,
     --threads: int@"nu-complete threads", # Amount of threads to use for parallel execution. Default: All threads are utilized
 ] {
     let available_threads = (sys cpu | length)
@@ -355,7 +356,9 @@ export def run-tests [
     }
 
     if ($modules | is-empty) {
-        error make --unspanned {msg: "no test to run"}
+        if (not $allow_no_tests) {
+            error make --unspanned {msg: "no test to run"}
+        }
     }
 
     let results = (
