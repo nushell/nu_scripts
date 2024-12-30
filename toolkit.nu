@@ -76,7 +76,7 @@ export def "lint ide-check" []: path -> int {
             | [[severity message]; [$in.exit_code $in.stderr]]
             | where severity != 0
     } else {
-        nu --ide-check 10 $file
+        nu -I "stdlib-candidate" --ide-check 10 $file
             | $"[($in)]"
             | from nuon
             | where type == diagnostic
