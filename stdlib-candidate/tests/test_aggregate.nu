@@ -82,7 +82,7 @@ const movies = [
 ]
 
 #[test]
-def "count movies by Lead_Studio" [] {
+def count_movies_by_Lead_Studio [] {
     let grouped = $movies | group-by Lead_Studio --to-table
     let out = $grouped | aggregate
     # let expected = $grouped | insert count {get items | length} | select Lead_Studio count
@@ -107,7 +107,7 @@ def "count movies by Lead_Studio" [] {
 }
 
 #[test]
-def "average gross by Genre" [] {
+def average_gross_by_Genre [] {
     let grouped = $movies | group-by Genre --to-table
     let out = $grouped | aggregate --ops {avg: {math avg}} Worldwide_Gross | select Genre Worldwide_Gross_avg
     # let expected = $grouped | insert Worldwide_Gross_avg {get items.Worldwide_Gross | math avg} | select Genre Worldwide_Gross_avg
@@ -132,7 +132,7 @@ def "average gross by Genre" [] {
 }
 
 #[test]
-def "aggregate default ops" [] {
+def aggregate_default_ops [] {
     let grouped = $movies | group-by Genre --to-table
     let out = $grouped | aggregate Worldwide_Gross
 
@@ -157,7 +157,7 @@ def "aggregate default ops" [] {
 }
 
 #[test]
-def "throw error on non-table input" [] {
+def throw_error_on_non-table_input [] {
     # without --to-table
     let out = try {
         $movies | group-by Genre | aggregate Worldwide_Gross
@@ -169,7 +169,7 @@ def "throw error on non-table input" [] {
 }
 
 #[test]
-def "throw error on non-existing column" [] {
+def throw_error_on_non-existing_column [] {
     let grouped = $movies | group-by Genre --to-table
     let error = try {
         $grouped | aggregate --ops {avg: {math avg}} NotInTheDataSet
@@ -181,7 +181,7 @@ def "throw error on non-existing column" [] {
 }
 
 #[test]
-def "aggregate stats without grouping" [] {
+def aggregate_stats_without_grouping [] {
     let out = $movies | aggregate Year | update cells -c [Year_min Year_avg Year_max Year_sum] {math round -p 2}
     let expected = [{
         count: 76,
