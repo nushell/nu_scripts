@@ -65,18 +65,36 @@ export def main [
 
     let agg_ops = $ops | default (aggregate-default-ops)
 
-    $IN
+    let results = $IN
     | update items {|group|
-        $columns | each {|col| # col: cell-path
+        let column_results = $columns
+        | each {|col| # col: cell-path
             let column = $group.items | get-item-with-error $md $col
             $agg_ops | items {|op_name, op| # op_name: string, op: closure
                 $column | do $op | wrap (aggregate-col-name $col $op_name)
             }
             | reduce {|it| merge $it}
         }
+
+        # Manually propagate errors
+        for r in $column_results {
+            if ($r | describe) == error {
+                return $r
+            }
+        }
+
+        $column_results
         | reduce --fold {} {|it| merge $it}
         | insert count ($group.items | length)
         | roll right  # put count as the first column
     }
-    | flatten items
+
+    # Manually propagate errors
+    for r in $results {
+        if ($r.items | describe) == error {
+            return $r.items
+        }
+    }
+
+    $results | flatten items
 }
