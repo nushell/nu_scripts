@@ -96,9 +96,17 @@ export def main [
         let column_results = $columns
         | each {|col| # col: cell-path
             let column = $group.items | get-item-with-error $col {span: $md.span, items: $grouped}
-            $agg_ops | items {|op_name, op| # op_name: string, op: closure
+            let agg_results = $agg_ops | items {|op_name, op| # op_name: string, op: closure
                 $column | do $op | wrap (aggregate-col-name $col $op_name)
             }
+
+            for r in $agg_results {
+                if ($r | describe) == error {
+                    return $r
+                }
+            }
+
+            $agg_results
             | reduce {|it| merge $it}
         }
 
