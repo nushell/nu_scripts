@@ -39,6 +39,13 @@ def get-item-with-error [md: record, col: cell-path]: [table -> any] {
 # ```nushell
 # >_ ls | group-by type { get name | path parse | get extension } --to-table | aggregate size
 # ```
+# 
+# - group data by multiple columns, and run custom aggregate operations
+# ```nushell
+# >_ open movies.csv
+#    | group-by Lead_Studio Genre --to-table
+#    | aggregate Worldwide_Gross Profitability --ops {avg: {math avg}, std: {math stddev}}
+# ```
 export def main [
     --ops: record, # default = {min: {math min}, avg: {math avg}, max: {math max}, sum: {math sum}}  
     ...columns: cell-path, # columns to perform aggregations on
