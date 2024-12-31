@@ -62,6 +62,11 @@ def "error not-a-table" [span: record<start: int, end:int>] {
 #    | group-by Lead_Studio Genre --to-table
 #    | aggregate Worldwide_Gross Profitability --ops {avg: {math avg}, std: {math stddev}}
 # ```
+#
+# - run aggregate operations without grouping the input
+# ```nushell
+# >_ open movies.csv | aggregate Year
+# ```
 export def main [
     --ops: record, # default = {min: {math min}, avg: {math avg}, max: {math max}, sum: {math sum}}  
     ...columns: cell-path, # columns to perform aggregations on
