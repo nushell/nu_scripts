@@ -111,16 +111,19 @@ def "average gross by Genre" [] {
     let grouped = $movies | group-by Genre --to-table
     let out = $grouped | aggregate --ops {avg: {math avg}} Worldwide_Gross | select Genre Worldwide_Gross_avg
     # let expected = $grouped | insert Worldwide_Gross_avg {get items.Worldwide_Gross | math avg} | select Genre Worldwide_Gross_avg
+
+    # Round to 2 digits of precision to keep floating point operations consistent between platforms.
+    let out = $out | update Worldwide_Gross_avg {math round --precision 2}
     let expected = [
         [ Genre, Worldwide_Gross_avg ];
-        [ Comedy, 148.33487804878055 ],
-        [ Drama, 99.01153846153846 ],
-        [ Animation, 316.0575 ],
-        [ Romance, 148.5966666666667 ],
+        [ Comedy, 148.33 ],
+        [ Drama, 99.01 ],
+        [ Animation, 316.06 ],
+        [ Romance, 148.60 ],
         [ Fantasy, 285.43 ],
         [ Romence, 148.66 ],
         [ Comdy, 105.96 ],
-        [ Action, 93.4 ],
+        [ Action, 93.40 ],
         [ romance, 29.37 ],
         [ comedy, 60.72 ]
     ]
@@ -132,18 +135,22 @@ def "average gross by Genre" [] {
 def "aggregate default ops" [] {
     let grouped = $movies | group-by Genre --to-table
     let out = $grouped | aggregate Worldwide_Gross
+
+    # Round to 2 digits of precision to keep floating point operations consistent between platforms.
+    let out = $out | update cells -c [Worldwide_Gross_min, Worldwide_Gross_avg, Worldwide_Gross_max, Worldwide_Gross_sum] { math round --precision 2 }
+
     let expected = [
-        [ Genre, count, Worldwide_Gross_min, Worldwide_Gross_avg, Worldwide_Gross_max, Worldwide_Gross_sum ];
-        [ Comedy, 41, 14.31, 148.33487804878055, 609.47, 6081.730000000002 ],
-        [ Drama, 13, 8.26, 99.01153846153846, 709.82, 1287.15 ],
-        [ Animation, 4, 193.97, 316.0575, 521.28, 1264.23 ],
-        [ Romance, 12, 0.03, 148.5966666666667, 702.17, 1783.1600000000003 ],
-        [ Fantasy, 1, 285.43, 285.43, 285.43, 285.43 ],
-        [ Romence, 1, 148.66, 148.66, 148.66, 148.66 ],
-        [ Comdy, 1, 105.96, 105.96, 105.96, 105.96 ],
-        [ Action, 1, 93.4, 93.4, 93.4, 93.4 ],
-        [ romance, 1, 29.37, 29.37, 29.37, 29.37 ],
-        [ comedy, 1, 60.72, 60.72, 60.72, 60.72 ]
+        [Genre    , count, Worldwide_Gross_min, Worldwide_Gross_avg, Worldwide_Gross_max, Worldwide_Gross_sum];
+        [Comedy   ,    41,               14.31,              148.33,              609.47,             6081.73],
+        [Drama    ,    13,                8.26,               99.01,              709.82,             1287.15],
+        [Animation,     4,              193.97,              316.06,              521.28,             1264.23],
+        [Romance  ,    12,                0.03,              148.60,              702.17,             1783.16],
+        [Fantasy  ,     1,              285.43,              285.43,              285.43,              285.43],
+        [Romence  ,     1,              148.66,              148.66,              148.66,              148.66],
+        [Comdy    ,     1,              105.96,              105.96,              105.96,              105.96],
+        [Action   ,     1,               93.40,               93.40,               93.40,               93.40],
+        [romance  ,     1,               29.37,               29.37,               29.37,               29.37],
+        [comedy   ,     1,               60.72,               60.72,               60.72,               60.72],
     ]
 
     assert equal $out $expected
@@ -175,11 +182,11 @@ def "throw error on non-existing column" [] {
 
 #[test]
 def "aggregate stats without grouping" [] {
-    let out = $movies | aggregate Year
+    let out = $movies | aggregate Year | update cells -c [Year_min Year_avg Year_max Year_sum] {math round -p 2}
     let expected = [{
         count: 76,
         Year_min: 2007,
-        Year_avg: 2009.092105263158,
+        Year_avg: 2009.09,
         Year_max: 2011,
         Year_sum: 152691
     }]
