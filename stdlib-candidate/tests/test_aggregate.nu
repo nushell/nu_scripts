@@ -172,16 +172,16 @@ def "throw error on non-existing column" [] {
     assert equal $error.inner.0.msg "Cannot find column '$.items.NotInTheDataSet'"
 }
 
-#[ignore]
+#[test]
 def "aggregate stats without grouping" [] {
     let out = $movies | aggregate Year
-    let expected = {
+    let expected = [{
         count: 76,
         Year_min: 2007,
         Year_avg: 2009.092105263158,
         Year_max: 2011,
         Year_sum: 152691
-    }
+    }]
 
     assert equal $out $expected
 }

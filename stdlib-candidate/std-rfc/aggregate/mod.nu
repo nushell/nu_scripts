@@ -31,6 +31,17 @@ def get-item-with-error [md: record, col: cell-path]: [table -> any] {
     }
 }
 
+def "error not-a-table" [span: record<start: int, end:int>] {
+    error make {
+        msg: "input must be a table",
+        label: {
+            text: "from here",
+            span: $span
+        },
+        help: "Are you using `group-by`? Make sure to use its `--to-table` flag."
+    }
+}
+
 # Run aggregate operations on output of `group-by --to-table`.
 #
 # # Example
@@ -55,19 +66,17 @@ export def main [
     let IN = $in
     let md = metadata $in
 
-    # Validate input
-    try {
-        use std/assert
-        assert ("items" in ($IN | first | columns))
-    } catch {
-        error make {
-            msg: "input must be a table with `items` column",
-            label: {
-                text: "from here",
-                span: $md.span
-            },
-            help: "Are you using `group-by` with `--to-table`?"
-        }
+    let first = try { $IN | first } catch { error not-a-table $md.span }
+    if not (($first | describe) starts-with record) {
+        error not-a-table $md.span
+    }
+
+    let grouped = "items" in $first
+
+    let IN = if $grouped {
+        $IN
+    } else {
+        [{items: $IN}]
     }
 
     let agg_ops = $ops | default (aggregate-default-ops)
