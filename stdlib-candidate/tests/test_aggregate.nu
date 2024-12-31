@@ -150,14 +150,15 @@ def "aggregate default ops" [] {
 }
 
 #[test]
-def "throw error on non-grouped input" [] {
+def "throw error on non-table input" [] {
+    # without --to-table
     let out = try {
-        $movies | aggregate Year
+        $movies | group-by Genre | aggregate Worldwide_Gross
     } catch {|e|
         $e.msg
     }
 
-    assert equal $out "input must be a table with `items` column"
+    assert equal $out "input must be a table"
 }
 
 #[test]
