@@ -35,10 +35,9 @@ def get-item-with-error [md: record, col: cell-path]: [table -> any] {
 #
 # # Example
 #
+# - group files by type and extension, and get stats about their sizes
 # ```nushell
-# ls
-# | group-by type { get name | path parse | get extension } --to-table
-# | aggregate size
+# >_ ls | group-by type { get name | path parse | get extension } --to-table | aggregate size
 # ```
 export def main [
     --ops: record, # default = {min: {math min}, avg: {math avg}, max: {math max}, sum: {math sum}}  
