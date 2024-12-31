@@ -11,7 +11,27 @@ def aggregate-col-name [col: cell-path, op_name: string]: [nothing -> string] {
     $col | split cell-path | get value | str join "." | $"($in)_($op_name)"
 }
 
-# Run aggregations on output of `group-by --to-table`.
+def get-item-with-error [md: record, col: cell-path]: [table -> any] {
+    try {
+        get $col
+    } catch {
+        let full_cellpath = (
+            $col
+            | split cell-path
+            | prepend {value: items, optional: false}
+            | into cell-path
+        )
+        error make {
+            msg: $"Cannot find column '($full_cellpath)'",
+            label: {
+                text: "value originates here",
+                span: $md.span
+            },
+        }
+    }
+}
+
+# Run aggregate operations on output of `group-by --to-table`.
 #
 # # Example
 #
@@ -49,23 +69,7 @@ export def main [
     $IN
     | update items {|group|
         $columns | each {|col| # col: cell-path
-            let column = try {
-                $group.items | get $col
-            } catch {
-                let full_cellpath = (
-                    $col
-                    | split cell-path
-                    | prepend {value: items, optional: false}
-                    | into cell-path
-                )
-                error make {
-                    msg: $"Cannot find column '($full_cellpath)'",
-                    label: {
-                        text: "value originates here",
-                        span: $md.span
-                    },
-                }
-            }
+            let column = $group.items | get-item-with-error $md $col
             $agg_ops | items {|op_name, op| # op_name: string, op: closure
                 $column | do $op | wrap (aggregate-col-name $col $op_name)
             }
