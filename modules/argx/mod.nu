@@ -8,10 +8,10 @@ export def get-sign [cmd] {
     for it in $x {
         if $it.parameter_type == 'switch' {
             if ($it.short_flag | is-not-empty) {
-                $s ++= $it.short_flag
+                $s ++= [$it.short_flag]
             }
             if ($it.parameter_name | is-not-empty) {
-                $s ++= $it.parameter_name
+                $s ++= [$it.parameter_name]
             }
         } else if $it.parameter_type == 'named' {
             if ($it.parameter_name | is-empty) {
@@ -23,12 +23,12 @@ export def get-sign [cmd] {
             }
         } else if $it.parameter_type == 'positional' {
             if $it.is_optional == false {
-                $p ++= $it.parameter_name
+                $p ++= [$it.parameter_name]
             } else {
-                $pr ++= $it.parameter_name
+                $pr ++= [$it.parameter_name]
             }
         } else if $it.parameter_type == 'rest' {
-            $r ++= $it.parameter_name
+            $r ++= [$it.parameter_name]
         }
     }
     { switch: $s, name: $n, positional: ($p ++ $pr), rest: $r }
@@ -55,7 +55,7 @@ export def token [] {
                     $cur = ''
                 } else {
                     if $c in ['{' '[' '('] {
-                        $par ++= $c
+                        $par ++= [$c]
                     }
                     if $c in ['}' ']' ')'] {
                         $par = ($par | range ..-2)
@@ -64,7 +64,7 @@ export def token [] {
                         if ($par | length) > 0 and ($par | last) == $c {
                             $par = ($par | range ..-2)
                         } else {
-                            $par ++= $c
+                            $par ++= [$c]
                         }
                     }
                     $cur ++= $c
