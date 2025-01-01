@@ -32,6 +32,13 @@ export def "check pr" [
             { test }
          ] | par-each { |task| $files | do $task } # TODO: buffer output
     }
+
+    test-stdlib-candidate
+}
+
+export def test-stdlib-candidate [] {
+    use stdlib-candidate/testing.nu
+    testing run-tests --allow-no-tests --path stdlib-candidate
 }
 
 # View subcommands.
@@ -70,13 +77,15 @@ def "with files" [
 export def "lint ide-check" []: path -> int {
     let file = $in
     let stub = $env.STUB_IDE_CHECK? | default false | into bool
+    const current_path = (path self)
+    let candidate_path = $current_path | path dirname | path join "stdlib-candidate"
     let diagnostics = if $stub {
-        do { nu --no-config-file --commands $"use '($file)'" }
+        do { nu -I $candidate_path --no-config-file --commands $"use '($file)'" }
             | complete
             | [[severity message]; [$in.exit_code $in.stderr]]
             | where severity != 0
     } else {
-        nu --ide-check 10 $file
+        nu -I $candidate_path --ide-check 10 $file
             | $"[($in)]"
             | from nuon
             | where type == diagnostic
