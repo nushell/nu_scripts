@@ -3,6 +3,7 @@ export-env {
     use std/util "path add"
 
     $env.RBENV_SHELL = 'nu'
+    $env.RBENV_VERSION = ''
     path add $"($env.HOME)/.rbenv/bin"
     path add $"($env.HOME)/.rbenv/shims"
 }
