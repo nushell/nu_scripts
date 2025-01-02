@@ -3,7 +3,7 @@
 # nerd fonts repo https://github.com/ryanoasis/nerd-fonts
 # i use "FiraCode Nerd Font Mono" on mac
 #
-# you also must have the engine-q gstat plugin installed and registered
+# you also must have the gstat plugin installed and registered
 
 # ATTRIBUTION #
 # A little fancier prompt with git information
@@ -290,7 +290,6 @@ def get_repo_status [gs os] {
 }
 
 def git_left_prompt [gs os] {
-  # replace this 30 with whatever the width of the terminal is
   let display_path = (path_abbrev_if_needed (home_abbrev $os.name) (term size).columns)
   let branch_name = (get_branch_name $gs)
   let R = (ansi reset)
