@@ -63,9 +63,9 @@ export def with-stem [stem: string] { with-field stem $stem }
 #
 # - replace parent path with `/root/` for all filenames in list
 # > ["/home/rose/meow", "/home/fdncred/"] | path with-parent "/root/"
-# ╭───┬────────────╮
-# │ 0 │ /root/meow │
-# │ 1 │ /root/spam │
-# ╰───┴────────────╯
+# ╭───┬───────────────╮
+# │ 0 │ /root/meow    │
+# │ 1 │ /root/fdncred │
+# ╰───┴───────────────╯
 # ```
 export def with-parent [parent: string] { with-field parent $parent }
