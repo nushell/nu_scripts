@@ -6,11 +6,13 @@
 # - In your Nushell config:
 #   - Import the main command from the panache-git.nu module file
 #   - Set panache-git as your prompt command
-#   - Disable the separate prompt indicator by setting it to an empty string
+#   - (optional) Reset the text color for your prompt indicator
 # - For example, with this file in your home directory:
 #     use ~/panache-git.nu main
 #     $env.PROMPT_COMMAND = {|| panache-git }
-#     $env.PROMPT_INDICATOR = {|| "" }
+#     $env.PROMPT_INDICATOR = {|| $"(ansi reset)> "}
+#     $env.PROMPT_INDICATOR_VI_INSERT = {|| $"(ansi reset): " }
+#     $env.PROMPT_INDICATOR_VI_NORMAL = {|| $"(ansi reset)> " }
 # - Restart Nushell
 #
 # For more documentation or to file an issue, see https://github.com/ehdevries/panache-git
@@ -19,7 +21,7 @@
 # An opinionated Git prompt for Nushell, styled after posh-git
 export def main [] {
   let prompt = ($'(current-dir) (repo-styled)' | str trim)
-  $'($prompt)> '
+  $prompt
 }
 
 # Get the current directory with home abbreviated
