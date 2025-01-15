@@ -60,7 +60,7 @@ def pair-args [] {
             {$"($pair.0 | str trim -c '-')": ($pair.1 | unquote)}   # turn into a [{<flag> :<arg>}] removing quotes
         ]
     }
-    | reduce { |it, acc| $acc | merge { $it }}                      # merge the list of records into one big record
+    | reduce { |it, acc| $acc | merge $it }                         # merge the list of records into one big record
 }
 
 def unquote [] {
@@ -84,11 +84,10 @@ def make-commands-completion [] {
     }
 }
 
-let quote = '"' # "
-
 # make the action nu completion string from subcommand and args
 # subcommand can be empty which will be the root command
 def make-subcommands-completion [parents: list] {
+    let quote = '"' # "
     let fishes = $in
     $fishes
     | group-by a                                                                      # group by sub command (a flag)

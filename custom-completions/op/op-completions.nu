@@ -109,7 +109,7 @@ export extern "op account forget" [
     --help(-h)                                              # help for forget
     --all                                                   # Forget all authenticated accounts.
 
-    account?: string: string@"nu completion account"       # The account to forget.
+    account?: string@"nu completion account"       # The account to forget.
 ]
 
 # Manage Connect server instances and tokens in your 1Password account
@@ -2124,7 +2124,7 @@ def "nu completion item" [] {
 
 def parse_args_rg [] { "(?<opening_quote>['\"`]?)(?<content>.*?)(?<closing_quote>\\k<opening_quote>)(?<separator>\\s+)" }
 
-def "nu completion parse-context" [] string -> {cmd: string, args: list<string>} {
+def "nu completion parse-context" []: string -> record {
     # context strings starts at cursor position
     let ctx = $in + ' ' # add space to end to ensure last part is parsed🙄
     mut parse = $ctx | parse --regex (parse_args_rg)
@@ -2177,7 +2177,7 @@ def "nu completion parse-context" [] string -> {cmd: string, args: list<string>}
 def "nu completion output" [
         ctx: string,    # entered command [sub command, args, + options]
         --complete (-c) # if the copletion should have a closing quote and terminating space
-    ] list<string> -> list<string>, string -> list<string> {
+    ]: list<string> -> list<string>, string -> list<string> {
 
         let output = $in
         let parse = $ctx + ` `

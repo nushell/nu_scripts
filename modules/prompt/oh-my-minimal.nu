@@ -6,7 +6,7 @@
 # nerd fonts repo https://github.com/ryanoasis/nerd-fonts
 # i use "FiraCode Nerd Font Mono" on mac
 #
-# you also must have the engine-q gstat plugin installed and registered
+# you also must have the gstat plugin installed and registered
 
 # ATTRIBUTION #
 # A little fancier prompt with git information
