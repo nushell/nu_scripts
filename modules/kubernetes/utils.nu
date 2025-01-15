@@ -62,7 +62,7 @@ export def get_cellpath [record path] {
 export def set_cellpath [record path value] {
     if ($path | length) > 1 {
         $record | upsert ($path | first) {|it|
-            set_cellpath ($it | get ($path | first)) ($path | range 1..) $value
+            set_cellpath ($it | get ($path | first)) ($path | slice 1..) $value
         }
     } else {
         $record | upsert ($path | last) $value

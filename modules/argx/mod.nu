@@ -36,7 +36,7 @@ export def get-sign [cmd] {
 
 # "test -h [123 (3213 3)] 123 `a sdf` --cd --ef sadf -g" | token
 export def token [] {
-    let s = ($in | split row '' | range 1..-2)
+    let s = ($in | split row '' | slice 1..-2)
     let s = if ($s | last) == ' ' { $s } else { $s | append ' ' }
     mut par = []
     mut res = []
@@ -58,11 +58,11 @@ export def token [] {
                         $par ++= $c
                     }
                     if $c in ['}' ']' ')'] {
-                        $par = ($par | range ..-2)
+                        $par = ($par | slice ..-2)
                     }
                     if $c in ['"' "'" '`'] {
                         if ($par | length) > 0 and ($par | last) == $c {
-                            $par = ($par | range ..-2)
+                            $par = ($par | slice ..-2)
                         } else {
                             $par ++= $c
                         }
@@ -109,8 +109,8 @@ export def parse [] {
         }
     }
     $opt._args = $pos
-    let p = $pos | range 1..($sign.positional | length)
-    let rest = $pos | range (($sign.positional | length) + 1)..-1
+    let p = $pos | slice 1..($sign.positional | length)
+    let rest = $pos | slice (($sign.positional | length) + 1)..-1
     $opt._pos = ( $p | enumerate
         | reduce -f {} {|it, acc|
             $acc | upsert ($sign.positional | get $it.index) $it.item

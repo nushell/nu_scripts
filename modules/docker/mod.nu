@@ -87,7 +87,7 @@ def parse-img [] {
     let tag = $n.1? | default 'latest'
     let repo = $n.0 | split row '/'
     let image = $repo | last
-    let repo = $repo | range 0..-2 | str join '/'
+    let repo = $repo | slice 0..-2 | str join '/'
     {image: $image, tag: $tag, repo: $repo}
 }
 
@@ -98,7 +98,7 @@ export def image-select [name] {
     let fs = [image tag repo]
     for i in 2..0 {
         let r = $imgs | filter {|x|
-            $fs | range 0..$i | all {|y| ($n | get $y) == ($x | get $y) }
+            $fs | slice 0..$i | all {|y| ($n | get $y) == ($x | get $y) }
         }
         if ($r | is-not-empty) {
             return ($r | sort-by -r created | first | get name)

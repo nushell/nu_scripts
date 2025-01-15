@@ -8,7 +8,7 @@ def safe_get [path obj] {
 
         if ($p | describe -d).type == closure {
             $r = ($r | do $p $r)
-            $ps = ($ps | range 1..)
+            $ps = ($ps | slice 1..)
             continue
         }
 
@@ -28,7 +28,7 @@ def safe_get [path obj] {
                 $r = null
             }
         }
-        $ps = ($ps | range 1..)
+        $ps = ($ps | slice 1..)
     }
     $r
 }

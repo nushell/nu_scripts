@@ -8,7 +8,7 @@ export-env {
         )
 
         # fnm-prefixed vars
-        for v in ($pwsh_vars | range 1..) { 
+        for v in ($pwsh_vars | slice 1..) {
             $env_vars = ($env_vars | insert $v.key $v.value) 
         }
 

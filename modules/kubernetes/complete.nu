@@ -75,7 +75,7 @@ export def "nu-complete kube jsonpath" [context: string] {
         }
     } else if ($path | str starts-with '.') {
         let row = $path | split row '.'
-        let p = $row  | range ..-2 | str join '.'
+        let p = $row  | slice ..-2 | str join '.'
         if ($p | is-empty) {
             $r = ( kubectl get ...$ns -o json $kind $res
                  | from json
