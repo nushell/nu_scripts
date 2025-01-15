@@ -429,7 +429,6 @@ export extern "git commit" [
   --all(-a)                                           # automatically stage all modified and deleted files
   --amend                                             # amend the previous commit rather than adding a new one
   --message(-m): string                               # specify the commit message rather than opening an editor
-  --no-edit                                           # don't edit the commit message (useful with --amend)
   --reuse-message(-C): string                         # reuse the message from a previous commit
   --reedit-message(-c): string                        # reuse and edit message from a commit
   --fixup: string                                     # create a fixup/amend commit
