@@ -5,10 +5,10 @@
 def main [
     versionname: string # The version we release now
     bloglink: string # The link to the blogpost
-    date?: datetime  # the date of the last release (default to 3 weeks ago, excluded)
+    date?: datetime  # the date of the last release (default to 6 weeks ago, excluded)
 ] {
     let date = (
-        if $date == null { (date now) - 4wk + 1day } else { $date }
+        if $date == null { (date now) - 6wk + 1day } else { $date }
         | format date "%Y-%m-%d"
     )
 
@@ -19,10 +19,9 @@ def main [
         gh --repo $repo pr list
             --state merged
             --limit (inf | into int)
-            --json author,title,number,mergedAt,url
+            --json author
             --search $query
         | from json
-        | sort-by mergedAt --reverse
         | update author { get login }
     )
 
