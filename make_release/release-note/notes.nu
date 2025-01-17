@@ -68,7 +68,7 @@ export def write-toc [file: path] {
 
     let data = (
         $lines
-        | range $content_start..
+        | slice $content_start..
         | wrap line
         | insert level {
             get line | split chars | take while { $in == '#' } | length
@@ -128,7 +128,7 @@ export def write-toc [file: path] {
     }
 
     [
-        ...($lines | range ..<$content_start)
+        ...($lines | slice ..<$content_start)
         ...$table_of_contents
         ...$content
     ]

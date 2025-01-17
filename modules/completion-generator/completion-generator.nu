@@ -7,7 +7,7 @@ export def 'from tree' [
     let argv = $ctx.0
         | str substring 0..$ctx.1
         | split row -r '\s+'
-        | range $cmd_len..
+        | slice $cmd_len..
         | where not ($it | str starts-with '-')
     let menu = $argv
         | reduce -f {schema: $schema, path: []} {|x, acc|

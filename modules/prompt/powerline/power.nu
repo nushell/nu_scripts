@@ -32,7 +32,7 @@ export def "pwd_abbr" [] {
             let last = ($dir_comp | last)
             let body = (
                 $dir_comp
-                |range 1..-2
+                |slice 1..-2
                 |each {|x| $x | str substring ..2 }
                 )
             $dir_comp = ([$first $body $last] | flatten)
@@ -206,7 +206,7 @@ def left_prompt [segment] {
                 }
             })
         let stop = ($segment | length) - 1
-        let cs = ($segment | each {|x| $x.0 } | append $segment.0.0 | range 1..)
+        let cs = ($segment | each {|x| $x.0 } | append $segment.0.0 | slice 1..)
         $segment
         | zip $cs
         | enumerate
@@ -310,7 +310,7 @@ def squash [thunk] {
 def left_prompt_gen [segment] {
     let stop = ($segment | length) - 1
     let vs = ($segment | each {|x| [$x.color (get_component $x)]})
-    let cs = ($segment | each {|x| $x.color } | append $segment.0.color | range 1..)
+    let cs = ($segment | each {|x| $x.color } | append $segment.0.color | slice 1..)
     let thunk = ($vs
         | zip $cs
         | enumerate
@@ -470,9 +470,9 @@ export def --env inject [pos idx define theme? config?] {
         $prev | prepend $define
     } else {
         [
-            ($prev | range 0..($idx - 1))
+            ($prev | slice 0..($idx - 1))
             $define
-            ($prev | range $idx..)
+            ($prev | slice $idx..)
         ] | flatten
     }
 

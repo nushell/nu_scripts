@@ -1,7 +1,7 @@
 def "ansi_names" [] {
     [
         ...(ansi --list | get name)
-        ...(ansi --list | get 'short name' | range 133..338)
+        ...(ansi --list | get 'short name' | slice 133..338)
     ]
 }
 
@@ -54,16 +54,16 @@ export def "preview theme" [] {
     # This draws the table with two tables merged
     # let row_count = ($color_table | length)
     # let row_count_half = (($color_table | length) / 2 | math floor)
-    # let table1 = ($color_table | range 0..$row_count_half | rename datatypes dtvals)
-    # let table2 = ($color_table | range $row_count_half..$row_count | rename shapes shpvals)
+    # let table1 = ($color_table | slice 0..$row_count_half | rename datatypes dtvals)
+    # let table2 = ($color_table | slice $row_count_half..$row_count | rename shapes shpvals)
     # echo $table1 | merge $table2
 
     # This draws the table with three tables merged
     let row_count = ($color_table | length)
     let row_count_third = (($color_table | length) / 3 | math floor)
-    let table1 = ($color_table | range 0..$row_count_third | rename key1 val1)
-    let table2 = ($color_table | range $row_count_third..($row_count_third * 2) | rename key2 val2)
-    let table3 = ($color_table | range ($row_count_third * 2)..$row_count | rename key3 val3)
+    let table1 = ($color_table | slice 0..$row_count_third | rename key1 val1)
+    let table2 = ($color_table | slice $row_count_third..($row_count_third * 2) | rename key2 val2)
+    let table3 = ($color_table | slice ($row_count_third * 2)..$row_count | rename key3 val3)
     echo $table1 | merge $table2 | merge $table3
 }
 
