@@ -174,7 +174,9 @@ export def grrm [remote: string] {
     git remote remove $remote
 }
 export alias grs = git restore
-export alias grset = git remote set-url
+export def grset [remote: string, url: string] {
+    git remote set-url $remote $url
+}
 export alias grss = git restore --source
 export alias grst = git restore --staged
 export alias grt = cd (git rev-parse --show-toplevel or echo .)
@@ -212,7 +214,9 @@ export def gtv [] {
 export alias glum = git pull upstream (git_main_branch)
 
 export alias gunignore = git update-index --no-assume-unchanged
-export alias gup = git pull --rebase
+export def gup [rebase_type: string@"nu-complete git pull rebase"] {
+    git pull --rebase $rebase_type
+}
 export alias gupv = git pull --rebase --verbose
 export alias gupa = git pull --rebase --autostash
 export alias gupav = git pull --rebase --autostash --verbose
@@ -220,10 +224,14 @@ export alias gupav = git pull --rebase --autostash --verbose
 export alias gwch = git whatchanged -p --abbrev-commit --pretty=medium
 
 export alias gwt = git worktree
-export alias gwta = git worktree add
+export def gwta [path: path, branch: string] {
+    git worktree add $path $branch
+}
 export alias gwtls = git worktree list
 export alias gwtmv = git worktree move
-export alias gwtrm = git worktree remove
+export def gwtm [worktree: string] {
+    git worktree remove $worktree
+}
 
 export alias gam = git am
 export alias gamc = git am --continue
