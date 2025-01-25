@@ -1,5 +1,6 @@
+# returns the name of the current branch
 export def git_current_branch [] {
-    (gstat).branch
+    ^git rev-parse --abbrev-ref HEAD
 }
 
 export def git_main_branch [] {
