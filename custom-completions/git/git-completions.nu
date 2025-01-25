@@ -24,7 +24,7 @@ def "nu-complete git commits current branch" [] {
 
 # Yield local branches like `main`, `feature/typo_fix`
 def "nu-complete git local branches" [] {
-  ^git branch --no-color | lines | each { |line| $line | str replace '* ' "" | str trim }
+  ^git branch --no-color | lines | each { |line| $line | str replace '* ' "" | str replace '+ ' ""  | str trim }
 }
 
 # Yield remote branches like `origin/main`, `upstream/feature-a`
