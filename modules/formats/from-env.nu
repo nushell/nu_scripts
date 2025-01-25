@@ -2,10 +2,15 @@
 # may be used like this: open .env | load-env
 # works with quoted and unquoted .env files
 def "from env" []: string -> record {
-  lines 
+  lines
     | split column '#' # remove comments
-    | get column1 
+    | get column1
     | parse "{key}={value}"
-    | str trim value -c '"' # unquote values
+    | update value {
+        str trim -c '"' | # unquote values
+        str replace -a "\\n" "\n" # replace `\n` with newline char
+        str replace -a "\\r" "\r" # replace `\r` with carriage return
+        str replace -a "\\t" "\t" # replace `\t` with tab
+    }
     | transpose -r -d
 }
