@@ -62,6 +62,7 @@ def "nu-complete git checkout" [] {
   | append (nu-complete git remote branches with prefix
             | parse "{value}"
             | insert description "remote branch")
+  | append (nu-complete git files | where description != "Untracked" | select value | insert description "git file")
   | append (nu-complete git commits all)
   | append (nu-complete git files | where description != "Untracked" | select value)
 }
@@ -463,7 +464,7 @@ export extern "git commit" [
   --dry-run                                           # show paths to be committed without committing
   --status                                            # include git-status output in commit message
   --no-status                                         # do not include git-status output
-  --gpg-sign(-S):string                               # GPG-sign commit
+  --gpg-sign(-S)                                      # GPG-sign commit
   --no-gpg-sign                                       # do not GPG-sign commit
   ...pathspec: string                                 # commit files matching pathspec
 ]
@@ -576,7 +577,7 @@ export extern "git bisect reset" [
 
 # Show help for a git subcommand
 export extern "git help" [
-  command: string@"nu-complete git subcommands"       # subcommand to show help for
+  command?: string@"nu-complete git subcommands"       # subcommand to show help for
 ]
 
 # git worktree
@@ -687,7 +688,7 @@ export extern "git clone" [
   --single-branch               # clone commit history from a single branch
   --no-single-Branch            # do not clone only one branch
   --no-tags                     # do not clone any tags
-  --recurse-submodules: string  # clone the submodules
+  --recurse-submodules          # clone the submodules. Also accepts paths
   --shallow-submodules          # shallow clone submodules with depth 1
   --no-shallow-submodules       # do not shallow clone submodules
   --remote-submodules           # submodules are updating using their remote tracking branch
