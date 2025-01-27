@@ -10,5 +10,6 @@ use ./row-indices.nu *
 export def "reject ranges" [ ...ranges ] {
   enumerate
   | flatten
+  | collect
   | reject ...(row-indices ...$ranges)
 }

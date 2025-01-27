@@ -1,4 +1,4 @@
-use std assert
+use std/assert
 use ../std-rfc/tables *
 
 const test_table = [
@@ -29,7 +29,8 @@ const enumerated_table = [
   [   9         'a9'      'b9'      'c9'      'd9'      'e9'      'f9' ]
 ]
 
-export def "test row-indices-range" [] {
+#[test]
+def row-indices--range [] {
   assert equal (
     row-indices 0..3 10..11
   ) (
@@ -37,7 +38,8 @@ export def "test row-indices-range" [] {
   )
 }
 
-export def "test row-indices-index" [] {
+#[test]
+export def row-indices--index [] {
   assert equal (
     row-indices 4
   ) (
@@ -45,7 +47,8 @@ export def "test row-indices-index" [] {
   )
 }
 
-export def "test row-indices-complex" [] {
+#[test]
+def row-indices--complex [] {
   assert equal (
     row-indices 0..2..6 3 7
   ) (
@@ -53,7 +56,8 @@ export def "test row-indices-complex" [] {
   )
 }
 
-export def "test col-index-ints" [] {
+#[test]
+def col-index--ints [] {
   assert equal (
     # Third and Fifth Columns
     $test_table | col-indices 2 4
@@ -62,7 +66,8 @@ export def "test col-index-ints" [] {
   )
 }
 
-export def "test col-index-complex" [] {
+#[test]
+def col-index--complex [] {
   assert equal (
     # Every other column, plus the second
     $test_table | col-indices 0..2..10 1
@@ -71,7 +76,8 @@ export def "test col-index-complex" [] {
   )
 }
 
-export def "test select-range single-int" [] {
+#[test]
+def select-range--single_int [] {
   assert equal (
     $test_table | select ranges 1
   ) (
@@ -79,7 +85,8 @@ export def "test select-range single-int" [] {
   )
 }
 
-export def "test select-range single-range" [] {
+#[test]
+def select-range--single_range [] {
   assert equal (
     $test_table | select ranges 2..4
   ) (
@@ -87,7 +94,8 @@ export def "test select-range single-range" [] {
   )
 }
 
-export def "test select-range complex" [] {
+#[test]
+def select-range--complex [] {
   assert equal (
     # First and every following third-row + second row
     $test_table | select ranges 1 0..3..100
@@ -96,7 +104,8 @@ export def "test select-range complex" [] {
   )
 }
 
-export def "test select-range out-of-bounds" [] {
+#[test]
+def select-range--out_of_bounds [] {
   assert equal (
     $test_table | select ranges 100
   ) (
@@ -104,7 +113,8 @@ export def "test select-range out-of-bounds" [] {
   )
 }
 
-export def "test reject-range single-index" [] {
+#[test]
+def reject-range--single_index [] {
   assert equal (
     $test_table | reject ranges 4
   ) (
@@ -112,7 +122,8 @@ export def "test reject-range single-index" [] {
   )
 }
 
-export def "test reject-range ranges" [] {
+#[test]
+def reject-range--ranges [] {
   assert equal (
     # Reject rows 0-3 and 5-9, leaving only 4
     $test_table | reject ranges 0..3 5..9
@@ -121,13 +132,15 @@ export def "test reject-range ranges" [] {
   )
 }
 
-export def "test reject-range out-of-bounds" [] {
+#[test]
+def reject-range--out_of_bounds [] {
   assert error {
     $test_table | reject ranges 1000
   }
 }
 
-export def "test select-col index" [] {
+#[test]
+def select-col--index [] {
   assert equal (
     $test_table | select column-ranges 2
   ) (
@@ -135,7 +148,8 @@ export def "test select-col index" [] {
   )
 }
 
-export def "test select-col indices" [] {
+#[test]
+def select-col--indices [] {
   assert equal (
     $test_table | select column-ranges 2 4
   ) (
@@ -143,7 +157,8 @@ export def "test select-col indices" [] {
   )
 }
 
-export def "test select-col ranges-and-index" [] {
+#[test]
+def select-col--ranges_and_index [] {
   assert equal (
     $test_table | select column-ranges 0..2..5 1
   ) (
@@ -151,7 +166,8 @@ export def "test select-col ranges-and-index" [] {
   )
 }
 
-export def "test reject-col ranges-and-index" [] {
+#[test]
+def reject-col--ranges_and_index [] {
   assert equal (
     $test_table | reject column-ranges 0..2..5 1
   ) (
@@ -159,7 +175,8 @@ export def "test reject-col ranges-and-index" [] {
   )
 }
 
-export def "test reject-col out-of-bounds" [] {
+#[test]
+def reject-col--out_of_bounds [] {
   assert equal (
     $test_table | reject column-ranges 1_000
   ) (
