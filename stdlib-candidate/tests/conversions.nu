@@ -1,7 +1,8 @@
 use std assert
 use ../std-rfc/conversions *
 
-export def "test range-into-list" [] {
+#[test]
+def range-into-list [] {
   assert equal (
     1..10 | into list
   ) (
@@ -9,7 +10,8 @@ export def "test range-into-list" [] {
   )
 }
 
-export def "test string-into-list" [] {
+#[test]
+def string-into-list [] {
   assert equal (
     "foo" | into list
   ) (
@@ -17,7 +19,8 @@ export def "test string-into-list" [] {
   )
 }
 
-export def "test range-stride-into-list" [] {
+#[test]
+def range-stride-into-list [] {
   assert equal (
     0..2..10 | into list
   ) (
@@ -25,7 +28,8 @@ export def "test range-stride-into-list" [] {
   )
 }
 
-export def "test null-into-list" [] {
+#[test]
+def null-into-list [] {
   assert equal (
     null | into list | get 0 | describe
   ) (
@@ -33,7 +37,8 @@ export def "test null-into-list" [] {
   )
 }
 
-export def "test list-into-list" [] {
+#[test]
+def list-into-list [] {
   assert equal (
     [ foo bar baz ] | into list
   ) (
