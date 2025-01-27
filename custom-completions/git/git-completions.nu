@@ -133,7 +133,7 @@ def "nu-complete git files" [] {
 def "nu-complete git built-in-refs" [] {
   [HEAD FETCH_HEAD ORIG_HEAD]
 }
-# 
+ 
 def "nu-complete git refs" [] {
   nu-complete git local branches
   | parse "{value}"
