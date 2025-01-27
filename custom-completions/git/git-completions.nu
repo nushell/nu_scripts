@@ -53,7 +53,7 @@ def "nu-complete git switch" [] {
 }
 
 def "nu-complete git checkout" [] {
-  (nu-complete git local branches)
+  let table_of_checkouts = (nu-complete git local branches)
   | parse "{value}"
   | insert description "local branch"
   | append (nu-complete git remote branches nonlocal without prefix
@@ -64,7 +64,15 @@ def "nu-complete git checkout" [] {
             | insert description "remote branch")
   | append (nu-complete git files | where description != "Untracked" | select value | insert description "git file")
   | append (nu-complete git commits all)
-  | append (nu-complete git files | where description != "Untracked" | select value)
+
+  return {
+    options: {
+        case_sensitive: false,
+        completion_algorithm: prefix,
+        sort: false,
+    },
+    completions: $table_of_checkouts
+  }
 }
 
 # Arguments to `git rebase --onto <arg1> <arg2>`
@@ -125,7 +133,7 @@ def "nu-complete git files" [] {
 def "nu-complete git built-in-refs" [] {
   [HEAD FETCH_HEAD ORIG_HEAD]
 }
-
+# 
 def "nu-complete git refs" [] {
   nu-complete git local branches
   | parse "{value}"
