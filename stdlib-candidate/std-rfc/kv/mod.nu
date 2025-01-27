@@ -27,12 +27,14 @@ export def "kv set" [
   key: string
   value_or_closure?: any
   --return (-r): string   # Whether and what to return to the pipeline output
+  --universal (-u)
 ] {
   # Pipeline input is preferred, but prioritize
   # parameter if present. This allows $in to be
   # used in the parameter if needed.
   let input = $in
 
+  # If passed a closure, execute it
   let arg_type = ($value_or_closure | describe)
   let value = match $arg_type {
     closure => { $input | do $value_or_closure }
@@ -41,61 +43,54 @@ export def "kv set" [
 
   # Store values as nuons for type-integrity
   let kv_pair = {
+    session: ''   # Placeholder
     key: $key
     value: ($value | to nuon)
   }
 
-  # Create the table if it doesn't exist
+  let db_open = (db_setup --universal=$universal)
   try {
-    stor create -t std_kv_store -c {key: str, value: str} | ignore
+    # Delete the existing key if it does exist
+    do $db_open | query db $"DELETE FROM std_kv_store WHERE key = '($key)'"
   }
 
-  # Does the key exist yet?
-  let key_exists = ( $key in (stor open | $in.std_kv_store?.key?))
-  
-  # If so, we need an update rather than an insert
-  let stor_action = match $key_exists {
-    true => {{stor update -t std_kv_store --where-clause $"key = '($key)'"}}
-    false  => {{stor insert -t std_kv_store}}
+  match $universal {
+    true  => { $kv_pair | into sqlite (universal_db_path) -t std_kv_store }
+    false => { $kv_pair | stor insert -t std_kv_store }
   }
 
-  # Execute the update-or-insert action
-  $kv_pair | do $stor_action
-
-  # Returns the kv table itself in case it's
-  # useful in the pipeline
-  match ($return | default 'value') {
-    'all' => (kv list)
-    'a' => (kv list)
+  # The value that should be returned from `kv set`
+  # By default, this is the input to `kv set`, even if
+  # overridden by a positional parameter.
+  # This can also be:
+  # input: (Default) The pipeline input to `kv set`, even if
+  #        overridden by a positional parameter. `null` if no
+  #        pipeline input was used.
+  # ---
+  # value: If a positional parameter was used for the value, then
+  #        return it, otherwise return the input (whatever was set).
+  #        If the positional was a closure, return the result of the
+  #        closure on the pipeline input.
+  # ---
+  # all: The entire contents of the existing kv table are returned
+  match ($return | default 'input') {
+    'all' => (kv list --universal=$universal)
+    'a' => (kv list --universal=$universal)
     'value' => $value
     'v' => $value
     'input' => $input
     'in' => $input
-    'ignore' => null
-    'i' => null
+    'i' => $input
     _  => {
       error make {
         msg: "Invalid --return option"
         label: {
-          text: "Must be 'all'/'a', 'value'/'v', 'input'/'in', or 'ignore'/'i'"
+          text: "Must be 'all'/'a', 'value'/'v', or 'input'/'in'/'i'"
           span: (metadata $return).span
         }
       }
     }
   }
-}
-
-def kv_key_completions [] {
-  try {
-    stor open
-    # Hack to turn a SQLiteDatabase into a table
-  | $in.std_kv_store | wrap temp | get temp
-  | get key? 
-  } catch {
-    # Return no completions
-    []
-  }
-
 }
 
 # Retrieves a stored value by key
@@ -106,18 +101,16 @@ def kv_key_completions [] {
 # Usage:
 # kv get <key> | <pipeline>
 export def "kv get" [
-  key: string@kv_key_completions    # Key of the kv-pair to retrieve
+  key: string # Key of the kv-pair to retrieve
+  --universal (-u)
 ] {
-  try {
-    stor create -t std_kv_store -c {key: str, value: str} | ignore
-  }
-
-  stor open
+  let db_open = (db_setup --universal=$universal)
+  do $db_open
     # Hack to turn a SQLiteDatabase into a table
   | $in.std_kv_store | wrap temp | get temp
   | where key == $key
     # Should only be one occurence of each key in the stor
-  | get -i value | first
+  | get -i value.0
   | match $in {
       # Key not found
       null => null
@@ -130,13 +123,12 @@ export def "kv get" [
 #
 # Returns results as the Nushell value rather
 # than the stored nuon.
-export def "kv list" [] {
-  # Create the table if it doesn't exist
-  try {
-    stor create -t std_kv_store -c {key: str, value: str} | ignore
-  }
+export def "kv list" [
+  --universal (-u)
+] {
+  let db_open = (db_setup --universal=$universal)
 
-  stor open | $in.std_kv_store | each {|kv_pair|
+  do $db_open | $in.std_kv_store? | each {|kv_pair|
     {
       key: $kv_pair.key
       value: ($kv_pair.value | from nuon )
@@ -145,35 +137,74 @@ export def "kv list" [] {
 }
 
 # Returns and removes a key-value pair
-export def "kv drop" [
-  key: string@kv_key_completions    # Key of the kv-pair to drop
+export def --env "kv drop" [
+  key: string   # Key of the kv-pair to drop
+  --universal (-u)
 ] {
-  # Create the table if it doesn't exist
-  try {
-    stor create -t std_kv_store -c {key: str, value: str} | ignore
-  }
+  let db_open = (db_setup --universal=$universal)
+
+  let value = (kv get --universal=$universal $key)
 
   try {
-    stor open
+    do $db_open
       # Hack to turn a SQLiteDatabase into a table
-    | $in.std_kv_store | wrap temp | get temp
-    | where key == $key
-      # Should only be one occurrence of each key in the stor
-    | get -i value | first
-    | match $in {
-        # Key not found
-        null => null
-
-        # Key found
-        _ => {
-          let value = $in
-          stor delete --table-name std_kv_store --where-clause $"key = '($key)'"
-          $value | from nuon
-        }
-    }
-
-  } catch {
-    # If value not found or other error, don't return anything
-    null
+    | query db $"DELETE FROM std_kv_store WHERE key = '($key)'"
   }
+
+  if $universal and $env.NU_KV_UNIVERSALS? {
+    hide-env $key
+  }
+
+  $value
+}
+
+def universal_db_path [] {
+  $env.NU_UNIVERSAL_KV_PATH?
+  | default (
+      $nu.data-dir | path join "std_kv_variables.sqlite3"
+  )
+}
+
+def db_setup [
+  --universal
+] : nothing -> closure {
+  try {
+    match $universal {
+      true  => {
+        # Ensure universal sqlite db and table exists
+        let uuid = (random uuid)
+        let dummy_record = {
+          session: ''
+          key: $uuid
+          value: ''
+        }
+        $dummy_record | into sqlite (universal_db_path) -t std_kv_store
+        open (universal_db_path) | query db $"DELETE FROM std_kv_store WHERE key = '($uuid)'"
+      }
+      false => {
+        # Create the stor table if it doesn't exist
+        stor create -t std_kv_store -c {session: str, key: str, value: str} | ignore
+      }
+    }
+  }
+
+  # Return the correct closure for opening on-disk vs. in-memory
+  match $universal {
+    true  => {|| {|| open (universal_db_path)}}
+    false => {|| {|| stor open}}
+  }
+}
+
+# This hook can be added to $env.config.hooks.pre_execution to enable
+# "universal variables" similar to the Fish shell. Adding, changing, or
+# removing a universal variable will immediately update the corresponding
+# environment variable in all running Nushell sessions.
+export def "kv universal-variable-hook" [] {
+{||
+  kv list --universal
+  | transpose -dr
+  | load-env
+
+  $env.NU_KV_UNIVERSALS = true
+}
 }
