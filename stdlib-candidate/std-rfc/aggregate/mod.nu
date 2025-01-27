@@ -71,7 +71,8 @@ export def main [
     --ops: record, # default = {min: {math min}, avg: {math avg}, max: {math max}, sum: {math sum}}  
     ...columns: cell-path, # columns to perform aggregations on
 ]: [
-    table -> table<count: int>
+    table -> table<count: int>,
+    record -> error,
 ] {
     let IN = $in
     let md = metadata $in
