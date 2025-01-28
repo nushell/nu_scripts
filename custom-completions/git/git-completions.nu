@@ -190,6 +190,22 @@ export extern "git checkout" [
   -l                                              # create reflog for new branch
 ]
 
+export extern "git reset" [
+  ...targets: string@"nu-complete git checkout"      # name of commit, branch, or files to reset to
+  --hard                                          # reset HEAD, index and working tree
+  --keep                                          # reset HEAD but keep local changes
+  --merge                                         # reset HEAD, index and working tree
+  --mixed                                         # reset HEAD and index
+  --patch(-p)                                     # select hunks interactively
+  --quiet(-q)                                     # be quiet, only report errors
+  --soft                                          # reset only HEAD
+  --pathspec-from-file: string                    # read pathspec from file
+  --pathspec-file-nul                             # with --pathspec-from-file, pathspec elements are separated with NUL character
+  --no-refresh                                    # skip refreshing the index after reset
+  --recurse-submodules: string                    # control recursive updating of submodules
+  --no-recurse-submodules                         # don't recurse into submodules
+]
+
 # Download objects and refs from another repository
 export extern "git fetch" [
   repository?: string@"nu-complete git remotes" # name of the branch to fetch
