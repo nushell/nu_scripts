@@ -151,7 +151,7 @@ export def --env "kv drop" [
     | query db $"DELETE FROM std_kv_store WHERE key = '($key)'"
   }
 
-  if $universal and $env.NU_KV_UNIVERSALS? {
+  if $universal and ($env.NU_KV_UNIVERSALS? | default false) {
     hide-env $key
   }
 
