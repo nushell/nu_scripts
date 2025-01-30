@@ -9,8 +9,41 @@
 # ```nushell
 # >_ "Hello" | clip copy
 # ```
-export def copy []: [string -> nothing] {
-	print -n $'(ansi osc)52;c;($in | encode base64)(ansi st)'
+export def copy [
+  --ansi (-a)                 # Copy ansi formatting
+  --nu-highlight (-h)         # nu-highlight (as ANSI) a Nushell commandline
+  --prefix (-p): string = ''  # String to preface each line on clipboard
+]: any -> nothing {
+  let input = $in | collect
+  let text = match ($input | describe -d | get type) {
+    $type if $type in [ table, record, list ] => {
+      $input | table -e
+    }
+    _ => {$input}
+  }
+
+  let do_strip_ansi = match $ansi {
+    true  => {{||}}
+    false => {{|| ansi strip }}
+  }
+  let do_highlight = match $nu_highlight {
+    true  => {{|| run-external ($nu.current-exe) '-n' '--stdin' '-c' '$in | nu-highlight'}}
+    false => {{||}}
+  }
+  let do_add_prefix = match $prefix {
+    '' => {{||}}
+    _  => {{|| str replace --all -r '(?m)^(.*)$' $'($prefix)$1'}}
+  }
+
+  let output = (
+    $text
+    | do $do_strip_ansi
+    | do $do_highlight
+    | do $do_add_prefix
+    | encode base64
+  )
+
+	print -n $'(ansi osc)52;c;($output)(ansi st)'
 }
 
 # Paste contenst of system clipboard
