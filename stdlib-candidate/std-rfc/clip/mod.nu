@@ -11,8 +11,6 @@
 # ```
 export def copy [
   --ansi (-a)                 # Copy ansi formatting
-  --nu-highlight (-h)         # nu-highlight (as ANSI) a Nushell commandline
-  --prefix (-p): string = ''  # String to preface each line on clipboard
 ]: any -> nothing {
   let input = $in | collect
   let text = match ($input | describe -d | get type) {
@@ -26,20 +24,10 @@ export def copy [
     true  => {{||}}
     false => {{|| ansi strip }}
   }
-  let do_highlight = match $nu_highlight {
-    true  => {{|| run-external ($nu.current-exe) '-n' '--stdin' '-c' '$in | nu-highlight'}}
-    false => {{||}}
-  }
-  let do_add_prefix = match $prefix {
-    '' => {{||}}
-    _  => {{|| str replace --all -r '(?m)^(.*)$' $'($prefix)$1'}}
-  }
 
   let output = (
     $text
     | do $do_strip_ansi
-    | do $do_highlight
-    | do $do_add_prefix
     | encode base64
   )
 
@@ -65,4 +53,19 @@ export def paste []: [nothing -> string] {
 	| decode
 	| decode base64
 	| decode
+}
+
+# Add a prefix to each line of the content to be copied
+#
+# # Example: Format output for Nushell doc
+# ls | clip prefix '# => ' | clip copy
+export def prefix [prefix: string]: any -> string {
+  let input = $in | collect
+  match ($input | describe -d | get type) {
+    $type if $type in [ table, record, list ] => {
+      $input | table -e
+    }
+    _ => {$input}
+  }
+  | str replace -r --all '(?m)(.*)' $'($prefix)$1'
 }
