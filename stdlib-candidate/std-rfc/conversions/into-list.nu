@@ -1,7 +1,6 @@
 # Convert a Nushell value to a list
 # 
-# Primary useful for range-to-list,
-# but other types are accepted as well.
+# Primary useful for range-to-list, but other types are accepted as well.
 # 
 # Example:
 #

@@ -1,4 +1,4 @@
-use ../conversions/into.nu *
+use ../conversions/into-list.nu *
 
 # Return a list of indices
 # for the provided ranges or indices.

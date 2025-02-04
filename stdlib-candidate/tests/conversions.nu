@@ -46,3 +46,65 @@ def list-into-list [] {
   )
 
 }
+
+#[test]
+def table-into-columns--roundtrip [] {
+  assert equal (
+    ls
+  ) (
+    ls | table-into-columns | columns-into-table
+  )
+}
+
+const test_record_of_lists = {
+  a: [ 1 2 3 ]
+  b: [ 4 5 6 ]
+}
+
+#[test]
+def record-into-columns--simple [] {
+  let actual = (
+    $test_record_of_lists
+    | record-into-columns
+    | get 1.b.2
+  )
+
+  let expected = 6
+
+  assert equal $actual $expected
+}
+
+#[test]
+def table-into-columns--simple [] {
+  let actual = (
+    ls | table-into-columns | get 1 | columns | get 0
+  )
+  let expected = 'type'
+
+  assert equal $actual $expected
+}
+
+#[test]
+def name-values--simple [] {
+  let actual = (
+    [ 1 2 3 ] | name-values one two three
+    | get 'two'
+  )
+
+  let expected = 2
+
+  assert equal $actual $expected
+}
+
+#[test]
+def name-values--missing-keyname [] {
+  let actual = (
+    [ 1 2 3 ] | name-values one two
+    | columns
+  )
+
+  # Column/key names are strings, even those that came from the index ('2')
+  let expected = [ 'one' 'two' '2' ]
+
+  assert equal $actual $expected
+}
