@@ -51,14 +51,10 @@ def main [
 by opening PRs against the `release-notes-($version)` branch.
 
 ## TODO
-- [ ] look at interesting contributions
-- [ ] write all the sections
-- [ ] order the sections by interest
-- [ ] add the breaking changes
-- [ ] detail the breaking changes
+- [ ] ... \(PRs that need to land before the release, e.g. [deprecations]\(https://github.com/nushell/nushell/labels/deprecation\) or [removals]\(https://github.com/nushell/nushell/pulls?q=is%3Apr+is%3Aopen+label%3Aremoval-after-deprecation\)\)
 - [ ] add the full changelog
-- [ ] complete all the `TODO`s inside the release note
-- [ ] ... \(PRs that need to land before the release, e.g. [deprecations]\(https://github.com/nushell/nushell/labels/deprecation\) or [removals]\(https://github.com/nushell/nushell/pulls?q=is%3Apr+is%3Aopen+label%3Aremoval-after-deprecation\)\)"
+- [ ] categorize each PR
+- [ ] write all the sections and complete all the `TODO`s"
 
     log info "creating release note from template"
     let release_note = $env.CURRENT_FILE
