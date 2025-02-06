@@ -1,7 +1,7 @@
 ---
 title: Nushell {{VERSION}}
 author: The Nu Authors
-author_site: https://twitter.com/nu_shell
+author_site: https://www.nushell.sh/blog
 author_image: https://www.nushell.sh/blog/images/nu_logo.png
 excerpt: Today, we're releasing version {{VERSION}} of Nu. This release adds...
 ---
