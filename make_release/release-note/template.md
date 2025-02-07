@@ -20,7 +20,7 @@ Today, we're releasing version {{VERSION}} of Nu. This release adds...
 
 Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/nushell/releases/tag/{{VERSION}}) or from [crates.io](https://crates.io/crates/nu). If you have Rust installed you can install it using `cargo install nu`.
 
-As part of this release, we also publish a set of optional plugins you can install and use with Nu. To install, use `cargo install nu_plugin_<plugin name>`.
+As part of this release, we also publish a set of optional [plugins](https://www.nushell.sh/book/plugins.html) you can install and use with Nushell.
 
 # Table of contents
 
