@@ -79,15 +79,15 @@ def get_pr_counts [debug_csv: bool, repos_root_folder = '/Users/fdncred/src'] {
             append (open vscode.csv)
         )
 
-        let data_dfr = ($data | dfr into-df)
-        $data_dfr |
-            dfr group-by name |
-            dfr agg [(dfr col commits | dfr sum | dfr as "all_commits")] |
-            dfr collect |
-            dfr sort-by all_commits |
-            dfr reverse |
-            dfr into-nu |
-            first 50
+        let data_polars = ($data | polars into-df)
+        $data_polars |
+            polars group-by name |
+            polars agg [(polars col commits | polars sum | polars as "all_commits")] |
+            polars collect |
+            polars sort-by all_commits |
+            polars reverse |
+            polars into-nu |
+            first 75
     }
 }
 
