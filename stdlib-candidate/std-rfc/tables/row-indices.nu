@@ -1,9 +1,6 @@
-use ../conversions/into.nu *
+use ../conversions/into-list.nu *
 
-# Return a list of indices
-# for the provided ranges or indices.
-# Primarily used as a helper for
-# "select ranges" et. al.
+# Return a list of indices for the provided ranges or indices. Primarily used as a helper for "select ranges" et. al.
 #
 # Example:
 #
