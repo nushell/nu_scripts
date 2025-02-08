@@ -432,3 +432,11 @@ export def set-parallel-limit [
 
   pueue parallel ...$args $max
 }
+
+const HERE = (path self)
+
+export def main [] {
+  let mod_name = $HERE | path basename | str replace -r '\.nu$' ''
+  scope commands | where name =~ $"^($mod_name) " | select name description | transpose -rd
+}
+
