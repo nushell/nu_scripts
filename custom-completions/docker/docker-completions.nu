@@ -522,6 +522,13 @@ export extern "docker image save" [
     --output(-o): string                                #Write to a file, instead of STDOUT
 ]
 
+# Delete one or more docker image
+export extern "docker image rm" [
+    ...image: string@"nu-complete docker images"
+    --force(-f)                                         #Force removal of the image
+    --no-prune                                          #Do not delete untagged parents
+]
+
 # Extended build capabilities with BuildKit
 export extern "docker buildx" [
     --builder: string                                   #Override the configured builder instance (default "default")
