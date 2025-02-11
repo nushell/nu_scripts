@@ -798,3 +798,7 @@ export extern "git grep" [
   --quiet(-q)                           # Do not output matched lines; instead, exit with status 0 when there is a match and with non-zero status when there isn’t.
   ...pathspecs: string                  # Target pathspecs to limit the scope of the search.
 ]
+
+export extern "git" [
+  command?: string@"nu-complete git subcommands"       # subcommand to show help for
+]
