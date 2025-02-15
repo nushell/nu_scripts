@@ -3,21 +3,32 @@
 # Repos to monitor
 
 def query-week-span [] {
+    # Note: GitHub limits to 10 requests per minute. Additional repos
+    # will fail without a 7sec sleep between requests
     let site_table = [
-        [site repo];
-        [Nushell nushell]
-        [Extension vscode-nushell-lang]
-        [Documentation nushell.github.io]
-        [Wasm demo]
-        [Nu_Scripts nu_scripts]
-        [RFCs rfcs]
-        [reedline reedline]
-        [Nana nana]
-        # ] [Jupyter jupyter]
+        [site                  repo                       ];
+        [Nushell               nushell                    ]
+        [Documentation         nushell.github.io          ]
+        [reedline              reedline                   ]
+        [Nu_Scripts            nu_scripts                 ]
+        [NUPM                  nupm                       ]
+        [Wasm                  demo                       ]
+        [nufmt                 nufmt                      ]
+        ["Awesome Nu"          awesome-nu                 ]
+        [Tree-sitter           tree-sitter-nu             ]
+        ["New nu-parser"       new-nu-parser              ]
+        #[RFCs                  rfcs                       ]
+        #[Nana                  nana                       ]
+        #[Integrations          integrations               ]
+        #["VSCode Extension"    vscode-nushell-lang        ]
+        #["Plugin Template"     nu_plugin_template         ]
+        #[Grammar               grammar                    ]
+        #[Jupyter               nu_jupyter                 ]
     ]
 
     let query_prefix = "https://api.github.com/search/issues?q=repo:nushell/"
-    let query_date = (seq date --days 7 -r | get 6)
+    # Update the '7' below to however many days it has been since the last TWiN
+    let query_date = (seq date --days 21 -r | get 7)
     let per_page = "100"
     let page_num = "1" # need to implement iterating pages
     let colon = "%3A"
@@ -27,6 +38,7 @@ def query-week-span [] {
     let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
 
     for repo in $site_table {
+        #sleep 7sec
         let query_string = $"($query_prefix)($repo.repo)($query_suffix)"
         let site_json = (http get -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
 
