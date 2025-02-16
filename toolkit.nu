@@ -68,7 +68,7 @@ def "with files" [
 
 export def "lint check" []: path -> int {
     let file = $in
-    let test_methodology = $env.TEST_METHOD? | default "source-or-import"
+    let test_methodology = $env.TEST_METHOD? | default "import-or-source"
     const current_path = (path self)
 
     let diagnostics = match $test_methodology {
@@ -80,17 +80,26 @@ export def "lint check" []: path -> int {
             | select severity message
         }
 
-        source-or-import => {
+        import-or-source => {
             # If any line in the file starts with `export`, then
             # we assume it is a module. Otherwise, treat it as source
             let has_exports = (open $file | $in like '(?m)^export\s')
-            let use_or_source = match $has_exports {
-                true  => {{|| do { nu --no-config-file --commands $"use '($file)'" } | complete }}
-                false => {{|| do { nu --no-config-file --commands $"source '($file)'" } | complete }}
+            if $has_exports {
+                # treat as module
+                if not (nu-check --as-module $file) {
+                    do { nu --no-config-file --commands $"use '($file)'" }
+                    | complete
+                    | [[severity message]; [$in.exit_code $in.stderr]]
+                    | where severity != 0
+                }
+            } else {
+                if not (nu-check $file) {
+                    do { nu --no-config-file --commands $"source '($file)'" }
+                    | complete
+                    | [[severity message]; [$in.exit_code $in.stderr]]
+                    | where severity != 0
+                }
             }
-            do $use_or_source
-            | [[severity message]; [$in.exit_code $in.stderr]]
-            | where severity != 0
         }
 
         _ => { error make { msg: "Invalid TEST_METHOD"}}
