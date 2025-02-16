@@ -3,47 +3,80 @@
 # Repos to monitor
 
 def query-week-span [] {
-    # Note: GitHub limits to 10 requests per minute. Additional repos
-    # will fail without a 7sec sleep between requests
-    let site_table = [
-        [site                  repo                       ];
-        [Nushell               nushell                    ]
-        [Documentation         nushell.github.io          ]
-        [reedline              reedline                   ]
-        [Nu_Scripts            nu_scripts                 ]
-        [NUPM                  nupm                       ]
-        [Wasm                  demo                       ]
-        [nufmt                 nufmt                      ]
-        ["Awesome Nu"          awesome-nu                 ]
-        [Tree-sitter           tree-sitter-nu             ]
-        ["New nu-parser"       new-nu-parser              ]
-        #[RFCs                  rfcs                       ]
-        #[Nana                  nana                       ]
-        #[Integrations          integrations               ]
-        #["VSCode Extension"    vscode-nushell-lang        ]
-        #["Plugin Template"     nu_plugin_template         ]
-        #[Grammar               grammar                    ]
-        #[Jupyter               nu_jupyter                 ]
-    ]
-
-    let query_prefix = "https://api.github.com/search/issues?q=repo:nushell/"
     # Update the '7' below to however many days it has been since the last TWiN
     let query_date = (seq date --days 21 -r | get 7)
-    let per_page = "100"
-    let page_num = "1" # need to implement iterating pages
-    let colon = "%3A"
-    let gt = "%3E"
-    let eq = "%3D"
-    let amp = "%26"
-    let query_suffix = $"+is($colon)pr+is($colon)merged+merged($colon)($gt)($eq)($query_date)&per_page=100&page=1"
 
-    for repo in $site_table {
+    # The heading mappings for each repository. This is only
+    # used to display the Heading for each reposting in TWiN.
+    # Repos without a mapping (that have activity) will simply
+    # default to the repo name.
+    let repo_headings = {
+        nushell: Nushell
+        nushell.github.io: Documentation
+        reedline: reedline
+        nu_scripts: Nu_Scripts
+        nupm: NUPM
+        demo: Wasm
+        nufmt: nufmt
+        awesome-nu: "Awesome Nu"
+        tree-sitter-nu: Tree-sitter
+        new-nu-parser: "New nu-parser"
+        rfcs: RFCs
+        nana: Nana
+        integrations: Integrations
+        vscode-nushell-lang: "VSCode Extension"
+        nu_plugin_template: "Plugin Template"
+        grammar: Grammar
+        nu_jupyter: Jupyter
+    }
+
+    # If environment variables exists for GH username/pw, use
+    # them. If a token is available, it will take precedence,
+    # so passing an empty username/password isn't a problem.
+    let gh_username = ($env.GITHUB_USERNAME? | default "")
+    let gh_password = ($env.GITHUB_PASSWORD? | default "")
+    let gh_token = $env.GH_AUTH_TOKEN? | default (try { gh auth token })
+    let header = match $gh_token {
+        null => {}
+        _ => { Authorization: $'Bearer ($gh_token)' }
+    }
+
+    # Gets the 10 most recent Nushell repos. Note that GitHub
+    # limits the search endpoint to 10 requests per minute, so
+    # if there happens to be activity in more than 10 repos in a
+    # week, adjust the `first 10` as needed and uncomment the 7sec
+    # sleep below.
+    let repos = (
+        http get -u $gh_username -p $gh_password https://api.github.com/users/nushell/repos?sort=pushed
+        | get name
+        | where $it != 'nightly'
+        | where $it != 'this_week_in_nu'
+        | first 10
+    )
+
+    for repo in $repos {
         #sleep 7sec
-        let query_string = $"($query_prefix)($repo.repo)($query_suffix)"
-        let site_json = (http get -u $env.GITHUB_USERNAME -p $env.GITHUB_PASSWORD $query_string | get items | select html_url user.login title)
+        let query_string = (
+            $"https://api.github.com/search/issues"
+            | url parse
+            | merge {
+                params: {
+                    q: $'repo:nushell/($repo) is:pr is:merged merged:>=($query_date)'
+                    page: 1
+                    per_page: 100
+                }
+            }
+            | url join
+        )
+        let site_json = (
+            http get -u $gh_username -p $gh_password $query_string
+            | get items
+            | select html_url user.login title
+        )
 
         if not ($site_json | all { |it| $it | is-empty }) {
-            print $"(char nl)## ($repo.site)(char nl)"
+            let heading_name = ($repo_headings | get -i $repo | default $repo)
+            print $"(char nl)## ($heading_name)(char nl)"
 
             for user in ($site_json | group-by "user.login" | transpose user prs) {
                 let user_name = $user.user
@@ -68,8 +101,4 @@ def query-week-span [] {
 let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
 print $"# This week in Nushell #($week_num)(char nl)"
 
-if ($env | get -i GITHUB_USERNAME | is-empty) or ($env | get -i GITHUB_PASSWORD | is-empty) {
-    print 'Please set GITHUB_USERNAME and GITHUB_PASSWORD in $env to use this script'
-} else {
-    query-week-span
-}
+query-week-span
