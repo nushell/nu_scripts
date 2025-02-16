@@ -43,6 +43,16 @@ def "nu-complete git remote branches nonlocal without prefix" [] {
   ^git branch --no-color -r | lines | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\S+)'] | flatten | str join) | get branch | uniq | where {|branch| $branch != "HEAD"} | where {|branch| $branch not-in $local_branches }
 }
 
+# Yield local and remote branch names which can be passed to `git merge`
+def "nu-complete git mergable sources" [] {
+  let current = (^git branch --show-current)
+  let long_current = $'origin/($current)'
+  let git_table = ^git branch -a --format '%(refname:lstrip=2)%09%(upstream:lstrip=2)' | lines | str trim | where { ($in != $long_current) and not ($in starts-with $"($current)\t") and not ($in ends-with 'HEAD') } | each {|v| if "\t" in $v { $v | split row "\t" -n 2 | {'n': $in.0, 'u': $in.1 } } else {'n': $v, 'u': null } }
+  let siblings = $git_table | where u == null and n starts-with 'origin/' | get n | str substring 7..
+  let remote_branches = $git_table | filter {|r| $r.u == null and not ($r.n starts-with 'origin/') } | get n
+  [...($siblings | wrap value | insert description Local), ...($remote_branches | wrap value | insert description Remote)]
+}
+
 def "nu-complete git switch" [] {
   (nu-complete git local branches)
   | parse "{value}"
@@ -161,6 +171,14 @@ def "nu-complete git add" [] {
 
 def "nu-complete git pull rebase" [] {
   ["false","true","merges","interactive"]
+}
+
+def "nu-complete git merge strategies" [] {
+  ['ort', 'octopus']
+}
+
+def "nu-complete git merge strategy options" [] {
+  ['ours', 'theirs']
 }
 
 
@@ -381,6 +399,24 @@ export extern "git rebase" [
   --interactive(-i)                           # rebase interactively with list of commits in editor
   --onto?: string@"nu-complete git rebase"    # starting point at which to create the new commits
   --root                                      # start rebase from root commit
+]
+
+# Merge from a branch
+export extern "git merge" [
+  # For now, to make it simple, we only complete branches (not commits) and support single-parent case.
+  branch?: string@"nu-complete git mergable sources"         # The source branch
+  --edit(-e)                                                 # Edit the commit message prior to committing
+  --no-edit                                                  # Do not edit commit message
+  --no-commit(-n)                                            # Apply changes without making any commit
+  --signoff                                                  # Add Signed-off-by line to the commit message
+  --ff                                                       # Fast-forward if possible
+  --continue                                                 # Continue after resolving a conflict
+  --abort                                                    # Abort resolving conflict and go back to original state
+  --quit                                                     # Forget about the current merge in progress
+  --strategy(-s): string@"nu-complete git merge strategies"  # Merge strategy
+  -X: string@"nu-complete git merge strategy options"        # Option for merge strategy
+  --verbose(-v)
+  --help
 ]
 
 # List or change branches
@@ -800,5 +836,5 @@ export extern "git grep" [
 ]
 
 export extern "git" [
-  command?: string@"nu-complete git subcommands"       # subcommand to show help for
+  command?: string@"nu-complete git subcommands"       # subcommands
 ]
