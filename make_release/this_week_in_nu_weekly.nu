@@ -36,26 +36,20 @@ def query-week-span [] {
     let gh_username = ($env.GITHUB_USERNAME? | default "")
     let gh_password = ($env.GITHUB_PASSWORD? | default "")
     let gh_token = $env.GH_AUTH_TOKEN? | default (try { gh auth token })
-    let header = match $gh_token {
+    let headers = match $gh_token {
         null => {}
         _ => { Authorization: $'Bearer ($gh_token)' }
     }
 
-    # Gets the 10 most recent Nushell repos. Note that GitHub
-    # limits the search endpoint to 10 requests per minute, so
-    # if there happens to be activity in more than 10 repos in a
-    # week, adjust the `first 10` as needed and uncomment the 7sec
-    # sleep below.
     let repos = (
-        http get -u $gh_username -p $gh_password https://api.github.com/users/nushell/repos?sort=pushed
+        http get -H $headers -u $gh_username -p $gh_password https://api.github.com/users/nushell/repos?sort=pushed
         | get name
         | where $it != 'nightly'
         | where $it != 'this_week_in_nu'
-        | first 10
+        | first 30
     )
 
     for repo in $repos {
-        #sleep 7sec
         let query_string = (
             $"https://api.github.com/search/issues"
             | url parse
@@ -69,7 +63,7 @@ def query-week-span [] {
             | url join
         )
         let site_json = (
-            http get -u $gh_username -p $gh_password $query_string
+            http get -H $headers -u $gh_username -p $gh_password $query_string
             | get items
             | select html_url user.login title
         )
