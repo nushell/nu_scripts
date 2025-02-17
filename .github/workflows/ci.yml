@@ -24,4 +24,4 @@ jobs:
               # nix STUB_IDE_CHECK when nushell/nushell#12208 fixed
               run: |
                   use ${{ github.workspace }}/toolkit.nu *
-                  STUB_IDE_CHECK=true check pr --and-exit
+                  check pr --and-exit

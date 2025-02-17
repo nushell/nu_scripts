@@ -66,22 +66,43 @@ def "with files" [
     }
 }
 
-# Check the input file with nu --ide-check.
-export def "lint ide-check" []: path -> int {
+export def "lint check" []: path -> int {
     let file = $in
-    let stub = $env.STUB_IDE_CHECK? | default false | into bool
+    let test_methodology = $env.TEST_METHOD? | default "import-or-source"
     const current_path = (path self)
-    let diagnostics = if $stub {
-        do { nu --no-config-file --commands $"use '($file)'" }
-            | complete
-            | [[severity message]; [$in.exit_code $in.stderr]]
-            | where severity != 0
-    } else {
-        nu --ide-check 10 $file
+
+    let diagnostics = match $test_methodology {
+        ide-check => {
+            nu --ide-check 10 $file
             | $"[($in)]"
             | from nuon
             | where type == diagnostic
             | select severity message
+        }
+
+        import-or-source => {
+            # If any line in the file starts with `export`, then
+            # we assume it is a module. Otherwise, treat it as source
+            let has_exports = (open $file | $in like '(?m)^export\s')
+            if $has_exports {
+                # treat as module
+                if not (nu-check --as-module $file) {
+                    do { nu --no-config-file --commands $"use '($file)'" }
+                    | complete
+                    | [[severity message]; [$in.exit_code $in.stderr]]
+                    | where severity != 0
+                }
+            } else {
+                if not (nu-check $file) {
+                    do { nu --no-config-file --commands $"source '($file)'" }
+                    | complete
+                    | [[severity message]; [$in.exit_code $in.stderr]]
+                    | where severity != 0
+                }
+            }
+        }
+
+        _ => { error make { msg: "Invalid TEST_METHOD"}}
     }
     let error_count = $diagnostics | length
     if $error_count == 0 {
@@ -101,6 +122,6 @@ export def lint [
     --and-exit # Exit with error count
 ]: [list<path> -> int, nothing -> int] {
     with files --full=$full --and-exit=$and_exit {
-        par-each { lint ide-check }
+        par-each { lint check }
     }
 }
