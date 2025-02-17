@@ -30,35 +30,74 @@ export extern "ssh" [
     -o: string    # option
 ]
 
+module ssh-completion-utils {
+    def extract-host []: list<string> -> record<name: string, addr: string> {
+        # Host is a list of lines, like:
+        # ╭───┬──────────────────────────────╮
+        # │ 0 │ Host quanweb                 │
+        # │ 1 │     User quan                │
+        # │ 2 │     Hostname quan.hoabinh.vn │
+        # │ 3 │     # ProxyJump farmb-omz    │
+        # │ 4 │                              │
+        # ╰───┴──────────────────────────────╯
+        let host = $in
+        let name = $host | get 0 | str trim | split row -r '\s+' | get 1
+        # Don't accept blocks like "Host *"
+        if ('*' in $name) {
+            null
+        } else {
+            # May not contain hostname
+            match ($host | slice 1.. | find -ir '^\s*Hostname\s') {
+                [] => null,
+                $addr => { name: $name, addr: ($addr | str trim | split row -n 2 -r '\s+' | get 1) }
+            }
+        }
+    }
+
+    # Process a SSH config file
+    export def process []: string -> record<hosts: list<record<name: string, addr: string>>, includes: list<string>> {
+        let lines = $in | lines
+        # Get 'Include' lines
+        let include_lines = $lines | find -n -ir '^Include\s' | str trim | each { $in | split row -n 2 -r '\s+' | get 1 | str trim -c '"'}
+        # Find "Host" blocks
+        let marks = $lines | enumerate | find -n -ir '^Host\s'
+        let mark_indices = $marks | get index | append ($lines | length)
+        let hosts = $mark_indices | window 2 | each {|w| $lines | slice $w.0..<($w.1) }
+        {
+            hosts: ($hosts | each { $in | extract-host }),
+            includes: $include_lines
+        }
+    }
+    
+}
+
+
 def "nu-complete ssh-host" [] {
     let files = [
         '/etc/ssh/ssh_config',
         '~/.ssh/config'
     ] | filter {|file| $file | path exists }
 
-    let included_files = $files | each {|file|
+    use ssh-completion-utils process
+
+    let first_result = $files | par-each {|file|
         let folder = $file | path expand | path dirname
-        let rel_subfiles = $file | open | lines | str trim | where { |s| $s | str starts-with 'Include' } | each { |s| $s | parse --regex '^Include\s+(?<subfile>.+)' | get subfile | str replace -a '"' '' } | flatten
-        $rel_subfiles | each { |f| $folder | path join $f }
-    } | flatten | filter { |p| $p | path exists }
-
-
-    [ ...$files, ...$included_files ] | each {|file|
-        let lines = $file | open | lines | str trim
-
-        mut result = []
-        for $line in $lines {
-            let data = $line | parse  --regex '^Host\s+(?<host>[-\.\w]+)'
-            if ($data | is-not-empty) {
-                $result = ($result | append { 'value': ($data.host | first), 'description': "" })
-                continue;
-            }
-            let data = $line | parse --regex '^HostName\s+(?<hostname>.+)'
-            if ($data | is-not-empty) {
-                let last = $result | last | update 'description' ($data.hostname | first)
-                $result = ($result | drop | append $last)
-            }
-        }
-        $result
+        mut r = $file | open --raw | process
+        $r.includes = $r.includes | each {|f| $folder | path join $f }
+        $r
+    } | reduce {|it| merge deep $it --strategy=append }
+    let hosts = $first_result.hosts
+    let $includes: list<string> = $first_result.includes | each {|f|
+        if '*' in $f {
+            glob $f
+        } else if ($f | path exists) {
+            [$f]
+        } else []
     } | flatten
+
+    # Process include files
+    let second_result = $includes | par-each {|p| $p | open --raw | process } | reduce {|it| merge deep $it --strategy=append }
+    # We don't further process "Include" lines in these secondary files.
+    let hosts = $hosts ++ $second_result.hosts
+    $hosts | each { {value: $in.name, description: $in.addr } }
 }
