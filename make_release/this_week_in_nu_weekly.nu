@@ -91,8 +91,18 @@ def query-week-span [] {
     }
 }
 
-# 2019-08-23 was the release of 0.2.0, the first public release
-let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
-print $"# This week in Nushell #($week_num)(char nl)"
+let has_token = (try { gh auth token }) != null
+let has_username_pw = ($env | get -i GITHUB_USERNAME | is-not-empty) and ($env | get -i GITHUB_PASSWORD | is-not-empty) 
 
-query-week-span
+if not ($has_token or $has_username_pw) {
+    print "This script requires either a working GitHub client that returns `gh auth token` or"
+    print "$env.GITHUB_USERNAME and $env.GITHUB_PASSWORD.  Neither were found."
+} else {
+    # 2019-08-23 was the release of 0.2.0, the first public release
+
+    let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
+    print $"# This week in Nushell #($week_num)(char nl)"
+
+    query-week-span
+}
+
