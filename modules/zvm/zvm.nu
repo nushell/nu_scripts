@@ -47,12 +47,13 @@ export def "zvm install" [version: string] {
 
   let tarball = $version_data | get $"($nu.os-info.arch)-($nu.os-info.name)" | get tarball
   let temp_dir = mktemp --directory --suffix "-zvm"
-  http get $tarball | save --progress $"($temp_dir)/archive.tar.xz"
+  http get $tarball | save --progress $"($temp_dir)/($tarball | path basename)"
   verify_signature $temp_dir $tarball
-  ouch decompress --dir $temp_dir --quiet $"($temp_dir)/archive.tar.xz"
+  ouch decompress --dir $temp_dir --quiet $"($temp_dir)/($tarball | path basename)"
 
   let path_prefix = get_or_create_path_prefix
-  cp --recursive $"($temp_dir)/zig-($nu.os-info.name)-($nu.os-info.arch)-($version)" $"($path_prefix)/($version)"
+  let decompressed_dir_path = ls $temp_dir | where type == dir | get 0.name
+  cp --recursive $decompressed_dir_path $"($path_prefix)/($version_to_install)"
   rm --recursive --permanent $temp_dir
 
   echo $"Successfully installed Zig ($version)"
@@ -74,7 +75,16 @@ export def "zvm use" [
   }
 
   let path_prefix = get_or_create_path_prefix
-  ln -sf $"($path_prefix)/($zig_to_use.version)/zig" $"($path_prefix)/zig"
+  let symlink = $"($path_prefix)/zig"
+  let bin = $"($path_prefix)/($zig_to_use.version)/zig"
+
+  if $nu.os-info.name == "windows" {
+    if ($symlink | path exists) { rm --permanent $symlink }
+    mklink $symlink $bin
+  } else {
+    ln -sf $bin $symlink
+  }
+
   echo $"Successfully switched to Zig ($version)"
 }
 
@@ -94,9 +104,9 @@ export def "zvm remove" [
 }
 
 def verify_signature [temp_dir: string, tarball: string] {
-  http get $"($tarball).minisig" | save $"($temp_dir)/archive.tar.xz.minisig"
+  http get $"($tarball).minisig" | save $"($temp_dir)/($tarball | path basename).minisig"
 
-  let minisign_result = minisign -Vm $"($temp_dir)/archive.tar.xz" -P "RWSGOq2NVecA2UPNdBUZykf1CCb147pkmdtYxgb3Ti+JO/wCYvhbAb/U" | complete
+  let minisign_result = minisign -Vm $"($temp_dir)/($tarball | path basename)" -P "RWSGOq2NVecA2UPNdBUZykf1CCb147pkmdtYxgb3Ti+JO/wCYvhbAb/U" | complete
   if $minisign_result.exit_code != 0 {
     error make {
       msg: $"Failed to verify archive signature. Temporary data left as is in ($temp_dir)."
