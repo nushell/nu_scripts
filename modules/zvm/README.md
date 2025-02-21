@@ -42,5 +42,4 @@ Add this to your `$env.PATH` to make zig accessible.
 
 ## Roadmap
 
-- Windows support
 - [zls](https://github.com/zigtools/zls) support
