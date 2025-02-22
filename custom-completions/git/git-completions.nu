@@ -124,9 +124,7 @@ module git-completion-utils {
   export def get-mergable-sources []: nothing -> list<record<value: string, description: string>> {
     let current = (^git branch --show-current)  # Can be empty if in detached HEAD
     (get-all-git-branches | extract-mergable-sources $current)
-  }
-
-  
+  }  
 }
 
 def "nu-complete git available upstream" [] {
@@ -160,17 +158,6 @@ def "nu-complete git local branches" [] {
 # Yield remote branches like `origin/main`, `upstream/feature-a`
 def "nu-complete git remote branches with prefix" [] {
   ^git branch --no-color -r | lines | parse -r '^\*?(\s*|\s*\S* -> )(?P<branch>\S*$)' | get branch | uniq
-}
-
-# Yield remote branches *without* prefix which do not have a local counterpart.
-# E.g. `upstream/feature-a` as `feature-a` to checkout and track in one command
-# with `git checkout` or `git switch`.
-def "nu-complete git remote branches nonlocal without prefix" [] {
-  # Get regex to strip remotes prefixes. It will look like `(origin|upstream)`
-  # for the two remotes `origin` and `upstream`.
-  let remotes_regex = (["(", ((nu-complete git remotes | each {|r| [$r, '/'] | str join}) | str join "|"), ")"] | str join)
-  let local_branches = (nu-complete git local branches)
-  ^git branch --no-color -r | lines | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\S+)'] | flatten | str join) | get branch | uniq | where {|branch| $branch != "HEAD"} | where {|branch| $branch not-in $local_branches }
 }
 
 # Yield local and remote branch names which can be passed to `git merge`
