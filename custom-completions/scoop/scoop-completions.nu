@@ -48,7 +48,7 @@ def scoopAvailableApps [] {
   let all       = (scoopAllApps)
   let installed = (scoopInstalledApps)
 
-  $all | where not ($it in $installed)
+  $all | where $it not-in $installed
 }
 
 # list of all config options
