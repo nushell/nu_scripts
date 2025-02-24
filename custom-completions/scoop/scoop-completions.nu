@@ -117,7 +117,7 @@ def scoopCommands [] {
          [value, description];
          [
            # eg. scoop-help.ps1 -> help
-           ($command.name | path basename | str substring 6..-4),
+           ($command.name | path basename | str substring 6..-5),
            # second line is starts with '# Summary: '
            # eg. '# Summary: Install apps' -> 'Install apps'
            (open $command.name | lines | skip 1 | first | str substring 11..)
