@@ -1,3 +1,5 @@
+# nu-version: 0.102.0
+
 module git-completion-utils {
   export const GIT_SKIPABLE_FLAGS = ['-v', '--version', '-h', '--help', '-p', '--paginate', '-P', '--no-pager', '--no-replace-objects', '--bare']
 
@@ -106,8 +108,8 @@ module git-completion-utils {
     let floating_remotes = $lines | filter { "\t" not-in $in and $in not-in $tracked_remotes }
     $floating_remotes | each {
       let v = $in | split row -n 2 '/' | get 1
-      if $v != $current { [$v] } else []
-    } | flatten
+      if $v == $current { null } else $v
+    }
   }
 
   export def extract-mergable-sources [current: string]: list<string> -> list<record<value: string, description: string>> {
@@ -268,7 +270,7 @@ def "nu-complete git files" [] {
 def "nu-complete git built-in-refs" [] {
   [HEAD FETCH_HEAD ORIG_HEAD]
 }
- 
+
 def "nu-complete git refs" [] {
   nu-complete git local branches
   | parse "{value}"
