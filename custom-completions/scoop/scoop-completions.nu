@@ -130,15 +130,7 @@ def scoopCommands [] {
 }
 
 def scoopAliases [] {
-  ^powershell -nop -nol -c "(scoop alias list|ConvertTo-Json -Compress)"
-  | decode
-  | str trim
-  | lines
-  | last
-  | to text
-  | '[' + $in + ']'
-  | from json
-  | get Name
+scoop alias list | str trim | lines | slice 2.. | split column " " | get column1
 }
 
 def batStyles [] {
@@ -658,7 +650,7 @@ export extern "scoop download" [
 ################################################################
 
 def scoopKnownBuckets [] {
-  [ "main", "extras", "versions", "nirsoft", "php", "nerd-fonts", "nonportable", "java", "games" ]
+  [ "main", "extras", "versions", "nirsoft", "php", "nerd-fonts", "nonportable", "java", "games", "sysinternals" ]
 }
 
 def scoopInstalledBuckets [] {
@@ -676,7 +668,7 @@ def scoopAvailableBuckets [] {
   let known     = (scoopKnownBuckets)
   let installed = (scoopInstalledBuckets)
 
-  $known | where not $it in $installed
+  $known | where $it not-in $installed
 }
 
 # Add, list or remove buckets.
