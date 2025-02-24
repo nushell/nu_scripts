@@ -40,7 +40,7 @@ def scoopAllApps [] {
   } else {
     [ $env.USERPROFILE, 'scoop', 'buckets' ] | path join
   }
-  (ls -s $bucketsDir | get name) | each {|bucket| ls ([$bucketsDir, $bucket, 'bucket', '*.json'] | path join ) | get name | path basename | str substring ..-5} | flatten | uniq
+  (ls -s $bucketsDir | get name) | each {|bucket| ls ([$bucketsDir, $bucket, 'bucket']  | path join ) | get name | path parse | where extension == json | get stem } | flatten | uniq
 }
 
 # list of all apps that are not installed
@@ -48,7 +48,7 @@ def scoopAvailableApps [] {
   let all       = (scoopAllApps)
   let installed = (scoopInstalledApps)
 
-  $all | where not $it in $installed
+  $all | where $it not-in $installed
 }
 
 # list of all config options
@@ -117,7 +117,7 @@ def scoopCommands [] {
          [value, description];
          [
            # eg. scoop-help.ps1 -> help
-           ($command.name | path basename | str substring 6..-4),
+           ($command.name | path parse | get stem |str substring 6..),
            # second line is starts with '# Summary: '
            # eg. '# Summary: Install apps' -> 'Install apps'
            (open $command.name | lines | skip 1 | first | str substring 11..)
@@ -130,15 +130,7 @@ def scoopCommands [] {
 }
 
 def scoopAliases [] {
-  ^powershell -nop -nol -c "(scoop alias list|ConvertTo-Json -Compress)"
-  | decode
-  | str trim
-  | lines
-  | last
-  | to text
-  | '[' + $in + ']'
-  | from json
-  | get Name
+  scoop alias list | str trim | lines | slice 2.. | split column " " | get column1
 }
 
 def batStyles [] {
@@ -658,7 +650,7 @@ export extern "scoop download" [
 ################################################################
 
 def scoopKnownBuckets [] {
-  [ "main", "extras", "versions", "nirsoft", "php", "nerd-fonts", "nonportable", "java", "games" ]
+  [ "main", "extras", "versions", "nirsoft", "php", "nerd-fonts", "nonportable", "java", "games", "sysinternals" ]
 }
 
 def scoopInstalledBuckets [] {
@@ -676,7 +668,7 @@ def scoopAvailableBuckets [] {
   let known     = (scoopKnownBuckets)
   let installed = (scoopInstalledBuckets)
 
-  $known | where not $it in $installed
+  $known | where $it not-in $installed
 }
 
 # Add, list or remove buckets.
