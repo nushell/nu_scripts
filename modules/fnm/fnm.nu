@@ -21,23 +21,27 @@ export-env {
     }
 
     if not (which fnm | is-empty) {
-        if (("__fnm_hooked" in $env) and ($env.__fnm_hooked | describe) == "string") {
-            $env.__fnm_hooked = false
-        } else {
-            fnm-env | load-env
-        }
+        fnm-env | load-env
 
-        if (not ($env | default false __fnm_hooked | get __fnm_hooked)) {
-            $env.__fnm_hooked = true
-            $env.config = ($env | default {} config).config
-            $env.config = ($env.config | default {} hooks)
-            $env.config = ($env.config | update hooks ($env.config.hooks | default {} env_change))
-            $env.config = ($env.config | update hooks.env_change ($env.config.hooks.env_change | default [] PWD))
-            $env.config = ($env.config | update hooks.env_change.PWD ($env.config.hooks.env_change.PWD | append { |before, after|
+        $env.config = (
+            $env.config?
+            | default {}
+            | upsert hooks { default {} }
+            | upsert hooks.env_change { default {} }
+            | upsert hooks.env_change.PWD { default [] }
+            )
+            let __fnm_hooked = (
+                $env.config.hooks.env_change.PWD | any { try { get __fnm_hook } catch { false } }
+            )
+            if not $__fnm_hooked {
+            $env.config.hooks.env_change.PWD = ($env.config.hooks.env_change.PWD | append {
+                __fnm_hook: true,
+                code: {|before, after|
                 if ('FNM_DIR' in $env) and ([.nvmrc .node-version] | path exists | any { |it| $it }) {
-                    (^fnm use); (fnm-env | load-env)
+                    (^fnm use); (fnm-env | load-env) 
+                    }
                 }
-            }))
+            })
         }
     }
 }
