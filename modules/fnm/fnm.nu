@@ -21,7 +21,11 @@ export-env {
     }
 
     if not (which fnm | is-empty) {
-        fnm-env | load-env
+        if (("__fnm_hooked" in $env) and ($env.__fnm_hooked | describe) == "string") {
+            $env.__fnm_hooked = false
+        } else {
+            fnm-env | load-env
+        }
 
         if (not ($env | default false __fnm_hooked | get __fnm_hooked)) {
             $env.__fnm_hooked = true
