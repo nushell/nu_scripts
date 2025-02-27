@@ -103,6 +103,21 @@ export def "zvm remove" [
   echo $"Successfully removed Zig ($zig_to_remove.version)"
 }
 
+# Remove unused versions
+export def "zvm clean" [] {
+  let versions_to_remove = zvm list --system | where active == false | get version
+  if ($versions_to_remove | is-empty) {
+    print "No unused version to remove"
+    return
+  }
+
+  let path_prefix = get_or_create_path_prefix
+  for v in $versions_to_remove {
+    rm --recursive --permanent $"($path_prefix)/($v)"
+  }
+  echo $"Successfully removed the following unused versions:\n($versions_to_remove)"
+}
+
 def verify_signature [temp_dir: string, tarball: string] {
   http get $"($tarball).minisig" | save $"($temp_dir)/($tarball | path basename).minisig"
 
