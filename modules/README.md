@@ -62,6 +62,47 @@ These scripts are used to demonstrate the `ansi` command using `ansi` coloring. 
 
 An extensive example of a wrapper for docker operations, with nushell completions.
 
+| Command         | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| d               | Run a generic container command using the detected CLI (docker/nerdctl/podman) |
+| dp              | List running containers (wrapper for docker ps with structured output) |
+| di              | List docker images in a formatted table (wrapper for docker images) |
+| dl <container>  | Follow (tail) the logs of a specified container using docker logs -f |
+| dlt             | Truncate container logs (clear the log file) via a docker log truncation command |
+| da <container>  | Attach to a running container shell (exec into container with /bin/sh or alternative shell) |
+| dcp             | Copy files between the host and a container (wrapper for docker cp) |
+| dcr <container> | Force-remove a container (wrapper for docker container rm -f) |
+| dh <image>      | Display the history of a container image (wrapper for docker history) |
+| dsv             | Save a docker image to a tar archive (wrapper for docker save) |
+| dld             | Load a docker image from a tar archive (wrapper for docker load) |
+| dsp             | Prune unused docker objects (wrapper for docker system prune -f) |
+| dspall          | Prune all unused docker objects including volumes (wrapper for docker system prune -f --all --force --volumes) |
+| drmi <image>    | Remove a docker image (wrapper for docker image rm <image>)  |
+| dt <from> <to>  | Tag a docker image from a source tag to a new tag (wrapper for docker image tag <from> <to>) |
+| dps <image>     | Push a docker image to a registry (wrapper for docker image push <image>) |
+| dpl <image>     | Pull a docker image from a registry (wrapper for docker image pull <image>) |
+| dvl             | List docker volumes (wrapper for docker volume ls)           |
+| dvc             | Create a new docker volume (wrapper for docker volume create) |
+| dvi <volume>    | Inspect a docker volume (wrapper for docker volume inspect <volume>) |
+| dvr <volume>    | Remove a docker volume (wrapper for docker volume rm <volume>) |
+| dr              | Create and run a new container (wrapper for the container creation command with various options) |
+
+Usage example:
+
+```shell
+$ di | sort-by size | reverse | first 3
+╭───┬───────────────┬──────────────┬──────────────┬──────────┬──────┬───────┬────────╮
+│ # │     name      │      id      │   created    │   size   │ repo │ image │  tag   │
+├───┼───────────────┼──────────────┼──────────────┼──────────┼──────┼───────┼────────┤
+│ 0 │ test1:latest  │ 8be678d14afa │ 3 months ago │  15.3 GB │      │    t1 │ latest │
+│ 1 │ test2:latest  │ 5d62049020f8 │ 2 weeks ago  │ 900.5 MB │      │    t2 │ latest │
+│ 2 │ test3:latest  │ d76b5295a6c2 │ 2 weeks ago  │ 521.0 MB │      │    t3 │ latest │
+╰───┴───────────────┴──────────────┴──────────────┴──────────┴──────┴───────┴────────╯
+
+```
+
+
+
 ## filesystem
 
 - [bm](./filesystem/bm.nu) - A Simple bookmarking module. It uses `XGD_DATA_HOME` to save bookmarks.
