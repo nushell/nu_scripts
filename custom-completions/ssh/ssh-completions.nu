@@ -89,7 +89,7 @@ def "nu-complete ssh-host" [] {
         $r.includes = $r.includes | each {|f| $folder | path join $f }
         $r
     } | reduce {|it| merge deep $it --strategy=append }
-    let hosts = $first_result.hosts
+
     let $includes: list<string> = $first_result.includes | each {|f|
         if '*' in $f {
             glob $f
@@ -99,8 +99,11 @@ def "nu-complete ssh-host" [] {
     } | flatten
 
     # Process include files
-    let second_result = $includes | par-each {|p| $p | open --raw | process } | reduce {|it| merge deep $it --strategy=append }
-    # We don't further process "Include" lines in these secondary files.
-    let hosts = $hosts ++ $second_result.hosts
+    let included_hosts = (if ($includes | is-empty) { [] } else {
+        let second_result = $includes | par-each {|p| $p | open --raw | process } | reduce {|it| merge deep $it --strategy=append }
+        $second_result.hosts
+    })
+
+    let hosts = $first_result.hosts ++ $included_hosts
     $hosts | each { {value: $in.name, description: $in.addr } }
 }
