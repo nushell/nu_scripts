@@ -63,7 +63,18 @@ export def "zvm install" [version: string] {
 export def "zvm use" [
   version: string # Version to use. Nightly version is expressed using one of these terms: master, dev or nightly.
 ] {
-  let zig_to_use = find_installed_version_or_err $version
+  let actual_version = get_actual_version $version
+  mut zig_to_use = find_installed_version $actual_version
+
+  if $zig_to_use == null {
+    print $"Version ($actual_version) is not currently installed. Would you like to install it first?"
+    let install_first = [yes no] | input list
+    if $install_first == no { return }
+
+    zvm install $version
+    $zig_to_use = { version: $actual_version active: false }
+  }
+
   if $zig_to_use.active {
     error make {
       msg: $"Version ($zig_to_use.version) is already in use."
@@ -92,7 +103,18 @@ export def "zvm use" [
 export def "zvm remove" [
   version: string # Version to remove. Nightly version is expressed using one of these terms: master, dev or nightly.
 ] {
-  let zig_to_remove = find_installed_version_or_err $version
+  let actual_version = get_actual_version $version
+  let zig_to_remove = find_installed_version $actual_version
+  if $zig_to_remove == null {
+    error make {
+      msg: $"Version ($actual_version) is not installed."
+      label: {
+        text: $"Version ($version) not found on system"
+        span: (metadata $version).span
+      }
+    }
+  }
+
   let path_prefix = get_or_create_path_prefix
   rm --recursive --permanent $"($path_prefix)/($zig_to_remove.version)"
 
@@ -152,22 +174,18 @@ def get_current_version [path_prefix: string] {
   }
 }
 
-def find_installed_version_or_err [version: string] {
-  let actual_version = match $version {
+def find_installed_version [version: string] {
+  let version_search_result = zvm list --system | where version == $version
+  if $version_search_result == [] {
+    null
+  } else {
+    $version_search_result | first
+  }
+}
+
+def get_actual_version [version: string] {
+  match $version {
     "master" | "dev" | "nightly" => (zvm info master | get version)
     _ => $version
   }
-
-  let version_search_result = zvm list --system | where version == $actual_version
-  if $version_search_result == [] {
-    error make {
-      msg: $"Version ($actual_version) is not installed."
-      label: {
-        text: $"Version ($version) not found on system"
-        span: (metadata $version).span
-      }
-    }
-  }
-
-  $version_search_result | first
 }
