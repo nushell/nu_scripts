@@ -131,10 +131,11 @@ module completions {
     let dg = try { open $file | get -i dependency-groups } catch { [] }
     # One group can include other groups, like:
     # dev = ['click', { include-group = "docs" }, { include-group = "linting" }, { include-group = "test" }]
+    let handle_line = {|p| if (($p | describe) == 'string') { $p } else { $dg | get ($p.include-group) } }
     if ($only_group | is-not-empty) {
-      $dg | get $only_group | each {|p| if (($p | describe) == 'string') { $p } else { $dg | get ($p.include-group) } } | flatten | parse-package-names
+      $dg | get $only_group | each $handle_line | flatten | parse-package-names
     } else {
-      $dg | items { |gn, pk| $pk | each {|p| if (($p | describe) == 'string') { $p } else { $dg | get ($p.include-group) } } | flatten } | flatten | parse-package-names
+      $dg | items { |gn, pk| $pk | each $handle_line | flatten } | flatten | parse-package-names
     }
   }
 
