@@ -94,7 +94,13 @@ def "nu-complete zellij layouts" [] {
 	} else {
 		match $nu.os-info.name {
 			"linux" => "~/.config/zellij/layouts/"
-			"mac" => "~/Library/Application Support/org.Zellij-Contributors.Zellij/layouts"
+			"macos" => {
+				if ("~/.config/zellij/layouts/" | path exists) {
+					"~/.config/zellij/layouts/"
+				} else {
+					"~/Library/Application Support/org.Zellij-Contributors.Zellij/layouts"
+				}
+			}
 			_ => (error make { msg: "Unsupported OS for zellij" })
 		}
 	}
