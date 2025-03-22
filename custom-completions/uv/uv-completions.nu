@@ -5,6 +5,64 @@
 module completions {
   const PYPRJ = 'pyproject.toml'
 
+  # Split a string to list of args, taking quotes into account.
+  # Code is copied and modified from https://github.com/nushell/nushell/issues/14582#issuecomment-2542596272
+  def args-split []: string -> list<string> {
+    # Define our states
+    const STATE_NORMAL = 0
+    const STATE_IN_SINGLE_QUOTE = 1
+    const STATE_IN_DOUBLE_QUOTE = 2
+    const STATE_ESCAPE = 3
+    const WHITESPACES = [" " "\t" "\n" "\r"]
+
+    # Initialize variables
+    mut state = $STATE_NORMAL
+    mut current_token = ""
+    mut result: list<string> = []
+    mut prev_state = $STATE_NORMAL
+
+    # Process each character
+    for char in ($in | split chars) {
+      if $state == $STATE_ESCAPE {
+        # Handle escaped character
+        $current_token = $current_token + $char
+        $state = $prev_state
+      } else if $char == '\' {
+        # Enter escape state
+        $prev_state = $state
+        $state = $STATE_ESCAPE
+      } else if $state == $STATE_NORMAL {
+        if $char == "'" {
+          $state = $STATE_IN_SINGLE_QUOTE
+        } else if $char == '"' {
+          $state = $STATE_IN_DOUBLE_QUOTE
+        } else if ($char in $WHITESPACES) {
+          # Whitespace in normal state means token boundary
+          $result = $result | append $current_token
+          $current_token = ""
+        } else {
+          $current_token = $current_token + $char
+        }
+      } else if $state == $STATE_IN_SINGLE_QUOTE {
+        if $char == "'" {
+          $state = $STATE_NORMAL
+        } else {
+          $current_token = $current_token + $char
+        }
+      } else if $state == $STATE_IN_DOUBLE_QUOTE {
+        if $char == '"' {
+          $state = $STATE_NORMAL
+        } else {
+          $current_token = $current_token + $char
+        }
+      }
+    }
+    # Handle the last token
+    $result = $result | append $current_token
+    # Return the result
+    $result
+  }
+
   def "nu-complete uv python_preference" [] {
     [ "only-managed" "managed" "system" "only-system" ]
   }
@@ -32,9 +90,70 @@ module completions {
     }
   }
 
-  def "nu-complete uv groups" [] {
+  def get-groups []: nothing -> list<string> {
     let file = (find-pyproject-file)
-    open $file | get -i dependency-groups | columns
+    try { open $file | get -i dependency-groups | columns } catch { [] }
+  }
+
+  # Groups completer for subcommands
+  def "nu-complete uv groups" [] {
+    get-groups
+  }
+
+  # Groups completer for "uv add".
+  # When there is no groups, we suggest a common name "dev".
+  def "nu-complete uv groups for add" [] {
+    get-groups | default ['dev']
+  }
+
+  # From a list of packages and their version strings, get only package names.
+  # Ref: https://packaging.python.org/en/latest/specifications/dependency-specifiers/#dependency-specifiers
+  def parse-package-names []: list<string> -> list<string> {
+    $in | split column  -n 2 -r '[\s\[@>=<;~!]' p v | get p
+  }
+
+  # Get packages from "project.dependencies"
+  def get-main-packages [] {
+    let file = (find-pyproject-file)
+    try { open $file | get -i project.dependencies | parse-package-names } catch { [] }
+  }
+
+  # Get packages from "project.optional-dependencies"
+  def get-optional-packages [] {
+    let file = (find-pyproject-file)
+    try { open $file | get -i project.optional-dependencies | parse-package-names } catch { [] }
+  }
+
+  # Get packages from "dependency-groups".
+  # Ref: https://packaging.python.org/en/latest/specifications/dependency-groups/#dependency-groups
+  def get-dependency-group-packages [only_group?: string] {
+    let file = (find-pyproject-file)
+    let dg = try { open $file | get -i dependency-groups } catch { [] }
+    # One group can include other groups, like:
+    # dev = ['click', { include-group = "docs" }, { include-group = "linting" }, { include-group = "test" }]
+    let handle_line = {|p| if (($p | describe) == 'string') { $p } else { $dg | get ($p.include-group) } }
+    if ($only_group | is-not-empty) {
+      $dg | get $only_group | each $handle_line | flatten | parse-package-names
+    } else {
+      $dg | items { |gn, pk| $pk | each $handle_line | flatten } | flatten | parse-package-names
+    }
+  }
+
+  def get-all-dependencies [] {
+    get-main-packages | append (get-optional-packages) | append (get-dependency-group-packages)
+  }
+
+  export def "nu-complete uv packages" [context: string, position?:int] {
+    let preceding = $context | str substring ..$position
+    let prev_tokens = $preceding | str trim | args-split
+    # Check if "--group" is specified
+    let go = $prev_tokens | enumerate | find '--group' | get -i index.0
+    let group = if ($go | is-not-empty) { $prev_tokens | get -i ($go + 1)}
+    if ($group | is-empty ) {
+      get-all-dependencies
+    } else {
+      get-dependency-group-packages $group
+    }
   }
 
   # An extremely fast Python package manager.
@@ -66,11 +185,11 @@ module completions {
     --no-config                                                    # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                     # Display the concise help for this command
     --version(-V)                                                  # Display the uv version
-]
+  ]
 
-def "nu-complete uv run index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv run index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv run keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -197,11 +316,11 @@ def "nu-complete uv run index_strategy" [] {
     --no-config                                                        # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                         # Display the concise help for this command
     --version(-V)                                                      # Display the uv version
-]
+  ]
 
-def "nu-complete uv init vcs" [] {
-[ "git" "none" ]
-}
+  def "nu-complete uv init vcs" [] {
+    [ "git" "none" ]
+  }
 
   def "nu-complete uv init build_backend" [] {
     [ "uv" "hatch" "flit" "pdm" "setuptools" "maturin" "scikit" ]
@@ -225,7 +344,7 @@ def "nu-complete uv init vcs" [] {
 
   # Create a new project
   export extern "uv init" [
-path?: string             # The path to use for the project/script
+    path?: string             # The path to use for the project/script
     --name: string                                                      # The name of the project
     --virtual                                                           # Create a virtual project, rather than a package
     --package                                                           # Set up the project to be built as a Python package
@@ -267,11 +386,11 @@ path?: string             # The path to use for the project/script
     --no-config                                                         # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                          # Display the concise help for this command
     --version(-V)                                                       # Display the uv version
-]
+  ]
 
-def "nu-complete uv add index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv add index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv add keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -307,7 +426,7 @@ def "nu-complete uv add index_strategy" [] {
 
   # Add dependencies to the project
   export extern "uv add" [
-...packages: string       # The packages to add, as PEP 508 requirements (e.g., `ruff==0.5.0`)
+    ...packages: string       # The packages to add, as PEP 508 requirements (e.g., `ruff==0.5.0`)
     --requirements(-r): string                                         # Add all packages listed in the given `requirements.txt` files
     --dev                                                              # Add the requirements to the development dependency group
     --optional: string                                                 # Add the requirements to the package's optional dependencies for the specified extra
@@ -388,11 +507,11 @@ def "nu-complete uv add index_strategy" [] {
     --no-config                                                        # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                         # Display the concise help for this command
     --version(-V)                                                      # Display the uv version
-]
+  ]
 
-def "nu-complete uv remove index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv remove index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv remove keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -428,7 +547,6 @@ def "nu-complete uv remove index_strategy" [] {
 
   # Remove dependencies from the project
   export extern "uv remove" [
-...packages: string       # The names of the dependencies to remove (e.g., `ruff`)
     --dev                                                                 # Remove the packages from the development dependency group
     --optional: string                                                    # Remove the packages from the project's optional dependencies for the specified extra
     --group: string@"nu-complete uv groups"                               # Remove the packages from the specified dependency group
@@ -501,11 +619,12 @@ def "nu-complete uv remove index_strategy" [] {
     --no-config                                                           # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                            # Display the concise help for this command
     --version(-V)                                                         # Display the uv version
-]
+    ...packages: string@"nu-complete uv packages"                         # The names of the dependencies to remove (e.g., `ruff`)
+  ]
 
-def "nu-complete uv sync index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv sync index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv sync keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -626,11 +745,11 @@ def "nu-complete uv sync index_strategy" [] {
     --no-config                                                         # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                          # Display the concise help for this command
     --version(-V)                                                       # Display the uv version
-]
+  ]
 
-def "nu-complete uv lock index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv lock index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv lock keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -728,11 +847,11 @@ def "nu-complete uv lock index_strategy" [] {
     --no-config                                                         # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                          # Display the concise help for this command
     --version(-V)                                                       # Display the uv version
-]
+  ]
 
-def "nu-complete uv export format" [] {
-[ "requirements-txt" ]
-}
+  def "nu-complete uv export format" [] {
+    [ "requirements-txt" ]
+  }
 
   def "nu-complete uv export index_strategy" [] {
     [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
@@ -857,11 +976,11 @@ def "nu-complete uv export format" [] {
     --no-config                                                           # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                            # Display the concise help for this command
     --version(-V)                                                         # Display the uv version
-]
+  ]
 
-def "nu-complete uv tree index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv tree index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv tree keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -975,11 +1094,11 @@ def "nu-complete uv tree index_strategy" [] {
     --no-config                                                         # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                          # Display the concise help for this command
     --version(-V)                                                       # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv tool python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv tool python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1018,11 +1137,11 @@ def "nu-complete uv tool python_preference" [] {
     --no-config                                                         # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                          # Display the concise help for this command
     --version(-V)                                                       # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool run index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv tool run index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv tool run keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -1132,11 +1251,11 @@ def "nu-complete uv tool run index_strategy" [] {
     --no-config                                                                             # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                              # Display the concise help for this command
     --version(-V)                                                                           # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool uvx index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv tool uvx index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv tool uvx keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -1246,11 +1365,11 @@ def "nu-complete uv tool uvx index_strategy" [] {
     --no-config                                                                             # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                              # Display the concise help for this command
     --version(-V)                                                                           # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool install index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv tool install index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv tool install keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -1286,7 +1405,7 @@ def "nu-complete uv tool install index_strategy" [] {
 
   # Install commands provided by a Python package
   export extern "uv tool install" [
-package: string           # The package to install commands from
+  package: string           # The package to install commands from
     --editable(-e)
     --from: string                                                              # The package to install commands from
     --with: string                                                              # Include the following extra requirements
@@ -1359,11 +1478,11 @@ package: string           # The package to install commands from
     --no-config                                                                 # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                  # Display the concise help for this command
     --version(-V)                                                               # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool upgrade index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv tool upgrade index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv tool upgrade keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -1461,11 +1580,11 @@ def "nu-complete uv tool upgrade index_strategy" [] {
     --no-config                                                                 # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                  # Display the concise help for this command
     --version(-V)                                                               # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool list python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv tool list python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv tool list python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1506,11 +1625,11 @@ def "nu-complete uv tool list python_preference" [] {
     --no-config                                                              # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                               # Display the concise help for this command
     --version(-V)                                                            # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool uninstall python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv tool uninstall python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv tool uninstall python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1551,11 +1670,11 @@ def "nu-complete uv tool uninstall python_preference" [] {
     --no-config                                                                   # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                    # Display the concise help for this command
     --version(-V)                                                                 # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool update-shell python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv tool update-shell python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv tool update-shell python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1594,11 +1713,11 @@ def "nu-complete uv tool update-shell python_preference" [] {
     --no-config                                                                      # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                       # Display the concise help for this command
     --version(-V)                                                                    # Display the uv version
-]
+  ]
 
-def "nu-complete uv tool dir python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv tool dir python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv tool dir python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1638,11 +1757,11 @@ def "nu-complete uv tool dir python_preference" [] {
     --no-config                                                             # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                              # Display the concise help for this command
     --version(-V)                                                           # Display the uv version
-]
+  ]
 
-def "nu-complete uv python python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv python python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv python python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1681,11 +1800,11 @@ def "nu-complete uv python python_preference" [] {
     --no-config                                                           # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                            # Display the concise help for this command
     --version(-V)                                                         # Display the uv version
-]
+  ]
 
-def "nu-complete uv python list python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv python list python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv python list python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1730,11 +1849,11 @@ def "nu-complete uv python list python_preference" [] {
     --no-config                                                                # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                 # Display the concise help for this command
     --version(-V)                                                              # Display the uv version
-]
+  ]
 
-def "nu-complete uv python install python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv python install python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv python install python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1780,11 +1899,11 @@ def "nu-complete uv python install python_preference" [] {
     --no-config                                                                   # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                    # Display the concise help for this command
     --version(-V)                                                                 # Display the uv version
-]
+  ]
 
-def "nu-complete uv python find python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv python find python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv python find python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1796,7 +1915,7 @@ def "nu-complete uv python find python_preference" [] {
 
   # Search for a Python installation
   export extern "uv python find" [
-request?: string          # The Python request
+  request?: string          # The Python request
     --no-project                                                               # Avoid discovering a project or workspace
     --system                                                                   # Only find system Python interpreters
     --no-system
@@ -1827,11 +1946,11 @@ request?: string          # The Python request
     --no-config                                                                # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                 # Display the concise help for this command
     --version(-V)                                                              # Display the uv version
-]
+  ]
 
-def "nu-complete uv python pin python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv python pin python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv python pin python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1843,7 +1962,7 @@ def "nu-complete uv python pin python_preference" [] {
 
   # Pin to a specific Python version
   export extern "uv python pin" [
-request?: string          # The Python version request
+  request?: string          # The Python version request
     --resolved                                                                # Write the resolved Python interpreter path instead of the request
     --no-resolved
     --no-project                                                              # Avoid validating the Python pin is compatible with the project or workspace
@@ -1874,11 +1993,11 @@ request?: string          # The Python version request
     --no-config                                                               # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                # Display the concise help for this command
     --version(-V)                                                             # Display the uv version
-]
+  ]
 
-def "nu-complete uv python dir python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv python dir python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv python dir python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1918,11 +2037,11 @@ def "nu-complete uv python dir python_preference" [] {
     --no-config                                                               # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                # Display the concise help for this command
     --version(-V)                                                             # Display the uv version
-]
+  ]
 
-def "nu-complete uv python uninstall python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv python uninstall python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv python uninstall python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -1964,11 +2083,11 @@ def "nu-complete uv python uninstall python_preference" [] {
     --no-config                                                                     # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                      # Display the concise help for this command
     --version(-V)                                                                   # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv pip python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv pip python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -2007,11 +2126,11 @@ def "nu-complete uv pip python_preference" [] {
     --no-config                                                        # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                         # Display the concise help for this command
     --version(-V)                                                      # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip compile index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv pip compile index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv pip compile keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -2169,11 +2288,11 @@ def "nu-complete uv pip compile index_strategy" [] {
     --config-file: string                                                      # The path to a `uv.toml` file to use for configuration
     --help(-h)                                                                 # Display the concise help for this command
     --version(-V)                                                              # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip sync index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv pip sync index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv pip sync keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -2282,11 +2401,11 @@ def "nu-complete uv pip sync index_strategy" [] {
     --config-file: string                                                   # The path to a `uv.toml` file to use for configuration
     --help(-h)                                                              # Display the concise help for this command
     --version(-V)                                                           # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip install index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv pip install index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv pip install keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -2418,11 +2537,11 @@ def "nu-complete uv pip install index_strategy" [] {
     --no-config                                                                # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                 # Display the concise help for this command
     --version(-V)                                                              # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip uninstall keyring_provider" [] {
-[ "disabled" "subprocess" ]
-}
+  def "nu-complete uv pip uninstall keyring_provider" [] {
+    [ "disabled" "subprocess" ]
+  }
 
   def "nu-complete uv pip uninstall python_preference" [] {
     [ "only-managed" "managed" "system" "only-system" ]
@@ -2477,11 +2596,11 @@ def "nu-complete uv pip uninstall keyring_provider" [] {
     --no-config                                                                  # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                   # Display the concise help for this command
     --version(-V)                                                                # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip freeze python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv pip freeze python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv pip freeze python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -2527,11 +2646,11 @@ def "nu-complete uv pip freeze python_preference" [] {
     --no-config                                                               # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                # Display the concise help for this command
     --version(-V)                                                             # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip list format" [] {
-[ "columns" "freeze" "json" ]
-}
+  def "nu-complete uv pip list format" [] {
+    [ "columns" "freeze" "json" ]
+  }
 
   def "nu-complete uv pip list index_strategy" [] {
     [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
@@ -2603,11 +2722,11 @@ def "nu-complete uv pip list format" [] {
     --no-config                                                             # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                              # Display the concise help for this command
     --version(-V)                                                           # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip show python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv pip show python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv pip show python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -2654,11 +2773,11 @@ def "nu-complete uv pip show python_preference" [] {
     --no-config                                                             # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                              # Display the concise help for this command
     --version(-V)                                                           # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip tree python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv pip tree python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv pip tree python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -2710,11 +2829,11 @@ def "nu-complete uv pip tree python_preference" [] {
     --no-config                                                             # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                              # Display the concise help for this command
     --version(-V)                                                           # Display the uv version
-]
+  ]
 
-def "nu-complete uv pip check python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv pip check python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv pip check python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -2756,11 +2875,11 @@ def "nu-complete uv pip check python_preference" [] {
     --no-config                                                              # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                               # Display the concise help for this command
     --version(-V)                                                            # Display the uv version
-]
+  ]
 
-def "nu-complete uv venv index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv venv index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv venv keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -2790,7 +2909,7 @@ def "nu-complete uv venv index_strategy" [] {
     --no-project                                                        # Avoid discovering a project or workspace
     --seed                                                              # Install seed packages (one or more of: `pip`, `setuptools`, and `wheel`) into the virtual environment
     --allow-existing                                                    # Preserve any existing files or directories at the target path
-path?: string             # The path to the virtual environment to create
+  path?: string             # The path to the virtual environment to create
     --prompt: string                                                    # Provide an alternative prompt prefix for the virtual environment.
     --system-site-packages                                              # Give the virtual environment access to the system site packages directory
     --relocatable                                                       # Make the virtual environment relocatable
@@ -2836,11 +2955,11 @@ path?: string             # The path to the virtual environment to create
     --no-config                                                         # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                          # Display the concise help for this command
     --version(-V)                                                       # Display the uv version
-]
+  ]
 
-def "nu-complete uv build index_strategy" [] {
-[ "first-index" "unsafe-first-match" "unsafe-best-match" ]
-}
+  def "nu-complete uv build index_strategy" [] {
+    [ "first-index" "unsafe-first-match" "unsafe-best-match" ]
+  }
 
   def "nu-complete uv build keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -2876,7 +2995,7 @@ def "nu-complete uv build index_strategy" [] {
 
   # Build Python packages into source distributions and wheels
   export extern "uv build" [
-src?: string              # The directory from which distributions should be built, or a source distribution archive to build into a wheel
+  src?: string              # The directory from which distributions should be built, or a source distribution archive to build into a wheel
     --package: string                                                    # Build a specific package in the workspace
     --all-packages                                                       # Builds all packages in the workspace
     --out-dir(-o): string                                                # The output directory to which distributions should be written
@@ -2950,11 +3069,11 @@ src?: string              # The directory from which distributions should be bui
     --no-config                                                          # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                           # Display the concise help for this command
     --version(-V)                                                        # Display the uv version
-]
+  ]
 
-def "nu-complete uv publish trusted_publishing" [] {
-[ "automatic" "always" "never" ]
-}
+  def "nu-complete uv publish trusted_publishing" [] {
+    [ "automatic" "always" "never" ]
+  }
 
   def "nu-complete uv publish keyring_provider" [] {
     [ "disabled" "subprocess" ]
@@ -3011,11 +3130,11 @@ def "nu-complete uv publish trusted_publishing" [] {
     --no-config                                                              # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                               # Display the concise help for this command
     --version(-V)                                                            # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3054,11 +3173,11 @@ def "nu-complete uv build-backend python_preference" [] {
     --no-config                                                                  # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                   # Display the concise help for this command
     --version(-V)                                                                # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend build-sdist python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend build-sdist python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend build-sdist python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3070,7 +3189,7 @@ def "nu-complete uv build-backend build-sdist python_preference" [] {
 
   # PEP 517 hook `build_sdist`
   export extern "uv build-backend build-sdist" [
-sdist_directory: string
+  sdist_directory: string
     --no-cache(-n)                                                                           # Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation
     --cache-dir: string                                                                      # Path to the cache directory
     --python-preference: string@"nu-complete uv build-backend build-sdist python_preference" # Whether to prefer uv-managed or system Python installations
@@ -3098,11 +3217,11 @@ sdist_directory: string
     --no-config                                                                              # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                               # Display the concise help for this command
     --version(-V)                                                                            # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend build-wheel python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend build-wheel python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend build-wheel python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3114,7 +3233,7 @@ def "nu-complete uv build-backend build-wheel python_preference" [] {
 
   # PEP 517 hook `build_wheel`
   export extern "uv build-backend build-wheel" [
-wheel_directory: string
+    wheel_directory: string
     --metadata-directory: string
     --no-cache(-n)                                                                           # Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation
     --cache-dir: string                                                                      # Path to the cache directory
@@ -3143,11 +3262,11 @@ wheel_directory: string
     --no-config                                                                              # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                               # Display the concise help for this command
     --version(-V)                                                                            # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend build-editable python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend build-editable python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend build-editable python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3159,7 +3278,7 @@ def "nu-complete uv build-backend build-editable python_preference" [] {
 
   # PEP 660 hook `build_editable`
   export extern "uv build-backend build-editable" [
-wheel_directory: string
+    wheel_directory: string
     --metadata-directory: string
     --no-cache(-n)                                                                              # Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation
     --cache-dir: string                                                                         # Path to the cache directory
@@ -3188,11 +3307,11 @@ wheel_directory: string
     --no-config                                                                                 # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                                  # Display the concise help for this command
     --version(-V)                                                                               # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend get-requires-for-build-sdist python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend get-requires-for-build-sdist python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend get-requires-for-build-sdist python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3231,11 +3350,11 @@ def "nu-complete uv build-backend get-requires-for-build-sdist python_preference
     --no-config                                                                                               # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                                                # Display the concise help for this command
     --version(-V)                                                                                             # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend get-requires-for-build-wheel python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend get-requires-for-build-wheel python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend get-requires-for-build-wheel python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3274,11 +3393,11 @@ def "nu-complete uv build-backend get-requires-for-build-wheel python_preference
     --no-config                                                                                               # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                                                # Display the concise help for this command
     --version(-V)                                                                                             # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend prepare-metadata-for-build-wheel python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend prepare-metadata-for-build-wheel python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend prepare-metadata-for-build-wheel python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3290,7 +3409,7 @@ def "nu-complete uv build-backend prepare-metadata-for-build-wheel python_prefer
 
   # PEP 517 hook `prepare_metadata_for_build_wheel`
   export extern "uv build-backend prepare-metadata-for-build-wheel" [
-wheel_directory: string
+    wheel_directory: string
     --no-cache(-n)                                                                                                # Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation
     --cache-dir: string                                                                                           # Path to the cache directory
     --python-preference: string@"nu-complete uv build-backend prepare-metadata-for-build-wheel python_preference" # Whether to prefer uv-managed or system Python installations
@@ -3318,11 +3437,11 @@ wheel_directory: string
     --no-config                                                                                                   # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                                                    # Display the concise help for this command
     --version(-V)                                                                                                 # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend get-requires-for-build-editable python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend get-requires-for-build-editable python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend get-requires-for-build-editable python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3361,11 +3480,11 @@ def "nu-complete uv build-backend get-requires-for-build-editable python_prefere
     --no-config                                                                                                  # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                                                   # Display the concise help for this command
     --version(-V)                                                                                                # Display the uv version
-]
+  ]
 
-def "nu-complete uv build-backend prepare-metadata-for-build-editable python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv build-backend prepare-metadata-for-build-editable python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv build-backend prepare-metadata-for-build-editable python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3377,7 +3496,7 @@ def "nu-complete uv build-backend prepare-metadata-for-build-editable python_pre
 
   # PEP 660 hook `prepare_metadata_for_build_editable`
   export extern "uv build-backend prepare-metadata-for-build-editable" [
-wheel_directory: string
+    wheel_directory: string
     --no-cache(-n)                                                                                                   # Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation
     --cache-dir: string                                                                                              # Path to the cache directory
     --python-preference: string@"nu-complete uv build-backend prepare-metadata-for-build-editable python_preference" # Whether to prefer uv-managed or system Python installations
@@ -3405,11 +3524,11 @@ wheel_directory: string
     --no-config                                                                                                      # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                                                       # Display the concise help for this command
     --version(-V)                                                                                                    # Display the uv version
-]
+  ]
 
-def "nu-complete uv cache python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv cache python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv cache python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3448,11 +3567,11 @@ def "nu-complete uv cache python_preference" [] {
     --no-config                                                          # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                           # Display the concise help for this command
     --version(-V)                                                        # Display the uv version
-]
+  ]
 
-def "nu-complete uv cache clean python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv cache clean python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv cache clean python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3492,11 +3611,11 @@ def "nu-complete uv cache clean python_preference" [] {
     --no-config                                                                # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                 # Display the concise help for this command
     --version(-V)                                                              # Display the uv version
-]
+  ]
 
-def "nu-complete uv cache prune python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv cache prune python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv cache prune python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3536,11 +3655,11 @@ def "nu-complete uv cache prune python_preference" [] {
     --no-config                                                                # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                 # Display the concise help for this command
     --version(-V)                                                              # Display the uv version
-]
+  ]
 
-def "nu-complete uv cache dir python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv cache dir python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv cache dir python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3579,11 +3698,11 @@ def "nu-complete uv cache dir python_preference" [] {
     --no-config                                                              # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                               # Display the concise help for this command
     --version(-V)                                                            # Display the uv version
-]
+  ]
 
-def "nu-complete uv self python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv self python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv self python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3622,11 +3741,11 @@ def "nu-complete uv self python_preference" [] {
     --no-config                                                         # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                          # Display the concise help for this command
     --version(-V)                                                       # Display the uv version
-]
+  ]
 
-def "nu-complete uv self update python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv self update python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv self update python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3638,7 +3757,7 @@ def "nu-complete uv self update python_preference" [] {
 
   # Update uv
   export extern "uv self update" [
-target_version?: string   # Update to the specified version. If not provided, uv will update to the latest version
+    target_version?: string   # Update to the specified version. If not provided, uv will update to the latest version
     --token: string                                                            # A GitHub token for authentication. A token is not required but can be used to reduce the chance of encountering rate limits
     --no-cache(-n)                                                             # Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation
     --cache-dir: string                                                        # Path to the cache directory
@@ -3667,11 +3786,11 @@ target_version?: string   # Update to the specified version. If not provided, uv
     --no-config                                                                # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                                 # Display the concise help for this command
     --version(-V)                                                              # Display the uv version
-]
+  ]
 
-def "nu-complete uv clean python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv clean python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv clean python_fetch" [] {
     [ "automatic" "manual" "never" ]
@@ -3683,7 +3802,7 @@ def "nu-complete uv clean python_preference" [] {
 
   # Clear the cache, removing all entries or those linked to specific packages
   export extern "uv clean" [
-...package: string        # The packages to remove from the cache
+    ...package: string        # The packages to remove from the cache
     --no-cache(-n)                                                       # Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation
     --cache-dir: string                                                  # Path to the cache directory
     --python-preference: string@"nu-complete uv clean python_preference" # Whether to prefer uv-managed or system Python installations
@@ -3711,11 +3830,11 @@ def "nu-complete uv clean python_preference" [] {
     --no-config                                                          # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                           # Display the concise help for this command
     --version(-V)                                                        # Display the uv version
-]
+  ]
 
-def "nu-complete uv version output_format" [] {
-[ "text" "json" ]
-}
+  def "nu-complete uv version output_format" [] {
+    [ "text" "json" ]
+  }
 
   def "nu-complete uv version python_preference" [] {
     [ "only-managed" "managed" "system" "only-system" ]
@@ -3759,11 +3878,11 @@ def "nu-complete uv version output_format" [] {
     --no-config                                                            # Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)
     --help(-h)                                                             # Display the concise help for this command
     --version(-V)                                                          # Display the uv version
-]
+  ]
 
-def "nu-complete uv generate-shell-completion shell" [] {
-[ "bash" "elvish" "fish" "nushell" "powershell" "zsh" ]
-}
+  def "nu-complete uv generate-shell-completion shell" [] {
+    [ "bash" "elvish" "fish" "nushell" "powershell" "zsh" ]
+  }
 
   def "nu-complete uv generate-shell-completion python_preference" [] {
     [ "only-managed" "managed" "system" "only-system" ]
@@ -3779,7 +3898,7 @@ def "nu-complete uv generate-shell-completion shell" [] {
 
   # Generate shell completion
   export extern "uv generate-shell-completion" [
-shell: string@"nu-complete uv generate-shell-completion shell" # The shell to generate the completion script for
+    shell: string@"nu-complete uv generate-shell-completion shell" # The shell to generate the completion script for
     --no-cache(-n)
     --cache-dir: string
     --python-preference: string@"nu-complete uv generate-shell-completion python_preference"
@@ -3807,11 +3926,11 @@ shell: string@"nu-complete uv generate-shell-completion shell" # The shell to ge
     --no-installer-metadata                                                                  # Skip writing `uv` installer metadata files (e.g., `INSTALLER`, `REQUESTED`, and `direct_url.json`) to site-packages `.dist-info` directories
     --directory: string                                                                      # Change to the given directory prior to running the command
     --project: string                                                                        # Run the command within the given project directory
-]
+  ]
 
-def "nu-complete uv help python_preference" [] {
-[ "only-managed" "managed" "system" "only-system" ]
-}
+  def "nu-complete uv help python_preference" [] {
+    [ "only-managed" "managed" "system" "only-system" ]
+  }
 
   def "nu-complete uv help python_fetch" [] {
     [ "automatic" "manual" "never" ]
