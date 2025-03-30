@@ -156,9 +156,32 @@ export extern "aerospace focus-back-and-forth" [
     --help(-h)      # Print help
 ]
 
+def "nu-complete aerospace-focus-monitor-numbers" [] {
+    ^aerospace list-monitors -count
+    | 1..$in
+    | to str
+}
+
+def "nu-complete aerospace-focus-monitor-regex" [] {
+    ^aerospace list-monitors
+    | parse "{number} | {name}" 
+    | str trim
+    | get name
+}
+
 def "nu-complete aerospace-focus-monitor" [] {
-    # TODO: figure out how to do <monitor pattern> parsing
-    ['left','down','up','right','next','prev']
+    [
+        'left',
+        'down',
+        'up',
+        'right',
+        'next',
+        'prev',
+        'main',
+        'secondary',
+        ...(nu-complete aerospace-focus-monitor-numbers),
+        ...(nu-complete aerospace-focus-monitor-regex)
+    ]
 }
 
 export extern "aerospace focus-monitor" [
@@ -196,22 +219,72 @@ export extern "aerospace focus-monitor prev" [
     --wrap-around # Make it possible to wrap around focus
 ]
 
-export extern "aerospace fullscreen" [
-    --help(-h)      # Print help
-]
+def "nu-complete aerospace fullscreen" [] {
+    [
+        "on",
+        "off"
+    ]
+}
 
 export extern "aerospace fullscreen" [
     --help(-h)      # Print help
+    --no-outer-gaps # Remove the outer gaps when in fullscreen mode
+    --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
+    command?:string@"nu-complete aerospace-fullscreen"
 ]
+
+export extern "aerospace fullscreen on" [
+    --help(-h)      # Print help
+    --no-outer-gaps # Remove the outer gaps when in fullscreen mode
+    --window-id:int@"nu-complete aerospace-list-all-windows"     # Act on the specified window instead of the focues window
+    --fail-if-noop  # Exit with non-zero exit code if already fullscreen
+]
+
+export extern "aerospace fullscreen off" [
+    --help(-h)      # Print help
+    --no-outer-gaps # Remove the outer gaps when in fullscreen mode
+    --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
+    --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
+]
+
+def "nu-complete aerospace-join-with" [] {
+    [
+        "left",
+        "down",
+        "up",
+        "right"
+    ]
+}
 
 export extern "aerospace join-with" [
     --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
+    command:string@"nu-complete aerospace-join-with"
 ]
+
+def "nu-complete aerospace-join-with" [] {
+    [
+        "h_tiles",
+        "v_tiles",
+        "h_accordion",
+        "v_accordion",
+        "tiles",
+        "accordion",
+        "horizontal",
+        "vertical",
+        "tiling",
+        "floating"
+    ]
+}
 
 export extern "aerospace layout" [
     --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
+    # TODO: find a way to support multiple options
+    command:string@"nu-complete aerospace-layout"
 ]
 
+# TODO: pick aback up from here
 export extern "aerospace list-apps" [
     --help(-h)      # Print help
 ]
