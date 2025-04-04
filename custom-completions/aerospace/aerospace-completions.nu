@@ -113,14 +113,15 @@ export extern "aerospace focus" [
     --help(-h)      # Print help
     command?:string@"nu-complete aerospace-focus"
     --window-id:int@"nu-complete aerospace-list-all-windows"
-    --dfs-index:int@"nu-complete aersoace-list-dfs-indices"
+    --dfs-index:int
+    # --dfs-index:int@"nu-complete aerospace-list-dfs-indices"
 ]
 
 def "nu-complete aerospace-focus-boundaries" [] {
     ['workspace', 'all-monitors-outer-frame']
 }
 
-def "nu-complete aerosapce-focus-boundaries-action" [] {
+def "nu-complete aerospace-focus-boundaries-action" [] {
     ['stop', 'wrap-around-the-workspace', 'wrap-around-all-monitors']
 }
 
@@ -159,7 +160,7 @@ export extern "aerospace focus-back-and-forth" [
 def "nu-complete aerospace-focus-monitor-numbers" [] {
     ^aerospace list-monitors -count
     | 1..$in
-    | to str
+    | into string
 }
 
 def "nu-complete aerospace-focus-monitor-regex" [] {
@@ -219,7 +220,7 @@ export extern "aerospace focus-monitor prev" [
     --wrap-around # Make it possible to wrap around focus
 ]
 
-def "nu-complete aerospace fullscreen" [] {
+def "nu-complete aerospace-fullscreen" [] {
     [
         "on",
         "off"
@@ -262,7 +263,7 @@ export extern "aerospace join-with" [
     command:string@"nu-complete aerospace-join-with"
 ]
 
-def "nu-complete aerospace-join-with" [] {
+def "nu-complete aerospace-layout" [] {
     [
         "h_tiles",
         "v_tiles",
@@ -353,25 +354,73 @@ export extern "aerospace list-workspaces" [
     --json          # Output in JSON format. Can be used in combination with --format to specify which data to include into the json. Incompatible with --count
 ]
 
-# TODO: resume here
+def "nu-complete aerospace-macos-native-fullscreen" [] {
+    [
+        "on",
+        "off"
+    ]
+}
+
 export extern "aerospace macos-native-fullscreen" [
     --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+    command?:string@"nu-complete aerospace-macos-native-fullscreen"
+]
+
+export extern "aerospace macos-native-fullscreen on" [
+    --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+    --fail-if-noop  # Exit with non-zero exit code if already fullscreen
+]
+
+export extern "aerospace macos-native-fullscreen off" [
+    --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+    --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
 ]
 
 export extern "aerospace macos-native-minimize" [
     --help(-h)      # Print help
 ]
 
+def "nu-complete aerospace-binding-mode" [] {
+    ^aerospace list-modes 
+    | lines
+}
+
 export extern "aerospace mode" [
     --help(-h)      # Print help
+    command:string@"nu-complete aerospace-binding-mode"
 ]
+
+def "nu-complete aerospace-move" [] {
+    [
+        "left",
+        "down",
+        "up",
+        "right"
+    ]
+}
 
 export extern "aerospace move" [
     --help(-h)      # Print help
+    command:string@"nu-complete aerospace-move"
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
 ]
+
+def "nu-complete aerospace-move-mouse" [] {
+    [
+        "monitor-lazy-center",
+        "monitor-force-center",
+        "window-lazy-center",
+        "window-force-center"
+    ]
+}
 
 export extern "aerospace move-mouse" [
     --help(-h)      # Print help
+    command:string@"nu-complete aerospace-move-mouse"
+    --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
 ]
 
 export extern "aerospace move-node-to-monitor" [
