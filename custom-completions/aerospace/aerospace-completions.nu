@@ -284,9 +284,17 @@ export extern "aerospace layout" [
     command:string@"nu-complete aerospace-layout"
 ]
 
-# TODO: pick aback up from here
+def "nu-complete aerospace-output-format-apps" [] {
+    # TODO: actually implement.
+}
+
 export extern "aerospace list-apps" [
     --help(-h)      # Print help
+    --macos-native-hidden # Filter results to on ly print hidden applications. [no] inverts the condition
+    --format:string # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    # --format:string@"nu-complete aerospace-output-format-apps" # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    --count         # Output only the number of apps. Incompatible with --format, --json
+    --json          # Output in JSON format. Can be used in combination with --format to specify which data to include into the json. Incompatible with --count
 ]
 
 export extern "aerospace list-exec-env-vars" [
@@ -295,20 +303,57 @@ export extern "aerospace list-exec-env-vars" [
 
 export extern "aerospace list-modes" [
     --help(-h)      # Print help
+    --current       # only print the currently active mode
 ]
+
+def "nu-complete aerospace-output-format-monitors" [] {
+    # TODO: actually implement.
+}
 
 export extern "aerospace list-monitors" [
     --help(-h)      # Print help
+    --focused       # Filter results to only print the focused monitor. [no] inverts the condition
+    --mouse         # Filter results to only print the monitor with the mouse. [no] inverts the condition
+    --format:string # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    # --format:string@"nu-complete aerospace-output-format-monitors" # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    --count         # Output only the number of workspaces. Incompatible with --format, --json
+    --json          # Output in JSON format. Can be used in combination with --format to specify which data to include into the json. Incompatible with --count
 ]
+
+def "nu-complete aerospace-output-format-windows" [] {
+    # TODO: actually implement.
+}
 
 export extern "aerospace list-windows" [
     --help(-h)      # Print help
+    --all           # Alias for --monitor all. Use with caution. Check `man aerospace-list-windows` for more details.
+    --focused       # Print the focused window. Please note that it is possible for no window to be in focus. In that case, an error is reported.
+    # TODO: create completions for these two
+    --workspace     #Filter results to print windows that belong to either of specified workspaces.
+    --monitor     #Filter results to print windows that belong to either of specified monitors.
+    --pid           #Filter results to only print windows that belong to the Application with specified <pid>
+    --app-bundle-id           #Filter results to only print windows that belong to the Application with specified Bundle ID
+    --format:string # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    # --format:string@"nu-complete aerospace-output-format-windows" # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    --count         # Output only the number of workspaces. Incompatible with --format, --json
+    --json          # Output in JSON format. Can be used in combination with --format to specify which data to include into the json. Incompatible with --count
 ]
 
 export extern "aerospace list-workspaces" [
     --help(-h)      # Print help
+    --all           # Alias for --monitor all. Use with caution. Check `man aerospace-list-windows` for more details.
+    --focused       # Alias for --monitor focused --visible. Always prints a single workspace
+    # TODO: create completion for --monitor
+    --monitor       # Filter results to print windows that belong to either of specified monitors.
+    --visible       # Filter results to only print currently visible workspaces. [no] inverts the condition. Several workspaces can be visible in multi-monitor setup
+    --empty         # Filter results to only print empty workspaces. [no] inverts the condition.
+    --format:string # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    # --format:string@"nu-complete aerospace-output-format-windows" # Specify output format. See "Output Format" section for more details. Incompatible with --count
+    --count         # Output only the number of workspaces. Incompatible with --format, --json
+    --json          # Output in JSON format. Can be used in combination with --format to specify which data to include into the json. Incompatible with --count
 ]
 
+# TODO: resume here
 export extern "aerospace macos-native-fullscreen" [
     --help(-h)      # Print help
 ]
