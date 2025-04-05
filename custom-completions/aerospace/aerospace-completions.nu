@@ -1,14 +1,5 @@
-
-def "nu-complete aerospace" [] {
-    ^aerospace --help 
-    | lines 
-    | filter { str starts-with "  " } 
-    | parse "  {value} {description}" 
-    | str trim
-}
-
 export extern "aerospace" [
-    command?: string@"nu-complete aerospace"
+    command?:string
     --help(-h)              # Print help
     --version(-v)           # Print the current version
 ]
@@ -18,6 +9,7 @@ def "nu-complete aerospace-list-all-workspaces" [] {
     | lines
 }
 
+# Balance sizes of all windows in the current workspace
 export extern "aerospace balance-sizes" [
     --help(-h)              # Print help
     --workspace:int@"nu-complete aerospace-list-all-workspaces"        # Act on the specified workspace instead of the focused workspace
@@ -31,17 +23,20 @@ def "nu-complete aerospace-list-all-windows" [] {
     | str trim
 }
 
+# Close the focused window.
 export extern "aerospace close" [
     --help(-h)              # Print help
     --quit-if-last-window   # Quit the app instead of closing if it's the last window of the app
     --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
 ]
 
+# On the focused workspace, close all windows but current
 export extern "aerospace close-all-windows-but-current" [
     --help(-h)              # Print help
     --quit-if-last-window   # Quit the apps instead of closing them if it's their last window
 ]
 
+# Query AeroSpace config options
 export extern "aerospace config" [
     --help(-h)              # Print help
     --get:string            # Get the value for a given key. You can inspect available keys with --major-keys or --all-keys
@@ -50,17 +45,17 @@ export extern "aerospace config" [
     --config-path           # Print absolute path to the loaded config
 ]
 
-export extern "aerospace config --major-keys" [
-    --help(-h)              # Print help
-]
-
-export extern "aerospace config --all-keys" [
-    --help(-h)              # Print help
-]
-
-export extern "aerospace config --config-path" [
-    --help(-h)              # Print help
-]
+# export extern "aerospace config --major-keys" [
+#     --help(-h)              # Print help
+# ]
+#
+# export extern "aerospace config --all-keys" [
+#     --help(-h)              # Print help
+# ]
+#
+# export extern "aerospace config --config-path" [
+#     --help(-h)              # Print help
+# ]
 
 def "nu-complete aerospace-config-list-all-keys" [] {
     aerospace config --all-keys
@@ -73,6 +68,7 @@ export extern "aerospace config --get" [
     --keys # Print keys of the complicated object (map or array)
 ]
 
+# Interactive command to record Accessibility API debug information to create bug reports
 export extern "aerospace debug-windows" [
     --help(-h)              # Print help
     --window-id:int@"nu-complete aerospace-list-all-windows"         # Print debug information of the specified window right away. Usage of this flag disables interactive mode
@@ -82,6 +78,7 @@ def "nu-complete aerospace-enable" [] {
     ['toggle', 'on', 'off']
 }
 
+# Temporarily disable window management
 export extern "aerospace enable" [
     --help(-h)              # Print help
     command:string@"nu-complete aerospace-enable"
@@ -101,14 +98,22 @@ export extern "aerospace enable off" [
     --fail-if-noop          # Exit with non-zero exit code if already in the requested mode
 ]
 
+# Run /bin/bash -c '<bash-script>', and don’t wait for the command termination. Stdout, stderr and exit code are ignored.
+export extern "aerospace exec-and-forget" [
+    command:string
+]
+
+# Flatten the tree of the focused workspace
 export extern "aerospace flatten-workspace-tree" [
     --help(-h)      # Print help
     --workspace:int@"nu-complete aerospace-list-all-workspaces"        # Act on the specified workspace instead of the focused workspace
 ]
+
 def "nu-complete aerospace-focus" [] {
     ['left','down','up','right']
 }
 
+# Set focus to the nearest window in the given direction
 export extern "aerospace focus" [
     --help(-h)      # Print help
     command?:string@"nu-complete aerospace-focus"
@@ -153,6 +158,7 @@ export extern "aerospace focus right" [
     --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
 ]
 
+# Switch between the current and previously foxused elements back and forth. The element is either a window or an empty workspace
 export extern "aerospace focus-back-and-forth" [
     --help(-h)      # Print help
 ]
@@ -185,6 +191,7 @@ def "nu-complete aerospace-focus-monitor" [] {
     ]
 }
 
+# Focus monitor by relative direction, by order, or by pattern
 export extern "aerospace focus-monitor" [
     --help(-h)      # Print help
     command:string@"nu-complete aerospace-focus-monitor"
@@ -227,6 +234,7 @@ def "nu-complete aerospace-fullscreen" [] {
     ]
 }
 
+# Toggle the fullscreen mode for the focused window
 export extern "aerospace fullscreen" [
     --help(-h)      # Print help
     --no-outer-gaps # Remove the outer gaps when in fullscreen mode
@@ -257,6 +265,7 @@ def "nu-complete aerospace-join-with" [] {
     ]
 }
 
+# Put the focused window and the nearest node in the specified direction under a common parent container
 export extern "aerospace join-with" [
     --help(-h)      # Print help
     --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
@@ -420,47 +429,132 @@ def "nu-complete aerospace-move-mouse" [] {
 export extern "aerospace move-mouse" [
     --help(-h)      # Print help
     command:string@"nu-complete aerospace-move-mouse"
-    --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
 ]
+
+export extern "aerospace move-mouse window-lazy-center" [
+    --help(-h)      # Print help
+    --fail-if-noop  # Exit with non-zero exit code if mouse is already at the requested position.
+]
+
+export extern "aerospace move-mouse monitor-lazy-center" [
+    --help(-h)      # Print help
+    --fail-if-noop  # Exit with non-zero exit code if mouse is already at the requested position.
+]
+
+# def "nu-complete aerospace-move-node-to-monitor" [] {
+#     [
+#         "left,
+#         "down"
+#         "up",
+#         "right",
+#         "next",
+#         "prev",
+#     ]
+# }
+
 
 export extern "aerospace move-node-to-monitor" [
     --help(-h)      # Print help
+    --wrap-around   # Make it possible to jump between first and last workspaces using (next|prev)
+    --fail-if-noop  # Exit with non-zero code if moving a window to a workspace it already belongs to
+    --focus-follows-window  #Make sure that the window in question receives focus after moving.
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+    command:string
 ]
 
 export extern "aerospace move-node-to-workspace" [
     --help(-h)      # Print help
+    --wrap-around   # Make it possible to jump between first and last workspaces using (next|prev)
+    --fail-if-noop  # Exit with non-zero code if moving a window to a workspace it already belongs to
+    --focus-follows-window  #Make sure that the window in question receives focus after moving.
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+    command:string
 ]
 
 export extern "aerospace move-workspace-to-monitor" [
     --help(-h)      # Print help
+    --wrap-around   # Make it possible to jump between first and last monitors
+    --workspace     # Act on the specified workspace instead of the focused workspace
 ]
 
 export extern "aerospace reload-config" [
     --help(-h)      # Print help
+    --no-gui        # Don't open GUI to show error. Only use stdout to report errors
+    --dry-run       # Validate the config and show errors (if any) but don't reload the config
 ]
 
-export extern "aerospace resize" [
+def "nu-complete aerospace-resize" [] {
+    [
+        "smart",
+        "smart-opposite",
+        "width",
+        "height",
+    ]
+}
+
+export extern "aerospace-resize" [
     --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+    command:string@"nu-complete aerospace-resize"
 ]
+
+def "nu-complete aerospace-split" [] {
+    [
+        "horizontal",
+        "vertical",
+        "opposite"
+    ]
+}
 
 export extern "aerospace split" [
     --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+    command:string@"nu-complete aerospace-split"
 ]
 
 export extern "aerospace summon-workspace" [
     --help(-h)      # Print help
+    --fail-if-noop  # Exit with non-zero code if moving a window to a workspace it already belongs to
+    command:string
 ]
 
 export extern "aerospace trigger-binding" [
     --help(-h)      # Print help
+    command:string
+    --mode:string   # Moe to search <binding> in
 ]
+
+def "nu-complete aerospace-volume" [] {
+    [
+        "up",
+        "down",
+        "mute-toggle",
+        "mute-off",
+        "mute-on",
+        "set"
+        ]
+}
 
 export extern "aerospace volume" [
     --help(-h)      # Print help
+    command:string@"nu-complete aerospace-volume"
+]
+
+def "nu-complete aerospace-volume-set" [] {
+    0..100
+}
+
+export extern "aerospace volume set" [
+    --help(-h)      # Print help
+    command:int@"nu-complete aerospace-volume-set"
 ]
 
 export extern "aerospace workspace" [
     --help(-h)      # Print help
+    --wrap-around   # Make it possible to jump between first and last workspaces using (next|prev)
+    --auto-back-and-forth   # Autmatic back-and-forth when switching to already focused workspace. Incompatible with --fail-if-noop
+    --fail-if-noop  # Exit with non-zero exit code if switching to the already focused workspace. Incompatible with --auto-back-and-forth
+    command:string
 ]
 
 export extern "aerospace workspace-back-and-forth" [
