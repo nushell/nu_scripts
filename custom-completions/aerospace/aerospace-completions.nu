@@ -1,3 +1,7 @@
+# NOTE: I've commented out a lot of subcommands that I want to enumerate, but look ugly on tab-complete
+# TODO: figure out how to get subcommands and flags to show up in a way that feels normal with base extern
+
+# AeroSpace is an i3-like tiling window manager for macOS
 export extern "aerospace" [
     command?:string
     --help(-h)              # Print help
@@ -62,11 +66,11 @@ def "nu-complete aerospace-config-list-all-keys" [] {
     | lines
 }
 
-export extern "aerospace config --get" [
-    command:string@"nu-complete aerospace-config-list-all-keys"
-    --json # Print result in JSON format
-    --keys # Print keys of the complicated object (map or array)
-]
+# export extern "aerospace config --get" [
+#     command:string@"nu-complete aerospace-config-list-all-keys"
+#     --json # Print result in JSON format
+#     --keys # Print keys of the complicated object (map or array)
+# ]
 
 # Interactive command to record Accessibility API debug information to create bug reports
 export extern "aerospace debug-windows" [
@@ -84,20 +88,20 @@ export extern "aerospace enable" [
     command:string@"nu-complete aerospace-enable"
 ]
 
-export extern "aerospace enable toggle" [
-    --help(-h)              # Print help
-]
+# export extern "aerospace enable toggle" [
+#     --help(-h)              # Print help
+# ]
 
-export extern "aerospace enable on" [
-    --help(-h)              # Print help
-    --fail-if-noop          # Exit with non-zero exit code if already in the requested mode
-]
-
-export extern "aerospace enable off" [
-    --help(-h)              # Print help
-    --fail-if-noop          # Exit with non-zero exit code if already in the requested mode
-]
-
+# export extern "aerospace enable on" [
+#     --help(-h)              # Print help
+#     --fail-if-noop          # Exit with non-zero exit code if already in the requested mode
+# ]
+#
+# export extern "aerospace enable off" [
+#     --help(-h)              # Print help
+#     --fail-if-noop          # Exit with non-zero exit code if already in the requested mode
+# ]
+#
 # Run /bin/bash -c '<bash-script>', and don’t wait for the command termination. Stdout, stderr and exit code are ignored.
 export extern "aerospace exec-and-forget" [
     command:string
@@ -130,34 +134,34 @@ def "nu-complete aerospace-focus-boundaries-action" [] {
     ['stop', 'wrap-around-the-workspace', 'wrap-around-all-monitors']
 }
 
-export extern "aerospace focus left" [
-    --help(-h)      # Print help
-    --ignore-floating #ignore floating windows
-    --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
-    --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
-]
-
-export extern "aerospace focus down" [
-    --help(-h)      # Print help
-    --ignore-floating #ignore floating windows
-    --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
-    --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
-]
-
-export extern "aerospace focus up" [
-    --help(-h)      # Print help
-    --ignore-floating #ignore floating windows
-    --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
-    --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
-]
-
-export extern "aerospace focus right" [
-    --help(-h)      # Print help
-    --ignore-floating #ignore floating windows
-    --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
-    --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
-]
-
+# export extern "aerospace focus left" [
+#     --help(-h)      # Print help
+#     --ignore-floating #ignore floating windows
+#     --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
+#     --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
+# ]
+#
+# export extern "aerospace focus down" [
+#     --help(-h)      # Print help
+#     --ignore-floating #ignore floating windows
+#     --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
+#     --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
+# ]
+#
+# export extern "aerospace focus up" [
+#     --help(-h)      # Print help
+#     --ignore-floating #ignore floating windows
+#     --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
+#     --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
+# ]
+#
+# export extern "aerospace focus right" [
+#     --help(-h)      # Print help
+#     --ignore-floating #ignore floating windows
+#     --boundaries:string@"nu-complete aerospace-focus-boundaries" # Defines focus boundaries
+#     --boundaries-action:string@"nu-complete aerospace-focus-boundaries-action" # Defines the behavior when requested to cross the <boundary>.
+# ]
+#
 # Switch between the current and previously foxused elements back and forth. The element is either a window or an empty workspace
 export extern "aerospace focus-back-and-forth" [
     --help(-h)      # Print help
@@ -197,35 +201,35 @@ export extern "aerospace focus-monitor" [
     command:string@"nu-complete aerospace-focus-monitor"
 ]
 
-export extern "aerospace focus-monitor left" [
-    --help(-h)      # Print help
-    --wrap-around # Make it possible to wrap around focus
-]
-
-export extern "aerospace focus-monitor down" [
-    --help(-h)      # Print help
-    --wrap-around # Make it possible to wrap around focus
-]
-
-export extern "aerospace focus-monitor up" [
-    --help(-h)      # Print help
-    --wrap-around # Make it possible to wrap around focus
-]
-
-export extern "aerospace focus-monitor right" [
-    --help(-h)      # Print help
-    --wrap-around # Make it possible to wrap around focus
-]
-
-export extern "aerospace focus-monitor next" [
-    --help(-h)      # Print help
-    --wrap-around # Make it possible to wrap around focus
-]
-
-export extern "aerospace focus-monitor prev" [
-    --help(-h)      # Print help
-    --wrap-around # Make it possible to wrap around focus
-]
+# export extern "aerospace focus-monitor left" [
+#     --help(-h)      # Print help
+#     --wrap-around # Make it possible to wrap around focus
+# ]
+#
+# export extern "aerospace focus-monitor down" [
+#     --help(-h)      # Print help
+#     --wrap-around # Make it possible to wrap around focus
+# ]
+#
+# export extern "aerospace focus-monitor up" [
+#     --help(-h)      # Print help
+#     --wrap-around # Make it possible to wrap around focus
+# ]
+#
+# export extern "aerospace focus-monitor right" [
+#     --help(-h)      # Print help
+#     --wrap-around # Make it possible to wrap around focus
+# ]
+#
+# export extern "aerospace focus-monitor next" [
+#     --help(-h)      # Print help
+#     --wrap-around # Make it possible to wrap around focus
+# ]
+#
+# export extern "aerospace focus-monitor prev" [
+#     --help(-h)      # Print help
+#     --wrap-around # Make it possible to wrap around focus
+# ]
 
 def "nu-complete aerospace-fullscreen" [] {
     [
@@ -242,19 +246,19 @@ export extern "aerospace fullscreen" [
     command?:string@"nu-complete aerospace-fullscreen"
 ]
 
-export extern "aerospace fullscreen on" [
-    --help(-h)      # Print help
-    --no-outer-gaps # Remove the outer gaps when in fullscreen mode
-    --window-id:int@"nu-complete aerospace-list-all-windows"     # Act on the specified window instead of the focues window
-    --fail-if-noop  # Exit with non-zero exit code if already fullscreen
-]
-
-export extern "aerospace fullscreen off" [
-    --help(-h)      # Print help
-    --no-outer-gaps # Remove the outer gaps when in fullscreen mode
-    --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
-    --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
-]
+# export extern "aerospace fullscreen on" [
+#     --help(-h)      # Print help
+#     --no-outer-gaps # Remove the outer gaps when in fullscreen mode
+#     --window-id:int@"nu-complete aerospace-list-all-windows"     # Act on the specified window instead of the focues window
+#     --fail-if-noop  # Exit with non-zero exit code if already fullscreen
+# ]
+#
+# export extern "aerospace fullscreen off" [
+#     --help(-h)      # Print help
+#     --no-outer-gaps # Remove the outer gaps when in fullscreen mode
+#     --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
+#     --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
+# ]
 
 def "nu-complete aerospace-join-with" [] {
     [
@@ -287,6 +291,7 @@ def "nu-complete aerospace-layout" [] {
     ]
 }
 
+# Change layout of the focused window to the given layout
 export extern "aerospace layout" [
     --help(-h)      # Print help
     --window-id:int@"nu-complete aerospace-list-all-windows"      # Act on the specified window instead of the focues window
@@ -298,6 +303,7 @@ def "nu-complete aerospace-output-format-apps" [] {
     # TODO: actually implement.
 }
 
+# Print the list of running applications that appears in the Dock and may have a user interface
 export extern "aerospace list-apps" [
     --help(-h)      # Print help
     --macos-native-hidden # Filter results to on ly print hidden applications. [no] inverts the condition
@@ -307,10 +313,12 @@ export extern "aerospace list-apps" [
     --json          # Output in JSON format. Can be used in combination with --format to specify which data to include into the json. Incompatible with --count
 ]
 
+# List environment variables that exec-* commands and callbacks are run with
 export extern "aerospace list-exec-env-vars" [
     --help(-h)      # Print help
 ]
 
+# Print a list of modes currently specified in the configuration
 export extern "aerospace list-modes" [
     --help(-h)      # Print help
     --current       # only print the currently active mode
@@ -320,6 +328,7 @@ def "nu-complete aerospace-output-format-monitors" [] {
     # TODO: actually implement.
 }
 
+# Print monitors that satisfy conditions
 export extern "aerospace list-monitors" [
     --help(-h)      # Print help
     --focused       # Filter results to only print the focused monitor. [no] inverts the condition
@@ -334,6 +343,7 @@ def "nu-complete aerospace-output-format-windows" [] {
     # TODO: actually implement.
 }
 
+# Print windows that satisfy conditions
 export extern "aerospace list-windows" [
     --help(-h)      # Print help
     --all           # Alias for --monitor all. Use with caution. Check `man aerospace-list-windows` for more details.
@@ -349,6 +359,7 @@ export extern "aerospace list-windows" [
     --json          # Output in JSON format. Can be used in combination with --format to specify which data to include into the json. Incompatible with --count
 ]
 
+# Print workspaces that satisfy conditions
 export extern "aerospace list-workspaces" [
     --help(-h)      # Print help
     --all           # Alias for --monitor all. Use with caution. Check `man aerospace-list-windows` for more details.
@@ -370,26 +381,29 @@ def "nu-complete aerospace-macos-native-fullscreen" [] {
     ]
 }
 
+# Toggle macOS fullscreen for the focused window
 export extern "aerospace macos-native-fullscreen" [
     --help(-h)      # Print help
     --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
     command?:string@"nu-complete aerospace-macos-native-fullscreen"
 ]
 
-export extern "aerospace macos-native-fullscreen on" [
-    --help(-h)      # Print help
-    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
-    --fail-if-noop  # Exit with non-zero exit code if already fullscreen
-]
+# export extern "aerospace macos-native-fullscreen on" [
+#     --help(-h)      # Print help
+#     --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+#     --fail-if-noop  # Exit with non-zero exit code if already fullscreen
+# ]
+#
+# export extern "aerospace macos-native-fullscreen off" [
+#     --help(-h)      # Print help
+#     --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
+#     --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
+# ]
 
-export extern "aerospace macos-native-fullscreen off" [
-    --help(-h)      # Print help
-    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
-    --fail-if-noop  # Exit with non-zero exit code if already not fullscreen
-]
-
+# Minimize focused window
 export extern "aerospace macos-native-minimize" [
     --help(-h)      # Print help
+    --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
 ]
 
 def "nu-complete aerospace-binding-mode" [] {
@@ -397,6 +411,7 @@ def "nu-complete aerospace-binding-mode" [] {
     | lines
 }
 
+# Activate the specified binding mode
 export extern "aerospace mode" [
     --help(-h)      # Print help
     command:string@"nu-complete aerospace-binding-mode"
@@ -411,6 +426,7 @@ def "nu-complete aerospace-move" [] {
     ]
 }
 
+# Move the focused window in the given direction
 export extern "aerospace move" [
     --help(-h)      # Print help
     command:string@"nu-complete aerospace-move"
@@ -426,20 +442,21 @@ def "nu-complete aerospace-move-mouse" [] {
     ]
 }
 
+# Move mouse to the requested position
 export extern "aerospace move-mouse" [
     --help(-h)      # Print help
     command:string@"nu-complete aerospace-move-mouse"
 ]
 
-export extern "aerospace move-mouse window-lazy-center" [
-    --help(-h)      # Print help
-    --fail-if-noop  # Exit with non-zero exit code if mouse is already at the requested position.
-]
-
-export extern "aerospace move-mouse monitor-lazy-center" [
-    --help(-h)      # Print help
-    --fail-if-noop  # Exit with non-zero exit code if mouse is already at the requested position.
-]
+# export extern "aerospace move-mouse window-lazy-center" [
+#     --help(-h)      # Print help
+#     --fail-if-noop  # Exit with non-zero exit code if mouse is already at the requested position.
+# ]
+#
+# export extern "aerospace move-mouse monitor-lazy-center" [
+#     --help(-h)      # Print help
+#     --fail-if-noop  # Exit with non-zero exit code if mouse is already at the requested position.
+# ]
 
 # def "nu-complete aerospace-move-node-to-monitor" [] {
 #     [
@@ -452,7 +469,7 @@ export extern "aerospace move-mouse monitor-lazy-center" [
 #     ]
 # }
 
-
+# Move window to monitor targeted by relative direction, by order, or by pattern
 export extern "aerospace move-node-to-monitor" [
     --help(-h)      # Print help
     --wrap-around   # Make it possible to jump between first and last workspaces using (next|prev)
@@ -462,6 +479,7 @@ export extern "aerospace move-node-to-monitor" [
     command:string
 ]
 
+# Move the focused window to the specified workspace
 export extern "aerospace move-node-to-workspace" [
     --help(-h)      # Print help
     --wrap-around   # Make it possible to jump between first and last workspaces using (next|prev)
@@ -471,12 +489,14 @@ export extern "aerospace move-node-to-workspace" [
     command:string
 ]
 
+# Move workspace to monitor targeted by relative direction, by order, or by pattern. Focus follows the focused workspace, so the workspace stays focused.
 export extern "aerospace move-workspace-to-monitor" [
     --help(-h)      # Print help
     --wrap-around   # Make it possible to jump between first and last monitors
     --workspace     # Act on the specified workspace instead of the focused workspace
 ]
 
+# Reload currently active config
 export extern "aerospace reload-config" [
     --help(-h)      # Print help
     --no-gui        # Don't open GUI to show error. Only use stdout to report errors
@@ -492,6 +512,7 @@ def "nu-complete aerospace-resize" [] {
     ]
 }
 
+# Resize the focused window
 export extern "aerospace-resize" [
     --help(-h)      # Print help
     --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
@@ -506,18 +527,21 @@ def "nu-complete aerospace-split" [] {
     ]
 }
 
+# split command exist solely for compatibility with i3. Unless you’re hardcore i3 user who knows what they are doing, it’s recommended to use join-with
 export extern "aerospace split" [
     --help(-h)      # Print help
     --window-id:int@"nu-complete aerospace-list-all-windows"         # Act on the specified window instead of the focused window
     command:string@"nu-complete aerospace-split"
 ]
 
+# Move the requested workspace to the focused monitor. The moved workspace becomes focused. The behavior is identical to Xmonad.
 export extern "aerospace summon-workspace" [
     --help(-h)      # Print help
     --fail-if-noop  # Exit with non-zero code if moving a window to a workspace it already belongs to
     command:string
 ]
 
+# Trigger AeroSpace binding as if it was pressed by user
 export extern "aerospace trigger-binding" [
     --help(-h)      # Print help
     command:string
@@ -535,6 +559,7 @@ def "nu-complete aerospace-volume" [] {
         ]
 }
 
+# Manipulate volume
 export extern "aerospace volume" [
     --help(-h)      # Print help
     command:string@"nu-complete aerospace-volume"
@@ -544,11 +569,12 @@ def "nu-complete aerospace-volume-set" [] {
     0..100
 }
 
-export extern "aerospace volume set" [
-    --help(-h)      # Print help
-    command:int@"nu-complete aerospace-volume-set"
-]
+# export extern "aerospace volume set" [
+#     --help(-h)      # Print help
+#     command:int@"nu-complete aerospace-volume-set"
+# ]
 
+# Focus the specified workspace OR focuses next or previous workspace in the list
 export extern "aerospace workspace" [
     --help(-h)      # Print help
     --wrap-around   # Make it possible to jump between first and last workspaces using (next|prev)
@@ -557,6 +583,7 @@ export extern "aerospace workspace" [
     command:string
 ]
 
+# Switch between the focused workspace and previously focused workspace back and forth
 export extern "aerospace workspace-back-and-forth" [
     --help(-h)      # Print help
 ]
