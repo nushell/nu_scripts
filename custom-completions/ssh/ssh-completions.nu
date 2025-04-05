@@ -1,3 +1,5 @@
+# nu-version: 0.102.0
+
 export extern "ssh" [
     destination?: string@"nu-complete ssh-host"
     -4            # Forces ssh to use IPv4 addresses only.
@@ -41,11 +43,12 @@ module ssh-completion-utils {
         # │ 4 │                              │
         # ╰───┴──────────────────────────────╯
         let host = $in
-        let name = $host | get 0 | str trim | split row -r '\s+' | get 1
+        let $first_line = try { $host | first | str trim } catch { null }
         # Don't accept blocks like "Host *"
-        if ('*' in $name) {
+        if ($first_line | is-empty) or '*' in $first_line {
             null
         } else {
+            let name = $first_line |  split row -r '\s+' | get 1
             # May not contain hostname
             match ($host | slice 1.. | find -ir '^\s*Hostname\s') {
                 [] => null,
@@ -68,7 +71,7 @@ module ssh-completion-utils {
             includes: $include_lines
         }
     }
-    
+
 }
 
 
@@ -86,7 +89,7 @@ def "nu-complete ssh-host" [] {
         $r.includes = $r.includes | each {|f| $folder | path join $f }
         $r
     } | reduce {|it| merge deep $it --strategy=append }
-    let hosts = $first_result.hosts
+
     let $includes: list<string> = $first_result.includes | each {|f|
         if '*' in $f {
             glob $f
@@ -96,8 +99,11 @@ def "nu-complete ssh-host" [] {
     } | flatten
 
     # Process include files
-    let second_result = $includes | par-each {|p| $p | open --raw | process } | reduce {|it| merge deep $it --strategy=append }
-    # We don't further process "Include" lines in these secondary files.
-    let hosts = $hosts ++ $second_result.hosts
+    let included_hosts = (if ($includes | is-empty) { [] } else {
+        let second_result = $includes | par-each {|p| $p | open --raw | process } | reduce {|it| merge deep $it --strategy=append }
+        $second_result.hosts
+    })
+
+    let hosts = $first_result.hosts ++ $included_hosts
     $hosts | each { {value: $in.name, description: $in.addr } }
 }

@@ -1,6 +1,6 @@
 # A cat(1) clone with syntax highlighting and Git integration
 export extern "bat" [
-    ...file: path  # file to print / concatenate
+    ...file: path  # file(s) to print / concatenate
     --help         # Print help (see a summary with '-h')
     -h             # Print help (see more with '--help')
     --version      # Print version
