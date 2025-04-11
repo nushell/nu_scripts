@@ -23,12 +23,8 @@ export def basic-git-left-prompt [in_left_prompt] {
   let currently_in_git_repo = in_git_repo
 
   if $currently_in_git_repo {
-    # get the branch info first
-    let branch_info = git branch -l
-      | lines
-      | filter {|e| $e | str contains "*" }
-      | each {|e| $e | str replace "* " "="}
-      | get 0
+    let current_branch = $"(ansi purple_bold)(git branch --show-current)(ansi reset)"
+
     let git_status = git status -s
 
     # get the status in short
@@ -61,7 +57,7 @@ export def basic-git-left-prompt [in_left_prompt] {
     }
 
     # construct the prompt
-    $"($in_left_prompt)(ansi reset) [($branch_info)($final_git_status)]"
+    $"($in_left_prompt)(ansi reset) [($current_branch)($final_git_status)]"
 
   } else {
     # otherwise just return the normal prompt
