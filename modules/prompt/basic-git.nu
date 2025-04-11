@@ -14,7 +14,7 @@
 # }
 
 def in_git_repo [] {
-  (do --ignore-errors { git rev-parse --abbrev-ref HEAD } | is-empty) == false
+  (git branch --show-current | complete | get stderr | is-empty) == true
 }
 
 export def basic-git-left-prompt [in_left_prompt] {
