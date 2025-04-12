@@ -23,4 +23,6 @@
     }
 
     direnv export json | from json | default {} | load-env
+    # Direnv outputs $PATH as a string, but nushell silently breaks if isn't a list-like table.
+    $env.PATH = $env.PATH | split row ':'
 }
