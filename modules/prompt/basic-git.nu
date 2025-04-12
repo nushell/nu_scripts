@@ -25,40 +25,27 @@ export def basic-git-left-prompt [in_left_prompt] {
   if $currently_in_git_repo {
     let current_branch = $"(ansi purple_bold)(git branch --show-current)(ansi reset)"
 
-    let git_status = git status -s
-
-    # get the status in short
-    let git_status = $git_status
+    let current_status = git status -s
       | lines
-      | str replace -r '(.* ).*' '$1'
-      | sort
+      | str replace -r '^(.{2}).*' '$1'
       | uniq -c
-      | insert type {
-        |e| if ($e.value | str contains "M") {
-            "blue_bold"
-          } else if ($e.value | str contains "??") {
-            "yellow_bold"
-          } else if ($e.value | str contains "D") {
-            "red_bold"
-          } else if ($e.value | str contains "A") {
-            "cyan_bold"
-          } else ""
+      | each {
+          |el| insert X { value: ($el.value | str substring ..0 | str trim) } | insert Y { value: ($el.value | str substring 1.. | str trim) }
         }
       | each {
-          |e| $"(ansi $e.type)($e.count)($e.value | str trim)(ansi reset)"
+          |el| if ([?, !] | any { |i| $el.X.value == $i and $el.Y.value == $i })  {
+            insert X.color "red_bold" | insert Y.color "red_bold"
+          } else {
+            insert X.color "green_bold" | insert Y.color "red_bold"
+          }
         }
-      | reduce --fold '' {|str all| $"($all),($str)" }
-      | str substring 1..
-
-    let final_git_status = if $git_status == "" {
-      ""
-    } else {
-      $" ($git_status)"
-    }
+      | each {
+          |el| $"(ansi "cyan_bold")($el.count)(ansi $el.X.color)($el.X.value)(ansi $el.Y.color)($el.Y.value)(ansi reset)"
+        }
+      | str join ","
 
     # construct the prompt
-    $"($in_left_prompt)(ansi reset) [($current_branch)($final_git_status)]"
-
+    $"($in_left_prompt)(ansi reset) [($current_branch)($current_status | if ($in | is-not-empty) { $' ($in)' })]"
   } else {
     # otherwise just return the normal prompt
     $in_left_prompt
