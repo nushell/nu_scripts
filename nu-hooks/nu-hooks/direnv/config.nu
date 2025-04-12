@@ -24,5 +24,6 @@
 
     direnv export json | from json | default {} | load-env
     # Direnv outputs $PATH as a string, but nushell silently breaks if isn't a list-like table.
-    $env.PATH = $env.PATH | split row (char env_sep)
+    # The following behemoth of Nu code turns this into nu's format while following the standards of how to handle quotes
+    $env.PATH = $env.PATH | parse --regex ('' + `((?:(?:"(?:(?:\\[\\"])|.)*?")|(?:'.*?')|[^` + (char env_sep) + `]*)*)`) | each {|x| $x.capture0 | parse --regex `(?:"((?:(?:\\"|.))*?)")|(?:'(.*?)')|([^'"]*)` | each {|y| if ($y.capture0 != "") { $y.capture0 | str replace -ar `\\([\\"])` `$1` } else if ($y.capture1 != "") { $y.capture1 } else $y.capture2 } | str join }
 }
