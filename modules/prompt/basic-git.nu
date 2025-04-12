@@ -1,13 +1,11 @@
-# Max Brown
-# a very basic git prompt
-# sort of like panache-git, but fewer than 60 lines of code.
+# It's a very basic git prompt,
+# sort of like panache-git, but less than 50 lines of code.
 
-# use as below without the comments and in your
-# env.nu file
+# Authors: Max Brown, @rukins
 
+# Use as below without the comments and in your 'env.nu' file
 
 #  use path/to/basic-git.nu basic-git-left-prompt
-
 #  $env.PROMPT_COMMAND = {||
 #		 let left = create_left_prompt
 #		 basic-git-left-prompt $left
@@ -19,7 +17,6 @@ def in_git_repo [] {
 
 export def basic-git-left-prompt [in_left_prompt] {
 
-  # if we're in a repo, let's go!
   let currently_in_git_repo = in_git_repo
 
   if $currently_in_git_repo {
@@ -40,14 +37,12 @@ export def basic-git-left-prompt [in_left_prompt] {
           }
         }
       | each {
-          |el| $"(ansi "cyan_bold")($el.count)(ansi $el.X.color)($el.X.value)(ansi $el.Y.color)($el.Y.value)(ansi reset)"
+          |el| $"(ansi cyan_bold)($el.count)(ansi $el.X.color)($el.X.value)(ansi $el.Y.color)($el.Y.value)(ansi reset)"
         }
       | str join ","
 
-    # construct the prompt
     $"($in_left_prompt)(ansi reset) [($current_branch)($current_status | if ($in | is-not-empty) { $' ($in)' })]"
   } else {
-    # otherwise just return the normal prompt
     $in_left_prompt
   }
 }
