@@ -20,7 +20,7 @@ export def basic-git-left-prompt [in_left_prompt] {
   let currently_in_git_repo = in_git_repo
 
   if $currently_in_git_repo {
-    let current_branch = $"(ansi purple_bold)(git branch --show-current)(ansi reset)"
+    let current_branch = $"(git branch --show-current)"
 
     let current_status = git status -s
       | lines
