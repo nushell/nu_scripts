@@ -1,70 +1,61 @@
-# Max Brown
-# a very basic git prompt
-# sort of like panache-git, but fewer than 60 lines of code.
+# It's a very basic git prompt,
+# sort of like panache-git, but less than 50 lines of code.
 
-# use as below without the comments and in your
-# env.nu file
+# Authors: Max Brown, @rukins
 
+# Use as below without the comments and in your 'env.nu' file
 
 #  use path/to/basic-git.nu basic-git-left-prompt
-
 #  $env.PROMPT_COMMAND = {||
 #		 let left = create_left_prompt
 #		 basic-git-left-prompt $left
 # }
 
 def in_git_repo [] {
-  (do --ignore-errors { git rev-parse --abbrev-ref HEAD } | is-empty) == false
+  (git branch --show-current | complete | get stderr | is-empty) == true
 }
 
 export def basic-git-left-prompt [in_left_prompt] {
 
-  # if we're in a repo, let's go!
   let currently_in_git_repo = in_git_repo
 
   if $currently_in_git_repo {
-    # get the branch info first
-    let branch_info = git branch -l
-      | lines
-      | filter {|e| $e | str contains "*" }
-      | each {|e| $e | str replace "* " "="}
-      | get 0
-    let git_status = git status -s
+    let current_branch = $"(git branch --show-current)"
 
-    # get the status in short
-    let git_status = $git_status
+    let current_status = git status -s
       | lines
-      | str replace -r '(.* ).*' '$1'
-      | sort
+      | str replace -r '^(.{2}).*' '$1'
       | uniq -c
-      | insert type {
-        |e| if ($e.value | str contains "M") {
-            "blue_bold"
-          } else if ($e.value | str contains "??") {
-            "yellow_bold"
-          } else if ($e.value | str contains "D") {
-            "red_bold"
-          } else if ($e.value | str contains "A") {
-            "cyan_bold"
-          } else ""
+      | each {
+          |el| insert X { value: ($el.value | str substring ..0 | str trim) } | insert Y { value: ($el.value | str substring 1.. | str trim) }
         }
       | each {
-          |e| $"(ansi $e.type)($e.count)($e.value | str trim)(ansi reset)"
+          |el| if ([?, !] | any { |i| $el.X.value == $i and $el.Y.value == $i })  {
+            insert X.color "yellow_bold" | insert Y.color "yellow_bold"
+          } else if ($el.X.value == "M")  {
+            insert X.color "blue_bold" | insert Y.color "purple_bold"
+          } else if ($el.X.value == "D")  {
+            insert X.color "red_bold" | insert Y.color "purple_bold"
+          } else if ($el.X.value == "A")  {
+            insert X.color "cyan_bold" | insert Y.color "purple_bold"
+          } else {
+            insert X.color "green_bold" | insert Y.color "purple_bold"
+          }
+
+          ### or use colors similar to original `git status -s` output
+          # |el| if ([?, !] | any { |i| $el.X.value == $i and $el.Y.value == $i })  {
+          #   insert X.color "red_bold" | insert Y.color "red_bold"
+          # } else {
+          #   insert X.color "green_bold" | insert Y.color "red_bold"
+          # }
         }
-      | reduce --fold '' {|str all| $"($all),($str)" }
-      | str substring 1..
+      | each {
+          |el| $"(ansi cyan_bold)($el.count)(ansi $el.X.color)($el.X.value)(ansi $el.Y.color)($el.Y.value)(ansi reset)"
+        }
+      | str join ","
 
-    let final_git_status = if $git_status == "" {
-      ""
-    } else {
-      $" ($git_status)"
-    }
-
-    # construct the prompt
-    $"($in_left_prompt)(ansi reset) [($branch_info)($final_git_status)]"
-
+    $"($in_left_prompt)(ansi reset) [($current_branch)($current_status | if ($in | is-not-empty) { $' ($in)' })]"
   } else {
-    # otherwise just return the normal prompt
     $in_left_prompt
   }
 }
