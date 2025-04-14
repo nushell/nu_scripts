@@ -31,10 +31,23 @@ export def basic-git-left-prompt [in_left_prompt] {
         }
       | each {
           |el| if ([?, !] | any { |i| $el.X.value == $i and $el.Y.value == $i })  {
-            insert X.color "red_bold" | insert Y.color "red_bold"
+            insert X.color "yellow_bold" | insert Y.color "yellow_bold"
+          } else if ($el.X.value == "M")  {
+            insert X.color "blue_bold" | insert Y.color "purple_bold"
+          } else if ($el.X.value == "D")  {
+            insert X.color "red_bold" | insert Y.color "purple_bold"
+          } else if ($el.X.value == "A")  {
+            insert X.color "cyan_bold" | insert Y.color "purple_bold"
           } else {
-            insert X.color "green_bold" | insert Y.color "red_bold"
+            insert X.color "green_bold" | insert Y.color "purple_bold"
           }
+
+          ### or use colors similar to original `git status -s` output
+          # |el| if ([?, !] | any { |i| $el.X.value == $i and $el.Y.value == $i })  {
+          #   insert X.color "red_bold" | insert Y.color "red_bold"
+          # } else {
+          #   insert X.color "green_bold" | insert Y.color "red_bold"
+          # }
         }
       | each {
           |el| $"(ansi cyan_bold)($el.count)(ansi $el.X.color)($el.X.value)(ansi $el.Y.color)($el.Y.value)(ansi reset)"
