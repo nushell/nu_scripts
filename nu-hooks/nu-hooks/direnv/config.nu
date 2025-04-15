@@ -1,3 +1,6 @@
+# This file includes several examples of how you might use hooks to enable direnv with Nushell.
+# Please see the [Cookbook](https://www.nushell.sh/cookbook/direnv.html) for the latest recommendations.
+
 # you can use the following closure in your config in a few different ways, e.g.
 #
 # ```nushell
