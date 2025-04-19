@@ -91,7 +91,6 @@ module git-completion-utils {
 
   # Get local branches, remote branches which can be passed to `git merge`
   export def get-mergable-sources []: nothing -> list<record<value: string, description: string>> {
-  # expensive:  (^git show --no-patch --format=%s $x.obj)
     let local = get-all-git-local-refs | each {|x| {value: $x.ref description: $'Branch, Local, ($x.obj) ($x.subject), (if ($x.upstream | is-not-empty) { $x.upstream } else { "no upstream" } )'} } | insert style 'light_blue'
     let remote = get-all-git-remote-refs | each {|x| {value: $x.ref description: $'Branch, Remote, ($x.obj) ($x.subject)'} } | insert style 'blue_italic'
     $local | append $remote
