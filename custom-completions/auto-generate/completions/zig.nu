@@ -1,0 +1,42 @@
+# Integrate with system-installed Darling
+extern "zig" [
+	--list-steps(-l)					# Print available steps
+	--verbose					# Print commands before executing them
+	--prominent-compile-errors					# Output human-readable compile errors
+	--maxrss					# Limit memory usage (default is to use available memory)
+	--skip-oom-steps					# skip steps that would exceed --maxrss
+	--fetch					# Exit after fetching dependency tree
+	--debug-pkg-config					# Fail if unknown pkg-config flags encountered
+	--verbose-link					# Enable compiler debug output for linking
+	--verbose-air					# Enable compiler debug output for Zig AIR
+	--verbose-llvm-ir					# Enable compiler debug output for LLVM IR
+	--verbose-llvm-bc					# Enable compiler debug output for LLVM BC
+	--verbose-cimport					# Enable compiler debug output for C imports
+	--verbose-cc					# Enable compiler debug output for C compilation
+	--verbose-llvm-cpu-features					# Enable compiler debug output for LLVM CPU features
+	--watch					# Enable compiler REPL
+	--show-builtin					# Output the source of `@import(\"builtin\")`
+	--enable-cache					# Output to cache directory
+	--pkg-end					# Pop current pkg
+	--main-pkg-path					# Set the directory of the root package
+	--strip					# Omit debug symbols
+	--eh-frame-hdr					# Enable C++ exception handling by passing `--eh-frame-hdr` to linker
+	--emit-relocs					# Enable output of relocation sections for post build tools
+	--import-memory					# Import memory from the environment (Wasm)
+	--test-cmd-bin					# Appends test binary path to `--test-cmd`
+	--test-evented-io					# Runs the test in evented I/O mode
+	--test-no-exec					# Compiles test binary without running it
+	--verbose-link					# Display linker invocations
+	--verbose-cc					# Display C compiler invocations
+	--verbose-air					# Enable compiler debug output for Zig AIR
+	--verbose-mir					# Enable compiler debug output for Zig MIR
+	--verbose-llvm-ir					# Enable compiler debug output for LLVM IR
+	--verbose-cimport					# Enable compiler debug output for C imports
+	--verbose-llvm-cpu-features					# Enable compiler debug output for LLVM CPU features
+	--debug-compile-errors					# Crash with helpful diagnostics at the first compile error
+	--debug-link-snapshot					# Enable dumping of the linker's state in JSON
+	--stdin					# Use stdin and stdout for I/O
+	--check					# Check if the input is formatted
+	--ast-check					# Run `zig ast-check` on every file
+	...args
+]

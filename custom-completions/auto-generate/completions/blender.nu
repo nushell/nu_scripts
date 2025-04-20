@@ -1,0 +1,194 @@
+# Show help
+extern "blender" [
+	--help					# Show help
+	--version					# Show version
+	--background					# Hide UI
+	--render-anim					# Render animation
+	--threads					# Specify thread count
+	--render-format
+	--use-extension
+	--window-border					# Show window borders
+	--window-fullscreen					# Show in fullscreen
+	--window-maximized					# Maximize window
+	--start-console					# Open console
+	--no-native-pixels					# Do not use native pixel size
+	--no-window-focus					# Open unfocused
+	--enable-autoexec					# Enable Python scripts automatic execution
+	--disable-autoexec					# Disable Python scripts automatic execution
+	--python-console					# Open interactive console
+	--python-exit-code					# Specify Python exit code on exception
+	--python-use-system-env					# Use system env vars and user site-packages
+	--log-show-basename					# Hide file leading path
+	--log-show-backtrace					# Show backtrace
+	--log-show-timestamp					# Show timestamp
+	--debug					# Enable debugging
+	--debug-value					# Specify debug value
+	--debug-events					# Enable debug messages from the event system
+	--debug-ffmpeg					# Enable debug messages from FFmpeg library
+	--debug-handlers					# Enable debug messages for event handling
+	--debug-libmv					# Enable debug messages for libmv library
+	--debug-cycles					# Enable debug messages for Cycles
+	--debug-memory					# Enable fully guarded memory allocation and debugging
+	--debug-jobs					# Enable time profiling for background jobs
+	--debug-python					# Enable debug messages for Python
+	--debug-depsgraph					# Enable all debug messages for dependency graph
+	--debug-depsgraph-eval					# Enable debug messages for dependency graph related on evaluation
+	--debug-depsgraph-build					# Enable debug messages for dependency graph related on its construction
+	--debug-depsgraph-tag					# Enable debug messages for dependency graph related on tagging
+	--debug-depsgraph-no-threads					# Enable single treaded evaluation for dependency graph
+	--debug-depsgraph-time					# Enable debug messages for dependency graph related on timing
+	--debug-depsgraph-pretty					# Enable colors for dependency graph debug messages
+	--debug-depsgraph-uuid					# Enable virefication for dependency graph session-wide identifiers
+	--debug-ghost					# Enable debug messages for Ghost
+	--debug-wintab					# Enable debug messages for Wintab
+	--debug-gpu					# Enable GPU debug context and information for OpenGL
+	--debug-gpu-force-workarounds					# Enable workarounds for typical GPU issues
+	--debug-wm					# Enable debug messages for window manager
+	--debug-xr					# Enable debug messages for virtual reality contexts
+	--debug-xr-time					# Enable debug messages for virtual reality frame rendering times
+	--debug-all					# Enable all debug messages
+	--debug-io					# Enable debug for I/O
+	--debug-fpe					# Enable floating point exceptions
+	--debug-exit-on-error					# Exit on internal error
+	--debug-freestyle					# Enable debug messages for Freestyle
+	--disable-crash-handler					# Disable crash handler
+	--disable-abort-handler					# Disable abort handler
+	--open-last					# Open the most recent .blend file
+	--factory-startup					# Do not read startup.blend
+	--enable-event-simulate					# Enable event simulation
+	--register					# Register .blend extension for current user
+	--register-allusers					# Register .blend extension for all users
+	--unregister					# Unregister .blend extension for current user
+	--unregister-allusers					# Unregister .blend extension for all users
+	...args
+]
+
+# 
+extern "blender TGA\tTarga" [
+	--help					# Show help
+	--version					# Show version
+	--background					# Hide UI
+	--render-anim					# Render animation
+	--threads					# Specify thread count
+	--render-format
+	--use-extension
+	--window-border					# Show window borders
+	--window-fullscreen					# Show in fullscreen
+	--window-maximized					# Maximize window
+	--start-console					# Open console
+	--no-native-pixels					# Do not use native pixel size
+	--no-window-focus					# Open unfocused
+	--enable-autoexec					# Enable Python scripts automatic execution
+	--disable-autoexec					# Disable Python scripts automatic execution
+	--python-console					# Open interactive console
+	--python-exit-code					# Specify Python exit code on exception
+	--python-use-system-env					# Use system env vars and user site-packages
+	--log-show-basename					# Hide file leading path
+	--log-show-backtrace					# Show backtrace
+	--log-show-timestamp					# Show timestamp
+	--debug					# Enable debugging
+	--debug-value					# Specify debug value
+	--debug-events					# Enable debug messages from the event system
+	--debug-ffmpeg					# Enable debug messages from FFmpeg library
+	--debug-handlers					# Enable debug messages for event handling
+	--debug-libmv					# Enable debug messages for libmv library
+	--debug-cycles					# Enable debug messages for Cycles
+	--debug-memory					# Enable fully guarded memory allocation and debugging
+	--debug-jobs					# Enable time profiling for background jobs
+	--debug-python					# Enable debug messages for Python
+	--debug-depsgraph					# Enable all debug messages for dependency graph
+	--debug-depsgraph-eval					# Enable debug messages for dependency graph related on evaluation
+	--debug-depsgraph-build					# Enable debug messages for dependency graph related on its construction
+	--debug-depsgraph-tag					# Enable debug messages for dependency graph related on tagging
+	--debug-depsgraph-no-threads					# Enable single treaded evaluation for dependency graph
+	--debug-depsgraph-time					# Enable debug messages for dependency graph related on timing
+	--debug-depsgraph-pretty					# Enable colors for dependency graph debug messages
+	--debug-depsgraph-uuid					# Enable virefication for dependency graph session-wide identifiers
+	--debug-ghost					# Enable debug messages for Ghost
+	--debug-wintab					# Enable debug messages for Wintab
+	--debug-gpu					# Enable GPU debug context and information for OpenGL
+	--debug-gpu-force-workarounds					# Enable workarounds for typical GPU issues
+	--debug-wm					# Enable debug messages for window manager
+	--debug-xr					# Enable debug messages for virtual reality contexts
+	--debug-xr-time					# Enable debug messages for virtual reality frame rendering times
+	--debug-all					# Enable all debug messages
+	--debug-io					# Enable debug for I/O
+	--debug-fpe					# Enable floating point exceptions
+	--debug-exit-on-error					# Exit on internal error
+	--debug-freestyle					# Enable debug messages for Freestyle
+	--disable-crash-handler					# Disable crash handler
+	--disable-abort-handler					# Disable abort handler
+	--open-last					# Open the most recent .blend file
+	--factory-startup					# Do not read startup.blend
+	--enable-event-simulate					# Enable event simulation
+	--register					# Register .blend extension for current user
+	--register-allusers					# Register .blend extension for all users
+	--unregister					# Unregister .blend extension for current user
+	--unregister-allusers					# Unregister .blend extension for all users
+	...args
+]
+
+# 
+extern "blender 0\tfalse" [
+	--help					# Show help
+	--version					# Show version
+	--background					# Hide UI
+	--render-anim					# Render animation
+	--threads					# Specify thread count
+	--render-format
+	--use-extension
+	--window-border					# Show window borders
+	--window-fullscreen					# Show in fullscreen
+	--window-maximized					# Maximize window
+	--start-console					# Open console
+	--no-native-pixels					# Do not use native pixel size
+	--no-window-focus					# Open unfocused
+	--enable-autoexec					# Enable Python scripts automatic execution
+	--disable-autoexec					# Disable Python scripts automatic execution
+	--python-console					# Open interactive console
+	--python-exit-code					# Specify Python exit code on exception
+	--python-use-system-env					# Use system env vars and user site-packages
+	--log-show-basename					# Hide file leading path
+	--log-show-backtrace					# Show backtrace
+	--log-show-timestamp					# Show timestamp
+	--debug					# Enable debugging
+	--debug-value					# Specify debug value
+	--debug-events					# Enable debug messages from the event system
+	--debug-ffmpeg					# Enable debug messages from FFmpeg library
+	--debug-handlers					# Enable debug messages for event handling
+	--debug-libmv					# Enable debug messages for libmv library
+	--debug-cycles					# Enable debug messages for Cycles
+	--debug-memory					# Enable fully guarded memory allocation and debugging
+	--debug-jobs					# Enable time profiling for background jobs
+	--debug-python					# Enable debug messages for Python
+	--debug-depsgraph					# Enable all debug messages for dependency graph
+	--debug-depsgraph-eval					# Enable debug messages for dependency graph related on evaluation
+	--debug-depsgraph-build					# Enable debug messages for dependency graph related on its construction
+	--debug-depsgraph-tag					# Enable debug messages for dependency graph related on tagging
+	--debug-depsgraph-no-threads					# Enable single treaded evaluation for dependency graph
+	--debug-depsgraph-time					# Enable debug messages for dependency graph related on timing
+	--debug-depsgraph-pretty					# Enable colors for dependency graph debug messages
+	--debug-depsgraph-uuid					# Enable virefication for dependency graph session-wide identifiers
+	--debug-ghost					# Enable debug messages for Ghost
+	--debug-wintab					# Enable debug messages for Wintab
+	--debug-gpu					# Enable GPU debug context and information for OpenGL
+	--debug-gpu-force-workarounds					# Enable workarounds for typical GPU issues
+	--debug-wm					# Enable debug messages for window manager
+	--debug-xr					# Enable debug messages for virtual reality contexts
+	--debug-xr-time					# Enable debug messages for virtual reality frame rendering times
+	--debug-all					# Enable all debug messages
+	--debug-io					# Enable debug for I/O
+	--debug-fpe					# Enable floating point exceptions
+	--debug-exit-on-error					# Exit on internal error
+	--debug-freestyle					# Enable debug messages for Freestyle
+	--disable-crash-handler					# Disable crash handler
+	--disable-abort-handler					# Disable abort handler
+	--open-last					# Open the most recent .blend file
+	--factory-startup					# Do not read startup.blend
+	--enable-event-simulate					# Enable event simulation
+	--register					# Register .blend extension for current user
+	--register-allusers					# Register .blend extension for all users
+	--unregister					# Unregister .blend extension for current user
+	--unregister-allusers					# Unregister .blend extension for all users
+	...args
+]

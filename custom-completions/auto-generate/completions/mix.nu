@@ -1,0 +1,5823 @@
+# Starts all registered apps
+extern "mix app.start" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Lists all archives
+extern "mix archive" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Archives this project into a .ez file
+extern "mix archive.build" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Installs an archive locally
+extern "mix archive.install" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Uninstalls archives
+extern "mix archive.uninstall" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Deletes generated application files
+extern "mix clean" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Executes the given command
+extern "mix cmd" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Compiles source files
+extern "mix compile" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Compiles Phoenix source files that support code reloading
+extern "mix compile.phoenix" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Lists dependencies and their status
+extern "mix deps" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Deletes the given dependencies' files
+extern "mix deps.clean" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Compiles dependencies
+extern "mix deps.compile" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Gets all out of date dependencies
+extern "mix deps.get" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Unlocks the given dependencies
+extern "mix deps.unlock" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Updates the given dependencies
+extern "mix deps.update" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Executes the tasks separated by comma
+extern "mix do" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Builds an escript for the project
+extern "mix escript.build" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Prints help information for tasks
+extern "mix help" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Loads and persists the given configuration
+extern "mix loadconfig" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Lists local tasks
+extern "mix local" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Installs Hex locally
+extern "mix local.hex" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Manages public keys
+extern "mix local.public_keys" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Installs rebar locally
+extern "mix local.rebar" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Updates the Phoenix project generator locally
+extern "mix local.phx" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Creates a new Elixir project
+extern "mix new" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Profiles the given file or expression with fprof
+extern "mix profile.fprof" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Prints Phoenix tasks and their information.
+extern "mix phx" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Digests and compresses static files
+extern "mix phx.digest" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Removes old versions of static assets.
+extern "mix phx.digest.clean" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Lists all available Phoenix generators
+extern "mix phx.gen" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates authentication logic for a resource
+extern "mix phx.gen.auth" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates a self-signed certificate for HTTPS testing
+extern "mix phx.gen.cert" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates a Phoenix channel
+extern "mix phx.gen.channel" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates a context with functions around an Ecto schema
+extern "mix phx.gen.context" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates an embedded Ecto schema file
+extern "mix phx.gen.embedded" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates context and controller for an HTML resource
+extern "mix phx.gen.html" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates context and controller for a JSON resource
+extern "mix phx.gen.json" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates LiveView, templates, and context for a resource
+extern "mix phx.gen.live" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates a notifier that delivers emails by default
+extern "mix phx.gen.notifier" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates a Presence tracker
+extern "mix phx.gen.presence" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates release files and optional Dockerfile for release-based deployments
+extern "mix phx.gen.release" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates an Ecto schema and migration file
+extern "mix phx.gen.schema" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates a secret
+extern "mix phx.gen.secret" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Generates a Phoenix socket handler
+extern "mix phx.gen.socket" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Creates a new Phoenix application
+extern "mix phx.new" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Creates a new Ecto project within an umbrella project
+extern "mix phx.new.ecto" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Creates a new Phoenix web project within an umbrella project
+extern "mix phx.new.web" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Prints all routes
+extern "mix phx.routes" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Starts applications and their servers
+extern "mix phx.server" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Runs the given file or expression
+extern "mix run" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Runs a project's tests
+extern "mix test" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]
+
+# Specify input directory
+extern "mix" [
+	--no-compile					# Skip compilation
+	--all					# Clean everything, including dependencies
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Skips compilation to .beam files
+	--sup					# Generate an OTP application skeleton with a supervision tree
+	--umbrella					# Can be given to generate an umbrella project
+	--app					# Can be given in order to name the OTP application
+	--module					# Can be given in order to name the modules in the generated code skeleton
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	--trace					# Run tests with detailed reporting; automatically sets `--max-cases` to 1
+	--max-cases					# Set the maximum number of cases running async
+	--cover					# The directory to include coverage results
+	--force					# Forces compilation regardless of modification times
+	--no-compile					# Do not compile, even if files require compilation
+	--no-start					# Do not start applications after compilation
+	--no-color					# Disable color in the output
+	--color					# Enable color in the output
+	--include					# Include tests that match the filter
+	--exclude					# Exclude tests that match the filter
+	--only					# Run only tests that match the filter
+	--seed					# Seeds the random number generator used to randomize test order
+	--timeout					# Set the timeout for the tests
+	--version					# Prints the Phoenix version
+	--no-vsn					# digest the stylesheet asset references without the query string `?vsn=d`
+	--output(-o)					# The path to your compiled assets directory. Defaults to priv/static
+	--age					# Maximum age (in seconds) for assets
+	--keep					# How many previous versions of assets to keep
+	--all					# Specifies that all compiled assets (including the manifest) will be removed
+	--web					# Customize the web module namespace
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--output(-o)					# The path and base filename for the certificate and key
+	--name(-n)					# The Common Name value in certificate's subject
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--merge-with-existing-context					# Skips prompt and automatically merge the new schema access functions and tests
+	--no-merge-with-existing-context					# Skips prompt and prevents changes to an existing context
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--web					# Customize the web module namespace
+	--no-context					# Omits context internal implementation
+	--no-schema					# Omits schema internal implementation
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--table					# Specify the the table name for the migration and schema
+	--context-app					# Specifies the context app
+	--docker					# Generates a Docker and .dockerignore file
+	--no-ecto					# Skip migration-related file generation
+	--ecto					# Force migration-related file generation
+	--no-migration					# Omits migration file
+	--context-app					# Specifies the context app
+	--table					# Specify the the table name for the migration and schema
+	--binary-id					# Uses `binary_id` for schema's primary key and its references
+	--no-binary-id					# Use normal ids despite the default configuration
+	--prefix					# Specifies a prefix
+	--migration					# Force generation of the migration
+	--umbrella					# Generate an umbrella project (one app for your domain, a second app for web interface)
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--no-assets					# Do not generate the assets folder
+	--no-ecto					# Do not generate Ecto files
+	--no-html					# Do not generate HTML views
+	--no-gettext					# Do not generate gettext files
+	--no-dashboard					# Do not include Phoenix.LiveDashboard
+	--no-live					# Comment out LiveView socket setup in assets/js/app.js
+	--no-mailer					# Do not generate Swoosh mailer files
+	--no-esbuild					# Do not include esbuild dependencies and assets
+	--no-tailwind					# Do not include tailwind dependencies and assets
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--verbose					# Use verbose output
+	--version(-v)					# Prints the Phoenix installer version
+	--no-context					# Omits context internal implementation
+	--no-install					# Disable prompt to install dependencies
+	--install					# Force prompt to install dependencies
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--database					# Specify the database adapter for Ecto
+	--binary-id					# Use binary_id as primary key type in Ecto schemas
+	--app					# The name of the OTP application
+	--module					# The name of the base module in the generated skeleton
+	--info					# Locate the controller function definition called by the given url
+	--open					# Open browser window for each started endpoint
+	--config(-c)					# Loads the given configuration file
+	--eval(-e)					# Evaluates the given code
+	--require(-r)					# Requires pattern before running the command
+	--parallel-require(-pr)					# Requires pattern in parallel
+	--no-compile					# Does not compile even if files require compilation
+	--no-deps-check					# Does not check dependencies
+	--no-halt					# Does not halt the system after running the command
+	--no-start					# Does not start applications after compilation
+	...args
+]

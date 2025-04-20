@@ -1,0 +1,7919 @@
+# Show help options
+extern "rpm-ostree" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Apply pending changes to booted deployment
+extern "rpm-ostree apply-live" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Cancel an active transaction
+extern "rpm-ostree cancel" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Clear cached/pending data
+extern "rpm-ostree cleanup" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Commands to compose a tree
+extern "rpm-ostree compose" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Commands to query the RPM database
+extern "rpm-ostree db" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Deploy a specific commit
+extern "rpm-ostree deploy" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Toggle local initramfs regeneration
+extern "rpm-ostree initramfs" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Add files to the initramfs
+extern "rpm-ostree initramfs-etc" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Overlay additional packages
+extern "rpm-ostree install" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Query or modify kernel arguments
+extern "rpm-ostree kargs" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Manage base package overrides
+extern "rpm-ostree override" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Switch to a different tree
+extern "rpm-ostree rebase" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Generate rpm repo metadata
+extern "rpm-ostree refresh-md" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Reload configuration
+extern "rpm-ostree reload" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Remove all mutations
+extern "rpm-ostree reset" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Revert to previously booted tree
+extern "rpm-ostree rollback" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Get booted system version
+extern "rpm-ostree status" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Remove overlayed additional packages
+extern "rpm-ostree uninstall" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Remove overlayed additional packages
+extern "rpm-ostree remove" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Perform system upgrade
+extern "rpm-ostree upgrade" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Alias for upgrade
+extern "rpm-ostree update" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Apply transient overlayfs to /usr
+extern "rpm-ostree usroverlay" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Commit target path to an OSTree repo
+extern "rpm-ostree commit" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Create Chunked Container image from OSTree Commit
+extern "rpm-ostree container-encapsulate" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Download Depsolved RPMs for Base OSTree
+extern "rpm-ostree extensions" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Create reproducible Chunked Image from Treefile
+extern "rpm-ostree image" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Final postprocessing on an installation root
+extern "rpm-ostree postprocess" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Process a treefile
+extern "rpm-ostree tree" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Show package changes between two commits
+extern "rpm-ostree diff" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# List packages within commits
+extern "rpm-ostree list" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Show rpmdb version of packages within the commits
+extern "rpm-ostree version" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]
+
+# Replace packages in the base layer
+extern "rpm-ostree replace" [
+	--help					# Show help options
+	--quiet(-q)					# Print minimal informational messages
+	--version					# Print version info and exit
+	--target					# Target provided commit
+	--reset					# Reset back to booted commit
+	--allow-replacement					# Allow replacement of packages/files
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--base(-b)					# Clear temporary files; will not change deployments
+	--pending(-p)					# Remove pending deployment
+	--rollback(-r)					# Remove rollback deployment
+	--repomd(-m)					# Delete cached rpm repo metadata
+	--peer					# Force peer-to-peer connection
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Path to OSTree repo for ostree-layers & ostree-override-layers
+	--add-metadata-string					# =KEY=VALUE Append given key=value to metadata
+	--add-metadata-from-json					# =JSON Append given JSON file to ostree commit
+	--write-commitid-to					# =FILE Write composed CommitID to file
+	--write-composejson-to					# =FIlE Write compose run info to JSON file
+	--no-parent					# Always commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--label					# Additional labels for container
+	--copymeta					# Propagate OSTree key to container label
+	--copymeta-opt					# Propagate opt OSTree key to container label
+	--cmd					# Matches dockerfile CMD instruction
+	--max-layers					# Maximum number of container image layers
+	--format-version					# 0 or 1; encapsulated container format version
+	--compare-with-build					# Compare current OCI layers with another imgref
+	--previous-build-manifest					# Preserve pack structure with prior metadata
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--output-dir					# =PATH Path to extensions output dir
+	--base-rev					# =REV Base OSTree revision
+	--cachedir					# =CACHEDIR Cached state dir
+	--rootfs					# =ROOTFS Path to existing rootfs
+	--touch-if-changed					# =FILE Update mod time on file
+	--cachedir					# Set cache directory for packages and data
+	--authfile					# Container authentication file
+	--layer-repo					# Specify repository for ostree layers and ostree-override-layers
+	--initialize(-i)					# Skip previous image query for first build
+	--format					# Choose format (ociarchive oci registry)
+	--force-nocache					# Force a build
+	--offline					# Operate on cached data, no network repo access
+	--lockfile					# Specify JSON-formatted lockfile
+	--label					# Add labels (KEY=VALUE) to the container image
+	--touch-if-changed					# Update file timestamp on changes
+	--copy-retry-times					# Set number of copy retries to remote destination
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repo
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--unified-core					# Use new unified core codepath
+	--unified-core					# Use new unified core codepath
+	--repo(-r)					# =REPO Path to OSTree repos
+	--layer-repo					# =REPO Repo for ostree-layers & ostree-override-layers
+	--force-nocache					# Always create new OSTree commit
+	--cache-only					# Assume cache present, no updates
+	--cachedir					# =CACHEDIR Specify cached state dir
+	--download-only					# Dry-run but download & import RPMs
+	--download-only-rpms					# Dry-run but download RPMs; need --cachedir
+	--proxy					# =PROXY HTTP proxy
+	--dry-run					# Print transaction and exit
+	--print-only					# Expand includes and print treefile
+	--touch-if-changed					# =FILE Update FILE's mod time if new commit
+	--previous-commit					# =COMMIT for change detection
+	--previous-inputhash					# =DIGEST Use input hash for change detect
+	--previous-version					# =VERSION for auto version numbering
+	--workdir					# =WORKDIR Working directory
+	--ex-write-lockfile-to					# =FILE Write lockfile to FILE
+	--ex-lockfile					# =FILE Read lockfile from FILE
+	--ex-lockfile-strict					# Only allow installing locked packages with --ex-lockfile
+	--add-metadata-string					# =KEY=VALUE Append key=value to metadata
+	--add-metadata-from-json					# =JSON Append JSON to OSTree commit
+	--write-commitid-to					# =FILE Write commitid to FILE, not ref
+	--write-composejson-to					# =FILE Write compose run info json to FILE
+	--no-parent					# Always Commit without a parent
+	--parent					# =REV Commit with specific parent revision
+	--format					# =FORMAT Choose output format (block diff json)
+	--changelogs(-c)					# Include RPM changelogs
+	--base					# Diff against deployments' base
+	--advisories(-a)					# Include new advisories
+	--advisories(-a)					# Include new advisories
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation complete
+	--preview					# Preview package differences
+	--cache-only(-C)					# No latest ostree and RPM download
+	--download-only					# Download latest ostree and RPM data, don't deploy
+	--skip-branch-check					# Don't check if commit belongs on the same branch
+	--disallow-downgrade					# Forbid deployment of older trees
+	--unchanged-exit-77					# If no new deployment made, exit 77
+	--register-driver					# =DRIVERNAME Register agent as driver for updates
+	--bypass-driver					# Force deploy even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed additional package
+	--os					# =OSNAME Operate on provided OSNAME
+	--enable					# Enable regenerating initramfs locally using dracut
+	--arg					# =ARG Append ARG to the dracut arguments
+	--disable					# Disable regenerating initramfs locally
+	--reboot(-r)					# Reboot after operation complete
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--force-sync					# Deploy a new tree with the latest tracked /etc files
+	--untrack-all					# Untrack all root /etc files
+	--reboot(-r)					# Reboot after operation complete
+	--unchanged-exit-77					# Exit with 77 if no new deployment made
+	--peer					# Force peer-to-peer connection
+	--uninstall					# =PKG Remove overlayed additional package
+	--cache-only(-C)					# Skip downloading latest ostree/RPM data
+	--download-only					# Download latest ostree & RPM data, skip deploy
+	--apply-live(-A)					# Apply changes to pending & live filesystem
+	--force-replacefiles					# Allow package to replace files from others' pkgs
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot post-operation
+	--dry-run(-n)					# Exit after printing the transaction
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# No action if pkg already (un)installed
+	--unchanged-exit-77					# If no overlays were changed, exit 77
+	--enablerepo					# Enable repo based on its ID
+	--disablerepo					# Only disabling all (*) repo is supported
+	--releasever					# Set the releasever
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operation on provided OSNAME
+	--deploy-index					# =INDEX Modify kernel args of a deployment by index
+	--reboot					# Initiate a reboot after operation
+	--append					# =KEY=VALUE Append kernel argument
+	--replace					# =KEY=VALUE=NEWVALUE Replace kernel argument
+	--delete					# =KEY=VALUE Delete kernel argument pair
+	--append-if-missing					# =KEY=VALUE Append kernel arg if missing
+	--delete-if-present					# =KEY=VALUE Delete kernel arg if present
+	--unchanged-exit-77					# Exit 77 if no kernel args changed
+	--import-proc-cmdline					# Modify args from the booted deployment
+	--editor					# Use editor to modify kernel arguments
+	--peer					# Force peer-to-peer connection
+	--replace					# =RPM Replace a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--remove					# =PKG Remove a package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--all(-a)					# Reset all active overrides
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--dry-run(-n)					# Exit after printing transaction
+	--cache-only(-C)					# Only operate on cached data
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Initiate a reboot after operation
+	--skip-purge					# Keep previous refspec after rebase
+	--cache-only(-C)					# Don't download latest ostree/RPM data
+	--download-only					# Download ostree & RPM data, don't deploy
+	--custom-origin-description					# Human-readable description of custom origin
+	--custom-origin-url					# Machine-readable description of custom origin
+	--experimental					# Enable experimental features
+	--disallow-downgrade					# Forbid older trees deployment
+	--bypass-driver					# Force rebase despite updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--os					# =OSNAME Operate on provided OSNAME
+	--force					# Expire current cache
+	--peer					# Force peer-to-peer connection
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after transaction
+	--overlays(-l)					# Remove all overlayed packages
+	--overrides(-o)					# Remove all overrides
+	--initramfs(-i)					# Stop regenerating initramfs
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	--reboot(-r)					# Reboot after transaction
+	--peer					# Force peer-to-peer connection
+	--verbose(-v)					# Print additional fields
+	--advisories(-a)					# Expand advisories listing
+	--json					# Output JSON
+	--jsonpath(-J)					# =EXPRESSION Filter JSONPath expression
+	--booted(-b)					# Only print booted deployment
+	--pending-exit-77					# If pending deployment available, exit 77
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--all					# Remove all overlayed packages
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--dry-run(-n)					# Print transaction, don't execute
+	--assumeyes(-y)					# Auto-confirm non-security prompts
+	--allow-inactive					# Allow inactive package requests
+	--idempotent					# Skip if pkg already (un)installed
+	--unchanged-exit-77					# Exit 77 if no overlays changed
+	--enablerepo					# Enable repo by id
+	--disablerepo					# Disable all (*) repositories
+	--releasever					# Set the release version
+	--peer					# Force peer-to-peer connection
+	--os					# =OSNAME Operate on provided OSNAME
+	--reboot(-r)					# Reboot after operation
+	--allow-downgrade					# Allow older trees deployment
+	--preview					# Preview pkg differences
+	--check					# Check upgrade availability
+	--cache-only(-C)					# Don't download OSTree & RPM data
+	--download-only					# Download OSTree & RPM data, don't deploy
+	--unchanged-exit-77					# Exit 77 if no deployment
+	--bypass-driver					# Force upgrade even if updates driver is registered
+	--peer					# Force peer-to-peer connection
+	--install					# =PKG Overlay additional package
+	--uninstall					# =PKG Remove overlayed package
+	...args
+]

@@ -1,0 +1,87 @@
+# Append archive to archive
+extern "tar" [
+	--concatenate(-A)					# Append archive to archive
+	--create(-c)					# Create archive
+	--compare(-d)					# Compare archive and filesystem
+	--delete					# Delete from archive
+	--append(-r)					# Append files to archive
+	--list(-t)					# List archive
+	--test-label					# Test the archive volume label
+	--update(-u)					# Append new files
+	--get(-x)					# Extract from archive
+	--show-defaults					# Show built-in defaults for various tar options
+	--help(-\?)					# Display short option summary
+	--usage					# List available options
+	--version					# Print program version and copyright information
+	--check-device					# Check device numbers when creating incremental archives
+	--incremental(-G)					# Use old incremental GNU format
+	--ignore-failed-read					# Do not exit with nonzero on unreadable files
+	--seek(-n)					# Assume  the  archive is seekable
+	--no-check-device					# Do not check device numbers when creating incremental archives
+	--no-seek					# Assume the archive is not seekable
+	--restrict					# Disable the use of some potentially harmful options
+	--sparse(-S)					# Handle sparse files
+	--keep-old-files(-k)					# Don't overwrite
+	--keep-newer-files					# Don't replace existing files that are newer
+	--keep-directory-symlink					# Don't replace existing symlinks
+	--no-overwrite-dir					# Preserve metadata of existing directories
+	--one-top-level					# Extract into directory
+	--overwrite					# Overwrite existing files when extracting
+	--overwrite-dir					# Overwrite metadata of existing directories
+	--recursive-unlink					# Recursively remove all files in the directory prior to extracting it
+	--remove-files					# Remove files after adding to archive
+	--skip-old-files					# Don't replace existing files when extracting
+	--unlink-first(-U)					# Remove each file prior to extracting over it
+	--verify(-W)					# Verify archive
+	--ignore-command-error					# Ignore subprocess exit codes
+	--no-ignore-command-error					# Treat non-zero exit codes of children as error
+	--to-stdout(-O)					# Extract to stdout
+	--atime-preserve					# Keep access time
+	--delay-directory-restore					# Delay  setting  modification  times
+	--touch(-m)					# Don't extract modification time
+	--no-delay-directory-restore					# Cancel the effect of the prior --delay-directory-restore
+	--no-same-owner					# Extract files as yourself
+	--no-same-permissions					# Apply the user's umask when extracting
+	--numeric-owner					# Always use numbers for user/group names
+	--preserve-permissions(-p)					# Extract all permissions
+	--same-owner					# Try  extracting  files with the same ownership
+	--preserve-order(-s)					# Do not sort file arguments
+	--acls					# Enable POSIX ACLs support
+	--no-acls					# Disable POSIX ACLs support
+	--selinux					# Enable SELinux context support
+	--no-selinux					# Disable SELinux context support
+	--xattrs					# Enable extended attributes support
+	--no-xattrs					# Disable extended attributes support
+	--xattrs-exclude					# Specify the exclude pattern for xattr keys
+	--xattrs-include					# Specify the include pattern for xattr keys
+	--multi-volume(-M)					# Multi volume archive
+	--block-size(-b)					# Block size
+	--read-full-blocks(-B)					# Reblock while reading
+	--checkpoint					# Print directory names
+	--force-local					# Archive is local
+	--dereference(-h)					# Dereference symlinks
+	--ignore-zeros(-i)					# Ignore zero block in archive
+	--one-file-system(-l)					# Stay in local filesystem
+	--modification-time(-m)					# Don't extract modification time
+	--old-archive(-o)					# Use V7 format
+	--portability					# Use V7 format
+	--absolute-paths(-P)					# Don't strip leading /
+	--preserve					# Preserve all permissions and do not sort file arguments
+	--record-number(-R)					# Show record number
+	--null					# -T has null-terminated names
+	--totals					# Print total bytes written
+	--verbose(-v)					# Verbose mode
+	--interactive(-w)					# Ask for confirmation
+	--confirmation					# Ask for confirmation
+	--auto-compress(-a)					# Use archive suffix to determine the compression program
+	--bzip2(-j)					# Filter through bzip2
+	--xz(-J)					# Filter through xz
+	--lzip					# Filter through lzip
+	--lzma					# Filter through lzma
+	--lzop					# Filter through lzop
+	--no-auto-compress					# Do not use archive suffix to determine the compression program
+	--ungzip(-z)					# Filter through gzip
+	--uncompress(-Z)					# Filter through compress
+	--zstd					# Filter through zstd
+	...args
+]

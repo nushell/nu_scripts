@@ -1,0 +1,59 @@
+# Equivalent to -h -l -S -s -r -d -V -A -I
+extern "readelf" [
+	--all(-a)					# Equivalent to -h -l -S -s -r -d -V -A -I
+	--file-header(-h)					# Display the ELF file header
+	--segments(-l)					# Display the program headers
+	--sections(-S)					# Display the sections' header
+	--section-groups(-g)					# Display the section groups
+	--section-details(-t)					# Display the section details
+	--headers(-e)					# Equivalent to -h -l -S
+	--symbols(-s)					# Display the symbol table
+	--dyn-syms					# Display the dynamic symbol table
+	--lto-syms					# Display LTO symbol tables
+	--no-demangle					# Don't demangle low-level symbol names
+	--recurse-limit					# Enable a demangling recursion limit
+	--no-recurse-limit					# Disable a demangling recursion limit
+	--notes(-n)					# Display the core notes
+	--relocs(-r)					# Display the relocations
+	--unwind(-u)					# Display the unwind info
+	--dynamic(-d)					# Display the dynamic section
+	--version-info(-V)					# Display the version sections
+	--arch-specific(-A)					# Display architecture specific information
+	--archive-index(-c)					# Display the symbol/file index in an archive
+	--use-dynamic(-D)					# Use the dynamic section info when displaying symbols
+	--enable-checks(-L)					# Display warning messages for possible problems
+	--decompress(-z)					# Decompress section before dumping it
+	--debug-dump					# Display the contents of DWARF debug sections
+	--debug-dump=abbrev					# Displays the contents of the .debug_abbrev section
+	--debug-dump=addr					# Displays the contents of the .debug_addr section
+	--debug-dump=cu_index					# Displays the contents of the .debug_cu_index and/or .debug_tu_index sections
+	--debug-dump=frames					# Display the raw contents of a .debug_frame section
+	--debug-dump=frames-interp					# Display the interpreted contents of a .debug_frame section
+	--debug-dump=gdb_index					#  Displays the contents of the .gdb_index and/or .debug_names sections
+	--debug-dump=info					# Displays the contents of the .debug_info section
+	--debug-dump=links					# Display the contents of sections that link to separate debuginfo files
+	--debug-dump=follow-links					# Follow links to separate debug info files
+	--debug-dump=no-follow-links					# Don't follow links to separate debug info files
+	--debug-dump=use-debuginfod					# When following links, also query debuginfod servers
+	--debug-dump=do-not-use-debuginfod					# When following links, don't query debuginfod servers
+	--debug-dump=rawline					# Displays the contents of the .debug_line section in a raw format
+	--debug-dump=decodedline					# Displays the interpreted contents of the .debug_line section
+	--debug-dump=macro					# Displays the contents of the .debug_macro and/or .debug_macinfo sections
+	--debug-dump=loc					# Displays the contents of the .debug_loc and/or .debug_loclists sections
+	--debug-dump=str-offsets					# Displays the contents of the .debug_str_offsets section
+	--debug-dump=pubnames					# Displays the contents of the .debug_pubnames and/or .debug_gnu_pubnames sections
+	--debug-dump=aranges					# Displays the contents of the .debug_aranges section
+	--debug-dump=Ranges					# Displays the contents of the .debug_ranges and/or .debug_rnglists sections
+	--debug-dump=str					# Displays the contents of the .debug_str, .debug_line_str and/or .debug_str_offsets sections
+	--debug-dump=pubtype					# Displays the contents of the .debug_pubtypes and/or .debug_gnu_pubtypes sections
+	--debug-dump=trace_aranges					# Displays the contents of the .trace_aranges section
+	--debug-dump=trace_abbrev					# Displays the contents of the .trace_abbrev section
+	--debug-dump=trace_info					# Displays the contents of the .trace_info section
+	--process-links(-P)					# Display the contents of non-debug sections in separate debuginfo files
+	--histogram(-I)					# Display histogram of bucket list lengths
+	--wide(-W)					# Allow output width to exceed 80 characters
+	--silent-truncation(-T)					# If a symbol name is truncated, don't add [...] suffix
+	--help(-H)					# Display this information
+	--version(-v)					# Display the version number of readelf
+	...args
+]
