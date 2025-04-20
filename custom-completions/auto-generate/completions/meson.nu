@@ -50,8 +50,8 @@ extern "meson" [
 	--warnlevel					# Compiler warning level to use
 	--werror					# Treat warnings as errors
 	--wrap-mode					# Wrap mode
-	--pkgconfig.relocatable					# Generate pkgconfig files as relocatable
-	--python.install-env					# Which python environment to install to
+	#--pkgconfig.relocatable					# Generate pkgconfig files as relocatable
+	#--python.install-env					# Which python environment to install to
 	--vsenv					# Force setup of Visual Studio environment
 	--version(-v)					# Show version number and exit
 	--fatal-meson-warnings					# Make all Meson warnings fatal

@@ -76,19 +76,6 @@ extern "gcc no pad regroup_exact" [
 	...args
 ]
 
-# 
-extern "gcc medlow\t"Medium/Low code model: 64-bit addresses, programs must be linked in the low 32 bits of memory" [
-	--help					# Print help
-	--target-help					# Print a description of target specific options for each tool
-	--version					# Display the version number and copyrights
-	--coverage					# Used to compile and link code instrumented for coverage analysis
-	--param					# In some places, GCC uses various constants to control the amount of optimization that is done
-	--help					# Print text describing all the command line options instead of preprocessing anything
-	--target-help					# Print text describing all the command line options instead of preprocessing anything
-	--version					# Print out GNU CPP’s version number
-	...args
-]
-
 # Set the default ELF image symbol visibility
 extern "gcc default internal hidden protected" [
 	--help					# Print help

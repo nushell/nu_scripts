@@ -3,7 +3,7 @@ extern "opam" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -39,7 +39,7 @@ extern "opam always never auto" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -75,7 +75,7 @@ extern "opam config" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -111,7 +111,7 @@ extern "opam env" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -147,7 +147,7 @@ extern "opam exec" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -183,7 +183,7 @@ extern "opam var" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -219,7 +219,7 @@ extern "opam list" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -255,7 +255,7 @@ extern "opam subst" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -291,7 +291,7 @@ extern "opam includes" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -327,7 +327,7 @@ extern "opam bytecomp" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -363,7 +363,7 @@ extern "opam asmcomp" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -399,7 +399,7 @@ extern "opam bytelink" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -435,7 +435,7 @@ extern "opam report" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -471,7 +471,7 @@ extern "opam help" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -507,7 +507,7 @@ extern "opam init" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -543,7 +543,7 @@ extern "opam install" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -579,7 +579,7 @@ extern "opam pin" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -615,7 +615,7 @@ extern "opam reinstall" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -651,7 +651,7 @@ extern "opam remove uninstall" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -687,7 +687,7 @@ extern "opam repository remote" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -723,7 +723,7 @@ extern "opam search" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -759,7 +759,7 @@ extern "opam show info" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -795,7 +795,7 @@ extern "opam switch" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -831,7 +831,7 @@ extern "opam update" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -867,7 +867,7 @@ extern "opam upgrade" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -903,7 +903,7 @@ extern "opam admin" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -939,7 +939,7 @@ extern "opam check" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -975,7 +975,7 @@ extern "opam depexts" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1011,7 +1011,7 @@ extern "opam make" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1047,7 +1047,7 @@ extern "opam stats" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1083,7 +1083,7 @@ extern "opam create" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1119,7 +1119,7 @@ extern "opam set" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1155,7 +1155,7 @@ extern "opam remove" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1191,7 +1191,7 @@ extern "opam export" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1227,7 +1227,7 @@ extern "opam import" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1263,7 +1263,7 @@ extern "opam list-available" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1299,7 +1299,7 @@ extern "opam show" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1335,7 +1335,7 @@ extern "opam set-base" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available
@@ -1371,7 +1371,7 @@ extern "opam link" [
 	--help					# Display the manual for an OPAM command
 	--version					# Show version information
 	--color					# Colorize the output
-	--compat-mode-1.0					# Compatibility mode with OPAM 1.0
+	#--compat-mode-1.0					# Compatibility mode with OPAM 1.0
 	--debug					# Print debug message on stdout
 	--git-version					# Print the git version if it exists and exit
 	--no-aspcud					# Do not use the external aspcud solver, even if available

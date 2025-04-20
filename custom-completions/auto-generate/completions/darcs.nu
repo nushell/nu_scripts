@@ -58,7 +58,7 @@ extern "darcs" [
 	--unified(-u)					# Output changes in a darcs-specific format similar to diff -u
 	--human-readable					# Give human-readable output [DEFAULT]
 	--machine-readable					# Give machine-readable output
-	--look-for-adds(--l)					# Look for (non-boring) files that could be added
+	--look-for-adds					# Look for (non-boring) files that could be added
 	--look-for-replaces					# Look for replaces that could be marked
 	--look-for-moves					# Look for files that may be moved/renamed
 	--myers					# Use myers diff algorithm

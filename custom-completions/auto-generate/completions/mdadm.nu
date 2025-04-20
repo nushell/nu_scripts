@@ -40,7 +40,7 @@ extern "mdadm" [
 	--detail-platform					# Print details on platform capabilities
 	--export(-Y)					# Format data output as key=value pairs
 	--examine(-E)					# Print content of device metadata
-	--sparc2.2					# Fix examination for buggy SPARC 2.2 kernel RAID
+	#--sparc2.2					# Fix examination for buggy SPARC 2.2 kernel RAID
 	--examine-bitmap(-X)					# Print report about bitmap
 	--examine-badblocks					# List recorded bad blocks
 	--stop(-S)					# Deactivate array

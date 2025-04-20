@@ -5,235 +5,235 @@ extern "" [
 ]
 
 # Check if the service is in it's requested state
-extern "check" [
+extern " check" [
 
 	...args
 ]
 
 # Run term, cont, and  up, report status
-extern "try-restart" [
+extern " try-restart" [
 
 	...args
 ]
 
 # Run exit, report status or kill on timeout
-extern "force-shutdown" [
+extern " force-shutdown" [
 
 	...args
 ]
 
 # Run term, cont and up, report status
-extern "force-restart" [
+extern " force-restart" [
 
 	...args
 ]
 
 # Run term and  cont, report status
-extern "force-reload" [
+extern " force-reload" [
 
 	...args
 ]
 
 # Run down, report status or kill on timeout
-extern "force-stop" [
+extern " force-stop" [
 
 	...args
 ]
 
 # Run exit, report status
-extern "shutdown" [
+extern " shutdown" [
 
 	...args
 ]
 
 # Run term, cont, and  up, report status using ./check
-extern "restart" [
+extern " restart" [
 
 	...args
 ]
 
 # Run hup, report status
-extern "reload" [
+extern " reload" [
 
 	...args
 ]
 
 # Run down, report status
-extern "stop" [
+extern " stop" [
 
 	...args
 ]
 
 # Run up, report status
-extern "start" [
+extern " start" [
 
 	...args
 ]
 
 # Alias for exit
-extern "e" [
+extern " e" [
 
 	...args
 ]
 
 # Alias for kill
-extern "k" [
+extern " k" [
 
 	...args
 ]
 
 # Alias for term
-extern "t" [
+extern " t" [
 
 	...args
 ]
 
 # Alias for 2
-extern "2" [
+extern " 2" [
 
 	...args
 ]
 
 # Alias for 1
-extern "1" [
+extern " 1" [
 
 	...args
 ]
 
 # Alias for quit
-extern "q" [
+extern " q" [
 
 	...args
 ]
 
 # Alias for interrupt
-extern "i" [
+extern " i" [
 
 	...args
 ]
 
 # Alias for alarm
-extern "a" [
+extern " a" [
 
 	...args
 ]
 
 # Alias for hup
-extern "h" [
+extern " h" [
 
 	...args
 ]
 
 # Alias for cont
-extern "c" [
+extern " c" [
 
 	...args
 ]
 
 # Alias for pause
-extern "p" [
+extern " p" [
 
 	...args
 ]
 
 # Send TERM, and CONT, report status
-extern "exit" [
+extern " exit" [
 
 	...args
 ]
 
 # Send SIGKILL
-extern "kill" [
+extern " kill" [
 
 	...args
 ]
 
 # Send SIGTERM
-extern "term" [
+extern " term" [
 
 	...args
 ]
 
 # Send SIGQUIT
-extern "quit" [
+extern " quit" [
 
 	...args
 ]
 
 # Send SIGINT
-extern "interrupt" [
+extern " interrupt" [
 
 	...args
 ]
 
 # Send SIGALRM
-extern "alarm" [
+extern " alarm" [
 
 	...args
 ]
 
 # Send SIGHUP
-extern "hup" [
+extern " hup" [
 
 	...args
 ]
 
 # Send SIGCONT
-extern "cont" [
+extern " cont" [
 
 	...args
 ]
 
 # Send SIGSTOP
-extern "pause" [
+extern " pause" [
 
 	...args
 ]
 
 # Alias for once
-extern "o" [
+extern " o" [
 
 	...args
 ]
 
 # Alias for down
-extern "d" [
+extern " d" [
 
 	...args
 ]
 
 # Alias for up
-extern "u" [
+extern " u" [
 
 	...args
 ]
 
 # Alias for status
-extern "s" [
+extern " s" [
 
 	...args
 ]
 
 # Start service, but don't restart it
-extern "once" [
+extern " once" [
 
 	...args
 ]
 
 # Send it the TERM signal
-extern "down" [
+extern " down" [
 
 	...args
 ]
 
 # Start a service
-extern "up" [
+extern " up" [
 
 	...args
 ]
 
 # Report the current status of the service
-extern "status" [
+extern " status" [
 
 	...args
 ]

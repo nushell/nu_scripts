@@ -1,92 +1,78 @@
-# Program section
-extern "1" [
+[# Program section
+extern " 1" [
 
 	...args
 ]
-
 # Syscall section
-extern "2" [
+extern " 2" [
 
 	...args
 ]
-
 # Library section
-extern "3" [
+extern " 3" [
 
 	...args
 ]
-
 # Device section
-extern "4" [
+extern " 4" [
 
 	...args
 ]
-
 # File format section
-extern "5" [
+extern " 5" [
 
 	...args
 ]
-
 # Games section
-extern "6" [
+extern " 6" [
 
 	...args
 ]
-
 # Misc section
-extern "7" [
+extern " 7" [
 
 	...args
 ]
-
 # Admin section
-extern "8" [
+extern " 8" [
 
 	...args
 ]
-
 # Kernel section
-extern "9" [
+extern " 9" [
 
 	...args
 ]
-
 # Tcl section
-extern "tcl" [
+extern " tcl" [
 
 	...args
 ]
-
 # New section
-extern "n" [
+extern " n" [
 
 	...args
 ]
-
 # Local section
-extern "l" [
+extern " l" [
 
 	...args
 ]
-
 # 
-extern "p" [
+extern " p" [
 
 	...args
 ]
-
 # Old section
-extern "o" [
+extern " o" [
 
 	...args
 ]
-
 # Configuration file
 extern "" [
 
 	...args
-]
+]]
 
 # Display all matches
 extern "man" [
