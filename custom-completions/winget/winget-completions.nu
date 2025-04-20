@@ -169,7 +169,7 @@ export extern "winget install" [
 ]
 export alias "winget add" = winget install
 
-export def "winget show" [
+export extern "winget show" [
     pos_query?: string,
     --query(-q): string, # The query used to search for a package
     --id: string, # Filter results by id
@@ -189,66 +189,8 @@ export def "winget show" [
     --accept_package_agreements, # Accept all licence agreements for packages
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
     --accept_source_agreements, # Accept all source agreements during source operations
-    --raw, # Output the raw CLI output instead of structured data
     --help(-?), # Display the help for this command
-] {
-    let flagify = { |name, value| nu-complete winget flagify $name $value }
-
-    def sanitize-line []: string -> string {
-        let it = $in
-        let parsed = ($it | parse '{name}:{value}')
-        if ($parsed | is-empty) { return $"($it)" }
-        let parsed = ($parsed | first)
-        try {
-            $"($parsed.name):(if ($parsed.value | str trim | is-empty) { '' } else { $"(char space)(char dq)($parsed.value | str trim)(char dq)" })"
-        } catch { 
-            $"($it)"
-        }
-    }
-
-    let params = ([
-        "show"
-    ] | append ([
-        $pos_query
-        (do $flagify query $query)
-        (do $flagify id $id)
-        (do $flagify name $name)
-        (do $flagify moniker $moniker)
-        (do $flagify version $version)
-        (do $flagify source $source)
-        #(do $flagify scope $scope)
-        (do $flagify exact $exact)
-        (do $flagify interactive $interactive)
-        (do $flagify silent $silent)
-        (do $flagify locale $locale)
-        (do $flagify log $log)
-        (do $flagify override $override)
-        (do $flagify location $location)
-        (do $flagify force $force)
-        (do $flagify accept_package_agreements $accept_package_agreements)
-        (do $flagify header $header)
-        (do $flagify accept_source_agreements $accept_source_agreements)
-        (do $flagify help $help)
-    ] | flatten) | filter { not ($in | is-empty)})
-
-    let output = ^winget ...$params
-    if $raw or $help or ($output | str contains "No package selection argument was provided") {
-       $output
-    } else {
-        let lines = ($output | lines)
-
-        if ($lines | first) =~ "Multiple packages found matching input criteria." {
-            $"(ansi yellow)($lines | first | str trim)(ansi reset)"
-            nu-complete winget parse table ($lines | skip 1) | select name id source
-        } else if ($lines | first) =~ "No package found matching input criteria." {
-            $"(ansi yellow)($lines | first | str trim)(ansi reset)"
-        } else {
-            let header = ($lines | first | parse -r 'Found (?P<Name>.+) \[(?P<Id>.+)\]')
-            let manifest = ($lines | skip | each { sanitize-line } | str join (char newline) | from yaml)
-            $header | first | merge $manifest
-        }
-    }
-}
+]
 export alias "winget view" = winget show
 
 # Manage sources of packages
