@@ -96,15 +96,10 @@ def make-subcommands-completion [parents: list<string>] {
     | transpose name args                                                             # turn it into a table of name to arguments
     | each {|subcommand|
         [
-            # (sub)command description
+            # description
             (if ('d' in ($subcommand.args | columns)) and ($subcommand.args.d != "") { $"# ($subcommand.args.d.0)\n" })
-            # extern command
-            ([
-                "extern " $quote ($parents | str join " ")
-                  # sub command if present
-                  (if $subcommand.name != "" { [ " " $subcommand.name ] | str join })
-                $quote
-            ] | str join)
+            # extern name
+            $'extern "($parents | append $subcommand.name | str join " " | str trim)"'
             # params
             " [\n"
                 (
