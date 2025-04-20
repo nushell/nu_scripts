@@ -50,7 +50,7 @@ extern "ack" [
 	--ackrc					# Specifies location of ackrc file
 	--ignore-ack-defaults					# Ignore default definitions ack includes
 	--create-ackrc					# Outputs default ackrc
-	--help(-\?)					# Shows help
+	--help(-?)					# Shows help
 	--help-types					# Shows all known types
 	--dump					# Dump information on which options are loaded
 	--filter					# Forces ack to treat input as a pipe

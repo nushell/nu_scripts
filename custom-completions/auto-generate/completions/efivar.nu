@@ -8,7 +8,7 @@ extern "efivar" [
 	--append(-a)					# Append to variable specified by --name
 	--list-guids(-L)					# Show internal guid list
 	--write(-w)					# Write to variable specified by --name
-	--help(-\?)					# Show help message
+	--help(-?)					# Show help message
 	--usage					# Display brief usage message
 	...args
 ]

@@ -10,15 +10,15 @@ extern "zef" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -29,7 +29,7 @@ extern "zef" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -39,7 +39,7 @@ extern "zef" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -58,15 +58,15 @@ extern "zef install" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -77,7 +77,7 @@ extern "zef install" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -87,7 +87,7 @@ extern "zef install" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -106,15 +106,15 @@ extern "zef uninstall" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -125,7 +125,7 @@ extern "zef uninstall" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -135,7 +135,7 @@ extern "zef uninstall" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -154,15 +154,15 @@ extern "zef update" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -173,7 +173,7 @@ extern "zef update" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -183,7 +183,7 @@ extern "zef update" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -202,15 +202,15 @@ extern "zef upgrade" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -221,7 +221,7 @@ extern "zef upgrade" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -231,7 +231,7 @@ extern "zef upgrade" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -250,15 +250,15 @@ extern "zef search" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -269,7 +269,7 @@ extern "zef search" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -279,7 +279,7 @@ extern "zef search" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -298,15 +298,15 @@ extern "zef info" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -317,7 +317,7 @@ extern "zef info" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -327,7 +327,7 @@ extern "zef info" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -346,15 +346,15 @@ extern "zef browse" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -365,7 +365,7 @@ extern "zef browse" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -375,7 +375,7 @@ extern "zef browse" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -394,15 +394,15 @@ extern "zef list" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -413,7 +413,7 @@ extern "zef list" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -423,7 +423,7 @@ extern "zef list" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -442,15 +442,15 @@ extern "zef depends" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -461,7 +461,7 @@ extern "zef depends" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -471,7 +471,7 @@ extern "zef depends" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -490,15 +490,15 @@ extern "zef rdepends" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -509,7 +509,7 @@ extern "zef rdepends" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -519,7 +519,7 @@ extern "zef rdepends" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -538,15 +538,15 @@ extern "zef locate" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -557,7 +557,7 @@ extern "zef locate" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -567,7 +567,7 @@ extern "zef locate" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -586,15 +586,15 @@ extern "zef smoke" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -605,7 +605,7 @@ extern "zef smoke" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -615,7 +615,7 @@ extern "zef smoke" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm
@@ -634,15 +634,15 @@ extern "zef nuke" [
 	--debug					# Verbosity level
 	--fetch
 	--build
-	--/build					# Skip the building phase
+	#--/build					# Skip the building phase
 	--test
-	--/test					# Skip the testing phase
+	#--/test					# Skip the testing phase
 	--depends
-	--/depends					# Do not fetch runtime dependencies
+	#--/depends					# Do not fetch runtime dependencies
 	--build-depends
-	--/build-depends					# Do not fetch build dependencies
+	#--/build-depends					# Do not fetch build dependencies
 	--test-depends
-	--/test-depends					# Do not fetch test dependencies
+	#--/test-depends					# Do not fetch test dependencies
 	--force					# Ignore errors
 	--force-resolve					# Ignore errors
 	--force-fetch					# Ignore errors
@@ -653,7 +653,7 @@ extern "zef nuke" [
 	--dry					# Run all phases except the actual installations
 	--serial					# Install each dependency after passing testing and before building/testing the next dependency
 	--update					# Force a refresh for all module indexes or a specific ecosystem
-	--/update					# Skip refreshing all module indexes or a specific ecosystem
+	#--/update					# Skip refreshing all module indexes or a specific ecosystem
 	--exclude
 	--to					# Short name or spec of CompUnit::Repository to install to
 	--install-to					# Short name or spec of CompUnit::Repository to install to
@@ -663,7 +663,7 @@ extern "zef nuke" [
 	--from
 	--uninstall-from
 	--open
-	--/open
+	#--/open
 	--installed(-i)
 	--sha1
 	--confirm

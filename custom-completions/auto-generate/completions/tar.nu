@@ -10,7 +10,7 @@ extern "tar" [
 	--update(-u)					# Append new files
 	--get(-x)					# Extract from archive
 	--show-defaults					# Show built-in defaults for various tar options
-	--help(-\?)					# Display short option summary
+	--help(-?)					# Display short option summary
 	--usage					# List available options
 	--version					# Print program version and copyright information
 	--check-device					# Check device numbers when creating incremental archives

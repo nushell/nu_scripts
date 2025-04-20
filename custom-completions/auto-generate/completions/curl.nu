@@ -64,9 +64,9 @@ extern "curl" [
 	--header(-H)					# (HTTP) Extra header to include in the request when sending HTTP to a server
 	--help(-h)					# Usage help
 	--hostpubmd5					# (SFTP SCP) Pass a string containing 32 hexadecimal digits
-	--http0.9					# (HTTP) Accept HTTP version 0.9 response
-	--http1.0(-0)					# (HTTP) Use HTTP version 1
-	--http1.1					# (HTTP) Use HTTP version 1.1
+	#--http0.9					# (HTTP) Accept HTTP version 0.9 response
+	#--http1.0(-0)					# (HTTP) Use HTTP version 1
+	#--http1.1					# (HTTP) Use HTTP version 1.1
 	--http2-prior-knowledge					# (HTTP) Use HTTP/2 immediately (without trying HTTP1)
 	--http2					# (HTTP) Use HTTP version 2
 	--ignore-content-length					# (FTP HTTP) Ignore the Content-Length header
@@ -148,7 +148,7 @@ extern "curl" [
 	--proxy-tlsv1					# Same as -1, --tlsv1 but used in HTTPS proxy context
 	--proxy-user(-U)					# Specify the user name and password to use for proxy authentication
 	--proxy(-x)					# Use the specified proxy
-	--proxy1.0					# Use the specified HTTP 1.0 proxy
+	#--proxy1.0					# Use the specified HTTP 1.0 proxy
 	--proxytunnel(-p)					# If HTTP proxy is used, make curl tunnel through it
 	--pubkey					# (SFTP SCP) Public key file name
 	--quote(-Q)					# (FTP SFTP)  Send an arbitrary command to the remote FTP or SFTP server
@@ -197,10 +197,10 @@ extern "curl" [
 	--tlsauthtype					# Set TLS authentication type
 	--tlspassword					# Set password for use with the TLS authentication method
 	--tlsuser					# Set username for use with the TLS authentication method
-	--tlsv1.0					# (TLS) Forces curl to use TLS version 1.0
-	--tlsv1.1					# (TLS) Forces curl to use TLS version 1.1
-	--tlsv1.2					# (TLS) Forces curl to use TLS version 1.2
-	--tlsv1.3					# (TLS) Forces curl to use TLS version 1.3
+	#--tlsv1.0					# (TLS) Forces curl to use TLS version 1.0
+	#--tlsv1.1					# (TLS) Forces curl to use TLS version 1.1
+	#--tlsv1.2					# (TLS) Forces curl to use TLS version 1.2
+	#--tlsv1.3					# (TLS) Forces curl to use TLS version 1.3
 	--tlsv1					# (SSL) Tells curl to use at least TLS version 1
 	--tr-encoding					# (HTTP) Request compressed Transfer-Encoding, uncompress on receive
 	--trace-ascii					# Enables a full trace dump of all incoming and outgoing data
@@ -289,9 +289,9 @@ extern "curl PEM, DER ENG P12" [
 	--header(-H)					# (HTTP) Extra header to include in the request when sending HTTP to a server
 	--help(-h)					# Usage help
 	--hostpubmd5					# (SFTP SCP) Pass a string containing 32 hexadecimal digits
-	--http0.9					# (HTTP) Accept HTTP version 0.9 response
-	--http1.0(-0)					# (HTTP) Use HTTP version 1
-	--http1.1					# (HTTP) Use HTTP version 1.1
+	#--http0.9					# (HTTP) Accept HTTP version 0.9 response
+	#--http1.0(-0)					# (HTTP) Use HTTP version 1
+	#--http1.1					# (HTTP) Use HTTP version 1.1
 	--http2-prior-knowledge					# (HTTP) Use HTTP/2 immediately (without trying HTTP1)
 	--http2					# (HTTP) Use HTTP version 2
 	--ignore-content-length					# (FTP HTTP) Ignore the Content-Length header
@@ -373,7 +373,7 @@ extern "curl PEM, DER ENG P12" [
 	--proxy-tlsv1					# Same as -1, --tlsv1 but used in HTTPS proxy context
 	--proxy-user(-U)					# Specify the user name and password to use for proxy authentication
 	--proxy(-x)					# Use the specified proxy
-	--proxy1.0					# Use the specified HTTP 1.0 proxy
+	#--proxy1.0					# Use the specified HTTP 1.0 proxy
 	--proxytunnel(-p)					# If HTTP proxy is used, make curl tunnel through it
 	--pubkey					# (SFTP SCP) Public key file name
 	--quote(-Q)					# (FTP SFTP)  Send an arbitrary command to the remote FTP or SFTP server
@@ -422,10 +422,10 @@ extern "curl PEM, DER ENG P12" [
 	--tlsauthtype					# Set TLS authentication type
 	--tlspassword					# Set password for use with the TLS authentication method
 	--tlsuser					# Set username for use with the TLS authentication method
-	--tlsv1.0					# (TLS) Forces curl to use TLS version 1.0
-	--tlsv1.1					# (TLS) Forces curl to use TLS version 1.1
-	--tlsv1.2					# (TLS) Forces curl to use TLS version 1.2
-	--tlsv1.3					# (TLS) Forces curl to use TLS version 1.3
+	#--tlsv1.0					# (TLS) Forces curl to use TLS version 1.0
+	#--tlsv1.1					# (TLS) Forces curl to use TLS version 1.1
+	#--tlsv1.2					# (TLS) Forces curl to use TLS version 1.2
+	#--tlsv1.3					# (TLS) Forces curl to use TLS version 1.3
 	--tlsv1					# (SSL) Tells curl to use at least TLS version 1
 	--tr-encoding					# (HTTP) Request compressed Transfer-Encoding, uncompress on receive
 	--trace-ascii					# Enables a full trace dump of all incoming and outgoing data

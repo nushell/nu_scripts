@@ -11,7 +11,7 @@ extern "tcpdump" [
 	--nano					# Set time stamp precision to nanoseconds
 	--dont-verify-checksums(-K)					# Don\'t
 	--list-data-link-types(-L)					# List the known data link types for the interface
-	--number(-\#)					# Print an optional packet number
+	--number(-#)					# Print an optional packet number
 	--no-optimize(-O)					# Do not run the packet-matching code optimizer
 	--no-promiscuous-mode(-p)					# Don\'t
 	--print					# Print parsed packet output

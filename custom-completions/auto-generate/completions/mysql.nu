@@ -1,6 +1,6 @@
 # Display a help message
 extern "mysql" [
-	--help(-\?)					# Display a help message
+	--help(-?)					# Display a help message
 	--abort-source-on-error					# Abort source filename operations in case of errors
 	--auto-rehash					# Enable automatic rehashing
 	--auto-vertical-output					# Automatically switch to vertical output
@@ -11,7 +11,7 @@ extern "mysql" [
 	--comments(-c)					# Preserve comments in statements
 	--skip-comments					# Discard comments in statements
 	--compress(-C)					# Compress all information
-	--debug(-\#)					# Write a debugging log
+	--debug(-#)					# Write a debugging log
 	--debug-check					# Print some debugging information
 	--debug-info(-T)					# Prints debugging information and memory and CPU usage
 	--disable-named-commands					# Disable named commands
@@ -58,7 +58,7 @@ extern "mysql" [
 
 # Enable or disable LOCAL capability for LOAD DATA INFILE
 extern "mysql 0 1" [
-	--help(-\?)					# Display a help message
+	--help(-?)					# Display a help message
 	--abort-source-on-error					# Abort source filename operations in case of errors
 	--auto-rehash					# Enable automatic rehashing
 	--auto-vertical-output					# Automatically switch to vertical output
@@ -69,7 +69,7 @@ extern "mysql 0 1" [
 	--comments(-c)					# Preserve comments in statements
 	--skip-comments					# Discard comments in statements
 	--compress(-C)					# Compress all information
-	--debug(-\#)					# Write a debugging log
+	--debug(-#)					# Write a debugging log
 	--debug-check					# Print some debugging information
 	--debug-info(-T)					# Prints debugging information and memory and CPU usage
 	--disable-named-commands					# Disable named commands

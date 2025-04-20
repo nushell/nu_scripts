@@ -11,7 +11,7 @@ extern "mix app.start" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -102,7 +102,7 @@ extern "mix app.start" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -123,7 +123,7 @@ extern "mix archive" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -214,7 +214,7 @@ extern "mix archive" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -235,7 +235,7 @@ extern "mix archive.build" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -326,7 +326,7 @@ extern "mix archive.build" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -347,7 +347,7 @@ extern "mix archive.install" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -438,7 +438,7 @@ extern "mix archive.install" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -459,7 +459,7 @@ extern "mix archive.uninstall" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -550,7 +550,7 @@ extern "mix archive.uninstall" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -571,7 +571,7 @@ extern "mix clean" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -662,7 +662,7 @@ extern "mix clean" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -683,7 +683,7 @@ extern "mix cmd" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -774,7 +774,7 @@ extern "mix cmd" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -795,7 +795,7 @@ extern "mix compile" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -886,7 +886,7 @@ extern "mix compile" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -907,7 +907,7 @@ extern "mix compile.phoenix" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -998,7 +998,7 @@ extern "mix compile.phoenix" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1019,7 +1019,7 @@ extern "mix deps" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1110,7 +1110,7 @@ extern "mix deps" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1131,7 +1131,7 @@ extern "mix deps.clean" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1222,7 +1222,7 @@ extern "mix deps.clean" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1243,7 +1243,7 @@ extern "mix deps.compile" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1334,7 +1334,7 @@ extern "mix deps.compile" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1355,7 +1355,7 @@ extern "mix deps.get" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1446,7 +1446,7 @@ extern "mix deps.get" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1467,7 +1467,7 @@ extern "mix deps.unlock" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1558,7 +1558,7 @@ extern "mix deps.unlock" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1579,7 +1579,7 @@ extern "mix deps.update" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1670,7 +1670,7 @@ extern "mix deps.update" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1691,7 +1691,7 @@ extern "mix do" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1782,7 +1782,7 @@ extern "mix do" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1803,7 +1803,7 @@ extern "mix escript.build" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1894,7 +1894,7 @@ extern "mix escript.build" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -1915,7 +1915,7 @@ extern "mix help" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2006,7 +2006,7 @@ extern "mix help" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2027,7 +2027,7 @@ extern "mix loadconfig" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2118,7 +2118,7 @@ extern "mix loadconfig" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2139,7 +2139,7 @@ extern "mix local" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2230,7 +2230,7 @@ extern "mix local" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2251,7 +2251,7 @@ extern "mix local.hex" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2342,7 +2342,7 @@ extern "mix local.hex" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2363,7 +2363,7 @@ extern "mix local.public_keys" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2454,7 +2454,7 @@ extern "mix local.public_keys" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2475,7 +2475,7 @@ extern "mix local.rebar" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2566,7 +2566,7 @@ extern "mix local.rebar" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2587,7 +2587,7 @@ extern "mix local.phx" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2678,7 +2678,7 @@ extern "mix local.phx" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2699,7 +2699,7 @@ extern "mix new" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2790,7 +2790,7 @@ extern "mix new" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2811,7 +2811,7 @@ extern "mix profile.fprof" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2902,7 +2902,7 @@ extern "mix profile.fprof" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -2923,7 +2923,7 @@ extern "mix phx" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3014,7 +3014,7 @@ extern "mix phx" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3035,7 +3035,7 @@ extern "mix phx.digest" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3126,7 +3126,7 @@ extern "mix phx.digest" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3147,7 +3147,7 @@ extern "mix phx.digest.clean" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3238,7 +3238,7 @@ extern "mix phx.digest.clean" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3259,7 +3259,7 @@ extern "mix phx.gen" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3350,7 +3350,7 @@ extern "mix phx.gen" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3371,7 +3371,7 @@ extern "mix phx.gen.auth" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3462,7 +3462,7 @@ extern "mix phx.gen.auth" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3483,7 +3483,7 @@ extern "mix phx.gen.cert" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3574,7 +3574,7 @@ extern "mix phx.gen.cert" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3595,7 +3595,7 @@ extern "mix phx.gen.channel" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3686,7 +3686,7 @@ extern "mix phx.gen.channel" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3707,7 +3707,7 @@ extern "mix phx.gen.context" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3798,7 +3798,7 @@ extern "mix phx.gen.context" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3819,7 +3819,7 @@ extern "mix phx.gen.embedded" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3910,7 +3910,7 @@ extern "mix phx.gen.embedded" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -3931,7 +3931,7 @@ extern "mix phx.gen.html" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4022,7 +4022,7 @@ extern "mix phx.gen.html" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4043,7 +4043,7 @@ extern "mix phx.gen.json" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4134,7 +4134,7 @@ extern "mix phx.gen.json" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4155,7 +4155,7 @@ extern "mix phx.gen.live" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4246,7 +4246,7 @@ extern "mix phx.gen.live" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4267,7 +4267,7 @@ extern "mix phx.gen.notifier" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4358,7 +4358,7 @@ extern "mix phx.gen.notifier" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4379,7 +4379,7 @@ extern "mix phx.gen.presence" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4470,7 +4470,7 @@ extern "mix phx.gen.presence" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4491,7 +4491,7 @@ extern "mix phx.gen.release" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4582,7 +4582,7 @@ extern "mix phx.gen.release" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4603,7 +4603,7 @@ extern "mix phx.gen.schema" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4694,7 +4694,7 @@ extern "mix phx.gen.schema" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4715,7 +4715,7 @@ extern "mix phx.gen.secret" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4806,7 +4806,7 @@ extern "mix phx.gen.secret" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4827,7 +4827,7 @@ extern "mix phx.gen.socket" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4918,7 +4918,7 @@ extern "mix phx.gen.socket" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -4939,7 +4939,7 @@ extern "mix phx.new" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5030,7 +5030,7 @@ extern "mix phx.new" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5051,7 +5051,7 @@ extern "mix phx.new.ecto" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5142,7 +5142,7 @@ extern "mix phx.new.ecto" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5163,7 +5163,7 @@ extern "mix phx.new.web" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5254,7 +5254,7 @@ extern "mix phx.new.web" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5275,7 +5275,7 @@ extern "mix phx.routes" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5366,7 +5366,7 @@ extern "mix phx.routes" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5387,7 +5387,7 @@ extern "mix phx.server" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5478,7 +5478,7 @@ extern "mix phx.server" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5499,7 +5499,7 @@ extern "mix run" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5590,7 +5590,7 @@ extern "mix run" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5611,7 +5611,7 @@ extern "mix test" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5702,7 +5702,7 @@ extern "mix test" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5723,7 +5723,7 @@ extern "mix" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
@@ -5814,7 +5814,7 @@ extern "mix" [
 	--config(-c)					# Loads the given configuration file
 	--eval(-e)					# Evaluates the given code
 	--require(-r)					# Requires pattern before running the command
-	--parallel-require(-pr)					# Requires pattern in parallel
+	--parallel-require					# Requires pattern in parallel
 	--no-compile					# Does not compile even if files require compilation
 	--no-deps-check					# Does not check dependencies
 	--no-halt					# Does not halt the system after running the command
