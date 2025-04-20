@@ -1,56 +1,61 @@
 # auto-generate completions
 
-- basic helpers to parse --help information from cli commands and export nu completions source
-- basic helpers tp parse .fish complete files and export nu completions source
+- basic helpers to parse `--help` information from cli commands and export nu completions source
+- basic helpers to parse `.fish` complete files and export nu completions source
 
-# parse-fish
+## parse-fish
 
-## current
+### current
+
 - only parses out simple complete's with no complete's boolean arguments like -f
 - does not map fish autocomplete helpers to nu-complete helps (a nu library of autocomplete utils would be neat)
 
-## usage
+### usage
 
-be in a directory with one or more .fish completion scripts
+be in a directory with one or more `.fish` completion scripts
 
-A good one is 
+A good one is
 
-`git clone https://github.com/fish-shell/fish-shell`
-`cd fish-shell/share/completions`
+```nushell
+git clone https://github.com/fish-shell/fish-shell
+cd fish-shell/share/completions
+```
 
-To build all .fish files in the current directory `build-completions-from-pwd`
+To build all `.fish` files in the current directory `build-completions-from-pwd`
 
-```nu
+```nushell
 build-completions-from-pwd
 ls *.nu
 ```
 
-To build a single .fish file and choose the output file
-```nu
+To build a single `.fish` file and choose the output file
+
+```nushell
 build-completion cargo.fish cargo.nu
 ```
-# parse-help
 
-## current limitations
+## parse-help
 
-- Only flags are parsed, arguments are not parsed and ...args is injected at the end to catch all
+### current limitations
+
+- Only flags are parsed, arguments are not parsed and `...args` is injected at the end to catch all
 - Some examples of `--flags` in descriptions can throw off the regex and get included in the parsed flags
 - `<format>` (types) to flags are parsed, but not added to the nu shell completion type hints
 
-## usage
+### usage
 
 generate and save source to a file
 
-```nu
+```nushell
 source parse-help.nu
 cargo --help | parse-help | make-completion cargo | save cargo.nu
 ``` 
 
-## example
+### example
 
 This can be saved to a file and sourced. Example of output
 
-```nu
+```nushell
 extern "cargo" [
 	--version(-V)		#Print version info and exit
 	--list		#List installed commands
@@ -84,7 +89,8 @@ extern "nu" [
 ```
 
 Which outputs like so on tab completion for `cargo --`
-```
+
+```nushell
 ❯ | cargo --
 --color    Coloring: auto, always, never
 --config   Override a configuration value (unstable)
