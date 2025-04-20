@@ -40,7 +40,7 @@ extern "phpunit" [
 	--no-configuration					# Ignore default configuration file (phpunit.xml)
 	--no-logging					# Ignore logging configuration
 	--no-extensions					# Do not load PHPUnit extensions
-	--include-path					# Prepend PHPs include_path with given path(s)
+	--include-path					# Prepend PHP\'s
 	--generate-configuration					# Generate configuration file with suggested settings
 	--help(-h)					# Prints usage information
 	--version					# Prints the version and exits
@@ -90,7 +90,7 @@ extern "phpunit never auto always" [
 	--no-configuration					# Ignore default configuration file (phpunit.xml)
 	--no-logging					# Ignore logging configuration
 	--no-extensions					# Do not load PHPUnit extensions
-	--include-path					# Prepend PHPs include_path with given path(s)
+	--include-path					# Prepend PHP\'s
 	--generate-configuration					# Generate configuration file with suggested settings
 	--help(-h)					# Prints usage information
 	--version					# Prints the version and exits

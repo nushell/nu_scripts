@@ -5,8 +5,8 @@ extern "gv" [
 	--color					# Display document as usual
 	--safer					# Start ghostscript in safe mode
 	--nosafer					# Do not start ghostscript in safe mode
-	--safedir					# Start ghostscript from a safe diretory
-	--nosafedir					# Do not start ghostscript from a safe diretory
+	--safedir					# Start ghostscript from a safe directory
+	--nosafedir					# Do not start ghostscript from a safe directory
 	--quiet					# Start ghostscript with the -dQUIET option
 	--noquiet					# Do not start ghostscript with the -dQUIET option
 	--infoSilent					# Do not show any messages in the info popup window

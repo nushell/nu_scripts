@@ -1,11 +1,11 @@
-[# Specify input file
+# Specify input file
 extern "ffmpeg" [
 
 	...args
-]]
+]
 
-[# 
+# 
 extern "" [
 
 	...args
-]]
+]

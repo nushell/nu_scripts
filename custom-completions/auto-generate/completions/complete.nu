@@ -1,14 +1,9 @@
-[extern "-xa" [
+extern "" [
 
 	...args
-]]
+]
 
-[extern "-l" [
-
-	...args
-]]
-
-[extern "-s" [
+extern "-l" [
 
 	...args
-]]
+]

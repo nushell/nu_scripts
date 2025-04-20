@@ -16,8 +16,8 @@ extern "icdiff" [
 	--report-identical-files(-s)					# Report when two files are same
 	--show-all-spaces					# Color non-matchining whitespace changes
 	--tabsize					# Tab stop spacing
-	--numlines(-U)					# Print N lines of sourrounding context
-	--whole-file(-W)					# Show the whole file instead of just changings
+	--numlines(-U)					# Print N lines of surrounding context
+	--whole-file(-W)					# Show the whole file instead of just changes
 	--strip-trailing-cr					# Strip trailing carriage return at the end of an input line
 	--color-map					# Specify color map
 	...args

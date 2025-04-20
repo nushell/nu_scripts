@@ -1,99 +1,45 @@
 # Anonymize accounts and payees
 extern "hledger" [
-
-	...args
-]
-
-# Add transactions using guided prompts
-extern "hledger add" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
 	--no-new-accounts					# Don’t allow creating new accounts
-	...args
-]
-
-# Add new transactions from other files
-extern "hledger import" [
 	--dry-run					# Just show the transactions to be imported
-	...args
-]
-
-# Ensure transactions are ordered by date
-extern "hledger check-dates" [
 	--strict					# Makes date comparing strict
-	...args
-]
-
-# Ensure accounts have different leaf names
-extern "hledger check-dupes" [
-
-	...args
-]
-
-# Generate balance-resetting transactions
-extern "hledger close equity" [
-
-	...args
-]
-
-# Generate automated postings/diffs
-extern "hledger rewrite" [
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
 	--add-posting					# Add a posting to account
 	--diff					# Generate diff suitable for patch(1)
-	...args
-]
-
-# Show assets, liabilities, and net worth
-extern "hledger balancesheet       bs" [
-
-	...args
-]
-
-# Show assets, liabilities, and equity
-extern "hledger balancesheetequity bse" [
-
-	...args
-]
-
-# Show changes in liquid assets
-extern "hledger cashflow           cf" [
-
-	...args
-]
-
-# Show revenues and expenses
-extern "hledger incomestatement    is" [
-
-	...args
-]
-
-# Select an output format
-extern "hledger txt csv html" [
-
-	...args
-]
-
-# Show return on investments
-extern "hledger roi" [
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
 	--cashflow					# Show all amounts that were used to compute returns
-	...args
-]
-
-# Show account names
-extern "hledger accounts" [
 	--declared					# Show account names declared with account directives
 	--used					# Show account names referenced by transactions
 	--tree					# Show short account names as a tree
 	--flat					# Show short account names as a list
-	...args
-]
-
-# Show postings-per-interval bar charts
-extern "hledger activity" [
-
-	...args
-]
-
-# Show balance changes/end balances/budgets in accounts
-extern "hledger balance" [
 	--change					# Show balance change in each period
 	--cumulative					# Show balance change accumulated across periods
 	--historical(-H)					# Show historical ending balance in each period
@@ -108,44 +54,1438 @@ extern "hledger balance" [
 	--budget					# Show performance compared to budget goals defined by periodic transactions
 	--invert					# Display all amounts with reversed sign
 	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Add transactions using guided prompts
+extern "hledger add" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Add new transactions from other files
+extern "hledger import" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Ensure transactions are ordered by date
+extern "hledger check-dates" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Ensure accounts have different leaf names
+extern "hledger check-dupes" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Generate balance-resetting transactions
+extern "hledger close equity" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Generate automated postings/diffs
+extern "hledger rewrite" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show assets, liabilities, and net worth
+extern "hledger balancesheet       bs" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show assets, liabilities, and equity
+extern "hledger balancesheetequity bse" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show changes in liquid assets
+extern "hledger cashflow           cf" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show revenues and expenses
+extern "hledger incomestatement    is" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Select an output format
+extern "hledger txt csv html" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show return on investments
+extern "hledger roi" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show account names
+extern "hledger accounts" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show postings-per-interval bar charts
+extern "hledger activity" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
+	...args
+]
+
+# Show balance changes/end balances/budgets in accounts
+extern "hledger balance" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show commodity/currency symbols
 extern "hledger commodities" [
-
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show input file paths
 extern "hledger files" [
-
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show market-price records
 extern "hledger prices" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
 	--costs					# Print transaction prices from postings
 	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show transactions
 extern "hledger print txns" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
 	--explicit(-x)					# Show all amounts explicitly
 	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show only transactions with unique descriptions
 extern "hledger print-unique" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
 	--explicit(-x)					# Show all amounts explicitly
 	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show postings in one or more accounts & running total
 extern "hledger register" [
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
 	--cumulative					# Show running total from report start date
 	--historical(-H)					# Show historical running total/balance
 	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
@@ -156,30 +1496,340 @@ extern "hledger register" [
 
 # Show a recent posting that best matches a description
 extern "hledger register-match" [
-
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show journal statistics
 extern "hledger stats" [
-
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show tag names
 extern "hledger tags" [
-
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Run self-tests
 extern "hledger test" [
-
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]
 
 # Show hledger manual list
 extern "hledger help" [
-
+	--anon					# Anonymize accounts and payees
+	--daily(-D)					# Multiperiod/multicolumn report by day
+	--weekly(-W)					# Multiperiod/multicolumn report by week
+	--monthly(-M)					# Multiperiod/multicolumn report by month
+	--quarterly(-Q)					# Multiperiod/multicolumn report by quarter
+	--yearly(-Y)					# Multiperiod/multicolumn report by year
+	--date2					# Match secondary date instead
+	--unmarked(-U)					# Include only unmarked postings/txns
+	--pending(-P)					# Include only pending (“!”) postings/txns
+	--cleared(-C)					# Include only cleared (“*”) postings/txns
+	--real(-R)					# Include only non-virtual postings
+	--empty(-E)					# Show items with zero amount
+	--cost(-B)					# Converts amounts to their cost at txn time
+	--value(-V)					# Converts amounts to their market value on report end date
+	--auto					# Apply automated posting rules to modify txns
+	--forecast					# Apply periodic txn rules to generate future txns
+	--no-new-accounts					# Don’t allow creating new accounts
+	--dry-run					# Just show the transactions to be imported
+	--strict					# Makes date comparing strict
+	--opening					# Show just opening transaction
+	--closing					# Show just closing transaction
+	--add-posting					# Add a posting to account
+	--diff					# Generate diff suitable for patch(1)
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--flat					# Show accounts as a list
+	--no-total(-N)					# Omit the final total row
+	--tree					# Show accounts as a tree; amounts include subaccounts
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--output-format(-O)					# Select an output format
+	--cashflow					# Show all amounts that were used to compute returns
+	--declared					# Show account names declared with account directives
+	--used					# Show account names referenced by transactions
+	--tree					# Show short account names as a tree
+	--flat					# Show short account names as a list
+	--change					# Show balance change in each period
+	--cumulative					# Show balance change accumulated across periods
+	--historical(-H)					# Show historical ending balance in each period
+	--tree					# Show accounts as a tree
+	--flat					# Show accounts as a list
+	--average(-A)					# Show a row average column in multicolumn reports
+	--row-total(-T)					# Show a row total column in multicolumn reports
+	--no-total(-N)					# Omit the final row
+	--no-elide					# Don’t squash boring parent accounts in tree mode
+	--pretty-tables					# Use Unicode when displaying tables
+	--sort-amount(-S)					# Sort by amount instead of account code/name
+	--budget					# Show performance compared to budget goals defined by periodic transactions
+	--invert					# Display all amounts with reversed sign
+	--transpose					# Transpose rows and columns
+	--costs					# Print transaction prices from postings
+	--inverted-costs					# Print transaction inverted prices from postings also
+	--explicit(-x)					# Show all amounts explicitly
+	--new					# Show only newer-dated transactions added in each file since last run
+	--cumulative					# Show running total from report start date
+	--historical(-H)					# Show historical running total/balance
+	--average(-A)					# Show running average of posting amounts instead of total (implies --empty)
+	--related(-r)					# Show postings’ siblings instead
+	--invert					# Display all amounts with reversed sign
 	...args
 ]

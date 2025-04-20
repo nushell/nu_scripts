@@ -1,6 +1,6 @@
-[# Print annotated source
+# Print annotated source
 extern "gprof" [
-	--annoted-source(-A)					# Print annotated source
+	--annotated-source(-A)					# Print annotated source
 	--brief(-b)					# Do not print explanations
 	--exec-counts(-C)					# Print tally
 	--file-info(-i)					# Display summary
@@ -18,9 +18,9 @@ extern "gprof" [
 	--all-lines(-x)					# Annotate every line
 	--no-demangle					# Turn of demangling
 	...args
-]]
+]
 
-[# Suggest file ordering
+# Suggest file ordering
 extern "" [
 	--file-ordering					# Suggest file ordering
 	--width(-w)					# Set width of output
@@ -37,4 +37,4 @@ extern "" [
 	--version(-v)					# Display version and exit
 	--sum(-s)					# Print summary
 	...args
-]]
+]

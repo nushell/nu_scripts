@@ -94,13 +94,13 @@ extern "cf stop" [
 	...args
 ]
 
-# Stop all instances of the app, then start them again. This causes downtime.
+# Stop all instances of the app, then start them again
 extern "cf restart" [
 
 	...args
 ]
 
-# Recreate the app's executable artifact using the latest pushed app files and the latest environment (variables, service bindings, buildpack, stack, etc.)
+# Recreate the app's executable artifact using the latest pushed app files and environment
 extern "cf restage" [
 
 	...args
@@ -136,7 +136,7 @@ extern "cf events" [
 	...args
 ]
 
-# Print out a list of files in a directory or the contents of a specific file of an app running on the DEA backend
+# Print out a list of files or contents of a specific file of an app running on the DEA backend
 extern "cf files" [
 
 	...args
@@ -166,19 +166,19 @@ extern "cf unset-env" [
 	...args
 ]
 
-# List all stacks (a stack is a pre-built file system, including an operating system, that can run apps)
+# List all stacks (stack is a pre-built file system, including an OS, to run apps)
 extern "cf stacks" [
 
 	...args
 ]
 
-# Show information for a stack (a stack is a pre-built file system, including an operating system, that can run apps)
+# Show stack info (stack is a pre-built file system, including an OS, to run apps)
 extern "cf stack" [
 
 	...args
 ]
 
-# Copies the source code of an application to another existing application (and restarts that application)
+# Copy the source to another existing app (and restart that)
 extern "cf copy-source" [
 
 	...args
@@ -730,13 +730,13 @@ extern "cf migrate-service-instances" [
 	...args
 ]
 
-# Recursively remove a service and child objects from Cloud Foundry database without making requests to a service broker
+# Recursively remove service from CF database without requests to service broker
 extern "cf purge-service-offering" [
 
 	...args
 ]
 
-# Recursively remove a service instance and child objects from Cloud Foundry database without making requests to a service broker
+# Recursively remove service instance from CF database without requests to service broker
 extern "cf purge-service-instance" [
 
 	...args
@@ -748,13 +748,13 @@ extern "cf service-access" [
 	...args
 ]
 
-# Enable access to a service or service plan for one or all orgs
+# Enable access to a service or service plan
 extern "cf enable-service-access" [
 
 	...args
 ]
 
-# Disable access to a service or service plan for one or all orgs
+# Disable access to a service or service plan
 extern "cf disable-service-access" [
 
 	...args

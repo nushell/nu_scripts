@@ -1,6 +1,5 @@
-# run make config for all ports (overrides -G).
+# hide details of the port build and install in a log file.
 extern "portmaster" [
-	--force-config					# run make config for all ports (overrides -G).
 	--no-confirm					# do not ask the user to confirm the list of port… [See Man Page]
 	--no-term-title					# do not update the xterm title bar.
 	--no-index-fetch					# skip fetching the INDEX file.

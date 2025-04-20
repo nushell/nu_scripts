@@ -1,23 +1,11 @@
-# Negate expression
-extern "test !" [
-
-	...args
-]
-
-# Logical AND
+# Path is a block device
 extern "test" [
 
 	...args
 ]
 
-# Strings are identical
-extern "test =" [
-
-	...args
-]
-
-# Strings are not identical
-extern "test !=" [
+# Path is a character device
+extern "-r" [
 
 	...args
 ]

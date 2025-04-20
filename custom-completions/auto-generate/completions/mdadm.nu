@@ -1,5 +1,57 @@
 # Assemble a pre-existing array
 extern "mdadm" [
-
+	--assemble(-A)					# Assemble a pre-existing array
+	--build(-B)					# Build a legacy array without superblocks
+	--create(-C)					# Create a new array
+	--monitor(-F)					# Select monitor mode
+	--grow(-G)					# Change the size or shape of an active array
+	--incremental(-I)					# Manage devices in array, and possibly start it
+	--auto-detect					# Start all auto-detected arrays
+	--help(-h)					# Display help
+	--help-options					# Display more detailed help
+	--version(-V)					# Print version information
+	--verbose(-v)					# Be more verbose
+	--quiet(-q)					# Be quiet
+	--force(-f)					# Force operation
+	--scan(-s)					# Scan for missing information
+	--write-mostly(-W)					# Prefer reading from other devices than these
+	--readwrite					# Enable writes on array or device
+	--readonly(-o)					# Disable writes on array
+	--assume-clean					# Assume the array is clean
+	--continue					# Resume frozen --grow command
+	--run(-R)					# Run array despite warnings
+	--add(-a)					# Add devices to array
+	--nodes					# Specify max nodes in the cluster
+	--write-journal					# Specify journal device for RAID-4/5/6 array
+	--no-degraded					# Refuse to start without all drives
+	--invalid-backup					# Do not ask for backup file, unavailable
+	--freeze-reshape					# Freeze --grow command
+	--test(-t)					# Test mode
+	--add(-a)					# Hot-add listed devices
+	--re-add					# Re-add a previously removed device
+	--add-spare					# Hot-add listed devices as spare
+	--remove(-r)					# Remove listed inactive devices
+	--set-faulty(-f)					# Mark listed devices as faulty
+	--replace					# Mark listed devices as requiring replacement
+	--with					# Give devices as replacement
+	--cluster-confirm					# Confirm existence of device
+	--query(-Q)					# Examine device for md use
+	--detail(-D)					# Print details on array
+	--detail-platform					# Print details on platform capabilities
+	--export(-Y)					# Format data output as key=value pairs
+	--examine(-E)					# Print content of device metadata
+	--sparc2.2					# Fix examination for buggy SPARC 2.2 kernel RAID
+	--examine-bitmap(-X)					# Print report about bitmap
+	--examine-badblocks					# List recorded bad blocks
+	--stop(-S)					# Deactivate array
+	--zero-superblock					# Erase possible superblock
+	--wait(-W)					# Wait for pending operations
+	--wait-clean					# Mark array as clean ASAP
+	--rebuild-map(-r)					# Rebuild /run/mdadm/map
+	--syslog(-y)					# Record events in syslog
+	--daemonise(-f)					# Run monitor mode as a daemon
+	--oneshot(-1)					# Check arrays only once
+	--no-sharing					# Do not move spares between arrays
+	--brief(-b)					# Be more concise
 	...args
 ]

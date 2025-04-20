@@ -1,19 +1,23 @@
-# Output version and exit
+# Output jq version
 extern "jq" [
-	--version					# Output version and exit
-	--seq					# Use application/json-seq MIME type scheme
-	--stream					# Parse input in streaming fasion
-	--slurp(-s)					# Run filter just once in large array
-	--raw-input(-R)					# Dont parse as JSON but as string
+	--version					# Output jq version
+	--seq					# Use application/json-seq MIME type
+	--stream					# Parse input in streaming fashion
+	--slurp(-s)					# Read input to array and filter once
+	--raw-input(-R)					# Parse input as string (not JSON)
 	--null-input(-n)					# Ignore input and treat it as null
-	--compact-output(-c)					# Dont pretty-print JSON
-	--tab					# Use a tab for indentation instead of 2 spaces
+	--compact-output(-c)					# Don\'t
+	--tab					# Indent w/ tabs instead of spaces
 	--color-output(-C)					# Color output
-	--monochrome-output(-M)					# Dont color output
-	--ascii-output(-a)					# Replace UTF-8 characters with escape sequences
-	--unbuffered					# Flush output after each JSON object is printed
+	--monochrome-output(-M)					# Don\'t
+	--ascii-output(-a)					# Replace UTF-8 chars w/ escape sequences
+	--unbuffered					# Flush output after each JSON object
 	--sort-keys(-S)					# Sort object keys in output
-	--raw-output(-r)					# If output is string output its content directly to stdout
+	--raw-output(-r)					# Write string output w/out quotes
 	--join-output(-j)					# Raw output without newlines
+	--exit-status(-e)					# Set exit status from output
+	--args					# Remaining args are positional string args
+	--jsonargs					# Remaining args are positional JSON text args
+	--run-tests					# Run tests in given file
 	...args
 ]

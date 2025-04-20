@@ -1,4 +1,4 @@
-[# Make a detached signature
+# Make a detached signature
 extern "qubes-gpg-client" [
 	--detach-sign(-b)					# Make a detached signature
 	--armor(-a)					# Create ASCII armored output
@@ -19,7 +19,7 @@ extern "qubes-gpg-client" [
 	--disable-mdc					# Disable the use of the modification detection code
 	--emit-version					# Include the version string in ASCII armored output
 	--fingerprint					# List all keys with their fingerprints
-	--fixed-list-mode					# Do not merge primary user ID and primary key in --with-colons listing mode and print all timestamps as UNIX timestamps
+	--fixed-list-mode					# Do not merge primary user ID/key in --with-colons listing mode and make timestamps UNIX time
 	--force-mdc					# Force the use of encryption with a modification detection code
 	--force-v3-sigs					# Force v3 signatures for signatures on data
 	--force-v4-certs					# Always use v4 key signatures even on v3 keys
@@ -42,13 +42,13 @@ extern "qubes-gpg-client" [
 	--use-agent					# Try to use the GnuPG-Agent
 	--version					# Display version and supported algorithms, and exit
 	--with-colons					# Print key listings delimited by colons
-	--with-fingerprint					# Same as the command --fingerprint but changes only the format of the output and may be used together with another command
+	--with-fingerprint					# Like --fingerprint but only change the output format
 	--with-keygrip					# Include the keygrip in the key listings
 	...args
-]]
+]
 
-[# 
+# 
 extern "qubes-gpg-client-wrapper" [
 
 	...args
-]]
+]

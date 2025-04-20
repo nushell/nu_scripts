@@ -1,6 +1,6 @@
 # Run separate VM process or attach to a running VM
 extern "VBoxSDL" [
-	--seperate					# Run separate VM process or attach to a running VM
+	--separate					# Run separate VM process or attach to a running VM
 	--hda					# Set temporary first hard disk
 	--fda					# Set temporary first floppy disk
 	--fullscreen					# Start VM in fullscreen mode
@@ -12,7 +12,7 @@ extern "VBoxSDL" [
 	--nograbonclick					# Disable mouse/keyboard grabbing on mouse click w/o additions
 	--detecthostkey					# Get hostkey identifier and modifier state
 	--termacpi					# Send APCI power button when closing window
-	--vrdp					# Listen for VRDP connexions on if one of specified
+	--vrdp					# Listen for VRDP connections on if one of specified
 	--discardstate					# Discard saved state (if present) and revert to last snapshot (if present)
 	--settingspwfile					# Specify file containing setting password
 	--rowr0					# Enable raw ring 3

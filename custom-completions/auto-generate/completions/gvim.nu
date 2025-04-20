@@ -1,6 +1,6 @@
 # 
 extern "gvim" [
-	--nofork(-f)					# Dont fork when starting GUI
+	--nofork(-f)					# Don\'t
 	--echo-wid					# Echo the Window ID on stdout
 	...args
 ]

@@ -17,7 +17,6 @@ extern "mono" [
 	--use-map-jit					# Generate code using MAP_JIT on MacOS
 	--profile					# Use a profiler module with the given arguments
 	--trace					# Show method names as they are invoked
-	--no-x86-stack-align					# Dont align stack frames on the x86 architecture
 	--jitmap					# Generate a JIT method map in a /tmp/perf-PID.map file
 	--bisect					# This flag is used by the automatic optimization bug bisector
 	--break
@@ -46,7 +45,6 @@ extern "mono number" [
 	--use-map-jit					# Generate code using MAP_JIT on MacOS
 	--profile					# Use a profiler module with the given arguments
 	--trace					# Show method names as they are invoked
-	--no-x86-stack-align					# Dont align stack frames on the x86 architecture
 	--jitmap					# Generate a JIT method map in a /tmp/perf-PID.map file
 	--bisect					# This flag is used by the automatic optimization bug bisector
 	--break
@@ -75,7 +73,6 @@ extern "mono disable" [
 	--use-map-jit					# Generate code using MAP_JIT on MacOS
 	--profile					# Use a profiler module with the given arguments
 	--trace					# Show method names as they are invoked
-	--no-x86-stack-align					# Dont align stack frames on the x86 architecture
 	--jitmap					# Generate a JIT method map in a /tmp/perf-PID.map file
 	--bisect					# This flag is used by the automatic optimization bug bisector
 	--break
@@ -104,7 +101,6 @@ extern "mono boehm\tBoehm sgen\tSGen" [
 	--use-map-jit					# Generate code using MAP_JIT on MacOS
 	--profile					# Use a profiler module with the given arguments
 	--trace					# Show method names as they are invoked
-	--no-x86-stack-align					# Dont align stack frames on the x86 architecture
 	--jitmap					# Generate a JIT method map in a /tmp/perf-PID.map file
 	--bisect					# This flag is used by the automatic optimization bug bisector
 	--break

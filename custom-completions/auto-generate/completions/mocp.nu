@@ -4,7 +4,7 @@ extern "mocp" [
 	--help(-h)					# Print usage
 	--debug(-D)					# Turn on logging to a file
 	--server(-S)					# Run only the server
-	--foreground(-F)					# Run server in foreground, log to stdout
+	--foreground(-F)					# Run server in fg, log to stdout
 	--sound-driver(-R)					# Use the specified sound driver
 	--clear(-c)					# Clear the playlist
 	--stop(-s)					# Stop playing
@@ -18,7 +18,7 @@ extern "mocp" [
 	--sync(-y)					# Synchronize the playlist with other clients
 	--nosync(-n)					# Don't synchronize the playlist with other clients
 	--ascii(-A)					# Use ASCII characters to draw lines
-	--info(-i)					# Print information about the currently played file
+	--info(-i)					# Information of the currently played file
 	--recursively(-e)					# Alias for -a
 	--on(-o)					# Turn on a control
 	--off(-u)					# Turn off a control

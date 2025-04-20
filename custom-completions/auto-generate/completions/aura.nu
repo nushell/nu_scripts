@@ -1,5 +1,167 @@
 # Synchronize AUR packages
 extern "aura" [
+	--aursync(-A)					# Synchronize AUR packages
+	--save(-B)					# Save and restore package state
+	--downgrade(-C)					# Package cache actions
+	--database(-D)					# Modify the package database
+	--viewlog(-L)					# Pacman log actions
+	--orphans(-O)					# Operate on orphan packages
+	--query(-Q)					# Query the package database
+	--remove(-R)					# Remove packages from the system
+	--sync(-S)					# Synchronize packages
+	--deptest(-T)					# Check dependencies
+	--upgrade(-U)					# Upgrade or add a local package
+	--check					# Validate your system
+	--conf					# View various configuration settings and files
+	--deps					# Output a dependency graph
+	--free					# State of Free Software install on the system
+	--stats					# View statistics about your machine or about Aura itself
+	--thanks					# The people behind Aura
+	--version(-V)					# Display version and exit
+	--help(-h)					# Display help
+	--log-level					# Minimum level of Aura log messages to display
+	--noconfirm					# Do not ask for any confirmation
+	--info(-i)					# View package information
+	--open(-o)					# Open a given package\'s
+	--sysupgrade(-u)					# Upgrade all installed AUR packages
+	--provides(-v)					# Search for packages that "provide" some package identity
+	--clone(-w)					# Download the source tarball
+	--refresh(-y)					# Pull the latest changes for every local package clone
+	--hotedit					# Prompt for PKGBUILD editing
+	--nocheck					# Do not run the check() function of the PKGBUILD
+	--shellcheck					# Run shellcheck on PKGBUILDs before building
+	--skipdepcheck					# Perform no dependency resolution
+	--skipinteg					# Do not perform any verification checks on source files
+	--skippgpcheck					# Do not verify source files with PGP signatures
+	--abc					# Sort alphabetically
+	--limit					# Limit the results to N results
+	--reverse(-r)					# Reverse the search results
+	--quiet(-q)					# Only print matching package names
+	--clean(-c)					# Remove all but the given number of backups
+	--list(-l)					# Show all saved package snapshot filenames
+	--restore(-r)					# Restores a record kept with -B
+	--backup(-b)					# Backup to directory
+	--clean(-c)					# Save this many versions
+	--info(-i)					# Look up specific packages for info on their cache entries
+	--list(-l)					# Print the contents of the package cache
+	--missing(-m)					# Display packages that don\'t
+	--notsaved(-n)					# Delete only those tarballs which aren\'t
+	--info(-i)					# Show package history
+	--adopt(-a)					# Mark a package as being explicitly installed
+	--elderly(-e)					# Display all explicitly installed, top-level packages
+	--abandon(-j)					# Uninstall orphan packages
+	--changelog(-c)					# View the change log of PACKAGE
+	--deps(-d)					# List only non-explicit packages (dependencies)
+	--explicit(-e)					# List only explicitly installed packages
+	--check(-k)					# Check if all files owned by PACKAGE are present
+	--list(-l)					# List all files owned by PACKAGE
+	--foreign(-m)					# List all packages not in the database
+	--file(-p)					# Apply the query to a package file, not package
+	--unrequired(-t)					# List only unrequired packages
+	--upgrades(-u)					# List only out-of-date packages
+	--cascade(-c)					# Also remove packages depending on PACKAGE
+	--nosave(-n)					# Ignore file backup designations
+	--recursive(-s)					# Also remove dependencies of PACKAGE
+	--unneeded(-u)					# Only remove targets not required by PACKAGE
+	--clean(-c)					# Remove [all] packages from cache
+	--list(-l)					# List all packages in REPOSITORY
+	--sysupgrade(-u)					# Upgrade all packages that are out of date
+	--downloadonly(-w)					# Only download the target packages
+	--refresh(-y)					# Download fresh copy of the package list
+	--aura(-a)					# View the contents of your Aura config
+	--gen(-g)					# Output your full current config as legal TOML
+	--makepkg(-m)					# View the Makepkg conf
+	--pacman(-p)					# View the Pacman conf
+	--limit(-l)					# The number of layers up or down to allow
+	--optional(-o)					# Include optional dependencies
+	--reverse(-r)					# Display packages that depend on the given args
+	--open					# Open the output image automatically
+	--raw					# Print the raw DOT output
+	--copyleft					# Consider only Copyleft licenses
+	--lenient					# Allow FOSS-derived custom licenses
+	...args
+]
 
+# Delete only those tarballs which aren\'t
+extern "aura snapshot" [
+	--aursync(-A)					# Synchronize AUR packages
+	--save(-B)					# Save and restore package state
+	--downgrade(-C)					# Package cache actions
+	--database(-D)					# Modify the package database
+	--viewlog(-L)					# Pacman log actions
+	--orphans(-O)					# Operate on orphan packages
+	--query(-Q)					# Query the package database
+	--remove(-R)					# Remove packages from the system
+	--sync(-S)					# Synchronize packages
+	--deptest(-T)					# Check dependencies
+	--upgrade(-U)					# Upgrade or add a local package
+	--check					# Validate your system
+	--conf					# View various configuration settings and files
+	--deps					# Output a dependency graph
+	--free					# State of Free Software install on the system
+	--stats					# View statistics about your machine or about Aura itself
+	--thanks					# The people behind Aura
+	--version(-V)					# Display version and exit
+	--help(-h)					# Display help
+	--log-level					# Minimum level of Aura log messages to display
+	--noconfirm					# Do not ask for any confirmation
+	--info(-i)					# View package information
+	--open(-o)					# Open a given package\'s
+	--sysupgrade(-u)					# Upgrade all installed AUR packages
+	--provides(-v)					# Search for packages that "provide" some package identity
+	--clone(-w)					# Download the source tarball
+	--refresh(-y)					# Pull the latest changes for every local package clone
+	--hotedit					# Prompt for PKGBUILD editing
+	--nocheck					# Do not run the check() function of the PKGBUILD
+	--shellcheck					# Run shellcheck on PKGBUILDs before building
+	--skipdepcheck					# Perform no dependency resolution
+	--skipinteg					# Do not perform any verification checks on source files
+	--skippgpcheck					# Do not verify source files with PGP signatures
+	--abc					# Sort alphabetically
+	--limit					# Limit the results to N results
+	--reverse(-r)					# Reverse the search results
+	--quiet(-q)					# Only print matching package names
+	--clean(-c)					# Remove all but the given number of backups
+	--list(-l)					# Show all saved package snapshot filenames
+	--restore(-r)					# Restores a record kept with -B
+	--backup(-b)					# Backup to directory
+	--clean(-c)					# Save this many versions
+	--info(-i)					# Look up specific packages for info on their cache entries
+	--list(-l)					# Print the contents of the package cache
+	--missing(-m)					# Display packages that don\'t
+	--notsaved(-n)					# Delete only those tarballs which aren\'t
+	--info(-i)					# Show package history
+	--adopt(-a)					# Mark a package as being explicitly installed
+	--elderly(-e)					# Display all explicitly installed, top-level packages
+	--abandon(-j)					# Uninstall orphan packages
+	--changelog(-c)					# View the change log of PACKAGE
+	--deps(-d)					# List only non-explicit packages (dependencies)
+	--explicit(-e)					# List only explicitly installed packages
+	--check(-k)					# Check if all files owned by PACKAGE are present
+	--list(-l)					# List all files owned by PACKAGE
+	--foreign(-m)					# List all packages not in the database
+	--file(-p)					# Apply the query to a package file, not package
+	--unrequired(-t)					# List only unrequired packages
+	--upgrades(-u)					# List only out-of-date packages
+	--cascade(-c)					# Also remove packages depending on PACKAGE
+	--nosave(-n)					# Ignore file backup designations
+	--recursive(-s)					# Also remove dependencies of PACKAGE
+	--unneeded(-u)					# Only remove targets not required by PACKAGE
+	--clean(-c)					# Remove [all] packages from cache
+	--list(-l)					# List all packages in REPOSITORY
+	--sysupgrade(-u)					# Upgrade all packages that are out of date
+	--downloadonly(-w)					# Only download the target packages
+	--refresh(-y)					# Download fresh copy of the package list
+	--aura(-a)					# View the contents of your Aura config
+	--gen(-g)					# Output your full current config as legal TOML
+	--makepkg(-m)					# View the Makepkg conf
+	--pacman(-p)					# View the Pacman conf
+	--limit(-l)					# The number of layers up or down to allow
+	--optional(-o)					# Include optional dependencies
+	--reverse(-r)					# Display packages that depend on the given args
+	--open					# Open the output image automatically
+	--raw					# Print the raw DOT output
+	--copyleft					# Consider only Copyleft licenses
+	--lenient					# Allow FOSS-derived custom licenses
 	...args
 ]

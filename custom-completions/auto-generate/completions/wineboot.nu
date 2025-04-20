@@ -2,7 +2,7 @@
 extern "wineboot" [
 	--help(-h)					# Show help and exit
 	--end-session(-e)					# End current session cleanly
-	--force(-f)					# Force exit processes dont exit cleanly
+	--force(-f)					# Force exit processes don\'t
 	--init(-i)					# Perform initialization for first Wine instance
 	--kill(-k)					# Kill processes without cleanup
 	--restart(-r)					# Restart

@@ -1,11 +1,125 @@
 # OR
 extern "journalctl +" [
-
+	--help(-h)					# Prints a short help text and exits
+	--version					# Prints a short version string and exits
+	--no-pager					# Do not pipe output into a pager
+	--all(-a)					# Show all fields in full
+	--follow(-f)					# Show live tail of entries
+	--lines(-n)					# Controls the number of journal lines
+	--no-tail					# Show all lines, even in follow mode
+	--output(-o)					# Controls the formatting
+	--quiet(-q)					# Suppress warning about normal user
+	--merge(-m)					# Show entries interleaved from all journals
+	--this-boot					# Show data only from the current boot
+	--boot(-b)					# Show data only from a certain boot
+	--unit(-u)					# Show data only of the specified unit
+	--priority(-p)					# Filter by priority
+	--cursor(-c)					# Start from the passing cursor
+	--since					# Entries on or newer than DATE
+	--until					# Entries on or older than DATE
+	--field(-F)					# Print all possible data values of FIELD
+	--directory(-D)					# Specify journal directory
+	--new-id128					# Generate a new 128 bit ID
+	--header					# Show internal header information
+	--disk-usage					# Shows the current disk usage
+	--setup-keys					# Generate Forward Secure Sealing key pair
+	--interval					# Change interval for the sealing
+	--verify					# Check journal for internal consistency
+	--verify-key					# Specifies FSS key for --verify
+	--reverse(-r)					# Reverse output to show newest entries first
+	--utc					# Express time in Coordinated Universal Time (UTC)
+	--no-hostname					# Don't show the hostname field
+	--catalog(-x)					# Augment log lines with explanation texts from the message catalog
+	--list-boots					# Show a list of boot numbers, their IDs and timestamps
+	--dmesg(-k)					# Show only kernel messages
+	--fields(-N)					# Print all field names used in all entries of the journal
+	--update-catalog					# Update the message catalog index
+	--sync					# Write all unwritten journal data and sync journals
+	--flush					# Flush log data from /run/log/journal/ into /var/log/journal/
+	--relinquish-var					# Write to /run/log/journal/ instead of /var/log/journal/
+	--smart-relinquish-var					# Similar to --relinquish-var
+	--rotate					# Mark active journal files as archived and create new empty ones
+	--output-fields					# List of fields to be included in the output
+	--identifier(-t)					# Show messages for specified syslog identifier
+	--user-unit					# Show messages for the specified user session unit
+	--facility					# Filter output by syslog facility
+	--grep(-g)					# Show entries where MESSAGE field matches regex
+	--case-sensitive					# Toggle pattern matching case sensitivity
+	--after-cursor					# Show entries after the passed cursor
+	--show-cursor					# Show cursor after the last entry
+	--user					# Show messages from service of current user
+	--system					# Show messages from system services and the kernel
+	--machine(-M)					# Show messages from a running, local container
+	--file					# Operate only on journal files matching glob
+	--root					# Use specified directory instead of the root directory
+	--namespace					# Show log data of specified namespace
+	--vacuum-size					# Reduce disk usage below specified SIZE
+	--vacuum-time					# Remove journal files older than TIME
+	--vacuum-files					# Leave only INT number of journal files
+	--list-catalog					# Show message catalog entries as a table
+	--dump-catalog					# Show message catalog entries
 	...args
 ]
 
 # Prints a short help text and exits
 extern "journalctl" [
-
+	--help(-h)					# Prints a short help text and exits
+	--version					# Prints a short version string and exits
+	--no-pager					# Do not pipe output into a pager
+	--all(-a)					# Show all fields in full
+	--follow(-f)					# Show live tail of entries
+	--lines(-n)					# Controls the number of journal lines
+	--no-tail					# Show all lines, even in follow mode
+	--output(-o)					# Controls the formatting
+	--quiet(-q)					# Suppress warning about normal user
+	--merge(-m)					# Show entries interleaved from all journals
+	--this-boot					# Show data only from the current boot
+	--boot(-b)					# Show data only from a certain boot
+	--unit(-u)					# Show data only of the specified unit
+	--priority(-p)					# Filter by priority
+	--cursor(-c)					# Start from the passing cursor
+	--since					# Entries on or newer than DATE
+	--until					# Entries on or older than DATE
+	--field(-F)					# Print all possible data values of FIELD
+	--directory(-D)					# Specify journal directory
+	--new-id128					# Generate a new 128 bit ID
+	--header					# Show internal header information
+	--disk-usage					# Shows the current disk usage
+	--setup-keys					# Generate Forward Secure Sealing key pair
+	--interval					# Change interval for the sealing
+	--verify					# Check journal for internal consistency
+	--verify-key					# Specifies FSS key for --verify
+	--reverse(-r)					# Reverse output to show newest entries first
+	--utc					# Express time in Coordinated Universal Time (UTC)
+	--no-hostname					# Don't show the hostname field
+	--catalog(-x)					# Augment log lines with explanation texts from the message catalog
+	--list-boots					# Show a list of boot numbers, their IDs and timestamps
+	--dmesg(-k)					# Show only kernel messages
+	--fields(-N)					# Print all field names used in all entries of the journal
+	--update-catalog					# Update the message catalog index
+	--sync					# Write all unwritten journal data and sync journals
+	--flush					# Flush log data from /run/log/journal/ into /var/log/journal/
+	--relinquish-var					# Write to /run/log/journal/ instead of /var/log/journal/
+	--smart-relinquish-var					# Similar to --relinquish-var
+	--rotate					# Mark active journal files as archived and create new empty ones
+	--output-fields					# List of fields to be included in the output
+	--identifier(-t)					# Show messages for specified syslog identifier
+	--user-unit					# Show messages for the specified user session unit
+	--facility					# Filter output by syslog facility
+	--grep(-g)					# Show entries where MESSAGE field matches regex
+	--case-sensitive					# Toggle pattern matching case sensitivity
+	--after-cursor					# Show entries after the passed cursor
+	--show-cursor					# Show cursor after the last entry
+	--user					# Show messages from service of current user
+	--system					# Show messages from system services and the kernel
+	--machine(-M)					# Show messages from a running, local container
+	--file					# Operate only on journal files matching glob
+	--root					# Use specified directory instead of the root directory
+	--namespace					# Show log data of specified namespace
+	--vacuum-size					# Reduce disk usage below specified SIZE
+	--vacuum-time					# Remove journal files older than TIME
+	--vacuum-files					# Leave only INT number of journal files
+	--list-catalog					# Show message catalog entries as a table
+	--dump-catalog					# Show message catalog entries
 	...args
 ]

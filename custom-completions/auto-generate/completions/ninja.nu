@@ -1,5 +1,6 @@
 # dry run
-extern "ninja" [
+extern "" [
+	--verbose(-v)					# show all command lines while building
 	--version					# print ninja version
 	...args
 ]

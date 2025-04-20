@@ -40,7 +40,7 @@ extern "diskutil umountDisk" [
 	...args
 ]
 
-# Eject a disk
+# Eject a volume or disk
 extern "diskutil eject" [
 
 	...args
@@ -280,7 +280,7 @@ extern "diskutil decryptVolume" [
 	...args
 ]
 
-# Update the APFS Volumes related APFS Preboot Volume
+# Update the APFS Volume\'s
 extern "diskutil updatePreboot" [
 
 	...args
@@ -342,12 +342,6 @@ extern "diskutil revert" [
 
 # Create a new CoreStorage logical volume
 extern "diskutil createVolume" [
-
-	...args
-]
-
-# Change a CoreStorage logical volumes passphrase
-extern "diskutil changeVolumePassphrase" [
 
 	...args
 ]

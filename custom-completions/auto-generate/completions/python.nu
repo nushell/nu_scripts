@@ -1,11 +1,15 @@
-# Dont write .py[co] files on import
-extern "python" [
-
+# Control validation behaviour of pyc files
+extern "python default always never" [
+	--check-hash-based-pycs					# Control validation behaviour of pyc files
+	--help(-?)					# Display help and exit
+	--version(-V)					# Display version and exit
 	...args
 ]
 
-# Control validation behaviour of pyc files
-extern "python default always never" [
-
+# Debug on
+extern "python" [
+	--check-hash-based-pycs					# Control validation behaviour of pyc files
+	--help(-?)					# Display help and exit
+	--version(-V)					# Display version and exit
 	...args
 ]

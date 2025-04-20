@@ -64,7 +64,7 @@ extern "7z x" [
 	...args
 ]
 
-# Stop switches parsing
+# Include archives
 extern "7z" [
 
 	...args

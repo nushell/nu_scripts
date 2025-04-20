@@ -12,7 +12,7 @@ extern "create_ap" [
 	--ieee80211ac					# Enable IEEE 802.11ac
 	--driver					# Choose your WiFi adapter driver
 	--no-virt					# Do not create virtual interface
-	--no-haveged					# Do not run haveged automatically when needed
+	--no-haveged					# Do not run \'haveged\' automatically when needed
 	--fix-unmanaged					# Fix NetworkManager showing interface as unmanaged
 	--daemon					# Run create_ap in the background
 	--list-running					# Show already running create_ap processes

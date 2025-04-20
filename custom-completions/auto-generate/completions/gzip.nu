@@ -1,9 +1,9 @@
 # Compress to stdout
 extern "gzip" [
 	--stdout(-c)					# Compress to stdout
-	--decompress(-d)
 	--force(-f)					# Overwrite
 	--help(-h)					# Display help and exit
+	--keep(-k)					# Keep input files
 	--list(-l)					# List compression information
 	--license(-L)					# Print license
 	--no-name(-n)					# Do not save/restore filename

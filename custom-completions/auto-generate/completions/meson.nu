@@ -1,5 +1,102 @@
-# Set value of an option (-D foo=bar)
+# Show help
 extern "meson" [
-
+	--help(-h)					# Show help
+	--allow-insecure					# Allow insecure server connections
+	--force					# Update wraps that does not seems to come from WrapDB
+	--sourcedir					# Source directory
+	--help(-h)					# Show help
+	--no-rebuild					# Do not rebuild before running tests
+	--gdb					# Run test under gdb
+	--list					# List available tests
+	--suite					# Only run tests belonging to the given suite
+	--no-suite					# Do not run tests belonging to the given suite
+	--no-stdsplit					# Do not split stderr and stdout in test logs
+	--print-errorlogs					# Print logs of failing tests
+	--benchmark					# Run benchmarks instead of tests
+	--verbose(-v)					# Do not redirect stdout and stderr
+	--quiet(-q)					# Produce less output to the terminal
+	--sourcedir					# Path to source directory
+	--types					# Comma-separated list of subproject types
+	--include-cache					# Remove the package cache as well
+	--confirm					# Confirm the removal of subproject artifacts
+	--apply					# Apply packagefiles to the subproject
+	--save					# Save packagefiles from the subproject
+	--prefix					# Installation prefix
+	--bindir					# Executable directory
+	--datadir					# Data file directory
+	--includedir					# Header file directory
+	--infodir					# Info page directory
+	--libdir					# Library directory
+	--licensedir					# Licenses directory
+	--libexecdir					# Library executable directory
+	--localedir					# Locale data directory
+	--localstatedir					# Localstate data directory
+	--mandir					# Manual page directory
+	--sbindir					# System executable directory
+	--sharedstatedir					# Architecture-independent data directory
+	--sysconfdir					# Sysconf data directory
+	--auto-features					# Override value of all "auto" features
+	--backend					# Backend to use
+	--buildtype					# Build type to use
+	--debug					# Enable debug symbols and other info
+	--default-library					# Default library type
+	--errorlogs					# Print the logs from failing tests
+	--layout					# Build directory layout
+	--optimization					# Optimization level
+	--prefer-static					# Try static linking before shared linking
+	--stdsplit					# Split stdout and stderr in test logs
+	--strip					# Strip targets on install
+	--unity					# Unity build
+	--warnlevel					# Compiler warning level to use
+	--werror					# Treat warnings as errors
+	--wrap-mode					# Wrap mode
+	--pkgconfig.relocatable					# Generate pkgconfig files as relocatable
+	--python.install-env					# Which python environment to install to
+	--vsenv					# Force setup of Visual Studio environment
+	--version(-v)					# Show version number and exit
+	--fatal-meson-warnings					# Make all Meson warnings fatal
+	--reconfigure					# Set options and reconfigure the project
+	--wipe					# Wipe build directory and reconfigure
+	--sourcedir(-s)					# Path to source directory
+	--verbose(-V)					# Enable verbose output
+	--skip-errors(-S)					# Skip errors instead of aborting
+	--subdir(-s)					# Subdirectory of the new target
+	--ast					# Dump the AST of the meson file
+	--benchmarks					# List all benchmarks
+	--buildoptions					# List all build options
+	--buildsystem-files					# List files that make up the build system
+	--dependencies					# List external dependencies
+	--scan-dependencies					# Scan for dependencies used in the meson.build file
+	--installed					# List all installed files and directories
+	--install-plan					# List all installed files and directories with their details
+	--projectinfo					# Information about projects
+	--targets					# List top level targets
+	--tests					# List all unit tests
+	--backend					# The backend to use for the --buildoptions introspection
+	--all(-a)					# Print all available information
+	--indent(-i)					# Enable pretty printed JSON
+	--force-object-output(-f)					# Always use the new JSON format for multiple entries
+	--no-rebuild					# Do not rebuild before installing
+	--only-changed					# Only overwrite files that are older than the copied file
+	--quiet					# Do not print every file that was installed
+	--dry-run(-n)					# Do not actually install, but print logs
+	--skip-subprojects					# Do not install files from given subprojects
+	--strip					# Strip targets even if strip option was not set during configure
+	--language(-l)					# Project language
+	--build(-b)					# Build after generation
+	--force(-f)					# Force overwrite of existing files and directories
+	--type					# Project type
+	--allow-dirty					# Allow even when repository contains uncommitted changes
+	--formats					# Comma separated list of archive types to create
+	--include-subprojects					# Include source code of subprojects
+	--no-tests					# Do not build and test generated packages
+	--help(-h)					# Show help
+	--workdir(-w)					# Directory to cd into before running
+	--dump					# Only print required environment
+	--dump-format					# Format used with --dump
+	--clearcache					# Clear cached state
+	--no-pager					# Do not redirect output to a pager
+	--clean					# Clean the build directory
+	--verbose(-v)					# Show more verbose output
 	...args
 ]

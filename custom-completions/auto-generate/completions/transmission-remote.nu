@@ -3,21 +3,17 @@ extern "transmission-remote" [
 	--add(-a)					# Add torrents to transmission
 	--debug(-b)					# Enable debugging mode
 	--alt-speed					# Use the alternate Limits
-	--no-alt-speed					# Dont use the alternate Limits
+	--no-alt-speed					# Don\'t
 	--alt-speed-downlimit					# Limit the alternate download speed
 	--alt-speed-uplimit					# Limit the alternate upload speed
 	--alt-speed-scheduler					# Use the scheduled on/off times
-	--no-alt-speed-scheduler					# Dont use the scheduled on/off times
 	--alt-speed-time-begin					# Time to start using the alt speed limits (in)
 	--alt-speed-time-end					# Time to stop using the alt speed limits (hhmm)
 	--alt-speed-days					# Number of days to enable the speed scheduler
 	--torrent-done-script					# Script to run each time a torrent finishes
-	--no-torrent-done-script					# Dont run any script when a torrent finishes
 	--incomplete-dir(-c)					# Directory for incomplete downloads
-	--no-incomplete-dir(-C)					# Dont store incomplete torrents in a different directory
 	--downlimit(-d)					# Limit the maximum download speed to limit
 	--no-downlimit(-D)					# Disable download speed limits
-	--cache(-e)					# Set the sessions maximum memory cache size (MiB)
 	--encryption-required					# Encrypt all peer connections
 	--encryption-preferred					# Prefer encrypted peer connections
 	--encryption-tolerated					# Prefer unencrypted peer connections
@@ -38,7 +34,7 @@ extern "transmission-remote" [
 	--authenv					# Set the authentication information from $TR_AUTH
 	--netrc(-N)					# Set authentication information from a netrc file
 	--dht(-o)					# Enable distributed hash table (DHT)
-	--no-dht(-O)					# Disable distribued hash table (DHT)
+	--no-dht(-O)					# Disable distributed hash table (DHT)
 	--port(-p)					# Set the port to use when listening
 	--bandwidth-high					# Give this torrent high bandwidth
 	--bandwidth-normal					# Give this torrent normal bandwidth
@@ -50,8 +46,7 @@ extern "transmission-remote" [
 	--remove(-r)					# Remove the current torrents
 	--remove-and-delete					# Remove the current torrents and delete data
 	--reannounce					# Reannounce the current torrents
-	--move					# Move the current torrents data to another directory
-	--find					# Where to look for the current torrents data
+	--move					# Move the current torrents\
 	--seedratio					# Current torrents seed until a specific ratio
 	--no-seedratio					# Current torrents seed regardless of ratio
 	--seedratio-default					# Current torrents use global seedratio
@@ -77,6 +72,6 @@ extern "transmission-remote" [
 	--no-pex(-X)					# Disable peer exchange (PEX)
 	--lds(-y)					# Enable local peer discovery (LPD)
 	--no-lds(-Y)					# Disable local peer discovery (LPD)
-	--peer-info					# List the current torrents connected peers
+	--peer-info					# List the current torrent\'s
 	...args
 ]

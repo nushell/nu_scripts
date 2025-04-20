@@ -1,7 +1,7 @@
 # Show this help message and exit
 extern "nodeenv" [
 	--help(-h)					# Show this help message and exit
-	--version					# Show nodeenvs version number and exit
+	--version					# Show nodeenv\'s
 	--without-ssl					# Build Node.js without SSL support
 	--debug					# Enable debug build of Node.js
 	--profile					# Enable profiling of Node.js

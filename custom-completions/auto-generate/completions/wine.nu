@@ -1,6 +1,6 @@
-# Show help and exit
-extern "wine" [
-	--help					# Show help and exit
-	--version					# Show version and exit
+# Show help
+extern "$command" [
+	--help					# Show help
+	--version					# Show version
 	...args
 ]

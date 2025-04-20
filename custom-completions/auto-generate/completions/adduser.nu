@@ -5,6 +5,8 @@ extern "adduser" [
 	--force-badname					# Apply only a weak check for validity of the user/group name
 	--group					# Create a group
 	--help					# Display brief instructions
+	--home					# Use specified directory as the user\'s
+	--shell					# Use shell as the user\'s
 	--no-create-home					# Do not create the home directory
 	--quiet					# Suppress informational messages, only show warnings and errors
 	--debug					# Be verbose, most useful if you want to nail down a problem with adduser

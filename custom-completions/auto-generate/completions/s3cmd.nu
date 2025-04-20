@@ -1,284 +1,4181 @@
 # 
 extern "s3cmd" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Make bucket
 extern "s3cmd mb" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Remove bucket
 extern "s3cmd rb" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # List objects or buckets
 extern "s3cmd ls" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
 	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
 	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
 	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # List all object in all buckets
 extern "s3cmd la" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
 	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Put file into bucket
 extern "s3cmd put" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
 	--rr					# Store with reduced redundancy
 	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Get file from bucket
 extern "s3cmd get" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
 	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
 	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
 	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Delete file from bucket
 extern "s3cmd del" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
 	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Delete file from bucket (alias for del)
 extern "s3cmd rm" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Restore file from Glacier storage
 extern "s3cmd restore" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Synchronize a directory tree to S3
 extern "s3cmd sync" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
 	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
 	--check-md5					# Check MD5 sums (default)
 	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
 	--delete-removed					# Delete objects not found locally
 	--delete-after					# Delete after upload
 	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
 	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Disk usage by buckets
 extern "s3cmd du" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Get various information about Buckets or Files
 extern "s3cmd info" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Copy object
 extern "s3cmd cp" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
 	--rr					# Store with reduced redundancy
 	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Modify object metadata
 extern "s3cmd modify" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
 	--access-logging-target-prefix					# Prefix for access logs
 	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
 	--enable					# Enable CloudFront distribution
 	--disable					# Disable CloudFront distribution
 	--cf-invalidate					# Invalidate CloudFront file
 	--cf-invalidate-default-index					# Invalidate default index
-	--cf-no-invalidate-default-index-root					# Dont invalidate default index
 	--cf-add-cname					# Add CNAME to CloudFront distribution
 	--cf-remove-cname					# Remove CNAME from CloudFront distribution
 	--cf-comment					# Set COMMENT for CloudFront distribution
 	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Move object
 extern "s3cmd mv" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
 	--rr					# Store with reduced redundancy
 	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Modify Access control list for Bucket or Files
 extern "s3cmd setacl" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Modify Bucket Policy
 extern "s3cmd setpolicy" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Delete Bucket Policy
 extern "s3cmd delpolicy" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Modify Bucket CORS
 extern "s3cmd setcors" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Delete Bucket CORS
 extern "s3cmd delcors" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Modify Bucket Requester Pays policy
 extern "s3cmd payer" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Show multipart uploads
 extern "s3cmd multipart" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Abort a multipart upload
 extern "s3cmd abortmp" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # List parts of a multipart upload
 extern "s3cmd listmp" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Enable/disable bucket access logging
 extern "s3cmd accesslog" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
 	--access-logging-target-prefix					# Prefix for access logs
 	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Sign arbitrary string using the secret key
 extern "s3cmd sign" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Sign an S3 URL to provide limited public access with expiry
 extern "s3cmd signurl" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Fix invalid file names in a bucket
 extern "s3cmd fixbucket" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Create Website from bucket
 extern "s3cmd ws-create" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
 	--ws-index					# Name of index-document
 	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Delete Website
 extern "s3cmd ws-delete" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Info about Website
 extern "s3cmd ws-info" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Set or delete expiration rule for the bucket
 extern "s3cmd expire" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
 	--expiry-date					# When expiration rule takes effect
 	--expiry-days					# Days to expire
 	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Upload a lifecycle policy for the bucket
 extern "s3cmd setlifecycle" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Remove a lifecycle policy for the bucket
 extern "s3cmd dellifecycle" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # List CloudFront distribution points
 extern "s3cmd cflist" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Display CloudFront distribution point parameters
 extern "s3cmd cfinfo" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Create CloudFront distribution point
 extern "s3cmd cfcreate" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
 	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
 	--cf-comment					# Set COMMENT for CloudFront distribution
 	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Delete CloudFront distribution point
 extern "s3cmd cfdelete" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Change CloudFront distribution point parameters
 extern "s3cmd cfmodify" [
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
 	--access-logging-target-prefix					# Prefix for access logs
 	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
 	--enable					# Enable CloudFront distribution
 	--disable					# Disable CloudFront distribution
 	--cf-invalidate					# Invalidate CloudFront file
 	--cf-invalidate-default-index					# Invalidate default index
-	--cf-no-invalidate-default-index-root					# Dont invalidate default index
 	--cf-add-cname					# Add CNAME to CloudFront distribution
 	--cf-remove-cname					# Remove CNAME from CloudFront distribution
 	--cf-comment					# Set COMMENT for CloudFront distribution
 	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]
 
 # Display CloudFront invalidation request(s) status
 extern "s3cmd cfinvalinfo" [
-
+	--help(-h)					# Show help and exit
+	--configure					# Run interactive (re)configuration tool
+	--config(-c)					# Config file (default: $HOME/.s3cfg)
+	--dump-config					# Dump current configuration
+	--access_key					# AWS Access Key
+	--secret_key					# AWS Secret Key
+	--access_token					# AWS Access Token
+	--dry-run(-n)					# Dry run, test only
+	--ssl(-s)					# Use HTTPS (default)
+	--no-ssl					# Don\'t
+	--encrypt(-e)					# Encrypt files before uploading
+	--no-encrypt					# Don\'t
+	--force(-f)					# Force overwrite
+	--continue					# Resume partially downloaded file
+	--continue-put					# Resume partially uploaded files
+	--upload-id					# Resume multipart upload by UploadId
+	--skip-existing					# Skip existing files at destination
+	--recursive(-r)					# Upload/download/delete recursively
+	--check-md5					# Check MD5 sums (default)
+	--no-check-md5					# Skip MD5 sum check
+	--acl-public(-P)					# Store with ACL read for all
+	--acl-private					# Store with private ACL
+	--acl-grant					# Grant permission to named user
+	--acl-revoke					# Revoke permission to named user
+	--restore-days(-D)					# Days to keep restored file
+	--restore-priority					# S3 glacier restore priority
+	--delete-removed					# Delete objects not found locally
+	--delete-after					# Delete after upload
+	--max-delete					# Delete no more than NUM files
+	--limit					# Max objects per response
+	--add-destination					# Additional parallel upload
+	--delete-after-fetch					# Delete remotely after fetch
+	--preserve(-p)					# Preserve FS attributes
+	--exclude					# Exclude GLOB matches
+	--exclude-from					# --exclude GLOBs from FILE
+	--rexclude					# Exclude REGEXP matches
+	--rexclude-from					# Read --rexclude REGEXPs from FILE
+	--include					# Include GLOB matches even if previously excluded
+	--include-from					# Read --include GLOBs from FILE
+	--rinclude					# Include REGEXP matches even if preiously excluded
+	--rinclude-from					# Read --rinclude REGEXPs from FILE
+	--files-from					# Read source-file names from FILE
+	--bucket-location					# Create bucket in region
+	--host					# S3 endpoint (default: s3.amazonaws.com)
+	--host-bucket					# DNS-style bucket+hostname:port template for bucket
+	--rr					# Store with reduced redundancy
+	--no-rr					# Store without reduced redundancy
+	--storage-class					# Store with STANDARD, STANDARD_IA, or REDUCED_REDUNDANCY
+	--access-logging-target-prefix					# Prefix for access logs
+	--no-access-logging					# Disable access logging
+	--default-mime-type					# Default MIME-type for objects
+	--guess-mime-type(-M)					# Guess MIME-type
+	--no-guess-mime-type					# Don\'t
+	--mime-type(-m)					# Force MIME-type
+	--add-header					# Add HTTP header
+	--remove-header					# Remove HTTP header
+	--server-side-encryption					# Use server-side encryption for upload
+	--server-side-encryption-kms-id					# Encrypt with specified AWS KMS-managed key
+	--encoding					# Use specified encoding
+	--add-encoding-exts					# Add encoding to CSV extension list
+	--verbatim					# Use S3 name as-is
+	--disable-multipart					# No multipart on files larger than --multipart-chunk-size-mb
+	--multipart-chunk-size-mb					# Multipart upload chunk size
+	--list-md5					# Include MD5 sums in bucket listings
+	--human-readable-sizes(-H)					# Print sizes in human-readable form
+	--ws-index					# Name of index-document
+	--ws-error					# Name of error-document
+	--expiry-date					# When expiration rule takes effect
+	--expiry-days					# Days to expire
+	--expiry-prefix					# Apply expiry to objects matching prefix
+	--progress					# Show progress (default on TTY)
+	--no-progress					# Don\'t
+	--stats					# Show file transfer stats
+	--enable					# Enable CloudFront distribution
+	--disable					# Disable CloudFront distribution
+	--cf-invalidate					# Invalidate CloudFront file
+	--cf-invalidate-default-index					# Invalidate default index
+	--cf-add-cname					# Add CNAME to CloudFront distribution
+	--cf-remove-cname					# Remove CNAME from CloudFront distribution
+	--cf-comment					# Set COMMENT for CloudFront distribution
+	--cf-default-root-object					# Set default root object
+	--verbose(-v)					# Verbose output
+	--debug(-d)					# Debug output
+	--version					# Show version
+	--follow-symlinks(-F)					# Follow symlinks
+	--cache-file					# Cache FILE containing MD5 values
+	--quiet(-q)					# Silence stdout output
+	--ca-certs					# Path to SSL CA certificate FILE
+	--check-certificate					# Validate SSL certificate
+	--check-hostname					# Validate SSL hostname
+	--signature-v2					# Use AWS Signature version 2
+	--limit-rate					# Limit upload or download speed (bytes/sec)
+	--requester-pays					# Set REQUESTER PAYS for operations
+	--long-listing(-l)					# Produce long listing
+	--stop-on-error					# Stop on error in transfer
+	--content-disposition					# Provide Content-Disposition for signed URLs
+	--content-type					# Provide Content-Type for signed URLs
 	...args
 ]

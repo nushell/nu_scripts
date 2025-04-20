@@ -1,6 +1,6 @@
-# show programs version number and exit
+# show program\'s
 extern "pkgfile" [
-	--version					# show programs version number and exit
+	--version					# show program\'s
 	--help(-h)					# show this help message and exit
 	--binaries(-b)					# only show files in a {s}bin/ directory. Works with -s, -l
 	--case-sensitive(-c)					# make searches case sensitive

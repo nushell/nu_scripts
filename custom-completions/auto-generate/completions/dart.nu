@@ -1,5 +1,42 @@
-# Print this usage information.
+# Print this usage information
 extern "dart" [
-
+	--help(-h)					# Print this usage information
+	--verbose(-v)					# Show additional command output
+	--version					# Print the Dart SDK version
+	--enable-analytics					# Enable analytics
+	--disable-analytics					# Disable analytics
+	--fatal-infos					# Treat info level issues as fatal
+	--fatal-warnings					# Treat warning level issues as fatal. (default on)
+	--template(-t)					# The project template to use
+	--force					# Force project generation, even if the target directory already exists
+	--dry-run					# Preview the proposed changes but make no changes
+	--apply					# Apply the proposed changes
+	--output(-o)					# Set where to write formatted output
+	--set-exit-if-changed					# Return exit code 1 if there are any formatting changes
+	--fix					# Apply all style fixes
+	--line-length(-l)					# Wrap lines longer than this. (default "80")
+	--apply-changes					# Apply the proposed null safety changes to the files on disk
+	--ignore-errors					# Attempt to perform null safety analysis even if the project has analysis errors
+	--skip-import-check					# Go ahead with migration even if some imported files have not yet been migrated
+	--web-preview					# Show preview of the proposed null safety changes in a browser window
+	--no-web-preview					# Show preview of the proposed null safety changes in the console
+	--preview-hostname					# Run the preview server on the specified hostname
+	--preview-port					# Run the preview server on the specified port
+	--directory(-C)					# Run the subcommand in this directory. (default "")
+	--observe					# Run a program with common options for debugging
+	--enable-vm-service					# Enables VM service and listen on the specified port (default localhost:8181)
+	--serve-devtools					# Serve Dart DevTools debugger/profiler via service at <vm-service-uri>/devtools
+	--no-serve-devtools					# Serve Dart DevTools debugger/profiler via service at <vm-service-uri>/devtools
+	--pause-isolates-on-exit					# Pause isolates on exit when running with --enable-vm-service
+	--no-pause-isolates-on-exit					# Pause isolates on exit when running with --enable-vm-service
+	--pause-isolates-on-unhandled-exceptions					# Pause isolates after unhandled exception when running with --enable-vm-service
+	--warn-on-pause-with-no-debugger					# Warn when isolate pauses with no attached debugger when running with --enable-vm-service
+	--no-warn-on-pause-with-no-debugger					# Don\'t
+	--pause-isolates-on-start					# Pause isolates on start when running with --enable-vm-service
+	--no-pause-isolates-on-start					# Don\'t
+	--enable-asserts					# Enable assert statements
+	--no-enable-asserts					# Disable assert statements
+	--verbosity					# Sets the verbosity level of the compilation
+	--define(-D)					# Define an environment declaration
 	...args
 ]

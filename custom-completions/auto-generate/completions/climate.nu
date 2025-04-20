@@ -124,7 +124,7 @@ extern "climate find-duplicates" [
 	...args
 ]
 
-# Count the number of occurences
+# Count the number of occurrences
 extern "climate count" [
 
 	...args
@@ -142,7 +142,7 @@ extern "climate grep" [
 	...args
 ]
 
-# Replace all occurences
+# Replace all occurrences
 extern "climate replace" [
 
 	...args
@@ -162,12 +162,6 @@ extern "climate speedtest" [
 
 # Retrieve your local ip address
 extern "climate local-ip" [
-
-	...args
-]
-
-# Verify if youre online
-extern "climate is-online" [
 
 	...args
 ]

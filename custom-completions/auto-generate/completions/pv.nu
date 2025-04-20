@@ -16,10 +16,16 @@ extern "pv" [
 	--null(-0)					# Count null-terminated lines
 	--force(-f)					# Force output
 	--cursor(-c)					# Use cursor positioning escape sequence instead of \r
-	--no-splice(-C)					# Dont use slice
+	--no-splice(-C)					# Don\'t
 	--skip-errors(-E)					# Ignore read errors
 	--stop-at-size(-S)					# Stop transfer after given number of bytes
 	--help(-h)					# Show help and exit
 	--version(-V)					# Show version and exit
+	...args
+]
+
+# 
+extern "" [
+
 	...args
 ]

@@ -184,7 +184,7 @@ extern "mvn compiler:help" [
 	...args
 ]
 
-# Compiles application test sources.
+# Compiles application test sources
 extern "mvn compiler:testCompile" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -246,7 +246,7 @@ extern "mvn deploy:help" [
 	...args
 ]
 
-# Installs the artifact in the remote repository.
+# Installs the artifact in the remote repository
 extern "mvn deploy:deploy-file" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -277,7 +277,7 @@ extern "mvn deploy:deploy-file" [
 	...args
 ]
 
-# Deploys an artifact to remote repository.
+# Deploys an artifact to remote repository
 extern "mvn deploy:deploy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -339,7 +339,7 @@ extern "mvn failsafe:help" [
 	...args
 ]
 
-# Run integration tests using Surefire.
+# Run integration tests using Surefire
 extern "mvn failsafe:integration-test" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -370,7 +370,7 @@ extern "mvn failsafe:integration-test" [
 	...args
 ]
 
-# Verify integration tests ran using Surefire.
+# Verify integration tests ran using Surefire
 extern "mvn failsafe:verify" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -401,7 +401,7 @@ extern "mvn failsafe:verify" [
 	...args
 ]
 
-# Installs the project's main artifact, and any other artifacts attached by other plugins in the lifecycle, to the local repository.
+# Installs the project's main artifact, and any other artifacts attached by other plugins in the lifecycle, to the local repository
 extern "mvn install:install" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -463,7 +463,7 @@ extern "mvn install:help" [
 	...args
 ]
 
-# Installs a file in the local repository.
+# Installs a file in the local repository
 extern "mvn install:install-file" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -742,7 +742,7 @@ extern "mvn site:help" [
 	...args
 ]
 
-# Bundles the site output into a JAR so that it can be deployed to a repository.
+# Bundle the site output into a JAR to deploy
 extern "mvn site:jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -773,7 +773,7 @@ extern "mvn site:jar" [
 	...args
 ]
 
-# Starts the site up, rendering documents as requested for faster editing. It uses Jetty as the web server.
+# Start the site up, rendering documents as requested for faster editing (with Jetty web server)
 extern "mvn site:run" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -928,7 +928,7 @@ extern "mvn surefire:help" [
 	...args
 ]
 
-# Run tests using Surefire.
+# Run tests using Surefire
 extern "mvn surefire:test" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -990,7 +990,7 @@ extern "mvn verifier:help" [
 	...args
 ]
 
-# Verifies the existence or non-existence of files/directories and optionally checks file content against a regular expression.
+# Verify the existence of files and optionally check content against a regex
 extern "mvn verifier:verify" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1021,7 +1021,7 @@ extern "mvn verifier:verify" [
 	...args
 ]
 
-# Builds J2EE Enterprise Archive (EAR) files.
+# Builds J2EE Enterprise Archive (EAR) files
 extern "mvn ear:ear" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1052,7 +1052,7 @@ extern "mvn ear:ear" [
 	...args
 ]
 
-# Generates the EAR deployment descriptor file(s).
+# Generates the EAR deployment descriptor file(s)
 extern "mvn ear:generate-application-xml" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1114,7 +1114,7 @@ extern "mvn ear:help" [
 	...args
 ]
 
-# Build an EJB (and optional client) from the current project.
+# Build an EJB (and optional client) from the current project
 extern "mvn ejb:ejb" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1207,7 +1207,7 @@ extern "mvn jar:help" [
 	...args
 ]
 
-# Build a JAR from the current project.
+# Build a JAR from the current project
 extern "mvn jar:jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1238,7 +1238,7 @@ extern "mvn jar:jar" [
 	...args
 ]
 
-# Build a JAR of the test classes for the current project.
+# Build a JAR of the test classes for the current project
 extern "mvn jar:test-jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1300,7 +1300,7 @@ extern "mvn rar:help" [
 	...args
 ]
 
-# Builds J2EE Resource Adapter Archive (RAR) files.
+# Builds J2EE Resource Adapter Archive (RAR) files
 extern "mvn rar:rar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1362,7 +1362,7 @@ extern "mvn shade:help" [
 	...args
 ]
 
-# Mojo that performs shading delegating to the Shader component.
+# Mojo that performs shading delegating to the Shader component
 extern "mvn shade:shade" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1393,7 +1393,7 @@ extern "mvn shade:shade" [
 	...args
 ]
 
-# Aggregate sources for all modules in an aggregator project.
+# Aggregate sources for all modules in an aggregator project
 extern "mvn source:aggregate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1424,7 +1424,7 @@ extern "mvn source:aggregate" [
 	...args
 ]
 
-# This plugin bundles all the sources into a jar archive.
+# This plugin bundles all the sources into a jar archive
 extern "mvn source:jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1455,7 +1455,7 @@ extern "mvn source:jar" [
 	...args
 ]
 
-# This goal bundles all the test sources into a jar archive
+# Bundle all the test sources into a jar archive (goal)
 extern "mvn source:test-jar-no-fork" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1486,7 +1486,7 @@ extern "mvn source:test-jar-no-fork" [
 	...args
 ]
 
-# This plugin bundles all the test sources into a jar archive.
+# Bundle all the test sources into a jar archive (plugin)
 extern "mvn source:test-jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1517,7 +1517,7 @@ extern "mvn source:test-jar" [
 	...args
 ]
 
-# This plugin bundles all the test sources into a jar archive.
+# This plugin bundles all the test sources into a jar archive
 extern "mvn source:generated-test-jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1610,7 +1610,7 @@ extern "mvn source:jar-no-fork" [
 	...args
 ]
 
-# Generate a changelog report.
+# Generate a changelog report
 extern "mvn changelog:changelog" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1641,7 +1641,7 @@ extern "mvn changelog:changelog" [
 	...args
 ]
 
-# Generate a file activity report.
+# Generate a file activity report
 extern "mvn changelog:file-activity" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1672,7 +1672,7 @@ extern "mvn changelog:file-activity" [
 	...args
 ]
 
-# Generate a developer activity report.
+# Generate a developer activity report
 extern "mvn changelog:dev-activity" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1734,7 +1734,7 @@ extern "mvn changelog:help" [
 	...args
 ]
 
-# Goal which validate the changes.xml file.
+# Goal which validate the changes.xml file
 extern "mvn changes:changes-validate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1796,7 +1796,7 @@ extern "mvn changes:changes-check" [
 	...args
 ]
 
-# Goal which downloads issues from GitHub and generates a report.
+# Goal which downloads issues from GitHub and generates a report
 extern "mvn changes:github-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1827,7 +1827,7 @@ extern "mvn changes:github-report" [
 	...args
 ]
 
-# Goal which generate an announcement from the announcement template.
+# Goal which generate an announcement from the announcement template
 extern "mvn changes:announcement-generate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1858,7 +1858,7 @@ extern "mvn changes:announcement-generate" [
 	...args
 ]
 
-# Goal which downloads issues from the Issue Tracking System and generates a report.
+# Goal which downloads issues from the Issue Tracking System and generates a report
 extern "mvn changes:trac-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1889,7 +1889,7 @@ extern "mvn changes:trac-report" [
 	...args
 ]
 
-# Goal which creates a nicely formatted Changes Report in html format from a changes.xml file.
+# Goal which creates a nicely formatted Changes Report in html format from a changes.xml file
 extern "mvn changes:changes-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1920,7 +1920,7 @@ extern "mvn changes:changes-report" [
 	...args
 ]
 
-# Goal which sends an announcement through email.
+# Goal which sends an announcement through email
 extern "mvn changes:announcement-mail" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -1951,7 +1951,7 @@ extern "mvn changes:announcement-mail" [
 	...args
 ]
 
-# Goal which downloads issues from the Issue Tracking System and generates a report.
+# Goal which downloads issues from the Issue Tracking System and generates a report
 extern "mvn changes:jira-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2199,7 +2199,7 @@ extern "mvn doap:help" [
 	...args
 ]
 
-# Checks a plugin's documentation for the standard minimums.
+# Checks a plugin's documentation for the standard minimums
 extern "mvn docck:check" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2261,7 +2261,7 @@ extern "mvn docck:help" [
 	...args
 ]
 
-# Generates documentation for the Java code in an aggregator project using the standard Javadoc Tool.
+# Generates documentation for the Java code in an aggregator project
 extern "mvn javadoc:aggregate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2292,7 +2292,7 @@ extern "mvn javadoc:aggregate" [
 	...args
 ]
 
-# Bundles the Javadoc documentation for main Java code in an aggregator project into a jar using the standard Javadoc Tool.
+# Bundles Javadoc for main Java code into a jar
 extern "mvn javadoc:aggregate-jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2323,7 +2323,7 @@ extern "mvn javadoc:aggregate-jar" [
 	...args
 ]
 
-# Fix Javadoc documentation and tags for the Java code for the project. See Where Tags Can Be Used.
+# Fix Javadoc documentation and tags for the Java code for the project
 extern "mvn javadoc:fix" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2726,7 +2726,7 @@ extern "mvn javadoc:test-resource-bundle" [
 	...args
 ]
 
-# Generates a combined JXR report in an aggregating project.
+# Generates a combined JXR report in an aggregating project
 extern "mvn jxr:aggregate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2788,7 +2788,7 @@ extern "mvn jxr:help" [
 	...args
 ]
 
-# Creates an html-based, cross referenced version of Java source code for a project.
+# Creates an html-based, cross referenced version of Java source code for a project
 extern "mvn jxr:jxr" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2819,7 +2819,7 @@ extern "mvn jxr:jxr" [
 	...args
 ]
 
-# Generates a combined JXR report for test code in an aggregating project.
+# Generates a combined JXR report for test code in an aggregating project
 extern "mvn jxr:test-aggregate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2850,7 +2850,7 @@ extern "mvn jxr:test-aggregate" [
 	...args
 ]
 
-# Creates an html-based, cross referenced version of Java source code for a project's test sources.
+# Creates an html-based, cross referenced version of Java source code for a project's test sources
 extern "mvn jxr:test-jxr" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2881,7 +2881,7 @@ extern "mvn jxr:test-jxr" [
 	...args
 ]
 
-# Generates a Linkcheck report.
+# Generates a Linkcheck report
 extern "mvn linkcheck:linkcheck" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2943,7 +2943,7 @@ extern "mvn linkcheck:help" [
 	...args
 ]
 
-# Fail the build if there were any PMD violations in the source code.
+# Fail the build if there were any PMD violations in the source code
 extern "mvn pmd:check" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -2974,7 +2974,7 @@ extern "mvn pmd:check" [
 	...args
 ]
 
-# Creates a report for PMD's CPD tool. See http://pmd.sourceforge.net/cpd.html for more detail.
+# Creates a report for PMD's CPD tool. See http://pmd.sourceforge.net/cpd.html for more detail
 extern "mvn pmd:cpd" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3005,7 +3005,7 @@ extern "mvn pmd:cpd" [
 	...args
 ]
 
-# Fail the build if there were any CPD violations in the source code.
+# Fail the build if there were any CPD violations in the source code
 extern "mvn pmd:cpd-check" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3067,7 +3067,7 @@ extern "mvn pmd:help" [
 	...args
 ]
 
-# Creates a PMD report.
+# Creates a PMD report
 extern "mvn pmd:pmd" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3098,7 +3098,7 @@ extern "mvn pmd:pmd" [
 	...args
 ]
 
-# Generates the Project Continuous Integration System report.
+# Generates the Project Continuous Integration System report
 extern "mvn project-info-reports:cim" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3129,7 +3129,7 @@ extern "mvn project-info-reports:cim" [
 	...args
 ]
 
-# Generates the Project Dependencies report.
+# Generates the Project Dependencies report
 extern "mvn project-info-reports:dependencies" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3160,7 +3160,7 @@ extern "mvn project-info-reports:dependencies" [
 	...args
 ]
 
-# Generates the Dependency Convergence report for reactor builds.
+# Generates the Dependency Convergence report for reactor builds
 extern "mvn project-info-reports:dependency-convergence" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3191,7 +3191,7 @@ extern "mvn project-info-reports:dependency-convergence" [
 	...args
 ]
 
-# Generates code snippets to be added to build tools.
+# Generates code snippets to be added to build tools
 extern "mvn project-info-reports:dependency-info" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3222,7 +3222,7 @@ extern "mvn project-info-reports:dependency-info" [
 	...args
 ]
 
-# Generates the Project Dependency Management report.
+# Generates the Project Dependency Management report
 extern "mvn project-info-reports:dependency-management" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3253,7 +3253,7 @@ extern "mvn project-info-reports:dependency-management" [
 	...args
 ]
 
-# Generates the Project Distribution Management report.
+# Generates the Project Distribution Management report
 extern "mvn project-info-reports:distribution-management" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3315,7 +3315,7 @@ extern "mvn project-info-reports:help" [
 	...args
 ]
 
-# Generates the project index page.
+# Generates the project index page
 extern "mvn project-info-reports:index" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3346,7 +3346,7 @@ extern "mvn project-info-reports:index" [
 	...args
 ]
 
-# Generates the Project Issue Tracking report.
+# Generates the Project Issue Tracking report
 extern "mvn project-info-reports:issue-tracking" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3377,7 +3377,7 @@ extern "mvn project-info-reports:issue-tracking" [
 	...args
 ]
 
-# Generates the Project License report.
+# Generates the Project License report
 extern "mvn project-info-reports:license" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3408,7 +3408,7 @@ extern "mvn project-info-reports:license" [
 	...args
 ]
 
-# Generates the Mailing List report.
+# Generates the Mailing List report
 extern "mvn project-info-reports:mailing-list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3439,7 +3439,7 @@ extern "mvn project-info-reports:mailing-list" [
 	...args
 ]
 
-# Generates the Project Modules report.
+# Generates the Project Modules report
 extern "mvn project-info-reports:modules" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3470,7 +3470,7 @@ extern "mvn project-info-reports:modules" [
 	...args
 ]
 
-# Generates the Project Plugin Management report.
+# Generates the Project Plugin Management report
 extern "mvn project-info-reports:plugin-management" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3501,7 +3501,7 @@ extern "mvn project-info-reports:plugin-management" [
 	...args
 ]
 
-# Generates the Project Plugins report.
+# Generates the Project Plugins report
 extern "mvn project-info-reports:plugins" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3532,7 +3532,7 @@ extern "mvn project-info-reports:plugins" [
 	...args
 ]
 
-# Generates the Project Team report.
+# Generates the Project Team report
 extern "mvn project-info-reports:project-team" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3563,7 +3563,7 @@ extern "mvn project-info-reports:project-team" [
 	...args
 ]
 
-# Generates the Project Source Code Management (SCM) report.
+# Generates the Project Source Code Management (SCM) report
 extern "mvn project-info-reports:scm" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3594,7 +3594,7 @@ extern "mvn project-info-reports:scm" [
 	...args
 ]
 
-# Generates the project information reports summary.
+# Generates the project information reports summary
 extern "mvn project-info-reports:summary" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3749,7 +3749,7 @@ extern "mvn surefire-report:report-only" [
 	...args
 ]
 
-# Generate Ant build files.
+# Generate Ant build files
 extern "mvn ant:ant" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3780,7 +3780,7 @@ extern "mvn ant:ant" [
 	...args
 ]
 
-# Clean all Ant build files.
+# Clean all Ant build files
 extern "mvn ant:clean" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -3904,7 +3904,7 @@ extern "mvn antrun:run" [
 	...args
 ]
 
-# Crawl a Maven repository (filesystem, not HTTP) and creates a catalog file.
+# Crawl a Maven repository (filesystem, not HTTP) and creates a catalog file
 extern "mvn archetype:crawl" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4090,7 +4090,7 @@ extern "mvn archetype:integration-test" [
 	...args
 ]
 
-# Build a JAR from the current Archetype project.
+# Build a JAR from the current Archetype project
 extern "mvn archetype:jar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4152,7 +4152,7 @@ extern "mvn archetype:update-local-catalog" [
 	...args
 ]
 
-# Assemble an application bundle or distribution using an assembly descriptor from the command line
+# Assemble an application bundle or distribution
 extern "mvn assembly:assembly" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4369,7 +4369,7 @@ extern "mvn assembly:single" [
 	...args
 ]
 
-# Unpack project dependencies. Currently supports dependencies of type jar and zip.
+# Unpack project dependencies. Currently supports dependencies of type jar and zip
 extern "mvn assembly:unpack" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4555,7 +4555,7 @@ extern "mvn dependency:analyze-report" [
 	...args
 ]
 
-# This goal will output a classpath string of dependencies from the local repository to a file or log.
+# Output a classpath string of dependencies from the local repository to a file or log
 extern "mvn dependency:build-classpath" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4586,7 +4586,7 @@ extern "mvn dependency:build-classpath" [
 	...args
 ]
 
-# Goal that copies a list of artifacts from the repository to defined locations.
+# Copy a list of artifacts from the repository to defined locations
 extern "mvn dependency:copy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4617,7 +4617,7 @@ extern "mvn dependency:copy" [
 	...args
 ]
 
-# Goal that copies the project dependencies from the repository to a defined location.
+# Copy the project dependencies from the repository to a defined location
 extern "mvn dependency:copy-dependencies" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4772,7 +4772,7 @@ extern "mvn dependency:help" [
 	...args
 ]
 
-# Displays the list of dependencies for this project.
+# Displays the list of dependencies for this project
 extern "mvn dependency:list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4865,7 +4865,7 @@ extern "mvn dependency:properties" [
 	...args
 ]
 
-# Remove the project dependencies from the local repository, and optionally re-resolve them.
+# Remove the project dependencies from the local repository, and optionally re-resolve them
 extern "mvn dependency:purge-local-repository" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4927,7 +4927,7 @@ extern "mvn dependency:resolve" [
 	...args
 ]
 
-# Goal that resolves all project plugins and reports and their dependencies.
+# Resolve all project plugins and reports and their dependencies
 extern "mvn dependency:resolve-plugins" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4958,7 +4958,7 @@ extern "mvn dependency:resolve-plugins" [
 	...args
 ]
 
-# Goal that resolves the project source dependencies from the repository.
+# Resolve the project source dependencies from the repository
 extern "mvn dependency:sources" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -4989,7 +4989,7 @@ extern "mvn dependency:sources" [
 	...args
 ]
 
-# Displays the dependency tree for this project.
+# Displays the dependency tree for this project
 extern "mvn dependency:tree" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5020,7 +5020,7 @@ extern "mvn dependency:tree" [
 	...args
 ]
 
-# Goal that retrieves a list of artifacts from the repository and unpacks them in a defined location.
+# Retrieve a list of artifacts from the repository and unpacks them in a defined location
 extern "mvn dependency:unpack" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5051,7 +5051,7 @@ extern "mvn dependency:unpack" [
 	...args
 ]
 
-# Goal that unpacks the project dependencies from the repository to a defined location.
+# Unpack the project dependencies from the repository to a defined location
 extern "mvn dependency:unpack-dependencies" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5082,7 +5082,7 @@ extern "mvn dependency:unpack-dependencies" [
 	...args
 ]
 
-# This goal displays the current platform information.
+# Display the current platform information
 extern "mvn enforcer:display-info" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5113,7 +5113,7 @@ extern "mvn enforcer:display-info" [
 	...args
 ]
 
-# This goal executes the defined enforcer-rules once per module.
+# Execute the defined enforcer-rules once per module
 extern "mvn enforcer:enforce" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5206,7 +5206,7 @@ extern "mvn gpg:help" [
 	...args
 ]
 
-# Sign project artifact, the POM, and attached artifacts with GnuPG for deployment.
+# Sign project artifact, the POM, and attached artifacts with GnuPG for deployment
 extern "mvn gpg:sign" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5237,7 +5237,7 @@ extern "mvn gpg:sign" [
 	...args
 ]
 
-# Signs artifacts and installs the artifact in the remote repository.
+# Signs artifacts and installs the artifact in the remote repository
 extern "mvn gpg:sign-and-deploy-file" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5268,7 +5268,7 @@ extern "mvn gpg:sign-and-deploy-file" [
 	...args
 ]
 
-# Displays the supported Plugin expressions used by Maven.
+# Displays the supported Plugin expressions used by Maven
 extern "mvn help:expressions" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5299,7 +5299,7 @@ extern "mvn help:expressions" [
 	...args
 ]
 
-# Displays a list of the profiles which are currently active for this build.
+# Displays a list of the profiles which are currently active for this build
 extern "mvn help:active-profiles" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5361,7 +5361,7 @@ extern "mvn help:effective-settings" [
 	...args
 ]
 
-# Displays a list of the platform details like system properties and environment variables.
+# Displays a list of the platform details like system properties and environment variables
 extern "mvn help:system" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5392,7 +5392,7 @@ extern "mvn help:system" [
 	...args
 ]
 
-# Displays the effective POM as an XML for this build, with the active profiles factored in.
+# Displays the effective POM as an XML for this build, with the active profiles factored in
 extern "mvn help:effective-pom" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5485,7 +5485,7 @@ extern "mvn help:all-profiles" [
 	...args
 ]
 
-# Displays a list of the attributes for a Maven Plugin and/or goals (aka Mojo - Maven plain Old Java Object).
+# Displays the attributes for a Maven Plugin / goals (aka Mojo - Maven plain Old Java Object)
 extern "mvn help:describe" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5516,7 +5516,7 @@ extern "mvn help:describe" [
 	...args
 ]
 
-# Evaluates Maven expressions given by the user in an interactive mode.
+# Evaluates Maven expressions given by the user in an interactive mode
 extern "mvn help:evaluate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5609,7 +5609,7 @@ extern "mvn invoker:install" [
 	...args
 ]
 
-# Searches for integration test Maven projects, and executes each, collecting a log in the project directory
+# Execute integration test Maven projects, collecting a log in the project directory
 extern "mvn invoker:integration-test" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5671,7 +5671,7 @@ extern "mvn invoker:report" [
 	...args
 ]
 
-# Searches for integration test Maven projects, and executes each, collecting a log in the project directory, and outputting the results to the command line.
+# Execute integration test Maven projects, collect a log, and output the results
 extern "mvn invoker:run" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5702,7 +5702,7 @@ extern "mvn invoker:run" [
 	...args
 ]
 
-# Checks the results of maven-invoker-plugin based integration tests and fails the build if any tests failed.
+# Check the results of maven-invoker-plugin integration tests
 extern "mvn invoker:verify" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5764,7 +5764,7 @@ extern "mvn jarsigner:help" [
 	...args
 ]
 
-# Signs a project artifact and attachments using jarsigner.
+# Signs a project artifact and attachments using jarsigner
 extern "mvn jarsigner:sign" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5795,7 +5795,7 @@ extern "mvn jarsigner:sign" [
 	...args
 ]
 
-# Checks the signatures of a project artifact and attachments using jarsigner.
+# Checks the signatures of a project artifact and attachments using jarsigner
 extern "mvn jarsigner:verify" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5826,7 +5826,7 @@ extern "mvn jarsigner:verify" [
 	...args
 ]
 
-# Apply one or more patches to project sources.
+# Apply one or more patches to project sources
 extern "mvn patch:apply" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5919,7 +5919,7 @@ extern "mvn pdf:help" [
 	...args
 ]
 
-# Generates a PDF document for a project.
+# Generates a PDF document for a project
 extern "mvn pdf:pdf" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5950,7 +5950,7 @@ extern "mvn pdf:pdf" [
 	...args
 ]
 
-# Update the user plugin registry (if it's in use) to reflect the version we're installing.
+# Update the user plugin registry (if it's in use) to reflect the version we're installing
 extern "mvn plugin:updateRegistry" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -5981,7 +5981,7 @@ extern "mvn plugin:updateRegistry" [
 	...args
 ]
 
-# Generates the Plugin's documentation report.
+# Generates the Plugin's documentation report
 extern "mvn plugin:report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6012,7 +6012,7 @@ extern "mvn plugin:report" [
 	...args
 ]
 
-# Generate Xdoc files for the project mojos or goals.
+# Generate Xdoc files for the project mojos or goals
 extern "mvn plugin:xdoc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6105,7 +6105,7 @@ extern "mvn plugin:help" [
 	...args
 ]
 
-# Generates a HelpMojo class.
+# Generates a HelpMojo class
 extern "mvn plugin:helpmojo" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6229,7 +6229,7 @@ extern "mvn release:rollback" [
 	...args
 ]
 
-# Prepare for a release in SCM, fully resolving dependencies for the purpose of producing a 'release POM'.
+# Prepare for a release in SCM, fully resolving dependencies for the purpose of producing a 'release POM'
 extern "mvn release:prepare-with-pom" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6446,7 +6446,7 @@ extern "mvn release:branch" [
 	...args
 ]
 
-# Pull down resourceBundles containing remote resources and process the resources contained inside
+# Pull down resourceBundles and process them
 extern "mvn remote-resources:process" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6508,7 +6508,7 @@ extern "mvn remote-resources:help" [
 	...args
 ]
 
-# Bundle up resources that should be considered as a remote-resource.
+# Bundle up resources that should be considered as a remote-resource
 extern "mvn remote-resources:bundle" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6539,7 +6539,7 @@ extern "mvn remote-resources:bundle" [
 	...args
 ]
 
-# Goal which creates an upload bundle for a project built with Maven.
+# Goal which creates an upload bundle for a project built with Maven
 extern "mvn repository:bundle-create" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6632,7 +6632,7 @@ extern "mvn repository:help" [
 	...args
 ]
 
-# Display the modification status of the files in the configured scm url.
+# Display the modification status of the files in the configured scm url
 extern "mvn scm:status" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6663,7 +6663,7 @@ extern "mvn scm:status" [
 	...args
 ]
 
-# Branch the project.
+# Branch the project
 extern "mvn scm:branch" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6694,7 +6694,7 @@ extern "mvn scm:branch" [
 	...args
 ]
 
-# Validate scm connection string.
+# Validate scm connection string
 extern "mvn scm:validate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6725,7 +6725,7 @@ extern "mvn scm:validate" [
 	...args
 ]
 
-# Commit changes to the configured scm url.
+# Commit changes to the configured scm url
 extern "mvn scm:checkin" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6756,7 +6756,7 @@ extern "mvn scm:checkin" [
 	...args
 ]
 
-# Display the difference of the working copy with the latest copy in the configured scm url.
+# Display the difference of the working copy with the latest copy in the configured scm url
 extern "mvn scm:diff" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6787,7 +6787,7 @@ extern "mvn scm:diff" [
 	...args
 ]
 
-# Update the local working copy with the latest source from the configured scm url.
+# Update the local working copy with the latest source from the configured scm url
 extern "mvn scm:update" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6818,7 +6818,7 @@ extern "mvn scm:update" [
 	...args
 ]
 
-# Add a file set to the project.
+# Add a file set to the project
 extern "mvn scm:add" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6849,7 +6849,7 @@ extern "mvn scm:add" [
 	...args
 ]
 
-# Mark a set of files for deletion.
+# Mark a set of files for deletion
 extern "mvn scm:remove" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6880,7 +6880,7 @@ extern "mvn scm:remove" [
 	...args
 ]
 
-# Unedit/unlock a set of files.
+# Unedit/unlock a set of files
 extern "mvn scm:unedit" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6911,7 +6911,7 @@ extern "mvn scm:unedit" [
 	...args
 ]
 
-# Pull the project source from the configured scm and execute the configured goals.
+# Pull the project source from the configured scm and execute the configured goals
 extern "mvn scm:bootstrap" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6942,7 +6942,7 @@ extern "mvn scm:bootstrap" [
 	...args
 ]
 
-# Get a fresh copy of the latest source from the configured scm url.
+# Get a fresh copy of the latest source from the configured scm url
 extern "mvn scm:checkout" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -6973,7 +6973,7 @@ extern "mvn scm:checkout" [
 	...args
 ]
 
-# Tag the project.
+# Tag the project
 extern "mvn scm:tag" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7004,7 +7004,7 @@ extern "mvn scm:tag" [
 	...args
 ]
 
-# Edit/lock a set of files.
+# Edit/lock a set of files
 extern "mvn scm:edit" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7066,7 +7066,7 @@ extern "mvn scm:check-local-modification" [
 	...args
 ]
 
-# Get the list of project files.
+# Get the list of project files
 extern "mvn scm:list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7097,7 +7097,7 @@ extern "mvn scm:list" [
 	...args
 ]
 
-# Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command.
+# Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command
 extern "mvn scm:changelog" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7159,7 +7159,7 @@ extern "mvn scm:help" [
 	...args
 ]
 
-# Get a fresh exported copy of the latest source from the configured scm url.
+# Get a fresh exported copy of the latest source from the configured scm url
 extern "mvn scm:export" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7283,7 +7283,7 @@ extern "mvn scm-publish:help" [
 	...args
 ]
 
-# Empty goal, provided only to set loose the lifecycle.
+# Empty goal, provided only to set loose the lifecycle
 extern "mvn scm-publish:scmpublish" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7314,7 +7314,7 @@ extern "mvn scm-publish:scmpublish" [
 	...args
 ]
 
-# Copies artifacts from one repository to another repository.
+# Copies artifacts from one repository to another repository
 extern "mvn stage:copy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7438,7 +7438,7 @@ extern "mvn toolchains:toolchain" [
 	...args
 ]
 
-# Deletes the .project, .classpath, .wtpmodules files and .settings folder used by Eclipse.
+# Deletes the .project, .classpath, .wtpmodules files and .settings folder used by Eclipse
 extern "mvn eclipse:clean" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7562,7 +7562,7 @@ extern "mvn eclipse:help" [
 	...args
 ]
 
-# Install plugins resolved from the Maven repository system into an Eclipse instance.
+# Install plugins resolved from the Maven repository system into an Eclipse instance
 extern "mvn eclipse:install-plugins" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7655,7 +7655,7 @@ extern "mvn eclipse:myeclipse-clean" [
 	...args
 ]
 
-# Generates the rad-6 configuration files.
+# Generates the rad-6 configuration files
 extern "mvn eclipse:rad" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7717,7 +7717,7 @@ extern "mvn eclipse:rad-clean" [
 	...args
 ]
 
-# Removes the not-available marker files from the repository.
+# Removes the not-available marker files from the repository
 extern "mvn eclipse:remove-cache" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7748,7 +7748,7 @@ extern "mvn eclipse:remove-cache" [
 	...args
 ]
 
-# For all projects currently part of the workspace, all references to the M2_REPO classpath variable are resolved
+# For the entire workspace: resolve references to the M2_REPO classpath variable
 extern "mvn eclipse:resolve-workspace-dependencies" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7810,7 +7810,7 @@ extern "mvn eclipse:to-maven" [
 	...args
 ]
 
-# Builds a deployable JBoss Hibernate exploded Archive.
+# Builds a deployable JBoss Hibernate exploded Archive
 extern "mvn jboss-packaging:har-exploded" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7841,7 +7841,7 @@ extern "mvn jboss-packaging:har-exploded" [
 	...args
 ]
 
-# Builds a deployable JBoss ESB Archive.
+# Builds a deployable JBoss ESB Archive
 extern "mvn jboss-packaging:esb" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7872,7 +7872,7 @@ extern "mvn jboss-packaging:esb" [
 	...args
 ]
 
-# Builds a deployable JBoss ESB exploded Archive.
+# Builds a deployable JBoss ESB exploded Archive
 extern "mvn jboss-packaging:esb-exploded" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7903,7 +7903,7 @@ extern "mvn jboss-packaging:esb-exploded" [
 	...args
 ]
 
-# Builds a deployable JBoss AOP Archive.
+# Builds a deployable JBoss AOP Archive
 extern "mvn jboss-packaging:aop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -7934,7 +7934,7 @@ extern "mvn jboss-packaging:aop" [
 	...args
 ]
 
-# Builds a deployable JBoss Spring Archive.
+# Builds a deployable JBoss Spring Archive
 extern "mvn jboss-packaging:spring" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8027,7 +8027,7 @@ extern "mvn jboss-packaging:help" [
 	...args
 ]
 
-# Builds a deployable JBoss Process Archive.
+# Builds a deployable JBoss Process Archive
 extern "mvn jboss-packaging:par" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8058,7 +8058,7 @@ extern "mvn jboss-packaging:par" [
 	...args
 ]
 
-# Builds a deployable JBoss Service Archive.
+# Builds a deployable JBoss Service Archive
 extern "mvn jboss-packaging:sar" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8089,7 +8089,7 @@ extern "mvn jboss-packaging:sar" [
 	...args
 ]
 
-# Builds a deployable JBoss Service in place exploded Archive.
+# Builds a deployable JBoss Service in place exploded Archive
 extern "mvn jboss-packaging:sar-inplace" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8120,7 +8120,7 @@ extern "mvn jboss-packaging:sar-inplace" [
 	...args
 ]
 
-# Builds a deployable JBoss Service exploded Archive.
+# Builds a deployable JBoss Service exploded Archive
 extern "mvn jboss-packaging:sar-exploded" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8151,7 +8151,7 @@ extern "mvn jboss-packaging:sar-exploded" [
 	...args
 ]
 
-# The wsadmin goal executes the WebSphere command-line administration tool with the specified arguments.
+# Execute the WebSphere command-line administration tool with the specified arguments
 extern "mvn was6:wsAdmin" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8275,7 +8275,7 @@ extern "mvn was6:wsStartApp" [
 	...args
 ]
 
-# Cleans out temporary resources and generated sources.
+# Cleans out temporary resources and generated sources
 extern "mvn was6:clean" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8368,7 +8368,7 @@ extern "mvn was6:wsStopApp" [
 	...args
 ]
 
-# Executes the ServiceDeploy command against an archive file (Ear, Zip or Jar) to produce an ear file that can be deployed on Process Server
+# Executes ServiceDeploy command on archive (Ear, Zip or Jar), produce a deployable ear file
 extern "mvn was6:servicedeploy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8399,7 +8399,7 @@ extern "mvn was6:servicedeploy" [
 	...args
 ]
 
-# Installs an EAR into WebSphere Application Server.
+# Installs an EAR into WebSphere Application Server
 extern "mvn was6:installApp" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8461,7 +8461,7 @@ extern "mvn was6:wsDefaultBindings" [
 	...args
 ]
 
-# Executes the endpoint enabler ant task on the EAR archive.
+# Executes the endpoint enabler ant task on the EAR archive
 extern "mvn was6:endpointEnabler" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8492,7 +8492,7 @@ extern "mvn was6:endpointEnabler" [
 	...args
 ]
 
-# Creates Java classes and deployment descriptor templates from a Web Services Description Language (WSDL) file
+# Creates Java classes and deployment descriptor templates from a WSDL file
 extern "mvn was6:wsdl2java" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8616,7 +8616,7 @@ extern "mvn was6:wsUninstallApp" [
 	...args
 ]
 
-# Stop an artifact on Weblogic server(s) or cluster(s).
+# Stop an artifact on Weblogic server(s) or cluster(s)
 extern "mvn weblogic:stop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8647,7 +8647,7 @@ extern "mvn weblogic:stop" [
 	...args
 ]
 
-# Start an artifact on Weblogic server(s) or cluster(s).
+# Start an artifact on Weblogic server(s) or cluster(s)
 extern "mvn weblogic:start" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8678,7 +8678,7 @@ extern "mvn weblogic:start" [
 	...args
 ]
 
-# Undeploy artifacts from Weblogic server(s) or cluster(s).
+# Undeploy artifacts from Weblogic server(s) or cluster(s)
 extern "mvn weblogic:undeploy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8709,7 +8709,7 @@ extern "mvn weblogic:undeploy" [
 	...args
 ]
 
-# Run the weblogic appc compiler against an artifact.
+# Run the weblogic appc compiler against an artifact
 extern "mvn weblogic:appc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8771,7 +8771,7 @@ extern "mvn weblogic:clientgen9" [
 	...args
 ]
 
-# List the atifacts on Weblogic server(s) or cluster(s).
+# List the artifacts on Weblogic server(s) or cluster(s)
 extern "mvn weblogic:listapps" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8864,7 +8864,7 @@ extern "mvn weblogic:wsdlgen" [
 	...args
 ]
 
-# Redeploy artifact on Weblogic server(s) or cluster(s).
+# Redeploy artifact on Weblogic server(s) or cluster(s)
 extern "mvn weblogic:redeploy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8895,7 +8895,7 @@ extern "mvn weblogic:redeploy" [
 	...args
 ]
 
-# Runs the JWSC compiler task for web service enabled code.
+# Runs the JWSC compiler task for web service enabled code
 extern "mvn weblogic:jwsc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8926,7 +8926,7 @@ extern "mvn weblogic:jwsc" [
 	...args
 ]
 
-# Runs Service Gen on a given WSDL.
+# Runs Service Gen on a given WSDL
 extern "mvn weblogic:servicegen" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -8957,7 +8957,7 @@ extern "mvn weblogic:servicegen" [
 	...args
 ]
 
-# Deploy an artifact to Weblogic servers(s) or cluster(s).
+# Deploy an artifact to Weblogic servers(s) or cluster(s)
 extern "mvn weblogic:deploy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9019,7 +9019,7 @@ extern "mvn antlr:help" [
 	...args
 ]
 
-# Generates Antlr documentation from grammar files.
+# Generates Antlr documentation from grammar files
 extern "mvn antlr:html" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9050,7 +9050,7 @@ extern "mvn antlr:html" [
 	...args
 ]
 
-# Generates files based on grammar files with Antlr tool.
+# Generates files based on grammar files with Antlr tool
 extern "mvn antlr:generate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9081,7 +9081,7 @@ extern "mvn antlr:generate" [
 	...args
 ]
 
-# Creates an AspectJ HTML report using the ajdoc tool and format.
+# Creates an AspectJ HTML report using the ajdoc tool and format
 extern "mvn aspectj:aspectj-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9112,7 +9112,7 @@ extern "mvn aspectj:aspectj-report" [
 	...args
 ]
 
-# Weaves all main classes.
+# Weaves all main classes
 extern "mvn aspectj:compile" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9205,7 +9205,7 @@ extern "mvn aspectj:help" [
 	...args
 ]
 
-# Weaves all test classes.
+# Weaves all test classes
 extern "mvn aspectj:test-compile" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9236,7 +9236,7 @@ extern "mvn aspectj:test-compile" [
 	...args
 ]
 
-# A Plugin for generating WSDL files using Axis Java2WSDL.
+# A Plugin for generating WSDL files using Axis Java2WSDL
 extern "mvn axistools:java2wsdl" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9298,7 +9298,7 @@ extern "mvn axistools:help" [
 	...args
 ]
 
-# A Plugin for generating stubs for WSDL files using Axis WSDL2Java.
+# A Plugin for generating stubs for WSDL files using Axis WSDL2Java
 extern "mvn axistools:wsdl2java" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9391,7 +9391,7 @@ extern "mvn castor:help" [
 	...args
 ]
 
-# A mojo that uses Castor MappingTool to generate mapping files from a set of Classes. MappingTool.
+# Use Castor MappingTool to generate mapping files from a set of Classes
 extern "mvn castor:mappings" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9422,7 +9422,7 @@ extern "mvn castor:mappings" [
 	...args
 ]
 
-# A mojo that uses Castor MappingTool to generate mapping files from a single Class. MappingTool.
+# Use Castor MappingTool to generate mapping files from a single Class
 extern "mvn castor:mapping" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9484,7 +9484,7 @@ extern "mvn castor:generate" [
 	...args
 ]
 
-# Commons-attributes compiler.
+# Commons-attributes compiler
 extern "mvn commons-attributes:compile" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9515,7 +9515,7 @@ extern "mvn commons-attributes:compile" [
 	...args
 ]
 
-# Commons-attributes compiler for tests.
+# Commons-attributes compiler for tests
 extern "mvn commons-attributes:test-compile" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9546,7 +9546,7 @@ extern "mvn commons-attributes:test-compile" [
 	...args
 ]
 
-# Runs the project with a debugger port hook (optionally suspended).
+# Runs the project with a debugger port hook (optionally suspended)
 extern "mvn gwt:debug" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9794,7 +9794,7 @@ extern "mvn gwt:css" [
 	...args
 ]
 
-# Runs GWT modules with Super Dev Mode.
+# Runs GWT modules with Super Dev Mode
 extern "mvn gwt:run-codeserver" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9825,7 +9825,7 @@ extern "mvn gwt:run-codeserver" [
 	...args
 ]
 
-# Goal which creates Eclipse lauch configurations for GWTTestCases.
+# Goal which creates Eclipse lauch configurations for GWTTestCases
 extern "mvn gwt:eclipseTest" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9918,7 +9918,7 @@ extern "mvn gwt:clean" [
 	...args
 ]
 
-# Goal which generate Async interface.
+# Goal which generate Async interface
 extern "mvn gwt:generateAsync" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9949,7 +9949,7 @@ extern "mvn gwt:generateAsync" [
 	...args
 ]
 
-# Creates I18N interfaces for constants and messages files.
+# Creates I18N interfaces for constants and messages files
 extern "mvn gwt:i18n" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -9980,7 +9980,7 @@ extern "mvn gwt:i18n" [
 	...args
 ]
 
-# Runs the project in the GWT (Classic or Super) Dev Mode for development.
+# Runs the project in the GWT (Classic or Super) Dev Mode for development
 extern "mvn gwt:run" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10011,7 +10011,7 @@ extern "mvn gwt:run" [
 	...args
 ]
 
-# Goal which creates Eclipse lauch configurations for GWT modules.
+# Goal which creates Eclipse lauch configurations for GWT modules
 extern "mvn gwt:eclipse" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10042,7 +10042,7 @@ extern "mvn gwt:eclipse" [
 	...args
 ]
 
-# 'hbm2doc' generates html documentation a'la javadoc for the database schema.
+# 'hbm2doc' generates html documentation a'la javadoc for the database schema
 extern "mvn hibernate3:hbm2doc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10104,7 +10104,7 @@ extern "mvn hibernate3:hbm2hbmxml" [
 	...args
 ]
 
-# Generate a set of DAOs.
+# Generate a set of DAOs
 extern "mvn hibernate3:hbm2dao" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10166,7 +10166,7 @@ extern "mvn hibernate3:query" [
 	...args
 ]
 
-# Goal for 'cglib' or 'javassist' instrumentation.
+# Goal for 'cglib' or 'javassist' instrumentation
 extern "mvn hibernate3:instrument" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10197,7 +10197,7 @@ extern "mvn hibernate3:instrument" [
 	...args
 ]
 
-# 'AntRun' wrapper.
+# 'AntRun' wrapper
 extern "mvn hibernate3:run" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10228,7 +10228,7 @@ extern "mvn hibernate3:run" [
 	...args
 ]
 
-# 'hbmtemplate' generic exporter that can be controlled by a user provided template or class.
+# 'hbmtemplate' generic exporter that can be controlled by a user provided template or class
 extern "mvn hibernate3:hbmtemplate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10476,7 +10476,7 @@ extern "mvn idlj:help" [
 	...args
 ]
 
-# Process CORBA IDL files in IDLJ.
+# Process CORBA IDL files in IDLJ
 extern "mvn idlj:generate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10507,7 +10507,7 @@ extern "mvn idlj:generate" [
 	...args
 ]
 
-# Parses a JJTree grammar file (*.jjt) and transforms it to Java source files and a JavaCC grammar file
+# Parse a JJTree grammar file (*.jjt) and transform it to source files and a JavaCC grammar file
 extern "mvn javacc:jjtree" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10538,7 +10538,7 @@ extern "mvn javacc:jjtree" [
 	...args
 ]
 
-# Parses a JTB file and transforms it into source files for an AST and a JavaCC grammar file which automatically builds the AST
+# Parses a JTB file and transforms it into source for an AST and a JavaCC grammar
 extern "mvn javacc:jtb" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10600,7 +10600,7 @@ extern "mvn javacc:jjdoc" [
 	...args
 ]
 
-# Preprocesses ordinary grammar files (*.jtb) with JTB and passes the output to JavaCC in order to finally generate a parser with parse tree actions
+# Preprocess *.jtb grammar files and generate a parser with parse tree actions
 extern "mvn javacc:jtb-javacc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10662,7 +10662,7 @@ extern "mvn javacc:help" [
 	...args
 ]
 
-# Preprocesses decorated grammar files (*.jjt) with JJTree and passes the output to JavaCC in order to finally generate a parser with parse tree actions.
+# Preprocess decorated grammar files (*.jjt) and generate a parser with parse tree actions
 extern "mvn javacc:jjtree-javacc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10693,7 +10693,7 @@ extern "mvn javacc:jjtree-javacc" [
 	...args
 ]
 
-# Parses a JavaCC grammar file (*.jj) and transforms it to Java source files. Detailed information about the JavaCC options can be found on the JavaCC website.
+# Parse a JavaCC grammar file (*.jj) and transform it to Java source files
 extern "mvn javacc:javacc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10755,7 +10755,7 @@ extern "mvn jaxb2:help" [
 	...args
 ]
 
-# Mojo that creates XML schema(s) from compile-scope Java sources or binaries by invoking the JAXB SchemaGenerator
+# Mojo that creates XML schema(s) from compile-scope Java sources or binaries
 extern "mvn jaxb2:schemagen" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10786,7 +10786,7 @@ extern "mvn jaxb2:schemagen" [
 	...args
 ]
 
-# Mojo that creates XML schema(s) from test-scope Java testSources or binaries by invoking the JAXB SchemaGenerator
+# Mojo that creates XML schema(s) from test-scope Java testSources or binaries
 extern "mvn jaxb2:testSchemagen" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10817,7 +10817,7 @@ extern "mvn jaxb2:testSchemagen" [
 	...args
 ]
 
-# Mojo that creates test-scope Java source or binaries from XML schema(s) by invoking the JAXB XJC binding compiler
+# Mojo that creates test-scope Java source or binaries from XML schema
 extern "mvn jaxb2:testXjc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10848,7 +10848,7 @@ extern "mvn jaxb2:testXjc" [
 	...args
 ]
 
-# Mojo that creates compile-scope Java source or binaries from XML schema(s) by invoking the JAXB XJC binding compiler
+# Mojo that creates compile-scope Java source or binaries from XML schema
 extern "mvn jaxb2:xjc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10910,7 +10910,7 @@ extern "mvn jpox:enhance" [
 	...args
 ]
 
-# Generates the Schema from the JDO mappings and the enhanced class files.
+# Generates the Schema from the JDO mappings and the enhanced class files
 extern "mvn jpox:schema-create" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -10972,7 +10972,7 @@ extern "mvn jpox:schema-dbinfo" [
 	...args
 ]
 
-# Deletes all database tables required for a set of JDO MetaData files (and enhanced classes) from the database schema.
+# Deletes all database tables required for a set of JDO MetaData files from the database schema
 extern "mvn jpox:schema-delete" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11003,7 +11003,7 @@ extern "mvn jpox:schema-delete" [
 	...args
 ]
 
-# Provides a detailed information about the database schema. The output is written to console/terminal. 
+# Provides a detailed information about the database schema
 extern "mvn jpox:schema-info" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11034,7 +11034,7 @@ extern "mvn jpox:schema-info" [
 	...args
 ]
 
-# Validates all database tables required for a set of JDO MetaData files (and classes) for correct structure
+# Validates database tables required for a set of JDO MetaData files for correct structure
 extern "mvn jpox:schema-validate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11065,7 +11065,7 @@ extern "mvn jpox:schema-validate" [
 	...args
 ]
 
-# Goal which reports on the test source files using JSLint.
+# Goal which reports on the test source files using JSLint
 extern "mvn jslint:test-jslint" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11096,7 +11096,7 @@ extern "mvn jslint:test-jslint" [
 	...args
 ]
 
-# Goal which reports on the source files using JSLint.
+# Goal which reports on the source files using JSLint
 extern "mvn jslint:jslint" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11158,7 +11158,7 @@ extern "mvn jslint:help" [
 	...args
 ]
 
-# Test goal implementation of the generate html mojo.
+# Test goal implementation of the generate html mojo
 extern "mvn js-import:test-generate-html" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11189,7 +11189,7 @@ extern "mvn js-import:test-generate-html" [
 	...args
 ]
 
-# Main goal implementation of the generate html mojo.
+# Main goal implementation of the generate html mojo
 extern "mvn js-import:generate-html" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11220,7 +11220,7 @@ extern "mvn js-import:generate-html" [
 	...args
 ]
 
-# Test goal implementation of the import mojo.
+# Test goal implementation of the import mojo
 extern "mvn js-import:test-import-js" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11251,7 +11251,7 @@ extern "mvn js-import:test-import-js" [
 	...args
 ]
 
-# Main goal implementation of the import mojo.
+# Main goal implementation of the import mojo
 extern "mvn js-import:import-js" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11375,7 +11375,7 @@ extern "mvn jspc:testCompile" [
 	...args
 ]
 
-# Processes Application model classes and enhances them by running Open JPA Enhancer tool.
+# Processes Application model classes and enhances them by running Open JPA Enhancer tool
 extern "mvn openjpa:test-enhance" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11468,7 +11468,7 @@ extern "mvn openjpa:enhance" [
 	...args
 ]
 
-# Executes the schema generation via the OpenJPA MappingTool.
+# Executes the schema generation via the OpenJPA MappingTool
 extern "mvn openjpa:schema" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11499,7 +11499,7 @@ extern "mvn openjpa:schema" [
 	...args
 ]
 
-# Executes the SQL generation via the OpenJPA MappingTool.
+# Executes the SQL generation via the OpenJPA MappingTool
 extern "mvn openjpa:sql" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11592,7 +11592,7 @@ extern "mvn rmic:test-rmic" [
 	...args
 ]
 
-# Compiles rmi stubs and skeleton classes from a remote implementation class.
+# Compiles rmi stubs and skeleton classes from a remote implementation class
 extern "mvn rmic:rmic" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11623,7 +11623,7 @@ extern "mvn rmic:rmic" [
 	...args
 ]
 
-# Creates a jar containing the rmic generated classes.
+# Creates a jar containing the rmic generated classes
 extern "mvn rmic:package" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11654,7 +11654,7 @@ extern "mvn rmic:package" [
 	...args
 ]
 
-# A plugin for processing grammar files in SableCC.
+# A plugin for processing grammar files in SableCC
 extern "mvn sablecc:generate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11685,7 +11685,7 @@ extern "mvn sablecc:generate" [
 	...args
 ]
 
-# Translates SQLJ source code using the SQLJ Translator.
+# Translates SQLJ source code using the SQLJ Translator
 extern "mvn sqlj:sqlj" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11716,7 +11716,7 @@ extern "mvn sqlj:sqlj" [
 	...args
 ]
 
-# Cleans out generated stale resources.
+# Cleans out generated stale resources
 extern "mvn sqlj:clean" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11809,7 +11809,7 @@ extern "mvn xdoclet:help" [
 	...args
 ]
 
-# Runs XDoclet.
+# Runs XDoclet
 extern "mvn xdoclet:xdoclet" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11840,7 +11840,7 @@ extern "mvn xdoclet:xdoclet" [
 	...args
 ]
 
-# A Maven 2 plugin which parses xsd files and produces a corresponding object model based on the Apache XML Beans parser
+# Parse xsd files and produces a corresponding object model based on the Apache XML Beans parser
 extern "mvn xmlbeans:xmlbeans-test" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11902,7 +11902,7 @@ extern "mvn xmlbeans:help" [
 	...args
 ]
 
-# A Maven 2 plugin which parses xsd files and produces a corresponding object model based on the Apache XML Beans parser
+# Parse xsd files and produces a corresponding object model based on the Apache XML Beans parser
 extern "mvn xmlbeans:xmlbeans" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -11933,7 +11933,7 @@ extern "mvn xmlbeans:xmlbeans" [
 	...args
 ]
 
-# Create the NetBeans auto update site definition.
+# Create the NetBeans auto update site definition
 extern "mvn nbm:autoupdate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12119,7 +12119,7 @@ extern "mvn nbm:help" [
 	...args
 ]
 
-# Goal for generating NetBeans module system specific manifest entries, part of nbm lifecycle/packaging
+# Generate NetBeans module system specific manifest entries
 extern "mvn nbm:manifest" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12150,7 +12150,7 @@ extern "mvn nbm:manifest" [
 	...args
 ]
 
-# Create the NetBeans module artifact (nbm file), part of 'nbm' lifecycle/packaging.
+# Create the NetBeans module artifact (nbm file), part of 'nbm' lifecycle/packaging
 extern "mvn nbm:nbm" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12181,7 +12181,7 @@ extern "mvn nbm:nbm" [
 	...args
 ]
 
-# Run NetBeans IDE with additional custom module clusters, to be used in conjunction with nbm:cluster
+# Run NetBeans with additional module clusters, to be used with nbm:cluster
 extern "mvn nbm:run-ide" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12274,7 +12274,7 @@ extern "mvn nbm:standalone-zip" [
 	...args
 ]
 
-# Create webstartable binaries for a 'nbm-application'.
+# Create webstartable binaries for a 'nbm-application'
 extern "mvn nbm:webstart-app" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12305,7 +12305,7 @@ extern "mvn nbm:webstart-app" [
 	...args
 ]
 
-# Generate a report from the Clirr output.
+# Generate a report from the Clirr output
 extern "mvn clirr:clirr" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12336,7 +12336,7 @@ extern "mvn clirr:clirr" [
 	...args
 ]
 
-# Check for compatibility between two arbitrary artifact sets.
+# Check for compatibility between two arbitrary artifact sets
 extern "mvn clirr:check-arbitrary" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12398,7 +12398,7 @@ extern "mvn clirr:help" [
 	...args
 ]
 
-# Check for compatibility with previous version.
+# Check for compatibility with previous version
 extern "mvn clirr:check" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12460,7 +12460,7 @@ extern "mvn clirr:check-no-fork" [
 	...args
 ]
 
-# Check the coverage percentages for unit tests from the last instrumentation, and optionally fail the build if the targets are not met
+# Check the coverage for unit tests from last instrumentation
 extern "mvn cobertura:check" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12491,7 +12491,7 @@ extern "mvn cobertura:check" [
 	...args
 ]
 
-# Check the coverage percentages for unit tests and integration tests from the last instrumentation, and optionally fail the build if the targets are not met
+# Check the coverage for unit and integration tests from last instrumentation
 extern "mvn cobertura:check-integration-test" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12522,7 +12522,7 @@ extern "mvn cobertura:check-integration-test" [
 	...args
 ]
 
-# Clean up the files that Cobertura Maven Plugin has created during instrumentation.
+# Clean up the files that Cobertura Maven Plugin has created during instrumentation
 extern "mvn cobertura:clean" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12553,7 +12553,7 @@ extern "mvn cobertura:clean" [
 	...args
 ]
 
-# Instrument the compiled classes, run the unit tests and generate a Cobertura report.
+# Generate Cobertura report on unit tests
 extern "mvn cobertura:cobertura" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12584,7 +12584,7 @@ extern "mvn cobertura:cobertura" [
 	...args
 ]
 
-# Instrument the compiled classes, run the unit tests and integration tests and generate a Cobertura report.
+# Generate Cobertura report on unit and integration tests
 extern "mvn cobertura:cobertura-integration-test" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12615,7 +12615,7 @@ extern "mvn cobertura:cobertura-integration-test" [
 	...args
 ]
 
-# Output the contents of Cobertura's data file to the command line.
+# Output the contents of Cobertura's data file to the command line
 extern "mvn cobertura:dump-datafile" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12677,7 +12677,7 @@ extern "mvn cobertura:help" [
 	...args
 ]
 
-# Instrument the compiled classes.
+# Instrument the compiled classes
 extern "mvn cobertura:instrument" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12708,7 +12708,7 @@ extern "mvn cobertura:instrument" [
 	...args
 ]
 
-# Goal which produces a changelog report based on the Subversion logs.
+# Goal which produces a changelog report based on the Subversion logs
 extern "mvn scmchangelog:report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12832,7 +12832,7 @@ extern "mvn sonar:sonar" [
 	...args
 ]
 
-# Scans the source files for tags and generates a report on their occurrences.
+# Scans the source files for tags and generates a report on their occurrences
 extern "mvn taglist:taglist" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -12956,7 +12956,7 @@ extern "mvn javancss:help" [
 	...args
 ]
 
-# Generates a JavaNCSS report based on this module's source code.
+# Generates a JavaNCSS report based on this module's source code
 extern "mvn javancss:report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13080,7 +13080,7 @@ extern "mvn jdepend:generate" [
 	...args
 ]
 
-# Create a CodeNarc Report.
+# Create a CodeNarc Report
 extern "mvn codenarc:codenarc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13266,7 +13266,7 @@ extern "mvn findbugs:help" [
 	...args
 ]
 
-# This goal uses the fitnesse.runner.TestRunner class for getting result of a remote FitNesse web page execution
+# Use fitnesse.runner.TestRunner to get result of a remote FitNesse web page execution
 extern "mvn fitnesse:remotecall" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13328,7 +13328,7 @@ extern "mvn fitnesse:help" [
 	...args
 ]
 
-# This goal uses the fitnesse.runner.TestRunner class for calling a remote FitNesse web page and executes the tests or suites locally into a forked JVM
+# Use fitnesse.runner.TestRunner to call a remote FitNesse web page and run the tests locally
 extern "mvn fitnesse:run" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13390,7 +13390,7 @@ extern "mvn fitnesse:fitnesse" [
 	...args
 ]
 
-# Start the Selenium server.
+# Start the Selenium server
 extern "mvn selenium:start-server" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13452,7 +13452,7 @@ extern "mvn selenium:xvfb" [
 	...args
 ]
 
-# Stop the Selenium server.
+# Stop the Selenium server
 extern "mvn selenium:stop-server" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13483,7 +13483,7 @@ extern "mvn selenium:stop-server" [
 	...args
 ]
 
-# Run a suite of HTML Selenese tests.
+# Run a suite of HTML Selenese tests
 extern "mvn selenium:selenese" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13576,7 +13576,7 @@ extern "mvn webtest:help" [
 	...args
 ]
 
-# Allows grepping through a set of files to find particular text strings and fail the build if one or matches are found
+# Grep through a set of files to find text strings and fail build if matches are found
 extern "mvn webtest:verify-filecontent" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13638,7 +13638,7 @@ extern "mvn webtest:clean" [
 	...args
 ]
 
-# Runs a Canoo WebTest defined in an ANT script.
+# Runs a Canoo WebTest defined in an ANT script
 extern "mvn webtest:test" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13700,7 +13700,7 @@ extern "mvn webtest:loop" [
 	...args
 ]
 
-# Prints the configuration settings.
+# Prints the configuration settings
 extern "mvn webtest:info" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13731,7 +13731,7 @@ extern "mvn webtest:info" [
 	...args
 ]
 
-# Creates the HTML report for a test run based on XSLT.
+# Creates the HTML report for a test run based on XSLT
 extern "mvn webtest:report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13762,7 +13762,7 @@ extern "mvn webtest:report" [
 	...args
 ]
 
-# Checks the webtest result file for test failures and throws an exception if one or more tests failed
+# Check webtest result file for test failures
 extern "mvn webtest:verify-result" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -13948,7 +13948,7 @@ extern "mvn chronos-jmeter:help" [
 	...args
 ]
 
-# Save a snapshot of the currently executed test to enable later historic reports.
+# Save a snapshot of the currently executed test to enable later historic reports
 extern "mvn chronos-jmeter:savehistory" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14010,7 +14010,7 @@ extern "mvn chronos-surefire:help" [
 	...args
 ]
 
-# Goal which collects the execution of each performed unittest, and compares the execution time to previous measured execution times for the same test
+# Collect the execution of each performed unittest, and compare to previous times
 extern "mvn chronos-surefire:collect" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14041,7 +14041,7 @@ extern "mvn chronos-surefire:collect" [
 	...args
 ]
 
-# Creates a historic report of performance test results.
+# Creates a historic report of performance test results
 extern "mvn chronos-report:historyreport" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14072,7 +14072,7 @@ extern "mvn chronos-report:historyreport" [
 	...args
 ]
 
-# Creates a report of the currently executed performancetest in html format.
+# Creates a report of the currently executed performancetest in html format
 extern "mvn chronos-report:report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14134,7 +14134,7 @@ extern "mvn chronos-report:help" [
 	...args
 ]
 
-# Generates an API Signature from at least one of: the java runtime, the module dependencies and the module classes.
+# Generate API Signature from at least one of: java runtime, module dependencies/module classes
 extern "mvn animal-sniffer:build" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14165,7 +14165,7 @@ extern "mvn animal-sniffer:build" [
 	...args
 ]
 
-# Checks the classes compiled by this module.
+# Checks the classes compiled by this module
 extern "mvn animal-sniffer:check" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14227,7 +14227,7 @@ extern "mvn animal-sniffer:help" [
 	...args
 ]
 
-# Generates JSW based daemon wrappers.
+# Generates JSW based daemon wrappers
 extern "mvn appassembler:generate-daemons" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14413,7 +14413,7 @@ extern "mvn build-helper:bsh-property" [
 	...args
 ]
 
-# Add more resource directories to the POM.
+# Add more resource directories to the POM
 extern "mvn build-helper:add-resource" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14444,7 +14444,7 @@ extern "mvn build-helper:add-resource" [
 	...args
 ]
 
-# Store the maven core version in a property maven.version.
+# Store the maven core version in a property maven.version
 extern "mvn build-helper:maven-version" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14475,7 +14475,7 @@ extern "mvn build-helper:maven-version" [
 	...args
 ]
 
-# Attach additional artifacts to be installed and deployed.
+# Attach additional artifacts to be installed and deployed
 extern "mvn build-helper:attach-artifact" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14506,7 +14506,7 @@ extern "mvn build-helper:attach-artifact" [
 	...args
 ]
 
-# Add test source directories to the POM.
+# Add test source directories to the POM
 extern "mvn build-helper:add-test-source" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14599,7 +14599,7 @@ extern "mvn build-helper:local-ip" [
 	...args
 ]
 
-# Reserve a list of random and not in use network ports and place them in a configurable project properties.
+# Reserve a list of random not in use network ports and place them in project properties
 extern "mvn build-helper:reserve-network-port" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14661,7 +14661,7 @@ extern "mvn build-helper:remove-project-artifact" [
 	...args
 ]
 
-# Add more source directories to the POM.
+# Add more source directories to the POM
 extern "mvn build-helper:add-source" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14692,7 +14692,7 @@ extern "mvn build-helper:add-source" [
 	...args
 ]
 
-# Add more test resource directories to the POM.
+# Add more test resource directories to the POM
 extern "mvn build-helper:add-test-resource" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14723,7 +14723,7 @@ extern "mvn build-helper:add-test-resource" [
 	...args
 ]
 
-# Retrieve number of CPUs with project factor, and place it under a configurable project property
+# Get number of CPUs, place it under a configurable project property
 extern "mvn build-helper:cpu-count" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14754,7 +14754,7 @@ extern "mvn build-helper:cpu-count" [
 	...args
 ]
 
-# Sets a property based on the current date and time.
+# Sets a property based on the current date and time
 extern "mvn build-helper:timestamp-property" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14816,7 +14816,7 @@ extern "mvn build-helper:regex-properties" [
 	...args
 ]
 
-# Sets a property by applying a regex replacement rule to a supplied value.
+# Sets a property by applying a regex replacement rule to a supplied value
 extern "mvn build-helper:regex-property" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14878,7 +14878,7 @@ extern "mvn build-helper:help" [
 	...args
 ]
 
-# This mojo is designed to give you a timestamp available through one or more properties
+# Give a timestamp available through one or more properties
 extern "mvn buildnumber:create-timestamp" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14909,7 +14909,7 @@ extern "mvn buildnumber:create-timestamp" [
 	...args
 ]
 
-# This mojo is designed to give you a build number
+# Create a build number
 extern "mvn buildnumber:create" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -14971,7 +14971,7 @@ extern "mvn buildnumber:help" [
 	...args
 ]
 
-# Goal which sets project properties for changeSet and changeSetDate from the current Mercurial repository.
+# Set project properties for changeSet/changeSetDate from the current hg repository
 extern "mvn buildnumber:hgchangeset" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15033,7 +15033,7 @@ extern "mvn cassandra:help" [
 	...args
 ]
 
-# Loads a cassandra-cli bscript into a Cassandra instance.
+# Loads a cassandra-cli bscript into a Cassandra instance
 extern "mvn cassandra:load" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15064,7 +15064,7 @@ extern "mvn cassandra:load" [
 	...args
 ]
 
-# Deletes the Cassandra home directory that we create for running Cassandra.
+# Deletes the Cassandra home directory that we create for running Cassandra
 extern "mvn cassandra:delete" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15095,7 +15095,7 @@ extern "mvn cassandra:delete" [
 	...args
 ]
 
-# Starts a Cassandra instance in the background.
+# Starts a Cassandra instance in the background
 extern "mvn cassandra:start-cluster" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15126,7 +15126,7 @@ extern "mvn cassandra:start-cluster" [
 	...args
 ]
 
-# Loads a CassandraUnit DataSet into a Cassandra instance.
+# Loads a CassandraUnit DataSet into a Cassandra instance
 extern "mvn cassandra:cu-load" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15157,7 +15157,7 @@ extern "mvn cassandra:cu-load" [
 	...args
 ]
 
-# Stops a background Cassandra instance.
+# Stops a background Cassandra instance
 extern "mvn cassandra:stop-cluster" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15188,7 +15188,7 @@ extern "mvn cassandra:stop-cluster" [
 	...args
 ]
 
-# Runs nodetool repair on a Cassandra instance.
+# Runs nodetool repair on a Cassandra instance
 extern "mvn cassandra:repair" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15219,7 +15219,7 @@ extern "mvn cassandra:repair" [
 	...args
 ]
 
-# Executes cql statements from maven.
+# Executes cql statements from maven
 extern "mvn cassandra:cql-exec" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15250,7 +15250,7 @@ extern "mvn cassandra:cql-exec" [
 	...args
 ]
 
-# Stops a background Cassandra instance.
+# Stops a background Cassandra instance
 extern "mvn cassandra:stop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15281,7 +15281,7 @@ extern "mvn cassandra:stop" [
 	...args
 ]
 
-# Runs nodetool flush on a Cassandra instance.
+# Runs nodetool flush on a Cassandra instance
 extern "mvn cassandra:flush" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15312,7 +15312,7 @@ extern "mvn cassandra:flush" [
 	...args
 ]
 
-# Runs Cassandra in the foreground.
+# Runs Cassandra in the foreground
 extern "mvn cassandra:run" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15343,7 +15343,7 @@ extern "mvn cassandra:run" [
 	...args
 ]
 
-# Starts a Cassandra instance in the background.
+# Starts a Cassandra instance in the background
 extern "mvn cassandra:start" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15374,7 +15374,7 @@ extern "mvn cassandra:start" [
 	...args
 ]
 
-# Runs nodetool cleanup on a Cassandra instance.
+# Runs nodetool cleanup on a Cassandra instance
 extern "mvn cassandra:cleanup" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15405,7 +15405,7 @@ extern "mvn cassandra:cleanup" [
 	...args
 ]
 
-# Runs nodetool compact on a Cassandra instance.
+# Runs nodetool compact on a Cassandra instance
 extern "mvn cassandra:compact" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15467,7 +15467,7 @@ extern "mvn ditaot:help" [
 	...args
 ]
 
-# Display DITA Open Toolkit's built-in version, with option to insert a custom version found under \${dita.dir}/ditaotVersionPath, via version property to Maven's \${versionName}
+# Display DITA Open Toolkit's built-in version
 extern "mvn ditaot:version" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15498,7 +15498,7 @@ extern "mvn ditaot:version" [
 	...args
 ]
 
-# Generate http://www.dita-op.org's Eclipse configuration to allow editing, previewing DITA under Eclipse IDE.
+# Generate http://www.dita-op.org's Eclipse configuration to allow editing
 extern "mvn ditaot:eclipse" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15622,7 +15622,7 @@ extern "mvn ditaot:run" [
 	...args
 ]
 
-# A Plugin for executing external programs.
+# A Plugin for executing external programs
 extern "mvn exec:exec" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15684,7 +15684,7 @@ extern "mvn exec:help" [
 	...args
 ]
 
-# Executes the supplied java class in the current VM with the enclosing project's dependencies as classpath.
+# Executes the supplied java class in the current VM with the enclosing project's dependencies as classpath
 extern "mvn exec:java" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -15715,7 +15715,7 @@ extern "mvn exec:java" [
 	...args
 ]
 
-# A Mojo that deletes a generated keystore file.
+# A Mojo that deletes a generated keystore file
 extern "mvn keytool:clean" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16273,7 +16273,7 @@ extern "mvn latex:help" [
 	...args
 ]
 
-# LaTeX documents building goal.
+# LaTeX documents building goal
 extern "mvn latex:latex" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16304,7 +16304,7 @@ extern "mvn latex:latex" [
 	...args
 ]
 
-# Generates a report of all third-parties detected in the module.
+# Generates a report of all third-parties detected in the module
 extern "mvn license:third-party-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16335,7 +16335,7 @@ extern "mvn license:third-party-report" [
 	...args
 ]
 
-# The goal to check if the state of header on project source files.
+# The goal to check if the state of header on project source files
 extern "mvn license:check-file-header" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16397,7 +16397,7 @@ extern "mvn license:add-third-party" [
 	...args
 ]
 
-# Updates (or creates) the main project license file according to the given license defines as licenseName
+# Updates (or creates) the license file according to the licenseName
 extern "mvn license:update-project-license" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16459,7 +16459,7 @@ extern "mvn license:help" [
 	...args
 ]
 
-# This goal forks executions of the add-third-party goal for all the leaf projects of the tree of modules below the point where it is executed
+# Fork executions of add-third-party for the leaf projects of the module tree
 extern "mvn license:aggregate-add-third-party" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16490,7 +16490,7 @@ extern "mvn license:aggregate-add-third-party" [
 	...args
 ]
 
-# Display all available licenses.
+# Display all available licenses
 extern "mvn license:license-list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16521,7 +16521,7 @@ extern "mvn license:license-list" [
 	...args
 ]
 
-# Displays all the available comment style to box file headers.
+# Displays all the available comment style to box file headers
 extern "mvn license:comment-style-list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16583,7 +16583,7 @@ extern "mvn license:update-file-header" [
 	...args
 ]
 
-# Download the license files of all the current project's dependencies, and generate a summary file containing a list of all dependencies and their licenses.
+# Download the license files of all the current project's dependencies, and generate a summary file containing a list of all dependencies and their licenses
 extern "mvn license:download-licenses" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16614,7 +16614,7 @@ extern "mvn license:download-licenses" [
 	...args
 ]
 
-# Generate the scan results as part of the site.
+# Generate the scan results as part of the site
 extern "mvn ounce:report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16645,7 +16645,7 @@ extern "mvn ounce:report" [
 	...args
 ]
 
-# This mojo generates an Ounce application file
+# Generate an Ounce application file
 extern "mvn ounce:application" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16676,7 +16676,7 @@ extern "mvn ounce:application" [
 	...args
 ]
 
-# This mojo allows an on demand scan of an application and the optional publishing of the results.
+# Allows an on demand scan of an application and the optional publishing of the results
 extern "mvn ounce:scan" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16800,7 +16800,7 @@ extern "mvn ounce:help" [
 	...args
 ]
 
-# Construct the RPM file and attaches it as a secondary artifact.
+# Construct the RPM file and attaches it as a secondary artifact
 extern "mvn rpm:attached-rpm" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16862,7 +16862,7 @@ extern "mvn rpm:help" [
 	...args
 ]
 
-# Construct the RPM file.
+# Construct the RPM file
 extern "mvn rpm:rpm" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -16893,7 +16893,7 @@ extern "mvn rpm:rpm" [
 	...args
 ]
 
-# Makes the rpm version and release attributes available as properties.
+# Makes the rpm version and release attributes available as properties
 extern "mvn rpm:version" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17017,7 +17017,7 @@ extern "mvn sql:help" [
 	...args
 ]
 
-# Executes SQL against a database.
+# Executes SQL against a database
 extern "mvn sql:execute" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17048,7 +17048,7 @@ extern "mvn sql:execute" [
 	...args
 ]
 
-# List all files in the archive.
+# List all files in the archive
 extern "mvn truezip:list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17141,7 +17141,7 @@ extern "mvn truezip:cp" [
 	...args
 ]
 
-# Remove a set of files from an existing archive.
+# Remove a set of files from an existing archive
 extern "mvn truezip:remove" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17172,7 +17172,7 @@ extern "mvn truezip:remove" [
 	...args
 ]
 
-# Copy a set of files in and out of an existing archive.
+# Copy a set of files in and out of an existing archive
 extern "mvn truezip:copy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17203,7 +17203,7 @@ extern "mvn truezip:copy" [
 	...args
 ]
 
-# Move a single file or multiple files (via FileSet) between archives or directories.
+# Move a single file or multiple files (via FileSet) between archives or directories
 extern "mvn truezip:move" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17265,7 +17265,7 @@ extern "mvn truezip:help" [
 	...args
 ]
 
-# Update open archives immediately, flush cached data to disk.
+# Update open archives immediately, flush cached data to disk
 extern "mvn truezip:update" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17296,7 +17296,7 @@ extern "mvn truezip:update" [
 	...args
 ]
 
-# Removes the initial backup of the pom, thereby accepting the changes.
+# Removes the initial backup of the pom, thereby accepting the changes
 extern "mvn versions:commit" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17327,7 +17327,7 @@ extern "mvn versions:commit" [
 	...args
 ]
 
-# Compare dependency versions of the current project to dependencies or dependency management of a remote repository project
+# Compare dependency versions of current project to another
 extern "mvn versions:compare-dependencies" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17358,7 +17358,7 @@ extern "mvn versions:compare-dependencies" [
 	...args
 ]
 
-# Generates a report of available updates for the dependencies of a project.
+# Generates a report of available updates for the dependencies of a project
 extern "mvn versions:dependency-updates-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17389,7 +17389,7 @@ extern "mvn versions:dependency-updates-report" [
 	...args
 ]
 
-# Displays all dependencies that have newer versions available.
+# Displays all dependencies that have newer versions available
 extern "mvn versions:display-dependency-updates" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17451,7 +17451,7 @@ extern "mvn versions:display-parent-updates" [
 	...args
 ]
 
-# Displays all plugins that have newer versions available.
+# Displays all plugins that have newer versions available
 extern "mvn versions:display-plugin-updates" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17482,7 +17482,7 @@ extern "mvn versions:display-plugin-updates" [
 	...args
 ]
 
-# Displays properties that are linked to artifact versions and have updates available.
+# Displays properties that are linked to artifact versions and have updates available
 extern "mvn versions:display-property-updates" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17513,7 +17513,7 @@ extern "mvn versions:display-property-updates" [
 	...args
 ]
 
-# Replaces any -SNAPSHOT versions with a release version, older if necessary (if there has been a release).
+# Replace -SNAPSHOT versions with a release version, downgrading if necessary
 extern "mvn versions:force-releases" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17575,7 +17575,7 @@ extern "mvn versions:help" [
 	...args
 ]
 
-# Attempts to resolve unlocked snapshot dependency versions to the locked timestamp versions used in the build
+# Resolve unlocked snapshot dependencies to the locked timestamp versions
 extern "mvn versions:lock-snapshots" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17606,7 +17606,7 @@ extern "mvn versions:lock-snapshots" [
 	...args
 ]
 
-# Generates a report of available updates for the plugins of a project.
+# Generates a report of available updates for the plugins of a project
 extern "mvn versions:plugin-updates-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17637,7 +17637,7 @@ extern "mvn versions:plugin-updates-report" [
 	...args
 ]
 
-# Generates a report of available updates for properties of a project which are linked to the dependencies and/or plugins of a project.
+# Generates a report of available updates for properties of a project
 extern "mvn versions:property-updates-report" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17668,7 +17668,7 @@ extern "mvn versions:property-updates-report" [
 	...args
 ]
 
-# Attempts to resolve dependency version ranges to the specific version being used in the build
+# Resolve dependency version ranges to the specific version being used in the build
 extern "mvn versions:resolve-ranges" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17699,7 +17699,7 @@ extern "mvn versions:resolve-ranges" [
 	...args
 ]
 
-# Restores the pom from the initial backup.
+# Restores the pom from the initial backup
 extern "mvn versions:revert" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17730,7 +17730,7 @@ extern "mvn versions:revert" [
 	...args
 ]
 
-# Sets the current project's version and based on that change propagates that change onto any child modules as necessary.
+# Sets the current project's version and based on that change propagates that change onto any child modules as necessary
 extern "mvn versions:set" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17761,7 +17761,7 @@ extern "mvn versions:set" [
 	...args
 ]
 
-# Attempts to resolve unlocked snapshot dependency versions to the locked timestamp versions used in the build
+# Resolve unlocked snapshot dependencies to the locked timestamp versions
 extern "mvn versions:unlock-snapshots" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17792,7 +17792,7 @@ extern "mvn versions:unlock-snapshots" [
 	...args
 ]
 
-# Scans the current projects child modules, updating the versions of any which use the current project to the version of the current project.
+# Scan the current projects child modules, and update versions
 extern "mvn versions:update-child-modules" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17823,7 +17823,7 @@ extern "mvn versions:update-child-modules" [
 	...args
 ]
 
-# Sets the parent version to the latest parent version.
+# Sets the parent version to the latest parent version
 extern "mvn versions:update-parent" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17854,7 +17854,7 @@ extern "mvn versions:update-parent" [
 	...args
 ]
 
-# Sets properties to the latest versions of specific artifacts.
+# Sets properties to the latest versions of specific artifacts
 extern "mvn versions:update-properties" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17885,7 +17885,7 @@ extern "mvn versions:update-properties" [
 	...args
 ]
 
-# Sets a property to the latest version in a given range of associated artifacts.
+# Sets a property to the latest version in a given range of associated artifacts
 extern "mvn versions:update-property" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17916,7 +17916,7 @@ extern "mvn versions:update-property" [
 	...args
 ]
 
-# Replaces any release versions with the latest release version.
+# Replaces any release versions with the latest release version
 extern "mvn versions:use-latest-releases" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17947,7 +17947,7 @@ extern "mvn versions:use-latest-releases" [
 	...args
 ]
 
-# Replaces any release versions with the latest snapshot version (if it has been deployed).
+# Replaces any release versions with the latest snapshot version (if it has been deployed)
 extern "mvn versions:use-latest-snapshots" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -17978,7 +17978,7 @@ extern "mvn versions:use-latest-snapshots" [
 	...args
 ]
 
-# Replaces any version with the latest version.
+# Replaces any version with the latest version
 extern "mvn versions:use-latest-versions" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18009,7 +18009,7 @@ extern "mvn versions:use-latest-versions" [
 	...args
 ]
 
-# Replaces any release versions with the next release version (if it has been released).
+# Replaces any release versions with the next release version (if it has been released)
 extern "mvn versions:use-next-releases" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18040,7 +18040,7 @@ extern "mvn versions:use-next-releases" [
 	...args
 ]
 
-# Replaces any release versions with the next snapshot version (if it has been deployed).
+# Replaces any release versions with the next snapshot version (if it has been deployed)
 extern "mvn versions:use-next-snapshots" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18071,7 +18071,7 @@ extern "mvn versions:use-next-snapshots" [
 	...args
 ]
 
-# Replaces any version with the latest version.
+# Replaces any version with the latest version
 extern "mvn versions:use-next-versions" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18102,7 +18102,7 @@ extern "mvn versions:use-next-versions" [
 	...args
 ]
 
-# Replaces any versions with the corresponding version from the reactor.
+# Replaces any versions with the corresponding version from the reactor
 extern "mvn versions:use-reactor" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18133,7 +18133,7 @@ extern "mvn versions:use-reactor" [
 	...args
 ]
 
-# Replaces any -SNAPSHOT versions with the corresponding release version (if it has been released).
+# Replaces any -SNAPSHOT versions with the corresponding release version
 extern "mvn versions:use-releases" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18226,7 +18226,7 @@ extern "mvn vfs:help" [
 	...args
 ]
 
-# Display file list of a virtual file system.
+# Display file list of a virtual file system
 extern "mvn vfs:list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18350,7 +18350,7 @@ extern "mvn vfs:remove" [
 	...args
 ]
 
-# The ValidatorMojo's task is the validation of XML files against a given schema.
+# The ValidatorMojo's task is the validation of XML files against a given schema
 extern "mvn xml:validate" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18412,7 +18412,7 @@ extern "mvn xml:help" [
 	...args
 ]
 
-# The TransformMojo is used for transforming a set of files using a common stylesheet.
+# The TransformMojo is used for transforming a set of files using a common stylesheet
 extern "mvn xml:transform" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18443,7 +18443,7 @@ extern "mvn xml:transform" [
 	...args
 ]
 
-# Releases a single closed Nexus staging repository into a permanent Nexus repository for general consumption.
+# Release a closed Nexus staging repo into a permanent Nexus repo for general consumption
 extern "mvn nexus-staging:rc-release" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18474,7 +18474,7 @@ extern "mvn nexus-staging:rc-release" [
 	...args
 ]
 
-# Closes a Nexus staging repository.
+# Closes a Nexus staging repository
 extern "mvn nexus-staging:close" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18536,7 +18536,7 @@ extern "mvn nexus-staging:deploy" [
 	...args
 ]
 
-# Promotes a closed Nexus staging repository into a Nexus Build Promotion Profile.
+# Promotes a closed Nexus staging repository into a Nexus Build Promotion Profile
 extern "mvn nexus-staging:promote" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18567,7 +18567,7 @@ extern "mvn nexus-staging:promote" [
 	...args
 ]
 
-# Deploys the (previously) locally staged artifacts from nexus-staging repository, that were staged using DeployMojo and having the DeployMojo.skipRemoteStaging flag set to true.
+# Deploy locally staged artifacts from nexus-staging repository
 extern "mvn nexus-staging:deploy-staged" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18598,7 +18598,7 @@ extern "mvn nexus-staging:deploy-staged" [
 	...args
 ]
 
-# Drops a Nexus staging repository that is either open or closed.
+# Drops a Nexus staging repository that is either open or closed
 extern "mvn nexus-staging:rc-drop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18629,7 +18629,7 @@ extern "mvn nexus-staging:rc-drop" [
 	...args
 ]
 
-# Promotes a closed Nexus staging repository into a Nexus Build Promotion Profile.
+# Promotes a closed Nexus staging repository into a Nexus Build Promotion Profile
 extern "mvn nexus-staging:rc-promote" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18691,7 +18691,7 @@ extern "mvn nexus-staging:help" [
 	...args
 ]
 
-# Drops a Nexus staging repository that is either open or closed.
+# Drops a Nexus staging repository that is either open or closed
 extern "mvn nexus-staging:drop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18722,7 +18722,7 @@ extern "mvn nexus-staging:drop" [
 	...args
 ]
 
-# Deploys the (previously) staged artifacts from some local repository, that were staged using maven-deploy-plugin together with switch altDeploymentRepository for cases when POM modifications are not possible for some reason
+# Deploy staged artifacts from local repository
 extern "mvn nexus-staging:deploy-staged-repository" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18753,7 +18753,7 @@ extern "mvn nexus-staging:deploy-staged-repository" [
 	...args
 ]
 
-# Releases a single closed Nexus staging repository into a permanent Nexus repository for general consumption.
+# Release a closed Nexus staging repo into a permanent Nexus repo for general consumption
 extern "mvn nexus-staging:release" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18784,7 +18784,7 @@ extern "mvn nexus-staging:release" [
 	...args
 ]
 
-# Lists staging repositories accessible by current user available on Nexus.
+# Lists staging repositories accessible by current user available on Nexus
 extern "mvn nexus-staging:rc-list" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18815,7 +18815,7 @@ extern "mvn nexus-staging:rc-list" [
 	...args
 ]
 
-# Lists staging profiles accessible by current user available on Nexus.
+# Lists staging profiles accessible by current user available on Nexus
 extern "mvn nexus-staging:rc-list-profiles" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18846,7 +18846,7 @@ extern "mvn nexus-staging:rc-list-profiles" [
 	...args
 ]
 
-# Closes a Nexus staging repository.
+# Closes a Nexus staging repository
 extern "mvn nexus-staging:rc-close" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18877,7 +18877,7 @@ extern "mvn nexus-staging:rc-close" [
 	...args
 ]
 
-# Delete unused indexes from application.
+# Delete unused indexes from application
 extern "mvn appengine:vacuum_indexes" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18908,7 +18908,7 @@ extern "mvn appengine:vacuum_indexes" [
 	...args
 ]
 
-# Starts the App Engine development server and does not wait.
+# Starts the App Engine development server and does not wait
 extern "mvn appengine:devserver_start" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18939,7 +18939,7 @@ extern "mvn appengine:devserver_start" [
 	...args
 ]
 
-# Start the specified backend.
+# Start the specified backend
 extern "mvn appengine:backends_start" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -18970,7 +18970,7 @@ extern "mvn appengine:backends_start" [
 	...args
 ]
 
-# Stops the App Engine development server.
+# Stops the App Engine development server
 extern "mvn appengine:devserver_stop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19001,7 +19001,7 @@ extern "mvn appengine:devserver_stop" [
 	...args
 ]
 
-# Roll back a previously in-progress update.
+# Roll back a previously in-progress update
 extern "mvn appengine:backends_rollback" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19032,7 +19032,7 @@ extern "mvn appengine:backends_rollback" [
 	...args
 ]
 
-# Start the specified module version.
+# Start the specified module version
 extern "mvn appengine:start_module_version" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19063,7 +19063,7 @@ extern "mvn appengine:start_module_version" [
 	...args
 ]
 
-# Change the default version, but more gently than set_default_version.
+# Change the default version, but more gently than set_default_version
 extern "mvn appengine:migrate_traffic" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19094,7 +19094,7 @@ extern "mvn appengine:migrate_traffic" [
 	...args
 ]
 
-# Update application dispatch.xml.
+# Update application dispatch.xml
 extern "mvn appengine:update_dispatch" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19125,7 +19125,7 @@ extern "mvn appengine:update_dispatch" [
 	...args
 ]
 
-# App Engine endpoints get-client-lib … command.
+# App Engine endpoints get-client-lib … command
 extern "mvn appengine:endpoints_get_client_lib" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19156,7 +19156,7 @@ extern "mvn appengine:endpoints_get_client_lib" [
 	...args
 ]
 
-# Debug the specified VM Runtime instance.
+# Debug the specified VM Runtime instance
 extern "mvn appengine:debug" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19187,7 +19187,7 @@ extern "mvn appengine:debug" [
 	...args
 ]
 
-# Set the default serving version.
+# Set the default serving version
 extern "mvn appengine:set_default_version" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19218,7 +19218,7 @@ extern "mvn appengine:set_default_version" [
 	...args
 ]
 
-# Runs the datanucleus enhancer.
+# Runs the datanucleus enhancer
 extern "mvn appengine:enhance" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19249,7 +19249,7 @@ extern "mvn appengine:enhance" [
 	...args
 ]
 
-# Create or update an app version.
+# Create or update an app version
 extern "mvn appengine:update" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19311,7 +19311,7 @@ extern "mvn appengine:create-property" [
 	...args
 ]
 
-# Configure the specified backend.
+# Configure the specified backend
 extern "mvn appengine:backends_configure" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19342,7 +19342,7 @@ extern "mvn appengine:backends_configure" [
 	...args
 ]
 
-# Update application cron jobs.
+# Update application cron jobs
 extern "mvn appengine:update_cron" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19373,7 +19373,7 @@ extern "mvn appengine:update_cron" [
 	...args
 ]
 
-# Runs the App Engine development server.
+# Runs the App Engine development server
 extern "mvn appengine:devserver" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19404,7 +19404,7 @@ extern "mvn appengine:devserver" [
 	...args
 ]
 
-# Delete the specified backend.
+# Delete the specified backend
 extern "mvn appengine:backends_delete" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19435,7 +19435,7 @@ extern "mvn appengine:backends_delete" [
 	...args
 ]
 
-# Update the specified backend or all backends.
+# Update the specified backend or all backends
 extern "mvn appengine:backends_update" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19466,7 +19466,7 @@ extern "mvn appengine:backends_update" [
 	...args
 ]
 
-# Update application indexes.
+# Update application indexes
 extern "mvn appengine:update_indexes" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19497,7 +19497,7 @@ extern "mvn appengine:update_indexes" [
 	...args
 ]
 
-# Update application task queue definitions.
+# Update application task queue definitions
 extern "mvn appengine:update_queues" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19528,7 +19528,7 @@ extern "mvn appengine:update_queues" [
 	...args
 ]
 
-# Stop the specified module version.
+# Stop the specified module version
 extern "mvn appengine:stop_module_version" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19559,7 +19559,7 @@ extern "mvn appengine:stop_module_version" [
 	...args
 ]
 
-# Rollback an in-progress update.
+# Rollback an in-progress update
 extern "mvn appengine:rollback" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19590,7 +19590,7 @@ extern "mvn appengine:rollback" [
 	...args
 ]
 
-# Update application DoS protection configuration.
+# Update application DoS protection configuration
 extern "mvn appengine:update_dos" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19621,7 +19621,7 @@ extern "mvn appengine:update_dos" [
 	...args
 ]
 
-# App Engine endpoints get-discovery-doc command.
+# App Engine endpoints get-discovery-doc command
 extern "mvn appengine:endpoints_get_discovery_doc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19652,7 +19652,7 @@ extern "mvn appengine:endpoints_get_discovery_doc" [
 	...args
 ]
 
-# Stop the specified backend.
+# Stop the specified backend
 extern "mvn appengine:backends_stop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19807,7 +19807,7 @@ extern "mvn android:clean" [
 	...args
 ]
 
-# Connect external IP addresses to the ADB server.
+# Connect external IP addresses to the ADB server
 extern "mvn android:connect" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19962,7 +19962,7 @@ extern "mvn android:devices" [
 	...args
 ]
 
-# Converts compiled Java classes to the Android dex format.
+# Converts compiled Java classes to the Android dex format
 extern "mvn android:dex" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -19993,7 +19993,7 @@ extern "mvn android:dex" [
 	...args
 ]
 
-# Disconnect external IP addresses from the ADB server.
+# Disconnect external IP addresses from the ADB server
 extern "mvn android:disconnect" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20055,7 +20055,7 @@ extern "mvn android:emma" [
 	...args
 ]
 
-# EmulatorStartMojo can start the Android Emulator with a specified Android Virtual Device (avd).
+# EmulatorStartMojo can start the Android Emulator with a specified Android Virtual Device (avd)
 extern "mvn android:emulator-start" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20086,7 +20086,7 @@ extern "mvn android:emulator-start" [
 	...args
 ]
 
-# EmulatorStartMojo can stop the Android Emulator with a specified Android Virtual Device (avd).
+# EmulatorStartMojo can stop the Android Emulator with a specified Android Virtual Device (avd)
 extern "mvn android:emulator-stop" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20117,7 +20117,7 @@ extern "mvn android:emulator-stop" [
 	...args
 ]
 
-# EmulatorStopeAllMojo will stop all attached devices.
+# EmulatorStopeAllMojo will stop all attached devices
 extern "mvn android:emulator-stop-all" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20210,7 +20210,7 @@ extern "mvn android:help" [
 	...args
 ]
 
-# Runs the instrumentation apk on device.
+# Runs the instrumentation apk on device
 extern "mvn android:instrument" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20365,7 +20365,7 @@ extern "mvn android:manifest-merger" [
 	...args
 ]
 
-# Updates various version attributes present in the AndroidManifest.xml file.
+# Updates various version attributes present in the AndroidManifest.xml file
 extern "mvn android:manifest-update" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20489,7 +20489,7 @@ extern "mvn android:ndk-build" [
 	...args
 ]
 
-# Process both application and dependency classes using the ProGuard byte code obfuscator, minimzer, and optimizer
+# Use ProGuard byte code obfuscator, minimzer, and optimizer
 extern "mvn android:proguard" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20582,7 +20582,7 @@ extern "mvn android:publish-listing" [
 	...args
 ]
 
-# Copy file or directory from all the attached (or specified) devices/emulators.
+# Copy file or directory from all the attached (or specified) devices/emulators
 extern "mvn android:pull" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20613,7 +20613,7 @@ extern "mvn android:pull" [
 	...args
 ]
 
-# Copy file to all the attached (or specified) devices/emulators.
+# Copy file to all the attached (or specified) devices/emulators
 extern "mvn android:push" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20644,7 +20644,7 @@ extern "mvn android:push" [
 	...args
 ]
 
-# Undeploys and the deploys (= redeploys) the apk(s) of the current project(s) to all attached devices and emulators
+# Undeploys and the deploys the apks of the current projects to attached devices and emulators
 extern "mvn android:redeploy" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20892,7 +20892,7 @@ extern "mvn android:zipalign" [
 	...args
 ]
 
-# Removes any Liquibase updater locks from the current database.
+# Removes any Liquibase updater locks from the current database
 extern "mvn liquibase:releaseLocks" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20923,7 +20923,7 @@ extern "mvn liquibase:releaseLocks" [
 	...args
 ]
 
-# Writes a Liquibase tag to the database.
+# Writes a Liquibase tag to the database
 extern "mvn liquibase:tag" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -20985,7 +20985,7 @@ extern "mvn liquibase:dropAll" [
 	...args
 ]
 
-# Generates the SQL that is required to update the database to the current version as specified in the DatabaseChangeLogs.
+# Generate SQL to update the database to the current version
 extern "mvn liquibase:updateSQL" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21016,7 +21016,7 @@ extern "mvn liquibase:updateSQL" [
 	...args
 ]
 
-# Lists all Liquibase updater locks on the current database.
+# Lists all Liquibase updater locks on the current database
 extern "mvn liquibase:listLocks" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21078,7 +21078,7 @@ extern "mvn liquibase:migrate" [
 	...args
 ]
 
-# Marks all unapplied changes to the database as applied in the change log.
+# Marks all unapplied changes to the database as applied in the change log
 extern "mvn liquibase:changelogSync" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21109,7 +21109,7 @@ extern "mvn liquibase:changelogSync" [
 	...args
 ]
 
-# Clears all checksums in the current changelog, so they will be recalculated next update.
+# Clears all checksums in the current changelog, so they will be recalculated next update
 extern "mvn liquibase:clearCheckSums" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21140,7 +21140,7 @@ extern "mvn liquibase:clearCheckSums" [
 	...args
 ]
 
-# Generates dbDocs against the database.
+# Generates dbDocs against the database
 extern "mvn liquibase:dbDoc" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21171,7 +21171,7 @@ extern "mvn liquibase:dbDoc" [
 	...args
 ]
 
-# Generates the SQL that is required to rollback the database to the specified pointing attributes 'rollbackCount', 'rollbackTag'
+# Generates SQL to rollback the database to the specified pointing attributes 'rollbackCount', 'rollbackTag'
 extern "mvn liquibase:rollbackSQL" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21202,7 +21202,7 @@ extern "mvn liquibase:rollbackSQL" [
 	...args
 ]
 
-# Prints which changesets need to be applied to the database.
+# Prints which changesets need to be applied to the database
 extern "mvn liquibase:status" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21233,7 +21233,7 @@ extern "mvn liquibase:status" [
 	...args
 ]
 
-# Generates SQL that marks all unapplied changes as applied.
+# Generates SQL that marks all unapplied changes as applied
 extern "mvn liquibase:changelogSyncSQL" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21326,7 +21326,7 @@ extern "mvn liquibase:help" [
 	...args
 ]
 
-# Invokes Liquibase rollbacks on a database.
+# Invokes Liquibase rollbacks on a database
 extern "mvn liquibase:rollback" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21357,7 +21357,7 @@ extern "mvn liquibase:rollback" [
 	...args
 ]
 
-# Generates the SQL that is required to rollback the database to current state after the next update.
+# Generates SQL to rollback the database to current state after the next update
 extern "mvn liquibase:futureRollbackSQL" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list
@@ -21450,7 +21450,7 @@ extern "mvn liquibase:update" [
 	...args
 ]
 
-# Generates SQL that marks all unapplied changes as applied.
+# Generates SQL that marks all unapplied changes as applied
 extern "mvn liquibase:generateChangeLog" [
 	--also-make					# If project list is specified, also build projects required by the list
 	--also-make-dependents					# If project list is specified, also build projects that depend on projects on the list

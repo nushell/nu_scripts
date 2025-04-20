@@ -14,6 +14,9 @@ extern "gdbus monitor" [
 	--system(-y)					# Connect to the system bus
 	--session(-e)					# Connect to the session bus
 	--help(-h)					# Prints help
+	--xml(-x)					# Print XML
+	--recurse(-r)					# Introspect children
+	--only-properties(-p)					# Only print properties
 	...args
 ]
 
@@ -22,6 +25,9 @@ extern "gdbus call" [
 	--system(-y)					# Connect to the system bus
 	--session(-e)					# Connect to the session bus
 	--help(-h)					# Prints help
+	--xml(-x)					# Print XML
+	--recurse(-r)					# Introspect children
+	--only-properties(-p)					# Only print properties
 	...args
 ]
 
@@ -30,6 +36,9 @@ extern "gdbus emit" [
 	--system(-y)					# Connect to the system bus
 	--session(-e)					# Connect to the session bus
 	--help(-h)					# Prints help
+	--xml(-x)					# Print XML
+	--recurse(-r)					# Introspect children
+	--only-properties(-p)					# Only print properties
 	...args
 ]
 
@@ -38,17 +47,30 @@ extern "gdbus wait" [
 	--system(-y)					# Connect to the system bus
 	--session(-e)					# Connect to the session bus
 	--help(-h)					# Prints help
+	--xml(-x)					# Print XML
+	--recurse(-r)					# Introspect children
+	--only-properties(-p)					# Only print properties
 	...args
 ]
 
 # Prints help
 extern "gdbus help" [
-
+	--system(-y)					# Connect to the system bus
+	--session(-e)					# Connect to the session bus
+	--help(-h)					# Prints help
+	--xml(-x)					# Print XML
+	--recurse(-r)					# Introspect children
+	--only-properties(-p)					# Only print properties
 	...args
 ]
 
 # Connect to the system bus
 extern "gdbus" [
-
+	--system(-y)					# Connect to the system bus
+	--session(-e)					# Connect to the session bus
+	--help(-h)					# Prints help
+	--xml(-x)					# Print XML
+	--recurse(-r)					# Introspect children
+	--only-properties(-p)					# Only print properties
 	...args
 ]

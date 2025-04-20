@@ -2,7 +2,6 @@
 extern "pactree" [
 	--dbpath(-b)					# Set an alternate database location
 	--color(-c)					# Colorize output
-	--graph(-g)					# Generate output for graphvizs dot
 	--help(-h)					# Display this help message
 	--linear(-l)					# Enable linear output
 	--reverse(-r)					# Show reverse dependencies

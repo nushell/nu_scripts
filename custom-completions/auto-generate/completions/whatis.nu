@@ -1,4 +1,4 @@
-[# Debug
+# Debug
 extern "whatis" [
 	--debug(-d)					# Debug
 	--verbose(-v)					# Verbose
@@ -8,12 +8,12 @@ extern "whatis" [
 	--usage(-?)					# Display help and exit
 	--version(-V)					# Print program version
 	...args
-]]
+]
 
-[# Configuration file
+# Configuration file
 extern "" [
 	--config-file(-C)					# Configuration file
 	--systems(-m)					# Set system
 	--section(-s)					# Search only these sections (colon-separated)
 	...args
-]]
+]

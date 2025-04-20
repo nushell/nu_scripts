@@ -12,7 +12,7 @@ extern "pkg-config" [
 	--libs					# Print link flags
 	--libs-only-L					# This prints the -L/-R part of "--libs".
 	--libs-only-l					# This prints the -l part of "--libs
-	--variable					# This returns the value of a variable defined in a packages .pc file
+	--variable					# This returns the value of a variable defined in a package\'s
 	--define-variable					# This sets a global value for a variable
 	--print-variables					# Returns a list of all variables defined in the package
 	--uninstalled					# Return success if any -uninstalled packages are used

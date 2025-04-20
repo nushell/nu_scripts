@@ -28,13 +28,13 @@ extern "xterm +bdc" [
 	...args
 ]
 
-# Set the vt100 resource cutToBeginningOfLine to true
+# Set the vt100 resource cutToBeginningOfLine to \'true\
 extern "xterm +cb" [
 
 	...args
 ]
 
-# Set the cjkWidth resource to false
+# Set the cjkWidth resource to \'false\
 extern "xterm +cjk_width" [
 
 	...args
@@ -52,20 +52,8 @@ extern "xterm +cn" [
 	...args
 ]
 
-# Dont workaround the bug in more(1)
-extern "xterm +cu" [
-
-	...args
-]
-
 # Disable dynamic color changing
 extern "xterm +dc" [
-
-	...args
-]
-
-# Dont ensure compatibility between normal and bold fonts bounding boxes
-extern "xterm +fbb" [
 
 	...args
 ]
@@ -76,37 +64,13 @@ extern "xterm +fbx" [
 	...args
 ]
 
-# Dont generate HP Function Key escape codes for function keys
-extern "xterm +hf" [
-
-	...args
-]
-
-# Close xterms window after the shell exits
-extern "xterm +hold" [
-
-	...args
-]
-
-# Dont use pseudo-terminals sense of the stty erase value
+# Don\'t
 extern "xterm +ie" [
 
 	...args
 ]
 
-# Dont force insert mode
-extern "xterm +im" [
-
-	...args
-]
-
-# Dont use jump scrolling
-extern "xterm +j" [
-
-	...args
-]
-
-# Dont treat C1 control characters as printable
+# Don\'t
 extern "xterm +k8" [
 
 	...args
@@ -124,26 +88,14 @@ extern "xterm +lc" [
 	...args
 ]
 
-# The shell in xterms window will not be login shell
+# The shell in xterm\'s
 extern "xterm +ls" [
-
-	...args
-]
-
-# Dont ring bell if the user types near the end of line
-extern "xterm +mb" [
 
 	...args
 ]
 
 # Allow write access to the terminal
 extern "xterm +mesg" [
-
-	...args
-]
-
-# Dont use builtin version for the wide-character calculation
-extern "xterm +mk_width" [
 
 	...args
 ]
@@ -160,7 +112,7 @@ extern "xterm +pc" [
 	...args
 ]
 
-# Dont raise window on Control-G
+# Don\'t
 extern "xterm +pob" [
 
 	...args
@@ -190,14 +142,8 @@ extern "xterm +samename" [
 	...args
 ]
 
-# Dont display scrollbar
+# Don\'t
 extern "xterm +sb" [
-
-	...args
-]
-
-# Dont generate Sun Function Key escape codes for function keys
-extern "xterm +sf" [
 
 	...args
 ]
@@ -208,20 +154,8 @@ extern "xterm +si" [
 	...args
 ]
 
-# Dont move the screen to the bottom on key press while scrolling
-extern "xterm +sk" [
-
-	...args
-]
-
-# Dont setup session manager callbacks
+# Don\'t
 extern "xterm +sm" [
-
-	...args
-]
-
-# Dont assume Sun/PC keyboard
-extern "xterm +sp" [
 
 	...args
 ]
@@ -232,13 +166,13 @@ extern "xterm +t" [
 	...args
 ]
 
-# Dont display toolbar or menubar
+# Don\'t
 extern "xterm +tb" [
 
 	...args
 ]
 
-# Dont use UTF-8
+# Don\'t
 extern "xterm +u8" [
 
 	...args
@@ -256,19 +190,7 @@ extern "xterm +ut" [
 	...args
 ]
 
-# Dont use visual bell insead of audio bell
-extern "xterm +vb" [
-
-	...args
-]
-
-# Dont use wide characters
-extern "xterm +wc" [
-
-	...args
-]
-
-# Dont wait the first time for the window to be mapped
+# Don\'t
 extern "xterm +wf" [
 
 	...args

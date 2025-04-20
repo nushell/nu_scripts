@@ -1,4 +1,4 @@
-# 
+# Wrap width
 extern "cmark" [
 	--width					# Wrap width
 	--hardbreaks					# Treat newlines as hard line breaks

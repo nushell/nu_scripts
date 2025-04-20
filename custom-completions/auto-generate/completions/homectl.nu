@@ -1,89 +1,1049 @@
 # List home areas
 extern "homectl list" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Activate a home area
 extern "homectl activate" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Deactivate a home area
 extern "homectl deactivate" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Inspect a home area
 extern "homectl inspect" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Authenticate a home area
 extern "homectl authenticate" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Create a home area
 extern "homectl create" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Remove a home area
 extern "homectl remove" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Update a home area
 extern "homectl update" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Change password of a home area
 extern "homectl passwd" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Resize a home area
 extern "homectl resize" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Temporarily lock an active home area
 extern "homectl lock" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Unlock a temporarily locked home area
 extern "homectl unlock" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Lock all suitable home areas
 extern "homectl lock-all" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # Run shell or command with access to a home area
 extern "homectl with" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]
 
 # 
 extern "homectl" [
-
+	--help(-h)					# Show this help
+	--version					# Show package version
+	--no-pager					# Do not pipe output into a pager
+	--no-legend					# Do not show the headers and footers
+	--no-ask-password					# Do not ask for system passwords
+	--host(-H)					# Operate on remote host
+	--machine(-M)					# Operate on local container
+	--json					# Output inspection data in JSON
+	--export-format					# Strip JSON inspection data
+	--real-name(-c)					# Real name for user
+	--realm					# Realm to create user in
+	--email-address					# Email address for user
+	--location					# Set location of user on earth
+	--icon-name					# Icon name for user
+	--uid(-u)					# Numeric UID for user
+	--member-of(-G)					# Add user to group
+	--shell					# Shell for account
+	--setenv					# Set an environment variable at log-in
+	--timezone					# Set a time-zone
+	--language					# Set preferred language
+	--ssh-authorized-keys					# Specify SSH public keys
+	--pkcs11-token-uri					# URI to PKCS#11 security token
+	--locked					# Set locked account state
+	--not-before					# Do not allow logins before
+	--not-after					# Do not allow logins after
+	--rate-limit-interval					# Login rate-limit interval in seconds
+	--rate-limit-burst					# Login rate-limit attempts per interval
+	--password-hint					# Set Password hint
+	--enforce-password-policy					# Control enforce password policy
+	--password-change-now					# Require the password to be changed on next login
+	--password-change-min					# Require minimum time between password changes
+	--password-change-max					# Require maximum time between password changes
+	--password-change-warn					# How much time to warn before password expiry
+	--password-change-inactive					# How much time to block password after expiry
+	--disk-size					# Size to assign the user on disk
+	--access-mode					# User home directory access mode
+	--umask					# Umask for user when logging in
+	--nice					# Nice level for user
+	--rlimit					# Set resource limits
+	--tasks-max					# Set maximum number of per-user tasks
+	--memory-high					# Set high memory threshold in bytes
+	--memory-max					# Set maximum memory limit
+	--cpu-weight					# Set CPU weight
+	--io-weight					# Set IO weight
+	--storage					# Storage type to use
+	--fs-type					# File system type to use in case of luks storage
+	--luks-discard					# Whether to use discard feature
+	--luks-offline-discard					# Whether to trim file on logout
+	--luks-cipher					# Cipher to use for LUKS encryption
+	--luks-cipher-mode					# Cipher mode to use for LUKS encryption
+	--luks-volume-key-size					# Volume key size to use for LUKS encryption
+	--luks-pbkdf-type					# Password-based Key Derivation Function to use
+	--luks-pbkdf-hash-algorithm					# PBKDF hash algorithm to use
+	--luks-pbkdf-time-cost					# Time cost for PBKDF in seconds
+	--luks-pbkdf-memory-cost					# Memory cost for PBKDF in bytes
+	--luks-pbkdf-parallel-threads					# Number of parallel threads for PKBDF
+	--nosuid					# Control the nosuid flag of the home mount
+	--nodev					# Control the nodev flag of the home mount
+	--noexec					# Control the noexec flag of the home mount
+	--cifs-domain					# CIFS (Windows) domain
+	--cifs-user-name					# CIFS (Windows) user name
+	--cifs-service					# CIFS (Windows) service to mount as home area
+	--stop-delay					# How long to leave user services running after logout
+	--kill-processes					# Whether to kill user processes when sessions terminate
+	--auto-login					# Try to log this user in automatically
 	...args
 ]

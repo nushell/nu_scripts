@@ -84,11 +84,11 @@ extern "firewall-cmd" [
 	--get-source-ports					# List source ports added to the permanent service
 	--add-helper					# Add a new helper to the permanent service
 	--remove-helper					# Remove a helper from the permanent service
-	--query-helper					# Return wether the helper has been added to the permanent service
+	--query-helper					# Return whether the helper has been added to the permanent service
 	--get-service-helpers					# List helpers added to the permanent service
 	--add-include					# Add a new include to the permanent service
 	--remove-include					# Remove a include from the permanent service
-	--query-include					# Return wether the include has been added to the permanent service
+	--query-include					# Return whether the include has been added to the permanent service
 	--get-includes					# List includes added to the permanent service
 	--info-helper					# Print information about the helper
 	--delete-helper					# Delete an existing permanent helper

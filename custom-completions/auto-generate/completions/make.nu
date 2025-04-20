@@ -1,5 +1,5 @@
 # Debug mode
-extern "make" [
+extern "" [
 
 	...args
 ]

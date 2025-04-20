@@ -11,7 +11,6 @@ extern "pydf" [
 	--gigabytes(-g)					# like --block-size=1073741824
 	--blocks					# use filesystem native block size
 	--bw					# do not use colours
-	--show-binds(-B)					# show mount --bind mounts
 	--inodes(-i)					# show inode instead of block usage
 	...args
 ]

@@ -1,239 +1,6687 @@
+# Run arbitrary package scripts
+extern "npm run-script run" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Set access level on published packages
+extern "npm access" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Output JSON
+extern "npm" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Add a registry user account
+extern "npm adduser" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Login to a registry user account
+extern "npm login" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Run a security audit
+extern "npm audit" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Verify registry signatures
+extern "npm signatures" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Install compatible updates to vulnerable deps
+extern "npm fix" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
 # Manipulates package's cache
 extern "npm cache" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Add the specified package to the local cache
 extern "npm add" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Delete  data  out of the cache folder
+# Delete data out of the cache folder
 extern "npm clean" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Show the data in the cache
 extern "npm ls" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Echo the config value to stdout
+# Verify the contents of the cache folder
+extern "npm verify" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Clean install a project
+extern "npm ci clean-install" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Install a project with a clean slate and run tests
+extern "npm install-ci-test cit" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Tab Completion for npm
+extern "npm completion" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Manage the npm configuration files
+extern "npm config" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Get a value from the npm configuration
 extern "npm get" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Sets the config key to the value
+# Set a value in the npm configuration
 extern "npm set" [
-
-	...args
-]
-
-# Manage package owners
-extern "npm owner" [
-
-	...args
-]
-
-# Remove an owner from package
-extern "npm rm" [
-
-	...args
-]
-
-# Add a registry user account
-extern "npm adduser add-user login" [
-
-	...args
-]
-
-# Display npm bin folder
-extern "npm bin" [
-
-	...args
-]
-
-# Bugs for a package in a web browser maybe
-extern "npm bugs issues" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Reduce duplication
-extern "npm ddp dedupe find-dupes" [
+extern "npm dedupe" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Find duplication
+extern "npm find-dupes" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Deprecate a version of a package
 extern "npm deprecate" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Docs for a package in a web browser maybe
-extern "npm docs home" [
+# The registry diff command
+extern "npm diff" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Modify package distribution tags
+extern "npm dist-tag" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Open docs for a package in a web browser
+extern "npm docs" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Check your npm environment
+extern "npm doctor" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Check npm ping
+extern "npm ping" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Check registry
+extern "npm registry" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Check installed versions
+extern "npm versions" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Check PATH
+extern "npm environment" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Check file permissions
+extern "npm permissions" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Edit an installed package
 extern "npm edit" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Run a command from a local or remote npm package
+extern "npm exec" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Browse an installed package
 extern "npm explore" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Frequently Asked Questions
-extern "npm faq" [
+# The shell to open
+extern "npm shell" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Retrieve funding information
+extern "npm fund" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Get help on npm
+extern "npm help" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Search npm help documentation
 extern "npm help-search" [
-	--long					# Display full package descriptions and other long text across multiple lines
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Display full package descriptions and other long text across multiple lines
-extern "npm" [
-
+# Manage registry hooks
+extern "npm hook" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# View registry info
-extern "npm info v view" [
+# Update an existing hook
+extern "npm update" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Remove a hook
+extern "npm rm" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Create a package.json file
+extern "npm init create" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Install a package
+extern "npm install add i" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Install package(s) and run tests
+extern "npm install-test it" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Symlink a package folder
 extern "npm link ln" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Log out of the registry
+extern "npm logout" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# List installed packages
+extern "npm ls list ll" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Check for outdated packages
 extern "npm outdated" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Manage orgs
+extern "npm org" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Create a tarball from a package
 extern "npm pack" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Display NPM prefix
-extern "npm prefix" [
+# Manages your package.json
+extern "npm pkg" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Display npm prefix
+extern "npm prefix" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Change settings on your registry profile
+extern "npm profile" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Remove extraneous packages
 extern "npm prune" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Publish a package
 extern "npm publish" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Dependency selector query
+extern "npm query" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Rebuild a package
-extern "npm rb rebuild" [
-
+extern "npm rebuild" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Display npm root
-extern "npm root " [
-
+# Open package repository page in the browser
+extern "npm repo" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
-# Run arbitrary package scripts
-extern "npm run-script run" [
-
-	...args
-]
-
-# Lock down dependency versions
-extern "npm shrinkwrap" [
-
-	...args
-]
-
-# Mark your favorite packages
-extern "npm star" [
-
-	...args
-]
-
-# View packages marked as favorites
-extern "npm stars" [
-
+# Restart a package
+extern "npm restart" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Start a package
 extern "npm start" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Stop a package
 extern "npm stop" [
-
-	...args
-]
-
-# Add a package as a git submodule
-extern "npm submodule" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Test a package
-extern "npm t tst test" [
+extern "npm test" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# Display npm root
+extern "npm root" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Search for packages
+extern "npm search find" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Lock down dependency versions
+extern "npm shrinkwrap" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Mark your favorite packages
+extern "npm star" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# View packages marked as favorites
+extern "npm stars" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Manage organization teams and team memberships
+extern "npm team" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Manage your authentication tokens
+extern "npm token" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Update package(s)
+extern "npm update up upgrade" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
+
+# Remove a package
+extern "npm uninstall remove un" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Remove a package from the registry
 extern "npm unpublish" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Remove star from a package
 extern "npm unstar" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Bump a package version
 extern "npm version" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	...args
+]
 
+# View registry info
+extern "npm view info" [
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]
 
 # Display npm username
 extern "npm whoami" [
-
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--force(-f)					# Removes various protections
+	--json					# Output JSON
+	--package-lock-only					# Only use package-lock.json, ignore node_modules
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--global(-g)					# Edit global config
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--diff-name-only					# Prints only filenames
+	--diff-ignore-all-space					# Ignore whitespace
+	--diff-no-prefix					# Do not show any prefix
+	--diff-text					# Treat all files as text
+	--global(-g)					# Operates in "global" mode
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--editor					# Specify the editor
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--json					# Output JSON
+	--no-browser					# Print to stdout
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--long(-l)					# Show extended information
+	--help(-h)					# Display help
+	--type					# Hook type
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--all(-a)					# Also show indirect dependencies
+	--json					# Output JSON
+	--long(-l)					# Show extended information
+	--parseable					# Output parseable results
+	--global(-g)					# Check global packages
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--force(-f)					# Removes various protections
+	--json					# Parse values with JSON.parse()
+	--help(-h)					# Display help
+	--global(-g)					# Display global prefix
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--json					# Output JSON
+	--foreground-scripts					# Run all build scripts in the foreground
+	--ignore-scripts					# Don't run pre-, post- and life-cycle scripts
+	--install-links					# Install file: protocol deps as regular deps
+	--help(-h)					# Display help
+	--dry-run					# Do not make any changes
+	--provenance					# Link to build location when publishing from CI/CD
+	--help(-h)					# Display help
+	--global(-g)					# Query global packages
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--global(-g)					# Display global root
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--parseable(-p)					# Output parseable results
+	--json					# Output JSON
+	--help(-h)					# Display help
+	--read-only					# Mark a token as unable to publish
+	--help(-h)					# Display help
+	--help(-h)					# Display help
+	--unicode					# Use unicode characters in the output
+	--no-unicode					# Use ascii characters over unicode glyphs
+	--help(-h)					# Display help
+	--help(-h)					# Display help
 	...args
 ]

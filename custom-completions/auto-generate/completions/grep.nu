@@ -1,4 +1,4 @@
-[# Process binary file as text
+# Process binary file as text
 extern "grep" [
 	--text(-a)					# Process binary file as text
 	--byte-offset(-b)					# Print byte offset of matches
@@ -37,6 +37,7 @@ extern "grep" [
 	--no-group-separator					# Use empty string as a group separator
 	...args
 ]
+
 # Colour output
 extern "grep never always auto" [
 	--text(-a)					# Process binary file as text
@@ -75,13 +76,13 @@ extern "grep never always auto" [
 	--null(-Z)					# Output a zero byte after filename
 	--no-group-separator					# Use empty string as a group separator
 	...args
-]]
+]
 
-[# Specify a pattern
+# Specify a pattern
 extern "" [
 	--regexp(-e)					# Specify a pattern
 	--exclude-from					# Read pattern list from file. Skip files whose base name matches list
 	--exclude-dir					# Exclude matching directories from recursive searches
 	--file(-f)					# Use patterns from a file
 	...args
-]]
+]

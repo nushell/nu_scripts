@@ -1,5 +1,536 @@
 # Show a brief description of the command and its options
 extern "darcs" [
-
+	--help					# Show a brief description of the command and its options
+	--list-options					# Show plain list of available options and commands, for auto-completion
+	--run-posthook					# Run posthook command without prompting [DEFAULT]
+	--prompt-posthook					# Prompt before running posthook
+	--no-posthook					# Don\'t
+	--run-prehook					# Run prehook command without prompting [DEFAULT]
+	--prompt-prehook					# Prompt before running prehook
+	--no-prehook					# Don\'t
+	--disable					# Disable this command
+	--debug					# Give only debug output
+	--debug-http					# Debug output from libcurl
+	--quiet(-q)					# Suppress informational output
+	--standard-verbosity					# Neither verbose nor quiet output [DEFAULT]
+	--verbose(-v)					# Give verbose output
+	--timings					# Provide debugging timings information
+	--no-boring					# Skip boring files [DEFAULT]
+	--case-ok					# Don\'t
+	--no-case-ok					# Refuse to add files whose name differ only in case [DEFAULT]
+	--no-reserved-ok					# Refuse to add files with Windows-reserved names [DEFAULT]
+	--recursive(-r)					# Recurse into subdirectories
+	--not-recursive					# Don\'t
+	--no-recursive					# Don\'t
+	--dry-run					# Don\'t
+	--umask					# Specify umask to use when writing
+	--recursive(-r)					# Recurse into subdirectories
+	--not-recursive					# Don\'t
+	--no-recursive					# Don\'t
+	--umask					# Specify umask to use when writing
+	--case-ok					# Don\'t
+	--no-case-ok					# Refuse to add files whose name differ only in case [DEFAULT]
+	--no-reserved-ok					# Refuse to add files with Windows-reserved names [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--token-chars					# Define token to contain these characters
+	--force(-f)					# Proceed with replace even if 'new' token already exists
+	--no-force					# Don\'t
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--unified(-u)					# Output changes in a darcs-specific format similar to diff -u
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--unified(-u)					# Output changes in a darcs-specific format similar to diff -u
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--summary(-s)					# Summarize changes
+	--no-summary					# Don\'t
+	--unified(-u)					# Output changes in a darcs-specific format similar to diff -u
+	--human-readable					# Give human-readable output [DEFAULT]
+	--machine-readable					# Give machine-readable output
+	--look-for-adds(--l)					# Look for (non-boring) files that could be added
+	--look-for-replaces					# Look for replaces that could be marked
+	--look-for-moves					# Look for files that may be moved/renamed
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--no-boring					# Skip boring files [DEFAULT]
+	--name(-m)					# Name of patch
+	--author(-A)					# Specify author id
+	--test					# Run the test script
+	--remove-test-directory					# Remove the test directory
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--pipe					# Ask user interactively for the patch metadata
+	--ask-deps					# Manually select dependencies
+	--no-ask-deps					# Automatically select dependencies [DEFAULT]
+	--edit-long-comment					# Edit the long comment by default
+	--skip-long-comment					# Don\'t
+	--prompt-long-comment					# Prompt for whether to edit the long comment
+	--look-for-adds(-l)					# Look for (non-boring) files that could be added
+	--look-for-replaces					# Look for replaces that could be marked
+	--look-for-moves					# Look for files that may be moved/renamed
+	--unified(-u)					# Output changes in a darcs-specific format similar to diff -u
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--logfile					# Give patch name and comment in file
+	--delete-logfile					# Delete the logfile when done
+	--no-delete-logfile					# Keep the logfile when done [DEFAULT]
+	--compress					# Compress patch data [DEFAULT]
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--no-boring					# Skip boring files [DEFAULT]
+	--not-in-remote					# Select all patches not in the default push/pull repository or at location URL/PATH
+	--from-match					# Select changes starting with a patch matching PATTERN
+	--from-patch					# Select changes starting with a patch matching REGEXP
+	--from-hash					# Select changes starting with a patch with HASH
+	--from-tag					# Select changes starting with a tag matching REGEXP
+	--last					# Select the last NUMBER patches
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--prompt-deps					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--prompt-for-dependencies					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--compress					# Compress patch data [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--reverse					# Show/consider changes in reverse order
+	--no-reverse					# Show/consider changes in the usual order [DEFAULT]
+	--unrecord					# Remove changes from the patch
+	--record					# Add more changes to the patch [DEFAULT]
+	--match					# Select a single patch matching PATTERN
+	--patch(-p)					# Select a single patch matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--test					# Run the test script
+	--remove-test-directory					# Remove the test directory
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--author(-A)					# Specify author id
+	--select-author					# Select author id from a menu
+	--name(-m)					# Name of patch
+	--ask-deps					# Manually select dependencies
+	--no-ask-deps					# Automatically select dependencies [DEFAULT]
+	--edit-long-comment					# Edit the long comment by default
+	--skip-long-comment					# Don\'t
+	--prompt-long-comment					# Prompt for whether to edit the long comment
+	--keep-date					# Keep the date of the original patch
+	--no-keep-date					# Use the current date for the amended patch [DEFAULT]
+	--look-for-adds(-l)					# Look for (non-boring) files that could be added
+	--look-for-replaces					# Look for replaces that could be marked
+	--look-for-moves					# Look for files that may be moved/renamed
+	--unified(-u)					# Output changes in a darcs-specific format similar to diff -u
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--compress					# Compress patch data [DEFAULT]
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--dry-run					# Don\'t
+	--xml-output					# Generate XML formatted output
+	--umask					# Specify umask to use when writing
+	--name(-m)					# Name of patch
+	--author(-A)					# Specify author id
+	--pipe					# Ask user interactively for the patch metadata
+	--edit-long-comment					# Edit the long comment by default
+	--skip-long-comment					# Don\'t
+	--prompt-long-comment					# Prompt for whether to edit the long comment
+	--ask-deps					# Manually select dependencies
+	--no-ask-deps					# Automatically select dependencies [DEFAULT]
+	--compress					# Compress patch data [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--umask					# Specify umask to use when writing
+	--to-match					# Select changes up to a patch matching PATTERN
+	--to-patch					# Select changes up to a patch matching REGEXP
+	--to-hash					# Select changes up to a patch with HASH
+	--to-tag					# Select changes up to a tag matching REGEXP
+	--from-match					# Select changes starting with a patch matching PATTERN
+	--from-patch					# Select changes starting with a patch matching REGEXP
+	--from-hash					# Select changes starting with a patch with HASH
+	--from-tag					# Select changes starting with a tag matching REGEXP
+	--match					# Select a single patch matching PATTERN
+	--patch(-p)					# Select a single patch matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--last					# Select the last NUMBER patches
+	--index(-n)					# Select a range of patches
+	--diff-command					# Specify diff command (ignores --diff-opts)
+	--diff-opts					# Options to pass to diff
+	--unified(-u)					# Pass -u option to diff [DEFAULT]
+	--no-unified					# Output patch in diff\'s
+	--store-in-memory					# Do patch application in memory rather than on disk
+	--no-store-in-memory					# Do patch application on disk [DEFAULT]
+	--pause-for-gui					# Pause for an external diff or merge command to finish [DEFAULT]
+	--no-pause-for-gui					# Return immediately after external diff or merge command finishes
+	--to-match					# Select changes up to a patch matching PATTERN
+	--to-patch					# Select changes up to a patch matching REGEXP
+	--to-hash					# Select changes up to a patch with HASH
+	--to-tag					# Select changes up to a tag matching REGEXP
+	--from-match					# Select changes starting with a patch matching PATTERN
+	--from-patch					# Select changes starting with a patch matching REGEXP
+	--from-hash					# Select changes starting with a patch with HASH
+	--from-tag					# Select changes starting with a tag matching REGEXP
+	--last					# Select the last NUMBER patches
+	--index(-n)					# Select a range of patches
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--max-count					# Return only NUMBER results
+	--only-to-files					# Show only changes to specified files
+	--no-only-to-files					# Show changes to all files [DEFAULT]
+	--context					# Give output suitable for clone --context
+	--xml-output					# Generate XML formatted output
+	--human-readable					# Give human-readable output
+	--machine-readable					# Give machine-readable output
+	--number					# Number the changes
+	--count					# Output count of changes
+	--summary(-s)					# Summarize changes
+	--no-summary					# Don\'t
+	--reverse					# Show/consider changes in reverse order
+	--no-reverse					# Show/consider changes in the usual order [DEFAULT]
+	--repo					# Specify the repository URL
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--no-http-pipelining					# Disable HTTP pipelining
+	--remote-darcs					# Name of the darcs executable on the remote server
+	--with-patch-index					# Build patch index [DEFAULT]
+	--human-readable					# Give human-readable output [DEFAULT]
+	--machine-readable					# Give machine-readable output
+	--match					# Select a single patch matching PATTERN
+	--patch(-p)					# Select a single patch matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--tag(-t)					# Select tag matching REGEXP
+	--index(-n)					# Select one patch
+	--with-patch-index					# Build patch index [DEFAULT]
+	--dist-name(-d)					# Name of version
+	--match					# Select a single patch matching PATTERN
+	--patch(-p)					# Select a single patch matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--tag(-t)					# Select tag matching REGEXP
+	--index(-n)					# Select one patch
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--store-in-memory					# Do patch application in memory rather than on disk
+	--no-store-in-memory					# Do patch application on disk [DEFAULT]
+	--match					# Select a single patch matching PATTERN
+	--patch(-p)					# Select a single patch matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--tag(-t)					# Select tag matching REGEXP
+	--index(-n)					# Select one patch
+	--from-match					# Select changes starting with a patch matching PATTERN
+	--from-patch					# Select changes starting with a patch matching REGEXP
+	--from-hash					# Select changes starting with a patch with HASH
+	--from-tag					# Select changes starting with a tag matching REGEXP
+	--last					# Select the last NUMBER patches
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--files					# Include files in output [DEFAULT]
+	--no-files					# Don\'t
+	--directories					# Include directories in output [DEFAULT]
+	--no-directories					# Don\'t
+	--pending					# Reflect pending patches in output [DEFAULT]
+	--no-pending					# Only include recorded patches in output
+	--null(-0)					# Separate file names by NUL characters
+	--match					# Select a single patch matching PATTERN
+	--patch(-p)					# Select a single patch matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--tag(-t)					# Select tag matching REGEXP
+	--index(-n)					# Select one patch
+	--null(-0)					# Separate file names by NUL characters
+	--null(-0)					# Separate file names by NUL characters
+	--xml-output					# Generate XML formatted output
+	--enum-patches					# Include statistics requiring enumeration of patches [DEFAULT]
+	--no-enum-patches					# Don\'t
+	--repo					# Specify the repository URL
+	--null(-0)					# Separate file names by NUL characters
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--reorder-patches					# Reorder the patches in the repository
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--mark-conflicts					# Mark conflicts [DEFAULT]
+	--allow-conflicts					# Allow conflicts, but don\'t
+	--dont-allow-conflicts					# Fail if there are patches that would create conflicts
+	--no-allow-conflicts					# Fail if there are patches that would create conflicts
+	--no-resolve-conflicts					# Fail if there are patches that would create conflicts
+	--skip-conflicts					# Filter out any patches that would create conflicts
+	--external-merge					# Use external tool to merge conflicts
+	--test					# Run the test script
+	--dry-run					# Don\'t
+	--xml-output					# Generate XML formatted output
+	--summary(-s)					# Summarize changes
+	--no-summary					# Don\'t
+	--prompt-deps					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--prompt-for-dependencies					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--set-default					# Set default repository
+	--ignore-unrelated-repos					# Do not check if repositories are unrelated
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--intersection					# Take intersection of all repositories
+	--union					# Take union of all repositories [DEFAULT]
+	--complement					# Take complement of repositories (in order listed)
+	--compress					# Compress patch data [DEFAULT]
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--remote-repo					# Specify the remote repository URL to work with
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--umask					# Specify umask to use when writing
+	--restrict-paths					# Don\'t
+	--dont-restrict-paths					# Allow darcs to modify any file or directory (unsafe)
+	--no-restrict-paths					# Allow darcs to modify any file or directory (unsafe)
+	--reverse					# Show/consider changes in reverse order
+	--no-reverse					# Show/consider changes in the usual order [DEFAULT]
+	--pause-for-gui					# Pause for an external diff or merge command to finish [DEFAULT]
+	--no-pause-for-gui					# Return immediately after external diff or merge command finishes
+	--no-http-pipelining					# Disable HTTP pipelining
+	--remote-darcs					# Name of the darcs executable on the remote server
+	--not-in-remote					# Select all patches not in the default push/pull repository or at location URL/PATH
+	--from-match					# Select changes starting with a patch matching PATTERN
+	--from-patch					# Select changes starting with a patch matching REGEXP
+	--from-hash					# Select changes starting with a patch with HASH
+	--from-tag					# Select changes starting with a tag matching REGEXP
+	--last					# Select the last NUMBER patches
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--prompt-deps					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--prompt-for-dependencies					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--summary(-s)					# Summarize changes
+	--no-summary					# Don\'t
+	--output(-o)					# Specify output filename
+	--output-auto-name(-O)					# Output to automatically named file in DIRECTORY, default: current directory
+	--minimize					# Minimize context of patch bundle [DEFAULT]
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--dry-run					# Don\'t
+	--xml-output					# Generate XML formatted output
+	--compress					# Compress patch data [DEFAULT]
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--reverse					# Show/consider changes in reverse order
+	--no-reverse					# Show/consider changes in the usual order [DEFAULT]
+	--from-match					# Select changes starting with a patch matching PATTERN
+	--from-patch					# Select changes starting with a patch matching REGEXP
+	--from-hash					# Select changes starting with a patch with HASH
+	--from-tag					# Select changes starting with a tag matching REGEXP
+	--last					# Select the last NUMBER patches
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--umask					# Specify umask to use when writing
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--prompt-deps					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--prompt-for-dependencies					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--sign					# Sign the patch with your gpg key
+	--sign-as					# Sign the patch with a given keyid
+	--sign-ssl					# Sign the patch using openssl with a given private key
+	--dont-sign					# Don\'t
+	--no-sign					# Don\'t
+	--dry-run					# Don\'t
+	--xml-output					# Generate XML formatted output
+	--summary(-s)					# Summarize changes
+	--no-summary					# Don\'t
+	--set-default					# Set default repository
+	--ignore-unrelated-repos					# Do not check if repositories are unrelated
+	--apply-as					# Apply patch as another user using sudo
+	--no-apply-as					# Don\'t
+	--remote-repo					# Specify the remote repository URL to work with
+	--reverse					# Show/consider changes in reverse order
+	--no-reverse					# Show/consider changes in the usual order [DEFAULT]
+	--compress					# Compress patch data [DEFAULT]
+	--no-http-pipelining					# Disable HTTP pipelining
+	--remote-darcs					# Name of the darcs executable on the remote server
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--prompt-deps					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--prompt-for-dependencies					# Prompt about patches that are depended on by matched patches [DEFAULT]
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--to					# Specify destination email
+	--cc					# Mail results to additional EMAIL(s)
+	--from					# Specify email address
+	--subject					# Specify mail subject
+	--in-reply-to					# Specify in-reply-to header
+	--author(-A)					# Specify author id
+	--charset					# Specify mail charset
+	--mail					# Send patch using sendmail
+	--sendmail-command					# Specify sendmail command
+	--output(-o)					# Specify output filename
+	--output-auto-name(-O)					# Output to automatically named file in DIRECTORY, default: current directory
+	--sign					# Sign the patch with your gpg key
+	--sign-as					# Sign the patch with a given keyid
+	--sign-ssl					# Sign the patch using openssl with a given private key
+	--dont-sign					# Don\'t
+	--no-sign					# Don\'t
+	--dry-run					# Don\'t
+	--xml-output					# Generate XML formatted output
+	--summary(-s)					# Summarize changes
+	--no-summary					# Don\'t
+	--edit-description					# Edit the patch bundle description [DEFAULT]
+	--set-default					# Set default repository
+	--minimize					# Minimize context of patch bundle [DEFAULT]
+	--ignore-unrelated-repos					# Do not check if repositories are unrelated
+	--logfile					# Give patch name and comment in file
+	--delete-logfile					# Delete the logfile when done
+	--no-delete-logfile					# Keep the logfile when done [DEFAULT]
+	--remote-repo					# Specify the remote repository URL to work with
+	--context					# Send to context stored in FILENAME
+	--reverse					# Show/consider changes in reverse order
+	--no-reverse					# Show/consider changes in the usual order [DEFAULT]
+	--no-http-pipelining					# Disable HTTP pipelining
+	--remote-darcs					# Name of the darcs executable on the remote server
+	--verify					# Verify that the patch was signed by a key in PUBRING
+	--verify-ssl					# Verify using openSSL with authorized keys from file KEYS
+	--no-verify					# Don\'t
+	--reorder-patches					# Reorder the patches in the repository
+	--all(-a)					# Answer yes to all patches
+	--no-interactive					# Answer yes to all patches
+	--interactive(-i)					# Prompt user interactively
+	--dry-run					# Don\'t
+	--xml-output					# Generate XML formatted output
+	--matches					# Select patches matching PATTERN
+	--patches(-p)					# Select patches matching REGEXP
+	--tags(-t)					# Select tags matching REGEXP
+	--hash(-h)					# Select a single patch with HASH
+	--mark-conflicts					# Mark conflicts
+	--allow-conflicts					# Allow conflicts, but don\'t
+	--dont-allow-conflicts					# Fail if there are patches that would create conflicts [DEFAULT]
+	--no-allow-conflicts					# Fail if there are patches that would create conflicts [DEFAULT]
+	--no-resolve-conflicts					# Fail if there are patches that would create conflicts [DEFAULT]
+	--skip-conflicts					# Filter out any patches that would create conflicts
+	--external-merge					# Use external tool to merge conflicts
+	--test					# Run the test script
+	--remove-test-directory					# Remove the test directory
+	--repodir					# Specify the repository directory in which to run
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--reply					# Reply to email-based patch using FROM address
+	--cc					# Mail results to additional EMAIL(s). Requires --reply
+	--happy-forwarding					# Forward unsigned messages without extra header
+	--mail					# Send patch using sendmail
+	--sendmail-command					# Specify sendmail command
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--compress					# Compress patch data [DEFAULT]
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--umask					# Specify umask to use when writing
+	--restrict-paths					# Don\'t
+	--dont-restrict-paths					# Allow darcs to modify any file or directory (unsafe)
+	--no-restrict-paths					# Allow darcs to modify any file or directory (unsafe)
+	--reverse					# Show/consider changes in reverse order
+	--no-reverse					# Show/consider changes in the usual order [DEFAULT]
+	--pause-for-gui					# Pause for an external diff or merge command to finish [DEFAULT]
+	--no-pause-for-gui					# Return immediately after external diff or merge command finishes
+	--repo-name					# Path of output directory
+	--lazy					# Get patch files only as needed
+	---d
+	--to-match					# Select changes up to a patch matching PATTERN
+	--to-patch					# Select changes up to a patch matching REGEXP
+	--to-hash					# Select changes up to a patch with HASH
+	--tag(-t)					# Select tag matching REGEXP
+	--context					# Version specified by the context in FILENAME
+	--set-default					# Set default repository
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--with-working-dir					# Create a working tree (normal repository) [DEFAULT]
+	--no-working-dir					# Do not create a working tree (bare repository)
+	--packs					# Use repository packs [DEFAULT]
+	--with-patch-index					# Build patch index
+	--no-patch-index					# Don\'t
+	--no-http-pipelining					# Disable HTTP pipelining
+	--remote-darcs					# Name of the darcs executable on the remote server
+	--darcs-2					# Standard darcs patch format [DEFAULT]
+	--darcs-1					# Older patch format (for compatibility)
+	--with-working-dir					# Create a working tree (normal repository) [DEFAULT]
+	--no-working-dir					# Do not create a working tree (bare repository)
+	--with-patch-index					# Build patch index
+	--no-patch-index					# Don\'t
+	--hashed					# Deprecated, use --darcs-1 instead
+	--umask					# Specify umask to use when writing
+	--sibling					# Specify a sibling directory
+	--no-ignore-times					# Trust modification times to find modified files [DEFAULT]
+	--myers					# Use myers diff algorithm
+	--patience					# Use patience diff algorithm [DEFAULT]
+	--dry-run					# Don\'t
+	--umask					# Specify umask to use when writing
+	--repo-name					# Path of output directory
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--with-working-dir					# Create a working tree (normal repository) [DEFAULT]
+	--no-working-dir					# Do not create a working tree (bare repository)
+	--no-http-pipelining					# Disable HTTP pipelining
+	--remote-darcs					# Name of the darcs executable on the remote server
+	--with-patch-index					# Build patch index
+	--no-patch-index					# Don\'t
+	--repo-name					# Path of output directory
+	--read-marks					# Continue conversion, previously checkpointed by --write-marks
+	--write-marks					# Checkpoint conversion to continue it later
+	--no-http-pipelining					# Disable HTTP pipelining
+	--remote-darcs					# Name of the darcs executable on the remote server
+	--repo-name					# Path of output directory
+	--set-scripts-executable					# Make scripts executable
+	--dont-set-scripts-executable					# Don\'t
+	--no-set-scripts-executable					# Don\'t
+	--darcs-2					# Standard darcs patch format [DEFAULT]
+	--darcs-1					# Older patch format (for compatibility)
+	--with-working-dir					# Create a working tree (normal repository) [DEFAULT]
+	--no-working-dir					# Do not create a working tree (bare repository)
+	--with-patch-index					# Build patch index
+	--no-patch-index					# Don\'t
 	...args
 ]

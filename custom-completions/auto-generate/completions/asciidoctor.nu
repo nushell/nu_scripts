@@ -1,10 +1,4 @@
-[# 
-extern "" [
-
-	...args
-]]
-
-[# Base directory containing the document
+# Base directory containing the document
 extern "asciidoctor" [
 	--base-dir(-B)					# Base directory containing the document
 	--safe					# Set safe mode level to safe
@@ -25,4 +19,4 @@ extern "asciidoctor" [
 	--timings(-t)					# Print timings report
 	--version(-V)					# Print program version
 	...args
-]]
+]
