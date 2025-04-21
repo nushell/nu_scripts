@@ -172,24 +172,33 @@ export alias "winget add" = winget install
 export extern "winget show" [
     pos_query?: string,
     --query(-q): string, # The query used to search for a package
+    --manifest(-m): string # The path to the manifest of the application to show
     --id: string, # Filter results by id
     --name: string, # Filter results by name
     --moniker: string, # Filter results by moniker
     --version(-v): string, # Use the specified version; default is the latest version
     --source(-s): string@"nu-complete winget install source", # Find package using the specified source
-    --scope: string@"nu-complete winget install scope", # Select install scope (user or machine). Doesn't work rn, use ^winget
     --exact(-e), # Find package using exact match
-    --interactive(-i), # Request interactive installation; user input may be needed
-    --silent(-h), # Request silent installation
+    --scope: string@"nu-complete winget install scope", # Select install scope (user or machine). Doesn't work rn, use ^winget
+    --architecture(-a): string # Select the architecture to show
+    --installer-type: string # Select the installer type to show
     --locale: string@"nu-complete winget install locale", # Locale to use (BCP47 format)
-    --log(-o): path, # Log location (if supported)
-    --override: string, # Override arguments to be passed on to the installer
-    --location(-l): path, # Location to install to (if supported)
-    --force, # Override the installer hash check
-    --accept_package_agreements, # Accept all licence agreements for packages
+    --versions # Show available versions of the application
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
+    --authentication-mode: string # Specify authentication window preference (silent, silentPreferred or interactive)
+    --authentication-account: string # Specify the account to be used for authentication
     --accept_source_agreements, # Accept all source agreements during source operations
     --help(-?), # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Used to override the logging setting and create a verbose log
+    --verbose-logs # Used to override the logging setting and create a verbose log
+    --nowarn # Suppresses warning outputs.
+    --ignore-warnings # Suppresses warning outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy # Set a proxy to use for this execution
+    --no-proxy # Disable the use of proxy for this execution
 ]
 export alias "winget view" = winget show
 
