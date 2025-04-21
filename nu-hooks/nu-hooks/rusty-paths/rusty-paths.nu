@@ -16,8 +16,8 @@ $env.config = ($env.config | upsert hooks.env_change.PWD {
 		code: {
 			$env.PATH = (
 				$env.PATH
-					| prepend ($env.PWD | path join 'target/debug')
-					| prepend ($env.PWD | path join 'target/release')
+					| prepend ($env.PWD | path join 'target' 'debug')
+					| prepend ($env.PWD | path join 'target' 'release')
 					| uniq
 				)
 		}
