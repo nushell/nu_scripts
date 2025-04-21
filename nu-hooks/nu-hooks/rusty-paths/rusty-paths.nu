@@ -19,7 +19,7 @@ $env.config = ($env.config | upsert hooks.env_change.PWD {
 					| prepend ($env.PWD | path join 'target' 'debug')
 					| prepend ($env.PWD | path join 'target' 'release')
 					| uniq
-				)
+			)
 		}
 	}
 })
