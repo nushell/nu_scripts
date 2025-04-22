@@ -3,6 +3,7 @@ extern "ncat" [
 	--unixsock(-U)					# Use Unix domain sockets
 	--udp(-u)					# Use UDP
 	--sctp					# Use SCTP
+	--vsock					# Use AF_VSOCK sockets
 	--listen(-l)					# Listen for connections
 	--keep-open(-k)					# Accept multiple connections
 	--broker					# Connection brokering
@@ -12,9 +13,10 @@ extern "ncat" [
 	--verbose(-v)					# Be verbose
 	--crlf(-C)					# Use CRLF as EOL
 	--help(-h)					# Help screen
-	---recv-only					# Only receive data
+	--recv-only					# Only receive data
 	--send-only					# Only send data
 	--no-shutdown					# Do not shutdown into half-duplex mode
+	--nodns(-n)					# Do not resolve hostnames
 	--telnet(-t)					# Answer Telnet negotiations
 	--version					# Display version
 	...args

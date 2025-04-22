@@ -46,6 +46,12 @@ extern "rbenv install" [
 	...args
 ]
 
+# Uninstall a Ruby version
+extern "rbenv uninstall" [
+
+	...args
+]
+
 # Set or show the local application-specific Ruby version
 extern "rbenv local" [
 

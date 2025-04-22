@@ -1,10 +1,47 @@
 # Print help
 extern "ncdu" [
 	--help(-h)					# Print help
+	--slow-ui-updates(-q)					# Quiet mode. Refresh interval 2 seconds
+	--fast-ui-updates					# Refresh interval 10 per second
 	--version(-V)					# Print version
-	--si					# Use base 10 prefixes instead of base 2
+	--one-file-system(-x)					# Same filesystem
+	--cross-file-system					# Cross filesystems
+	--extended(-e)					# Enable extended information
+	--no-extended					# Disable extended information
+	--si					# Use base 10 prefixes
+	--no-si					# Use base 2 prefixes
 	--follow-symlinks(-L)					# Follow symlinks (excluding dirs)
+	--no-follow-symlinks					# Do not follow symlinks (excluding dirs)
 	--exclude-caches					# Exclude dirs containing CACHEDIR.TAG
+	--include-caches					# Include dirs containing CACHEDIR.TAG
 	--confirm-quit					# Prompt before exiting ncdu
+	--no-confirm-quit					# No confirmation before exiting ncdu
+	--ignore-config					# Do not load any configuration files
+	--include-kernfs					# Include Linux pseudo filesystems
+	--exclude-kernfs					# Exclude Linux pseudo filesystems
+	--enable-shell					# Enable shell spawning
+	--disable-shell					# Disable shell spawning
+	--enable-delete					# Enable built-in file deletion
+	--disable-delete					# Disable built-in file deletion
+	--enable-refresh					# Enable directory refreshing
+	--disable-refresh					# Disable directory refreshing
+	--disk-usage					# Show disk usage of files
+	--apparent-size					# Show apparent size of files
+	--show-hidden					# Show hidden and excluded files
+	--hide-hidden					# Hide hidden and excluded files
+	--show-itemcount					# Show the item counts column
+	--hide-itemcount					# Hide the item counts column
+	--show-mtime					# Show last modification time column
+	--hide-mtime					# Hide last modification time column
+	--show-graph					# Show the relative size bar column
+	--hide-graph					# Hide the relative size bar column
+	--show-percent					# Show the relative size percent column
+	--hide-percent					# Hide the relative size percent column
+	--enable-natsort					# Enable natural sort
+	--disable-natsort					# Disable natural sort
+	--group-directories-first					# Sort directories before files
+	--no-group-directories-first					# Do not sort directories before files
+	--confirm-delete					# Require a confirmation before deleting
+	--no-confirm-delete					# Do not require a confirmation before deleting
 	...args
 ]

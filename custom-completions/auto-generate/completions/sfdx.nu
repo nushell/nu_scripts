@@ -1,5 +1,702 @@
 # show CLI help
 extern "sfdx" [
-
+	--help(-h)					# show CLI help
+	--json(-j)					# output in json format
+	--hidden					# also show hidden commands
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apexcodefile(-f)					# path to a local file containing Apex code
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion(-a)					# [default: 46.0] API version number
+	--outputdir(-d)					# folder for saving the created files
+	--classname(-n)					# (required) name of the generated Apex class
+	--template(-t)					# [default: DefaultApexClass] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--color(-c)					# colorize noteworthy log lines
+	--logid(-i)					# ID of the log to display
+	--number(-n)					# number of most recent logs to display
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--color(-c)					# colorize noteworthy log lines
+	--debuglevel(-d)					# debug level for trace flag
+	--skiptraceflag(-s)					# skip trace flag setup
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--codecoverage(-c)					# retrieve code coverage results
+	--outputdir(-d)					# directory to store test run files
+	--testrunid(-i)					# (required) ID of test run
+	--resultformat(-r)					# [default: human] result format emitted to stdout; --json flag overrides this parameter
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 6 minutes] the streaming client socket timeout (in minutes)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# display Apex test processing details
+	--codecoverage(-c)					# retrieve code coverage results
+	--outputdir(-d)					# directory to store test run files
+	--testlevel(-l)					# testlevel enum value
+	--classnames(-n)					# comma-separated list of Apex test class names to run
+	--resultformat(-r)					# result format emitted to stdout; --json flag overrides this parameter
+	--suitenames(-s)					# comma-separated list of Apex test suite names to run
+	--tests(-t)					# comma-separated list of Apex test class names or IDs and, if applicable, test methods to run
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# the streaming client socket timeout (in minutes)
+	--synchronous(-y)					# run tests from a single class synchronously
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# display Apex test processing details
+	--apiversion(-a)					# [default: 46.0] API version number
+	--outputdir(-d)					# folder for saving the created files
+	--triggerevents(-e)					# events that fire trigger
+	--triggername(-n)					# (required) name of the generated Apex trigger
+	--sobject(-s)					# [default: SOBJECT] sObject to create a trigger on
+	--template(-t)					# [default: ApexTrigger] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--all(-a)					# include all authenticated orgs
+	--noprompt(-p)					# do not prompt for confirmation
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--setalias(-a)					# set an alias for the authenticated org
+	--setdefaultdevhubusername(-d)					# set the authenticated org as the default dev hub org for scratch org creation
+	--jwtkeyfile(-f)					# (required) path to a file containing the private key
+	--clientid(-i)					# (required) OAuth client ID (sometimes called the consumer key)
+	--instanceurl(-r)					# the login URL of the instance the org lives on
+	--setdefaultusername(-s)					# set the authenticated org as the default username that all commands run against
+	--username(-u)					# (required) authentication username
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--setalias(-a)					# set an alias for the authenticated org
+	--setdefaultdevhubusername(-d)					# set the authenticated org as the default dev hub org for scratch org creation
+	--sfdxurlfile(-f)					# (required) path to a file containing the sfdx url
+	--setdefaultusername(-s)					# set the authenticated org as the default username that all commands run against
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--setalias(-a)					# set an alias for the authenticated org
+	--setdefaultdevhubusername(-d)					# set the authenticated org as the default dev hub org for scratch org creation
+	--clientid(-i)					# (required) OAuth client ID (sometimes called the consumer key)
+	--instanceurl(-r)					# the login URL of the instance the org lives on
+	--setdefaultusername(-s)					# set the authenticated org as the default username that all commands run against
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# emit additional command output to stdout
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--global(-g)					# set config var globally (to be used from any directory)
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--csvfile(-f)					# (required) the path to the CSV file containing the ids of the records to delete
+	--sobjecttype(-s)					# (required) the sObject type of the records you’re deleting
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# number of minutes to wait for the command to complete
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--batchid(-b)					# the ID of the batch whose status you want to view
+	--jobid(-i)					# (required) the ID of the job you want to view or of the job whose batch you want to view
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--csvfile(-f)					# (required) the path to the CSV file that defines the records to upsert
+	--externalid(-i)					# (required) the column name of the external ID
+	--sobjecttype(-s)					# (required) the sObject type of the records you want to upsert
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# number of minutes to wait for the command to complete
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--sobjecttype(-s)					# (required) the type of the record you’re creating
+	--usetoolingapi(-t)					# create the record with tooling api
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--values(-v)					# (required) the <fieldName>=<value> pairs you’re creating
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--perflog					# get API performance data
+	--sobjectid(-i)					# the ID of the record you’re deleting
+	--sobjecttype(-s)					# (required) the type of the record you’re creating
+	--usetoolingapi(-t)					# create the record with tooling api
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--where(-w)					# a list of <fieldName>=<value> pairs to search for
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--perflog					# get API performance data
+	--sobjectid(-i)					# the ID of the record you’re deleting
+	--sobjecttype(-s)					# (required) the type of the record you’re creating
+	--usetoolingapi(-t)					# create the record with tooling api
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--where(-w)					# a list of <fieldName>=<value> pairs to search for
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--perflog					# get API performance data
+	--sobjectid(-i)					# the ID of the record you’re deleting
+	--sobjecttype(-s)					# (required) the type of the record you’re creating
+	--usetoolingapi(-t)					# create the record with tooling api
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--where(-w)					# a list of <fieldName>=<value> pairs to search for
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--perflog					# get API performance data
+	--query(-q)					# (required) SOQL query to execute
+	--resultformat(-r)					# [default: human] result format emitted to stdout; --json flag overrides this parameter
+	--usetoolingapi(-t)					# execute query with Tooling API
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--perflog					# get API performance data
+	--outputdir(-d)					# directory to store files
+	--plan(-p)					# generate multiple sobject tree files and a plan definition file for aggregated import
+	--query(-q)					# (required) soql query, or filepath of file containing a soql query, to retrieve records
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--prefix(-x)					# prefix of generated files
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--sobjecttreefiles(-f)					# comma-delimited, ordered paths of json files containing collection of record trees to insert
+	--plan(-p)					# path to plan to insert multiple data files that have master-detail relationships
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--confighelp					# display schema information for the --plan configuration file to stdout
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--usage(-u)					# list only docopt usage strings
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--ignore(-i)					# pattern used to ignore some folders
+	--config					# path to a custom ESLint configuration file
+	--exit					# exit with error code 1 if there are lint issues
+	--files					# pattern used to include specific files
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# report warnings in addition to errors
+	--apiversion(-a)					# [default: 46.0] API version number
+	--outputdir(-d)					# folder for saving the created files
+	--appname(-n)					# (required) name of the generated Lightning app
+	--template(-t)					# [default: DefaultLightningApp] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion(-a)					# [default: 46.0] API version number
+	--outputdir(-d)					# folder for saving the created files
+	--componentname(-n)					# (required) name of the generated Lightning component
+	--template(-t)					# [default: DefaultLightningCmp] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--type					# [default: aura] type of the Lightning component
+	--apiversion(-a)					# [default: 46.0] API version number
+	--outputdir(-d)					# folder for saving the created files
+	--eventname(-n)					# (required) name of the generated Lightning event
+	--template(-t)					# [default: DefaultLightningEvt] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion(-a)					# [default: 46.0] API version number
+	--outputdir(-d)					# folder for saving the created files
+	--interfacename(-n)					# (required) name of the generated Lightning interface
+	--template(-t)					# [default: DefaultLightningIntf] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--outputdir(-d)					# folder for saving the created files
+	--testname(-n)					# (required) name of the generated Lightning test
+	--template(-t)					# [default: DefaultLightningTest] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--releaseversion(-r)					# [default: latest] release version of Lightning Testing Service
+	--packagetype(-t)					# [default: full] type of unmanaged package. \'full\' option contains both jasmine and mocha, plus examples
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# number of minutes to wait for installation status (default 2)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--appname(-a)					# name of your Lightning test application
+	--outputdir(-d)					# directory path to store test run artifacts: for example, log files and test results
+	--configfile(-f)					# path to config file for the test
+	--leavebrowseropen(-o)					# leave browser open
+	--resultformat(-r)					# [default: human] result format emitted to stdout; --json flag overrides this parameter
+	--timeout(-t)					# [default: 60000] time (ms) to wait for results element in dom
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--outputdir(-d)					# the output directory to store the source–formatted files
+	--rootdir(-r)					# (required) the root directory containing the Metadata API–formatted metadata
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--checkonly(-c)					# validate deploy but don’t save to the org
+	--deploydir(-d)					# root of directory tree of files to deploy
+	--zipfile(-f)					# path to .zip file of metadata to deploy
+	--ignorewarnings(-g)					# whether a warning will allow a deployment to complete successfully
+	--testlevel(-l)					# deployment testing level
+	--ignoreerrors(-o)					# ignore any errors and do not roll back deployment
+	--validateddeployrequestid(-q)					# request ID of the validated deployment to run a Quick Deploy
+	--runtests(-r)					# tests to run if --testlevel RunSpecifiedTests
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# wait time for command to finish in minutes (default: 0)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# verbose output of deploy results
+	--jobid(-i)					# job ID of the deployment you want to cancel (default: most recent CLI deployment)
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes 33
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--jobid(-i)					# job ID of the deployment you want to cancel (default: most recent CLI deployment)
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes 33
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# verbose output of deploy results
+	--apiversion(-a)					# API version to use (the default is 46.0)
+	--resultfile(-f)					# filter metadata known by the CLI
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion(-a)					# API version to use (the default is 46.0)
+	--resultfile(-f)					# path to the file where results are stored
+	--metadatatype(-m)					# (required) metadata type to be retrieved
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--folder					# folder associated with the component
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion(-a)					# target API version for the retrieve (default 46.0)
+	--sourcedir(-d)					# source dir to use instead of the default package dir in sfdx-project.json
+	--unpackaged(-k)					# file path of manifest of components to retrieve
+	--packagenames(-p)					# a comma-separated list of packages to retrieve
+	--retrievetargetdir(-r)					# (required) directory root for the retrieved files
+	--singlepackage(-s)					# a single-package retrieve (default: false)
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# wait time for command to finish in minutes (default: -1 (no limit))
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# verbose output of retrieve result
+	--jobid(-i)					# job ID of the retrieve you want to check
+	--retrievetargetdir(-r)					# directory root for the retrieved files
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# wait time for command to finish in minutes (default: -1 (no limit))
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# verbose output of retrieve result
+	--setalias(-a)					# alias for the created org
+	--definitionfile(-f)					# path to an org definition file
+	--setdefaultusername(-s)					# set the created org as the default username
+	--type(-t)					# (required) type of org to create
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# [default: 6 minutes] the streaming client socket timeout (in minutes)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--setalias(-a)					# alias for the created org
+	--noancestors(-c)					# do not include second-generation package ancestors in the scratch org
+	--durationdays(-d)					# duration of the scratch org (in days) (default:7, min:1, max:30)
+	--definitionfile(-f)					# path to an org definition file
+	--clientid(-i)					# connected app consumer key
+	--nonamespace(-n)					# create the scratch org with no namespace
+	--setdefaultusername(-s)					# set the created org as the default username
+	--type(-t)					# [default: scratch] type of org to create
+	--targetusername(-u)					# username or alias for the target org
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--wait(-w)					# [default: 6 minutes] the streaming client socket timeout (in minutes)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--noprompt(-p)					# no prompt to confirm deletion
+	--targetusername(-u)					# username or alias for the target org
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# emit additional command output to stdout
+	--noprompt(-p)					# do not prompt for confirmation
+	--all					# include expired, deleted, and unknown-status scratch orgs
+	--clean					# remove all local org authorizations for non-active orgs
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# list more information about each org
+	--path(-p)					# navigation URL path
+	--urlonly(-r)					# display navigation URL, but don’t launch browser
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--setalias(-a)					# alias for the created org
+	--sandboxname(-n)					# (required) name of the sandbox org to check status for
+	--setdefaultusername(-s)					# set the created org as the default username
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# number of minutes to wait while polling for status (default 6)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--noprompt(-p)					# do not prompt for confirmation
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# list more information about each org shape
+	--description(-d)					# description of snapshot
+	--snapshotname(-n)					# (required) unique name of snapshot
+	--sourceorg(-o)					# (required) ID or locally authenticated username or alias of scratch org to snapshot
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--snapshot(-s)					# (required) name or ID of snapshot to delete
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--snapshot(-s)					# (required) name or ID of snapshot to retrieve
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--description(-d)					# package description
+	--nonamespace(-e)					# creates the package with no namespace
+	--name(-n)					# (required) package name
+	--path(-r)					# (required) path to directory that contains the contents of the package
+	--packagetype(-t)					# (required) package type
+	--apexcompile(-a)					# [default: all] compile all Apex in the org and package, or only Apex in the package
+	--publishwait(-b)					# number of minutes to wait for subscriber package version ID to become available
+	--installationkey(-k)					# installation key for key-protected package (default: null)
+	--package(-p)					# ID (starts with 04t) or alias of the package version to install
+	--noprompt(-r)					# do not prompt for confirmation
+	--securitytype(-s)					# [default: AllUsers] security access type for the installed package
+	--upgradetype(-t)					# [default: Mixed] the upgrade type for the package installation
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# number of minutes to wait for installation status
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# display extended package detail
+	--package(-p)					# ID (starts with 04t) or alias of the package version to uninstall
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# number of minutes to wait for uninstall status
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--description(-d)					# new package description
+	--name(-n)					# new package name
+	--package(-p)					# (required) ID (starts with 0Ho) or alias of the package to update
+	--targetdevhubusername(-v)					# username or alias for the dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--packageversionid(-i)					# ID of the package version to list results for
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--requestid(-i)					# (required) ID of the hammer request to report on
+	--summary(-s)					# report only a results summary (hide Apex test failures)
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--scheduledrundatetime(-d)					# earliest date/time to run the package upgrade test (YYYY-MM-DD HH:mm:ss, in GMT)
+	--subscriberfile(-f)					# file with list of subscriber orgs IDs, one per line
+	--packageversionids(-i)					# (required) comma-separated list of package version IDs to test
+	--preview(-p)					# run the package hammer test in the Salesforce preview version
+	--subscriberorgs(-s)					# comma-separated list of subscriber org IDs
+	--apextests(-t)					# after package upgrade validation, run the package\'s
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apexcompile(-a)					# [default: all] compile all Apex in the org and package, or only Apex in the package
+	--publishwait(-b)					# number of minutes to wait for subscriber package version ID to become available
+	--installationkey(-k)					# installation key for key-protected package (default: null)
+	--package(-p)					# ID (starts with 04t) or alias of the package version to install
+	--noprompt(-r)					# do not prompt for confirmation
+	--securitytype(-s)					# [default: AllUsers] security access type for the installed package
+	--upgradetype(-t)					# [default: Mixed] the upgrade type for the package installation
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# number of minutes to wait for installation status
+	--requestid(-i)					# (required) ID of the package install request you want to check
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--package(-p)					# ID (starts with 04t) or alias of the package version to uninstall
+	--targetusername(-u)					# username or alias for the target org
+	--wait(-w)					# number of minutes to wait for uninstall status
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--requestid(-i)					# (required) ID of the package uninstall request you want to check
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--description(-d)					# package version description
+	--packageid(-i)					# (required) ID of the metadata package (starts with 033) of which you’re creating a new version
+	--installationkey(-k)					# installation key for key-protected package (default: null)
+	--managedreleased(-m)					# create a managed package version
+	--name(-n)					# (required) package version name
+	--postinstallurl(-p)					# post install URL
+	--releasenotesurl(-r)					# release notes URL
+	--targetusername(-u)					# username or alias for the target org
+	--version(-v)					# package version in major.minor format, for example, 3.2
+	--wait(-w)					# minutes to wait for the package version to be created (default: 2 minutes)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--packageversionid(-i)					# (required) metadata package version ID (starts with 04t)
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--packageid(-i)					# metadata package ID (starts with 033)
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--description(-d)					# package version description
+	--packageid(-i)					# (required) ID of the metadata package (starts with 033) of which you’re creating a new version
+	--installationkey(-k)					# installation key for key-protected package (default: null)
+	--managedreleased(-m)					# create a managed package version
+	--name=name(-n)					# (required) package version name
+	--postinstallurl(-p)					# post install URL
+	--releasenotesurl(-r)					# release notes URL
+	--targetusername(-u)					# username or alias for the target org
+	--version(-v)					# package version in major.minor format, for example, 3.2
+	--wait(-w)					# minutes to wait for the package version to be created (default: 2 minutes)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--requestid(-i)					# (required) PackageUploadRequest ID
+	--targetusername(-u)					# username or alias for the target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--outputdir(-d)					# folder for saving the created files
+	--projectname(-n)					# (required) name of the generated project
+	--defaultpackagedir(-p)					# [default: force-app] default package directory name
+	--namespace(-s)					# project associated namespace
+	--template(-t)					# [default: standard] template to use for project creation
+	--manifest(-x)					# generate a manifest (package.xml) for change-set-based development
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--forceupgrade(-f)					# run all upgrades even if project has already been upgraded
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--sobjecttype(-s)					# (required) the API name of the object to describe
+	--usetoolingapi(-t)					# execute with Tooling API
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--sobjecttypecategory(-c)					# (required) the type of objects to list (all|custom|standard)
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--outputdir(-d)					# output directory to store the Metadata API–formatted files in
+	--packagename(-n)					# name of the package to associate with the metadata-formatted files
+	--rootdir(-r)					# a source directory other than the default package to convert
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--metadata(-m)					# comma-separated list of names of metadata components to delete
+	--sourcepath(-p)					# comma-separated list of paths to the local metadata to delete
+	--noprompt(-r)					# do not prompt for delete confirmation
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes 33
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--checkonly(-c)					# validate deploy but don’t save to the org
+	--ignorewarnings(-g)					# whether a warning will allow a deployment to complete successfully
+	--testlevel(-l)					# deployment testing level
+	--metadata(-m)					# comma-separated list of metadata component names
+	--ignoreerrors(-o)					# ignore any errors and do not roll back deployment
+	--sourcepath(-p)					# comma-separated list of paths to the local source files to deploy
+	--validateddeployrequestid(-q)					# request ID of the validated deployment to run a Quick Deploy
+	--runtests(-r)					# tests to run if --testlevel RunSpecifiedTests
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes
+	--manifest(-x)					# file path for manifest (package.xml) of components to deploy
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# display Apex test processing details
+	--sourcefile(-f)					# (required) file to edit
+	--urlonly(-r)					# generate a navigation URL; don’t launch the editor
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--forceoverwrite(-f)					# ignore conflict warnings and overwrite changes to the project
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes (default: 33)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--forceoverwrite(-f)					# ignore conflict warnings and overwrite changes to scratch org
+	--ignorewarnings(-g)					# deploy changes even if warnings are generated
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes (default: 33)
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion(-a)					# target API version for the retrieve (default 46.0)
+	--metadata(-m)					# comma-separated list of metadata component names
+	--packagenames(-n)					# a comma-separated list of packages to retrieve
+	--sourcepath(-p)					# comma-separated list of source file paths to retrieve
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes
+	--manifest(-x)					# file path for manifest (package.xml) of components to retrieve
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# verbose output of retrieve result
+	--all(-a)					# list all the changes that have been made
+	--local(-l)					# list the changes that have been made locally
+	--remote(-r)					# list the changes that have been made in the scratch org
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--checkonly(-c)					# validate deploy but don’t save to the org
+	--ignorewarnings(-g)					# whether a warning will allow a deployment to complete successfully
+	--testlevel(-l)					# deployment testing level
+	--metadata(-m)					# comma-separated list of metadata component names
+	--ignoreerrors(-o)					# ignore any errors and do not roll back deployment
+	--sourcepath(-p)					# comma-separated list of paths to the local source files to deploy
+	--validateddeployrequestid(-q)					# request ID of the validated deployment to run a Quick Deploy
+	--runtests(-r)					# tests to run if --testlevel RunSpecifiedTests
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes
+	--manifest(-x)					# file path for manifest (package.xml) of components to deploy
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--verbose					# display Apex test processing details
+	--jobid(-i)					# job ID of the deployment you want to cancel (default: most recent CLI deployment)
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes 33
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--jobid(-i)					# job ID of the deployment you want to check (default: most recent CLI deployment)
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--wait(-w)					# [default: 33 minutes] wait time for command to finish in minutes 33
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--setalias(-a)					# set an alias for the created username to reference within the CLI
+	--definitionfile(-f)					# file path to a user definition
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--targetdevhubusername(-v)					# username or alias for the dev hub org; overrides default dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--targetdevhubusername(-v)					# username or alias for the dev hub org; overrides default dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--targetdevhubusername(-v)					# username or alias for the dev hub org; overrides default dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--onbehalfof(-o)					# comma-separated list of usernames for which to generate passwords
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--targetdevhubusername(-v)					# username or alias for the dev hub org; overrides default dev hub org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--permsetname(-n)					# (required) the name of the permission set to assign
+	--onbehalfof(-o)					# comma-separated list of usernames or aliases to assign the permission set to
+	--targetusername(-u)					# username or alias for the target org; overrides default target org
+	--apiversion					# override the api version used for api requests made by this command
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion					# [default: 46.0] API version number
+	--outputdir					# folder for saving the created files
+	--label					# (required) Visualforce component label
+	--componentname					# (required) name of the generated Visualforce component
+	--template					# [default: DefaultVFComponent] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--apiversion					# [default: 46.0] API version number
+	--outputdir					# folder for saving the created files
+	--label					# (required) Visualforce page label
+	--componentname					# (required) name of the generated Visualforce page
+	--template					# [default: DefaultVFPage] template to use for file creation
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--core					# show core plugins
+	--force(-f)					# yarn install with force flag
+	--help(-h)					# show CLI help
+	--verbose(-v)
+	--help(-h)					# show CLI help
+	--verbose(-v)
+	--help(-h)					# show CLI help
+	--verbose(-v)
+	--help(-h)					# show CLI help
+	--verbose(-v)
+	--help(-h)					# show CLI help
+	--defaults					# use defaults for every setting
+	--force					# overwrite existing files
+	--privatekeypath(-k)					# (required) the local file path for the private key.
+	--publickeyurl(-p)					# (required) the url where the public key/certificate will be hosted.
+	--signatureurl(-s)					# (required) the url where the signature will be hosted minus name of signature file
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
+	--npm(-n)					# (required) Specify the npm name. This can include a tag/version
+	--registry(-r)					# The registry name. the behavior is the same as npm.
+	--json					# format output as json
+	--loglevel					# [default: warn] logging level for this command invocation
 	...args
 ]

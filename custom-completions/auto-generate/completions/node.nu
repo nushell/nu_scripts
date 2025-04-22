@@ -1,5 +1,193 @@
 # Always enter the REPL even if stdin does not appear to be a terminal
 extern "node" [
-
+	--interactive(-i)					# Always enter the REPL even if stdin does not appear to be a terminal
+	--no-deprecation					# Silence deprecation warnings
+	--trace-deprecation					# Show stack traces on deprecations
+	--throw-deprecation					# Throw errors on deprecations
+	--v8-options					# Print v8 command line options
+	--max-stack-size					# Set max v8 stack size (bytes)
+	--use_strict					# enforce strict mode
+	--es5_readonly					# activate correct semantics for inheriting readonliness
+	--es52_globals					# activate new semantics for global var declarations
+	--harmony_typeof					# enable harmony semantics for typeof
+	--harmony_scoping					# enable harmony block scoping
+	--harmony_modules					# enable harmony modules (implies block scoping)
+	--harmony_proxies					# enable harmony proxies
+	--harmony_collections					# enable harmony collections (sets, maps, and weak maps)
+	--harmony					# enable all harmony features (except typeof)
+	--packed_arrays					# optimizes arrays that have no holes
+	--smi_only_arrays					# tracks arrays with only smi values
+	--clever_optimizations					# Optimize object size, Array shift, DOM strings and string +
+	--unbox_double_arrays					# automatically unbox arrays of doubles
+	--string_slices					# use string slices
+	--crankshaft					# use crankshaft
+	--hydrogen_filter					# optimization filter
+	--use_range					# use hydrogen range analysis
+	--eliminate_dead_phis					# eliminate dead phis
+	--use_gvn					# use hydrogen global value numbering
+	--use_canonicalizing					# use hydrogen instruction canonicalizing
+	--use_inlining					# use function inlining
+	--max_inlined_source_size					# max source size in bytes considered for single inlining
+	--max_inlined_nodes					# max number of AST nodes considered for single inlining
+	--max_inlined_nodes_cumulative					# max cumulative number of AST nodes considered for inlining
+	--loop_invariant_code_motion					# loop invariant code motion
+	--collect_megamorphic_maps_from_stub_cache					# crankshaft harvests type feedback from stub cache
+	--hydrogen_stats					# print statistics for hydrogen
+	--trace_hydrogen					# trace generated hydrogen to file
+	--trace_phase					# trace generated IR for specified phases
+	--trace_inlining					# trace inlining decisions
+	--trace_alloc					# trace register allocator
+	--trace_all_uses					# trace all use positions
+	--trace_range					# trace range analysis
+	--trace_gvn					# trace global value numbering
+	--trace_representation					# trace representation types
+	--stress_pointer_maps					# pointer map for every instruction
+	--stress_environments					# environment for every instruction
+	--deopt_every_n_times					# deoptimize every n times a deopt point is passed
+	--trap_on_deopt					# put a break point before deoptimizing
+	--deoptimize_uncommon_cases					# deoptimize uncommon cases
+	--polymorphic_inlining					# polymorphic inlining
+	--use_osr					# use on-stack replacement
+	--array_bounds_checks_elimination					# perform array bounds checks elimination
+	--array_index_dehoisting					# perform array index dehoisting
+	--trace_osr					# trace on-stack replacement
+	--stress_runs					# number of stress runs
+	--optimize_closures					# optimize closures
+	--inline_construct					# inline constructor calls
+	--inline_arguments					# inline functions with arguments object
+	--loop_weight					# loop weight for representation inference
+	--optimize_for_in					# optimize functions containing for-in loops
+	--experimental_profiler					# enable all profiler experiments
+	--watch_ic_patching					# profiler considers IC stability
+	--frame_count					# number of stack frames inspected by the profiler
+	--self_optimization					# primitive functions trigger their own optimization
+	--direct_self_opt					# call recompile stub directly when self-optimizing
+	--retry_self_opt					# re-try self-optimization if it failed
+	--count_based_interrupts					# trigger profiler ticks based on counting instead of timing
+	--interrupt_at_exit					# insert an interrupt check at function exit
+	--weighted_back_edges					# weight back edges by jump distance for interrupt triggering
+	--interrupt_budget					# execution budget before interrupt is triggered
+	--type_info_threshold					# % of ICs that must have type info to allow optimization
+	--self_opt_count					# call count before self-optimization
+	--trace_opt_verbose					# extra verbose compilation tracing
+	--debug_code					# generate extra code (assertions) for debugging
+	--code_comments					# emit comments in code disassembly
+	--enable_sse2					# enable use of SSE2 instructions if available
+	--enable_sse3					# enable use of SSE3 instructions if available
+	--enable_sse4_1					# enable use of SSE4
+	--enable_cmov					# enable use of CMOV instruction if available
+	--enable_rdtsc					# enable use of RDTSC instruction if available
+	--enable_sahf					# enable use of SAHF instruction if available (X64 only)
+	--enable_vfp3					# enable use of VFP3 instructions if available (ARM only)
+	--enable_armv7					# enable use of ARMv7 instructions if available (ARM only)
+	--enable_fpu					# enable use of MIPS FPU instructions if available (MIPS only)
+	--expose_natives_as					# expose natives in global object
+	--expose_debug_as					# expose debug in global object
+	--expose_gc					# expose gc extension
+	--expose_externalize_string					# expose externalize string extension
+	--stack_trace_limit					# number of stack frames to capture
+	--builtins_in_stack_traces					# show built-in functions in stack traces
+	--disable_native_files					# disable builtin natives files
+	--inline_new					# use fast inline allocation
+	--stack_trace_on_abort					# print a stack trace if an assertion failure occurs
+	--trace					# trace function calls
+	--mask_constants_with_cookie					# use random jit cookie to mask large constants
+	--lazy					# use lazy compilation
+	--trace_opt					# trace lazy optimization
+	--trace_opt_stats					# trace lazy optimization statistics
+	--opt					# use adaptive optimizations
+	--always_opt					# always try to optimize functions
+	--prepare_always_opt					# prepare for turning on always opt
+	--sparkplug					# use non-optimizing sparkplug compiler
+	--always_sparkplug					# always use non-optimizing sparkplug compiler
+	--trace_deopt					# trace deoptimization
+	--min_preparse_length					# minimum length for automatic enable preparsing
+	--always_full_compiler					# try to use the dedicated run-once backend for all code
+	--trace_bailout					# print reasons for falling back to the classic V8 backend
+	--compilation_cache					# enable compilation cache
+	--cache_prototype_transitions					# cache prototype transitions
+	--trace_debug_json					# trace debugging JSON request/response
+	--debugger_auto_break					# autoset debug break flag when debugger commands are in queue
+	--enable_liveedit					# enable liveedit experimental feature
+	--break_on_abort					# always cause a debug break before aborting
+	--stack_size					# default size of stack region v8 is allowed to use (in kBs)
+	--max_stack_trace_source_length					# max length of function source code printed in stack trace
+	--always_inline_smi_code					# always inline smi code in non-opt code
+	--max_new_space_size					# max size of the new generation (in kBytes)
+	--max_old_space_size					# max size of the old generation (in Mbytes)
+	--max_executable_size					# max size of executable memory (in Mbytes)
+	--gc_global					# always perform global GCs
+	--gc_interval					# garbage collect after <n> allocations
+	--trace_gc					# print 1 trace line following each garbage collection
+	--trace_gc_nvp					# print 1 full trace(w/ name=value) after garbage collections
+	--print_cumulative_gc_stat					# print cumulative GC statistics(w/ name=value) on exit
+	--trace_gc_verbose					# print more details following each garbage collection
+	--trace_fragmentation					# report fragmentation for old pointer and data pages
+	--collect_maps					# garbage collect maps from which no objects can be reached
+	--flush_code					# flush code that we expect not to use again before full gc
+	--incremental_marking					# use incremental marking
+	--incremental_marking_steps					# do incremental marking steps
+	--trace_incremental_marking					# trace progress of the incremental marking
+	--use_idle_notification					# Use idle notification to reduce memory footprint
+	--send_idle_notification					# Send idle notification between stress runs
+	--use_ic					# use inline caching
+	--native_code_counters					# generate extra code for manipulating stats counters
+	--always_compact					# Perform compaction on every full GC
+	--lazy_sweeping					# Use lazy sweeping for old pointer and data spaces
+	--never_compact					# Never perform compaction on full GC - testing only
+	--compact_code_space					# Compact code space on full non-incremental collections
+	--cleanup_code_caches_at_gc					# Flush inline/code caches prior to mark compact collection/cycle
+	--random_seed					# Default seed for random generator init(0:default-sys random)
+	--use_verbose_printer					# allows verbose printing
+	--allow_natives_syntax					# allow natives syntax
+	--trace_sim					# Trace simulator execution
+	--check_icache					# Check icache flushes in ARM and MIPS simulator
+	--stop_sim_at					# Simulator stop after x number of instructions
+	--sim_stack_alignment					# Stack alignment in bytes in simulator (4/8, 8 is default)
+	--trace_exception					# print stack trace when throwing exceptions
+	--preallocate_message_memory					# preallocate some memory to build stack traces
+	--randomize_hashes					# randomize hashes(w/ snapshots cannot override baked-in seed)
+	--hash_seed					# Fix seed to hash prop. key(w/ snapshots no BI seed overr.)
+	--preemption					# activate a 100ms timer that switches between V8 threads
+	--regexp_optimization					# generate optimized regexp code
+	--testing_bool_flag					# testing_bool_flag
+	--testing_int_flag					# testing_int_flag
+	--testing_float_flag					# float-flag
+	--testing_string_flag					# string-flag
+	--testing_prng_seed					# Seed used for threading test randomness
+	--testing_serialization_file					# file in which to serialize heap
+	--help					# Print usage message, including flags, on console
+	--dump_counters					# Dump counters on exit
+	--debugger					# Enable JavaScript debugger
+	--remote_debugger					# Connect JS debugger to the debugger agent in another process
+	--debugger_agent					# Enable debugger agent
+	--debugger_port					# Port to use for remote debugging
+	--map_counters					# Map counters to a file
+	--js_arguments					# Pass all remaining arguments to the script
+	--debug_compile_events					# Enable debugger compile events
+	--debug_script_collected_events					# Enable debugger script collected events
+	--gdbjit					# enable GDBJIT interface (disables compacting GC)
+	--gdbjit_full					# enable GDBJIT interface for all code objects
+	--gdbjit_dump					# dump elf objects with debug info to disk
+	--gdbjit_dump_filter					# dump only objects containing this substring
+	--force_marking_deque_overflows					# force overflow of marking deque by reducing size to 64 words
+	--stress_compaction					# stress the GC compactor to flush out bugs
+	--log					# Minimal logging (no API,code,GC,suspect,or handles samples)
+	--log_all					# Log all events to the log file
+	--log_runtime					# Activate runtime system %Log call
+	--log_api					# Log API events to the log file
+	--log_code					# Log code events to the log file without profiling
+	--log_gc					# Log heap samples on garbage collection for the hp2ps tool
+	--log_handles					# Log global handle events
+	--log_snapshot_positions					# log positions of (de)serialized objects in the snapshot
+	--log_suspect					# Log suspect operations
+	--prof					# Log statistical profiling information (implies --log-code)
+	--prof_auto					# Used w/ --prof,starts profiling automatically)
+	--prof_lazy					# Used w/ --prof,only samples and logs w/ active profiler
+	--prof_browser_mode					# Used w/ --prof,set on browser-compatible mode for profiling
+	--log_regexp					# Log regular expression execution
+	--sliding_state_window					# Update sliding state window counters
+	--logfile					# Specify the name of the log file
+	--ll_prof					# Enable low-level linux profiler
 	...args
 ]

@@ -7,5 +7,10 @@ extern "rustc" [
 	--verbose(-v)					# Use verbose output
 	--extern
 	--sysroot
+	--codegen(-C)
+	--warn(-W)					# Warn on lint
+	--allow(-A)					# Allow lint
+	--deny(-D)					# Deny lint
+	--forbid(-F)					# Forbid lint
 	...args
 ]
