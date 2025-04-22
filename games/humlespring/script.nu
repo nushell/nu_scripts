@@ -136,10 +136,13 @@ loop {
             }
         }
         "talk" => {
-            if ($loc_data.npcs | get $noun) == null {
-                print $"There is no one called '($noun)' here to talk to."
-            } else {
-                print ($loc_data.npcs | get $noun)
+            if ( $noun not-in ( $loc_data.npcs | columns )) {
+            print $"You cannot talk to ($noun) " } else {
+                if ($loc_data.npcs | get $noun) == null {
+                    print $"There is no one called '($noun)' here to talk to."
+                } else {
+                    print ($loc_data.npcs | get $noun)
+                }
             }
         }
         "search" => {
