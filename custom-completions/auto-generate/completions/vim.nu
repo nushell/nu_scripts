@@ -1,4 +1,4 @@
-# Start in Arabic mode
+# Open horizontally split windows for each file
 extern "vim" [
 	--no-fork					# Start in foreground mode
 	--echo-wid					# Echo the Window ID on stdout (GTK GUI only)
@@ -14,5 +14,6 @@ extern "vim" [
 	--serverlist					# List all Vim servers that can be found
 	--servername					# Set server name
 	--version					# Print version information and exit
+	--clean					# Factory defaults: skip vimrc, plugins, viminfo
 	...args
 ]

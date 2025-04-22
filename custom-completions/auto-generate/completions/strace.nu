@@ -1,13 +1,61 @@
-# 
+# Remove var from the inherited environment before passing it on to the command
 extern "strace" [
+	--env(-E)					# Remove var from the inherited environment before passing it on to the command
 	--attach(-p)
 	--user(-u)
+	--argv0					# Set argv[0] of the command being executed to name
 	--detach-on(-b)					# Detach when the specified syscall is reached
+	--daemonize(-D)					# Run tracer process as a grandchild, not as the parent of the tracee
+	--follow-forks(-f)
+	--output-separately
+	--interruptible(-I)					# When strace can be interrupted by signals
+	--syscall-limit					# Detach all tracees when LIMIT number of syscalls have been captured
+	--kill-on-exit					# Set PTRACE_O_EXITKILL ptrace option to all tracee processes
+	--trace(-e)					# Set expression which modifies which events to trace
+	--trace-fds(-e)					# Set expression which modifies which events to trace
+	--signal(-e)					# Set expression which modifies which events to trace
+	--status(-e)					# Set expression which modifies which events to trace
+	--trace-path(-P)					# Trace only system calls accessing path
+	--successful-only(-z)					# Print only syscalls that returned without an error code
+	--failed-only(-Z)					# Print only syscalls that returned with an error code
 	--columns(-a)					# Align output in columns
+	--verbose(-e)					# Dereference structures for the specified set of system calls
+	--decode-pids					# Decode various information associated with process IDs
+	--quiet					# Suppress various information messages
+	--decode-fds					# Decode various information associated with file descriptors
+	--decode-pids					# Decode various information associated with process IDs
+	--kvm					# Print the exit reason of kvm vcpu
+	--instruction-pointer(-i)					# Print the instruction pointer at the time of the system call
+	--syscall-number(-n)					# Print the syscall number
+	--stack-traces(-k)					# Print the execution stack trace of the traced processes after each system call
+	--output(-o)					# Write the trace output to the file filename rather than to stderr
+	--output-append-mode(-A)					# Open the file provided in the -o option in append mode
+	--quiet(-q)
+	--quiet
+	--quiet
+	--relative-timestamps(-r)					# Print a relative timestamp upon entry to each system call
+	--string-limit(-s)					# Specify the maximum string size to print (the default is 32)
+	--timestamps					# Prefix each line of the trace with the wall clock time
+	--absolute-timestamps(-t)					# Prefix each line of the trace with the wall clock time
+	--absolute-timestamps					# If given twice, the time printed will include the microseconds
+	--absolute-timestamps
+	--syscall-times(-T)					# Show the time spent in system calls
+	--no-abbrev(-v)					# Print unabbreviated versions of environment
+	--strings-in-hex					# Control usage of escape sequences with hexadecimal numbers in the printed strings
+	--const-print-style(-X)					# Set the format for printing of named constants and flags
+	--decode-fds					# Print all available information associated with file descriptors
+	--decode-fds(-y)					# Print paths associated with file descriptor arguments and with the AT_FDCWD constant
+	--decode-pids					# print PIDs in strace's namespace
+	--decode-pids(-Y)					# Print command names for PIDs
 	--summary-only(-c)					# Suppress output and report summary on exit
 	--summary(-C)					# Display output and report summary on exit
+	--summary-syscall-overhead(-O)					# Set the overhead for tracing system calls to overhead
 	--summary-sort-by(-S)					# Sort summary by the specified criterion
+	--summary-columns(-U)					# Configure a set (and order) of columns being shown in the call summary
+	--summary-wall-clock(-w)					# Summarise the time difference between the beginning and end of each system call
 	--debug(-d)					# Debug output
+	--seccomp-bpf					# Try to enable use of seccomp-bpf
+	--tips					# Show strace tips, tricks, and tweaks before exit
 	--help(-h)					# Print help and exit
 	--version(-V)					# Print version and exit
 	...args

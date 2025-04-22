@@ -24,7 +24,7 @@ extern "wget" [
 	--no-directories					# Do not create a hierarchy of directories
 	--force-directories(-x)					# Force creation of a hierarchy of directories
 	--no-host-directories					# Disable generation of host-prefixed directories
-	--protocal-directories					# Use the protocol name as a directory component
+	--protocol-directories					# Use the protocol name as a directory component
 	--cut-dirs					# Ignore specified number of directory components
 	--html-extension(-E)					# Force html files to have html extension
 	--http-user					# Specify the http username

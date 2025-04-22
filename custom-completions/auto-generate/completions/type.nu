@@ -7,5 +7,6 @@ extern "type" [
 	--path(-p)					# Print path to command, or nothing if name is not a command
 	--force-path(-P)					# Print path to command
 	--quiet(-q)					# Check if something exists without output
+	--short(-s)					# Don't print function definition
 	...args
 ]

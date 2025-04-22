@@ -1,5 +1,44 @@
 # 
 extern "udevadm" [
-
+	--help(-h)					# Show help
+	--version(-V)					# Show version info
+	--query(-q)					# Query device information
+	--name(-n)					# Node or symlink name
+	--root(-r)					# Prepend dev directory
+	--attribute-walk(-a)					# Print all key matches
+	--export(-x)					# Export key/value pairs
+	--export-prefix(-P)					# Export key name with prefix
+	--export-db(-e)					# Export content of udev database
+	--cleanup-db(-c)					# Clean up the udev database
+	--verbose(-v)					# Print device paths while running
+	--dry-run(-n)					# Do not actually trigger
+	--type(-t)					# Type of events to trigger
+	--action(-c)					# Event action value [change]
+	--subsystem-match(-s)					# Trigger devices matching subsystem
+	--subsystem-nomatch(-S)					# Exclude devices matching subsystem
+	--attr-match(-a)					# Trigger devices matching attribute
+	--attr-nomatch(-A)					# Exclude devices matching attribute
+	--property-match(-p)					# Trigger devices matching property
+	--tag-match(-g)					# Trigger devices matching property
+	--sysname-match(-y)					# Trigger devices matching /sys path
+	--name-match					# Trigger devices matching /dev path
+	--parent-match(-b)					# Trigger devices with parent device
+	--timeout(-t)					# Maximum time in seconds to wait
+	--exit-if-exists(-E)					# Stop waiting if FILE exists
+	--exit(-e)					# Exit the daemon
+	--log-priority(-l)					# Set udev daemon log level
+	--stop-exec-queue(-s)					# Queue but do not execute events
+	--start-exec-queue(-S)					# Execute events, flush queue
+	--reload(-R)					# Reload rules and database
+	--property(-p)					# Set property globally
+	--children-max(-m)					# Max num of children
+	--timeout(-t)					# Max seconds to block for reply
+	--property(-p)					# Print event properties
+	--kernel(-k)					# Print kernel uevents
+	--udev(-u)					# Print udev events
+	--subsystem-match(-s)					# Filter events by subsystem
+	--tag-match(-t)					# Filter events by tag
+	--action(-a)					# Set action string
+	--resolve-names(-N)					# When to resolve names
 	...args
 ]
