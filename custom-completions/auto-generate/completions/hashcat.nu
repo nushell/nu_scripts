@@ -9,14 +9,16 @@ extern "hashcat" [
 	--hex-salt					# Assume salt is given in hex
 	--hex-wordlist					# Assume words in wordlist are given in hex
 	--force					# Ignore warnings
+	--deprecated-check-disable					# Enable deprecated plugins
 	--status					# Enable automatic update of the status screen
-	--status-json					# Enable JSON format for status ouput
+	--status-json					# Enable JSON format for status output
 	--machine-readable					# Display the status view in a machine-readable format
 	--keep-guessing					# Keep guessing the hash after it has been cracked
 	--self-test-disable					# Disable self-test functionality on startup
 	--loopback					# Add new plains to induct directory
 	--markov-disable					# Disables markov-chains, emulates classic brute-force
 	--markov-classic					# Enables classic markov-chains, no per-position
+	--markov-inverse					# Enables inverse markov-chains, no per-position
 	--restore					# Restore session from --session
 	--restore-disable					# Do not write restore file
 	--outfile-format					# Outfile formats to use
@@ -39,13 +41,17 @@ extern "hashcat" [
 	--hash-info					# Show information for each hash-mode
 	--example-hashes					# Alias of --hash-info
 	--backend-ignore-cuda					# Do not try to open CUDA interface on startup
+	--backend-ignore-hip					# Do not try to open HIP interface on startup
+	--backend-ignore-metal					# Do not try to open Metal interface on startup
 	--backend-ignore-opencl					# Do not try to open OpenCL interface on startup
 	--backend-info(-I)					# Show info about detected backend API devices
 	--opencl-device-types(-D)					# OpenCL device-types to use
 	--optimized-kernel-enable(-O)					# Enable optimized kernels (limits password length)
+	--multiply-accel-disable(-M)					# Disable multiply kernel-accel with processor count
 	--workload-profile(-w)					# Enable a specific workload profile
 	--hwmon-disable					# Disable temperature and fanspeed reads and triggers
 	--keyspace					# Show keyspace base:mod values and quit
+	--identify(-i)					# Shows all supported algorithms for input hashes
 	--increment(-i)					# Enable mask increment mode
 	--slow-candidates(-S)					# Enable slower (but advanced) candidate generators
 	--brain-server					# Enable brain server

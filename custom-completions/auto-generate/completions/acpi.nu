@@ -9,7 +9,7 @@ extern "acpi" [
 	--everything(-V)					# Show every device, overrides above options
 	--show-empty(-s)					# Show non-operational devices
 	--hide-empty(-S)					# Hide non-operational devices
-	--celcius(-c)					# Use celsius as the temperature unit
+	--cooling(-c)					# Show cooling device information
 	--fahrenheit(-f)					# Use fahrenheit as the temperature unit
 	--kelvin(-k)					# Use kelvin as the temperature unit
 	--directory(-d)					# <dir> path to ACPI info (/proc/acpi)

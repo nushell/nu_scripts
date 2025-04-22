@@ -18,7 +18,7 @@ extern "emerge" [
 	--unmerge(-C)
 	--version(-V)
 	--alert(-A)					# Add a terminal bell character ('\a') to all interactive prompts
-	--ask(-a)					# Prompt the user before peforming the merge
+	--ask(-a)					# Prompt the user before performing the merge
 	--backtrack
 	--buildpkg(-b)					# Build a binary pkg additionally
 	--buildpkgonly(-B)					# Only build a binary pkg

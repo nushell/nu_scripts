@@ -40,7 +40,7 @@ extern "feh" [
 	--stretch(-s)					# Enlarge if image smaller than given thumbnail size
 	--bg-center					# Center file on background
 	--bg-fill					# Set as background by zooming until image fits
-	--bg-max					# Set as backround by zooming with black borders on one side
+	--bg-max					# Set as background by zooming with black borders on one side
 	--bg-scale					# Set as background without tiling, trimming or borders
 	--bg-tile					# Tile image if too small for screen
 	--no-fehbg					# Do not write a ~/.fehbg file
