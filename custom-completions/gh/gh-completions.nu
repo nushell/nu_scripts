@@ -547,3 +547,24 @@ export extern "gh variable" [
     --repo(-R)      # Select another repository using the [HOST/]OWNER/REPO format
     --help          # Show help for command
 ]
+
+export def "gh pr view inlined-comments" [
+    pr?: int
+    repo?: string  # e.g. nushell/nu_scripts
+] {
+# nushell/nu_scripts/pull/1105
+    let pr = if ($pr == null) { ^gh pr view --json number | from json | get number } else { $pr }
+    let repo = if ($repo == null) {
+        ^gh repo view --json name,owner | from json | select owner.login name | rename owner name
+    } else {
+        $repo | parse '{owner}/{name}' | get 0
+    }
+
+    ( (gh api
+          -H "Accept: application/vnd.github+json"
+          -H "X-GitHub-Api-Version: 2022-11-28"
+          $"/repos/($repo.owner.)/($repo.name)/pulls/($pr)/comments")
+      | from json
+      | select user.login body diff_hunk
+      | rename user comment diff )
+}
