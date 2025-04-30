@@ -1,6 +1,7 @@
 # nu-niversal paperclips - a (somewhat) faithful clone of Universal Paperclips
 # play the original at: https://www.decisionproblem.com/paperclips/index2.html
 
+# TODO: figure out how to display this visually... maybe just a quick loop?
 def buy-paperclip [state, amount: int] {
   mut new_state = $state
   $new_state.paperclips += $amount
@@ -14,17 +15,19 @@ def get-user-input [queue] {
   if ($key.code == 'c' or $key.code == 'q') and ($key.modifiers == ['keymodifiers(control)']) {
     break
   }
-  stor insert --table-name $queue --data-record {keycode: $key.code}
+  # stor insert --table-name $queue --data-record {keycode: $key.code}
+  $key.code | job send 0
 }
 
 def print-line [state] {
   print -n $"paperclips: ($state.paperclips)\n\r"
   print -n $"wire: ($state.wire.length) inches\n\r"
-  print -n $"wire cost: ($state.wire.cost)\n\r"
+  print -n $"wire cost: $($state.wire.cost / 100.0)\n\r"
   if $state.autoclippers.unlocked {
     print -n $"autoclippers: ($state.autoclippers.count)\n\r"
-    print -n $"autoclipper cost: ($state.autoclippers.cost)\n\r"
+    print -n $"autoclipper cost: $($state.autoclippers.cost / 100.0)\n\r"
   }
+  print -n $"money: $($state.money / 100.0)\n\r"
   print -n $"($state.control_line)\n\r"
 }
 
@@ -34,21 +37,21 @@ def main [] {
   sleep 2sec
   clear
   let table_name = "clip_message_queue"
-  stor create --table-name $table_name --columns {keycode: str}
+  # stor create --table-name $table_name --columns {keycode: str}
   mut state = {
     delta_time: 0sec
     paperclips: 0
     # TODO: set to 0 when you have basic economy set up
-    money: 100
+    money: 100000
     control_line: "controls: [a]dd paperclip; buy [w]ire; [q]uit"
     wire: {
       length: 1000
-      cost: 20
+      cost: 2000
     }
     autoclippers: {
       count: 0
       unlocked: false
-      cost: 10
+      cost: 1000
       multiplier: 1.25
     }
   }
@@ -58,13 +61,23 @@ def main [] {
   }
   print-line $state
   get-user-input $table_name
+
   loop {
     clear
     let seconds = $state.delta_time
     if ($seconds) > (1sec) {
-      let amount = (($seconds | into int | $in / 1000000000) * $state.autoclippers.count) | math round
-      $state = buy-paperclip $state $amount
       $state.delta_time -= $seconds
+      let amount = (($seconds | into int | $in / 1000000000) * $state.autoclippers.count) | math round
+      mut index = 0
+      while $index < $amount {
+        $state = buy-paperclip $state 1
+        $index += 1
+        clear
+        print-line $state
+        # TODO: figure out a better solution here
+        sleep 0.05sec
+      }
+      clear
     }
     let prev = date now
     print-line $state
@@ -72,16 +85,18 @@ def main [] {
       $state.autoclippers.unlocked = true
       $state.control_line += "; [b]uy autoclipper"
     }
-    if (job list | length) == 0 {
-      let key = stor open | query db $"SELECT keycode FROM ($table_name)" | get keycode.0
+    # if (job list | length) == 0 {
+    try {
+      # let key = stor open | query db $"SELECT keycode FROM ($table_name)" | get keycode.0
+      let key = job recv --timeout 0sec
       match $key {
         "a" => {
           # TODO: add some way to grow amount?
           $state = buy-paperclip $state 1
         }
         "b" => {
-          if $state.paperclips >= $state.autoclippers.cost {
-            $state.paperclips -= $state.autoclippers.cost
+          if $state.money >= $state.autoclippers.cost {
+            $state.money -= $state.autoclippers.cost
             $state.autoclippers.count += 1
             $state.autoclippers.cost = ($state.autoclippers.cost * 1.25 | math round)
           }
@@ -95,13 +110,15 @@ def main [] {
           break
         }
         "w" => {
-          $state.wire.length += 1000
-          # TODO: tweak numbers
-          if (random bool --bias 0.5) {
-            let deviation = (0.75 + (random float 0.0..0.50))
-            $state.wire.cost += $deviation | math round
-            if $state.wire.cost < 12 {
-              $state.wire.cost = 12
+          if $state.money >= $state.wire.cost {
+            $state.wire.length += 1000
+            # TODO: tweak numbers
+            if (random bool --bias 0.5) {
+              let deviation = (0.75 + (random float 0.0..0.50))
+              $state.wire.cost += $deviation | math round
+              if $state.wire.cost < 12 {
+                $state.wire.cost = 12
+              }
             }
           }
         }
@@ -109,7 +126,7 @@ def main [] {
           ""
         }
       }
-      stor delete --table-name $table_name --where-clause $"keycode == '($key)'"
+      # stor delete --table-name $table_name --where-clause $"keycode == '($key)'"
       job spawn { get-user-input $table_name }
     }
     # for 60fps framerate lock
