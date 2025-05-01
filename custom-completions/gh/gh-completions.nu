@@ -568,3 +568,37 @@ export def "gh pr view inlined-comments" [
       | select user.login body diff_hunk
       | rename user comment diff )
 }
+
+def "gh get stars" [
+    end_cursor: string = ""  # endCursor from a previous query
+    --first: int = 100  # returns the first n elements from the list
+] {
+    # https://docs.github.com/en/graphql/reference/objects#user
+    ^gh api graphql -F $'first=($first)' -F $'endCursor=($end_cursor)' -f query='
+      query($first: Int, $endCursor: String!){
+        viewer {
+          starredRepositories(first: $first, after: $endCursor, orderBy: {field: STARRED_AT, direction: DESC}) {
+            edges { node { url description } starredAt }
+            pageInfo { hasNextPage endCursor }
+          }
+        }
+      }
+    '
+    | from json | select data.viewer.starredRepositories.edges data.viewer.starredRepositories.pageInfo
+    | rename stars pageInfo
+}
+
+export def "gh my stars" [] {
+    mut stars = []
+    mut end_cursor = ""
+    loop {
+        let $part = gh get stars $end_cursor
+        $stars = $stars | append $part.stars
+        if $part.pageInfo?.hasNextPage? == true {
+            $end_cursor = $part.pageInfo.endCursor
+        } else {
+            break
+        }
+    }
+    $stars | flatten | update cells --columns [starredAt] {$in| date humanize} | sort-by starredAt
+}
