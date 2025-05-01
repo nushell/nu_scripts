@@ -2,6 +2,10 @@
 
 Makes Nushell "support" background tasks.
 
+Note: Nushell has [native background jobs](https://www.nushell.sh/book/background_jobs.html) support through the [`job`](https://www.nushell.sh/commands/docs/job.html) command.
+The `task` commands introduced here spawn new and independent processes rather than background threads like `job`.
+The `task` processes will keep running even when you exit the current Nushell process, the `job` background threads will not.
+
 ## Prerequisite
 
 Install [pueue](https://github.com/Nukesor/pueue) and make sure `pueued` is running and that `pueue` is in `PATH`.
