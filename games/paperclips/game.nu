@@ -1,13 +1,16 @@
 # nu-niversal paperclips - a (somewhat) faithful clone of Universal Paperclips
 # play the original at: https://www.decisionproblem.com/paperclips/index2.html
 
-# TODO: figure out how to display this visually... maybe just a quick loop?
+# NOTE: scalars are off cuz i'm counting by pennies instead of dollars and cents
+
+let carriage_return = "\n\r"
+
 def make-paperclip [state, amount: int] {
   mut new_state = $state
   $new_state.paperclips.total += $amount
   $new_state.paperclips.stock += $amount
   $new_state.wire.length -= $amount
-  return $new_state
+  $new_state
 }
 
 def sell-paperclips [state] {
@@ -20,45 +23,63 @@ def sell-paperclips [state] {
   let transaction = $amount * $state.paperclips.price
   $new_state.money += $transaction
   $new_state.paperclips.stock -= $amount
-  return $new_state
+  $new_state
 }
 
 def update-demand [state] {
   let marketing = 1.1 ** ($state.market.level - 1)
   mut new_state = $state
-  # this is off by 1000x??? figure out what you're doing wrong
   $new_state.market.demand = ((.8 / $state.paperclips.price) * $marketing) * 1000
-  return $new_state
+  $new_state
 }
 
-def get-user-input [queue] {
+def get-user-input [] {
   let key = (input listen --types [key])
-  # print $"pressed ($key); keycode = ($key.code)"
   if ($key.code == 'c') and ($key.modifiers == ['keymodifiers(control)']) {
     exit
   }
-  # stor insert --table-name $queue --data-record {keycode: $key.code}
   $key.code | job send 0
 }
 
+def format-text [prefix: string, value: number, --money --round] {
+  mut value = $value
+  if $money {
+    $value = $value / 100.0 | math round --precision 2
+  }
+  if $round {
+    $value = $value | math round --precision 2
+  }
+  # e.g. "Paperclips: XXX\n\r" or "Unsold Inventory: $X.XX\n\r"
+  $"($prefix): (if $money { "$" } else { })($value | into string --group-digits)(if $round { "%" } else { })($carriage_return)"
+}
+
 def print-line [state] {
-  print -n $"Paperclips: ($state.paperclips.total | into string -g)\n\r\n\r"
+  print -n $"(format-text "Paperclips" $state.paperclips.total)"
+  print -n $carriage_return
   print -n "Business:\n\r"
   print -n "---------------\n\r"
-  print -n $"Avaulable Funds: $($state.money / 100.0 | into string -g)\n\r"
-  print -n $"Unsold Inventory: ($state.paperclips.stock | into string -g)\n\r"
-  print -n $"Price Per Clip: $($state.paperclips.price / 100.0 | into string -g)\n\r"
-  print -n $"Public Demand: ($state.market.demand | math round | into string -g)%\n\r\n\r"
-  print -n $"Marketing Level: ($state.market.level | into string -g)\n\r"
-  print -n $"Marketing cost: $($state.market.cost / 100.0 | into string -g)\n\r\n\r"
+  print -n $"(format-text 'Available Funds' $state.money --money)"
+  print -n $"(format-text 'Unsold Inventory' $state.paperclips.stock)"
+  print -n $"(format-text 'Price Per Clip' $state.paperclips.price --money)"
+  print -n $"(format-text 'Public Demand' $state.market.demand --round)"
+  print -n $carriage_return
+  print -n $"(format-text 'Marketing Level' $state.market.level)"
+  print -n $"(format-text 'Marketing cost' $state.market.cost --money)"
+  print -n $carriage_return
   print -n "Manufacturing:\n\r"
   print -n "---------------\n\r"
-  print -n $"Clips per Second: ($state.paperclips.rate)\n\r\n\r"
-  print -n $"Wire: ($state.wire.length | into string -g) inches\n\r"
-  print -n $"Wire cost: $($state.wire.cost / 100.0 | into string -g)\n\r\n\r"
+  print -n $"(format-text 'Clips per Second' $state.paperclips.rate)"
+  print -n $carriage_return
+  if $state.wire.length == 1 { "inch" } else { "inches" }
+  print -n $"Wire: ($state.wire.length | into string -g) (
+    if $state.wire.length == 1 { "inch" } else { "inches" }
+  )\n\r"
+  print -n $"(format-text 'Wire cost' $state.wire.cost --money)"
+  print -n $carriage_return
   if $state.autoclippers.unlocked {
-    print -n $"autoclippers: ($state.autoclippers.count | into string -g)\n\r"
-    print -n $"autoclipper cost: $($state.autoclippers.cost / 100.0 | into string -g)\n\r"
+    print -n $"(format-text "Autoclippers" $state.autoclippers.count)"
+    print -n $"(format-text 'Autoclipper cost' $state.autoclippers.cost --money)"
+    print -n $carriage_return
   }
   print -n $"($state.control_line)\n\r"
 }
@@ -69,17 +90,17 @@ def main [] {
   sleep 2sec
   clear
   let table_name = "clip_message_queue"
-  # stor create --table-name $table_name --columns {keycode: str}
+
   mut state = {
     delta_time: 0sec
     paperclips: {
       total: 0
       stock: 0
       price: 25
-      rate: "NOT IMPLEMENTED :("
+      rate: -1
     }
     market: {
-      demand: 32
+      demand: 0
       level: 1
       cost: 10000
     }
@@ -100,14 +121,27 @@ def main [] {
   if $save_exists {
     $state = open './gamestate.nuon'
   }
+  # initial setup
+  $state = update-demand $state
   print-line $state
-  get-user-input $table_name
+  get-user-input
 
   loop {
     clear
     let seconds = $state.delta_time
     if ($seconds) > (1sec) {
       $state.delta_time -= $seconds
+      # TODO: tweak numbers
+      if (random bool --bias 0.5) {
+        let deviation = (0.75 + (random float 0.0..0.50))
+        $state.wire.cost *= $deviation
+        if $state.wire.cost < 1200 {
+          $state.wire.cost = 1200
+        } else if $state.wire.cost > 3000 {
+          $state.wire.cost = 3000
+        }
+      }
+      $state = update-demand $state
       let amount = (($seconds | into int | $in / 1000000000) * $state.autoclippers.count) | math round
       mut index = 0
       while $index < $amount {
@@ -122,14 +156,15 @@ def main [] {
       clear
     }
     let prev = date now
-    print-line $state
+
     if (($state.paperclips.total > 9) and ($state.autoclippers.count < 1)) and not $state.autoclippers.unlocked {
       $state.autoclippers.unlocked = true
       $state.control_line += "; [b]uy autoclipper"
     }
-    # if (job list | length) == 0 {
+
+    print-line $state
+
     try {
-      # let key = stor open | query db $"SELECT keycode FROM ($table_name)" | get keycode.0
       let key = job recv --timeout 0sec
       match $key {
         "a" => {
@@ -150,11 +185,11 @@ def main [] {
           }
         }
         "q" => {
-          # if not $save_exists {
-          #   $state | save gamestate.nuon
-          # } else {
-          #   $state | save gamestate.nuon --force
-          # }
+          if not $save_exists {
+            $state | save gamestate.nuon
+          } else {
+            $state | save gamestate.nuon --force
+          }
           break
         }
         "u" => {
@@ -164,14 +199,6 @@ def main [] {
         "w" => {
           if $state.money >= $state.wire.cost {
             $state.wire.length += 1000
-            # TODO: tweak numbers
-            if (random bool --bias 0.5) {
-              let deviation = (0.75 + (random float 0.0..0.50))
-              $state.wire.cost += $deviation | math round
-              if $state.wire.cost < 12 {
-                $state.wire.cost = 12
-              }
-            }
             $state.money -= $state.wire.cost
           }
         }
@@ -179,9 +206,9 @@ def main [] {
           ""
         }
       }
-      # stor delete --table-name $table_name --where-clause $"keycode == '($key)'"
-      job spawn { get-user-input $table_name }
+      job spawn { get-user-input }
     }
+
     # for 60fps framerate lock
     sleep 16.666ms
     let now = date now
