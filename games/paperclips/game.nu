@@ -3,13 +3,31 @@
 
 # NOTE: scalars are off cuz i'm counting by pennies instead of dollars and cents
 
-let carriage_return = "\n\r"
+const carriage_return = "\n\r"
+
+# Resets cursor to home position and hides it to prevent visual distraction
+def reset-cursor [] {
+  print -n "\e[H"  # Move cursor to home position (top-left)
+  print -n "\e[?25l"  # Hide cursor
+}
+
+# Clears all content from cursor position to end of screen
+def clear-to-end [] {
+  print -n "\e[J"  # Clear from cursor to end of screen
+}
+
+# Updates the terminal display with current game state
+def refresh-game-view [state] {
+  reset-cursor
+  render-game-display $state
+}
 
 def make-paperclip [state, amount: int] {
   mut new_state = $state
   $new_state.paperclips.total += $amount
   $new_state.paperclips.stock += $amount
   $new_state.wire.length -= $amount
+  $new_state.paperclips.current_second_clips += $amount  # Add this line
   $new_state
 }
 
@@ -36,6 +54,7 @@ def update-demand [state] {
 def get-user-input [] {
   let key = (input listen --types [key])
   if ($key.code == 'c') and ($key.modifiers == ['keymodifiers(control)']) {
+    print -n "\e[?25h"  # Show cursor before exiting
     exit
   }
   $key.code | job send 0
@@ -53,42 +72,62 @@ def format-text [prefix: string, value: number, --money --round] {
   $"($prefix): (if $money { "$" } else { })($value | into string --group-digits)(if $round { "%" } else { })($carriage_return)"
 }
 
-def print-line [state] {
-  print -n $"(format-text "Paperclips" $state.paperclips.total)"
-  print -n $carriage_return
-  print -n "Business:\n\r"
-  print -n "---------------\n\r"
-  print -n $"(format-text 'Available Funds' $state.money --money)"
-  print -n $"(format-text 'Unsold Inventory' $state.paperclips.stock)"
-  print -n $"(format-text 'Price Per Clip' $state.paperclips.price --money)"
-  print -n $"(format-text 'Public Demand' $state.market.demand --round)"
-  print -n $carriage_return
-  print -n $"(format-text 'Marketing Level' $state.market.level)"
-  print -n $"(format-text 'Marketing cost' $state.market.cost --money)"
-  print -n $carriage_return
-  print -n "Manufacturing:\n\r"
-  print -n "---------------\n\r"
-  print -n $"(format-text 'Clips per Second' $state.paperclips.rate)"
-  print -n $carriage_return
+# Prints text after clearing the current line with ANSI escape code
+def clear-line [text] {
+  print -n $"\e[2K($text)"
+}
+
+def render-game-display [state] {
+  # Game title and stats
+  clear-line (format-text "Paperclips" $state.paperclips.total)
+  clear-line $carriage_return
+
+  # Business section
+  clear-line "Business:\n\r"
+  clear-line "---------------\n\r"
+  clear-line (format-text 'Available Funds' $state.money --money)
+  clear-line (format-text 'Unsold Inventory' $state.paperclips.stock)
+  clear-line (format-text 'Price Per Clip' $state.paperclips.price --money)
+  clear-line (format-text 'Public Demand' $state.market.demand --round)
+  clear-line $carriage_return
+  clear-line (format-text 'Marketing Level' $state.market.level)
+  clear-line (format-text 'Marketing cost' $state.market.cost --money)
+  clear-line $carriage_return
+
+  # Manufacturing section
+  clear-line "Manufacturing:\n\r"
+  clear-line "---------------\n\r"
+  clear-line (format-text 'Clips per Second' $state.paperclips.rate)
+  clear-line $carriage_return
+
+  # Wire section
   if $state.wire.length == 1 { "inch" } else { "inches" }
-  print -n $"Wire: ($state.wire.length | into string -g) (
+  clear-line $"Wire: ($state.wire.length | into string -g) (
     if $state.wire.length == 1 { "inch" } else { "inches" }
   )\n\r"
-  print -n $"(format-text 'Wire cost' $state.wire.cost --money)"
-  print -n $carriage_return
+  clear-line (format-text 'Wire cost' $state.wire.cost --money)
+  clear-line $carriage_return
+
+  # Autoclippers (conditional)
   if $state.autoclippers.unlocked {
-    print -n $"(format-text "Autoclippers" $state.autoclippers.count)"
-    print -n $"(format-text 'Autoclipper cost' $state.autoclippers.cost --money)"
-    print -n $carriage_return
+    clear-line (format-text "Autoclippers" $state.autoclippers.count)
+    clear-line (format-text 'Autoclipper cost' $state.autoclippers.cost --money)
+    clear-line $carriage_return
   }
-  print -n $"($state.control_line)\n\r"
+
+  # Controls
+  clear-line $"($state.control_line)\n\r"
+
+  # Clean up any trailing content from previous longer displays
+  clear-to-end
 }
 
 def main [] {
-  clear
+  reset-cursor
   print "Welcome to nu-niversal paperclips!"
+  clear-to-end
   sleep 2sec
-  clear
+  reset-cursor
   let table_name = "clip_message_queue"
 
   mut state = {
@@ -97,8 +136,10 @@ def main [] {
       total: 0
       stock: 0
       price: 25
-      rate: -1
+      rate: 0  # Changed from -1 to 0: This will show last second's rate
+      current_second_clips: 0  # Add: Accumulator for current second
     }
+    last_second_timestamp: (date now)  # Add: Track when current second started
     market: {
       demand: 0
       level: 1
@@ -123,11 +164,10 @@ def main [] {
   }
   # initial setup
   $state = update-demand $state
-  print-line $state
+  refresh-game-view $state
   get-user-input
 
   loop {
-    clear
     let seconds = $state.delta_time
     if ($seconds) > (1sec) {
       $state.delta_time -= $seconds
@@ -142,27 +182,34 @@ def main [] {
         }
       }
       $state = update-demand $state
+
+      # Calculate total autoclipper production for this time period
       let amount = (($seconds | into int | $in / 1000000000) * $state.autoclippers.count) | math round
       mut index = 0
       while $index < $amount {
         $state = make-paperclip $state 1
         $index += 1
-        clear
-        print-line $state
-        # TODO: figure out a better solution here
-        sleep 16.666ms
       }
+
       $state = sell-paperclips $state
-      clear
     }
     let prev = date now
+
+    # Check if a second has passed and roll over counters
+    let now = date now
+    if ($now - $state.last_second_timestamp) >= 1sec {
+      $state.paperclips.rate = $state.paperclips.current_second_clips
+      $state.paperclips.current_second_clips = 0
+      $state.last_second_timestamp = $now
+    }
 
     if (($state.paperclips.total > 9) and ($state.autoclippers.count < 1)) and not $state.autoclippers.unlocked {
       $state.autoclippers.unlocked = true
       $state.control_line += "; [b]uy autoclipper"
     }
 
-    print-line $state
+    # Update display with current game state
+    refresh-game-view $state
 
     try {
       let key = job recv --timeout 0sec
@@ -190,6 +237,7 @@ def main [] {
           } else {
             $state | save gamestate.nuon --force
           }
+          print -n "\e[?25h"  # Show cursor before exiting
           break
         }
         "u" => {
