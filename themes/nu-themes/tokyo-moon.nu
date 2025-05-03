@@ -15,7 +15,7 @@ export def main [] {
             } else {{ fg: "#7aa2f7" }}
         }
         duration: "#a9b1d6"
-        date: {|| (date now) - $in |
+        datetime: {|| (date now) - $in |
             if $in < 1hr {
                 { fg: "#f7768e" attr: "b" }
             } else if $in < 6hr {

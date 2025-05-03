@@ -50,7 +50,7 @@ export def main [] {
                 $color_palette.red
             }
         }
-        date: {|| (date now) - $in |
+        datetime: {|| (date now) - $in |
             if $in < 1hr {
                 $color_palette.green
             } else if $in < 1day {
