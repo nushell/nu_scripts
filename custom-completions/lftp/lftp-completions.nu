@@ -73,7 +73,8 @@ module lftp-completion-utils {
 
     export def get-bookmark-sites []: nothing -> table<value: string, description: string> {
       const FILE_PATH = '~/.local/share/lftp/bookmarks' | path expand
-      let sites = open --raw $FILE_PATH | lines | split column -n 2 -r \s+ value description
+      let sites = try { open --raw $FILE_PATH | lines } catch { [] }
+        | split column -n 2 -r \s+ value description
       $sites | update value { $"bm:($in)" }
     }
 }
