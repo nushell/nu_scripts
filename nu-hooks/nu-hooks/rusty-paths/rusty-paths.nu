@@ -23,7 +23,7 @@ $env.config = ($env.config | upsert hooks.env_change.PWD {
 		}
 	}
   | append {
-		condition: {|before, _| ($before | default '' | path join 'Cargo.lock' | path exists) }
+		condition: {|before, _| ($before | default '' | path join 'Cargo.lock' | path exists) and ($before | is-not-empty)}
 		code: {|before, _|
 			$env.PATH = (
 				$env.PATH
