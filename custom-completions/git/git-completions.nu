@@ -552,6 +552,34 @@ export extern "git branch" [
   --track(-t)                                                    # when creating a branch, set upstream
 ]
 
+# List all variables set in config file, along with their values.
+export extern "git config list" [
+]
+
+# Emits the value of the specified key.
+export extern "git config get" [
+]
+
+# Set value for one or more config options.
+export extern "git config set" [
+]
+
+# Unset value for one or more config options.
+export extern "git config unset" [
+]
+
+# Rename the given section to a new name.
+export extern "git config rename-section" [
+]
+
+# Remove the given section from the configuration file.
+export extern "git config remove-section" [
+]
+
+# Opens an editor to modify the specified config file
+export extern "git config edit" [
+]
+
 # List or change tracked repositories
 export extern "git remote" [
   --verbose(-v)                            # Show URL for remotes
