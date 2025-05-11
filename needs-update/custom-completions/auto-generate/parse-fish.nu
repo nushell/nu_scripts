@@ -122,11 +122,17 @@ def make-subcommands-completion [parents: list<string>] {
 
     $fishes
     | group-by arguments                                                              # group by sub command (arguments flag)
-    | transpose name args                                                             # turn it into a table of name to arguments
+    | transpose  name args                                                             # turn it into a table of name to arguments
     | each {|subcommand|
         [
             # description
-            (if ('description' in ($subcommand.args | columns)) and ($subcommand.args.description != "") { $"# ($subcommand.args.description.0)\n" })
+            (
+                if (('description' in ($subcommand.args | columns))
+                    and ($subcommand.args.description != "")
+                    and ('condition' in ($subcommand.args | columns))
+                    and ($subcommand.args.condition == "__fish_use_subcommand")
+                ) { $"# ($subcommand.args.description)\n" }
+            )
             # extern name
             $'extern "($parents | append $subcommand.name | str join " " | str trim)"'
             # params
