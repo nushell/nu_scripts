@@ -22,26 +22,24 @@ def build-completion [fish_file: path, nu_file: path] {
 def parse-fish [] {
     let data = (
         $in | tokenize-complete-lines
-        | where (($it | length) mod 2) == 1       # currently we only support complete args that all have args (pairs). including 'complete' this means an odd number of tokens
-        | each { |tokens| $tokens | pair-args }   # turn the tokens into a list of pairs
+        | each { |tokens| $tokens | pair-tokens | translate-pairs }   # turn the tokens into a list of pairs
         | flatten                                 # merge them all into a top level label
     )
     # default every column in the table to "" to make processing easier
     # some values having null often breaks nu or requires lots of checking
-    $data | columns | reduce -f $data { |c, acc|
-        $acc | default "" $c
-    }
-    | default "" a
-    | cleanup_subcommands # clean garbage subcommands
+     $data | columns | reduce -f $data { |c, acc| $acc | default "" $c }
+     | default "" arguments
+     | cleanup_subcommands # clean garbage subcommands
 }
 
 # tokenize each line of the fish file into a list of tokens
 # make use of detect columns -n which with one like properly tokenizers arguments including across quotes
 def tokenize-complete-lines [] {
     lines
-    | where $it starts-with 'complete'         # only complete command lines
+    | where $it starts-with 'complete '         # only complete command lines
     | each { 
-      str replace -a "\\\\'" ""             # remove escaped quotes ' which break detect columns
+      str substring 9..                       # clear out complete command, keep args
+      | str replace -a "\\\\'" ""             # remove escaped quotes ' which break detect columns
       | str replace -a "-f " ""               # remove -f which is a boolean flag we don't support yet
       | detect columns -n
       | transpose -i tokens
@@ -51,14 +49,42 @@ def tokenize-complete-lines [] {
 
 # turn a list of tokens for a line into a record of {flag: arg}
 def pair-args [] {
-    where $it != complete                                           # drop complete command as we don't need it
-    | window 2 -s 2                                                 # group by ordered pairs, using window 2 -s 2 instead of group 2 to automatically drop any left overs
+    window 2 --remainder
     | each { |pair|
+        let name = $pair.0 | map-flag-name
+        let value = $pair.1 | unquote
         [
-            {$"($pair.0 | str trim -c '-')": ($pair.1 | unquote)}   # turn into a [{<flag> :<arg>}] removing quotes
+            {$name: $value}   # turn into a [{<flag> :<arg>}] removing quotes
         ]
     }
     | reduce { |it, acc| $acc | merge $it }                         # merge the list of records into one big record
+}
+
+def pair-tokens [] {
+  window 2 --remainder | where $it.0 starts-with '-' | each { if $in.1 starts-with '-' { [$in.0] } else { $in } }
+}
+
+def translate-pairs [] {
+  each {|pair|
+    match $in.0 {
+      '-c' | '--command' => { command: ($in.1 | unquote) }
+      '-s' | '--short-option' => { short-option: ($in.1 | unquote) }
+      '-l' | '--long-option' => { long-option: ($in.1 | unquote) }
+      '-d' | '--description' => { description: ($in.1 | unquote) }
+      '-o' | '--old-option' => { old-option: ($in.1 | unquote) }
+      '-F' | '--force-files' => { force-files: true }
+      '-f' | '--no-files' => { no-files: true }
+      '-r' | '--require-parameter' => { require-parameter: true }
+      '-x' | '--exclusive' => { require-parameter: true, no-files: true }
+      '-a' | '--arguments' => { arguments: ($in.1 | unquote) }
+      '-n' | '--condition' => { condition: ($in.1 | unquote) }
+      '-k' | '--keep-order' => { keep-order: true }
+      '-C' | '--do-complete' => { do-complete: ($in.1 | unquote) } # try to find all possible completions for the specified string. Otherwise use the current command line.
+      '--escape' => { escape: true } # when used with -C escape special characters
+      _ => { $'unknown_($in.0)': (if ($in | length) == 2 { $pair.1 }) }
+    }
+  }
+  | reduce {|it,acc| $acc | merge $it }
 }
 
 def unquote [] {
@@ -68,17 +94,21 @@ def unquote [] {
 
 # remove any entries which contain things in subcommands that may be fish functions or incorrect parses
 def cleanup_subcommands [] {
-    where (not ($it.a | str contains "$")) and (not ($it.a | str starts-with "-")) and (not ($it.a starts-with "("))
+    where ((not ($it.arguments | str contains "$")) 
+        and (not ($it.arguments | str starts-with "-")) 
+        and (not ($it.arguments starts-with "("))
+    )
 }
 
 # from a parsed fish table, create the completion for it's command and sub commands
 def make-commands-completion [] {
     let fishes = $in
     $fishes
-    | get c        # c is the command name
-    | uniq         # is cloned on every complete line
+    | where ('command' in ($fishes | columns))
+    | get command
+    | uniq         # command is cloned on every complete line
     | each { |command|
-        $fishes | where c == $command | make-subcommands-completion [$command]
+        $fishes | where command == $command | make-subcommands-completion [$command]
         | str join "\n\n"
     }
 }
@@ -91,23 +121,23 @@ def make-subcommands-completion [parents: list<string>] {
     let fishes = $in
 
     $fishes
-    | group-by a                                                                      # group by sub command (a flag)
+    | group-by arguments                                                              # group by sub command (arguments flag)
     | transpose name args                                                             # turn it into a table of name to arguments
     | each {|subcommand|
         [
             # description
-            (if ('d' in ($subcommand.args | columns)) and ($subcommand.args.d != "") { $"# ($subcommand.args.d.0)\n" })
+            (if ('description' in ($subcommand.args | columns)) and ($subcommand.args.description != "") { $"# ($subcommand.args.description.0)\n" })
             # extern name
             $'extern "($parents | append $subcommand.name | str join " " | str trim)"'
             # params
             " [\n"
                 (
                     $fishes
-                    | if ('n' in ($subcommand | columns)) {
+                    | if ('condition' in ($subcommand.args | columns)) {
                         if ($subcommand.name != "") {
-                            where ($it.n | str contains $subcommand.name)                     # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
+                            where ($it.condition | str contains $subcommand.name)                     # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
                         } else {
-                            where ($it.n == "__fish_use_subcommand") and ($it.a == "")         # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
+                            where ($it.condition == "__fish_use_subcommand") and ($it.arguments == "")         # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
                         }
                     } else {
                         $fishes                                                               # catch all
@@ -127,13 +157,13 @@ def make-subcommands-completion [parents: list<string>] {
 def build-flags [] {
     $in
     | each { |subargs|
-        if ('l' in ($subargs | columns)) and ($subargs.l != "") {
+        if ('long-option' in ($subargs | columns)) and ($subargs.long-option != "") {
             [
-                "\t--" $subargs.l
+                "\t--" $subargs.long-option
                 (
                   [
-                    (if ('s' in ($subargs | columns)) and ($subargs.s != "") { [ "(-" $subargs.s ")" ] | str join })
-                    (if ('d' in ($subargs | columns)) and ($subargs.d != "") { [ "\t\t\t\t\t# " $subargs.d ] | str join })
+                    (if ('short-option' in ($subargs | columns)) and ($subargs.short-option != "") { [ "(-" $subargs.short-option ")" ] | str join })
+                    (if ('description' in ($subargs | columns)) and ($subargs.description != "") { [ "\t\t\t\t\t# " $subargs.description ] | str join })
                   ] | str join
                 )
             ] | str join
