@@ -39,7 +39,6 @@ def parse-fish [] {
 # make use of detect columns -n which with one like properly tokenizers arguments including across quotes
 def tokenize-complete-lines [] {
     lines
-    | where ($it | str length) > 0             # remove any empty lines
     | where $it starts-with 'complete'         # only complete command lines
     | each { 
       str replace -a "\\\\'" ""             # remove escaped quotes ' which break detect columns
