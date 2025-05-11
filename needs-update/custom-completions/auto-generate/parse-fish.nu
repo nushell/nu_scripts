@@ -173,6 +173,11 @@ def build-flags [] {
                   ] | str join
                 )
             ] | str join
+        } else if ('short-option' in ($subargs | columns)) and ($subargs.short-option != "") {
+            [
+                "\t-" $subargs.short-option
+                (if ('description' in ($subargs | columns)) and ($subargs.description != "") { [ "\t\t\t\t\t# " $subargs.description ] | str join })
+            ] | str join
         }
     }
 }
