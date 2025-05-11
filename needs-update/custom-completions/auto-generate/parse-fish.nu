@@ -103,7 +103,7 @@ def make-subcommands-completion [parents: list<string>] {
             " [\n"
                 (
                     $fishes
-                    | if ('n' in ($subcommand | columns)) {
+                    | if ('n' in ($subcommand.args | columns)) {
                         if ($subcommand.name != "") {
                             where ($it.n | str contains $subcommand.name)                     # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
                         } else {
