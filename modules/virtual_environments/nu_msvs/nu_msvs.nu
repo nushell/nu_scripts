@@ -4,20 +4,19 @@ def --env find_msvs [] {
     $env.PATH_VAR = (if "Path" in $env { "Path" } else { "PATH" })
 
     # This is a total hack because nushell doesn't like parentheses in an environment variable like `$env.ProgramFiles(x86)`
-    let programfiles = $env | transpose name value | where name starts-with Program and name ends-with '(x86)' | get value.0
+    let programfiles = $env | transpose name value | where name starts-with Program and name ends-with '(x86)' | get value.0 | str trim
     # According to https://github.com/microsoft/vswhere/wiki/Installing, vswhere should always be in this location.
-    let vswhere_cmd = $'($programfiles)\Microsoft Visual Studio\Installer\vswhere.exe'
-
+    let vswhere_cmd = ($'($programfiles)\Microsoft Visual Studio\Installer\vswhere.exe')
     let info = (
       if ($vswhere_cmd | path exists) {
-          (^$vswhere_cmd -format json | from json)
+          (^$vswhere_cmd -prerelease -products '*' -format json -nocolor -utf8 -sort | from json)
         } else {
           # this should really error out here
-          ('{"installationPath": [""]}' | from json)
+          ('[{"installationPath": ""}]' | from json)
         }
     )
 
-    $env.MSVS_ROOT = $info.installationPath.0
+    $env.MSVS_ROOT = $info.0.installationPath
 
     $env.MSVS_MSVC_ROOT = (
         if not ($'($env.MSVS_ROOT)\VC\Tools\MSVC\' | path exists) {
