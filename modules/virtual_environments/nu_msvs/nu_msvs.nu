@@ -1,8 +1,8 @@
 def --env find_msvs [] {
   export-env {
     $env.MSVS_BASE_PATH = $env.Path
+    $env.INCLUDE_BEFORE = if "INCLUDE" in $env { ($env.INCLUDE | split row (char esep)) } else { null }
     $env.PATH_VAR = (if "Path" in $env { "Path" } else { "PATH" })
-    $env.INCLUDE_BEFORE = ($env.INCLUDE | split row (char esep))
 
     # According to https://github.com/microsoft/vswhere/wiki/Installing, vswhere should always be in this location.
     let vswhere_cmd = ($'($env."ProgramFiles(x86)")\Microsoft Visual Studio\Installer\vswhere.exe')
@@ -38,7 +38,7 @@ def --env find_msvs [] {
       $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\ucrt',
       $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\um',
       $'($env.MSVS_MSDK_ROOT)Include\($env.MSVS_MSDK_VER)\winrt'
-    ] | append $env.INCLUDE_BEFORE | str join (char esep))
+    ] | str join (char esep))
 
     let esep_path_converter = {
       from_string: { |s| $s | split row (char esep) }
@@ -162,7 +162,11 @@ export def --env activate [
   }
   load-env {
     $env.PATH_VAR: $env_path,
-    INCLUDE: $env.MSVS_INCLUDE_PATH,
+    INCLUDE: (if $env.INCLUDE_BEFORE == null {
+      $env.MSVS_INCLUDE_PATH
+    } else {
+      $env.MSVS_INCLUDE_PATH | append $env.INCLUDE_BEFORE
+    }),
     LIB: $lib_path
   }
 
@@ -180,15 +184,22 @@ export def --env deactivate [] {
 
   load-env {
     $env.PATH_VAR: $env.MSVS_BASE_PATH,
-    INCLUDE: ($env.INCLUDE_BEFORE | path expand | str join (char esep)),
   }
 
   hide-env LIB
-  hide-env INCLUDE_BEFORE
   hide-env MSVS_BASE_PATH
   hide-env MSVS_ROOT
   hide-env MSVS_MSVC_ROOT
   hide-env MSVS_MSDK_ROOT
   hide-env MSVS_MSDK_VER
   hide-env MSVS_INCLUDE_PATH
+
+  if $env.INCLUDE_BEFORE == null {
+    hide-env INCLUDE
+  } else {
+    load-env {
+        INCLUDE: ($env.INCLUDE_BEFORE | path expand | str join (char esep))
+    }
+    hide-env INCLUDE_BEFORE
+  }
 }
