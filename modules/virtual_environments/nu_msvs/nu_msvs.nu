@@ -162,12 +162,8 @@ export def --env activate [
   }
   load-env {
     $env.PATH_VAR: $env_path,
-    INCLUDE: (if $env.INCLUDE_BEFORE == null {
-      $env.MSVS_INCLUDE_PATH
-    } else {
-      $env.MSVS_INCLUDE_PATH | append $env.INCLUDE_BEFORE
-    }),
-    LIB: $lib_path
+    INCLUDE: ($env.MSVS_INCLUDE_PATH | append $env.INCLUDE_BEFORE),
+    LIB: $lib_path,
   }
 
   # Debug Information
