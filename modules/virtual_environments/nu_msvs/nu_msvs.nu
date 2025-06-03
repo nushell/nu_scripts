@@ -1,6 +1,7 @@
 def --env find_msvs [] {
   export-env {
     $env.MSVS_BASE_PATH = $env.Path
+    $env.INCLUDE_BEFORE = if "INCLUDE" in $env { ($env.INCLUDE | split row (char esep)) } else { null }
     $env.PATH_VAR = (if "Path" in $env { "Path" } else { "PATH" })
 
     # According to https://github.com/microsoft/vswhere/wiki/Installing, vswhere should always be in this location.
@@ -161,8 +162,8 @@ export def --env activate [
   }
   load-env {
     $env.PATH_VAR: $env_path,
-    INCLUDE: $env.MSVS_INCLUDE_PATH,
-    LIB: $lib_path
+    INCLUDE: ($env.MSVS_INCLUDE_PATH | append $env.INCLUDE_BEFORE),
+    LIB: $lib_path,
   }
 
   # Debug Information
@@ -181,7 +182,6 @@ export def --env deactivate [] {
     $env.PATH_VAR: $env.MSVS_BASE_PATH,
   }
 
-  hide-env INCLUDE
   hide-env LIB
   hide-env MSVS_BASE_PATH
   hide-env MSVS_ROOT
@@ -189,4 +189,13 @@ export def --env deactivate [] {
   hide-env MSVS_MSDK_ROOT
   hide-env MSVS_MSDK_VER
   hide-env MSVS_INCLUDE_PATH
+
+  if $env.INCLUDE_BEFORE == null {
+    hide-env INCLUDE
+  } else {
+    load-env {
+        INCLUDE: ($env.INCLUDE_BEFORE | path expand | str join (char esep))
+    }
+    hide-env INCLUDE_BEFORE
+  }
 }
