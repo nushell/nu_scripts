@@ -71,8 +71,8 @@ def --env load-conda-info-env [] {
                  try {
                     # Corrected syntax: Pass arguments as separate strings to run-external
                     let mi_info_lines = (run-external $cmd_base "info" | lines)
-                    let base = ($mi_info_lines | where $it =~ "Base Environment" | parse "{key}: {value}" | get value | str trim | first)
-                    let dirs_line = ($mi_info_lines | where $it =~ "Envs Directories" | first)
+                    let base = ($mi_info_lines | where $it =~ "(?i)Base Environment" | parse "{key}: {value}" | get value | str trim | first)
+                    let dirs_line = ($mi_info_lines | where $it =~ "(?i)Envs Directories" | first)
                     let dirs = if ($dirs_line | is-empty) { [] } else { $dirs_line | parse "{key}: {value}" | get value | str trim | split row " " }
 
                     # Corrected syntax: Pass arguments as separate strings to run-external
