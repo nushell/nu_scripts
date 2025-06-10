@@ -30,7 +30,7 @@
 - [ ] in the repo of Nushell, run `/path/to/nu_scripts/make_release/bump-version.nu`
 - [ ] then, ensure there are no compilation errors with any combination of features by running:
     ```nushell
-    cargo hack --all --feature-powerset --skip default-no-clipboard,stable,mimalloc check
+    cargo hack --all --feature-powerset --at-least-one-of rustls-tls,native-tls --mutually-exclusive-features rustls-tls,native-tls --mutually-exclusive-features rustls-tls,static-link-openssl --skip default-no-clipboard,stable,mimalloc check
     ```
     (this will take a while...)
 - [ ] check for build errors by running:
