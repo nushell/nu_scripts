@@ -28,7 +28,7 @@ export def 'from tree' [
                         if not ($fst in ['list', 'record'])  {
                             $acc
                         } else {
-                            let r = $acc.schema | filter {|i| ($i | get $selector.value) == $x}
+                            let r = $acc.schema | where {|i| ($i | get $selector.value) == $x}
                             if ($r | is-empty) {
                                 $acc
                             } else {

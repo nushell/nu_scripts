@@ -21,7 +21,7 @@ export def "nu-complete pass-directories" [] {
     let dir = (pass_completions_directory)
 	ls ($dir | path join **)
         | get name
-        | filter { |it| not (ls $it | is-empty) }
+        | where { |it| not (ls $it | is-empty) }
 		| each {|it| ( $it | path relative-to $dir) }
 }
 

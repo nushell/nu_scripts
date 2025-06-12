@@ -60,7 +60,7 @@ flag_record:record # A object filled all known flags and their values.
 
 
     }
-  | filter { |value| ( $value | describe ) != nothing }
+  | where { |value| ( $value | describe ) != nothing }
 
 
 }

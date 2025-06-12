@@ -14,7 +14,7 @@ def "nu-complete flutter commands" [] {
     | into string 
     | str replace --regex --multiline '(Manage[\s\S]*(?=Flutter SDK))' '' 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | each { str trim }
     | parse "{value} {description}"
     | str trim
@@ -33,7 +33,7 @@ def "nu-complete pub commands" [] {
     | into string 
     | str replace --regex --multiline '(Commands[\s\S]*(?=Available subcommands))' '' 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | each { str trim }
     | parse "{value} {description}"
     | str trim

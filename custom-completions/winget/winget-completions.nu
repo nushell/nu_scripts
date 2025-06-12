@@ -369,7 +369,7 @@ export def "winget list" [
             (do $flagify help $help)
         ] 
         | flatten
-        | filter { not ($in | is-empty) })
+        | where { not ($in | is-empty) })
     )
 
     let output = ^winget ...$params

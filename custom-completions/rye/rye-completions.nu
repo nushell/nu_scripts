@@ -5,7 +5,7 @@ export extern "rye" [
 def "nu-complete rye" [] {
     ^rye --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | each {str trim} 
     | parse "{value} {description}" 
     | str trim
@@ -120,7 +120,7 @@ def "nu-complete rye tools" [] {
     ^rye tools --help 
     | lines 
     | drop 1
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | each {str trim} 
     | parse "{value} {description}" 
     | str trim
@@ -135,7 +135,7 @@ def "nu-complete rye self" [] {
     ^rye self --help 
     | lines 
     | drop 1
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | each {str trim} 
     | parse "{value} {description}" 
     | str trim
@@ -150,7 +150,7 @@ def "nu-complete rye toolchain" [] {
     ^rye toolchain --help 
     | lines 
     | drop 1
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | each {str trim} 
     | parse "{value} {description}" 
     | str trim

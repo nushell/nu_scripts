@@ -279,7 +279,7 @@ def columns [
   ]
 
 	if not ($query | is-empty) {
-		$columns = $columns | filter { 
+		$columns = $columns | where { 
 			$in | str contains --ignore-case $query
 		}
 	}

@@ -34,7 +34,7 @@ def "nu-complete mask args" [context: string, offset: int] {
         $rt ++= ($c | get named_flags | each {|x|
             let v = if not ($x.long | is-empty) { $"`--($x.long)`" } else if not ($x.short | is-empty) { $"`-($x.short)`" } else { $"---($x.name)" }
             let a = ["required", "multiple", "takes_value", "validate_as_number"]
-                | filter {|y| ($x | get $y) == true }
+                | where {|y| ($x | get $y) == true }
                 | str join ','
             let d = if ($a | is-empty) { $x.description } else { $"($x.description) \(($a))" }
             {value: $v , description: $d }

@@ -2,7 +2,7 @@
 def "nu-complete gh" [] {
     ^gh --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -16,7 +16,7 @@ export extern "gh" [
 def "nu-complete gh auth" [] {
     ^gh auth --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -43,7 +43,7 @@ export extern "gh browse" [
 def "nu-complete gh codespace" [] {
     ^gh codespace --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -57,7 +57,7 @@ export extern "gh codespace" [
 def "nu-complete gh gist" [] {
     ^gh gist --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -129,7 +129,7 @@ export extern "gh gist view" [
 def "nu-complete gh issue" [] {
     ^gh issue --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -144,7 +144,7 @@ export extern "gh issue" [
 def "nu-complete gh org" [] {
     ^gh org --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -156,7 +156,7 @@ export extern "gh org" [
 ]
 
 def "nu-complete gh pr" [] {
-    ^gh pr --help | lines | filter { str starts-with "  " } | skip 1 | parse "{value}: {description}" | str trim
+    ^gh pr --help | lines | where { str starts-with "  " } | skip 1 | parse "{value}: {description}" | str trim
 }
 
 export extern "gh pr" [
@@ -182,7 +182,7 @@ export extern "gh pr checkout" [
 def "nu-complete gh project" [] {
     ^gh project --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -196,7 +196,7 @@ export extern "gh project" [
 def "nu-complete gh release" [] {
     ^gh release --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -211,7 +211,7 @@ export extern "gh release" [
 def "nu-complete gh repo" [] {
     ^gh repo --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -310,7 +310,7 @@ export extern "gh repo fork" [
 def "nu-complete gh cache" [] {
     ^gh cache --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -325,7 +325,7 @@ export extern "gh cache" [
 def "nu-complete gh run" [] {
     ^gh run --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -339,7 +339,7 @@ export extern "gh run" [
 def "nu-complete gh workflow" [] {
     ^gh workflow --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -354,7 +354,7 @@ export extern "gh workflow" [
 def "nu-complete gh alias" [] {
     ^gh alias --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -403,7 +403,7 @@ export extern "gh completion" [
 def "nu-complete gh config" [] {
     ^gh config --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -417,7 +417,7 @@ export extern "gh config" [
 def "nu-complete gh extension" [] {
     ^gh extension --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -431,7 +431,7 @@ export extern "gh extension" [
 def "nu-complete gh gpg-key" [] {
     ^gh gpg-key --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -445,7 +445,7 @@ export extern "gh gpg-key" [
 def "nu-complete gh label" [] {
     ^gh label --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -460,7 +460,7 @@ export extern "gh label" [
 def "nu-complete gh ruleset" [] {
     ^gh ruleset --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -475,7 +475,7 @@ export extern "gh ruleset" [
 def "nu-complete gh search" [] {
     ^gh search --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -501,7 +501,7 @@ export extern "gh search" [
 def "nu-complete gh secret" [] {
     ^gh secret --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -516,7 +516,7 @@ export extern "gh secret" [
 def "nu-complete gh ssh-key" [] {
     ^gh ssh-key --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
@@ -536,7 +536,7 @@ export extern "gh status" [
 def "nu-complete gh variable" [] {
     ^gh variable --help 
     | lines 
-    | filter { str starts-with "  " } 
+    | where { str starts-with "  " } 
     | skip 1 
     | parse "{value}: {description}" 
     | str trim
