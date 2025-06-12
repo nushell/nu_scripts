@@ -3,7 +3,7 @@ def quote [...t] {
 }
 
 def flatten_fields [args] {
-    let f = $in | default [] | filter {|x| $x | is-not-empty }
+    let f = $in | default [] | where {|x| $x | is-not-empty }
     let prefix = $args.0
     let inner = $args.1
     let outer = $args.2

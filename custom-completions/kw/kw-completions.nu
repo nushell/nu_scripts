@@ -85,7 +85,7 @@ def "nu-complete kw configs" [] {
 def "nu-complete kw remotes" [] {
     ^kw remote --list
     | lines
-    | filter {|line| not ($line | str contains " ")}
+    | where {|line| not ($line | str contains " ")}
 }
 
 # The inglorious kernel developer workflow tool

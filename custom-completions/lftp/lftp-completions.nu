@@ -44,7 +44,7 @@ module lftp-completion-utils {
       let files = [
           '/etc/ssh/ssh_config',
           '~/.ssh/config'
-      ] | filter {|file| $file | path exists }
+      ] | where {|file| $file | path exists }
 
 
       let first_result: record<hosts: list<record<name: string, addr: string>>, includes: list<string>> = $files | par-each {|file|

@@ -79,7 +79,7 @@ def "nu-complete ssh-host" [] {
     let files = [
         '/etc/ssh/ssh_config',
         '~/.ssh/config'
-    ] | filter {|file| $file | path exists }
+    ] | where {|file| $file | path exists }
 
     use ssh-completion-utils process
 

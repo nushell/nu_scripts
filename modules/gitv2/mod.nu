@@ -101,7 +101,7 @@ export def gb [
                 git branch -D $b
             }
             if ($dels | is-not-empty) and (agree 'delete remote branch?!') {
-                for b in ($dels | filter { $"($remote)/($in)" in $remote_branches }) {
+                for b in ($dels | where { $"($remote)/($in)" in $remote_branches }) {
                     tips $"delete (ansi yellow)($remote)/($b)"
                     git branch -D -r $'($remote)/($b)'
                     git push $remote -d $b
@@ -657,13 +657,13 @@ def "nu-complete git branch files" [context: string, offset:int] {
     let files = $token | skip 2
     git ls-tree -r --name-only $branch
     | lines
-    | filter {|x| not ($x in $files)}
+    | where {|x| not ($x in $files)}
 }
 
 def "nu-complete git branches" [] {
     git branch
     | lines
-    | filter {|x| not ($x | str starts-with '*')}
+    | where {|x| not ($x | str starts-with '*')}
     | each {|x| $"($x|str trim)"}
 }
 
@@ -671,7 +671,7 @@ export def remote_branches [] {
     git branch -r
     | lines
     | str trim
-    | filter {|x| not ($x | str starts-with 'origin/HEAD') }
+    | where {|x| not ($x | str starts-with 'origin/HEAD') }
 }
 
 def "nu-complete git remotes" [] {

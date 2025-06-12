@@ -141,7 +141,7 @@ def list_merged [
 
   run-external "git" "branch" ...$args
   | lines
-  | filter {|branch|
+  | where {|branch|
       $keep
       | all {|pattern|
         $branch !~ $'\A($pattern)\z'

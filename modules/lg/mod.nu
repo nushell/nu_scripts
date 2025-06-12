@@ -77,7 +77,7 @@ export def --wrapped level [
         | each (do $env.lg.line_formatter $theme $align $mkl)
         | str join (char newline)
         let head = [$time $label $txt]
-        | filter {|x| $x | is-not-empty }
+        | where {|x| $x | is-not-empty }
         | str join $theme.delimiter
         [$head $body] | str join (char newline)
     } else {
@@ -85,7 +85,7 @@ export def --wrapped level [
         | each {|y| $"($theme.bg)($y.k)=($theme.fg)($y.v)"}
         | str join ' '
         [$time $label $tag $txt]
-        | filter {|x| $x | is-not-empty }
+        | where {|x| $x | is-not-empty }
         | str join $theme.delimiter
     }
     $r + $theme.terminal | do $output

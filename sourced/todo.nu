@@ -53,7 +53,7 @@ def todo [
         get_todo
             | reverse
             # change ($num - 1) to $num to have zero-based indexing
-            | filter {|it, n| $n != ($num - 1) }
+            | where {|it, n| $n != ($num - 1) }
             | reverse
             | save $env.TODO -f
     }
