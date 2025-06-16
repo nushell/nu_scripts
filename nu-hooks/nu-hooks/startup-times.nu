@@ -1,39 +1,44 @@
-# setup a hook that will log startup times
-#
-# # Example
-# ```nushell
-# $env.config.hooks.env_change.PWD = (
-#     $env.config.hooks.env_change.PWD | append (
-#         use nu-hooks/startup-times.nu;
-#         startup-times setup
-#     )
-# )
-# ```
-export def setup [
-    dir: path = $nu.data-dir, # the path where to store the "startup times" file
-]: [ nothing -> closure ] {
-    {|before, _|
-        if $before == null {
-            let file = $dir | path join "startup-times.nuon"
-            if not ($file | path exists) {
-                mkdir ($file | path dirname)
-                touch $file
-            }
+alias startup-times = main
 
-            let version = (version)
+# A hook for logging startup times
+@example "Setting it up" {
+    $env.config.hooks.pre_prompt ++= (startup-times)
+}
+@example "Setting it up with a custom path" {
+    $env.config.hooks.pre_prompt ++= (startup-times "~/startup-times.tsv")
+}
+export def main [
+    file: path = ($nu.data-dir | path join "startup-times.tsv"), # the file to log the startup times
+]: nothing -> list {
+    [
+        {
+            remove: true
+            code: {
+                let version = (version)
+                let times = {
+                    date: (date now)
+                    time: $nu.startup-time
+                    build: $version.build_rust_channel
+                    allocator: $version.allocator
+                    version: $version.version
+                    commit: $version.commit_hash
+                    build_time: $version.build_time
+                }
 
-            # NOTE: this binding is required as per
-            # https://github.com/nushell/nushell/pull/12601#issuecomment-2069167555
-            let startup_times = open $file | append {
-                date: (date now)
-                time: $nu.startup-time
-                build: $version.build_rust_channel
-                allocator: $version.allocator
-                version: $version.version
-                commit: $version.commit_hash
-                build_time: $version.build_time
+                if not ($file | path exists) {
+                    mkdir ($file | path dirname)
+                    $times | to tsv | save $file
+                } else {
+                    $times | to tsv --noheaders | save --append $file
+                }
             }
-            $startup_times | save --force $file
         }
-    }
+        {
+            # The hook removes itself, making it run just once
+            # NOTE: We need a separate string hook, modifying `$env.config` in
+            #       a closure hook does not take effect
+            remove: true
+            code: '$env.config.hooks.pre_prompt = $env.config.hooks.pre_prompt | where not (try { $it.remove == true } catch { false })'
+        }
+    ]
 }
