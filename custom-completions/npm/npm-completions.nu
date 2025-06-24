@@ -10,7 +10,7 @@ def "nu-complete npm" [] {
 
     let npm_commanders = ^npm -l
       | lines
-      | where {|line| $line =~ '\s{4}[a-z\-]+.*\s{4,}' }
+      | where $it =~ '\s{4}[a-z\-]+.*\s{4,}'
       | parse -r '\s*(?P<value>[^ ]+)\s*(?P<description>\w.*)'
 
     $npm_commanders | stor insert --table-name npm_commanders_table
