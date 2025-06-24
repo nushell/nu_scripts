@@ -1,4 +1,4 @@
-def "nu-complete npm db cache" [] {
+def "nu-complete npm" [] {
   let db = stor open
 
   try {
@@ -20,7 +20,7 @@ def "nu-complete npm db cache" [] {
 }
 
 export extern "npm" [
-  command?: string@"nu-complete npm db cache"
+  command?: string@"nu-complete npm"
 ]
 
 def "nu-complete npm run" [] {
