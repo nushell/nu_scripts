@@ -179,20 +179,20 @@ export def restart [
 #
 # A paused group won't start any new tasks automatically.
 export def pause [
-  ...ids: int  # IDs of the tasks to pause.
-  --group (-g) # Pause a specific group
-  --all (-a)   # Pause all groups.
-  --wait (-w)  # Only pause the specified group and let already running tasks finish by themselves
+  ...ids: int          # IDs of the tasks to pause.
+  --group (-g): string # Pause a specific group
+  --all (-a)           # Pause all groups.
+  --wait (-w)          # Only pause the specified group and let already running tasks finish by themselves
 ] {
   mut args = []
 
   if $group != null {
-    $args = ($args | prepend "--group")
+    $args = ($args | prepend ["--group" $group])
   }
-  if $all != null {
+  if $all {
     $args = ($args | prepend "--all")
   }
-  if $wait != null {
+  if $wait {
     $args = ($args | prepend "--wait")
   }
 
