@@ -179,10 +179,10 @@ export def restart [
 #
 # A paused group won't start any new tasks automatically.
 export def pause [
-  ...ids: int  # IDs of the tasks to pause.
+  ...ids: int          # IDs of the tasks to pause.
   --group (-g): string # Pause a specific group
-  --all (-a)   # Pause all groups.
-  --wait (-w)  # Only pause the specified group and let already running tasks finish by themselves
+  --all (-a)           # Pause all groups.
+  --wait (-w)          # Only pause the specified group and let already running tasks finish by themselves
 ] {
   mut args = []
 
