@@ -189,10 +189,10 @@ export def pause [
   if $group != null {
     $args = ($args | prepend ["--group" $group])
   }
-  if $all != null {
+  if $all {
     $args = ($args | prepend "--all")
   }
-  if $wait != null {
+  if $wait {
     $args = ($args | prepend "--wait")
   }
 
