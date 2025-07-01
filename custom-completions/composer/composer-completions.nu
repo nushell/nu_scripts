@@ -20,7 +20,7 @@ def "nu-complete composer commands" [] {
   composer list --format json |
     from json |
     get commands |
-    filter {|cmd| not $cmd.hidden} |
+    where {|cmd| not $cmd.hidden} |
     each {|cmd| {value: $cmd.name, description: $cmd.description}}
 }
 
