@@ -2,20 +2,14 @@ def --env "nu-complete jc" [commandline: string] {
   let stor = stor open
 
   if $stor.jc_completions? == null {
-    stor create --table-name jc_completions --columns { value: str, description: str }
+    stor create --table-name jc_completions --columns { value: str, description: str, is_flag: bool }
   }
 
   if $stor.jc_completions_ran? == null {
     stor create --table-name jc_completions_ran --columns { _: bool }
   }
 
-  if $stor.jc_completions_ran != [] {
-    return $stor.jc_completions
-  } else {
-    stor insert --table-name jc_completions_ran --data-record { _: true }
-  }
-
-  let completions = try {
+  if $stor.jc_completions_ran == [] { try {
     let about = ^jc --about
     | from json
 
@@ -46,20 +40,23 @@ def --env "nu-complete jc" [commandline: string] {
     }
     | flatten
 
-    $magic ++ if ($commandline | str ends-with "-") {
-      $options ++ $inherent
-    } else {
-      []
+    for entry in $magic {
+      stor insert --table-name jc_completions --data-record ($entry | insert is_flag false)
     }
-  } catch {
-    []
-  }
 
-  for entry in $completions {
-    stor insert --table-name jc_completions --data-record $entry
-  }
+    for entry in ($options ++ $inherent) {
+      stor insert --table-name jc_completions --data-record ($entry | insert is_flag true)
+    }
 
-  $completions
+    stor insert --table-name jc_completions_ran --data-record { _: true }
+  } }
+
+  if ($commandline | str contains "-") {
+    $stor.jc_completions
+  } else {
+    $stor.jc_completions
+    | where is_flag == 0
+  } | select value description
 }
 
 # Run `jc` (JSON Converter).
