@@ -27,6 +27,19 @@ def "nu-complete eza color-scale-mode" [] {
 }
 
 # A modern, maintained replacement for ls
+@category filesystem
+@example "List the contents of the current directory in a grid" {
+	eza 
+}
+@example "Display a list of files with the largest at the top" {
+	eza --oneline --reverse --sort=size
+}
+@example "Display a table of files with a header, showing each file's metadata, inode, and Git status" {
+	eza --long --header --inode --git
+}
+@example "Display a tree of files, three levels deep, as well as each file's metadata" {
+	eza --long --tree --level=3
+}
 export extern "eza" [
     path?: path                                             # folder to list
 
