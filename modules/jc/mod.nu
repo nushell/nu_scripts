@@ -4,29 +4,37 @@ def --env "nu-complete jc" [] {
   }
 
   let options = try {
-    let options = ^jc --help
-    | collect
-    | parse "{_}Parsers:\n{_}\n\nOptions:\n{inherent}\n\nSlice:{_}"
-    | get 0
-
-    let parsers = ^jc --about
+    let about = ^jc --about
     | from json
+
+    let magic = $about
+    | get parsers
+    | each { { value: $in.magic_commands?, description: $in.description } }
+    | where value != null
+    | flatten
+
+    let options = $about
     | get parsers
     | select argument description
     | rename value description
 
-    let inherent = $options.inherent
+    let inherent = ^jc --help
     | lines
-    | parse "    {short},  {long} {description}"
+    | split list "" # Group with empty lines as boundary.
+    | where { $in.0? == "Options:" } | get 0 # Get the first section that starts with "Options:"
+    | skip 1 # Remove header
+    | each { str trim }
+    | parse "{short},  {long} {description}"
     | update description { str trim }
     | each {|record|
       [[value, description];
         [$record.short, $record.description],
-        [$record.long, $record.description]]
+        [$record.long, $record.description],
+      ]
     }
     | flatten
 
-    $parsers ++ $inherent
+    $options ++ $inherent ++ $magic
   } catch {
     []
   }
