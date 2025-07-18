@@ -1,9 +1,5 @@
 def --env "nu-complete jc" [] {
-  if $env.__NU_COMPLETE_JC? != null {
-    return $env.__NU_COMPLETE_JC
-  }
-
-  let options = try {
+  try {
     let about = ^jc --about
     | from json
 
@@ -38,14 +34,10 @@ def --env "nu-complete jc" [] {
   } catch {
     []
   }
-
-  $env.__NU_COMPLETE_JC = $options
-
-  $options
 }
 
 # Run `jc` (JSON Converter).
-export def --wrapped jc [...arguments: string@"nu-complete jc"]: [any -> table, any -> record, any -> string] {
+export def --wrapped main [...arguments: string@"nu-complete jc"]: [any -> table, any -> record, any -> string] {
   let run = ^jc ...$arguments | complete
 
   if $run.exit_code != 0 {

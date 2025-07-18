@@ -30,5 +30,5 @@ automatically parses its output into a structured data format.
 
 2. Source this module in your `config.nu`:
    ```nu
-   source ~/path/to/jc/mod.rs
+   use modules/jc
    ```
