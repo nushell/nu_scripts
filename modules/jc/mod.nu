@@ -1,5 +1,21 @@
 def --env "nu-complete jc" [commandline: string] {
-  try {
+  let stor = stor open
+
+  if $stor.jc_completions? == null {
+    stor create --table-name jc_completions --columns { value: str, description: str }
+  }
+
+  if $stor.jc_completions_ran? == null {
+    stor create --table-name jc_completions_ran --columns { _: bool }
+  }
+
+  if $stor.jc_completions_ran != [] {
+    return $stor.jc_completions
+  } else {
+    stor insert --table-name jc_completions_ran --data-record { _: true }
+  }
+
+  let completions = try {
     let about = ^jc --about
     | from json
 
@@ -38,6 +54,12 @@ def --env "nu-complete jc" [commandline: string] {
   } catch {
     []
   }
+
+  for entry in $completions {
+    stor insert --table-name jc_completions --data-record $entry
+  }
+
+  $completions
 }
 
 # Run `jc` (JSON Converter).
