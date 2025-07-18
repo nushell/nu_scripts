@@ -1,4 +1,4 @@
-def --env "nu-complete jc" [] {
+def --env "nu-complete jc" [commandline: string] {
   try {
     let about = ^jc --about
     | from json
@@ -30,7 +30,11 @@ def --env "nu-complete jc" [] {
     }
     | flatten
 
-    $options ++ $inherent ++ $magic
+    $magic ++ if ($commandline | str ends-with "-") {
+      $options ++ $inherent
+    } else {
+      []
+    }
   } catch {
     []
   }
