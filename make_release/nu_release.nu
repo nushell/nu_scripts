@@ -11,6 +11,7 @@ export def main [] {
         nu-test-support,
         nu-json,
         nu-derive-value,
+        nu-experimental,
         nu-protocol,
         nu-engine,
         nu-plugin-protocol,
