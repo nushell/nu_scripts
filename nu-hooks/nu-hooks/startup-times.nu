@@ -1,16 +1,14 @@
 alias startup-times = main
 
 # A hook for logging startup times
-@example "Setting it up" {
-    $env.config.hooks.pre_prompt ++= (startup-times)
-}
+@example "Setting it up is simple, calling the command adds the hook automatically" { startup-times }
 @example "Setting it up with a custom path" {
     $env.config.hooks.pre_prompt ++= (startup-times "~/startup-times.tsv")
 }
-export def main [
+export def --env main [
     file: path = ($nu.data-dir | path join "startup-times.tsv"), # the file to log the startup times
-]: nothing -> list {
-    [
+]: nothing -> nothing {
+    $env.config.hooks.pre_prompt = [
         {
             remove: true
             code: {
@@ -31,14 +29,11 @@ export def main [
                 } else {
                     $times | to tsv --noheaders | save --append $file
                 }
+
+                # Remove self
+                $env.config.hooks.pre_prompt = $env.config.hooks.pre_prompt
+                | where not (try { $it.remove == true } catch { false })
             }
-        }
-        {
-            # The hook removes itself, making it run just once
-            # NOTE: We need a separate string hook, modifying `$env.config` in
-            #       a closure hook does not take effect
-            remove: true
-            code: '$env.config.hooks.pre_prompt = $env.config.hooks.pre_prompt | where not (try { $it.remove == true } catch { false })'
         }
     ]
 }
