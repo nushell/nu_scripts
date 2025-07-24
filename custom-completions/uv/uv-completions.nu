@@ -1,4 +1,4 @@
-# nu-version: 0.102.0
+# nu-version: 0.106.0
 
 # This script was created by dumping the output of `uv generate-shell-completion` and adding more completers.
 
@@ -92,7 +92,7 @@ module completions {
 
   def get-groups []: nothing -> list<string> {
     let file = (find-pyproject-file)
-    try { open $file | get -i dependency-groups | columns } catch { [] }
+    try { open $file | get -o dependency-groups | columns } catch { [] }
   }
 
   # Groups completer for subcommands
@@ -115,20 +115,20 @@ module completions {
   # Get packages from "project.dependencies"
   def get-main-packages [] {
     let file = (find-pyproject-file)
-    try { open $file | get -i project.dependencies | parse-package-names } catch { [] }
+    try { open $file | get -o project.dependencies | parse-package-names } catch { [] }
   }
 
   # Get packages from "project.optional-dependencies"
   def get-optional-packages [] {
     let file = (find-pyproject-file)
-    try { open $file | get -i project.optional-dependencies | parse-package-names } catch { [] }
+    try { open $file | get -o project.optional-dependencies | parse-package-names } catch { [] }
   }
 
   # Get packages from "dependency-groups".
   # Ref: https://packaging.python.org/en/latest/specifications/dependency-groups/#dependency-groups
   def get-dependency-group-packages [only_group?: string] {
     let file = (find-pyproject-file)
-    let dg = try { open $file | get -i dependency-groups } catch { [] }
+    let dg = try { open $file | get -o dependency-groups } catch { [] }
     # One group can include other groups, like:
     # dev = ['click', { include-group = "docs" }, { include-group = "linting" }, { include-group = "test" }]
     let handle_line = {|p| if (($p | describe) == 'string') { $p } else { $dg | get ($p.include-group) } }
@@ -147,8 +147,8 @@ module completions {
     let preceding = $context | str substring ..$position
     let prev_tokens = $preceding | str trim | args-split
     # Check if "--group" is specified
-    let go = $prev_tokens | enumerate | find '--group' | get -i index.0
-    let group = if ($go | is-not-empty) { $prev_tokens | get -i ($go + 1)}
+    let go = $prev_tokens | enumerate | find '--group' | get -o index.0
+    let group = if ($go | is-not-empty) { $prev_tokens | get -o ($go + 1)}
     if ($group | is-empty ) {
       get-all-dependencies
     } else {
