@@ -41,7 +41,7 @@ def ranges [] { {
 # ani-cli without options defaults to iina on macOS, flatpak mpv on Steamdeck,
 # mpv apk on android, vlc on iOS and mpv media player everywhere else.
 export extern ani-cli [
-    query?: string
+    ...query: string
 
     --quality (-q): string@qualities
     # Specify the video quality
