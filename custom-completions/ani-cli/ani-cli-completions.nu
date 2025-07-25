@@ -1,16 +1,38 @@
 # Custom completions for ani-cli 4.10.0
 
-def qualities [] {
-    [ "worst", "360p", "480p", "720p", "1080p", "4K", "best" ]
-}
+const qualities = [
+    best
+    worst
+    '360'
+    '480'
+    '720'
+    '1080'
+]
 
-def episodes [] {
-    [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13" ]
-}
+const limit = 24
 
-def ranges [] {
-    [ "1-5", "5-10", "1-13", "14-26", "1-26" ]
-}
+def qualities [] { {
+    options:     { sort: false }
+    completions: $qualities
+} }
+
+def episodes [] { {
+    options:     { sort: false }
+    completions: (1..$limit | into string)
+} }
+
+def ranges [] { {
+    options: { sort: false }
+    completions: (
+        1..$limit | each {
+            |start| $start..$limit | each {
+                |end| if $start != $end {
+                    $'($start)-($end)'
+                }
+            }
+        } | flatten
+    )
+} }
 
 # Watch anime from the commandline.
 #
