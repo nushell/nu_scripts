@@ -15,23 +15,17 @@ def ranges [] {
 export extern ani-cli [
   string?
 
-  --quality (-q): int@qualities
+  --quality (-q): string@qualities
   # Specify the video quality
 
   --syncplay (-s)
   # Use Syncplay to watch with friends (mpv only)
-
-  --fzf (-f)
-  # Use FZF for selection.
 
   --episode (-e): string@episodes
   # Specify the episode number to watch
 
   --download (-d)
   # Download the video instead of playing it
-
-  --path (-p): string
-  # Download episode to a specified directory.
 
   --continue (-c)
   # Continue watching from history
@@ -42,7 +36,7 @@ export extern ani-cli [
   --delete (-D)
   # Delete history
 
-  --log-view (-l)
+  --logview (-l)
   # Show logs
 
   --update (-U)
