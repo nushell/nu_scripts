@@ -40,6 +40,24 @@ def ranges [] { {
 # This tool scrapes the site allanime.
 # ani-cli without options defaults to iina on macOS, flatpak mpv on Steamdeck,
 # mpv apk on android, vlc on iOS and mpv media player everywhere else.
+@example "Search for 'banana fish' in 720p" {
+    ani-cli -q 720 banana fish
+}
+@example "Search for 'one piece', select 2nd entry and skip the intro" {
+    ani-cli --skip --skip-title "one piece" -S 2 one piece
+}
+@example "Search for 'cyberpunk edgerunners' and download 2nd episode" {
+    ani-cli -d -e 2 cyberpunk edgerunners
+}
+@example "Search for 'cyberpunk edgerunners' 4th episode with VLC in 1080p" {
+    ani-cli --vlc cyberpunk edgerunners -q 1080 -e 4
+}
+@example "Search for 'blue lock' 5th and 6th episodes" {
+    ani-cli blue lock -e 5-6
+}
+@example "Search for 'blue lock' 5th and 6th episodes" {
+    ani-cli -e "5 6" blue lock
+}
 export extern ani-cli [
     ...query: string
 
