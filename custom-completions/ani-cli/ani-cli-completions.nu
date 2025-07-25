@@ -1,14 +1,15 @@
-# author: HirschBerge
-# inspired by DWTW
+# Custom completions for ani-cli 4.10.0
 
 def qualities [] {
-  [ "worst", "360p", "480p", "720p", "1080p", "4K", "best" ]
+    [ "worst", "360p", "480p", "720p", "1080p", "4K", "best" ]
 }
+
 def episodes [] {
-  [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13" ]
+    [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13" ]
 }
+
 def ranges [] {
-  [ "1-5", "5-10", "1-13", "14-26", "1-26" ]
+    [ "1-5", "5-10", "1-13", "14-26", "1-26" ]
 }
 
 # Watch anime from the commandline.
@@ -18,65 +19,65 @@ def ranges [] {
 # ani-cli without options defaults to iina on macOS, flatpak mpv on Steamdeck,
 # mpv apk on android, vlc on iOS and mpv media player everywhere else.
 export extern ani-cli [
-  query?: string
+    query?: string
 
-  --quality (-q): string@qualities
-  # Specify the video quality
+    --quality (-q): string@qualities
+    # Specify the video quality
 
-  --episode (-e): string@episodes
-  # Specify the episode number to watch
+    --episode (-e): string@episodes
+    # Specify the episode number to watch
 
-  --range (-r): string@ranges
-  # Specify the episode numbers to watch
+    --range (-r): string@ranges
+    # Specify the episode numbers to watch
 
-  --select-nth (-S): int
-  # Selects nth entry
+    --select-nth (-S): int
+    # Selects nth entry
 
-  --skip-title: string
-  # Use given title as ani-skip query
+    --skip-title: string
+    # Use given title as ani-skip query
 
-  --syncplay (-s)
-  # Use Syncplay to watch with friends (mpv only)
+    --syncplay (-s)
+    # Use Syncplay to watch with friends (mpv only)
 
-  --download (-d)
-  # Download the video instead of playing it
+    --download (-d)
+    # Download the video instead of playing it
 
-  --continue (-c)
-  # Continue watching from history
+    --continue (-c)
+    # Continue watching from history
 
-  --help (-h)
-  # Show summary of options
+    --help (-h)
+    # Show summary of options
 
-  --delete (-D)
-  # Delete history
+    --delete (-D)
+    # Delete history
 
-  --logview (-l)
-  # Show logs
+    --logview (-l)
+    # Show logs
 
-  --update (-U)
-  # Update the script
+    --update (-U)
+    # Update the script
 
-  --version (-V)
-  # Show the version of the script
+    --version (-V)
+    # Show the version of the script
 
-  --nextep-countdown (-N)
-  # Display a countdown to the next episode
+    --nextep-countdown (-N)
+    # Display a countdown to the next episode
 
-  --vlc (-v)
-  # Use VLC as the media player
+    --vlc (-v)
+    # Use VLC as the media player
 
-  --skip
-  # Use ani-skip to skip the intro of the episode (mpv only)
+    --skip
+    # Use ani-skip to skip the intro of the episode (mpv only)
 
-  --dub
-  # Play the dubbed version
+    --dub
+    # Play the dubbed version
 
-  --rofi
-  # Use rofi instead of fzf for the interactive menu
+    --rofi
+    # Use rofi instead of fzf for the interactive menu
 
-  --no-detach
-  # Don't detach the player (mpv only)
+    --no-detach
+    # Don't detach the player (mpv only)
 
-  --exit-after-play
-  # Exit after playing, and return player exit code (mpv only)
+    --exit-after-play
+    # Exit after playing, and return player exit code (mpv only)
 ]
