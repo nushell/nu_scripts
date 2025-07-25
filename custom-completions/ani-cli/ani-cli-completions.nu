@@ -1,23 +1,23 @@
 # author: HirschBerge
 # inspired by DWTW
 
-def videoQuality [] {
+def qualities [] {
   [ "worst", "360p", "480p", "720p", "1080p", "4K", "best" ]
 }
-def common_episodes [] {
+def episodes [] {
   [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13" ]
 }
-def common_ranges [] {
+def ranges [] {
   [ "1-5", "5-10", "1-13", "14-26", "1-26" ]
 }
 
 # Anime Search and Streaming Tool
-export extern "ani-cli" [
+export extern ani-cli [
   string?
-  --quality (-q): int@videoQuality       # Specify video quality
+  --quality (-q): int@qualities          # Specify video quality
   --syncplay (-s)                        # Use Syncplay to watch with friends
   --fzf (-f)                             # Use FZF for selection
-  --episode (-e): string@common_episodes # Specify episode number
+  --episode (-e): string@episodes        # Specify episode number
   --download (-d)                        # Download the episode instead of playing it
   --path (-p): string                    # Download episode to a specified directory
   --continue (-c)                        # Continue watching from history
@@ -26,7 +26,7 @@ export extern "ani-cli" [
   --log-view (-l)                        # Show logs
   --update (-U)                          # Update the script
   --version (-V)                         # Show the version of the script
-  --range (-r): string@common_ranges     # Specify range number
+  --range (-r): string@ranges            # Specify range number
   --skip                                 # Use ani-skip to skip intros (mpv only)
   --dub                                  # Play dubbed version
   --rofi                                 # Use rofi instead of fzf for menu
