@@ -1991,7 +1991,7 @@ def "nu completion duration" [ctx: string] {
 }
 
 def "nu completion tag" [] {
-    op item list --format json | from json | get tags -i | uniq | sort --ignore-case --natural
+    op item list --format json | from json | get tags -o | uniq | sort --ignore-case --natural
 }
 
 def "nu completion tags" [ctx: string] {
@@ -2108,15 +2108,15 @@ def "nu completion bool" [] {
 }
 
 def "nu completion account" [] {
-    op account list --format json | from json | select -i account_uuid email | rename value description | sort-by description --ignore-case --natural
+    op account list --format json | from json | select -o account_uuid email | rename value description | sort-by description --ignore-case --natural
 }
 
 def "nu completion document_item" [] {
-    op item list --format json | from json | where category == "DOCUMENT" | select -i id title | rename value description | sort-by description --ignore-case --natural
+    op item list --format json | from json | where category == "DOCUMENT" | select -o id title | rename value description | sort-by description --ignore-case --natural
 }
 
 def "nu completion item" [] {
-    op item list --format json | from json | select -i id title additional_information | rename value description
+    op item list --format json | from json | select -o id title additional_information | rename value description
     | upsert description {|row| if ($row.additional_information | is-not-empty) and $row.additional_information != '' {$"($row.description) - ($row.additional_information)"} else {$row.description} }
     | sort-by description --ignore-case --natural
     | select value description
