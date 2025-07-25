@@ -11,9 +11,14 @@ def ranges [] {
   [ "1-5", "5-10", "1-13", "14-26", "1-26" ]
 }
 
-# Anime Search and Streaming Tool
+# Watch anime from the commandline.
+#
+# A shell script to browse and search anime from the command-line.
+# This tool scrapes the site allanime.
+# ani-cli without options defaults to iina on macOS, flatpak mpv on Steamdeck,
+# mpv apk on android, vlc on iOS and mpv media player everywhere else.
 export extern ani-cli [
-  string?
+  query?: string
 
   --quality (-q): string@qualities
   # Specify the video quality
@@ -68,4 +73,10 @@ export extern ani-cli [
 
   --nextep-countdown (-N)
   # Display a countdown to the next episode
+
+  --vlc (-v)
+  # Use VLC as the media player
+
+  --select-nth (-S): int
+  # Selects nth entry
 ]
