@@ -23,11 +23,20 @@ export extern ani-cli [
   --quality (-q): string@qualities
   # Specify the video quality
 
-  --syncplay (-s)
-  # Use Syncplay to watch with friends (mpv only)
-
   --episode (-e): string@episodes
   # Specify the episode number to watch
+
+  --range (-r): string@ranges
+  # Specify the episode numbers to watch
+
+  --select-nth (-S): int
+  # Selects nth entry
+
+  --skip-title: string
+  # Use given title as ani-skip query
+
+  --syncplay (-s)
+  # Use Syncplay to watch with friends (mpv only)
 
   --download (-d)
   # Download the video instead of playing it
@@ -50,8 +59,11 @@ export extern ani-cli [
   --version (-V)
   # Show the version of the script
 
-  --range (-r): string@ranges
-  # Specify the episode numbers to watch
+  --nextep-countdown (-N)
+  # Display a countdown to the next episode
+
+  --vlc (-v)
+  # Use VLC as the media player
 
   --skip
   # Use ani-skip to skip the intro of the episode (mpv only)
@@ -67,16 +79,4 @@ export extern ani-cli [
 
   --exit-after-play
   # Exit after playing, and return player exit code (mpv only)
-
-  --skip-title: string
-  # Use given title as ani-skip query
-
-  --nextep-countdown (-N)
-  # Display a countdown to the next episode
-
-  --vlc (-v)
-  # Use VLC as the media player
-
-  --select-nth (-S): int
-  # Selects nth entry
 ]
