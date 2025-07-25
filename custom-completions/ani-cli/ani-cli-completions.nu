@@ -14,38 +14,24 @@ def common_ranges [] {
 # Anime Search and Streaming Tool
 export extern "ani-cli" [
   string?
-  -q: int@videoQuality              # Specify video quality
-  --quality: int@videoQuality       # Specify video quality
-  -s                                # Use Syncplay to watch with friends
-  --syncplay                        # Use Syncplay to watch with friends
-  -f                                # Use FZF for selection
-  --fzf                             # Use FZF for selection
-  -e: string@common_episodes        # Specify episode number
-  --episode: string@common_episodes # Specify episode number
-  -d                                # Download the episode instead of playing it
-  --download                        # Download the episode instead of playing it
-  -p                                # Download episode to a specified directory
-  --path: string                    # Download episode to a specified directory
-  -c                                # Continue watching from history
-  --continue                        # Continue watching from history
-  -h                                # Show help text
-  --help                            # Show help text
-  -D                                # Delete history
-  --delete                          # Delete history
-  -l                                # Show logs
-  --log-view                        # Show logs
-  -U                                # Update the script
-  --update                          # Update the script
-  -V                                # Show the version of the script
-  --version                         # Show the version of the script
-  -r: string@common_ranges          # Specify range number
-  --range: string@common_ranges     # Specify range number
-  --skip                            # Use ani-skip to skip intros (mpv only)
-  --dub                             # Play dubbed version
-  --rofi                            # Use rofi instead of fzf for menu
-  --no-detach                       # Don't detach the player (mpv only)
-  --exit-after-play                 # Exit after playing (mpv only)
-  --skip-title: string              # Use the given title for ani-skip query
-  -N                                # Display a countdown to the next episode
-  --nextep-countdown                # Display a countdown to the next episode
+  --quality (-q): int@videoQuality       # Specify video quality
+  --syncplay (-s)                        # Use Syncplay to watch with friends
+  --fzf (-f)                             # Use FZF for selection
+  --episode (-e): string@common_episodes # Specify episode number
+  --download (-d)                        # Download the episode instead of playing it
+  --path (-p): string                    # Download episode to a specified directory
+  --continue (-c)                        # Continue watching from history
+  --help (-h)                            # Show help text
+  --delete (-D)                          # Delete history
+  --log-view (-l)                        # Show logs
+  --update (-U)                          # Update the script
+  --version (-V)                         # Show the version of the script
+  --range (-r): string@common_ranges     # Specify range number
+  --skip                                 # Use ani-skip to skip intros (mpv only)
+  --dub                                  # Play dubbed version
+  --rofi                                 # Use rofi instead of fzf for menu
+  --no-detach                            # Don't detach the player (mpv only)
+  --exit-after-play                      # Exit after playing (mpv only)
+  --skip-title: string                   # Use the given title for ani-skip query
+  --nextep-countdown (-N)                # Display a countdown to the next episode
 ]
