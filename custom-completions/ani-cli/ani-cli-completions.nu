@@ -14,24 +14,64 @@ def ranges [] {
 # Anime Search and Streaming Tool
 export extern ani-cli [
   string?
-  --quality (-q): int@qualities          # Specify video quality
-  --syncplay (-s)                        # Use Syncplay to watch with friends
-  --fzf (-f)                             # Use FZF for selection
-  --episode (-e): string@episodes        # Specify episode number
-  --download (-d)                        # Download the episode instead of playing it
-  --path (-p): string                    # Download episode to a specified directory
-  --continue (-c)                        # Continue watching from history
-  --help (-h)                            # Show help text
-  --delete (-D)                          # Delete history
-  --log-view (-l)                        # Show logs
-  --update (-U)                          # Update the script
-  --version (-V)                         # Show the version of the script
-  --range (-r): string@ranges            # Specify range number
-  --skip                                 # Use ani-skip to skip intros (mpv only)
-  --dub                                  # Play dubbed version
-  --rofi                                 # Use rofi instead of fzf for menu
-  --no-detach                            # Don't detach the player (mpv only)
-  --exit-after-play                      # Exit after playing (mpv only)
-  --skip-title: string                   # Use the given title for ani-skip query
-  --nextep-countdown (-N)                # Display a countdown to the next episode
+
+  --quality (-q): int@qualities
+  # Specify the video quality
+
+  --syncplay (-s)
+  # Use Syncplay to watch with friends (mpv only)
+
+  --fzf (-f)
+  # Use FZF for selection.
+
+  --episode (-e): string@episodes
+  # Specify the episode number to watch
+
+  --download (-d)
+  # Download the video instead of playing it
+
+  --path (-p): string
+  # Download episode to a specified directory.
+
+  --continue (-c)
+  # Continue watching from history
+
+  --help (-h)
+  # Show summary of options
+
+  --delete (-D)
+  # Delete history
+
+  --log-view (-l)
+  # Show logs
+
+  --update (-U)
+  # Update the script
+
+  --version (-V)
+  # Show the version of the script
+
+  --range (-r): string@ranges
+  # Specify the episode numbers to watch
+
+  --skip
+  # Use ani-skip to skip the intro of the episode (mpv only)
+
+  --dub
+  # Play the dubbed version
+
+  --rofi
+  # Use rofi instead of fzf for the interactive menu
+
+  --no-detach
+  # Don't detach the player (mpv only)
+
+  --exit-after-play
+  # Exit after playing, and return player exit code (mpv only)
+
+  --skip-title: string
+  # Use given title as ani-skip query
+
+  --nextep-countdown (-N)
+  # Display a countdown to the next episode
 ]
