@@ -40,6 +40,8 @@ def ranges [] { {
 # This tool scrapes the site allanime.
 # ani-cli without options defaults to iina on macOS, flatpak mpv on Steamdeck,
 # mpv apk on android, vlc on iOS and mpv media player everywhere else.
+@search-terms anime
+@category network
 @example "Search for 'banana fish' in 720p" {
     ani-cli -q 720 banana fish
 }
