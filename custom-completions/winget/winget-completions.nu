@@ -90,10 +90,10 @@ def "nu-complete winget parse table" [lines: any] {
     let lengths = {
         name: ($header.name | str length),
         id: ($header.id | str length),
-        version: ($header.version | str length),
-        match: ($header.match | str length),
-        available: ($header.available | str length),
-        source: ($header.source | str length)
+        version: ($header.version | default "" | str length),
+        match: ($header.match | default "" | str length),
+        available: ($header.available | default "" | str length),
+        source: ($header.source | default "" | str length)
     }
     $lines | skip 2 | each { |it|
         let it = ($it | split chars)
