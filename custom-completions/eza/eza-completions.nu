@@ -27,20 +27,28 @@ def "nu-complete eza color-scale-mode" [] {
 }
 
 # A modern, maintained replacement for ls
+#
+# It uses colours for information by default, helping you distinguish between
+# many types of files, such as whether you are the owner, or in the owning group.
+#
+# It also has extra features not present in the original ls, such as viewing
+# the Git status for a directory, or recursing into directories with a tree view.
 @category filesystem
 @example "List the contents of the current directory in a grid" {
-	eza 
+    eza 
 }
 @example "Display a list of files with the largest at the top" {
-	eza --oneline --reverse --sort=size
+    eza --oneline --reverse --sort=size
 }
 @example "Display a table of files with a header, showing each file's metadata, inode, and Git status" {
-	eza --long --header --inode --git
+    eza --long --header --inode --git
 }
 @example "Display a tree of files, three levels deep, as well as each file's metadata" {
-	eza --long --tree --level=3
+    eza --long --tree --level=3
 }
 export extern "eza" [
+    ...path: glob                                           # folder to list
+
     --help(-?)                                              # show list of command-line options
     --version(-v)                                           # show version of eza
 
@@ -67,7 +75,7 @@ export extern "eza" [
 
     --all(-a)                                               # show hidden and 'dot' files. Use this twice to also show the '.' and '..' directories
     --almost-all(-A)                                        # equivalent to --all; included for compatibility with `ls -A`
-    --treat-dirs-as-files(-d)                                         # list directories as files; don't list their contents
+    --treat-dirs-as-files(-d)                               # list directories as files; don't list their contents
     --only-dirs(-D)                                         # list only directories
     --only-files(-f)                                        # list only files
     --show-symlinks                                         # explicitly show symbolic links (for use with --only-dirs | --only-files)
