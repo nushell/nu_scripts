@@ -5,7 +5,7 @@
 
 # Extract target-specific dependencies from an opened Cargo.toml
 def get-target-dependencies [] {
-    let target = ($in | get -i target)
+    let target = ($in | get -o target)
 
     mut res = []
 
@@ -14,7 +14,7 @@ def get-target-dependencies [] {
     }
 
     for col in ($target | columns) {
-        let deps = ($target | get -i $col | get -i dependencies)
+        let deps = ($target | get -o $col | get -o dependencies)
         if not ($deps | is-empty) {
             $res ++= ($deps | columns)
         }
@@ -31,8 +31,8 @@ def find-deps [] {
         let data = (open $toml)
 
         mut deps = []
-        $deps ++= ($data | get -i 'dependencies' | default {} | columns)
-        $deps ++= ($data | get -i 'dev-dependencies' | default {} | columns)
+        $deps ++= ($data | get -o 'dependencies' | default {} | columns)
+        $deps ++= ($data | get -o 'dev-dependencies' | default {} | columns)
         $deps ++= ($data | get-target-dependencies)
         let $deps = ($deps
             | where ($it | str starts-with 'nu-')

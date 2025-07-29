@@ -69,7 +69,7 @@ def query-week-span [] {
         )
 
         if not ($site_json | all { |it| $it | is-empty }) {
-            let heading_name = ($repo_headings | get -i $repo | default $repo)
+            let heading_name = ($repo_headings | get -o $repo | default $repo)
             print $"(char nl)## ($heading_name)(char nl)"
 
             for user in ($site_json | group-by "user.login" | transpose user prs) {
@@ -92,7 +92,7 @@ def query-week-span [] {
 }
 
 let has_token = (try { gh auth token }) != null
-let has_username_pw = ($env | get -i GITHUB_USERNAME | is-not-empty) and ($env | get -i GITHUB_PASSWORD | is-not-empty) 
+let has_username_pw = ($env | get -o GITHUB_USERNAME | is-not-empty) and ($env | get -o GITHUB_PASSWORD | is-not-empty) 
 
 if not ($has_token or $has_username_pw) {
     print "This script requires either a working GitHub client that returns `gh auth token` or"

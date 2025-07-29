@@ -27,7 +27,7 @@ export def --env main [] {
                 AWS_SECRET_ACCESS_KEY: ($creds | get $selected_profile | get "aws_secret_access_key"),
             }
 
-            let region = ($creds | get $selected_profile | get -i "region")
+            let region = ($creds | get $selected_profile | get -o "region")
             if $region != null {
                 $out | insert AWS_REGION $region
             } else {

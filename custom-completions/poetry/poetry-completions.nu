@@ -167,7 +167,7 @@ def "nu-complete poetry setting-values" [context: string]: nothing -> list<any> 
     return {
         "installer.max-workers": [5 6 8 10 12 14 16 20 24 32 32 36 52 56 84 100 104]
         "virtualenvs.prompt": ["\"{project_name}-py{python_version}\""]
-    } | get -i $final_context
+    } | get -o $final_context
 }
 
 # Export formats
