@@ -38,7 +38,7 @@ export def main [
     |split chars
     |each {|char|
         $diacritics_map
-        |get -i -s $char
+        |get -o -s $char
         |default $char
     }
     |str join ''

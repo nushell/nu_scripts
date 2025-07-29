@@ -110,7 +110,7 @@ export def "kv get" [
   | $in.std_kv_store | wrap temp | get temp
   | where key == $key
     # Should only be one occurence of each key in the stor
-  | get -i value.0
+  | get -o value.0
   | match $in {
       # Key not found
       null => null

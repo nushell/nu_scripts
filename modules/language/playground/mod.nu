@@ -21,7 +21,7 @@ export def play [
   closure: closure
 ] {
   let is_tag_empty = ($tag | is-empty);
-  let should_run_all = ($env | get -i RUN_ALL | default false);
+  let should_run_all = ($env | get -o RUN_ALL | default false);
 
   if $is_tag_empty {
       do $closure $topic
