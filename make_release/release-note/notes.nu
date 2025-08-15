@@ -10,7 +10,7 @@ export def list-prs [
     --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
     --milestone: string # only list PRs in a certain milestone
     --label: string # the PR label to filter by, e.g. 'good-first-issue'
-] {
+]: nothing -> table {
     query-prs $repo --since=$since --milestone=$milestone --label=$label
     | select author title number mergedAt url
     | sort-by mergedAt --reverse
@@ -23,7 +23,7 @@ def query-prs [
     --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
     --milestone: string # only list PRs in a certain milestone
     --label: string # the PR label to filter by, e.g. 'good-first-issue'
-] {
+]: nothing -> table {
     mut query_parts = []
 
     if $since != null or $milestone == null {
@@ -54,9 +54,9 @@ export def pr-notes [
     --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
     --milestone: string # only list PRs in a certain milestone
     --label: string # the PR label to filter by, e.g. 'good-first-issue'
-] {
+]: nothing -> table {
     let processed = (
-        list-prs $repo --since=$since --milestone=$milestone --label=$label
+        query-prs $repo --since=$since --milestone=$milestone --label=$label
         | sort-by mergedAt
         | each { get-release-notes }
     )
@@ -68,13 +68,6 @@ export def pr-notes [
     | select author title number mergedAt url notes
 }
 
-def format-pr []: record -> string {
-    let pr = $in
-    let text = $"#($pr.number): ($pr.title)"
-    $pr.url
-    | ansi link -t $text
-    | "- " ++ $in
-}
 
 # Attempt to extract the "Release notes summary" section from a PR.
 #
@@ -133,11 +126,12 @@ def extract-notes []: string -> string {
     | str trim
 }
 
+# Check if the release notes section was left empty
 def notes-are-empty []: string -> bool {
     $in in ["", "N/A"]
 }
 
-# Adds an entry to the "notices" field of a PR
+# Add an entry to the "notices" field of a PR
 def add-notice [type: string, message: string]: record -> record {
     upsert notices {
         append {type: $type, message: $message}
@@ -145,10 +139,7 @@ def add-notice [type: string, message: string]: record -> record {
 }
 
 # Print all of the notices associated with a PR
-def display-notices [] {
-    let prs = $in
-
-    $prs
+def display-notices []: table -> nothing {
     # Create row with PR info for each notice
     | each {|pr|
           get notices | each {|e|
@@ -163,7 +154,7 @@ def display-notices [] {
 }
 
 # Print notices of a certain type
-def display-notice-type [type: string] {
+def display-notice-type [type: string]: table -> nothing {
     let prs = $in
     let colors = {error: (ansi red), warning: (ansi yellow)}
     let color = $colors | get $type
@@ -173,9 +164,17 @@ def display-notice-type [type: string] {
     | sort-by message
     | each {|e|
         print $"($color)PRs with ($e.message):"
-        $e.items | each { format-pr | print }
+        $e.items | each { format-pr | print $"- ($in)" }
         print ""
     }
+    | ignore
+}
+
+# Format a PR nicely, including a link
+def format-pr []: record -> string {
+    let pr = $in
+    let text = $"#($pr.number): ($pr.title)"
+    $pr.url | ansi link -t $text
 }
 
 # Format the output of `list-prs` as a markdown table
