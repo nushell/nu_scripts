@@ -140,29 +140,15 @@ def add-notice [type: string, message: string]: record -> record {
 
 # Print all of the notices associated with a PR
 def display-notices []: table -> nothing {
-    # Create row with PR info for each notice
-    | each {|pr|
-          get notices | each {|e|
-            $pr | insert type $e.type | insert message $e.message
-          }
-      }
-    | flatten
-    | group-by --to-table type
-    | sort-by -r type
-    | each {|e| $e.items | display-notice-type $e.type }
-    | ignore
-}
-
-# Print notices of a certain type
-def display-notice-type [type: string]: table -> nothing {
     let prs = $in
     let colors = {error: (ansi red), warning: (ansi yellow)}
-    let color = $colors | get $type
 
     $prs
-    | group-by message --to-table
-    | sort-by message
+    | flatten -a notices
+    | group-by --to-table type message
+    | sort-by -r type
     | each {|e|
+        let color = $colors | get $e.type
         print $"($color)PRs with ($e.message):"
         $e.items | each { format-pr | print $"- ($in)" }
         print ""
