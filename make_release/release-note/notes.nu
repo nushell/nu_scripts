@@ -64,8 +64,8 @@ export def pr-notes [
     $processed | display-notices
 
     $processed
-    | where notes? != null
-    | select author title number mergedAt url notes
+    | where {|pr| "error" not-in ($pr.notices?.type? | default []) }
+    | select author title number mergedAt url notes?
 }
 
 
@@ -84,11 +84,16 @@ def get-release-notes []: record -> record {
     let notes = $pr.body | extract-notes
     let has_ready_label = $READY in $pr.labels.name
 
-    # If the notes are empty, it doesn't need any labels
-    if ($notes | notes-are-empty) {
+    # Check for empty notes section
+    if ($notes | is-empty) {
         if not $has_ready_label {
             $pr = $pr | add-notice warning "empty release notes section and no explicit label"
         }
+        return $pr
+    }
+
+    # Check for N/A notes section
+    if $notes == "N/A" {
         return $pr
     }
 
@@ -145,7 +150,7 @@ def display-notices []: table -> nothing {
 
     $prs
     | flatten -a notices
-    | group-by --to-table type message
+    | group-by --to-table type? message?
     | sort-by -r type
     | each {|e|
         let color = $colors | get $e.type
