@@ -1,24 +1,9 @@
-use std/assert
-
 def md-link [text: string, link: string] {
     $"[($text)]\(($link)\)"
 }
 
 # List all merged PRs since the last release
 export def list-prs [
-    repo: string = 'nushell/nushell' # the name of the repo, e.g. 'nushell/nushell'
-    --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
-    --milestone: string # only list PRs in a certain milestone
-    --label: string # the PR label to filter by, e.g. 'good-first-issue'
-] {
-    query-prs $repo --since=$since --milestone=$milestone --label=$label
-    | select author title number mergedAt url
-    | sort-by mergedAt --reverse
-    | update author { get login }
-}
-
-# Construct a GitHub query for merged PRs on a repo.
-def query-prs [
     repo: string = 'nushell/nushell' # the name of the repo, e.g. 'nushell/nushell'
     --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
     --milestone: string # only list PRs in a certain milestone
@@ -43,139 +28,11 @@ def query-prs [
 
     (gh --repo $repo pr list --state merged
         --limit (inf | into int)
-        --json author,title,number,mergedAt,url,body,labels
+        --json author,title,number,mergedAt,url
         --search $query)
     | from json
-}
-
-# Get the release notes for all merged PRs on a repo.
-export def pr-notes [
-    repo: string = 'nushell/nushell' # the name of the repo, e.g. 'nushell/nushell'
-    --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
-    --milestone: string # only list PRs in a certain milestone
-    --label: string # the PR label to filter by, e.g. 'good-first-issue'
-] {
-    let processed = (
-        list-prs $repo --since=$since --milestone=$milestone --label=$label
-        | sort-by mergedAt
-        | each { get-release-notes }
-    )
-
-    $processed | display-notices
-
-    $processed
-    | where notes? != null
-    | select author title number mergedAt url notes
-}
-
-def format-pr []: record -> string {
-    let pr = $in
-    let text = $"#($pr.number): ($pr.title)"
-    $pr.url
-    | ansi link -t $text
-    | "- " ++ $in
-}
-
-# Attempt to extract the "Release notes summary" section from a PR.
-#
-# If a valid release notes section is found, a "notes" column is added.
-# If any issues are detected, a "notices" column with additional information is added.
-def get-release-notes []: record -> record {
-    mut pr = $in
-    const READY = "pr:release-notes-mention"
-
-    if "## Release notes summary" not-in $pr.body {
-        return ($pr | add-notice error "no release notes section")
-    }
-
-    let notes = $pr.body | extract-notes
-    let has_ready_label = $READY in $pr.labels.name
-
-    # If the notes are empty, it doesn't need any labels
-    if ($notes | notes-are-empty) {
-        if not $has_ready_label {
-            $pr = $pr | add-notice warning "empty release notes section and no explicit label"
-        }
-        return $pr
-    }
-
-    # If the notes section isn't empty, make sure we have the ready label
-    if $READY not-in $pr.labels.name {
-        return ($pr | add-notice error $"no ($READY) label")
-    }
-
-    # Check that a category is selected
-    if ($pr.labels.name | where $it starts-with "pr:" | reject $READY | is-empty) {
-        $pr = $pr | add-notice warning "no explicit release notes category selected (defaults to mention)"
-    }
-
-    # Check for suspiciously short release notes section
-    if ($notes | split words | length) < 10 {
-        $pr = $pr | add-notice warning "release notes section that is less than 10 words"
-    }
-
-    $pr | insert notes $notes
-}
-
-# Extracts the "Release notes summary" section of the PR description
-def extract-notes []: string -> string {
-    lines
-    # skip until release notes heading
-    | skip until { $in starts-with "## Release notes summary" }
-    # this should already have been checked
-    | if ($in | is-empty) { assert false } else {}
-    | skip 1 # remove header
-    # extract until next heading
-    | take until { $in starts-with "##" }
-    | str join (char nl)
-    # remove HTML comments
-    | str replace -amr '<!--\O*?-->' ''
-    | str trim
-}
-
-def notes-are-empty []: string -> bool {
-    $in in ["", "N/A"]
-}
-
-# Adds an entry to the "notices" field of a PR
-def add-notice [type: string, message: string]: record -> record {
-    upsert notices {
-        append {type: $type, message: $message}
-    }
-}
-
-# Print all of the notices associated with a PR
-def display-notices [] {
-    let prs = $in
-
-    $prs
-    # Create row with PR info for each notice
-    | each {|pr|
-          get notices | each {|e|
-            $pr | insert type $e.type | insert message $e.message
-          }
-      }
-    | flatten
-    | group-by --to-table type
-    | sort-by -r type
-    | each {|e| $e.items | display-notice-type $e.type }
-    | ignore
-}
-
-# Print notices of a certain type
-def display-notice-type [type: string] {
-    let prs = $in
-    let colors = {error: (ansi red), warning: (ansi yellow)}
-    let color = $colors | get $type
-
-    $prs
-    | group-by message --to-table
-    | sort-by message
-    | each {|e|
-        print $"($color)PRs with ($e.message):"
-        $e.items | each { format-pr | print }
-        print ""
-    }
+    | sort-by mergedAt --reverse
+    | update author { get login }
 }
 
 # Format the output of `list-prs` as a markdown table
