@@ -93,7 +93,7 @@ def get-release-notes []: record -> record {
     }
 
     # Check for N/A notes section
-    if $notes == "N/A" {
+    if ($notes | is-empty-keyword) {
         return $pr
     }
 
@@ -131,9 +131,9 @@ def extract-notes []: string -> string {
     | str trim
 }
 
-# Check if the release notes section was left empty
-def notes-are-empty []: string -> bool {
-    $in in ["", "N/A"]
+# Check if the release notes section was explicitly left empty
+def is-empty-keyword []: string -> bool {
+    str downcase | $in in ["n/a", "nothing", "none", "nan"]
 }
 
 # Add an entry to the "notices" field of a PR
