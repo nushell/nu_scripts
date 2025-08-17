@@ -1,8 +1,16 @@
 use std/assert
+use std-rfc/iter only
 
-def md-link [text: string, link: string] {
-    $"[($text)]\(($link)\)"
-}
+const SECTIONS = [
+    [label, h2, h3];
+    ["notes:breaking-changes", "Breaking changes", "Other breaking changes"]
+    ["notes:additions", "Additions", "Other additions"]
+    ["notes:deprecations", "Deprecations", "Other deprecations"]
+    ["notes:removals", "Removals", "Other removals"]
+    ["notes:other", "Other changes", "Additional changes"]
+    ["notes:fixes", "Bug fixes", "Other fixes"]
+    ["notes:mention", null, null]
+]
 
 # List all merged PRs since the last release
 export def list-prs [
@@ -55,19 +63,18 @@ export def pr-notes [
     --milestone: string # only list PRs in a certain milestone
     --label: string # the PR label to filter by, e.g. 'good-first-issue'
 ]: nothing -> table {
-    let processed = (
-        query-prs $repo --since=$since --milestone=$milestone --label=$label
-        | sort-by mergedAt
-        | each { get-release-notes }
-    )
-
-    $processed | display-notices
-
-    $processed
+    query-prs $repo --since=$since --milestone=$milestone --label=$label
+    | sort-by mergedAt
+    | each { get-release-notes }
+    | collect
+    | tee { display-notices }
     | where {|pr| "error" not-in ($pr.notices?.type? | default []) }
-    | select author title number mergedAt url notes?
+    | select author title number section mergedAt url notes?
 }
 
+def pr-notes-sections [] {
+
+}
 
 # Attempt to extract the "Release notes summary" section from a PR.
 #
@@ -75,36 +82,59 @@ export def pr-notes [
 # If any issues are detected, a "notices" column with additional information is added.
 def get-release-notes []: record -> record {
     mut pr = $in
-    const READY = "pr:release-notes-mention"
 
     if "## Release notes summary" not-in $pr.body {
         return ($pr | add-notice error "no release notes section")
     }
 
-    let notes = $pr.body | extract-notes
-    let has_ready_label = $READY in $pr.labels.name
+    mut notes = $pr.body | extract-notes
+
+    let has_ready_label = "notes:ready" in $pr.labels.name
+    let sections = $SECTIONS | where label in $pr.labels.name
+    let hall_of_fame = $SECTIONS | where label == "notes:mention" | only
 
     # Check for empty notes section
-    if ($notes | is-empty) {
-        if not $has_ready_label {
+    if ($notes | is-empty-keyword) {
+        if ($sections | where label != "notes:mention" | is-not-empty) {
+            return ($pr | add-notice error "empty summary has a category other than Hall of Fame")
+        }
+
+        if ($notes | is-empty) and not $has_ready_label {
             $pr = $pr | add-notice warning "empty release notes section and no explicit label"
         }
-        return $pr
-    }
 
-    # Check for N/A notes section
-    if ($notes | is-empty-keyword) {
+        $pr = $pr | insert section $hall_of_fame
+        $pr = $pr | insert notes ($pr.title | clean-title)
         return $pr
     }
 
     # If the notes section isn't empty, make sure we have the ready label
-    if $READY not-in $pr.labels.name {
-        return ($pr | add-notice error $"no ($READY) label")
+    if not $has_ready_label {
+        return ($pr | add-notice error $"no notes:ready label")
     }
 
-    # Check that a category is selected
-    if ($pr.labels.name | where $it starts-with "pr:" | reject $READY | is-empty) {
-        $pr = $pr | add-notice warning "no explicit release notes category selected (defaults to mention)"
+    # Check that exactly one category is selected
+    let section = if ($sections | is-empty) {
+        $pr = $pr | add-notice info "no explicit release notes category selected (defaults to Hall of Fame)"
+        $hall_of_fame
+    } else if ($sections | length) > 1 {
+        return ($pr | add-notice error "multiple release notes categories selected")
+    } else {
+        $sections | only
+    }
+
+    # Add section to PR
+    $pr = $pr | insert section $section
+
+    let lines = $notes | lines | length
+    if $section.label == "notes:mention" and ($lines > 1) {
+        return ($pr | add-notice error "multi-line summaries in Hall of Fame section")
+    }
+
+    # Add PR title as default heading for multi-line summaries
+    if $lines > 1 and not ($notes starts-with "###") {
+        $pr = $pr | add-notice info "multi-line summaries with no explicit title (using PR title as heading title)"
+        $notes = "### " + ($pr.title | clean-title) ++ (char nl) ++ $notes
     }
 
     # Check for suspiciously short release notes section
@@ -131,9 +161,17 @@ def extract-notes []: string -> string {
     | str trim
 }
 
-# Check if the release notes section was explicitly left empty
+# Clean up a PR title
+def clean-title []: string -> string {
+    # remove any prefixes and capitalize
+    str replace -r '^[^\s]+: ' ""
+    | str trim
+    | str capitalize
+}
+
+# Check if the release notes section was left empty
 def is-empty-keyword []: string -> bool {
-    str downcase | $in in ["n/a", "nothing", "none", "nan"]
+    str downcase | $in in ["", "n/a", "nothing", "none", "nan"]
 }
 
 # Add an entry to the "notices" field of a PR
@@ -146,14 +184,19 @@ def add-notice [type: string, message: string]: record -> record {
 # Print all of the notices associated with a PR
 def display-notices []: table -> nothing {
     let prs = $in
-    let colors = {error: (ansi red), warning: (ansi yellow)}
+    let types = [
+        [type, color, rank];
+        [info, (ansi default), 0]
+        [warning, (ansi yellow), 1]
+        [error, (ansi red), 2]
+    ]
 
     $prs
     | flatten -a notices
     | group-by --to-table type? message?
-    | sort-by -r type
+    | sort-by {|i| $types | where type == $i.type | only rank } message
     | each {|e|
-        let color = $colors | get $e.type
+        let color = $types | where type == $e.type | only color 
         print $"($color)PRs with ($e.message):"
         $e.items | each { format-pr | print $"- ($in)" }
         print ""
@@ -166,6 +209,10 @@ def format-pr []: record -> string {
     let pr = $in
     let text = $"#($pr.number): ($pr.title)"
     $pr.url | ansi link -t $text
+}
+
+def md-link [text: string, link: string] {
+    $"[($text)]\(($link)\)"
 }
 
 # Format the output of `list-prs` as a markdown table
