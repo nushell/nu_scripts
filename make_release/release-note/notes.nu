@@ -73,7 +73,7 @@ export def pr-notes [
 def generate-notes [version: string]: table -> string {
     let prs = $in
 
-    const template_path = path self | path dirname | path join "template.md"
+    const template_path = path self "template.md"
     let template = open $template_path
     let arguments = {
         version: $version,
