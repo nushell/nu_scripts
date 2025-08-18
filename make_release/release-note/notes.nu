@@ -88,7 +88,8 @@ def generate-notes [version: string]: table -> string {
 
 # Generate the "Changes" section of the release notes.
 def generate-changes-section []: table -> string {
-    group-by --to-table section.label
+    where not author.is_bot
+    | group-by --to-table section.label
     | rename section prs
     # sort sections in order of appearance in table
     | sort-by {|i| $SECTIONS | enumerate | where item.label == $i.section | only }
@@ -124,7 +125,8 @@ def generate-section []: record<section: string, prs: table> -> string {
 
 # Generate the "Hall of Fame" section of the release notes.
 def generate-hall-of-fame []: table -> string {
-    where section.label == "notes:mention"
+    where not author.is_bot
+    | where section.label == "notes:mention"
     # If the PR has no notes, use the title
     | update notes {|pr| default -e $pr.title }
     | update author { md-link $'@($in.login)' $'https://github.com/($in.login)' }
