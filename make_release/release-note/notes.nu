@@ -56,32 +56,48 @@ def query-prs [
     | from json
 }
 
-# Get the release notes for all merged PRs on a repo.
+# Generate the release notes for the specified version.
 export def pr-notes [
     version: string # the version to generate release notes for
-]: nothing -> table {
+]: nothing -> string {
     query-prs --milestone=$version
     | sort-by mergedAt
     | each { get-release-notes }
     | collect
     | tee { display-notices }
     | where {|pr| "error" not-in ($pr.notices?.type? | default []) }
-    | generate-notes
+    | generate-notes $version
 }
 
-# Generate the release notes.
-def generate-notes [] {
+# Generate the release notes from the list of PRs.
+def generate-notes [version: string]: table -> string {
+    let prs = $in
+
+    const template_path = path self | path dirname | path join "template.md"
+    let template = open $template_path
+    let arguments = {
+        version: $version,
+        changes: ($prs | generate-changes-section),
+        hall_of_fame: ($prs | generate-hall-of-fame)
+    }
+
+    $arguments | format pattern $template
+}
+
+
+# Generate the "Changes" section of the release notes.
+def generate-changes-section []: table -> string {
     group-by --to-table section.label
     | rename section prs
     # sort sections in order of appearance in table
     | sort-by {|i| $SECTIONS | enumerate | where item.label == $i.section | only }
-    # TODO: handle hall of fame properly
+    # Hall of Fame is handled separately
     | where section != "notes:mention"
     | each { generate-section }
     | str join (char nl)
 }
 
-# Generate a section of the release notes.
+# Generate a subsection of the "Changes" section of the release notes.
 def generate-section []: record<section: string, prs: table> -> string {
     let prs = $in.prs
     let section = $prs.0.section
@@ -105,9 +121,14 @@ def generate-section []: record<section: string, prs: table> -> string {
     $body | str join (char nl)
 }
 
+# Generate the "Hall of Fame" section of the release notes.
+def generate-hall-of-fame []: table -> string {
+    "TODO"
+}
+
 # Attempt to extract the "Release notes summary" section from a PR.
 #
-# If a valid release notes section is found, a "notes" column is added.
+# Multiple checks are done to ensure that each PR has a valid release notes summary.
 # If any issues are detected, a "notices" column with additional information is added.
 def get-release-notes []: record -> record {
     mut pr = $in
@@ -230,7 +251,7 @@ def display-notices []: table -> nothing {
         $e.items | each { format-pr | print $"- ($in)" }
         print ""
     }
-    | ignore
+    print -n (ansi reset)
 }
 
 # Format a PR nicely, including a link

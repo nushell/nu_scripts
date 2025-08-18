@@ -1,24 +1,24 @@
 ---
-title: Nushell {{VERSION}}
+title: Nushell {version}
 author: The Nu Authors
 author_site: https://www.nushell.sh/blog
 author_image: https://www.nushell.sh/blog/images/nu_logo.png
-excerpt: Today, we're releasing version {{VERSION}} of Nu. This release adds...
+excerpt: Today, we're releasing version {version} of Nu. This release adds...
 ---
 
 <!-- TODO: complete the excerpt above -->
 
 <!-- NOTE: start from the TODO all the way at the bottom (and sort of work your way up) -->
 
-# Nushell {{VERSION}}
+# Nushell {version}
 
 <!-- TODO: write this excerpt -->
 
-Today, we're releasing version {{VERSION}} of Nu. This release adds...
+Today, we're releasing version {version} of Nu. This release adds...
 
 # Where to get it
 
-Nu {{VERSION}} is available as [pre-built binaries](https://github.com/nushell/nushell/releases/tag/{{VERSION}}) or from [crates.io](https://crates.io/crates/nu). If you have Rust installed you can install it using `cargo install nu`.
+Nu {version} is available as [pre-built binaries](https://github.com/nushell/nushell/releases/tag/{version}) or from [crates.io](https://crates.io/crates/nu). If you have Rust installed you can install it using `cargo install nu`.
 
 As part of this release, we also publish a set of optional [plugins](https://www.nushell.sh/book/plugins.html) you can install and use with Nushell.
 
@@ -44,15 +44,7 @@ As part of this release, we also publish a set of optional [plugins](https://www
 
 # Changes
 
-## Additions
-
-## Breaking changes
-
-## Deprecations
-
-## Removals
-
-## Bug fixes and other changes
+{changes}
 
 # Notes for plugin developers
 
@@ -60,15 +52,13 @@ As part of this release, we also publish a set of optional [plugins](https://www
 
 Thanks to all the contributors below for helping us solve issues, improve documentation, refactor code, and more! :pray:
 
-| author                               | title | link                                                    |
-| ------------------------------------ | ----- | ------------------------------------------------------- |
-| [@author](https://github.com/author) | ...   | [#12345](https://github.com/nushell/nushell/pull/12345) |
+{hall_of_fame}
 
 # Full changelog
 
 <!-- TODO:
     - `use nu_scripts/make_release/release-note/notes.nu *`
-    - run `list-prs --milestone v{{VERSION}} | pr-table`
+    - run `list-prs --milestone v{version} | pr-table`
     - paste the output here
 
 Afterwards, go through each PR and classify it as one of the following:
