@@ -79,6 +79,7 @@ def generate-notes [version: string]: table -> string {
         version: $version,
         changes: ($prs | generate-changes-section),
         hall_of_fame: ($prs | generate-hall-of-fame)
+        changelog: (generate-full-changelog $version)
     }
 
     $arguments | format pattern $template
@@ -131,6 +132,13 @@ def generate-hall-of-fame []: table -> string {
     | select author notes link
     | rename -c {notes: change}
     | to md
+    | escape-tag
+}
+
+# Generate the "Full changelog" section of the release notes.
+def generate-full-changelog [version: string]: nothing -> string {
+    list-prs --milestone=$version
+    | pr-table
 }
 
 # Attempt to extract the "Release notes summary" section from a PR.
@@ -268,6 +276,12 @@ def format-pr []: record -> string {
     $pr.url | ansi link -t $text
 }
 
+# Escape > and <
+def escape-tag [] {
+    str replace -a ">" "&gt;"
+    | str replace -a "<" "&lt;"
+}
+
 # Create a markdown link
 def md-link [text: string, link: string] {
     $"[($text)]\(($link)\)"
@@ -285,6 +299,7 @@ export def pr-table [] {
     | insert link { pr-link }
     | select author title link
     | to md
+    | escape-tag
 }
 
 const toc = '[[toc](#table-of-contents)]'
