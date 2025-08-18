@@ -100,7 +100,7 @@ def generate-section []: record<section: string, prs: table> -> string {
     if ($multiline | is-not-empty) {
         $body ++= [$"### ($section.h3)"]
     }
-    $body ++= $bullet | each { "* " ++ $in.notes }
+    $body ++= $bullet | each {|pr| "* " ++ $pr.notes ++ $" \(($pr | pr-link)\)" }
 
     $body | str join (char nl)
 }
@@ -240,8 +240,14 @@ def format-pr []: record -> string {
     $pr.url | ansi link -t $text
 }
 
+# Create a markdown link
 def md-link [text: string, link: string] {
     $"[($text)]\(($link)\)"
+}
+
+# Get a link to a PR
+def pr-link []: record -> string {
+    md-link $"#($in.number)" $in.url
 }
 
 # Format the output of `list-prs` as a markdown table
