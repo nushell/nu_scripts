@@ -58,22 +58,51 @@ def query-prs [
 
 # Get the release notes for all merged PRs on a repo.
 export def pr-notes [
-    repo: string = 'nushell/nushell' # the name of the repo, e.g. 'nushell/nushell'
-    --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
-    --milestone: string # only list PRs in a certain milestone
-    --label: string # the PR label to filter by, e.g. 'good-first-issue'
+    version: string # the version to generate release notes for
 ]: nothing -> table {
-    query-prs $repo --since=$since --milestone=$milestone --label=$label
+    query-prs --milestone=$version
     | sort-by mergedAt
     | each { get-release-notes }
     | collect
     | tee { display-notices }
     | where {|pr| "error" not-in ($pr.notices?.type? | default []) }
-    | select author title number section mergedAt url notes?
+    | generate-notes
 }
 
-def pr-notes-sections [] {
+# Generate the release notes.
+def generate-notes [] {
+    group-by --to-table section.label
+    | rename section prs
+    # sort sections in order of appearance in table
+    | sort-by {|i| $SECTIONS | enumerate | where item.label == $i.section | only }
+    # TODO: handle hall of fame properly
+    | where section != "notes:mention"
+    | each { generate-section }
+    | str join (char nl)
+}
 
+# Generate a section of the release notes.
+def generate-section []: record<section: string, prs: table> -> string {
+    let prs = $in.prs
+    let section = $prs.0.section
+
+    mut body = []
+    let multiline = $prs | where ($it.notes | lines | length) > 1
+    let bullet = $prs | where ($it.notes | lines | length) == 1
+
+    # Add header
+    $body ++= [$"## ($section.h2)"]
+
+    # Add multi-line summaries
+    $body ++= $multiline.notes
+
+    # Add single-line summaries
+    if ($multiline | is-not-empty) {
+        $body ++= [$"### ($section.h3)"]
+    }
+    $body ++= $bullet | each { "* " ++ $in.notes }
+
+    $body | str join (char nl)
 }
 
 # Attempt to extract the "Release notes summary" section from a PR.

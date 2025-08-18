@@ -1,0 +1,185 @@
+[{author: {id: U_kgDOBdQsGQ, is_bot: false, login: kaathewisegit, name: "Andrej Kolčin"}, body: "# Description
+
+Currently, when Nushell encounters an unknown flag, it prints all options in the help string.  This is pretty verbose and uses the `formatted_flags` signature method, which isn't used anywhere else.  This commit refactors the parser to use `did_you_mean` instead, which only suggest one closest option or sends the user to `help` if nothing close is found. 
+
+
+## Release notes summary - What our users need to know
+
+### Improved error messages for misspelled flags
+
+Previously, the help text for a missing flag would list all of them, which could get verbose on a single line:
+
+```nushell
+~> ls --full-path
+Error: nu::parser::unknown_flag
+
+  × The `ls` command doesn't have flag `full-path`.
+   ╭─[entry #8:1:4]
+ 1 │ ls --full-path
+   ·    ─────┬─────
+   ·         ╰── unknown flag
+   ╰────
+  help: Available flags: --help(-h), --all(-a), --long(-l), --short-names(-s), --full-paths(-f), --du(-d), --directory(-D), --mime-type(-m), --threads(-t). Use
+        `--help` for more information.
+```
+
+The new error message only suggests the closest flag:
+
+```nushell
+> ls --full-path
+Error: nu::parser::unknown_flag
+
+  × The `ls` command doesn't have flag `full-path`.
+   ╭─[entry #23:1:4]
+ 1 │ ls --full-path
+   ·    ─────┬─────
+   ·         ╰── unknown flag
+   ╰────
+  help: Did you mean: `--full-paths`?
+```
+
+
+---
+
+Closes #16418
+", labels: [[id, name, description, color]; ["MDU6TGFiZWwxNTIyNDA0MTI3", parser, "Issues related to parsing", "f4825d"], ["LA_kwDOCxaBas8AAAACH_kfUw", "notes:ready", "The \"Release notes summary\" section of this PR is ready to be included in our release notes.", "0e8a16"], ["LA_kwDOCxaBas8AAAACH_mOuw", "notes:other", "", "1D76DB"]], mergedAt: "2025-08-13T11:25:18Z", number: 16427, title: "Improve wrong flag help", url: "https://github.com/nushell/nushell/pull/16427", section: {label: "notes:other", "h2": "Other changes", "h3": "Additional changes"}, notes: "### Improved error messages for misspelled flags
+
+Previously, the help text for a missing flag would list all of them, which could get verbose on a single line:
+
+```nushell
+~> ls --full-path
+Error: nu::parser::unknown_flag
+
+  × The `ls` command doesn't have flag `full-path`.
+   ╭─[entry #8:1:4]
+ 1 │ ls --full-path
+   ·    ─────┬─────
+   ·         ╰── unknown flag
+   ╰────
+  help: Available flags: --help(-h), --all(-a), --long(-l), --short-names(-s), --full-paths(-f), --du(-d), --directory(-D), --mime-type(-m), --threads(-t). Use
+        `--help` for more information.
+```
+
+The new error message only suggests the closest flag:
+
+```nushell
+> ls --full-path
+Error: nu::parser::unknown_flag
+
+  × The `ls` command doesn't have flag `full-path`.
+   ╭─[entry #23:1:4]
+ 1 │ ls --full-path
+   ·    ─────┬─────
+   ·         ╰── unknown flag
+   ╰────
+  help: Did you mean: `--full-paths`?
+```"}, {author: {id: "MDQ6VXNlcjg3NTE2MTM=", is_bot: false, login: "132ikl", name: rose}, body: "<!--
+Thank you for improving Nushell!
+Please, read our contributing guide: https://github.com/nushell/nushell/blob/main/CONTRIBUTING.md
+
+Use the following space to include the motivation and any technical details behind this PR.
+-->
+
+We discussed in a recent meeting that we want to better automate our release notes, and that we could do this by keeping track of the release note entries within the PRs themselves. I've taken this opportunity to try to simplify our PR template (with much input from @sholderbach) and also carve out a dedicated space for release notes.
+
+Most of the text in the old PR template has been moved to a new section in CONTRIBUTING.md titled \"Tips for submitting PRs\". This also gives us some room to expand on some things that we previously kept brief due to space constraints. The new PR template is brief, and contains a minimal amount of comments. There are three main sections:
+1. Free-form space at the top for motivation and technical details (roughly equivalent to \"Description\")
+2. Release notes summary (roughly equivalent to \"User-Facing Changes\", but more strict/specific)
+3. Tasks after submitting (roughly equivalent to \"After Submitting\")
+
+The purpose of each section is briefly spelled out in the PR template, and it directs the author to CONTRIBUTING.md for more details. Once this is in place, we can start to pull out the release notes summary section with a script and build our release notes from that.
+
+I've used the new template for this PR description to help folks get a sense of what it will look like.
+
+## Release notes summary - What our users need to know
+<!--
+This section will be included as part of our release notes. See the contributing guide for more details.
+If you're not confident about this, a core team member would be glad to help!
+-->
+N/A
+
+## Tasks after submitting
+<!-- Remove any tasks which aren't relevant for your PR, or add your own -->
+- [ ] Update release note scripts to pull from the \"Release notes summary\" section
+- [ ] Rework `pr:` labels", labels: [], mergedAt: "2025-08-13T20:10:47Z", number: 16412, title: "Rework PR template", url: "https://github.com/nushell/nushell/pull/16412", section: {label: "notes:mention", "h2": null, "h3": null}, notes: "Rework PR template"}, {author: {id: "MDQ6VXNlcjM0Mzg0MA==", is_bot: false, login: fdncred, name: "Darren Schroeder"}, body: "The PR upgrades nushell to rust version 1.87.0.
+
+## Dev overview from clippy
+- I added `result_large_err` to clippy in the root Cargo.toml to avoid the warnings (and a few places in plugins). At some point a more proper fix, perhaps boxing these, will need to be performed. This PR is to just get us over the hump.
+- I boxed a couple areas in some commands
+- I changed `rdr.bytes()` to `BufReader::new(rdr).bytes()` in nu-json
+
+## Release notes summary - What our users need to know
+Users can use rust version 1.87.0 to compile nushell now
+
+## Tasks after submitting
+N/A", labels: [[id, name, description, color]; ["LA_kwDOCxaBas8AAAABAIPHWA", rust, "Pull requests that update Rust code", "000000"], ["LA_kwDOCxaBas8AAAACH_kfUw", "notes:ready", "The \"Release notes summary\" section of this PR is ready to be included in our release notes.", "0e8a16"]], mergedAt: "2025-08-14T16:27:34Z", number: 16437, title: "update to rust version 1.87.0", url: "https://github.com/nushell/nushell/pull/16437", notices: [[type, message]; [info, "no explicit release notes category selected (defaults to Hall of Fame)"]], section: {label: "notes:mention", "h2": null, "h3": null}, notes: "Users can use rust version 1.87.0 to compile nushell now"}, {author: {id: "MDQ6VXNlcjM1OTA4Mjk=", is_bot: false, login: cptpiepmatz, name: Piepmatz}, body: "<!--
+Thank you for improving Nushell!
+Please, read our contributing guide: https://github.com/nushell/nushell/blob/main/CONTRIBUTING.md
+
+Use the following space to include the motivation and any technical details behind this PR.
+-->
+In this PR I added two string types to `nu-utils`, the `UniqueString` and `SharedString`. Both are owned string types but come with a lot of optimizations that should be very useful for us.
+
+Both types represent immutable strings which is what we use a lot. They are optimized for static strings to be dereferenced instead of copied, they both store small strings on the stack instead of the heap and both are compact due to the fact that we don't need  mutability so the capacity can go.
+
+I added two dependencies that implement these two strings `byteyarn` and `lean_string`. The `byteyarn` string provides a `Box<str>`-like string while the `lean_string` provides an `Arc<str>`-like string.
+
+I added this abstraction to allows us later to use other implemenation if we choose to do so.
+
+With these strings we should be able to heavily push down our memory footprint and struct sizes. Especially the `ShellError` should benefit from it.
+
+## Release notes summary - What our users need to know
+<!--
+This section will be included as part of our release notes. See the contributing guide for more details.
+If you're not confident about this, a core team member would be glad to help!
+-->
+N/A
+
+## Tasks after submitting
+<!-- Remove any tasks which aren't relevant for your PR, or add your own -->
+- [ ] Use the `UniqueString` and `SharedString` where applicable
+", labels: [], mergedAt: "2025-08-16T16:01:39Z", number: 16446, title: "Add well-optimized string types", url: "https://github.com/nushell/nushell/pull/16446", section: {label: "notes:mention", "h2": null, "h3": null}, notes: "Add well-optimized string types"}, {author: {id: "MDQ6VXNlcjIyMjU2MTU0", is_bot: false, login: WindSoilder, name: Wind}, body: "I noticed some clippy errors while running clippy under 1.88.
+```
+error: variables can be used directly in the `format!` string
+   --> src/config_files.rs:204:25
+    |
+204 |                         warn!(\"AutoLoading: {:?}\", path);
+    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
+    = note: `-D clippy::uninlined-format-args` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::uninlined_format_args)]`
+```
+And this pr is going to fix this.
+
+## Release notes summary - What our users need to know
+NaN
+
+## Tasks after submitting
+NaN
+", labels: [[id, name, description, color]; ["MDU6TGFiZWwxNTIyNDA0MTI3", parser, "Issues related to parsing", "f4825d"], ["LA_kwDOCxaBas8AAAABAAvhuQ", "pr:plugins", "This PR is related to plugins", "d4c5f9"], ["LA_kwDOCxaBas8AAAACH_kfUw", "notes:ready", "The \"Release notes summary\" section of this PR is ready to be included in our release notes.", "0e8a16"]], mergedAt: "2025-08-17T10:41:36Z", number: 16452, title: "fix uninlined_format_args clippy warnings", url: "https://github.com/nushell/nushell/pull/16452", section: {label: "notes:mention", "h2": null, "h3": null}, notes: "Fix uninlined_format_args clippy warnings"}, {author: {id: "MDQ6VXNlcjg3NTE2MTM=", is_bot: false, login: "132ikl", name: rose}, body: "<!--
+Thank you for improving Nushell!
+Please, read our contributing guide: https://github.com/nushell/nushell/blob/main/CONTRIBUTING.md
+-->
+## Motivation and technical details
+
+This PR adds a \"Motivation and technical details\" section to the PR template. It seems like not having an explicit section for this has tripped some people up, so this PR adds an explicit heading for this to go under.
+
+## Release notes summary - What our users need to know
+<!--
+This section will be included as part of our release notes. See the contributing guide for more details.
+If you're not confident about this, a core team member would be glad to help!
+-->
+N/A", labels: [], mergedAt: "2025-08-17T20:29:21Z", number: 16458, title: "Add \"Motivation and technical details", url: "https://github.com/nushell/nushell/pull/16458", section: {label: "notes:mention", "h2": null, "h3": null}, notes: "Add \"Motivation and technical details"}, {author: {id: "MDQ6VXNlcjU3NDAz", is_bot: false, login: weirdan, name: "Bruce Weirdan"}, body: "Fixes nushell/nushell#16438
+
+## Release notes summary - What our users need to know
+
+Previously, a record key `=` would not be quoted in `to nuon`, producing invalid nuon output. It wasn't quoted in other string values either, but it didn't cause problems there. Now any string containing `=` gets quoted.", labels: [[id, name, description, color]; ["LA_kwDOCxaBas8AAAABFrA60w", nuon-format, "I/O and spec of the nuon data format", "4ABBDE"], ["LA_kwDOCxaBas8AAAABU5xICA", "pr:release-note-mention", "Addition/Improvement to be mentioned in the release notes", "19CE1C"], ["LA_kwDOCxaBas8AAAACH_kfUw", "notes:ready", "The \"Release notes summary\" section of this PR is ready to be included in our release notes.", "0e8a16"], ["LA_kwDOCxaBas8AAAACH_mOuw", "notes:other", "", "1D76DB"]], mergedAt: "2025-08-17T20:33:08Z", number: 16440, title: "Quote strings containing `=`", url: "https://github.com/nushell/nushell/pull/16440", section: {label: "notes:other", "h2": "Other changes", "h3": "Additional changes"}, notes: "Previously, a record key `=` would not be quoted in `to nuon`, producing invalid nuon output. It wasn't quoted in other string values either, but it didn't cause problems there. Now any string containing `=` gets quoted."}, {author: {id: "MDQ6VXNlcjg3NTE2MTM=", is_bot: false, login: "132ikl", name: rose}, body: "This PR removes the \"Question\" issue template, and adds a section to the issue creation menu labeled \"Question\" which redirects to a new Q&A discussion post.
+
+I have this set up on my fork if you want to see what it looks like: https://github.com/132ikl/nushell/issues/new/choose
+
+## Release notes summary - What our users need to know
+N/A
+
+## Tasks after submitting
+- [ ] Convert all issues currently tagged with the \"question\" label into Discussions", labels: [], mergedAt: "2025-08-17T20:33:30Z", number: 16443, title: "Redirect \"Questions\" issue option to Discussions", url: "https://github.com/nushell/nushell/pull/16443", section: {label: "notes:mention", "h2": null, "h3": null}, notes: "Redirect \"Questions\" issue option to Discussions"}]

@@ -1,0 +1,34 @@
+<h2 id="other-changes">Other changes</h2>
+<h3 id="improved-error-messages-for-misspelled-flags">Improved error
+messages for misspelled flags</h3>
+<p>Previously, the help text for a missing flag would list all of them,
+which could get verbose on a single line:</p>
+<pre class="nushell"><code>~&gt; ls --full-path
+Error: nu::parser::unknown_flag
+
+  × The `ls` command doesn&#39;t have flag `full-path`.
+   ╭─[entry #8:1:4]
+ 1 │ ls --full-path
+   ·    ─────┬─────
+   ·         ╰── unknown flag
+   ╰────
+  help: Available flags: --help(-h), --all(-a), --long(-l), --short-names(-s), --full-paths(-f), --du(-d), --directory(-D), --mime-type(-m), --threads(-t). Use
+        `--help` for more information.</code></pre>
+<p>The new error message only suggests the closest flag:</p>
+<pre class="nushell"><code>&gt; ls --full-path
+Error: nu::parser::unknown_flag
+
+  × The `ls` command doesn&#39;t have flag `full-path`.
+   ╭─[entry #23:1:4]
+ 1 │ ls --full-path
+   ·    ─────┬─────
+   ·         ╰── unknown flag
+   ╰────
+  help: Did you mean: `--full-paths`?</code></pre>
+<h3 id="additional-changes">Additional changes</h3>
+<ul>
+<li>Previously, a record key <code>=</code> would not be quoted in
+<code>to nuon</code>, producing invalid nuon output. It wasn’t quoted in
+other string values either, but it didn’t cause problems there. Now any
+string containing <code>=</code> gets quoted.</li>
+</ul>
