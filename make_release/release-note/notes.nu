@@ -123,7 +123,14 @@ def generate-section []: record<section: string, prs: table> -> string {
 
 # Generate the "Hall of Fame" section of the release notes.
 def generate-hall-of-fame []: table -> string {
-    "TODO"
+    where section.label == "notes:mention"
+    # If the PR has no notes, use the title
+    | update notes {|pr| default -e $pr.title }
+    | update author { md-link $'@($in.login)' $'https://github.com/($in.login)' }
+    | insert link { pr-link }
+    | select author notes link
+    | rename -c {notes: change}
+    | to md
 }
 
 # Attempt to extract the "Release notes summary" section from a PR.
@@ -275,7 +282,7 @@ def pr-link []: record -> string {
 export def pr-table [] {
     sort-by author number
     | update author { md-link $'@($in)' $'https://github.com/($in)' }
-    | insert link {|pr| md-link $'#($pr.number)' $pr.url }
+    | insert link { pr-link }
     | select author title link
     | to md
 }
