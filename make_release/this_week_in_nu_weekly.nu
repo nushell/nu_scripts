@@ -1,10 +1,12 @@
-# http get https://api.github.com/repos/nushell/nushell/pulls?q=is%3Apr+merged%3A%3E%3D2021-04-20+ | select html_url user.login title body
-# http get https://api.github.com/search/issues?q=repo:nushell/nushell+is:pr+is:merged+merged:%3E2021-05-08 | get items | select html_url user.login title body
-# Repos to monitor
+use std-rfc/str
 
-def query-week-span [] {
-    # Update the '7' below to however many days it has been since the last TWiN
-    let query_date = (seq date --days 21 -r | get 7)
+def generate-twin [
+    --issue-number (-i): int
+] {
+    let issue_number = $issue_number | default ((date now) - 2019-08-23 | $in / 7day | math floor)
+    let end_date = 2019-08-23 + ($issue_number * 7day) - 1day
+    let begin_date = ($end_date - 6day)
+    let search_string = $"is:pr is:merged merged:($begin_date | format date '%Y-%m-%d')..($end_date | format date '%Y-%m-%d')"
 
     # The heading mappings for each repository. This is only
     # used to display the Heading for each reposting in TWiN.
@@ -30,79 +32,67 @@ def query-week-span [] {
         nu_jupyter: Jupyter
     }
 
-    # If environment variables exists for GH username/pw, use
-    # them. If a token is available, it will take precedence,
-    # so passing an empty username/password isn't a problem.
-    let gh_username = ($env.GITHUB_USERNAME? | default "")
-    let gh_password = ($env.GITHUB_PASSWORD? | default "")
-    let gh_token = $env.GH_AUTH_TOKEN? | default (try { gh auth token })
-    let headers = match $gh_token {
-        null => {}
-        _ => { Authorization: $'Bearer ($gh_token)' }
-    }
-
     let repos = (
-        http get -H $headers -u $gh_username -p $gh_password https://api.github.com/users/nushell/repos?sort=pushed
+        gh repo list nushell --json name
+        | from json
         | get name
         | where $it != 'nightly'
         | where $it != 'this_week_in_nu'
         | first 30
     )
 
+    mut twin_text = $"
+    ---
+    title: 'This week in Nushell #($issue_number)'
+    author: The Nu Authors
+    author_site: https://nushell.sh
+    author_image: https://www.nushell.sh/blog/images/nu_logo.png
+    excerpt: \"PRs and activity for Nushell the week ending ($end_date | format date '%A, %Y-%m-%d')\"
+    ---
+
+    # This Week in Nushell #($issue_number)
+
+    Published (date now | format date '%A, %Y-%m-%d'), including PRs merged ($begin_date | format date '%A, %Y-%m-%d') through ($end_date | format date '%A, %Y-%m-%d').
+
+    " | str dedent
+
+
     for repo in $repos {
-        let query_string = (
-            $"https://api.github.com/search/issues"
-            | url parse
-            | merge {
-                params: {
-                    q: $'repo:nushell/($repo) is:pr is:merged merged:>=($query_date)'
-                    page: 1
-                    per_page: 100
-                }
-            }
-            | url join
-        )
-        let site_json = (
-            http get -H $headers -u $gh_username -p $gh_password $query_string
-            | get items
-            | select html_url user.login title
+        let prs = (
+            gh pr list --search $search_string --repo $"nushell/($repo)" --json title,author,url,number
+            | from json
+            | select author.login title url number
+            | rename author title url number
+            | group-by author
+            | transpose user prs
         )
 
-        if not ($site_json | all { |it| $it | is-empty }) {
-            let heading_name = ($repo_headings | get -i $repo | default $repo)
-            print $"(char nl)## ($heading_name)(char nl)"
+        if ($prs | is-not-empty) {
+            $twin_text += $"
 
-            for user in ($site_json | group-by "user.login" | transpose user prs) {
-                let user_name = $user.user
-                let pr_count = ($user.prs | length)
 
-                print -n $"- ($user_name) created "
-                for pr in ($user.prs | enumerate) {
-                    if $pr_count == ($pr.index + 1) {
-                        print -n $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen)"
-                    } else {
-                        print -n $"[($pr.item.title)](char lparen)($pr.item.html_url)(char rparen), and "
-                    }
+            ## ($repo_headings | get -o $repo | default $repo)
+
+            " | str dedent
+
+            for user in $prs {
+                $twin_text += $"
+
+                * @($user.user):
+
+                " | str dedent
+
+                for pr in $user.prs {
+                    $twin_text += $"
+                      - [($pr.title) \(#($pr.number)]\)\(($pr.url)\)
+
+                    " | str dedent
                 }
-
-                print ""
             }
+
         }
     }
-}
 
-let has_token = (try { gh auth token }) != null
-let has_username_pw = ($env | get -i GITHUB_USERNAME | is-not-empty) and ($env | get -i GITHUB_PASSWORD | is-not-empty) 
-
-if not ($has_token or $has_username_pw) {
-    print "This script requires either a working GitHub client that returns `gh auth token` or"
-    print "$env.GITHUB_USERNAME and $env.GITHUB_PASSWORD.  Neither were found."
-} else {
-    # 2019-08-23 was the release of 0.2.0, the first public release
-
-    let week_num = ((seq date -b '2019-08-23' -n 7 | length) - 1)
-    print $"# This week in Nushell #($week_num)(char nl)"
-
-    query-week-span
+    $twin_text
 }
 
