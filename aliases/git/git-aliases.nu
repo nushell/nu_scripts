@@ -9,6 +9,7 @@ export def git_main_branch [] {
         | str trim
         | find --regex 'HEAD .*?[：: ].+'
         | first
+        | ansi strip
         | str replace --regex 'HEAD .*?[：: ]\s*(.+)' '$1'
 }
 
@@ -224,8 +225,12 @@ export alias gupav = git pull --rebase --autostash --verbose
 export alias gwch = git whatchanged -p --abbrev-commit --pretty=medium
 
 export alias gwt = git worktree
-export def gwta [path: path, branch: string] {
-    git worktree add $path $branch
+export def gwta [path: path, branch?: string] {
+    if $branch != null {
+        git worktree add $path $branch
+    } else {
+	git worktree add $path
+    }
 }
 export alias gwtls = git worktree list
 export alias gwtmv = git worktree move
@@ -238,3 +243,4 @@ export alias gamc = git am --continue
 export alias gams = git am --skip
 export alias gama = git am --abort
 export alias gamscp = git am --show-current-patch
+

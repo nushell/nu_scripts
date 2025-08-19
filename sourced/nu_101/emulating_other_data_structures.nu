@@ -60,7 +60,7 @@ $set ++ $set_b | uniq
 
 ### Intersection
 
-$set | filter { |elem| $elem in $set_b }
+$set | where { |elem| $elem in $set_b }
 
 # Result: [2 3]
 
@@ -68,7 +68,7 @@ $set | filter { |elem| $elem in $set_b }
 
 # $set - $set_b
 
-$set | filter { |elem| $elem not-in $set_b }
+$set | where { |elem| $elem not-in $set_b }
 
 # or
 

@@ -10,16 +10,27 @@
 # 2. Add `source rusty-paths.nu` to `$nu.config-path`
 
 
-$env.config = ($env.config | update hooks.env_change.PWD {
+$env.config = ($env.config | upsert hooks.env_change.PWD {
 	append {
 		condition: {|_, after| ($after | path join 'Cargo.lock' | path exists) }
-		code: {
+		code: {|_, after|
 			$env.PATH = (
 				$env.PATH
-					| prepend ($env.PWD | path join 'target/debug')
-					| prepend ($env.PWD | path join 'target/release')
+					| prepend ($after | path join 'target' 'debug')
+					| prepend ($after | path join 'target' 'release')
 					| uniq
-				)
+			)
+		}
+	}
+  | append {
+		condition: {|before, _| ($before | default '' | path join 'Cargo.lock' | path exists) and ($before | is-not-empty)}
+		code: {|before, _|
+			$env.PATH = (
+				$env.PATH
+					| where $it != ($before | path join 'target' 'debug')
+					| where $it != ($before | path join 'target' 'release')
+					| uniq
+			)
 		}
 	}
 })

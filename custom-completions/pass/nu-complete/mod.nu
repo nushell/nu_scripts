@@ -8,7 +8,7 @@ def pass_completions_directory [] {
 
 export def "nu-complete pass-files" [] {
     let dir = (pass_completions_directory)
-	ls ($dir | path join "**" | path join "*.gpg")
+	ls ($dir | path join "**" | path join "*.gpg" | into glob)
 		| get name 
 		| each {|it| ( $it
             | path relative-to $dir
@@ -21,7 +21,7 @@ export def "nu-complete pass-directories" [] {
     let dir = (pass_completions_directory)
 	ls ($dir | path join **)
         | get name
-        | filter { |it| not (ls $it | is-empty) }
+        | where { |it| not (ls $it | is-empty) }
 		| each {|it| ( $it | path relative-to $dir) }
 }
 

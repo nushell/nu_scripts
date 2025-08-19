@@ -81,52 +81,20 @@ module git-completion-utils {
     | each { split row ' ' -n 9 | last }
   }
 
-  export def get-all-git-branches []: nothing -> list<string> {
-    ^git branch -a --format '%(refname:lstrip=2)%09%(upstream:lstrip=2)' | lines | str trim | filter { not ($in ends-with 'HEAD' ) }
+  export def get-all-git-local-refs []: nothing -> list<record<ref: string, obj: string, upstream: string, subject: string>> {
+    ^git for-each-ref --format '%(refname:lstrip=2)%09%(objectname:short)%09%(upstream:remotename)%(upstream:track)%09%(contents:subject)' refs/heads | lines | parse "{ref}\t{obj}\t{upstream}\t{subject}"
   }
 
-  # Extract remote branches which do not have local counterpart
-  export def extract-remote-branches-nonlocal-short [current: string]: list<string> -> list<string> {
-    # Input is a list of lines, like:
-    # ╭────┬────────────────────────────────────────────────╮
-    # │  0 │ feature/awesome-1    origin/feature/awesome-1  │
-    # │  1 │ fix/bug-1    origin/fix/bug-1                  │
-    # │  2 │ main    origin/main                            │
-    # │  3 │ origin/HEAD                                    │
-    # │  4 │ origin/feature/awesome-1                       │
-    # │  5 │ origin/fix/bug-1                               │
-    # │  6 │ origin/feature/awesome-2                       │
-    # │  7 │ origin/main                                    │
-    # │  8 │ upstream/main                                  │
-    # │  9 │ upstream/awesome-3                             │
-    # ╰────┴────────────────────────────────────────────────╯
-    # and we pick ['feature/awesome-2', 'awesome-3']
-    let lines = $in
-    let long_current = if ($current | is-empty) { '' } else { $'origin/($current)' }
-    let branches = $lines | filter { ($in != $long_current) and not ($in starts-with $"($current)\t") }
-    let tracked_remotes = $branches | find --no-highlight "\t" | each { split row "\t" -n 2 | get 1 }
-    let floating_remotes = $lines | filter { "\t" not-in $in and $in not-in $tracked_remotes }
-    $floating_remotes | each {
-      let v = $in | split row -n 2 '/' | get 1
-      if $v == $current { null } else $v
-    }
-  }
-
-  export def extract-mergable-sources [current: string]: list<string> -> list<record<value: string, description: string>> {
-    let lines = $in
-    let long_current = if ($current | is-empty) { '' } else { $'origin/($current)' }
-    let branches = $lines | filter { ($in != $long_current) and not ($in starts-with $"($current)\t") }
-    let git_table: list<record<n: string, u: string>>  = $branches | each {|v| if "\t" in $v { $v | split row "\t" -n 2 | {n: $in.0, u: $in.1 } } else {n: $v, u: null } }
-    let siblings = $git_table | where u == null and n starts-with 'origin/' | get n | str substring 7..
-    let remote_branches = $git_table | filter {|r| $r.u == null and not ($r.n starts-with 'origin/') } | get n
-    [...($siblings | wrap value | insert description Local), ...($remote_branches | wrap value | insert description Remote)]
+  export def get-all-git-remote-refs []: nothing -> list<record<ref: string, obj: string, subject: string>> {
+    ^git for-each-ref --format '%(refname:lstrip=2)%09%(objectname:short)%09%(contents:subject)' refs/remotes | lines | parse "{ref}\t{obj}\t{subject}"
   }
 
   # Get local branches, remote branches which can be passed to `git merge`
   export def get-mergable-sources []: nothing -> list<record<value: string, description: string>> {
-    let current = (^git branch --show-current)  # Can be empty if in detached HEAD
-    (get-all-git-branches | extract-mergable-sources $current)
-  }  
+    let local = get-all-git-local-refs | each {|x| {value: $x.ref description: $'Branch, Local, ($x.obj) ($x.subject), (if ($x.upstream | is-not-empty) { $x.upstream } else { "no upstream" } )'} } | insert style 'light_blue'
+    let remote = get-all-git-remote-refs | each {|x| {value: $x.ref description: $'Branch, Remote, ($x.obj) ($x.subject)'} } | insert style 'blue_italic'
+    $local | append $remote
+  }
 }
 
 def "nu-complete git available upstream" [] {
@@ -165,15 +133,28 @@ def "nu-complete git remote branches with prefix" [] {
 # Yield local and remote branch names which can be passed to `git merge`
 def "nu-complete git mergable sources" [] {
   use git-completion-utils *
-  (get-mergable-sources)
+  let branches = get-mergable-sources
+  {
+    options: {
+        case_sensitive: false,
+        completion_algorithm: prefix,
+        sort: false,
+    },
+    completions: $branches
+  }
 }
 
 def "nu-complete git switch" [] {
   use git-completion-utils *
-  let current = (^git branch --show-current)  # Can be empty if in detached HEAD
-  let local_branches = ^git branch --format '%(refname:short)' | lines | filter { $in != $current } | wrap value | insert description 'Local branch'
-  let remote_branches = (get-all-git-branches | extract-remote-branches-nonlocal-short $current) | wrap value | insert description 'Remote branch'
-  [...$local_branches, ...$remote_branches]
+  let branches = get-mergable-sources
+  {
+    options: {
+        case_sensitive: false,
+        completion_algorithm: prefix,
+        sort: false,
+    },
+    completions: $branches
+  }
 }
 
 def "nu-complete git checkout" [context: string, position?:int] {
@@ -199,9 +180,9 @@ def "nu-complete git checkout" [context: string, position?:int] {
   }
   # The first argument can be local branches, remote branches, files and commits
   # Get local and remote branches
-  let branches = (get-mergable-sources) | insert style {|row| if $row.description == 'Local' { 'blue' } else 'blue_italic' } | update description { $in + ' branch' }
+  let branches = get-mergable-sources
   let files = (get-checkoutable-files) | wrap value | insert description 'File' | insert style green
-  let commits = ^git rev-list -n 400 --remotes --oneline | lines | split column -n 2 ' ' value description | insert style light_cyan_dimmed
+  let commits = ^git rev-list -n 400 --remotes --oneline | lines | split column -n 2 ' ' value description | upsert description {|x| $'Commit, ($x.value) ($x.description)' } | insert style 'light_cyan_dimmed'
   {
     options: {
         case_sensitive: false,
@@ -569,6 +550,34 @@ export extern "git branch" [
   --contains: string@"nu-complete git commits all"               # show only branches that contain the specified commit
   --no-contains                                                  # show only branches that don't contain specified commit
   --track(-t)                                                    # when creating a branch, set upstream
+]
+
+# List all variables set in config file, along with their values.
+export extern "git config list" [
+]
+
+# Emits the value of the specified key.
+export extern "git config get" [
+]
+
+# Set value for one or more config options.
+export extern "git config set" [
+]
+
+# Unset value for one or more config options.
+export extern "git config unset" [
+]
+
+# Rename the given section to a new name.
+export extern "git config rename-section" [
+]
+
+# Remove the given section from the configuration file.
+export extern "git config remove-section" [
+]
+
+# Opens an editor to modify the specified config file
+export extern "git config edit" [
 ]
 
 # List or change tracked repositories

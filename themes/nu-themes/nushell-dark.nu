@@ -18,7 +18,7 @@ export def main [] {
       } else { 'blue' }
     }
     duration: white
-    date: {|| (date now) - $in |
+    datetime: {|| (date now) - $in |
       if $in < 1hr {
         'purple'
       } else if $in < 6hr {

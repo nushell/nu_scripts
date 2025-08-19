@@ -97,7 +97,7 @@ export def image-select [name] {
     let imgs = (image-list)
     let fs = [image tag repo]
     for i in 2..0 {
-        let r = $imgs | filter {|x|
+        let r = $imgs | where {|x|
             $fs | slice 0..$i | all {|y| ($n | get $y) == ($x | get $y) }
         }
         if ($r | is-not-empty) {

@@ -1,5 +1,138 @@
 # Manage aliases
 extern "dnf" [
-
+	--dependencies					# Checks dependencies
+	--duplicates					# Checks duplicates
+	--obsoleted					# Checks obsoleted
+	--provides					# Checks provides
+	--changelogs
+	--with-optional					# Include optional packages
+	--installed					# List installed groups
+	--available					# List available groups
+	--hidden					# List hidden groups
+	--with-optional					# Include optional packages
+	--all					# Lists all packages
+	--installed					# Lists installed packages
+	--available					# Lists available packages
+	--extras					# Lists installed packages that are not in any known repository
+	--obsoletes					# List installed obsoleted packages
+	--recent					# List recently added packages
+	--upgrades					# List available upgrades
+	--autoremove					# List packages which will be removed by autoremove
+	--timer					# Instructs DNF to be more resource-aware
+	--all					# Lists all module 
+	--enabled					# Lists enabled module
+	--disabled					# Lists disabled module
+	--installed					# List  installed modules
+	--profile					# Print module profiles information
+	--duplicates					# Removes older version of duplicated packages
+	--oldinstallonly					# Removes old installonly packages
+	--querytags					# Provides the list of tags
+	--all(-a)
+	--enabled
+	--archlist
+	--duplicates
+	--unneeded
+	--available
+	--extras
+	--file(-f)
+	--installed
+	--installonly
+	--latest-limit
+	--recent
+	--repo
+	--unsatisfied
+	--upgrades
+	--userinstalled
+	--whatdepends
+	--whatconflicts
+	--whatenhances
+	--whatobsoletes
+	--whatprovides
+	--whatrecommends
+	--whatrequires
+	--whatsuggests
+	--whatsupplements
+	--alldeps
+	--exactdeps
+	--srpm
+	--info(-i)					# Show detailed information about the package
+	--list(-l)					# Show the list of files in the package
+	--source(-s)					# Show the package source RPM name
+	--changelogs					# Print the package changelogs
+	--conflicts					# Display capabilities that the package conflicts with
+	--depends					# Display capabilities that the package depends on
+	--enhances					# Display capabilities enhanced by the package
+	--location					# Show a location where the package could be downloaded from
+	--obsoletes					# Display capabilities that the package obsoletes
+	--provides					# Display capabilities provided by the package
+	--recommends					# Display capabilities recommended by the package
+	--requires					# Display capabilities that the package depends on
+	--requires-pre					# Display capabilities that the package depends on
+	--suggests					# Display capabilities suggested by the package
+	--supplements					# Display capabilities supplemented by the package
+	--tree					# Display a recursive tree of packages
+	--deplist					# Produce a list of all dependencies
+	--nvr					# Format like name-version-release
+	--nevra					# Format like name-epoch:version-release.architecture
+	--envra					# Format like epoch:name-version-release.architecture
+	--queryformat					# Custom display format
+	--recursive					# Query packages recursively
+	--resolve					# Resolve capabilities to originating packages
+	--all					# Lists packages that match at least one of the keys
+	--summary					# Displays the summary
+	--list					# List of advisories
+	--info					# Detailed information
+	--all
+	--available
+	--installed
+	--updates
+	--advisories					# Include packages corresponding to the advisory ID
+	--allowerasing					# Allow erasing of installed packages to resolve dependencies
+	--assumeno					# Answer no for all questions
+	--best(-b)					# Try the best available package versions in transactions
+	--bugfix					# Include packages that fix a bugfix issue
+	--bzs					# Include packages that fix a Bugzilla ID
+	--cacheonly(-C)					# Run entirely from system cache
+	--color					# Control whether color is used
+	--config(-c)					# Configuration file location
+	--cves					# Include packages that fix a CVE
+	--debuglevel(-d)					# Debugging output level
+	--debugsolver					# Dump dependency solver debugging info
+	--disableexcludepkgs					# Disable excludes
+	--set-disabled					# Disable specified repositories
+	--disableplugin					# Disable the listed plugins specified
+	--disablerepo					# Disable specified repositories
+	--destdir					# Change downloaded packages to provided directory
+	--downloadonly					# Download packages without performing any transaction
+	--set-enabled					# Enable specified repositories
+	--enableplugin					# Enable the listed plugins
+	--enablerepo					# Enable additional repositories
+	--enhancement					# Include enhancement relevant packages
+	--exclude(-x)					# Exclude packages specified
+	--forcearch					# Force the use of the specified architecture
+	--help-i(-h)					# Show the help
+	--installroot					# Specifies an alternative installroot
+	--newpackage					# Include newpackage relevant packages
+	--noautoremove					# Disable autoremove
+	--nobest					# Set best option to False
+	--nodocs					# Do not install documentation
+	--nogpgcheck					# Skip checking GPG signatures on packages
+	--noplugins					# Disable all plugins
+	--obsoletes					# Enables obsoletes processing logic
+	--quiet(-q)					# Quiet mode
+	--randomwait(-R)					# Maximum command wait time
+	--refresh					# Set metadata as expired before running the command
+	--releasever					# Configure the distribution release
+	--repofrompath					# Specify repository to add to the repositories for this query
+	--repoid					# Enable just specific repositories by an id or a glob
+	--rpmverbosity					# RPM debug scriptlet output level
+	--secseverity					# Includes packages that provide a fix for an issue of the specified severity
+	--security					# Includes packages that provide a fix for a security issue
+	--setopt					# Override a configuration option
+	--skip-broken					# Skips broken packages
+	--showduplicates					# Shows duplicate packages
+	--verbose(-v)					# Verbose mode
+	--version					# Shows DNF version and exit
+	--assumeyes(-y)					# Answer yes for all questions
 	...args
 ]

@@ -39,16 +39,14 @@ def parse-fish [] {
 # make use of detect columns -n which with one like properly tokenizers arguments including across quotes
 def tokenize-complete-lines [] {
     lines
-    | each { |line|
-        $line
-        | where $line starts-with complete
-        | str replace -a "\\\\'" ""             # remove escaped quotes ' which break detect columns
-        | str replace -a "-f " ""               # remove -f which is a boolean flag we don't support yet
-        | detect columns -n
-        | transpose -i tokens                  # turn columns into items, each is a token
+    | where $it starts-with 'complete'         # only complete command lines
+    | each { 
+      str replace -a "\\\\'" ""             # remove escaped quotes ' which break detect columns
+      | str replace -a "-f " ""               # remove -f which is a boolean flag we don't support yet
+      | detect columns -n
+      | transpose -i tokens
+      | get tokens
     }
-    | where ($it | length) > 0                 # remove any empty lines
-    | get tokens                               # get the list of tokens
 }
 
 # turn a list of tokens for a line into a record of {flag: arg}
@@ -80,53 +78,65 @@ def make-commands-completion [] {
     | get c        # c is the command name
     | uniq         # is cloned on every complete line
     | each { |command|
-        $fishes | where c == $command | make-subcommands-completion $command
+        $fishes | where c == $command | make-subcommands-completion [$command]
+        | str join "\n\n"
     }
 }
 
 # make the action nu completion string from subcommand and args
 # subcommand can be empty which will be the root command
-def make-subcommands-completion [parents: list] {
-    let quote = '"' # "
+def make-subcommands-completion [parents: list<string>] {
+    let quote = '"' # a `"`
+
     let fishes = $in
+
     $fishes
     | group-by a                                                                      # group by sub command (a flag)
     | transpose name args                                                             # turn it into a table of name to arguments
     | each {|subcommand|
-        build-string (
-            if ('d' in ($subcommand.args | columns)) and ($subcommand.args.d != "") {
-                build-string "# " ($subcommand.args.d.0) "\n"                         # (sub)command description
-            }) "extern " $quote ($parents | str join " ") (
-            if $subcommand.name != "" {
-                build-string " " $subcommand.name                                     # sub command if present
-            }) $quote " [\n" (
-            $fishes
-            | if ('n' in ($in | columns)) {
-                if ($subcommand.name != "") {
-                    where ($it.n | str contains $subcommand.name)                     # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
-                } else {
-                    where ($it.n == "__fish_use_subcommand") and ($it.a == "")         # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
-                }
-            } else {
-                $fishes                                                               # catch all
-            }
-            | build-flags
-            | str join "\n"
-        ) "\n\t...args\n]"
+        [
+            # description
+            (if ('d' in ($subcommand.args | columns)) and ($subcommand.args.d != "") { $"# ($subcommand.args.d.0)\n" })
+            # extern name
+            $'extern "($parents | append $subcommand.name | str join " " | str trim)"'
+            # params
+            " [\n"
+                (
+                    $fishes
+                    | if ('n' in ($subcommand.args | columns)) {
+                        if ($subcommand.name != "") {
+                            where ($it.n | str contains $subcommand.name)                     # for subcommand -> any where n matches `__fish_seen_subcommand_from arg` for the subcommand name
+                        } else {
+                            where ($it.n == "__fish_use_subcommand") and ($it.a == "")         # for root command -> any where n ==  __fish_use_subcommand and a is empty. otherwise a means a subcommand
+                        }
+                    } else {
+                        $fishes                                                               # catch all
+                    }
+                    | build-flags
+                    | str join "\n"
+                )
+                "\n\t...args"
+            "\n]"
+        ]
+        | str join
     }
 }
 
 # build the list of flag string in nu syntax
+# record<c, n, a, d, o> -> list<string>
 def build-flags [] {
-    each { |subargs|
+    $in
+    | each { |subargs|
         if ('l' in ($subargs | columns)) and ($subargs.l != "") {
-            build-string "\t--" $subargs.l (build-string
-                (if ('s' in ($subargs | columns)) and ($subargs.s != "") {
-                    build-string "(-" $subargs.s ")"
-                }) (if ('d' in ($subargs | columns)) and ($subargs.d != "") {
-                    build-string "\t\t\t\t\t# " $subargs.d
-                })
-            )
+            [
+                "\t--" $subargs.l
+                (
+                  [
+                    (if ('s' in ($subargs | columns)) and ($subargs.s != "") { [ "(-" $subargs.s ")" ] | str join })
+                    (if ('d' in ($subargs | columns)) and ($subargs.d != "") { [ "\t\t\t\t\t# " $subargs.d ] | str join })
+                  ] | str join
+                )
+            ] | str join
         }
     }
 }

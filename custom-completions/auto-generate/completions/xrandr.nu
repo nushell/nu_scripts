@@ -35,6 +35,6 @@ extern "xrandr" [
 	--below					# Set position relative to the output
 	--same-as					# Set position relative to the output
 	--off					# Disables the output
-	--brightness					# Set brightness. Multiplies gamma galues by brightness value
+	--brightness					# Set brightness. Multiplies gamma values by brightness value
 	...args
 ]

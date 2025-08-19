@@ -19,7 +19,7 @@ def --env j [...dir] {
         cd (autojump ...$dir)
 }
 $env.config = ($env.config | upsert hooks.env_change.PWD {|config|
-    let val = ($config | get -i hooks.env_change.PWD)
+    let val = ($config | get -o hooks.env_change.PWD)
 
     if $val == null {
         $val | append {|before, after| autojump_add_to_database $after }

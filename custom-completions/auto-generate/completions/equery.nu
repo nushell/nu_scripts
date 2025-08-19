@@ -1,5 +1,51 @@
 # Displays a help message
 extern "equery" [
-
+	--help(-h)					# Displays a help message
+	--quiet(-q)					# Minimal output
+	--no-color(-C)					# Turns off colors
+	--no-pipe(-N)					# Turns off pipe detection
+	--version(-V)					# Display version information
+	--full-regex(-f)					# Query is a regex
+	--early-out(-e)					# Stop after first match
+	--name-only(-n)					# Omit version
+	--latest(-l)					# Display only latest ChangeLog entry
+	--full(-f)					# Display full ChangeLog
+	--full-regex(-f)					# Query is a regex
+	--only-failures(-o)					# Only display pkgs that do not pass
+	--all-packages(-a)					# Include dependencies that are not installed (slow)
+	--indirect(-D)					# Search both direct and indirect dependencies
+	--no-atom(-A)					# Don't show dependency atom
+	--no-mask(-M)					# Don't show masking status
+	--no-useflags(-U)					# Don't show USE flags
+	--linear(-l)					# Don't indent dependencies
+	--md5sum(-m)					# Include MD5 sum in output
+	--timestamp(-s)					# Include timestamp in output
+	--type(-t)					# Include file type in output
+	--tree					# Display results in a tree
+	--exclude-installed(-I)					# Exclude installed pkgs from search path
+	--overlay-tree(-o)					# Include overlays in search path
+	--portage-tree(-p)					# Include entire portage tree in search path
+	--duplicates(-d)					# List only installed duplicate pkgs
+	--binpkgs-missing(-b)					# List only installed pkgs without a corresponding binary pkg
+	--full-regex(-f)					# Query is a regex
+	--mask-reason(-m)					# Include reason for pkg mask
+	--exclude-installed(-I)					# Exclude installed pkgs from output
+	--overlay-tree(-o)					# List pkgs in overlays
+	--portage-tree(-p)					# List pkgs in the main portage tree
+	--description(-d)					# Show extended pkg description
+	--herd(-H)					# Show pkg's herd(s)
+	--keywords(-k)					# Show keywords for all matching pkg versions
+	--license(-l)					# Show licenses for the best matching version
+	--maintainer(-m)					# Show the maintainer(s) for the pkg
+	--stablreq(-S)					# Show STABLEREQ arches (cc's) for all matching pkg versions
+	--useflags(-u)					# Show per-pkg USE flag descriptions
+	--upstream(-U)					# Show pkg's upstream information
+	--xml(-x)					# Show the plain metadata.xml file
+	--bytes(-b)					# Report size in bytes
+	--full-regex(-f)					# Query is a regex
+	--all(-a)					# Include all pkg versions
+	--ignore-l10n(-i)					# Don't show l10n USE flags
+	--include-masked(-m)					# Return highest version ebuild available
+	--ebuild(-e)					# Print the ebuild
 	...args
 ]

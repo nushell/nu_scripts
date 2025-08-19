@@ -1,7 +1,7 @@
 # Show help
 extern "monodis" [
 	--help(-h)					# Show help
-	--mscorlib					# Use mscorlib as the assembly name for non-corlib assemblies
+	--mscorlib					# Use \'mscorlib\' as the assembly name for non-corlib assemblies
 	--show-method-tokens					# Show tokens for disassembled methods
 	--show-tokens					# Show tokens for strings, types, methods, fields, ...
 	--assembly					# Include Assembly table contents

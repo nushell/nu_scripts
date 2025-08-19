@@ -95,4 +95,3 @@ def generate-twin [
 
     $twin_text
 }
-

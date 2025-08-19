@@ -10,6 +10,7 @@ extern "diff" [
 	--text(-a)					# Treat all files as text
 	--recursive(-r)					# Recursively compare subdirectories
 	--new-file(-N)					# Treat absent files as empty
+	--unified(-u)					# Output NUM lines of unified context (default 3)
 	--brief(-q)					# Output only whether the files differ
 	--normal					# Output a normal diff
 	--side-by-side(-y)					# Output in two columns

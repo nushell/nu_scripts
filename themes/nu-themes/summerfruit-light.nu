@@ -18,7 +18,7 @@ export def main [] {
 
         bool: {|| if $in { '#1faaaa' } else { '#aba800' } }
 
-        date: {|| (date now) - $in |
+        datetime: {|| (date now) - $in |
             if $in < 1hr {
                 { fg: '#ff0086' attr: 'b' }
             } else if $in < 6hr {

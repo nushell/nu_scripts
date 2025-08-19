@@ -1,23 +1,21 @@
 def --env find_msvs [] {
   export-env {
     $env.MSVS_BASE_PATH = $env.Path
+    $env.INCLUDE_BEFORE = if "INCLUDE" in $env { ($env.INCLUDE | split row (char esep)) } else { null }
     $env.PATH_VAR = (if "Path" in $env { "Path" } else { "PATH" })
 
-    # This is a total hack because nushell doesn't like parentheses in an environment variable like `$env.ProgramFiles(x86)`
-    let programfiles = $env | transpose name value | where name starts-with Program and name ends-with '(x86)' | get value.0
     # According to https://github.com/microsoft/vswhere/wiki/Installing, vswhere should always be in this location.
-    let vswhere_cmd = $'($programfiles)\Microsoft Visual Studio\Installer\vswhere.exe'
-
+    let vswhere_cmd = ($'($env."ProgramFiles(x86)")\Microsoft Visual Studio\Installer\vswhere.exe')
     let info = (
       if ($vswhere_cmd | path exists) {
-          (^$vswhere_cmd -format json | from json)
+          (^$vswhere_cmd -prerelease -products '*' -format json -nocolor -utf8 -sort | from json)
         } else {
           # this should really error out here
-          ('{"installationPath": [""]}' | from json)
+          ('[{"installationPath": ""}]' | from json)
         }
     )
 
-    $env.MSVS_ROOT = $info.installationPath.0
+    $env.MSVS_ROOT = $info.0.installationPath
 
     $env.MSVS_MSVC_ROOT = (
         if not ($'($env.MSVS_ROOT)\VC\Tools\MSVC\' | path exists) {
@@ -164,8 +162,8 @@ export def --env activate [
   }
   load-env {
     $env.PATH_VAR: $env_path,
-    INCLUDE: $env.MSVS_INCLUDE_PATH,
-    LIB: $lib_path
+    INCLUDE: ($env.MSVS_INCLUDE_PATH | append $env.INCLUDE_BEFORE),
+    LIB: $lib_path,
   }
 
   # Debug Information
@@ -184,7 +182,6 @@ export def --env deactivate [] {
     $env.PATH_VAR: $env.MSVS_BASE_PATH,
   }
 
-  hide-env INCLUDE
   hide-env LIB
   hide-env MSVS_BASE_PATH
   hide-env MSVS_ROOT
@@ -192,4 +189,13 @@ export def --env deactivate [] {
   hide-env MSVS_MSDK_ROOT
   hide-env MSVS_MSDK_VER
   hide-env MSVS_INCLUDE_PATH
+
+  if $env.INCLUDE_BEFORE == null {
+    hide-env INCLUDE
+  } else {
+    load-env {
+        INCLUDE: ($env.INCLUDE_BEFORE | path expand | str join (char esep))
+    }
+    hide-env INCLUDE_BEFORE
+  }
 }

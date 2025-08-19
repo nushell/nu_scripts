@@ -1,5 +1,52 @@
 # Modify the package database
 extern "$progname" [
-
+	--database(-D)					# Modify the package database
+	--query(-Q)					# Query the package database
+	--remove(-R)					# Remove packages from the system
+	--sync(-S)					# Synchronize packages
+	--deptest(-T)					# Check dependencies
+	--upgrade(-U)					# Upgrade or add a local package
+	--files(-F)					# Query the files database
+	--version(-V)					# Display version and exit
+	--help(-h)					# Display help
+	--search(-s)					# (AUR) Search for packages
+	--info(-i)					# (AUR) Show info for packages
+	--makepkg(-m)					# (AUR) Clone the packages' build files and build them
+	--sync(-y)					# (AUR) Clone build files, build and install packages
+	--check(-k)					# (AUR) Check foreign packages for updates
+	--update(-u)					# (AUR) Update foreign packages
+	--download(-d)					# (AUR) Clone the packages' build files
+	--download(-d)					# Download dependencies recursively
+	--dbpath(-b)					# Alternative database location
+	--root(-r)					# Alternative installation root
+	--verbose(-v)					# Output more status messages
+	--cachedir					# Alternative package cache location
+	--config					# Alternate config file
+	--gpgdir					# GPG directory to verify signatures
+	--hookdir					# Hook file directory
+	--logfile					# Specify alternative log file
+	--aur(-a)					# Apply only for AUR targets
+	--repo(-r)					# Apply only for specified repo
+	--edit(-r)					# Edit build files
+	--noedit					# Do not edit build files
+	--rebuild					# Always rebuild packages
+	--silent					# Redirect output to the log in the clone directory
+	--devel					# Use devel packages
+	--ignore-ood					# Ignore all results marked as out of date
+	--no-ignore-ood					# Do not ignore all results marked as out of date
+	--sort					# Sort ascending by key
+	--rsort					# Sort descending by key
+	--by					# Search by field
+	--owns(-o)
+	--clean(-c)					# Remove [all] packages from cache
+	--list(-l)					# List all packages in REPOSITORY
+	--sysupgrade(-u)					# Upgrade all packages that are out of date
+	--sysupgrade(-u)					# Also downgrade packages
+	--downloadonly(-w)					# Only download the target packages
+	--refresh(-y)					# Download fresh copy of the package list
+	--check(-k)					# Check database validity
+	--list(-l)					# List files owned by given packages
+	--search(-s)					# Search packages for matching files
+	--owns(-o)					# Search for packages that include the given files
 	...args
 ]

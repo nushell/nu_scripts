@@ -21,7 +21,7 @@ def direnv [] {
 
 export-env {
     $env.config = ( $env.config | upsert hooks.env_change.PWD { |config|
-        let o = ($config | get -i hooks.env_change.PWD)
+        let o = ($config | get -o hooks.env_change.PWD)
         let val = (direnv)
         if $o == null {
             $val

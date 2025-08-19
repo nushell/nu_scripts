@@ -34,6 +34,11 @@ def "nu-complete docker compose service status" [] {
     [paused restarting removing running dead created exited]
 }
 
+def "nu-complete docker subcommands" [] {
+    # ^docker --help | lines | where $it =~ '^ {2}[A-Za-z]' | parse --regex '^ {2}([^\s*]+)\*?\s+.+$'
+    ^docker --help | lines | where $it =~ '^ {2}[A-Za-z]' | parse --regex '^ {2}(?P<value>[^\s*]+)\*?\s+(?P<description>.+)$'
+}
+
 # Log in to a Docker registry
 export extern "docker login" [
     server?: string                                     #Docker registry URL
@@ -603,6 +608,7 @@ export extern "docker compose up" [
 
 # An open-source container management platform.
 export extern "docker" [
+    command?: string@"nu-complete docker subcommands"   #Subcommands
     --config: string                                    #Location of client config files (default "/root/.docker")
     --context(-c): string                               #Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
     --debug(-D)                                         #Enable debug mode

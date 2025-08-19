@@ -16,7 +16,7 @@ export def kube-refine [
     let cns = kubectl get namespace
     | from ssv -a
     | get NAME
-    | filter $nsf
+    | where $nsf
 
     let resource = kubectl get crd | from ssv | get NAME
     let resource = kubectl api-resources | from ssv -a | get NAME | append $resource
@@ -24,7 +24,7 @@ export def kube-refine [
         $resource
     } else {
         $resource
-        | filter {|x| $x in $kind }
+        | where {|x| $x in $kind }
     }
 
     mut data = []

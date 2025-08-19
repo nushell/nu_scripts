@@ -29,7 +29,7 @@ export def current-dir [] {
   let current_dir = ($env.PWD)
 
   let current_dir_relative_to_home = (
-    do --ignore-errors { $current_dir | path relative-to $nu.home-path } | str join
+    do --ignore-errors { $current_dir | path relative-to $nu.home-path  | str join }
   )
 
   let in_sub_dir_of_home = ($current_dir_relative_to_home | is-not-empty)
