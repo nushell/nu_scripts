@@ -148,15 +148,20 @@ def generate-full-changelog [version: string]: nothing -> string {
 def get-release-notes []: record -> record {
     mut pr = $in
 
-    if "## Release notes summary" not-in $pr.body {
-        return ($pr | add-notice error "no release notes section")
-    }
-
-    mut notes = $pr.body | extract-notes
-
     let has_ready_label = "notes:ready" in $pr.labels.name
     let sections = $SECTIONS | where label in $pr.labels.name
     let hall_of_fame = $SECTIONS | where label == "notes:mention" | only
+
+    # Extract the notes section
+    mut notes = if "## Release notes summary" in $pr.body {
+      $pr.body | extract-notes
+    } else if $has_ready_label {
+      # If no release notes summary exists but ready label is set, treat as empty
+      $pr = $pr | add-notice warning "no release notes section but notes:ready label"
+      ""
+    } else {
+      return ($pr | add-notice error "no release notes section")
+    }
 
     # Check for empty notes section
     if ($notes | is-empty-keyword) {
