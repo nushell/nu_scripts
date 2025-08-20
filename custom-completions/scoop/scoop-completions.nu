@@ -679,7 +679,7 @@ export extern "scoop cache show" [
 
 # Clear the download cache
 export extern "scoop cache rm" [
-  apps: string@scoopInstalledAppsWithStar # apps in question
+  apps?: string@scoopInstalledAppsWithStar # apps in question
   --all (-a) # Clear all apps (alternative to '*')
 ]
 
