@@ -35,7 +35,7 @@ def clean [repo: path] {
 # # Example
 #     [this PR](https://github.com/nushell/nushell.github.io/pull/916) has been created with the script
 #     > ./make_release/release-note/create-pr 0.81 2023-06-06
-def main [
+export def main [
     version: string # the version of the release, e.g. `0.80`
     date: datetime # the date of the upcoming release, e.g. `2023-05-16`
 ] {

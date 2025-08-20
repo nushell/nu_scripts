@@ -1,6 +1,10 @@
 use std/assert
 use std-rfc/iter only
 
+use completions.nu *
+
+export use create-pr.nu
+
 const SECTIONS = [
     [label, h2, h3];
     ["notes:breaking-changes", "Breaking changes", "Other breaking changes"]
@@ -13,10 +17,11 @@ const SECTIONS = [
 ]
 
 # List all merged PRs since the last release
+@example $"List all merged for ($example_version)" $"list-prs --milestone ($example_version)"
 export def list-prs [
     repo: string = 'nushell/nushell' # the name of the repo, e.g. 'nushell/nushell'
-    --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
-    --milestone: string # only list PRs in a certain milestone
+    --since: datetime@"nu-complete date current" # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
+    --milestone: string@"nu-complete version" # only list PRs in a certain milestone
     --label: string # the PR label to filter by, e.g. 'good-first-issue'
 ]: nothing -> table {
     query-prs $repo --since=$since --milestone=$milestone --label=$label
@@ -28,8 +33,8 @@ export def list-prs [
 # Construct a GitHub query for merged PRs on a repo.
 def query-prs [
     repo: string = 'nushell/nushell' # the name of the repo, e.g. 'nushell/nushell'
-    --since: datetime # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
-    --milestone: string # only list PRs in a certain milestone
+    --since: datetime@"nu-complete date current" # list PRs on or after this date (defaults to 4 weeks ago if `--milestone` is not provided)
+    --milestone: string@"nu-complete version" # only list PRs in a certain milestone
     --label: string # the PR label to filter by, e.g. 'good-first-issue'
 ]: nothing -> table {
     mut query_parts = []
