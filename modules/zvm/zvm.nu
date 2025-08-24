@@ -49,7 +49,7 @@ export def "zvm install" [version: string] {
   let temp_dir = mktemp --directory --suffix "-zvm"
   http get $tarball | save --progress $"($temp_dir)/($tarball | path basename)"
   verify_signature $temp_dir $tarball
-  ouch decompress --dir $temp_dir --quiet $"($temp_dir)/($tarball | path basename)"
+  ouch decompress --dir $temp_dir --quiet $"($temp_dir)/($tarball | path basename)" --yes
 
   let path_prefix = get_or_create_path_prefix
   let decompressed_dir_path = ls $temp_dir | where type == dir | get 0.name
