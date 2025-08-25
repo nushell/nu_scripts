@@ -112,7 +112,8 @@ export def generate-notes [version: string]: table -> string {
     const template_path = path self "template.md"
     let template = open $template_path
     let arguments = {
-        version: $version,
+        # chop off the `v` in the version
+        version: ($version | str substring 1..),
         changes: ($prs | generate-changes-section),
         hall_of_fame: ($prs | generate-hall-of-fame)
         changelog: (generate-full-changelog $version)
