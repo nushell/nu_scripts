@@ -1,4 +1,4 @@
-export const example_version = $"0.((version).minor + 1).0"
+export const example_version = $"v0.((version).minor + 1).0"
 export const current_build_date = ((version).build_time | parse '{date} {_}').0.date
 
 export def last-release-date []: nothing -> datetime {
@@ -13,8 +13,9 @@ export def last-release-date []: nothing -> datetime {
         | from json
         | $in.0.createdAt
         | into datetime
+        | "v" ++ $in
     }
-    $env.cached-var.relase-date
+    "v" ++ $env.cached-var.relase-date
 }
 
 export def "nu-complete version" [] { [$example_version] }
