@@ -55,7 +55,7 @@ def query-prs [
 }
 
 # Generate the release notes for the specified version.
-export def pr-notes [
+export def release-notes [
     version: string@"nu-complete version" # the version to generate release notes for
 ]: nothing -> string {
     query-prs --milestone=$version
