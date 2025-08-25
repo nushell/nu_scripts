@@ -6,6 +6,7 @@ use completions.nu *
 use notice.nu *
 use generate.nu *
 
+export use gh-release-excerpt.nu
 export use create-pr.nu
 
 # List all merged PRs since the last release
