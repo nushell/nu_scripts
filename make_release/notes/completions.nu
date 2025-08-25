@@ -13,9 +13,9 @@ export def last-release-date []: nothing -> datetime {
         | from json
         | $in.0.createdAt
         | into datetime
-        | "v" ++ $in
+        | $in
     }
-    "v" ++ $env.cached-var.relase-date
+    $env.cached-var.relase-date
 }
 
 export def "nu-complete version" [] { [$example_version] }
