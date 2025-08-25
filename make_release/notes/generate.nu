@@ -96,7 +96,9 @@ export def extract-notes []: string -> string {
     | if ($in | is-empty) { assert false } else {}
     | skip 1 # remove header
     # extract until next heading
-    | take until { $in starts-with "#" or $in starts-with "---" }
+    | take until {
+          $in starts-with "# " or $in starts-with "## " or $in starts-with "---"
+      }
     | str join (char nl)
     # remove HTML comments
     | str replace -amr '<!--\O*?-->' ''
