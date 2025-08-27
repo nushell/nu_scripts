@@ -21,7 +21,8 @@ export def display-notices []: table -> nothing {
     | sort-by {|i| $types | where type == $i.type | only rank } message
     | each {|e|
         let color = $types | where type == $e.type | only color
-        print $"($color)PRs with ($e.message):"
+        let number = $e.items | length
+        print $"($color)($number) PR\(s\) with ($e.message):"
         $e.items | each { format-pr | print $"- ($in)" }
         print ""
     }
