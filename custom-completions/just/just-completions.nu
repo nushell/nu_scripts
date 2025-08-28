@@ -78,7 +78,6 @@ def "nu-complete just assignments" [] {
 # Just: A Command Runner. A handy way to save and run project-specific commands.
 export extern "just" [
     recipe?:string@"nu-complete just"               # Recipe to execute
-    ...args:any@"nu-complete args"                  # Arguments
     --changelog                                     # Print changelog
     --check                                         # Run `--fmt` in 'check' mode. Exits with 0 if justfile is formatted correctly. Exits with 1 and prints a diff if formatting is required.
     --choose                                        # Select one or more recipes to run using a binary chooser. If `--chooser` is not passed the chooser defaults to the value of $JUST_CHOOSER, falling back to `fzf`
