@@ -75,6 +75,7 @@ def "nu-complete just assignments" [] {
         }}
 }
 
+# Just: A Command Runner. A handy way to save and run project-specific commands.
 export extern "just" [
     recipe?:string@"nu-complete just"               # Recipe to execute
     ...args:any@"nu-complete args"                  # Arguments
