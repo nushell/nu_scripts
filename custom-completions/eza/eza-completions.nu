@@ -41,8 +41,6 @@ def "nu-complete eza color-scale-mode" [] {
 	eza --long --tree --level=3
 }
 export extern "eza" [
-    path?: path                                             # folder to list
-
     --help(-?)                                              # show list of command-line options
     --version(-v)                                           # show version of eza
 
