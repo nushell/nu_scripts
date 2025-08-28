@@ -109,7 +109,7 @@ export extern "just" [
     --color:string@"nu-complete just color-when"    # Print colorful output [default: auto]  [possible values: auto, always, never]
     --command(-c)                                   # Run an arbitrary command with the working directory, `.env`, overrides, and exports set
     --command-color:string@"nu-complete just color" # Echo recipe lines in <COMMAND-COLOR> [possible values: black, blue, cyan, green, purple, red, yellow]
-    --completions:string@"nu-complete just shells"  # Print shell completion script for <SHELL> [possible values: zsh, bash, fish, powershell, elvish]
+    --completions:string@"nu-complete just shells"  # Print shell completion script for <SHELL> [possible values: zsh, bash, fish, powershell, elvish, nushell]
     --dotenv-filename                               # Search for environment file named <DOTENV-FILENAME> instead of `.env`
     --dotenv-path(-E)                               # Load <DOTENV-PATH> as environment file instead of searching for one
     --dump-format:string@"nu-complete just format"  # Dump justfile as <FORMAT> [default: just]  [possible values: just, json]
@@ -129,7 +129,7 @@ def "nu-complete just format" [] {
 
 # Shells as listed in `--completions`
 def "nu-complete just shells" [] {
-    [ "zsh", "bash", "fish", "powershell", "elvish" ]
+    [ "zsh", "bash", "fish", "powershell", "elvish", "nushell" ]
 }
 
 # Color outputs as listed in `--color`
