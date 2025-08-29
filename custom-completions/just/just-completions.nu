@@ -86,17 +86,25 @@ export extern "just" [
     --dump                                          # Print justfile
     --edit(-e)                                      # Edit justfile with editor given by $VISUAL or $EDITOR, falling back to `vim`
     --evaluate                                      # Evaluate and print all variables. If a variable name is given as an argument, only print that variable's value.
+    --explain                                       # Print recipe doc comment before running it
     --fmt                                           # Format and overwrite justfile
+    --global-justfile(-g)                           # Use global justfile
+    --groups                                        # List recipe groups
     --highlight                                     # Highlight echoed recipe lines in bold
     --init                                          # Initialize new justfile in project root
     --list(-l)                                      # List available recipes and their arguments
+    --man                                           # Print man page
     --no-aliases                                    # Don't show aliases in list
     --no-deps                                       # Don't run recipe dependencies
     --no-dotenv                                     # Don't load `.env` file
     --no-highlight                                  # Don't highlight echoed recipe lines in bold
+    --one                                           # Forbid multiple recipes from being invoked on the command line
     --quiet(-q)                                     # Suppress all output
     --shell-command                                 # Invoke <COMMAND> with the shell used to run recipe lines and backticks
     --summary                                       # List names of available recipes
+    --tempdir:glob                                  # Save temporary files to <TEMPDIR>.
+    --timestamp                                     # Print recipe command timestamps
+    --timestamp-format:string                       # Timestamp format string
     --unsorted(-u)                                  # Return list and summary entries in source order
     --unstable                                      # Enable unstable features
     --variables                                     # List names of variables
@@ -105,23 +113,29 @@ export extern "just" [
     --help(-h)                                      # Print help information
     --version(-V)                                   # Print version information
 
-    --chooser                                       # Override binary invoked by `--choose`
+    --alias-style:string@"nu-complete just al-st"   # Set list command alias display style
+    --chooser:string                                # Override binary invoked by `--choose`
     --color:string@"nu-complete just color-when"    # Print colorful output [default: auto]  [possible values: auto, always, never]
-    --command(-c)                                   # Run an arbitrary command with the working directory, `.env`, overrides, and exports set
+    --command(-c):string                            # Run an arbitrary command with the working directory, `.env`, overrides, and exports set
     --command-color:string@"nu-complete just color" # Echo recipe lines in <COMMAND-COLOR> [possible values: black, blue, cyan, green, purple, red, yellow]
     --completions:string@"nu-complete just shells"  # Print shell completion script for <SHELL> [possible values: zsh, bash, fish, powershell, elvish, nushell]
-    --dotenv-filename                               # Search for environment file named <DOTENV-FILENAME> instead of `.env`
-    --dotenv-path(-E)                               # Load <DOTENV-PATH> as environment file instead of searching for one
+    --dotenv-filename:glob                          # Search for environment file named <DOTENV-FILENAME> instead of `.env`
+    --dotenv-path(-E):glob                          # Load <DOTENV-PATH> as environment file instead of searching for one
     --dump-format:string@"nu-complete just format"  # Dump justfile as <FORMAT> [default: just]  [possible values: just, json]
-    --justfile(-f)                                  # Use <JUSTFILE> as justfile
-    --list-heading                                  # Print <TEXT> before list
-    --list-prefix                                   # Print <TEXT> before each list item
+    --justfile(-f):glob                             # Use <JUSTFILE> as justfile
+    --list-heading:string                           # Print <TEXT> before list
+    --list-prefix:string                            # Print <TEXT> before each list item
+    --list-submodules                               # List recipes in submodules
     --set:string@"nu-complete just assignments"     # Override <VARIABLE> with <VALUE>
     --shell:string@"nu-complete just shells"        # Invoke <SHELL> to run recipes
-    --shell-arg                                     # Invoke shell with <SHELL-ARG> as an argument
+    --shell-arg:string                              # Invoke shell with <SHELL-ARG> as an argument
     --show(-s):string@"nu-complete just"            # Show information about <RECIPE>
-    --working-directory(-d)                         # Use <WORKING-DIRECTORY> as working directory. --justfile must also be set
+    --working-directory(-d):glob                    # Use <WORKING-DIRECTORY> as working directory. --justfile must also be set
 ]
+
+def "nu-complete just al-st" [] {
+    [ "left", "right", "separate" ]
+}
 
 def "nu-complete just format" [] {
     [ "just", "json" ]
