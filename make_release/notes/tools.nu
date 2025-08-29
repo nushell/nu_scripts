@@ -68,12 +68,13 @@ export def release-notes [
 # Check the release note summaries for the specified version.
 export def check-prs [
     version: string@"nu-complete version" # the version to generate release notes for
+    --as-table (-t) # output PR checks as a table
 ]: nothing -> nothing {
     query-prs --milestone=$version
     | where not author.is_bot
     | sort-by mergedAt
     | each { get-release-notes }
-    | display-notices
+    | if $as_table { group-notices } else { display-notices }
 }
 
 # Format the output of `list-prs` as a markdown table
