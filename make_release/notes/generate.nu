@@ -156,7 +156,7 @@ export def generate-section []: record<section: string, prs: table> -> string {
     }
     $body ++= $bullet | each {|pr| "* " ++ $pr.notes ++ $" \(($pr | pr-link)\)" }
 
-    $body | str join (char nl)
+    $body | str join $"(char nl)(char nl)"
 }
 
 # Generate the "Hall of Fame" section of the release notes.
