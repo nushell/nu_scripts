@@ -150,7 +150,7 @@ export def generate-section []: record<section: string, prs: table> -> string {
     $body ++= $multiline.notes
 
     # Add single-line summaries
-    if ($multiline | is-not-empty) {
+    if ($multiline | is-not-empty) and ($bullet | is-not-empty) {
         $body ++= [$"### ($section.h3)"]
     }
     $body ++= $bullet | each {|pr| "* " ++ $pr.notes ++ $" \(($pr | pr-link)\)" }
