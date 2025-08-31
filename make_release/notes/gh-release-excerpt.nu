@@ -1,8 +1,5 @@
-#!/usr/bin/env nu
-
-
 # Prepare the GitHub release text
-def main [
+export def main [
     versionname: string # The version we release now
     bloglink: string # The link to the blogpost
     date?: datetime  # the date of the last release (default to 6 weeks ago, excluded)
