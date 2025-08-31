@@ -88,6 +88,31 @@ export def get-release-notes []: record -> record {
     $pr | insert notes $notes
 }
 
+# Create closure for `reduce` to extract the whole release notes summary.
+def extract_until_end []: nothing -> closure {
+    let terminators = ["# " "## " "---"]
+    {|line: string, state: record|
+        mut state = $state
+
+        if $state.done { return $state }
+
+        # check if we're entering/exiting a code block
+        # this might be kind of brittle
+        if $line has "```" {
+            $state.code = not $state.code
+        }
+
+        let found_terminator = $terminators | any { $line starts-with $in }
+        if $found_terminator and not $state.code {
+            $state.done = true
+            return $state
+        }
+
+        $state.out ++= [$line]
+        $state
+    }
+}
+
 # Extracts the "Release notes summary" section of the PR description
 export def extract-notes []: string -> string {
     lines
@@ -96,10 +121,9 @@ export def extract-notes []: string -> string {
     # this should already have been checked
     | if ($in | is-empty) { assert false } else {}
     | skip 1 # remove header
-    # extract until next heading
-    | take until {
-          $in starts-with "# " or $in starts-with "## " or $in starts-with "---"
-      }
+    # extract until end of summary
+    | reduce -f {code: false, done: false, out: []} (extract_until_end)
+    | get out
     | str join (char nl)
     # remove HTML comments
     | str replace -amr '<!--\O*?-->' ''
