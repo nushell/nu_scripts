@@ -8,6 +8,7 @@ const SECTIONS = [
     ["notes:other", "Other changes", "Additional changes"]
     ["notes:fixes", "Bug fixes", "Other fixes"]
     ["notes:mention", null, null]
+    ["notes:hide", null, null]
 ]
 
 use notice.nu *
@@ -129,7 +130,7 @@ export def generate-changes-section []: table -> string {
     # sort sections in order of appearance in table
     | sort-by {|i| $SECTIONS | enumerate | where item.label == $i.section | only }
     # Hall of Fame is handled separately
-    | where section != "notes:mention"
+    | where section not-in ["notes:mention" "notes:hide"]
     | each { generate-section }
     | str join (char nl)
 }
