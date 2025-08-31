@@ -45,11 +45,16 @@ def query-prs [
 
     let query = $query_parts | str join ' '
 
-    (gh --repo $repo pr list --state merged
-        --limit (inf | into int)
-        --json author,title,number,mergedAt,url,body,labels
-        --search $query)
-    | from json
+    let results = (
+        gh --repo $repo pr list --state merged
+            --limit (inf | into int)
+            --json author,title,number,mergedAt,url,body,labels
+            --search $query
+        | from json
+    )
+
+    assert ($results | is-not-empty) "Query returned no results"
+    $results
 }
 
 # Generate the release notes for the specified version.
