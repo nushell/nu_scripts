@@ -8,6 +8,7 @@ const SECTIONS = [
     ["notes:other", "Other changes", "Additional changes"]
     ["notes:fixes", "Bug fixes", "Other fixes"]
     ["notes:mention", null, null]
+    ["notes:hide", null, null]
 ]
 
 use notice.nu *
@@ -37,8 +38,8 @@ export def get-release-notes []: record -> record {
 
     # Check for empty notes section
     if ($notes | is-empty-keyword) {
-        if ($sections | where label != "notes:mention" | is-not-empty) {
-            return ($pr | add-notice error "empty summary has a category other than Hall of Fame")
+        if ($sections | where label not-in (labels-without-heading) | is-not-empty) {
+            return ($pr | add-notice error "empty summary but a category other than Hall of Fame or hidden")
         }
 
         if ($notes | is-empty) and not $has_ready_label {
@@ -129,7 +130,7 @@ export def generate-changes-section []: table -> string {
     # sort sections in order of appearance in table
     | sort-by {|i| $SECTIONS | enumerate | where item.label == $i.section | only }
     # Hall of Fame is handled separately
-    | where section != "notes:mention"
+    | where section not-in (labels-without-heading)
     | each { generate-section }
     | str join (char nl)
 }
@@ -175,4 +176,9 @@ export def generate-hall-of-fame []: table -> string {
 export def generate-full-changelog [version: string]: nothing -> string {
     list-prs --milestone=$version
     | pr-table
+}
+
+# Get section labels which don't have a corresponding heading (i.e., don't appear in Changes section)
+def labels-without-heading [] {
+    $SECTIONS | where h2 == null | get label
 }
