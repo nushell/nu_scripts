@@ -153,11 +153,9 @@ export def write-toc [file: path] {
         | each {|header|
             let indent = '- ' | fill -w ($header.level * 2) -a right
 
-            let text = $header.line | str trim -l -c '#' | str trim -l
-            let text = if $text ends-with $toc {
-                $text | str substring ..<(-1 * ($toc | str length)) | str trim -r
-            } else {
-                $text
+            mut text = $header.line | str trim -l -c '#' | str trim -l
+            if $text ends-with $toc {
+                $text = $text | str substring ..<(-1 * ($toc | str length)) | str trim -r
             }
 
             let link = (
@@ -165,6 +163,22 @@ export def write-toc [file: path] {
                 | str downcase
                 | str kebab-case
             )
+
+            # remove PR link from header, if applicable
+            let regex = r#'(?x)         # verbose mode
+                       (?<text>.+?) # the actual header text
+                       \s+
+                       \(           # start PR link
+                         \[\#\d+\]  #   PR number component
+                         (?:        #   optional non-capturing group
+                           \(.+?\)  #     link to PR
+                         )?         #   end group
+                       \)
+            '#
+            let prlink = $text | parse -r $regex
+            if ($prlink | is-not-empty) {
+                $text = $prlink.0.text
+            }
 
             $"($indent)[_($text)_]\(#($link)-toc\)"
         }
