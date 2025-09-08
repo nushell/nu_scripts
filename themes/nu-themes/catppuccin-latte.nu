@@ -1,4 +1,3 @@
-# Retrieve the theme settings
 export def main [] {
     const color_palette = {
         rosewater: "#dc8a78"
@@ -50,7 +49,7 @@ export def main [] {
                 $color_palette.red
             }
         }
-        datetime: {|| (date now) - $in |
+        date: {|| (date now) - $in |
             if $in < 1hr {
                 $color_palette.green
             } else if $in < 1day {
@@ -115,7 +114,7 @@ export def main [] {
     }
 }
 
-# Update the Nushell configuration
+ # Update the Nushell configuration
 export def --env "set color_config" [] {
     $env.config.color_config = (main)
 }
