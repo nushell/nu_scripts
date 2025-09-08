@@ -10,7 +10,7 @@
 #   background to reduce artifacts
 
 def save_screenshot [ method, theme_name ] {
-  use .../stdlib-candidate/std-rfc/str 
+  use ../../stdlib-candidate-archive/stdlib-candidate-older/std-rfc/str/
   match $method {
     # This method for generating terminal screenshots uses
     # a pure-PowerShell script. The caveat is that Windows
@@ -24,7 +24,7 @@ def save_screenshot [ method, theme_name ] {
     "powershell" => {
       let ps_script = $"
         use .. *
-        source ($name)
+        source ($theme_name)
         clear
         sleep 100ms
         print `Theme name: '($theme_name)'`
@@ -50,7 +50,7 @@ def save_screenshot [ method, theme_name ] {
     "minicap" => {
       $'
         use .. *
-        source ($name)
+        source ($theme_name)
         clear
         sleep 100ms
         print `Theme name: '($theme_name)'`
@@ -130,7 +130,7 @@ def save_screenshot [ method, theme_name ] {
 }
 
 def "preview generate screenshots" [screenshot_method, theme_count = 10_000] {
-  use .../stdlib-candidate/std-rfc str
+  use ../../stdlib-candidate-archive/stdlib-candidate-older/std-rfc/str/
 
   let themes = (
     "../nu-themes/"
@@ -168,7 +168,7 @@ def "preview generate screenshots" [screenshot_method, theme_count = 10_000] {
 }
 
 def "preview generate readme" [] {
-  use .../stdlib-candidate/std-rfc str
+  use ../../stdlib-candidate-archive/stdlib-candidate-older/std-rfc/str/
 
   # README Title
   "# Screenshots of Theme Previews\n\n"
@@ -204,7 +204,7 @@ def "preview generate readme" [] {
 }
 
 def main [screenshot_method] {
-  use .../stdlib-candidate/std-rfc/str 
+  use ../../stdlib-candidate-archive/stdlib-candidate-older/std-rfc/str/
 
   if $env.PWD != $env.FILE_PWD {
     "
