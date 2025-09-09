@@ -315,15 +315,18 @@ export def "winget search" [
             | where { not ($in | is-empty) }
         )
 
-    let output = (^winget ...$params)
+    let output = ^winget ...$params
+        # remove loading symbols at start of output
+        | str replace -r r#'^[^\w]*'# ""
     if $raw or $help {
         $output
     } else {
-        let lines = ($output | lines)
+        let lines = ($output | detect columns --guess) | rename name id version match source
         if ($lines | length) == 1 {
-            $"(ansi light_red)($lines | first)(ansi reset)"
+            print -e $"(ansi light_red)($output)(ansi reset)"
+            null
         } else {
-            nu-complete winget parse table $lines | select name id version source
+            $lines
         }
     }
 }
