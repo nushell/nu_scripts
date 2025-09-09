@@ -251,7 +251,7 @@ export extern "winget source update" [
     --name(-n): string, # Name of the source
     --help(-?) # Display the help for this command
 ]
-export alias "winget source refresh" = winet source update
+export alias "winget source refresh" = winget source update
 
 # Remove current sources
 export extern "winget source remove" [
