@@ -376,19 +376,20 @@ export def "winget list" [
     )
 
     let output = ^winget ...$params
+    # remove loading symbols at start of output
+    | str replace -r r#'^[^\w]*'# ""
     if $help or $raw {
         $output
     } else {
-        let lines = ($output | lines)
+        let lines = ($output | detect columns --guess) | rename name id version available source
         if ($lines | length) == 1 {
-            $"(ansi light_red)($lines | first)(ansi reset)"
+            print -e $"(ansi light_red)($output)(ansi reset)"
+            null        
         } else {
-            let truncated = $lines | last | $in == "<additional entries truncated due to result limit>"
-            nu-complete winget parse table (if $truncated { $lines | drop } else { $lines }) 
-                | reject match
-                # Because of a bug: https://github.com/microsoft/winget-cli/issues/4236
-                # we need to filter it with the "where" command
-                | if ($source | is-not-empty) { $in | where source == $source } else { $in }
+            $lines
+            # Because of a bug: https://github.com/microsoft/winget-cli/issues/4236
+            # we need to filter it with the "where" command
+            | if ($source | is-not-empty) { $in | where source == $source } else { $in }
         }
     }
 }
