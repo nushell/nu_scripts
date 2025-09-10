@@ -72,7 +72,7 @@ export def "lint check" []: path -> int {
     const current_path = (path self)
 
     let diagnostics = match $test_methodology {
-        ide-check => {
+        "ide-check" => {
             nu --ide-check 10 $file
             | $"[($in)]"
             | from nuon
@@ -80,7 +80,7 @@ export def "lint check" []: path -> int {
             | select severity message
         }
 
-        import-or-source => {
+        "import-or-source" => {
             # If any line in the file starts with `export`, then
             # we assume it is a module. Otherwise, treat it as source
             let has_exports = (open $file | $in like '(?m)^export\s')
