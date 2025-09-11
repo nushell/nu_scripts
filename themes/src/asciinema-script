@@ -1,0 +1,8 @@
+use .. *
+sleep 200ms
+source ../nu-themes/$theme_name.nu
+clear
+print 'Theme: ($theme_name)'
+print -n (preview theme small)
+sleep 200ms
+print ""
