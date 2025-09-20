@@ -84,7 +84,7 @@ def generate-twin [
 
                 for pr in $user.prs {
                     $twin_text += $"
-                      - [($pr.title) \(#($pr.number)]\)\(($pr.url)\)
+                      - [($pr.title) \(#($pr.number)\)]\(($pr.url)\)
 
                     " | str dedent
                 }
