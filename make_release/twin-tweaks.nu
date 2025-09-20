@@ -1,6 +1,15 @@
-def "twin format" [filename] {
+def "twin format" [filename?] {
   use std/clip
   use std-rfc/str
+
+  let input = $in
+
+  let twin_content = (
+    match $filename {
+      null => $input
+      _ => { open --raw $filename }
+    }
+  )
 
   {
     Authorization: $'Bearer (kv get -u OPENROUTER_API_KEY)'
@@ -11,7 +20,7 @@ def "twin format" [filename] {
     Rewrite the following auto-generated changelog so it's more natural. For example, change things like 'rgwood created [Bump dependencies...' to 'rgwood [bumped dependencies...'. Keep the inline links. Make sure to keep ALL original URLs! When returning the text, do not include any explaination of the change or the surrounding backticks around the result:
 
     ```
-    (open --raw $filename)
+    ($twin_content)
     ```
   "
   | str unindent
