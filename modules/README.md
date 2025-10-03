@@ -265,3 +265,7 @@ These scripts should be used to demonstrate how get your local weather and/or we
 
 ## [webscraping](../sourced/webscraping/)
 Simple scripts to demonstrate how to scrape websites in nushell. Requires `query web` plugin
+
+## [result](./result/)
+A module to include in the config which enables storing and convenient access of previously output
+results.
