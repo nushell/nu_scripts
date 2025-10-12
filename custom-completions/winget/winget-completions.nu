@@ -341,10 +341,14 @@ export def "winget list" [
 export alias "winget ls" = winget list
 
 def "winget upgrades" [] {
-    let output = ^winget upgrade | nu-complete winget trimLoadingSymbol | lines
+    let output = ^winget upgrade | nu-complete winget trimLoadingSymbol
     
-    let head = $output | first
-    let rest = $output | skip 2
+    # Do nothing when no upgrades available
+    if ( ($output | str starts-with 'No') or ($output | str starts-with '0') ) { return }
+    
+    let lines = $output | lines
+    let head = $lines | first
+    let rest = $lines | skip 2
     
     let colnames = [ Name Id Version Available Source ]
     # We must be unicode aware in determining and using index; winget uses `…` elippses to hide overflow
