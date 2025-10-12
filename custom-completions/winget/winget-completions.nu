@@ -36,6 +36,10 @@ def "nu-complete winget flagify" [name: string, value: any, --short(-s)] {
   }
 }
 
+def "nu-complete winget trimLoadingSymbol" [] {
+    str replace -r r#'^[^\w]*'# ""
+}
+
 def "nu-complete winget uninstall package id" [] {
     ^winget export -s winget -o __winget-temp__.json | ignore
     let results = (open __winget-temp__.json | get Sources.Packages | first | get PackageIdentifier)
@@ -259,8 +263,7 @@ export def "winget search" [
         )
 
     let output = ^winget ...$params
-        # remove loading symbols at start of output
-        | str replace -r r#'^[^\w]*'# ""
+        | nu-complete winget trimLoadingSymbol
     if $raw or $help {
         $output
     } else {
@@ -319,8 +322,7 @@ export def "winget list" [
     )
 
     let output = ^winget ...$params
-    # remove loading symbols at start of output
-    | str replace -r r#'^[^\w]*'# ""
+    | nu-complete winget trimLoadingSymbol
     if $help or $raw {
         $output
     } else {
@@ -337,6 +339,31 @@ export def "winget list" [
     }
 }
 export alias "winget ls" = winget list
+
+def "winget upgrades" [] {
+    let output = ^winget upgrade | nu-complete winget trimLoadingSymbol | lines
+    
+    let head = $output | first
+    let rest = $output | skip 2
+    
+    let colnames = [ Name Id Version Available Source ]
+    # We must be unicode aware in determining and using index; winget uses `…` elippses to hide overflow
+    let cols = $colnames | each {|col| $head | {name: $col i: ($head | str index-of $col --grapheme-clusters) } }
+    
+    let dirty = $rest | each {|line|
+        let chars = $line | split chars
+        {
+            name:      ( $chars | slice ($cols.0.i)..($cols.1.i - 1) | str join | str trim )
+            id:        ( $chars | slice ($cols.1.i)..($cols.2.i - 1) | str join | str trim )
+            version:   ( $chars | slice ($cols.2.i)..($cols.3.i - 1) | str join | str trim )
+            available: ( $chars | slice ($cols.3.i)..($cols.4.i - 1) | str join | str trim )
+            source:    ( $chars | slice ($cols.4.i).. | str join | str trim )
+        }
+    }
+    # Reject footer lines, in a best effort approach, because there is no clear separator or definitely identifiable form change.
+    # We expect `x upgrades available.` to follow the table. Then maybe `x package(s) have version numbers that cannot be determined. Use --include-unknown to see all results.`
+    return ($dirty | take until {|x| $x.source == '' })
+}
 
 # Upgrades the given package
 export extern "winget upgrade" [
