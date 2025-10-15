@@ -292,6 +292,7 @@ export def "winget list" [
     --exact(-e), # Find package using exact match
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
     --accept_source_agreements, # Accept all source agreements during source operations
+    --upgrade_available # Filter results by available upgrade
     --raw, # Output the raw CLI output instead of structured data
     --help(-?) # Display the help for this command
 ] {
@@ -315,8 +316,9 @@ export def "winget list" [
             (do $flagify exact $exact)
             (do $flagify header $header)
             (do $flagify accept_source_agreements $accept_source_agreements)
+            (do $flagify upgrade-available $upgrade_available)
             (do $flagify help $help)
-        ] 
+        ]
         | flatten
         | where { not ($in | is-empty) })
     )
