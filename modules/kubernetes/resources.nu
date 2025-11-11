@@ -3,7 +3,7 @@ use complete *
 ### refine kubernetes resources
 export def kube-refine [
     ...namespace: string@"nu-complete kube ns"
-    --kind(-k): list<string@"nu-complete kube kind">
+    --kind(-k): list<string>@"nu-complete kube kind"
 ] {
     use lg
     let config = $env.KUBERNETES_REFINE
