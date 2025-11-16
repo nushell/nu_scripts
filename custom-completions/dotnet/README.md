@@ -22,33 +22,6 @@ For hand-crafted completions, see other completions like the ones generated from
 
 ## .NET SDK 10 and `dotnet completions`
 
-From the .NET SDK version 10 onwards, the `dotnet` CLI offers `dotnet completions script nushell` that generaltes a Nushell external completer configuration.
-Unfortunately, it is not directly pluggable, but more of a mix of generated forwarding completer and manual configuration integration guide:
-
-```nushell
-# Add the following content to your config.nu file:
-
-let external_completer = { |spans|
-    {
-        dotnet: { ||
-            dotnet complete (
-                $spans | skip 1 | str join " "
-            ) | lines
-        }
-    } | get $spans.0 | each { || do $in }
-}
-
-# And then in the config record, find the completions section and add the
-# external_completer that was defined earlier to external:
-
-let-env config = {
-    # your options here
-    completions: {
-        # your options here
-        external: {
-            # your options here
-            completer: $external_completer # add it here
-        }
-    }
-}
-```
+From the .NET SDK version 10 onwards, the `dotnet` CLI offers `dotnet completions script nushell` which generaltes a Nushell external completer configuration,
+but in an outdated format.
+As such, it can not be used with current Nushell versions.
