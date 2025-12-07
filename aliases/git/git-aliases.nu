@@ -180,7 +180,7 @@ export def grset [remote: string, url: string] {
 }
 export alias grss = git restore --source
 export alias grst = git restore --staged
-export alias grt = cd (git rev-parse --show-toplevel or echo .)
+export alias grt = cd (git rev-parse --show-toplevel | complete | if $in.exit_code == 0 { $in.stdout | str trim } else { '.' })
 export alias gru = git reset --
 export alias grup = git remote update
 export alias grv = git remote --verbose
