@@ -1,4 +1,4 @@
-# Completions based on Jujutsu 0.33.0
+# Completions based on Jujutsu 0.36.0
 
 def operations [] {
   {
@@ -26,7 +26,12 @@ def tracked-bookmarks [] {
 }
 
 def untracked-bookmarks [] {
-  ^jj bookmark list --ignore-working-copy --all-remotes -T 'if(!self.tracked() && self.remote() && self.remote() != "git", self.name() ++ "@" ++ self.remote() ++ "\n")' | lines
+  let remotes = ^jj git remote list --ignore-working-copy | lines | each {|| split row " " | first }
+  let local = ^jj bookmark list --ignore-working-copy -T 'if(!self.remote(), self.name() ++ "\n")' | lines | each {|b| $remotes | each {|r| $"($b)@($r)"  } } | flatten
+  let tracked = tracked-bookmarks
+  let local_untracked = $local | where $it not-in $tracked
+  let remote_untracked = ^jj bookmark list --ignore-working-copy --all-remotes -T 'if(!self.tracked() && self.remote() && self.remote() != "git", self.name() ++ "@" ++ self.remote() ++ "\n")' | lines
+  $local_untracked ++ $remote_untracked
 }
 
 def revsets [] {
@@ -44,7 +49,11 @@ def remotes [] {
 }
 
 def workspaces [] {
-  ^jj --ignore-working-copy workspace list -T 'self.name()' | lines
+  ^jj --ignore-working-copy workspace list -T 'self.name() ++ "\n"' | lines
+}
+
+def tags [] {
+  ^jj --ignore-working-copy tag list -T 'self.name() ++ "\n"' | lines
 }
 
 def modes [] {
@@ -66,6 +75,8 @@ def commands [] {
   [
     'abandon'
     'absorb'
+    'bisect'
+    'bisect run'
     'bookmark'
     'bookmark create'
     'bookmark delete'
@@ -98,8 +109,14 @@ def commands [] {
     'file track'
     'file untrack'
     'fix'
+    'gerrit'
+    'gerrit upload'
     'git'
     'git clone'
+    'git colocation'
+    'git colocation disable'
+    'git colocation enable'
+    'git colocation status'
     'git export'
     'git fetch'
     'git import'
@@ -145,7 +162,9 @@ def commands [] {
     'squash'
     'status'
     'tag'
+    'tag delete'
     'tag list'
+    'tag set'
     'undo'
     'unsign'
     'util'
@@ -223,7 +242,6 @@ export extern "jj abandon" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -243,7 +261,26 @@ export extern "jj absorb" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Run a given command to find the first bad revision.
+export extern "jj bisect run" [
+  command: string                           # command to run to determine whether the bug is present
+  ...args: string                           # arguments to pass to the command
+  --range(-r): string@revsets               # range of revisions to bisect
+  --find-good                               # whether to find the first good revision instead
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -256,13 +293,13 @@ export extern "jj absorb" [
 export extern "jj bookmark create" [
   ...bookmarks: string                      # the bookmarks to create
   --revision(-r): string@revsets            # the bookmark's target revision
+  --to: string@revsets                      # the bookmark's target revision
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -280,7 +317,6 @@ export extern "jj bookmark delete" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -299,7 +335,6 @@ export extern "jj bookmark forget" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -324,7 +359,6 @@ export extern "jj bookmark list" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -345,7 +379,6 @@ export extern "jj bookmark move" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -364,7 +397,6 @@ export extern "jj bookmark rename" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -377,6 +409,7 @@ export extern "jj bookmark rename" [
 export extern "jj bookmark set" [
   ...names: string@local-bookmarks          # the bookmarks to update
   --revision(-r): string@revsets            # the bookmark's target revision
+  --to: string@revsets                      # the bookmark's target revision
   --allow-backwards(-B)                     # allow moving the bookmark backwards or sideways
   --help                                    # print help
   -h                                        # print help summary
@@ -384,7 +417,6 @@ export extern "jj bookmark set" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -402,7 +434,6 @@ export extern "jj bookmark track" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -420,7 +451,6 @@ export extern "jj bookmark untrack" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -435,38 +465,13 @@ export extern "jj commit" [
   --interactive(-i)                         # interactively choose which changes to include in the first commit
   --tool: path                              # specify diff editor to be used (implies --interactive)
   --message(-m): string                     # the change description to use
-  --reset-author                            # reset the author to the configured author
-  --author: string                          # set the author
+  --editor                                  # open an editor to edit the change description
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
-  --debug                                   # enable debug logging
-  --color: string@color-when                # when to colorize output
-  --quiet                                   # silence non-primary command output
-  --no-pager                                # disable the pager
-  --config: string                          # additional configuration options
-  --config-file: path                       # additional configuration file
-]
-
-# Update the description and create a new change on top [default alias: ci]
-export extern "jj ci" [
-  ...filesets: path                         # put theses changes in the first commit
-  --interactive(-i)                         # interactively choose which changes to include in the first commit
-  --tool: path                              # specify diff editor to be used (implies --interactive)
-  --message(-m): string                     # the change description to use
-  --reset-author                            # reset the author to the configured author
-  --author: string                          # set the author
-  --help                                    # print help
-  -h                                        # print help summary
-  --repository(-R): path                    # repository to operate on
-  --ignore-working-copy                     # do not snapshot the working copy
-  --ignore-immutable                        # allow rewriting immutable commits
-  --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -478,14 +483,14 @@ export extern "jj ci" [
 # Start an editor on a jj config file.
 export extern "jj config edit" [
   --user                                    # targer the user-level config
-  --repo                                    # target the repo-level
+  --repo                                    # target the repo-level config
+  --workspace                               # target the workspace-level config
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -503,7 +508,6 @@ export extern "jj config get" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -519,6 +523,7 @@ export extern "jj config list" [
   --include-overriden                       # whether to include overriden values
   --user                                    # target the user-level config
   --repo                                    # target the repo-level config
+  --workspace                               # target the workspace-level config
   --template(-T): string                    # render each variable using the template
   --help                                    # print help
   -h                                        # print help summary
@@ -526,7 +531,6 @@ export extern "jj config list" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -538,14 +542,14 @@ export extern "jj config list" [
 # Print the paths to the config files
 export extern "jj config path" [
   --user                                    # targer the user-level config
-  --repo                                    # target the repo-level
+  --repo                                    # target the repo-level config
+  --workspace                               # target the workspace-level config
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -559,14 +563,14 @@ export extern "jj config set" [
   name: string                              # the config option to set
   value: string                             # the value to set
   --user                                    # targer the user-level config
-  --repo                                    # target the repo-level
+  --repo                                    # target the repo-level config
+  --workspace                               # target the workspace-level config
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -579,14 +583,14 @@ export extern "jj config set" [
 export extern "jj config unset" [
   name: string                              # the config option to unset
   --user                                    # targer the user-level config
-  --repo                                    # target the repo-level
+  --repo                                    # target the repo-level config
+  --workspace                               # target the workspace-level config
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -600,41 +604,13 @@ export extern "jj describe" [
   ...revisions: string@revsets              # the revision(s) whose description to edit (default: @)
   --message(-m): string                     # the change description to use
   --stdin                                   # read the change description from stdin
-  --no-edit                                 # do not open the editor
-  --edit                                    # open the editor to edit the change description
-  --reset-author                            # reset the author name, email, and timestamp
-  --author: string                          # set author
+  --editor                                  # open an editor to edit the change description
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
-  --debug                                   # enable debug logging
-  --color: string@color-when                # when to colorize output
-  --quiet                                   # silence non-primary command output
-  --no-pager                                # disable the pager
-  --config: string                          # additional configuration options
-  --config-file: path                       # additional configuration file
-]
-
-# Update the change description or other metadata
-export extern "jj desc" [
-  ...revisions: string@revsets              # the revision(s) whose description to edit (default: @)
-  --message(-m): string                     # the change description to use
-  --stdin                                   # read the change description from stdin
-  --no-edit                                 # do not open the editor
-  --edit                                    # open the editor to edit the change description
-  --reset-author                            # reset the author name, email, and timestamp
-  --author: string                          # set author
-  --help                                    # print help
-  -h                                        # print help summary
-  --repository(-R): path                    # repository to operate on
-  --ignore-working-copy                     # do not snapshot the working copy
-  --ignore-immutable                        # allow rewriting immutable commits
-  --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -666,7 +642,6 @@ export extern "jj diff" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -689,7 +664,6 @@ export extern "jj diffedit" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -701,7 +675,7 @@ export extern "jj diffedit" [
 # Create new changes with the same content as existing ones
 export extern "jj duplicate" [
   ...revsets: string@revsets                # the revisions to duplicate
-  --destination(-d): string@revsets         # the revisions to duplicate onto
+  --onto(-o): string@revsets                # the revisions to duplicate onto
   --insert-after(-A): string@revsets        # the revisions to insert after
   --after: string@revsets                   # the revisions to insert after
   --insert-before(-B): string@revsets       # the revisions to isnert before
@@ -712,7 +686,6 @@ export extern "jj duplicate" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -730,7 +703,6 @@ export extern "jj edit" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -763,7 +735,6 @@ export extern "jj evolog" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -783,7 +754,6 @@ export extern "jj file annotate" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -803,7 +773,6 @@ export extern "jj file chmod" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -823,7 +792,6 @@ export extern "jj file list" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -843,7 +811,6 @@ export extern "jj file show" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -855,13 +822,13 @@ export extern "jj file show" [
 # Start tracking specified paths in the working copy
 export extern "jj file track" [
   ...files: path                            # paths to track
+  --include-ignored                         # track paths even if they're ignored or too large
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -879,7 +846,6 @@ export extern "jj file untrack" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -899,7 +865,26 @@ export extern "jj fix" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Upload changes to Gerrit for code review, or update existing changes.
+export extern "jj gerrit upload" [
+  --revisions(-r): string@revsets           # the revisions to send to gerrit
+  --remote-branch(-b)                       # the location where your changes are intended to land
+  --remote: string                          # the gerrit remote to push top
+  --dry-run(-n)                             # do not actually push the changes to gerrit
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -917,13 +902,61 @@ export extern "jj git clone" [
   --no-colocate                             # disable colocation of the jj repo with the git repo
   --depth: int                              # creates a shallow clone of the given depth
   --fetch-tags: string@fetch-tags           # configure when to fetch tags
+  --branch(-b): string                      # name of the branch to fetch
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Convert into a non-colocated Jujutsu/Git repository
+export extern "jj git colocation disable" [
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Convert into a colocated Jujutsu/Git repository
+export extern "jj git colocation enable" [
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Show the current colocation status
+export extern "jj git colocation status" [
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -940,7 +973,6 @@ export extern "jj git export" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -961,7 +993,6 @@ export extern "jj git fetch" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -978,7 +1009,6 @@ export extern "jj git import" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -999,7 +1029,6 @@ export extern "jj git init" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1015,7 +1044,6 @@ export extern "jj git push" [
   --all                                     # push all bookmarks
   --tracked                                 # push all tracked bookmarks
   --deleted                                 # push all deleted bookmarks
-  --allow-new(-N)                           # allow pushing new bookmarks
   --allow-empty-description                 # allow pushing commits with empty descriptions
   --allow-private                           # allow pushing commits that are private
   --revisions(-r): string@revsets           # push bookmarks pointing to these commits
@@ -1028,7 +1056,6 @@ export extern "jj git push" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1048,7 +1075,6 @@ export extern "jj git remote add" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1065,7 +1091,6 @@ export extern "jj git remote list" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1083,7 +1108,6 @@ export extern "jj git remote remove" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1094,15 +1118,14 @@ export extern "jj git remote remove" [
 
 # Rename a git remote
 export extern "jj git remote rename" [
-  old: string@remotes                      # the name of the existing remote
-  new: string                              # the new name of the remote
+  old: string@remotes                       # the name of the existing remote
+  new: string                               # the new name of the remote
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1113,7 +1136,7 @@ export extern "jj git remote rename" [
 
 # Set the URL of a Git remote
 export extern "jj git remote set-url" [
-  old: string@remotes                       # the name of the existing remote
+  remote: string@remotes                    # the name of the existing remote
   url: string                               # the new url or path for the remote
   --help                                    # print help
   -h                                        # print help summary
@@ -1121,7 +1144,6 @@ export extern "jj git remote set-url" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1138,7 +1160,6 @@ export extern "jj git root" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1157,7 +1178,6 @@ export extern "jj help" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1187,7 +1207,6 @@ export extern "jj interdiff" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1202,7 +1221,7 @@ export extern "jj log" [
   --revisions(-r): string@revsets           # which revisions to show
   --limit(-n): int                          # number of revisions to show
   --reversed                                # show revisions in the opposite order
-  --no-graph                                # do not show the graph, use a flat list
+  --no-graph(-G)                            # do not show the graph, use a flat list
   --template(-T): string                    # use a template to render revisions
   --patch(-p)                               # show patch
   --summary(-s)                             # for each path, show only whether it was modified, added, or deleted
@@ -1221,7 +1240,6 @@ export extern "jj log" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1233,19 +1251,18 @@ export extern "jj log" [
 # Modify the metadata of a revision without changing its content
 export extern "jj metaedit" [
   ...revsets: string@revsets                # the revision(s) to modify
-  --update-change-id                        # generate a new change-id
+  --message(-m): string                     # update the change description
   --update-author-timestamp                 # update the author timestamp
   --update-author                           # update the author to the configured user
   --author: string                          # set author to the provided string
   --author-timestamp: string                # set the author timestamp to the given date
-  --update-commiter-timestamp               # update the commiter timestamp
+  --force-rewrite                           # rewrite the commit, even if no other metadata changed
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1269,7 +1286,6 @@ export extern "jj new" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1290,7 +1306,6 @@ export extern "jj next" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1308,7 +1323,6 @@ export extern "jj operation abandon" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1322,7 +1336,7 @@ export extern "jj operation diff" [
   --operation: string@operations            # show repository changes in this operation
   --from(-f): string@operations             # show repository changes from this operation
   --to(-t): string@operations               # show repository changes to this operation
-  --no-graph                                # do not show the graph
+  --no-graph(-G)                            # do not show the graph
   --patch(-p)                               # show patch of modifications to changes
   --summary(-s)                             # show only whether each path was modified, added, or deleted
   --stat                                    # show a histogram of the changes
@@ -1340,7 +1354,6 @@ export extern "jj operation diff" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1353,7 +1366,7 @@ export extern "jj operation diff" [
 export extern "jj operation log" [
   --limit(-n): int                          # limit the number of operations to show
   --reversed                                # show operations in the opposite order
-  --no-graph                                # do not show the graph
+  --no-graph(-G)                            # do not show the graph
   --template(-T): string                    # render each operation using the given template
   --op-diff(-d)                             # show changes to the repository at each operation
   --patch(-p)                               # show patch of modifications to changes
@@ -1373,7 +1386,6 @@ export extern "jj operation log" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1392,7 +1404,6 @@ export extern "jj operation restore" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1411,7 +1422,6 @@ export extern "jj operation revert" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1423,7 +1433,7 @@ export extern "jj operation revert" [
 # Show changes to the repository in an operation
 export extern "jj operation show" [
   operation: string@operations              # show repository changes in this operation
-  --no-graph                                # do not show the graph
+  --no-graph(-G)                            # do not show the graph
   --template(-T): string                    # render the operation using the given template
   --patch(-p)                               # show patch of modifications to changes
   --no-op-diff                              # do not show operation diff
@@ -1443,7 +1453,6 @@ export extern "jj operation show" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1461,7 +1470,6 @@ export extern "jj parallelize" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1482,7 +1490,6 @@ export extern "jj prev" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1496,7 +1503,7 @@ export extern "jj rebase" [
   --branch(-b): string@revsets              # rebase the whole branch relative to destination
   --source(-s): string@revsets              # rebase specified revisions with their descendants
   --revisions(-r): string@revsets           # rebase only the given revisions
-  --destination(-d): string@revsets         # the revisions to rebase onto
+  --onto(-o): string@revsets                # the revisions to rebase onto
   --insert-after(-A): string@revsets        # the revision(s) to insert after
   --after: string@revsets                   # the revision(s) to insert after
   --insert-before(-B): string@revsets       # the revision(s) to insert before
@@ -1509,7 +1516,6 @@ export extern "jj rebase" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1526,7 +1532,6 @@ export extern "jj redo" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1547,7 +1552,6 @@ export extern "jj resolve" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1572,7 +1576,6 @@ export extern "jj restore" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1584,7 +1587,7 @@ export extern "jj restore" [
 # Apply the reverse of the given revision(s)
 export extern "jj revert" [
   --revisions(-r): string@revsets           # the revision(s) to apply the reverse of
-  --destination(-d): string@revsets         # the revision(s) to apply the reverse on top of
+  --onto(-o): string@revsets                # the revision(s) to apply the reverse on top of
   --insert-after(-A): string@revsets        # the revision(s) to insert the reverse changes after
   --after: string@revsets                   # the revision(s) to insert the reverse changes after
   --insert-before(-B): string@revsets       # the revision(s) to insert the reverse changes before
@@ -1595,7 +1598,6 @@ export extern "jj revert" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1612,7 +1614,6 @@ export extern "jj root" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1642,7 +1643,6 @@ export extern "jj show" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1661,7 +1661,6 @@ export extern "jj sign" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1680,7 +1679,6 @@ export extern "jj simplify-parents" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1697,7 +1695,6 @@ export extern "jj sparse edit" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1714,7 +1711,6 @@ export extern "jj sparse list" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1731,7 +1727,6 @@ export extern "jj sparse reset" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1751,7 +1746,6 @@ export extern "jj sparse set" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1766,12 +1760,13 @@ export extern "jj split" [
   --interactive(-i)                         # interactively choose which parts to split
   --tool: path                              # the edito to be used
   --revision(-r): string@revsets            # the revision to spli
-  --destination(-d): string@revsets         # the revision(s) to base the new revision onto
+  --onto(-o): string@revsets                # the revision(s) to base the new revision onto
   --insert-after(-A): string@revsets        # the revision(s) to insert after
   --after: string@revsets                   # the revision(s) to insert after
   --insert-before(-B): string@revsets       # the revision(s) to insert before
   --before: string@revsets                  # the revision(s) to insert before
   --message(-m): string                     # the change description to use
+  --editor                                  # open an editor to edit the change description
   --parallel(-p)                            # split the revision into two parallel revisions
   --help                                    # print help
   -h                                        # print help summary
@@ -1779,7 +1774,6 @@ export extern "jj split" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1795,13 +1789,14 @@ export extern "jj squash" [
   --from(-f): string@revsets                # revision(s) to squash from
   --into(-t): string@revsets                # revision to squash into
   --to: string@revsets                      # revision to squash into
-  --destination(-d): string@revsets         # the revision(s) to use as parent for the new commit
+  --onto(-o): string@revsets                # the revision(s) to use as parent for the new commit
   --insert-after(-A): string@revsets        # the revision(s) to insert the new commit after
   --after: string@revsets                   # the revision(s) to insert the new commit after
   --insert-before(-B): string@revsets       # the revision(s) to insert the new commit before
   --before: string@revsets                  # the revision(s) to insert the new commit before
   --message(-m): string                     # the description to use for squashed revision
   --use-destination-message(-u)             # use the description of the destination revision
+  --editor                                  # open an editor to edit the change description
   --interactive(-i)                         # interactively choose which parts to squash
   --tool: path                              # specify diff editor to be used
   --keep-emptied(-k)                        # the source revision will not be andandoned
@@ -1811,7 +1806,6 @@ export extern "jj squash" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1829,7 +1823,6 @@ export extern "jj status" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1838,16 +1831,15 @@ export extern "jj status" [
   --config-file: path                       # additional configuration file
 ]
 
-# Show high-level repo status
-export extern "jj st" [
-  ...filesets: path                         # restrict the status display to these paths
+# Delete existing tags
+export extern "jj tag delete" [
+  ...names: string@tags                     # tag names to delete
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1866,7 +1858,25 @@ export extern "jj tag list" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Create or update tags
+export extern "jj tag set" [
+  ...names: string                         # tag names to create or update
+  --revision(-r): string@revsets            # target revision to point to
+  --allow-move                              # allow moving existing tags
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1877,14 +1887,12 @@ export extern "jj tag list" [
 
 # Undo the last operation
 export extern "jj undo" [
-  operation?: string@operations             # the operations to undo
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1902,7 +1910,6 @@ export extern "jj unsign" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1920,7 +1927,6 @@ export extern "jj util completion" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1937,7 +1943,6 @@ export extern "jj util config-schema" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1956,7 +1961,6 @@ export extern "jj util exec" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1974,7 +1978,6 @@ export extern "jj util gc" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -1992,7 +1995,6 @@ export extern "jj util install-man-pages" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2009,7 +2011,6 @@ export extern "jj util markdown-help" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2026,7 +2027,6 @@ export extern "jj version" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2047,7 +2047,6 @@ export extern "jj workspace add" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2065,7 +2064,6 @@ export extern "jj workspace forget" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2083,7 +2081,6 @@ export extern "jj workspace list" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2101,7 +2098,6 @@ export extern "jj workspace rename" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2118,7 +2114,6 @@ export extern "jj workspace root" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
@@ -2135,7 +2130,6 @@ export extern "jj workspace update-stale" [
   --ignore-working-copy                     # do not snapshot the working copy
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
-  --at-op: string@operations                # operation to load the repo at
   --debug                                   # enable debug logging
   --color: string@color-when                # when to colorize output
   --quiet                                   # silence non-primary command output
