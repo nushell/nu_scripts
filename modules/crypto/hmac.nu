@@ -1,4 +1,10 @@
-export def "hmac sha256" [--key: oneof<binary, string>]: oneof<string, binary> -> binary {
+
+# HMAC-SHA256 implementation
+#
+# This is a message authentication algorithm,
+# using a shared secret key this allows two peers to validate that the message wasn't tampered with.
+# Used for example for issuing JWT tokens.
+export def "sha256" [--key: oneof<binary, string>]: oneof<string, binary> -> binary {
     let message = $in | into binary
     let key = $key | into binary
 

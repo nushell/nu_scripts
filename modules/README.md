@@ -26,6 +26,7 @@
   - [virtual\_environments](#virtual_environments)
   - [weather](#weather)
   - [webscraping](#webscraping)
+  - [crypto](#crypto)
 
 
 ## [after](./after)
@@ -269,3 +270,6 @@ Simple scripts to demonstrate how to scrape websites in nushell. Requires `query
 ## [result](./result/)
 A module to include in the config which enables storing and convenient access of previously output
 results.
+
+## [crypto](./crypto/)
+Tools for cryptography
