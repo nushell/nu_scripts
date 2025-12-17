@@ -6,6 +6,7 @@
   - [background\_task](#background_task)
   - [base16](#base16)
   - [coloring](#coloring)
+  - [crypto](#crypto)
   - [data\_extraction](#data_extraction)
   - [docker](#docker)
   - [filesystem](#filesystem)
@@ -26,7 +27,6 @@
   - [virtual\_environments](#virtual_environments)
   - [weather](#weather)
   - [webscraping](#webscraping)
-  - [crypto](#crypto)
 
 
 ## [after](./after)
