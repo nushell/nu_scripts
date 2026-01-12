@@ -6,6 +6,7 @@
   - [background\_task](#background_task)
   - [base16](#base16)
   - [coloring](#coloring)
+  - [crypto](#crypto)
   - [data\_extraction](#data_extraction)
   - [docker](#docker)
   - [filesystem](#filesystem)
@@ -269,3 +270,6 @@ Simple scripts to demonstrate how to scrape websites in nushell. Requires `query
 ## [result](./result/)
 A module to include in the config which enables storing and convenient access of previously output
 results.
+
+## [crypto](./crypto/)
+Tools for cryptography
