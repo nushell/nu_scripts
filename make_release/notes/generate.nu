@@ -77,7 +77,7 @@ export def get-release-notes []: record -> record {
     # Add PR title as default heading for multi-line summaries
     if $lines > 1 and not ($notes starts-with "###") {
         $pr = $pr | add-notice info "multi-line summaries with no explicit title (using PR title as heading title)"
-        $notes = "### " + ($pr.title | clean-title) ++ (char nl) ++ $notes
+        $notes = "### " + ($pr.title | clean-title) ++ (char nl) ++ (char nl) ++ $notes
     }
 
     # Check for suspiciously short release notes section
@@ -145,18 +145,24 @@ export def generate-section []: record<section: string, prs: table> -> string {
     let bullet = $prs | where ($it.notes | lines | length) == 1
 
     # Add header
-    $body ++= [$"## ($section.h2)"]
+    $body ++= [$"## ($section.h2)\n"]
 
     # Add multi-line summaries
-    $body ++= $multiline.notes
+    for note in $multiline.notes {
+        if ($note | str ends-with "\n") {
+            $body ++= [$note]
+        } else {
+            $body ++= [($note ++ (char nl))]
+        }
+    }
 
     # Add single-line summaries
     if ($multiline | is-not-empty) {
-        $body ++= [$"### ($section.h3)"]
+        $body ++= [$"### ($section.h3)\n"]
     }
     $body ++= $bullet | each {|pr| "* " ++ $pr.notes ++ $" \(($pr | pr-link)\)" }
 
-    $body | str join (char nl)
+    ($body | str join (char nl)) ++ (char nl)
 }
 
 # Generate the "Hall of Fame" section of the release notes.
