@@ -1,4 +1,7 @@
 # The release process of Nushell
+
+There are two threads you can do in parallel: publishing crates and generating release notes. The former can be done the day of, but it's best to start the latter a few days early.
+
 ## 0. Release direct dependencies
 > **Note**
 > the following procedure is the same for `nu-ansi-term` and `reedline` and needs to be repeated
@@ -73,6 +76,15 @@
 
 ## 4. Publish the release notes on the website
 
+- [ ] Go through all the PRs that may have incorrect release notes or labels and either correct them yourself or ask the author to do so. It's best to finish doing this before you generate the release notes PR, so that the PR is generated correctly.
+```nu
+use /path/to/nu_scripts/make_release/notes
+notes check-prs v?.???.?
+```
+- [ ] If it doesn't exist already, generate the release notes PR in the [nushell.github.io](https://github.com/nushell/nushell.github.io) repo:
+```nu
+nu /path/to/nu_scripts/make_release/notes/create-pr.nu v0.xxx.0 (date now)
+```
 - [ ] follow and finish the TODOs in the release notes file
 - [ ] mark as ready for review when uploading to crates.io
 - [ ] land when
@@ -83,14 +95,18 @@
 - [ ] go to the draft release on the [release page](https://github.com/nushell/nushell/releases)
 - [ ] grab the message of [last one](https://github.com/nushell/nushell/releases/latest)
 - [ ] wait for the website to publish the release (in the [actions](https://github.com/nushell/nushell.github.io/actions) tab and on the [website](https://www.nushell.sh/blog/))
+- [ ] fill in the release notes using the `gh-release-excerpt.nu` script:
+```nu
+nu /path/to/nu_scripts/make_release/notes/gh-release-excerpt.nu <version> <blog post url> <prev release date>
+```
 - [ ] publish the release on *GitHub*
 
 ## 6. social media
 - [ ] post a status update on Discord
 - [ ] tweet about the new release
 
-## 7. Create the next release note PR on the website
-- [ ] run `./make_release/release-note/create-pr 0.xx.0 ((date now) + 4wk | format date "%Y-%m-%d" | into datetime)`
+## 7. Create the next release note PR on the website (optional)
+- [ ] run `./make_release/notes/create-pr v0.xx.0 ((date now) + 6wk | format date "%Y-%m-%d" | into datetime)`
 
 ## 8. Bump the version as development
 - [ ] bump the patch version on [`nushell`] ([example][nushell dev example]) by running
