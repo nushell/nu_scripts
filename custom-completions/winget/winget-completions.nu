@@ -342,6 +342,115 @@ export def "winget list" [
 }
 export alias "winget ls" = winget list
 
+# Add a pin. This subcommand requires that you specify the exact package to pin. If there is any ambiguity, you will be prompted to further filter the add subcommand to an exact application.
+export extern "winget pin add" [
+    query?: string,
+    --query(-q): string, # The query used to search for a package
+    --id: string, # Limit search by ID
+    --name: string, # Limit search by name
+    --moniker: string, # Limit search by moniker listed
+    --tag: string # Limit search by tag listed
+    --cmd: string # Limit search by command
+    --command: string # Limit search by command
+    --exact(-e), # Uses exact query string
+    --version(-v): string, # Pin exact version, wildcard * can be used as last part, changes pin behavior to gating
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --header: string # Optional REST source HTTP header
+    --authentication-mode: string # Specify authentication window preference (silent, silentPreferred or interactive)
+    --authentication-account: string # Specify the account to be used for authentication
+    --accept-source-agreements, # Accept all source agreements during source operations
+    --force, # Override the installer hash check
+    --blocking # Block from upgrading until the pin is removed, preventing override arguments. Changes pin behavior to be blocking.
+    --installed: string # Pin a specific installed version
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
+# Remove a pin. This subcommand requires that you specify the exact package pin to remove. If there is any ambiguity, you will be prompted to further filter the remove subcommand to an exact application.
+export extern "winget pin remove" [
+    query?: string,
+    --query(-q): string, # The query used to search for a package
+    --id: string, # Limit search by ID
+    --name: string, # Limit search by name
+    --moniker: string, # Limit search by moniker listed
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --tag: string # Limit search by tag listed
+    --cmd: string # Limit search by command
+    --command: string # Limit search by command
+    --exact(-e), # Uses exact query string
+    --header: string # Optional REST source HTTP header
+    --authentication-mode: string # Specify authentication window preference (silent, silentPreferred or interactive)
+    --authentication-account: string # Specify the account to be used for authentication
+    --accept-source-agreements, # Accept all source agreements during source operations
+    --installed: string # Pin a specific installed version
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
+# List all current pins
+export extern "winget pin list" [
+    query?: string,
+    --query(-q): string, # The query used to search for a package
+    --id: string, # Limit search by ID
+    --name: string, # Limit search by name
+    --moniker: string, # Limit search by moniker listed
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --tag: string # Limit search by tag listed
+    --cmd: string # Limit search by command
+    --command: string # Limit search by command
+    --exact(-e), # Uses exact query string
+    --header: string # Optional REST source HTTP header
+    --authentication-mode: string # Specify authentication window preference (silent, silentPreferred or interactive)
+    --authentication-account: string # Specify the account to be used for authentication
+    --accept-source-agreements, # Accept all source agreements during source operations
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
+# Reset all pins. Without --force, shows all that would be removed. With --force, removes them.
+export extern "winget pin reset" [
+    --force # Direct run the command and continue with non security related issues
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
 def "winget upgrades" [] {
     let output = ^winget upgrade | nu-complete winget trimLoadingSymbol
     
