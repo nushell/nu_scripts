@@ -1,3 +1,5 @@
+# The API requires an App ID
+# https://developer.wolframalpha.com/
 let appID = $env.WOLFRAMALPHA_APPID
 
 #Fetch simple answer from WolframAlpha API

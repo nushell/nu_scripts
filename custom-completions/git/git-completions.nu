@@ -531,7 +531,7 @@ export extern "git merge" [
 
 # List or change branches
 export extern "git branch" [
-  branch?: string@"nu-complete git local branches"               # name of branch to operate on
+  ...branch: string@"nu-complete git local branches"             # name of branch (or branches) to operate on
   --abbrev                                                       # use short commit hash prefixes
   --edit-description                                             # open editor to edit branch description
   --merged                                                       # list reachable branches
@@ -548,6 +548,7 @@ export extern "git branch" [
   --color                                                        # use color in output
   --quiet                                                        # suppress messages except errors
   --delete(-d)                                                   # delete branch
+  -D                                                             # force delete branch
   --list                                                         # list branches
   --contains: string@"nu-complete git commits all"               # show only branches that contain the specified commit
   --no-contains                                                  # show only branches that don't contain specified commit
