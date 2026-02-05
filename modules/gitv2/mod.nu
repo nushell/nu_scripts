@@ -1,4 +1,4 @@
-use argx
+use ../argx
 
 def agree [
     prompt

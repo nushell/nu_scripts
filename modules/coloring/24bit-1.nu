@@ -34,4 +34,4 @@ def build-colorstr [
     # sleep 10ms | ignore
 }
 
-draw
+# draw

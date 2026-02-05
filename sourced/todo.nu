@@ -10,7 +10,8 @@ def --env printer [] {
         open $env.TODO
           | split row "\n"
           | take (($in | length) - 1)
-          | each {|$it, n| $"($n + 1) (ansi red)->(ansi reset) ($it)"}
+          | enumerate
+          | each {|it| $"($it.index + 1) (ansi red)->(ansi reset) ($it.item)"}
           | str join "\n"
     )
 

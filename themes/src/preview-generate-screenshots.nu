@@ -10,7 +10,35 @@
 #   background to reduce artifacts
 
 def save_screenshot [ method, theme_name ] {
-  use .../stdlib-candidate/std-rfc/str 
+
+def dedent []: string -> string {
+    let input = $in
+    if ($input | is-empty) { return "" }
+    let lines = ($input | lines)
+    if ($lines | is-empty) { return "" }
+    
+    # Calculate common indentation
+    # Find all leading whitespace for non-empty lines
+    let leading_spaces = ($lines 
+        | where ($it | str trim | is-empty) == false 
+        | each { |line| 
+            # Get the leading spaces
+            let trimmed = ($line | str trim -l)
+            ($line | str length) - ($trimmed | str length)
+        }
+    )
+
+    if ($leading_spaces | is-empty) { return ($lines | str join "\n") }
+    let min_indent = ($leading_spaces | math min)
+    
+    $lines | each { |line|
+        if ($line | str trim | is-empty) {
+            ""
+        } else {
+            $line | str substring $min_indent..
+        }
+    } | str join "\n"
+} 
   match $method {
     # This method for generating terminal screenshots uses
     # a pure-PowerShell script. The caveat is that Windows
@@ -24,7 +52,7 @@ def save_screenshot [ method, theme_name ] {
     "powershell" => {
       let ps_script = $"
         use .. *
-        source ($name)
+        source ../nu-themes/($theme_name).nu
         clear
         sleep 100ms
         print `Theme name: '($theme_name)'`
@@ -39,7 +67,7 @@ def save_screenshot [ method, theme_name ] {
         sleep 1
         [Windows.Forms.Clipboard]::GetImage\().Save\('($theme_name).png', [System.Drawing.Imaging.ImageFormat]::Png)
       "
-    | str dedent
+    | dedent
 
       $"powershell.exe -c \"
       ($ps_script)
@@ -50,7 +78,7 @@ def save_screenshot [ method, theme_name ] {
     "minicap" => {
       $'
         use .. *
-        source ($name)
+        source ../nu-themes/($theme_name).nu
         clear
         sleep 100ms
         print `Theme name: '($theme_name)'`
@@ -130,7 +158,6 @@ def save_screenshot [ method, theme_name ] {
 }
 
 def "preview generate screenshots" [screenshot_method, theme_count = 10_000] {
-  use .../stdlib-candidate/std-rfc str
 
   let themes = (
     "../nu-themes/"
@@ -168,7 +195,6 @@ def "preview generate screenshots" [screenshot_method, theme_count = 10_000] {
 }
 
 def "preview generate readme" [] {
-  use .../stdlib-candidate/std-rfc str
 
   # README Title
   "# Screenshots of Theme Previews\n\n"
@@ -197,14 +223,13 @@ def "preview generate readme" [] {
       ![($theme_name)]\(($screenshot_file))
 
       "
-      | str dedent
+      | dedent
       | save -a "../screenshots/README.md"
     }
     | ignore
 }
 
 def main [screenshot_method] {
-  use .../stdlib-candidate/std-rfc/str 
 
   if $env.PWD != $env.FILE_PWD {
     "
@@ -212,7 +237,7 @@ def main [screenshot_method] {
 
       nu preview-screenshot-script.nu
       "
-    | str dedent
+    | dedent
     | print -e $in
 
     return

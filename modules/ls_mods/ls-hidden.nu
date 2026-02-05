@@ -1,5 +1,5 @@
 
-export def ls-hidden [
+export def main [
     --dir(-d):any # The directory you want to list
 ] {
     let dir = if ($dir | is-empty) { "." } else { $dir }

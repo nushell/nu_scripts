@@ -1,10 +1,10 @@
 # use shells to to show workspaces
 def workspaces [] {
-    shells | each {|item index|
-      if $item.active {
-        $"(ansi green)($index) "
+    shells | enumerate | each {|it|
+      if $it.item.active {
+        $"(ansi green)($it.index) "
       } else {
-        $"(ansi blue)($index) "
+        $"(ansi blue)($it.index) "
       }
     }| str join
 }

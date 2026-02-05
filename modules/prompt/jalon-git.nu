@@ -162,7 +162,7 @@ def duration-style [] {
 
 def fast-git-style [] {
     let s = get-styles
-    let b_info = (do -p { git --no-optional-locks branch -v } | str trim)
+    let b_info = (do -i { git --no-optional-locks branch -v } | str trim)
     if ($b_info | is-empty) {
         ''
     } else {
@@ -190,7 +190,7 @@ def fast-git-style [] {
 
 def full-git-style [] {
     let s = get-styles
-    let info_lines = (do -p { git --no-optional-locks status --porcelain=2 --branch } | str trim | lines)
+    let info_lines = (do -i { git --no-optional-locks status --porcelain=2 --branch } | str trim | lines)
     if ($info_lines | is-empty) {
         ''
     } else {

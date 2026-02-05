@@ -1,5 +1,33 @@
 #!/usr/bin/env nu
-use .../stdlib-candidate/std-rfc str
+
+def dedent []: string -> string {
+    let input = $in
+    if ($input | is-empty) { return "" }
+    let lines = ($input | lines)
+    if ($lines | is-empty) { return "" }
+    
+    # Calculate common indentation
+    # Find all leading whitespace for non-empty lines
+    let leading_spaces = ($lines 
+        | where ($it | str trim | is-empty) == false 
+        | each { |line| 
+            # Get the leading spaces
+            let trimmed = ($line | str trim -l)
+            ($line | str length) - ($trimmed | str length)
+        }
+    )
+
+    if ($leading_spaces | is-empty) { return ($lines | str join "\n") }
+    let min_indent = ($leading_spaces | math min)
+    
+    $lines | each { |line|
+        if ($line | str trim | is-empty) {
+            ""
+        } else {
+            $line | str substring $min_indent..
+        }
+    } | str join "\n"
+}
 
 let current_dir = ($env.CURRENT_FILE | path dirname)
 
@@ -163,7 +191,7 @@ def make_color_config [ name: string, source: string = "lemnos" ] {
 def make_theme [ name: string, origin: string = "lemnos" ] {
 
     # Generate the theme depending on what type/origin it is
-    let main_command = ((make_color_config $name $origin) | str dedent)
+    let main_command = ((make_color_config $name $origin) | dedent)
 
     let update_terminal_command = $"
     # Update terminal colors
@@ -187,7 +215,7 @@ def make_theme [ name: string, origin: string = "lemnos" ] {
         | print -n $\"\($in)\\r\"
     }
     "
-    | str dedent
+    | dedent
 
     let set_color_config_command = $"
     # Update the Nushell configuration
@@ -195,7 +223,7 @@ def make_theme [ name: string, origin: string = "lemnos" ] {
         $env.config.color_config = \(main)
     }
     "
-    | str dedent
+    | dedent
 
     let activate_command = $"
     export module activate {
@@ -208,7 +236,7 @@ def make_theme [ name: string, origin: string = "lemnos" ] {
     # Activate the theme when sourced
     use activate
     "
-    | str dedent
+    | dedent
     
     # Combine into the final theme file
     [

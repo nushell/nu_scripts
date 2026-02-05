@@ -80,7 +80,7 @@ export def 'history top' [
     num=10
     --before (-b): duration
     --dir (-d)
-    --path(-p): list<string@"nu-complete history dir">
+    --path(-p): list<string>
 ] {
     open $nu.history-path | query db (sql {
         from: history

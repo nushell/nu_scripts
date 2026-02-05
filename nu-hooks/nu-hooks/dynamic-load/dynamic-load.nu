@@ -1,7 +1,7 @@
 def dynamic_load [] {
     [
         {
-            condition: {|before, after| (not ('.nu' in (overlay list))) and ('~/.nu' | path exists) }
+            condition: {|before, after| (not ('.nu' in (overlay list).name)) and ('~/.nu' | path exists) }
             code: "overlay use ~/.nu as .nu"
         }
     ]

@@ -1,4 +1,4 @@
-source ../stdlib_candidate/nu_style.nu
+source ../../stdlib-candidate-archive/stdlib-candidate-older/std-rfc/nu_style.nu
 
 # # Regular Colors
 $"  Regular Colors (char newline) (char newline)"

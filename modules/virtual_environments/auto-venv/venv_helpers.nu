@@ -20,7 +20,7 @@ def get-env [
 }
 
 export def venv-is-active [] {
-    '__auto_venv' in (overlay list)
+    '__auto_venv' in (overlay list | get name)
 }
 
 # Creates a virtual environment under the current directory

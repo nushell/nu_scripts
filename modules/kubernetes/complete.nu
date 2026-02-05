@@ -1,4 +1,4 @@
-use argx
+use ../argx
 use utils.nu *
 
 export def "nu-complete kube ctx" [] {

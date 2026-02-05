@@ -1,6 +1,6 @@
 use complete.nu *
 use utils.nu *
-use argx
+use ../argx
 
 export def record-to-set-json [value] {
     $value | transpose k v

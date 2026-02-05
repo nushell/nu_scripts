@@ -1,5 +1,5 @@
 # A ls command that approximates the ls -sh command in bash
-export def ls-wide [
+export def main [
     --path(-p):string # The path you want to list
     --columns(-c):int # The number of columns in your output
     ] {

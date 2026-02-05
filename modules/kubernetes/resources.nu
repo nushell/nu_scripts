@@ -1,11 +1,11 @@
-use complete *
+use complete.nu *
 
 ### refine kubernetes resources
 export def kube-refine [
     ...namespace: string@"nu-complete kube ns"
     --kind(-k): list<string>@"nu-complete kube kind"
 ] {
-    use lg
+    use ../lg
     let config = $env.KUBERNETES_REFINE
 
     let nsf = if ($namespace | is-empty) {

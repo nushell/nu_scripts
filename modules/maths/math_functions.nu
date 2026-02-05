@@ -155,7 +155,7 @@ export def scale-minmax-table [a, b,input?] {
 	0..($n_cols - 1)
 	| each {|i|
 		($x | column2 $i) | scale-minmax $a $b | wrap ($name_cols | get $i)
-	} | reduce {|it, acc| $acc | merge {$it}}
+	} | reduce {|it, acc| $acc | merge $it}
 }
 
 

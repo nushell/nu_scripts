@@ -73,7 +73,7 @@ def "with files" [
     }
 }
 
-def "lint check" []: path -> int {
+export def "lint check" [--only-errors]: path -> int {
     let file = $in
     let test_methodology = $env.TEST_METHOD? | default "import-or-source"
 
@@ -113,7 +113,9 @@ def "lint check" []: path -> int {
     }
     let error_count = $diagnostics | length
     if $error_count == 0 {
-        print $"lint: ✔ ($file) is ok"
+        if not $only_errors {
+            print $"lint: ✔ ($file) is ok"
+        }
     } else {
         print $"lint: ❌ ($file) has errors:\n($diagnostics | table)"
     }
@@ -127,8 +129,9 @@ def "lint check" []: path -> int {
 export def lint [
     --full # Check all files instead of input
     --and-exit # Exit with error count
+    --only-errors # Only print files with errors
 ]: [list<path> -> int, nothing -> int] {
     with files --full=$full --and-exit=$and_exit {
-        par-each { lint check }
+        par-each { lint check --only-errors=$only_errors }
     }
 }

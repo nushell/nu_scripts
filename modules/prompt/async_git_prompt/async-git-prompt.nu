@@ -43,7 +43,7 @@ export def async-git-prompt-compute-sync [] {
         { staged: $symbol}
     }
     # Execute the two slow git commands in parallel and merge the results into a single record
-    let symbols = ([ $unstaged $staged ] | par-each { |it| do $it } | reduce {|a b| $a | merge {$b}})
+    let symbols = ([ $unstaged $staged ] | par-each { |it| do $it } | reduce {|a b| $a | merge $b})
 
     $"($symbols | get 'unstaged') ($symbols | get 'staged')" | str trim
 }
