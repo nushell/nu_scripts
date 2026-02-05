@@ -382,10 +382,43 @@ export extern "git fetch" [
   -6                                            # Use IPv6 addresses, ignore IPv4 addresses
 ]
 
+# Yield local branches and (if remote is specified) remote branches with colon prefix
+def "nu-complete git push" [context: string, position: int] {
+  use git-completion-utils *
+  let preceding = $context | str substring ..$position
+  let tokens = $preceding | str trim | args-split | where ($it not-in $GIT_SKIPABLE_FLAGS)
+
+  # Check if we have a remote argument (2nd token, 1st is 'git', 2nd is 'push', 3rd is remote)
+  # BUT, args-split might be different depending on how it's called.
+  # "git push origin" -> ["git", "push", "origin"]
+  # If we have at least 3 tokens, the 3rd one IS likely the remote.
+  # We should double check if the 3rd token is actually a remote.
+  
+  mut remote = ""
+  if ($tokens | length) >= 3 {
+    $remote = $tokens.2
+  }
+
+  let local_branches = (nu-complete git local branches)
+  
+  if ($remote | is-empty) {
+    return $local_branches
+  }
+
+  # If we have a remote, find branches for that remote
+  # Use plumbing command to get remote branches, excluding HEAD
+  let remote_branches = (^git for-each-ref --format='%(refname:lstrip=3)' $'refs/remotes/($remote)' | lines | where $it != 'HEAD')
+  
+  # Prefix them with :
+  let deletion_candidates = ($remote_branches | each { |it| $":($it)" })
+
+  $local_branches | append $deletion_candidates
+}
+
 # Push changes
 export extern "git push" [
   remote?: string@"nu-complete git remotes",         # the name of the remote
-  ...refs: string@"nu-complete git local branches"   # the branch / refspec
+  ...refs: string@"nu-complete git push"             # the branch / refspec
   --all                                              # push all refs
   --atomic                                           # request atomic transaction on remote side
   --delete(-d)                                       # delete refs
