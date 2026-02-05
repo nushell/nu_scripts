@@ -34,7 +34,14 @@ export def "check pr" [
     }
 }
 
+
+
 # View subcommands.
+#
+# Available subcommands:
+#   check pr - Run all the necessary checks and tests to submit a perfect PR.
+#   lint - Check that all the files parse.
+#   test - Check that all the tests pass.
 export def main []: nothing -> string {
     help toolkit
 }
@@ -66,10 +73,10 @@ def "with files" [
     }
 }
 
-export def "lint check" []: path -> int {
+def "lint check" []: path -> int {
     let file = $in
     let test_methodology = $env.TEST_METHOD? | default "import-or-source"
-    const current_path = (path self)
+
 
     let diagnostics = match $test_methodology {
         "ide-check" => {
