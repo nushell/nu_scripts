@@ -98,7 +98,7 @@ module git-completion-utils {
 }
 
 def "nu-complete git available upstream" [] {
-  ^git branch --no-color -a | lines | each { |line| $line | str replace '* ' "" | str trim }
+  ^git for-each-ref --format '%(refname:short)' refs/heads refs/remotes | lines
 }
 
 def "nu-complete git remotes" [] {
@@ -124,12 +124,12 @@ def "nu-complete git commits current branch" [] {
 
 # Yield local branches like `main`, `feature/typo_fix`
 def "nu-complete git local branches" [] {
-  ^git branch --no-color | lines | each { |line| $line | str replace '* ' "" | str replace '+ ' ""  | str trim }
+  ^git for-each-ref --format '%(refname:short)' refs/heads | lines
 }
 
 # Yield remote branches like `origin/main`, `upstream/feature-a`
 def "nu-complete git remote branches with prefix" [] {
-  ^git branch --no-color -r | lines | parse -r '^\*?(\s*|\s*\S* -> )(?P<branch>\S*$)' | get branch | uniq
+  ^git for-each-ref --format='%(refname:lstrip=2)' refs/remotes | lines
 }
 
 # Yield local and remote branch names which can be passed to `git merge`
