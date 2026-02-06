@@ -24,7 +24,7 @@ As part of this release, we also publish a set of optional [plugins](https://www
 
 # Table of contents
 
-<!-- TODO: once all the content below is finished and committed, `use nu_scripts/make_release/release-note/notes.nu *` and run `write-toc $this_file`. -->
+<!-- TODO: once all the content below is finished and committed, `use nu_scripts/make_release/release-note/notes *` and run `write-toc $this_file`. -->
 
 # Highlights and themes of this release
 
