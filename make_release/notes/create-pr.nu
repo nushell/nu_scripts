@@ -52,6 +52,7 @@ by opening PRs against the `release-notes-($version)` branch.
 - [ ] add the full changelog
 - [ ] categorize each PR
 - [ ] write all the sections and complete all the `TODO`s
+
 [deprecations]: https://github.com/nushell/nushell/labels/deprecation
 [removals]: https://github.com/nushell/nushell/pulls?q=is%3Apr+is%3Aopen+label%3Aremoval-after-deprecation"
 
