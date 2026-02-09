@@ -56,7 +56,8 @@ When you `cd` into a project that requires a Node.js version you don't have inst
 - **`auto_install: false`** (default) — you see a message and an interactive prompt:
 
   ```
-  fnm: Can't find an installed Node version matching v20.11.0. [y/N]
+  fnm: Requested version v23.x.x is not currently installed
+  Install it? [y/N]
   ```
 
   Answering `y` installs and activates the version. Answering anything else skips with a hint to run `fnm install` manually.
