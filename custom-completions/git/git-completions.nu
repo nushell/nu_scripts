@@ -178,7 +178,10 @@ def "nu-complete git checkout" [context: string, position?:int] {
   }
   # Already typed first argument.
   if ($prev_tokens | length) > 2 and $preceding ends-with ' ' {
-    return (get-checkoutable-files)
+    # If we are creating a new branch, we may want to specify a start point
+    if ("-b" not-in $prev_tokens) and ("-B" not-in $prev_tokens) and ("--orphan" not-in $prev_tokens) {
+      return (get-checkoutable-files)
+    }
   }
   # The first argument can be local branches, remote branches, files and commits
   # Get local and remote branches
@@ -502,6 +505,7 @@ export extern "git pull" [
 # Switch between branches and commits
 export extern "git switch" [
   switch?: string@"nu-complete git switch"        # name of branch to switch to
+  start_point?: string@"nu-complete git rebase"   # name of the start point
   --create(-c)                                    # create a new branch
   --detach(-d): string@"nu-complete git log"      # switch to a commit in a detached state
   --force-create(-C): string                      # forces creation of new branch, if it exists then the existing branch will be reset to starting point
