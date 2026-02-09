@@ -1,5 +1,6 @@
-def "nu-complete dart commands" [] {
-    ^dart --help
+def "nu-complete dart commands" [context: string, offset: int] {
+    # Get the list of built-in commands from `dart --help`
+    let commands = (^dart --help
     | lines
     | skip until { $in | str contains "Available commands:" }
     | where { $in | str starts-with "  " } # Indented lines
@@ -10,7 +11,26 @@ def "nu-complete dart commands" [] {
         | parse "{value} {description}" 
     }
     | flatten
-    | where value not-in ["pub" "create"]
+    # Filter out subcommands that are already handled by `export extern` definitions
+    # to avoid duplication in the completion list.
+    | where value not-in ["pub" "create"])
+
+    # Extract the current token from the context using the offset.
+    # We need this to support completion in subdirectories (e.g. `bin/`).
+    let token = ($context | str substring 0..$offset | split row ' ' | last)
+
+    # Glob for files matching the token, filtering for directories (for traversal)
+    # and .dart files (as valid script targets).
+    let files = (glob $"($token)*" 
+    | where { |item| ($item | path type) == 'dir' or ($item | str ends-with ".dart") }
+    | each { |item| 
+        # Convert absolute paths from `glob` to relative paths to ensure Nushell
+        # correctly filters and displays them.
+        let relative = (try { $item | path relative-to $env.PWD } catch { $item })
+        { value: $relative, description: (if ($item | path type) == 'dir' { "Directory" } else { "Dart script" }) } 
+    })
+
+    $commands | append $files
 }
 
 def "nu-complete dart pub commands" [] {
