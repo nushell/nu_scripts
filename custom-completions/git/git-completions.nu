@@ -274,8 +274,16 @@ def "nu-complete git files-or-refs" [] {
   | append (nu-complete git built-in-refs)
 }
 
+def "nu-complete git aliases" [] {
+  ^git config --get-regexp ^alias\.
+  | lines
+  | parse "alias.{value} {description}"
+}
+
 def "nu-complete git subcommands" [] {
   ^git help -a | lines | where $it starts-with "   " | parse -r '\s*(?P<value>[^ ]+) \s*(?P<description>\w.*)'
+  | append (nu-complete git aliases)
+  | uniq-by value
 }
 
 def "nu-complete git add" [] {
