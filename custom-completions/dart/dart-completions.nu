@@ -1,19 +1,16 @@
 def "nu-complete dart commands" [context: string, offset: int] {
-    # Get the list of built-in commands from `dart --help`
-    let commands = (^dart --help
-    | lines
-    | skip until { $in | str contains "Available commands:" }
-    | where { $in | str starts-with "  " } # Indented lines
-    | where { |line| not ($line | str trim | str starts-with "-") } # Ignore options
-    | each { 
-        str trim 
-        | str replace --regex '\s+' ' ' 
-        | parse "{value} {description}" 
-    }
-    | flatten
-    # Filter out subcommands that are already handled by `export extern` definitions
-    # to avoid duplication in the completion list.
-    | where value not-in ["pub" "create"])
+    let commands = [
+        {value: "analyze", description: "Analyze the project's Dart code."}
+        {value: "build", description: "Build a Dart application for production deployment."}
+        {value: "compile", description: "Compile Dart to various formats."}
+        {value: "devtools", description: "Open DevTools (optionally connecting to an existing application)."}
+        {value: "doc", description: "Generate API documentation for Dart projects."}
+        {value: "fix", description: "Apply automated fixes to Dart source code."}
+        {value: "format", description: "Idiomatically format Dart source code."}
+        {value: "info", description: "Show diagnostic information about the installed tooling."}
+        {value: "run", description: "Run a Dart program."}
+        {value: "test", description: "Run tests for a project."}
+    ]
 
     # Extract the current token from the context using the offset.
     # We need this to support completion in subdirectories (e.g. `bin/`).
@@ -24,27 +21,34 @@ def "nu-complete dart commands" [context: string, offset: int] {
     let files = (glob $"($token)*" 
     | where { |item| ($item | path type) == 'dir' or ($item | str ends-with ".dart") }
     | each { |item| 
-        # Convert absolute paths from `glob` to relative paths to ensure Nushell
-        # correctly filters and displays them.
+        let is_dir = ($item | path type) == 'dir'
         let relative = (try { $item | path relative-to $env.PWD } catch { $item })
-        { value: $relative, description: (if ($item | path type) == 'dir' { "Directory" } else { "Dart script" }) } 
+        let final_value = if $is_dir { $"($relative)/" } else { $relative }
+        { value: $final_value, description: (if $is_dir { "Directory" } else { "Dart script" }) } 
     })
 
     $commands | append $files
 }
 
 def "nu-complete dart pub commands" [] {
-    ^dart pub --help 
-    | lines
-    | skip until { $in | str contains "Available subcommands:" }
-    | where { $in | str starts-with "  " }
-    | where { |line| not ($line | str trim | str starts-with "-") }
-    | each { 
-        str trim 
-        | str replace --regex '\s+' ' ' 
-        | parse "{value} {description}" 
-    }
-    | flatten
+    [
+        {value: "add", description: "Add a dependency to pubspec.yaml."}
+        {value: "cache", description: "Work with the Pub system cache."}
+        {value: "deps", description: "Print package dependencies."}
+        {value: "downgrade", description: "Downgrade packages in a Dart project."}
+        {value: "get", description: "Get the current package's dependencies."}
+        {value: "global", description: "Work with globally hosted packages."}
+        {value: "login", description: "Log into pub.dev."}
+        {value: "logout", description: "Log out of pub.dev."}
+        {value: "outdated", description: "Analyze dependencies to find which ones can be upgraded."}
+        {value: "publish", description: "Publish the current package to pub.dartlang.org."}
+        {value: "remove", description: "Remove a dependency from the current package."}
+        {value: "token", description: "Manage authentication tokens for hosted pub repositories."}
+        {value: "top-level", description: "Print the top-level directory of the current package."}
+        {value: "unpack", description: "Downloads a package and unpacks it in a directory."}
+        {value: "upgrade", description: "Upgrade the current package's dependencies to latest versions."}
+        {value: "workspaces", description: "Work with workspaces."}
+    ]
 }
 
 def "nu-complete dart templates" [] {
@@ -53,7 +57,6 @@ def "nu-complete dart templates" [] {
 
 export extern "dart" [
     command?: string@"nu-complete dart commands"
-    --help(-h)               # Print this usage information.
     --verbose(-v)            # Print detailed logging.
     --version                # Print the VM version.
     --enable-analytics       # Enable telemetry reporting.
@@ -67,7 +70,6 @@ export extern "dart create" [
     --pub                   # Run "pub get" after creation (default)
     --no-pub                # Do not run "pub get"
     --force                 # Force project generation, even if the target directory already exists
-    --help(-h)              # Print this usage information
 ]
 
 export extern "dart pub" [
