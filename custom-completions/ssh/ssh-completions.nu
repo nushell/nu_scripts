@@ -33,7 +33,7 @@ export extern "ssh" [
 ]
 
 module ssh-completion-utils {
-    def extract-host []: list<string> -> record<name: string, addr: string> {
+    def extract-host []: list<string> -> record<names: list<string>, addr: string> {
         # Host is a list of lines, like:
         # ╭───┬──────────────────────────────╮
         # │ 0 │ Host quanweb                 │
@@ -43,22 +43,22 @@ module ssh-completion-utils {
         # │ 4 │                              │
         # ╰───┴──────────────────────────────╯
         let host = $in
-        let $first_line = try { $host | first | str trim } catch { null }
+        let first_line = try { $host | first | str trim } catch { null }
         # Don't accept blocks like "Host *"
         if ($first_line | is-empty) or '*' in $first_line {
             null
         } else {
-            let name = $first_line |  split row -r '\s+' | get 1
+            let names = $first_line | split row -r '\s+' | reject 0
             # May not contain hostname
-            match ($host | slice 1.. | find -ir '^\s*Hostname\s') {
+            match ($host | slice 1.. | find -n -ir '^\s*Hostname\s') {
                 [] => null,
-                $addr => { name: $name, addr: ($addr | str trim | split row -n 2 -r '\s+' | get 1) }
+                $addr => { names: $names, addr: ($addr | str trim | split row -n 2 -r '\s+' | get 1) }
             }
         }
     }
 
     # Process a SSH config file
-    export def process []: string -> record<hosts: list<record<name: string, addr: string>>, includes: list<string>> {
+    export def process []: string -> record<hosts: table<names: list<string>, addr: string>, includes: list<string>> {
         let lines = $in | lines
         # Get 'Include' lines
         let include_lines = $lines | find -n -ir '^Include\s' | str trim | each { $in | split row -n 2 -r '\s+' | get 1 | str trim -c '"'}
@@ -105,5 +105,5 @@ def "nu-complete ssh-host" [] {
     })
 
     let hosts = $first_result.hosts ++ $included_hosts
-    $hosts | each { {value: $in.name, description: $in.addr } }
+    $hosts | each { {value: $in.names, description: $in.addr } } | flatten
 }
