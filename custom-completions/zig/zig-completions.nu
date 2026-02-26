@@ -37,13 +37,14 @@ export extern "zvm help" []
 def "nu-complete zig build" [] {
   ^zig build -l
   | lines
-  | parse --regex "^  ([a-z]+)" 
-  | get "capture0"
+  | parse --regex '^\s+(\S+)(?:\s+\(default\))?\s{2,}(.+)'
+  | rename value description
+  | update description { str trim }
 }
 
 # Build project from build.zig
 export extern "zig build" [
-  step: string@"nu-complete zig build"
+  step?: string@"nu-complete zig build"
 ]
 
 
