@@ -96,10 +96,9 @@ export def extract-notes []: string -> string {
     # this should already have been checked
     | if ($in | is-empty) { assert false } else {}
     | skip 1 # remove header
-    # extract until next heading
-    | take until {
-          $in starts-with "# " or $in starts-with "## " or $in starts-with "---"
-      }
+    # extract until end of summary
+    | reduce -f {code: false, done: false, out: []} (extract_until_end)
+    | get out
     | str join (char nl)
     # remove HTML comments
     | str replace -amr '<!--\O*?-->' ''
@@ -157,7 +156,7 @@ export def generate-section []: record<section: string, prs: table> -> string {
     }
 
     # Add single-line summaries
-    if ($multiline | is-not-empty) {
+    if ($multiline | is-not-empty) and ($bullet | is-not-empty) {
         $body ++= [$"### ($section.h3)\n"]
     }
     $body ++= $bullet | each {|pr| "* " ++ $pr.notes ++ $" \(($pr | pr-link)\)" }
@@ -182,6 +181,31 @@ export def generate-hall-of-fame []: table -> string {
 export def generate-full-changelog [version: string]: nothing -> string {
     list-prs --milestone=$version
     | pr-table
+}
+
+# Create closure for `reduce` to extract the whole release notes summary.
+def extract_until_end []: nothing -> closure {
+    let terminators = ["# " "## " "---"]
+    {|line: string, state: record|
+        mut state = $state
+
+        if $state.done { return $state }
+
+        # check if we're entering/exiting a code block
+        # this might be kind of brittle
+        if $line has "```" {
+            $state.code = not $state.code
+        }
+
+        let found_terminator = $terminators | any { $line starts-with $in }
+        if $found_terminator and not $state.code {
+            $state.done = true
+            return $state
+        }
+
+        $state.out ++= [$line]
+        $state
+    }
 }
 
 # Get section labels which don't have a corresponding heading (i.e., don't appear in Changes section)

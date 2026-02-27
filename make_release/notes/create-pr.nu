@@ -92,8 +92,7 @@ by opening PRs against the `release-notes-($version)` branch.
     }
 
     log info "setting up nushell.github.io repo"
-    ^git clone https://github.com/nushell/nushell.github.io $repo --origin nushell --branch main --single-branch
-    ^git -C $repo remote set-url nushell --push git@github.com:nushell/nushell.github.io.git
+    ^gh repo clone nushell/nushell.github.io $repo -- --origin nushell --branch main --single-branch --depth 1
 
     log info "creating release branch"
     ^git -C $repo checkout -b $branch
