@@ -37,7 +37,7 @@ export def main [
     version: string@"nu-complete version" # the version of the release
     date: datetime@"nu-complete date next" # the date of the upcoming release
 ] {
-    let repo = ($nu.temp-path | path join (random uuid))
+    let repo = ($nu.temp-dir | path join (random uuid))
     let branch = $"release-notes-($version)"
 
     let blog_path = (
@@ -71,7 +71,7 @@ by opening PRs against the `release-notes-($version)` branch.
                 }
             }
 
-            let temp_file = $nu.temp-path | path join $"(random uuid).md"
+            let temp_file = $nu.temp-dir | path join $"(random uuid).md"
             [
                 "<!-- WARNING: Changes made to this file are NOT included in the PR -->"
                 ""
