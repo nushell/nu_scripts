@@ -175,7 +175,7 @@ def generate-multiline-notes []: table -> list {
         let number = $pr.number
         let author = $pr.author.login
 
-        let pr_by_tag = $'<PrBy :pr="($number)" user="($author)"/>'
+        let pr_by_tag = $'<PrBy :pr="($number)" user="($author)" />'
         let replacer = $"### $1 <JumpToc/> ($pr_by_tag)\n"
         let matcher = "^### ([^\n]*)\n"
         let updated = ($pr.notes | str replace --all --regex $matcher $replacer)
