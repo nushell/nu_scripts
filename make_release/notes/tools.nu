@@ -65,7 +65,7 @@ export def release-notes [
     | where not author.is_bot
     | sort-by mergedAt
     | each { get-release-notes }
-    | tee { display-notices }
+    | tee { format-notices }
     | where {|pr| "error" not-in ($pr.notices?.type? | default []) }
     | generate-notes $version
 }
@@ -75,14 +75,14 @@ export def check-prs [
     version: string@"nu-complete version" # the version to generate release notes for
     --as-table (-t) # output PR checks as a table
 ]: [
-    nothing -> nothing,
+    nothing -> string,
     nothing -> table
 ] {
     query-prs --milestone=$version
     | where not author.is_bot
     | sort-by mergedAt
     | each { get-release-notes }
-    | if $as_table { group-notices } else { display-notices }
+    | if $as_table { group-notices } else { format-notices }
 }
 
 # Format the output of `list-prs` as a markdown table

@@ -21,8 +21,8 @@ export def group-notices []: table -> table {
     | sort-by {|i| $TYPES | where type == $i.type | only rank } message
 }
 
-# Print all of the notices associated with a PR
-export def display-notices []: table -> string {
+# Format all of the notices associated with a PR
+export def format-notices []: table -> string {
     mut output = ""
 
     mut first = true
