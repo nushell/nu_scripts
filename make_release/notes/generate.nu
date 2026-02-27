@@ -30,6 +30,7 @@ export def get-release-notes []: record -> record {
     }
 
     let has_ready_label = "notes:ready" in $pr.labels.name
+    let has_hall_of_fame_label = "notes:mention" in $pr.labels.name
     let sections = $SECTIONS | where label in $pr.labels.name
     let hall_of_fame = $SECTIONS | where label == "notes:mention" | only
 
@@ -38,7 +39,10 @@ export def get-release-notes []: record -> record {
       $pr.body | extract-notes
     } else if $has_ready_label {
       # If no release notes summary exists but ready label is set, treat as empty
-      $pr = $pr | add-notice warning "no release notes section but notes:ready label"
+      if not $has_hall_of_fame_label {
+        # Hall of fame does not need release notes section necessarily
+        $pr = $pr | add-notice warning "no release notes section but notes:ready label"
+      }
       ""
     } else {
       return ($pr | add-notice error "no release notes section")
