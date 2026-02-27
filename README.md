@@ -2,6 +2,8 @@
 
 This is a place to share Nushell scripts with each other. If you'd like to share your scripts, fork this repository, and [create a PR](https://github.com/nushell/nu_scripts/compare) that adds it to the repo.
 
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to test and validate your changes before sending a PR.
+
 ## Sections
 
 - [aliases](./aliases/)

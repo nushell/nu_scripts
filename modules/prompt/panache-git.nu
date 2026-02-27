@@ -29,7 +29,7 @@ export def current-dir [] {
   let current_dir = ($env.PWD)
 
   let current_dir_relative_to_home = (
-    do --ignore-errors { $current_dir | path relative-to $nu.home-path  | str join }
+    do --ignore-errors { $current_dir | path relative-to $nu.home-path }
   )
 
   let in_sub_dir_of_home = ($current_dir_relative_to_home | is-not-empty)
@@ -159,8 +159,8 @@ export def repo-structured [] {
   let staging_worktree_table = (if $has_staging_or_worktree_changes {
     $status
     | where ($it | str starts-with '1') or ($it | str starts-with '2')
-    | split column ' '
-    | get column2
+    | split column ' ' col1 sw
+    | get sw
     | split column '' staging worktree --collapse-empty
   } else {
     [[]]

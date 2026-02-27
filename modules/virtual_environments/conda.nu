@@ -2,7 +2,7 @@
 export def --env activate [
     env_name?: string@'nu-complete conda envs' # name of the environment
 ] {
-    let conda_info = (conda info --envs --json | from json)
+    let conda_info = (conda info --json | from json)
 
     let env_name = if $env_name == null {
         "base"

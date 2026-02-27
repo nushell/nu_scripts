@@ -13,14 +13,14 @@
 
 # Abbreviate home path
 def home_abbrev [os_name] {
-  let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
+  let is_home_in_path = ($env.PWD | str starts-with $nu.home-dir)
   if $is_home_in_path {
     if ($os_name =~ "windows") {
-      let home = ($nu.home-path | str replace -ar '\\' '/')
+      let home = ($nu.home-dir | str replace -ar '\\' '/')
       let pwd = ($env.PWD | str replace -ar '\\' '/')
       $pwd | str replace $home '~'
     } else {
-      $env.PWD | str replace $nu.home-path '~'
+      $env.PWD | str replace $nu.home-dir '~'
     }
   } else {
     if ($os_name =~ "windows") {
@@ -39,7 +39,7 @@ def path_abbrev_if_needed [apath term_width] {
   let P = (ansi { fg: "#E4E4E4" bg: "#3465A4" }) # path
   let PB = (ansi { fg: "#E4E4E4" bg: "#3465A4" attr: b }) # path bold
   let R = (ansi reset)
-  let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
+  let is_home_in_path = ($env.PWD | str starts-with $nu.home-dir)
 
   if (($apath | str length) > ($term_width / 2)) {
     # split out by path separator into tokens
@@ -325,7 +325,7 @@ def git_left_prompt [gs os] {
     ] | str join
   )
 
-  let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
+  let is_home_in_path = ($env.PWD | str starts-with $nu.home-dir)
   let path_segment = (
     if (($is_home_in_path) and ($branch_name == "")) {
       [

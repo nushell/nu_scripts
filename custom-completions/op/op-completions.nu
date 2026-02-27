@@ -1979,11 +1979,11 @@ def "nu completion duration" [ctx: string] {
     if ($duration | parse --regex ".*?(\\d+)$" | is-not-empty) {
         [s m h d w] | each {|e|
             let label = match $e {
-                s => "seconds"
-                m => "minutes"
-                h => "hours"
-                d => "days"
-                w => "weeks"
+                "s" => "seconds"
+                "m" => "minutes"
+                "h" => "hours"
+                "d" => "days"
+                "w" => "weeks"
             }
             {value: $"($duration)($e)", description: $"+($duration | parse --regex '.*?(?<value>\d+)$' | last | get value | into float) ($label)"}
         }

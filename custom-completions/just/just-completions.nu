@@ -1,9 +1,28 @@
 
 # official completion from `just --completion nushell`
 def get-recipes [] {
-    (^just --unstable --dump --dump-format json | from json).recipes
-    | transpose recipe data
-    | flatten
+    let just_json = (^just --unstable --dump --dump-format json | from json)
+    [
+        ...(
+            $just_json.recipes
+            | transpose recipe data
+            | flatten
+        )
+        ...(
+            $just_json.modules
+            | transpose "module" data
+            | flatten
+            | select "module" recipes
+            | each {|row|
+                $row.recipes | items {|k, v|
+                    {
+                        recipe: ($"($row.module)::($k)" | str replace --regex '::default$' '')
+                        ...$v
+                    }
+            }}
+            | flatten
+        )
+    ]
     | where {|recipe| not $recipe.private }
 }
 

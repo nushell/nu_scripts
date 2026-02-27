@@ -36,6 +36,10 @@ def "nu-complete winget flagify" [name: string, value: any, --short(-s)] {
   }
 }
 
+def "nu-complete winget trimLoadingSymbol" [] {
+    str replace -r r#'^[^\w]*'# ""
+}
+
 def "nu-complete winget uninstall package id" [] {
     ^winget export -s winget -o __winget-temp__.json | ignore
     let results = (open __winget-temp__.json | get Sources.Packages | first | get PackageIdentifier)
@@ -77,63 +81,6 @@ def "nu-complete winget install id" [] {
         let data = (winget search | where source == winget | select name id)
         $data | save --force $path | ignore
         $data | get id | str replace "…" ""
-    }
-}
-
-def "nu-complete winget parse table" [lines: any] {
-    let header = (
-        $lines 
-        | first
-        | parse -r '(?P<name>Name\s+)(?P<id>Id\s+)(?P<version>Version\s+)?(?P<match>Match\s+)?(?P<available>Available\s+)?(?P<source>Source\s*)?'
-        | first
-    )
-    let lengths = {
-        name: ($header.name | str length),
-        id: ($header.id | str length),
-        version: ($header.version | default "" | str length),
-        match: ($header.match | default "" | str length),
-        available: ($header.available | default "" | str length),
-        source: ($header.source | default "" | str length)
-    }
-    $lines | skip 2 | each { |it|
-        let it = ($it | split chars)
-
-        let version = if $lengths.version > 0 {
-            (
-                $it | skip ($lengths.name + $lengths.id)
-                | first $lengths.version | str join | str trim
-            )
-        } else { "" }
-
-        let match = if $lengths.match > 0 {
-            (
-                $it | skip ($lengths.name + $lengths.id + $lengths.version)
-                | first $lengths.match | str join | str trim
-            )
-        } else { "" }
-
-        let available = if $lengths.available > 0 {
-            (
-                $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.match)
-                | first $lengths.available | str join | str trim
-            )
-        } else { "" }
-
-        let source = if $lengths.source > 0 {
-            (
-                $it | skip ($lengths.name + $lengths.id + $lengths.version + $lengths.match + $lengths.available)
-                | str join | str trim
-            )
-        } else { "" }
-
-        {
-            name: ($it | first $lengths.name | str join | str trim),
-            id: ($it | skip $lengths.name | first $lengths.id | str join | str trim),
-            version: $version,
-            match: $match,
-            available: $available,
-            source: $source
-        }
     }
 }
 
@@ -251,7 +198,7 @@ export extern "winget source update" [
     --name(-n): string, # Name of the source
     --help(-?) # Display the help for this command
 ]
-export alias "winget source refresh" = winet source update
+export alias "winget source refresh" = winget source update
 
 # Remove current sources
 export extern "winget source remove" [
@@ -315,15 +262,17 @@ export def "winget search" [
             | where { not ($in | is-empty) }
         )
 
-    let output = (^winget ...$params)
+    let output = ^winget ...$params
+        | nu-complete winget trimLoadingSymbol
     if $raw or $help {
         $output
     } else {
-        let lines = ($output | lines)
+        let lines = ($output | detect columns --guess) | rename name id version match source
         if ($lines | length) == 1 {
-            $"(ansi light_red)($lines | first)(ansi reset)"
+            print -e $"(ansi light_red)($output)(ansi reset)"
+            null
         } else {
-            nu-complete winget parse table $lines | select name id version source
+            $lines
         }
     }
 }
@@ -343,6 +292,7 @@ export def "winget list" [
     --exact(-e), # Find package using exact match
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
     --accept_source_agreements, # Accept all source agreements during source operations
+    --upgrade_available # Filter results by available upgrade
     --raw, # Output the raw CLI output instead of structured data
     --help(-?) # Display the help for this command
 ] {
@@ -366,30 +316,169 @@ export def "winget list" [
             (do $flagify exact $exact)
             (do $flagify header $header)
             (do $flagify accept_source_agreements $accept_source_agreements)
+            (do $flagify upgrade-available $upgrade_available)
             (do $flagify help $help)
-        ] 
+        ]
         | flatten
         | where { not ($in | is-empty) })
     )
 
     let output = ^winget ...$params
+    | nu-complete winget trimLoadingSymbol
     if $help or $raw {
         $output
     } else {
-        let lines = ($output | lines)
+        let lines = ($output | detect columns --guess) | rename name id version available source
         if ($lines | length) == 1 {
-            $"(ansi light_red)($lines | first)(ansi reset)"
+            print -e $"(ansi light_red)($output)(ansi reset)"
+            null        
         } else {
-            let truncated = $lines | last | $in == "<additional entries truncated due to result limit>"
-            nu-complete winget parse table (if $truncated { $lines | drop } else { $lines }) 
-                | reject match
-                # Because of a bug: https://github.com/microsoft/winget-cli/issues/4236
-                # we need to filter it with the "where" command
-                | if ($source | is-not-empty) { $in | where source == $source } else { $in }
+            $lines
+            # Because of a bug: https://github.com/microsoft/winget-cli/issues/4236
+            # we need to filter it with the "where" command
+            | if ($source | is-not-empty) { $in | where source == $source } else { $in }
         }
     }
 }
 export alias "winget ls" = winget list
+
+# Add a pin. This subcommand requires that you specify the exact package to pin. If there is any ambiguity, you will be prompted to further filter the add subcommand to an exact application.
+export extern "winget pin add" [
+    query?: string,
+    --query(-q): string, # The query used to search for a package
+    --id: string, # Limit search by ID
+    --name: string, # Limit search by name
+    --moniker: string, # Limit search by moniker listed
+    --tag: string # Limit search by tag listed
+    --cmd: string # Limit search by command
+    --command: string # Limit search by command
+    --exact(-e), # Uses exact query string
+    --version(-v): string, # Pin exact version, wildcard * can be used as last part, changes pin behavior to gating
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --header: string # Optional REST source HTTP header
+    --authentication-mode: string # Specify authentication window preference (silent, silentPreferred or interactive)
+    --authentication-account: string # Specify the account to be used for authentication
+    --accept-source-agreements, # Accept all source agreements during source operations
+    --force, # Override the installer hash check
+    --blocking # Block from upgrading until the pin is removed, preventing override arguments. Changes pin behavior to be blocking.
+    --installed: string # Pin a specific installed version
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
+# Remove a pin. This subcommand requires that you specify the exact package pin to remove. If there is any ambiguity, you will be prompted to further filter the remove subcommand to an exact application.
+export extern "winget pin remove" [
+    query?: string,
+    --query(-q): string, # The query used to search for a package
+    --id: string, # Limit search by ID
+    --name: string, # Limit search by name
+    --moniker: string, # Limit search by moniker listed
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --tag: string # Limit search by tag listed
+    --cmd: string # Limit search by command
+    --command: string # Limit search by command
+    --exact(-e), # Uses exact query string
+    --header: string # Optional REST source HTTP header
+    --authentication-mode: string # Specify authentication window preference (silent, silentPreferred or interactive)
+    --authentication-account: string # Specify the account to be used for authentication
+    --accept-source-agreements, # Accept all source agreements during source operations
+    --installed: string # Pin a specific installed version
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
+# List all current pins
+export extern "winget pin list" [
+    query?: string,
+    --query(-q): string, # The query used to search for a package
+    --id: string, # Limit search by ID
+    --name: string, # Limit search by name
+    --moniker: string, # Limit search by moniker listed
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --tag: string # Limit search by tag listed
+    --cmd: string # Limit search by command
+    --command: string # Limit search by command
+    --exact(-e), # Uses exact query string
+    --header: string # Optional REST source HTTP header
+    --authentication-mode: string # Specify authentication window preference (silent, silentPreferred or interactive)
+    --authentication-account: string # Specify the account to be used for authentication
+    --accept-source-agreements, # Accept all source agreements during source operations
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
+# Reset all pins. Without --force, shows all that would be removed. With --force, removes them.
+export extern "winget pin reset" [
+    --force # Direct run the command and continue with non security related issues
+    --source(-s): string@"nu-complete winget install source", # Restrict search to source
+    --help(-?) # Display the help for this command
+    --wait # Prompts the user to press any key before exiting
+    --logs # Open the default logs location
+    --open-logs # Open the default logs location
+    --verbose # Override the logging setting and create a verbose log
+    --verbose-logs # Override the logging setting and create a verbose log
+    --nowarn # Suppress waring outputs
+    --ignore-warnings # Suppress waring outputs
+    --disable-interactivity # Disable interactive prompts
+    --proxy: string # Use a proxy
+    --no-proxy # Do not use a proxy
+]
+
+def "winget upgrades" [] {
+    let output = ^winget upgrade | nu-complete winget trimLoadingSymbol
+    
+    # Do nothing when no upgrades available
+    if ( ($output | str starts-with 'No') or ($output | str starts-with '0') ) { return }
+    
+    let lines = $output | lines
+    let head = $lines | first
+    let rest = $lines | skip 2
+    
+    let colnames = [ Name Id Version Available Source ]
+    # We must be unicode aware in determining and using index; winget uses `…` elippses to hide overflow
+    let cols = $colnames | each {|col| $head | {name: $col i: ($head | str index-of $col --grapheme-clusters) } }
+    
+    let dirty = $rest | each {|line|
+        let chars = $line | split chars
+        {
+            name:      ( $chars | slice ($cols.0.i)..($cols.1.i - 1) | str join | str trim )
+            id:        ( $chars | slice ($cols.1.i)..($cols.2.i - 1) | str join | str trim )
+            version:   ( $chars | slice ($cols.2.i)..($cols.3.i - 1) | str join | str trim )
+            available: ( $chars | slice ($cols.3.i)..($cols.4.i - 1) | str join | str trim )
+            source:    ( $chars | slice ($cols.4.i).. | str join | str trim )
+        }
+    }
+    # Reject footer lines, in a best effort approach, because there is no clear separator or definitely identifiable form change.
+    # We expect `x upgrades available.` to follow the table. Then maybe `x package(s) have version numbers that cannot be determined. Use --include-unknown to see all results.`
+    return ($dirty | take until {|x| $x.source == '' })
+}
 
 # Upgrades the given package
 export extern "winget upgrade" [

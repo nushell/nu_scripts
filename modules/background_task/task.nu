@@ -52,6 +52,7 @@ export def spawn [
   (
     view source $command
     | str trim --left --char "{"
+    | str trim --left --char "|"
     | str trim --right --char "}"
   )
   | save --force $source_path

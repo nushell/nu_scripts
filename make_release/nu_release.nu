@@ -39,6 +39,7 @@ export def main [] {
         nu-cli,
         nu-cmd-extra,
         nu-lsp,
+        nu-mcp,
 
         nu_plugin_query,
         nu_plugin_inc,
