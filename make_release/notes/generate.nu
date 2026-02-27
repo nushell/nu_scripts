@@ -21,9 +21,14 @@ use util.nu *
 export def get-release-notes []: record -> record {
     mut pr = $in
 
+    let has_hide_label = "notes:hide" in $pr.labels.name
     let has_ready_label = "notes:ready" in $pr.labels.name
     let sections = $SECTIONS | where label in $pr.labels.name
     let hall_of_fame = $SECTIONS | where label == "notes:mention" | only
+
+    if $has_hide_label {
+        return ($pr | add-notice info "appearance only in full changelog")
+    }
 
     # Extract the notes section
     mut notes = if "## Release notes summary" in $pr.body {
