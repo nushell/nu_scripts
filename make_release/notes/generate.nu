@@ -156,24 +156,36 @@ export def generate-section []: record<section: string, prs: table> -> string {
     let bullet = $prs | where ($it.notes | lines | length) == 1
 
     # Add header
-    $body ++= [$"## ($section.h2)\n"]
+    $body ++= [$"## ($section.h2) <JumpToc/>\n"]
 
     # Add multi-line summaries
-    for note in $multiline.notes {
-        if ($note | str ends-with "\n") {
-            $body ++= [$note]
-        } else {
-            $body ++= [($note ++ (char nl))]
-        }
-    }
+    $body ++= $prs | generate-multiline-notes
 
     # Add single-line summaries
     if ($multiline | is-not-empty) and ($bullet | is-not-empty) {
-        $body ++= [$"### ($section.h3)\n"]
+        $body ++= [$"### ($section.h3) <JumpToc/>\n"]
     }
     $body ++= $bullet | each {|pr| "* " ++ $pr.notes ++ $" \(($pr | pr-link)\)" }
 
     ($body | str join (char nl)) ++ (char nl)
+}
+
+def generate-multiline-notes []: table -> list {
+    $in | each {|pr|
+        let number = $pr.number
+        let author = $pr.author.login
+
+        let pr_by_tag = $'<PrBy :pr="($number)" user="($author)"/>'
+        let replacer = $"### $1 <JumpToc/> ($pr_by_tag)\n"
+        let matcher = "^### ([^\n]*)\n"
+        let updated = ($pr.notes | str replace --all --regex $matcher $replacer)
+
+        if ($updated | str ends-with "\n") { 
+            $updated 
+        } else { 
+            $updated ++ (char nl) 
+        }
+    }
 }
 
 # Generate the "Hall of Fame" section of the release notes.
