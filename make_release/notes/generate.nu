@@ -159,7 +159,7 @@ export def generate-section []: record<section: string, prs: table> -> string {
     $body ++= [$"## ($section.h2) <JumpToc/>\n"]
 
     # Add multi-line summaries
-    $body ++= $prs | generate-multiline-notes
+    $body ++= $multiline | generate-multiline-notes
 
     # Add single-line summaries
     if ($multiline | is-not-empty) and ($bullet | is-not-empty) {
