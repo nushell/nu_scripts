@@ -24,9 +24,9 @@ As part of this release, we also publish a set of optional [plugins](https://www
 
 # Table of contents
 
-<!-- TODO: once all the content below is finished and committed, `use nu_scripts/make_release/release-note/notes *` and run `write-toc $this_file`. -->
+<ReleaseToc/>
 
-# Highlights and themes of this release
+# Highlights and themes of this release <JumpToc/>
 
 <!-- NOTE: if you wanna write a section about a breaking change, when it's a very important one,
     please add the following snippet to have a "warning" banner :)
@@ -42,18 +42,18 @@ As part of this release, we also publish a set of optional [plugins](https://www
     for the list of available *containers*
 -->
 
-# Changes
+# Changes <JumpToc/>
 
 {changes}
 
-# Notes for plugin developers
+# Notes for plugin developers <JumpToc/>
 
-# Hall of fame
+# Hall of fame <JumpToc/>
 
 Thanks to all the contributors below for helping us solve issues, improve documentation, refactor code, and more! :pray:
 
 {hall_of_fame}
 
-# Full changelog
+# Full changelog <JumpToc/>
 
 {changelog}

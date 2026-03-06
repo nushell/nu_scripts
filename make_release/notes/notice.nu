@@ -21,15 +21,21 @@ export def group-notices []: table -> table {
     | sort-by {|i| $TYPES | where type == $i.type | only rank } message
 }
 
-# Print all of the notices associated with a PR
-export def display-notices []: table -> nothing {
-    group-notices
-    | each {|e|
+# Format all of the notices associated with a PR
+export def format-notices []: table -> string {
+    mut output = ""
+
+    mut first = true
+    for e in ($in | group-notices) {
+        if $first { $first = false } else { $output += "\n\n" }
         let color = $TYPES | where type == $e.type | only color
         let number = $e.items | length
-        print $"($color)($number) PR\(s\) with ($e.message):"
-        $e.items | each { format-pr | print $"- ($in)" }
-        print ""
+        $output += $"($color)($number) PR\(s\) with ($e.message):"
+        for item in $e.items {
+            $item | format-pr | $output += $"\n- ($in)"
+        }
     }
-    print -n (ansi reset)
+
+    $output += (ansi reset)
+    $output
 }

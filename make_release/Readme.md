@@ -60,8 +60,8 @@ There are two threads you can do in parallel: publishing crates and generating r
 :point_right: check that there is the same number of targets compared to [last release](https://github.com/nushell/nushell/releases/latest)
 
 ## 3. Publish `nu` to *crates.io*
-- [ ] check the order of dependencies with `nushell/nu_scripts/make_release/nu_deps.nu` from the `nushell` repo
-- [ ] release the Nushell crates `nushell/nu_scripts/make_release/nu_release.nu` from the `nushell` repo
+- [ ] check that any new crates that should not be published have `package.publish = false` set in their `Cargo.toml`
+- [ ] release the Nushell crates with `cargo publish --workspace`
 - [ ] **Important!** add any new crates to the `github:nushell:publishing` group on crates.io: `cargo owner --add github:nushell:publishing -p <crate>`
 
 > **Note**

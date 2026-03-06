@@ -21,7 +21,16 @@ use util.nu *
 export def get-release-notes []: record -> record {
     mut pr = $in
 
+    # Do not throw any warnings for hidden PRs
+    let has_hide_label = "notes:hide" in $pr.labels.name
+    let hidden = $SECTIONS | where label == "notes:hide" | only
+    if $has_hide_label {
+        $pr = ($pr | add-notice info "appearance only in full changelog")
+        return ($pr | insert section $hidden)
+    }
+
     let has_ready_label = "notes:ready" in $pr.labels.name
+    let has_hall_of_fame_label = "notes:mention" in $pr.labels.name
     let sections = $SECTIONS | where label in $pr.labels.name
     let hall_of_fame = $SECTIONS | where label == "notes:mention" | only
 
@@ -30,7 +39,10 @@ export def get-release-notes []: record -> record {
       $pr.body | extract-notes
     } else if $has_ready_label {
       # If no release notes summary exists but ready label is set, treat as empty
-      $pr = $pr | add-notice warning "no release notes section but notes:ready label"
+      if not $has_hall_of_fame_label {
+        # Hall of fame does not need release notes section necessarily
+        $pr = $pr | add-notice warning "no release notes section but notes:ready label"
+      }
       ""
     } else {
       return ($pr | add-notice error "no release notes section")
@@ -144,24 +156,36 @@ export def generate-section []: record<section: string, prs: table> -> string {
     let bullet = $prs | where ($it.notes | lines | length) == 1
 
     # Add header
-    $body ++= [$"## ($section.h2)\n"]
+    $body ++= [$"## ($section.h2) <JumpToc/>\n"]
 
     # Add multi-line summaries
-    for note in $multiline.notes {
-        if ($note | str ends-with "\n") {
-            $body ++= [$note]
-        } else {
-            $body ++= [($note ++ (char nl))]
-        }
-    }
+    $body ++= $multiline | generate-multiline-notes
 
     # Add single-line summaries
     if ($multiline | is-not-empty) and ($bullet | is-not-empty) {
-        $body ++= [$"### ($section.h3)\n"]
+        $body ++= [$"### ($section.h3) <JumpToc/>\n"]
     }
     $body ++= $bullet | each {|pr| "* " ++ $pr.notes ++ $" \(($pr | pr-link)\)" }
 
     ($body | str join (char nl)) ++ (char nl)
+}
+
+def generate-multiline-notes []: table -> list {
+    $in | each {|pr|
+        let number = $pr.number
+        let author = $pr.author.login
+
+        let pr_by_tag = $'<PrBy :pr="($number)" user="($author)" />'
+        let replacer = $"### $1 <JumpToc/> ($pr_by_tag)\n"
+        let matcher = "^### ([^\n]*)\n"
+        let updated = ($pr.notes | str replace --all --regex $matcher $replacer)
+
+        if ($updated | str ends-with "\n") { 
+            $updated 
+        } else { 
+            $updated ++ (char nl) 
+        }
+    }
 }
 
 # Generate the "Hall of Fame" section of the release notes.
