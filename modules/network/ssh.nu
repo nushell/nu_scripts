@@ -53,11 +53,11 @@ export def ssh-list [] {
 }
 
 def fmt-group [p] {
-    $p | str replace $"($env.HOME)/.ssh/" ''
+    $p | str replace $"($nu.home-dir)/.ssh/" ''
 }
 
 def "ssh-hosts" [] {
-    let cache = $'($env.HOME)/.cache/nu-complete/ssh.json'
+    let cache = $'($nu.home-dir)/.cache/nu-complete/ssh.json'
     ensure-cache $cache [~/.ssh/config ~/.ssh/config*/* ] { ||
         let data = (ssh-list | each {|x|
                 let uri = $"($x.User)@($x.HostName):($x.Port)"
