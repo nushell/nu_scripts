@@ -90,7 +90,7 @@ export extern "gh gist delete" [
 ]
 
 export extern "gh gist edit" [
-    gist: string@"nu-complete gist list"        # gist to edit
+    gist?: string@"nu-complete gist list"        # gist to edit
     --add(-a): string                # Add a new file to the gist
     --desc(-d): string               # New description for the gist
     --filename(-f): string           # Select a file to edit
