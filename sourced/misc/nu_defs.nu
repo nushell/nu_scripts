@@ -75,7 +75,7 @@ def column2 [n] {
 
 #short pwd
 def pwd-short [] {
-  $env.PWD | str replace $nu.home-path '~'
+  $env.PWD | str replace $nu.home-dir '~'
 }
 
 #string repeat

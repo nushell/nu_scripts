@@ -53,9 +53,9 @@ export def construct_prompt [] {
 
 # Abbreviate home path
 def home_abbrev [] {
-    let is_home_in_path = (pwd | into string | str starts-with $nu.home-path)
+    let is_home_in_path = (pwd | into string | str starts-with $nu.home-dir)
     if $is_home_in_path {
-        let lin_home = ($nu.home-path | into string | str replace -a '\\' '/' | str downcase)
+        let lin_home = ($nu.home-dir | into string | str replace -a '\\' '/' | str downcase)
         let lin_pwd = (pwd | into string | str replace -a '\\' '/' | str downcase)
         $lin_pwd | str replace $lin_home '~'
     } else {

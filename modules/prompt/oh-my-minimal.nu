@@ -17,14 +17,14 @@
 
 # Abbreviate home path
 def home_abbrev [os] {
-    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-dir)
     if ($is_home_in_path == true) {
         if ($os == "windows") {
-            let home = ($nu.home-path | str replace -ar '\\' '/')
+            let home = ($nu.home-dir | str replace -ar '\\' '/')
             let pwd = ($env.PWD | str replace -ar '\\' '/')
             $pwd | str replace $home '~'
         } else {
-            $env.PWD | str replace $nu.home-path '~'
+            $env.PWD | str replace $nu.home-dir '~'
         }
     } else {
         $env.PWD | str replace -ar '\\' '/'
@@ -42,7 +42,7 @@ export def path_abbrev_if_needed [apath term_width] {
     let red = (ansi red)
 
     # replace the home path first
-    let apath = ($apath | str replace $nu.home-path ~)
+    let apath = ($apath | str replace $nu.home-dir ~)
     # split out by path separator into tokens
     # don't use psep here because in home_abbrev we're making them all '/'
     let splits = ($apath | split row '/')
@@ -144,7 +144,7 @@ export def get_left_prompt [os use_nerd_fonts] {
         (char space)                           # space
     ] | str join)
 
-    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-dir)
     let path_segment = (if $is_home_in_path {
         [
         (if $use_nerd_fonts {

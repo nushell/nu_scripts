@@ -111,11 +111,11 @@ def current-dir-style [] {
     let s = get-styles
     let current_dir = ($env.PWD)
 
-    let current_dir_abbreviated = if $current_dir == $nu.home-path {
+    let current_dir_abbreviated = if $current_dir == $nu.home-dir {
         '~'
     } else {
         let current_dir_relative_to_home = (
-            do --ignore-errors { $current_dir | path relative-to $nu.home-path } | str join
+            do --ignore-errors { $current_dir | path relative-to $nu.home-dir } | str join
         )
 
         if ($current_dir_relative_to_home | is-empty) == false {

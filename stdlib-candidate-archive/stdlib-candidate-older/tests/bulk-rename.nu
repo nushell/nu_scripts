@@ -81,7 +81,7 @@ export def 'test glob' [] {
 }
 
 def test [expects: list<string> command: closure] {
-    let test_dir = $nu.temp-path | path join (random uuid)
+    let test_dir = $nu.temp-dir | path join (random uuid)
     def actual-files [] {
         ls --all --short-names $test_dir | get name | sort
     }

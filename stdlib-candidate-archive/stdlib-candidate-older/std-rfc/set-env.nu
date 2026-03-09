@@ -2,7 +2,7 @@
 #
 # Examples:
 #   Set $env.NUPM_HOME
-#   > set-env NUPM_HOME $'($nu.home-path)/.local/share/nupm'
+#   > set-env NUPM_HOME $'($nu.home-dir)/.local/share/nupm'
 #
 #   Add to $env.NU_LIB_DIRS
 #   > set-env --append NU_LIB_DIRS $'($env.NUPM_HOME)/modules'
