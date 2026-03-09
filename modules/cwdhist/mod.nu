@@ -86,8 +86,8 @@ export-env {
     }
 
     let __cwdhist_hook = {|_, dir|
-        if $dir == $nu.home-path { return }
-        let suffix = (do --ignore-errors { $dir | path relative-to  $nu.home-path })
+        if $dir == $nu.home-dir { return }
+        let suffix = (do --ignore-errors { $dir | path relative-to  $nu.home-dir })
         let path = if ($suffix | is-empty) {
             $dir
         } else {

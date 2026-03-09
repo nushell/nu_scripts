@@ -15,7 +15,7 @@ export def "pwd_abbr" [] {
     {|bg|
         let pwd = ($env.PWD)
 
-        let to_home = (related $pwd $nu.home-path)
+        let to_home = (related $pwd $nu.home-dir)
 
         let cwd = if $to_home.related == '=' {
             "~"

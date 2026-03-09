@@ -237,14 +237,14 @@ def get_color [name, mode] {
 
 # Abbreviate home path for the prompt
 def home_abbrev [os_name] {
-    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-dir)
     if $is_home_in_path {
         if ($os_name == "windows") {
-            let home = ($nu.home-path | str replace -ar '\\' '/')
+            let home = ($nu.home-dir | str replace -ar '\\' '/')
             let pwd = ($env.PWD | str replace -ar '\\' '/')
             $pwd | str replace $home '~'
         } else {
-            $env.PWD | str replace $nu.home-path '~'
+            $env.PWD | str replace $nu.home-dir '~'
         }
     } else {
         $env.PWD | str replace -ar '\\' '/'
@@ -296,7 +296,7 @@ def get_os_segment [os color_mode] {
 # get the path segment for the prompt
 def get_path_segment [os color_mode] {
     let display_path = (home_abbrev $os.name)
-    let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
+    let is_home_in_path = ($env.PWD | str starts-with $nu.home-dir)
     let pwd_bg_color = (get_color pwd_bg_color $color_mode)
     let pwd_color = (get_color pwd_color_dirs $color_mode)
     let home_or_folder = (if $is_home_in_path { (char nf_house1) } else { (char nf_folder1) })

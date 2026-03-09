@@ -156,7 +156,7 @@ def verify_signature [temp_dir: string, tarball: string] {
 }
 
 def get_or_create_path_prefix [] {
-  let path_prefix = $"($nu.home-path)/.local/share/zvm"
+  let path_prefix = $"($nu.home-dir)/.local/share/zvm"
   if not ($path_prefix | path exists) { mkdir $path_prefix }
   $path_prefix
 }
