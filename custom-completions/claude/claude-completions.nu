@@ -41,7 +41,7 @@ def "nu-complete claude install-channel" [] {
     [stable latest]
 }
 
-# Main command
+# Claude Code - starts an interactive session by default, use -p/--print for non-interactive output
 export extern claude [
     --debug(-d)                                             # Enable debug mode
     --debug-file: path                                      # Debug output file
@@ -96,17 +96,20 @@ export extern claude [
 
 # --- auth ---
 
+# Manage authentication
 export extern "claude auth" [
     --help(-h)
     ...args: string
 ]
 
+# Sign in to your Anthropic account
 export extern "claude auth login" [
     --email: string     # Login email
     --sso               # Use SSO login
     --help(-h)
 ]
 
+# Log out from your Anthropic account
 export extern "claude auth logout" [
     --help(-h)
 ]
@@ -115,6 +118,7 @@ def "nu-complete claude auth-status-format" [] {
     [json text]
 }
 
+# Show authentication status
 export extern "claude auth status" [
     --json               # Output as JSON
     --text               # Output as text
@@ -123,11 +127,13 @@ export extern "claude auth status" [
 
 # --- mcp ---
 
+# Configure and manage MCP servers
 export extern "claude mcp" [
     --help(-h)
     ...args: string
 ]
 
+# Add an MCP server to Claude Code
 export extern "claude mcp add" [
     --scope(-s): string@"nu-complete claude scope"              # Scope
     --transport(-t): string@"nu-complete claude transport"      # Transport type
@@ -140,12 +146,14 @@ export extern "claude mcp add" [
     ...args: string
 ]
 
+# Import MCP servers from Claude Desktop (Mac and WSL only)
 export extern "claude mcp add-from-claude-desktop" [
     --scope(-s): string@"nu-complete claude scope"
     --help(-h)
     ...args: string
 ]
 
+# Add an MCP server (stdio or SSE) with a JSON string
 export extern "claude mcp add-json" [
     --scope(-s): string@"nu-complete claude scope"
     --client-secret                                              # Client secret (interactive prompt)
@@ -153,25 +161,30 @@ export extern "claude mcp add-json" [
     ...args: string
 ]
 
+# Get details about an MCP server
 export extern "claude mcp get" [
     --help(-h)
     ...args: string
 ]
 
+# List configured MCP servers
 export extern "claude mcp list" [
     --help(-h)
 ]
 
+# Remove an MCP server
 export extern "claude mcp remove" [
     --scope(-s): string@"nu-complete claude scope"
     --help(-h)
     ...args: string
 ]
 
+# Reset all approved and rejected project-scoped (.mcp.json) servers
 export extern "claude mcp reset-project-choices" [
     --help(-h)
 ]
 
+# Start the Claude Code MCP server
 export extern "claude mcp serve" [
     --debug(-d)
     --verbose
@@ -180,11 +193,13 @@ export extern "claude mcp serve" [
 
 # --- plugin ---
 
+# Manage Claude Code plugins
 export extern "claude plugin" [
     --help(-h)
     ...args: string
 ]
 
+# Disable an enabled plugin
 export extern "claude plugin disable" [
     --all(-a)                                               # Disable all
     --scope(-s): string@"nu-complete claude scope"
@@ -192,61 +207,72 @@ export extern "claude plugin disable" [
     ...args: string
 ]
 
+# Enable a disabled plugin
 export extern "claude plugin enable" [
     --scope(-s): string@"nu-complete claude scope"
     --help(-h)
     ...args: string
 ]
 
+# Install a plugin from available marketplaces
 export extern "claude plugin install" [
     --scope(-s): string@"nu-complete claude scope"
     --help(-h)
     ...args: string
 ]
 
+# List installed plugins
 export extern "claude plugin list" [
     --available
     --json
     --help(-h)
 ]
 
+# Manage Claude Code marketplaces
 export extern "claude plugin marketplace" [
     --help(-h)
     ...args: string
 ]
 
+# Add a marketplace
 export extern "claude plugin marketplace add" [
     --help(-h)
     ...args: string
 ]
 
+# List configured marketplaces
 export extern "claude plugin marketplace list" [
     --json
     --help(-h)
 ]
 
+# Remove a marketplace
 export extern "claude plugin marketplace remove" [
     --help(-h)
     ...args: string
 ]
 
+# Update a marketplace
 export extern "claude plugin marketplace update" [
     --help(-h)
     ...args: string
 ]
 
+# Uninstall an installed plugin
 export extern "claude plugin uninstall" [
     --scope(-s): string@"nu-complete claude scope"
     --help(-h)
     ...args: string
 ]
 
+# Update a plugin to the latest version
 export extern "claude plugin update" [
     --scope(-s): string@"nu-complete claude scope-with-managed"
     --help(-h)
     ...args: string
 ]
 
+# Validate a plugin or marketplace manifest
 export extern "claude plugin validate" [
     --help(-h)
     ...args: string
@@ -254,6 +280,7 @@ export extern "claude plugin validate" [
 
 # --- agents ---
 
+# List configured agents
 export extern "claude agents" [
     --setting-sources: string@"nu-complete claude scope"
     --help(-h)
@@ -261,28 +288,33 @@ export extern "claude agents" [
 
 # --- setup-token ---
 
+# Set up a long-lived authentication token (requires Claude subscription)
 export extern "claude setup-token" [
     --help(-h)
 ]
 
 # --- doctor ---
 
+# Check the health of your Claude Code auto-updater
 export extern "claude doctor" [
     --help(-h)
 ]
 
 # --- update / upgrade ---
 
+# Check for updates and install if available
 export extern "claude update" [
     --help(-h)
 ]
 
+# Check for updates and install if available
 export extern "claude upgrade" [
     --help(-h)
 ]
 
 # --- install ---
 
+# Install Claude Code native build
 export extern "claude install" [
     --force
     --help(-h)
