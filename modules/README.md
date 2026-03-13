@@ -2,7 +2,6 @@
 
 - [Modules](#modules)
   - [after](#after)
-  - [api\_wrappers](#api_wrappers)
   - [background\_task](#background_task)
   - [base16](#base16)
   - [coloring](#coloring)
@@ -32,12 +31,6 @@
 ## [after](./after)
 
 Run a function after the given program (by PID)
-
-## api_wrappers
-
-Demo of various API wrappers:
-- [Wolfram Alpha](../sourced/api_wrappers/wolframalpha.nu)
-- [AWS]()
 
 ## background_task
 
