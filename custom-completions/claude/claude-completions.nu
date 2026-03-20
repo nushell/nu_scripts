@@ -14,15 +14,15 @@ def "nu-complete claude input-format" [] {
 }
 
 def "nu-complete claude permission-mode" [] {
-    [acceptEdits bypassPermissions default dontAsk plan]
+    [acceptEdits bypassPermissions default dontAsk plan auto]
 }
 
 def "nu-complete claude models" [] {
-    [sonnet opus haiku claude-sonnet-4-6]
+    [sonnet opus haiku claude-sonnet-4-6 claude-opus-4-6 claude-haiku-4-5-20251001]
 }
 
 def "nu-complete claude effort" [] {
-    [low medium high]
+    [low medium high max]
 }
 
 def "nu-complete claude scope" [] {
@@ -51,7 +51,8 @@ export extern claude [
     --json-schema: string                                   # JSON schema
     --include-partial-messages                               # Include partial messages
     --input-format: string@"nu-complete claude input-format"    # Input format
-    --mcp-debug                                             # MCP debug mode
+    --brief                                                  # Enable SendUserMessage tool for agent-to-user communication
+    --mcp-debug                                             # [DEPRECATED] MCP debug mode (use --debug instead)
     --dangerously-skip-permissions                          # Skip permissions (dangerous)
     --allow-dangerously-skip-permissions                    # Allow skip permissions
     --max-budget-usd: number                                # Max budget in USD
@@ -89,6 +90,7 @@ export extern claude [
     --worktree(-w): string                                  # Git worktree
     --tmux                                                  # Tmux mode
     --effort: string@"nu-complete claude effort"            # Effort level
+    --name(-n): string                                      # Set a display name for this session
     --version(-v)                                           # Show version
     --help(-h)                                              # Show help
     ...args: string                                         # Command or prompt
