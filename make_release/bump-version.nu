@@ -62,7 +62,7 @@ def main [
 
     log debug $"bumping winresource metadata in Cargo.toml from ($version) to ($new_version)"
     open --raw "Cargo.toml"
-        | str replace $'FileVersion = "($version)"' $'FileVersion = "($new_version)'
+        | str replace $'FileVersion = "($version)"' $'FileVersion = "($new_version)"'
         | str replace $'ProductVersion = "($version)"' $'ProductVersion = "($new_version)"'
         | save --force "Cargo.toml"
 
