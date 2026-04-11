@@ -16,7 +16,7 @@ def display [
     meta: record = {}
 ] {
     # the metadata *MUST* be set *FIRST* since the output of `table` is just a string
-    if $meta.source? == ls { metadata set --datasource-ls } else {}
+    if $meta.source? == ls { metadata set --path-columns [name] } else {}
     | if (term size).columns >= 100 { table -e } else { table }
 }
 
