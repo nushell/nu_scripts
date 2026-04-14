@@ -1,6 +1,10 @@
 # A module for storing and accessing previously returned results.
 # To activate this module, one should set
-# `env.config.hooks.display_output = { result hook }`
+# ```nushell
+# $env.config.hooks.display_output = {
+#   result hook | if (term size).columns >= 100 { table -e } else { table }
+# }
+# ```
 
 export-env {
     $env.NU_RESULTS = {
@@ -12,21 +16,22 @@ export-env {
     }
 }
 
-def display [
-    meta: record = {}
-] {
-    # the metadata *MUST* be set *FIRST* since the output of `table` is just a string
-    if $meta.source? == ls { metadata set --path-columns [name] } else {}
-    | if (term size).columns >= 100 { table -e } else { table }
-}
-
 def --env trunc [] {
-    $env.NU_RESULTS.results = ($env.NU_RESULTS.results | last ((get-max) - 1))
+    $env.NU_RESULTS.results = $env.NU_RESULTS.results | last (get-max)
 }
 
-def horrible-dircolors-hack [] {
-    let obj = $in
-    let desc = $in | describe 
+# returns the number of stored results
+export def count []: nothing -> int { $env.NU_RESULTS.results | length }
+
+# get the currently set maximum number of stored results
+export def get-max []: nothing -> int { $env.NU_RESULTS.max_items }
+
+# set the maximum number of stored results
+export def --env set-max [
+    n: int = 10
+] {
+    $env.NU_RESULTS.max_items = $n
+    trunc
 }
 
 # enable result caching
@@ -36,7 +41,7 @@ export def --env enable [] { $env.NU_RESULTS.enable = true }
 export def --env disable [] { $env.NU_RESULTS.enable = false }
 
 # check whether result caching is enabled
-export def --env is-enabled [] { $env.NU_RESULTS.enable }
+export def --env is-enabled []: nothing -> bool { $env.NU_RESULTS.enable }
 
 # Hook to be used in `$nu.config.hooks.display_output`.  This must be set to enable the
 # functionality of this module.
@@ -44,9 +49,9 @@ export def --env hook [
     --keep-empty  # keep empty values. it's not uncommon for external programs to output empty strings
     --keep-null  # keep null values
 ] {
+    # TODO: make it streaming
     let meta = metadata  # run this first to preserve original metadata
     let res = $in
-    trunc
     if (
         (is-enabled) and
         ($keep_null or ($res != null)) and
@@ -54,39 +59,20 @@ export def --env hook [
     ) {
         $env.NU_RESULTS.results = $env.NU_RESULTS.results
         | append [{value: $res, metadata: $meta}]
+        trunc
     }
     enable
-    $res | display $meta
+    $res | metadata set { $meta }
 }
-
-# returns the number of stored results
-export def count [] { $env.NU_RESULTS.results | length }
-
-# get the currently set maximum number of stored results
-export def get-max [] { $env.NU_RESULTS.max_items }
-
-# set the maximum number of stored results
-export def --env set-max [
-    n: int = 10
-] {
-    trunc
-    $env.NU_RESULTS.max_items = $n
-}
-
 
 # Return all stored previous results.
 # This disables storing the output, so if you use it in a pipeline and want to store the
 # output, pass the `--keep` flag.
 export def --env ls [
     --keep(-k)  # keep the result of this call in the list
-    --metadata  # return a table preserving the metadata
 ] {
     if not $keep { disable }
-    if $metadata {
-        $env.NU_RESULTS.results
-    } else {
-        $env.NU_RESULTS.results | get value
-    }
+    $env.NU_RESULTS.results
 }
 export alias l = ls
 
@@ -96,44 +82,26 @@ export alias l = ls
 # output, pass the `--keep` flag.
 export def --env main [
     idx: int = -1  # number of previous result, -1 is last
+    --long(-l)  # get the entire result record which includes metadata
     --keep(-k)  # keep the result of this call in the list
 ] {
     if not $keep { disable }
-    # it's safer not to error because it seems to not enable in some cases
-    try {
-        $env.NU_RESULTS.results | get ((count) + $idx) | get value
-    } catch {|err|
-        print $"(ansi grey)\(invalid result fetch\)(ansi reset)"
-    }
+    let idx = if $idx < 0 { (count) + $idx } else { $idx }
+    let result = $env.NU_RESULTS.results | get $idx
+    if $long { $result } else { $result.value | metadata set { $result.metadata } }
 }
 
-# get the display string for the entry
-def get-display [
-    idx: int = -1
-] {
-    let rec = $env.NU_RESULTS.results | get ((count) + $idx)
-    $rec.value | display $rec.metadata
-}
-
-# Interactively select previous result. Prettier with sk plugin.
+# Interactively select previous result.
 # This disables storing the output, so if you use it in a pipeline and want to store the
 # output, pass the `--keep` flag.
 export def --env select [
     --keep(-k)  # keep the result of this call in the list
-    --preview-pos: string = up  # up down left right
-    --preview-size: string = '80%'  # height of sk preview window
-    --height: string = '40%'  # height of sk selection window
+    --long(-l)  # get the entire result record which includes metadata
 ] {
-    (-1)..(0 - (count)) | each {}  # convert to list
-    | if 'skim' in (plugin list | get name) {
-        let binds = {k: up, j: down}
-        let lay = $preview_pos ++ ":" ++ $preview_size
-        $in | (
-            sk -p { get-display $in } --bind=$binds
-            --preview-window=$lay --select-1 --exit-0 --height=$height
-        ) | main $in
-    } else {
-        each { main $in } | input list        
+    if (count) > 0 {
+        let idx = $env.NU_RESULTS.results | reverse
+        | input list --index --fuzzy --display value "select result: "
+        if $idx != null { main --long=$long --keep=$keep (-1 - $idx) }
     }
 }
 export alias sel = select
@@ -144,3 +112,12 @@ export alias sel = select
 # Most operations do *not* preserve the metadata, so the only way to preserve it is to immediately
 # capture it and store it separately.
 #===================================================================================================#
+
+#====================================================================================================
+# NOTE:
+# This does not capture external program stdout because it is a specially handled stream object
+# that is not preserved after the `metadata` operation.
+# I decided this is maybe not the worst thing in the world.  One way to capture external output
+# is to use `complete`
+#===================================================================================================#
+
