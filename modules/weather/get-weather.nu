@@ -43,7 +43,7 @@ def get_my_location [index: int] {
 
 def get_location_by_ip [locIdx: int, token: string] {
     let URL_QUERY_LOCATION = "https://api.openweathermap.org/geo/1.0/direct"
-    let location = (get_my_location $locIdx)
+    let location = (get_my_location $locIdx | url encode)
     let url = $"($URL_QUERY_LOCATION)?q=($location)&limit=5&appid=($token)"
     http get $url
 }
