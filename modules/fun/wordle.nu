@@ -14,7 +14,7 @@ export def main [
   }
   mut end = false
   mut guess_count = 0
-  mut avail = "abcdefghijklmnopqrstuvyxwz"
+  mut avail = "abcdefghijklmnopqrstuvwxyz"
   while (not ($end)) {
     $guess_count += 1
     if ($guess_count <= $max_count or $unlimited) {
@@ -24,7 +24,7 @@ export def main [
         mut out = ""
         mut checked = $word
         for i in ($guess | split chars | enumerate) {
-          if ($i.item == ($word | str substring ($i.index)..($i.index + 1)) ) {
+          if ($i.item == ($word | str substring ($i.index)..($i.index)) ) {
             $out += $"(ansi green_reverse)($i.item)(ansi reset)"
             $avail = ($avail | str replace $i.item $"(ansi green_reverse)($i.item)(ansi white_reverse)")
             $checked = ($checked | str replace $i.item "")
