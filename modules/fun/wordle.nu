@@ -7,9 +7,9 @@ export def main [
   --max_count(-M) : int = 6 # Give yourself more chances than default
   --alternative_source(-a) : string = "https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt" # Alternative link to provide as a word source
 ] {
-  let words = (if ($alternative_source | str substring 0..4 | str contains "http") {http get $alternative_source} else {open $alternative_source} | from ssv -n)
-  let word = ($words | get (random int 0..($words | length)) | get column0)
-  if ((($words | each {|it| ($it.column0 | str length)}) | where $it != 5 | length) != 0 ) {
+  let words = (if ($alternative_source | str starts-with "http") {http get $alternative_source} else {open $alternative_source} | lines)
+  let word = ($words | get (random int 0..($words | length)))
+  if ((($words | each {|it| $it | str length}) | where $it != 5 | length) != 0 ) {
     print $"(ansi rb)Warning:(ansi reset) The words list contains words that are not length 5"
   }
   mut end = false
@@ -19,8 +19,8 @@ export def main [
     $guess_count += 1
     if ($guess_count <= $max_count or $unlimited) {
       print $"(ansi xterm_aquamarine1a)Enter your guess (ansi reset)\((ansi green)($guess_count)(ansi reset)/(ansi yellow)(if ($unlimited) {inf} else {$max_count})(ansi reset)\)"
-      mut guess = (input | str downcase )
-      if (((($words | where column0 =~ $guess) | length) >= 1) and ($guess | str length) == 5) {
+      let guess = (input | str downcase)
+      if ($guess | str length) == 5 and ($words | any {|w| $w == $guess}) {
         mut out = ""
         mut checked = $word
         for i in ($guess | split chars | enumerate) {
@@ -44,8 +44,8 @@ export def main [
           print $"(ansi xterm_green1 )You guessed right!(ansi reset)"
         }
       } else {
-      print "please enter a valid [5 letter] word!"
-      $guess_count -= 1
+        print "please enter a valid [5 letter] word!"
+        $guess_count -= 1
       }
     } else {
       print $"(ansi yellow )You loose, the word was: (ansi red)($word)(ansi reset)"
