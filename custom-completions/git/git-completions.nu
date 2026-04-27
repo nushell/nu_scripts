@@ -231,10 +231,11 @@ const short_status_descriptions = {
   "UU": "Both modified (in merge conflict)"
 }
 
-def "nu-complete git files" [] {
+def "nu-complete git files" [path?: string] {
   let relevant_statuses = ["?",".M", "MM", "MD", ".D", "UU"]
-  ^git status -uall --porcelain=2
+  ^git status -uall --porcelain=2 (if ($path | describe) == 'string' and ($path | str length) != 0 { $"($path)" } else { "." } )
   | lines
+  | first 300             # limit the number of data for performance
   | each { |$it|
     if $it starts-with "1 " {
       $it | parse --regex "1 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
@@ -261,17 +262,22 @@ def "nu-complete git refs" [] {
   nu-complete git local branches
   | parse "{value}"
   | insert description Branch
+  | append (nu-complete git remotes | parse '{value}' | insert description 'Remote branch')
   | append (nu-complete git tags | parse "{value}" | insert description Tag)
   | append (nu-complete git built-in-refs)
 }
 
 def "nu-complete git files-or-refs" [] {
-  nu-complete git local branches
-  | parse "{value}"
-  | insert description Branch
-  | append (nu-complete git files | where description == "Modified" | select value)
-  | append (nu-complete git tags | parse "{value}" | insert description Tag)
-  | append (nu-complete git built-in-refs)
+  {
+    options: { sort: false },
+    completions: (
+      nu-complete git files | where description == "Modified" | select value description
+      | append (nu-complete git local branches | parse '{value}' | insert description 'Local branch')
+      | append (nu-complete git built-in-refs | parse '{value}' | insert description 'Built-in Refs')
+      | append (nu-complete git tags | parse '{value}' | insert description Tag)
+      | append (nu-complete git remotes | get 'value' | parse '{value}' | insert description 'Remote branch')
+    )
+  }
 }
 
 def "nu-complete git aliases" [] {
