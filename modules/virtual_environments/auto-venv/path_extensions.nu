@@ -54,6 +54,6 @@ export def "path find-sub" [
     );
 
     if ($paths != null) and ($paths | length) > 0 {
-        [ ($paths | first), $subfolder ] | path join
-    } else {[]}
+        [ ($paths | last), $subfolder ] | path join
+    } else { null }
 }
