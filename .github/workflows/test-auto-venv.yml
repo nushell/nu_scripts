@@ -16,7 +16,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - uses: hustcer/setup-nu@v3.23
+            - uses: hustcer/setup-nu@v3.9
               with:
                   version: "*"
                   check-latest: true

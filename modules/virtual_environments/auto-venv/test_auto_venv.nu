@@ -4,7 +4,7 @@
 use path_extensions.nu
 use venv_helpers.nu
 
-def main [] {
+export def main [] {
     let test_root = (mktemp -d | path expand)
     mut results = []
 
