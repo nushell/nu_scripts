@@ -16,13 +16,11 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - uses: hustcer/setup-nu@v3.9
+            - uses: hustcer/setup-nu@v3.23
               with:
                   version: "*"
                   check-latest: true
 
             - name: Run auto-venv tests
-              shell: nu {0}
-              run: |
-                  cd modules/virtual_environments/auto-venv
-                  nu test_auto_venv.nu
+              working-directory: modules/virtual_environments/auto-venv
+              run: nu test_auto_venv.nu
