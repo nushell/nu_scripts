@@ -19,9 +19,9 @@ export-env {
 
 
 def default-hooks [] {
-    let existing = ($env.config? | default {} | get -o hooks.env_change.PWD)
-    if ($existing != null) {
-        $existing
+    let hooks = (do -i { $env.config.hooks.env_change.PWD })
+    if ($hooks != null) {
+        $hooks
     } else {
         []
     }
