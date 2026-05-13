@@ -1,7 +1,29 @@
 
 # official completion from `just --completion nushell`
 def get-recipes [] {
-    let just_json = (^just --unstable --dump --dump-format json | from json)
+    let just_dumps = generate { |just_json|
+        if not $just_json.settings.fallback {
+            return {out: $just_json}
+        }
+        let justfile_dir = $just_json.source | path dirname
+        if $justfile_dir == ($justfile_dir | path dirname) {
+            # at file system root
+            return {out: $just_json}
+        }
+        let next_dump_result = do {
+            cd ($justfile_dir | path dirname)
+            (^just --unstable --dump --dump-format json | complete)
+        }
+        if $next_dump_result.exit_code == 0 {
+            {out: $just_json, next: ($next_dump_result.stdout | from json)}
+        } else {
+            {out: $just_json}
+        }
+    } (^just --unstable --dump --dump-format json | from json)
+    $just_dumps | each { get-recipes-for-just-dump $in } | flatten | uniq-by recipe
+}
+
+def get-recipes-for-just-dump [just_json: record] {
     [
         ...(
             $just_json.recipes
@@ -24,23 +46,30 @@ def get-recipes [] {
         )
     ]
     | where {|recipe| not $recipe.private }
+    | sort-by recipe
 }
 
 def "nu-complete just" [] {
-    get-recipes
-        | select recipe doc parameters
-        | each {|recipe|
-            let name = $recipe.recipe
-            mut desc = $recipe.doc | default " "
-            for $p in $recipe.parameters {
-              if ($p.default | is-empty) {
-                  $desc += $" [(ansi blue)($p.name)(ansi reset)]"
-              } else {
-                  $desc += $" [(ansi blue)($p.name)='($p.default)'(ansi reset)]"
-              }
+    let completions = (
+        get-recipes
+            | select recipe doc parameters
+            | each {|recipe|
+                let name = $recipe.recipe
+                mut desc = $recipe.doc | default " "
+                for $p in $recipe.parameters {
+                if ($p.default | is-empty) {
+                    $desc += $" [(ansi blue)($p.name)(ansi reset)]"
+                } else {
+                    $desc += $" [(ansi blue)($p.name)='($p.default)'(ansi reset)]"
+                }
+                }
+                { value: $name description: ($desc | str trim) }
             }
-            { value: $name description: ($desc | str trim) }
-        }
+    )
+    {
+        options: { sort: false }
+        completions: $completions
+    }
 }
 
 def "nu-complete args" [context:string,offset:int] {
