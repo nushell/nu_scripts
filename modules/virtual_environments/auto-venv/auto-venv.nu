@@ -19,12 +19,12 @@ export-env {
 
 
 def default-hooks [] {
-    let hooks = (do -i { $env.config.hooks.env_change.PWD })
-    if ($hooks != null) {
-        $hooks
-    } else {
-        []
+    (if ($env.config.hooks.env_change.PWD != null) {
+        $env.config.hooks.env_change.PWD
     }
+    else {
+        []
+    })
 }
 
 def build-hooks [] {
