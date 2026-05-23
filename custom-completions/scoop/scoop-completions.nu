@@ -166,21 +166,17 @@ export extern "scoop" [
 ################################################################
 # scoop list
 ################################################################
-
-# Lists all installed apps, or the apps matching the supplied query.
 export def "scoop list" [
-  query?: string@scoopInstalledApps # string that will be matched
+  query?: string@scoopInstalledApps
 ] {
-  ^scoop list ($query | default "")
-  | complete
-  | if $in.exit_code == 0 {
-    $in.stdout
+  let result = (^scoop list ($query | default "") | complete)
+  if $result.exit_code == 0 {
+    ($result.stdout | decode utf-8)
     | lines
     | skip 4
     | parse -r '(?P<name>\S+)\s+(?P<version>\S+)\s+(?P<source>\S+)\s+(?P<updated>\S+\s+\S+)\s+(?P<info>\S+)?'
   }
 }
-
 ################################################################
 # scoop uninstall
 ################################################################
