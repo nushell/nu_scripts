@@ -589,18 +589,18 @@ export extern "git branch" [
   --no-merged                                                    # list unreachable branches
   --set-upstream-to: string@"nu-complete git available upstream" # set upstream for branch
   --unset-upstream                                               # remote upstream for branch
-  --all                                                          # list both remote and local branches
-  --copy                                                         # copy branch together with config and reflog
+  --all(-a)                                                      # list both remote and local branches
+  --copy(-c)                                                     # copy branch together with config and reflog
   --format                                                       # specify format for listing branches
-  --move                                                         # rename branch
+  --move(-m)                                                     # rename branch
   --points-at                                                    # list branches that point at an object
   --show-current                                                 # print the name of the current branch
-  --verbose                                                      # show commit and upstream for each branch
+  --verbose(-v)                                                  # show commit and upstream for each branch
   --color                                                        # use color in output
-  --quiet                                                        # suppress messages except errors
+  --quiet(-q)                                                    # suppress messages except errors
   --delete(-d)                                                   # delete branch
   -D                                                             # force delete branch
-  --list                                                         # list branches
+  --list(-l)                                                     # list branches
   --contains: string@"nu-complete git commits all"               # show only branches that contain the specified commit
   --no-contains                                                  # show only branches that don't contain specified commit
   --track(-t)                                                    # when creating a branch, set upstream
