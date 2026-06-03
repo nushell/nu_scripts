@@ -45,7 +45,7 @@ export module swift-bundler {
                 | lines
                 | where { str starts-with "* " }
                 | each {
-                    parse --regex "\\* (?<uuid>[a-zA-Z0-9-]+): (?<device>.*) \\(.*\\)$"
+                    parse --regex r#'\* (?<uuid>[a-zA-Z0-9-]+): (?<device>.*) \(.*\)$'#
                     | rename --column {
                         uuid: "value"
                         device: "description"
@@ -62,7 +62,7 @@ export module swift-bundler {
                 | lines
                 | where { str starts-with "* " }
                 | each {
-                    parse --regex "\\* (?<uuid>[a-zA-Z0-9-]+): (?<simulator>.*) \\(.*\\)$"
+                    parse --regex r#'\* (?<uuid>[a-zA-Z0-9-]+): (?<simulator>.*) \(.*\)$'#
                     | rename --column {
                         uuid: "value"
                         simulator: "description"
