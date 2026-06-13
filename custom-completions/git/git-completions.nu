@@ -238,11 +238,11 @@ def "nu-complete git files" [path?: string] {
   | first 300             # limit the number of data for performance
   | each { |$it|
     if $it starts-with "1 " {
-      $it | parse --regex "1 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
+      $it | parse --regex "1 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>.+)"
     } else if $it starts-with "2 " {
-      $it | parse --regex "2 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>\\S+)"
+      $it | parse --regex "2 (?P<short_status>\\S+) (?:\\S+\\s?){6} (?P<value>.+)"
     } else if $it starts-with "u " {
-      $it | parse --regex "u (?P<short_status>\\S+) (?:\\S+\\s?){8} (?P<value>\\S+)"
+      $it | parse --regex "u (?P<short_status>\\S+) (?:\\S+\\s?){8} (?P<value>.+)"
     } else if $it starts-with "? " {
       $it | parse --regex "(?P<short_status>.{1}) (?P<value>.+)"
     } else {
@@ -251,6 +251,7 @@ def "nu-complete git files" [path?: string] {
   }
   | flatten
   | where $it.short_status in $relevant_statuses
+  | update value { |row| if ($row.value | str contains " ") { $"`($row.value)`" } else { $row.value } }
   | insert "description" { |e| $short_status_descriptions | get $e.short_status}
 }
 
