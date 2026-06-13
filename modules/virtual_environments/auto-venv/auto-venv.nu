@@ -20,7 +20,7 @@ export-env {
 
 def default-hooks [] {
     (if ($env.config.hooks.env_change.PWD != null) {
-        [$env.config.hooks.env_change.PWD]
+        $env.config.hooks.env_change.PWD
     }
     else {
         []
@@ -33,24 +33,22 @@ def build-hooks [] {
 
     let on_enter = '
         let _env = $env
-        let pwd  = $_env.PWD
 
         let trigger = (path_extensions path find-sub . __trigger__ --type ["symlink", "file"])
+        if ($trigger | is-empty) { return }
 
-        cd ($trigger | path dirname)
         overlay use __trigger__ as __auto_venv
-
-        cd ($pwd)
 
         auto-venv-on-enter $_env
 
         hide _env
-        hide pwd
         hide trigger
     '
 
     let on_exit = '
-        overlay hide __auto_venv --keep-env [PWD]
+        if (venv_helpers venv-is-active) {
+            overlay hide __auto_venv --keep-env [PWD]
+        }
     '
 
     let on_enter = ($on_enter | str replace -a '__trigger__' $trigger)
