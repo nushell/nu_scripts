@@ -539,6 +539,14 @@ export extern "git switch" [
   --track(-t)                                     # set "upstream" configuration
 ]
 
+# Find commits yet to be applied to upstream
+export extern "git cherry" [
+  upstream?: string@"nu-complete git mergable sources"  # Upstream branch to search for equivalent commits. Defaults to the upstream branch of HEAD.
+  head?: string@"nu-complete git mergable sources"      # Working branch; defaults to HEAD.
+  limit?: string                                        # Do not report commits up to (and including) limit.
+  --verbose(-v)                                         # Show the commit subjects next to the SHA1s.
+]
+
 # Apply the change introduced by an existing commit
 export extern "git cherry-pick" [
   commit?: string@"nu-complete git commits all" # The commit ID to be cherry-picked
