@@ -1,3 +1,9 @@
+# Get the nth column of a table as a list of values, by position rather
+# than name. Used internally by `scale-minmax-table`.
+def column2 [n] {
+	transpose | get $n | transpose | get column1 | skip 1
+}
+
 #Root with a custom denominator
 export def root [ denominator, num ] {
 	$num ** ( 1 / $denominator ) | math round  -p 10
@@ -155,7 +161,7 @@ export def scale-minmax-table [a, b,input?] {
 	0..($n_cols - 1)
 	| each {|i|
 		($x | column2 $i) | scale-minmax $a $b | wrap ($name_cols | get $i)
-	} | reduce {|it, acc| $acc | merge {$it}}
+	} | reduce {|it, acc| $acc | merge $it}
 }
 
 
