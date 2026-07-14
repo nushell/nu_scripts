@@ -1,4 +1,4 @@
-# Completions based on Jujutsu 0.40.0
+# Completions based on Jujutsu 0.43.0
 
 def operations [] {
   {
@@ -9,8 +9,12 @@ def operations [] {
   }
 }
 
-def revisions [] {
-  ^jj log --ignore-working-copy --color never --no-graph -r 'all()' -T 'change_id.short() ++ " " ++ description.first_line() ++ "\n"' | parse --regex '(?<value>\w+) (?<description>.*)'
+def tracked-files [] {
+  ^jj file list --ignore-working-copy --color never | lines
+}
+
+def modified-files [] {
+  ^jj diff --ignore-working-copy --color never -T 'path.display() ++ "\n"' | lines
 }
 
 def all-bookmarks [] {
@@ -39,7 +43,7 @@ def revsets [] {
     completions: [
       ...(all-bookmarks | each {|b| { value: $b, style: purple } }),
       ...(tags | each {|t| { value: $t, style: default }}),
-      ...(^jj log --ignore-working-copy --color never --no-graph -r 'all()' -T 'change_id.short() ++ " " ++ description.first_line() ++ "\n"' | parse --regex '(?<value>\w+) (?<description>.*)' | each {|o| { ...$o, style: cyan } }),
+      ...(^jj log --ignore-working-copy --color never --no-graph -r 'all()' -T 'change_id.short() ++ if(divergent, "/" ++ change_offset) ++ " " ++ description.first_line() ++ "\n"' | parse --regex '(?<value>[\w/]+) (?<description>.*)' | each {|o| { ...$o, style: cyan } }),
     ]
   }
 }
@@ -88,6 +92,7 @@ def commands [] {
     'commit'
     'config'
     'config edit'
+    'config gc'
     'config get'
     'config list'
     'config path'
@@ -150,6 +155,7 @@ def commands [] {
     'restore'
     'revert'
     'root'
+    'run'
     'show'
     'sign'
     'simplify-parents'
@@ -168,6 +174,8 @@ def commands [] {
     'undo'
     'unsign'
     'util'
+    'util backend'
+    'util backend name'
     'util completion'
     'util config-schema'
     'util exec'
@@ -277,6 +285,7 @@ export extern "jj abandon" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -296,6 +305,7 @@ export extern "jj absorb" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -313,6 +323,7 @@ export extern "jj arrange" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -333,6 +344,7 @@ export extern "jj bisect run" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -351,6 +363,7 @@ export extern "jj bookmark advance" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -370,6 +383,7 @@ export extern "jj bookmark create" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -387,6 +401,7 @@ export extern "jj bookmark delete" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -405,6 +420,7 @@ export extern "jj bookmark forget" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -429,6 +445,7 @@ export extern "jj bookmark list" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -449,6 +466,7 @@ export extern "jj bookmark move" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -468,6 +486,7 @@ export extern "jj bookmark rename" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -488,6 +507,7 @@ export extern "jj bookmark set" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -506,6 +526,7 @@ export extern "jj bookmark track" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -524,6 +545,7 @@ export extern "jj bookmark untrack" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -536,7 +558,7 @@ export extern "jj bookmark untrack" [
 
 # Update the description and create a new change on top [default alias: ci]
 export extern "jj commit" [
-  ...filesets: path                         # put theses changes in the first commit
+  ...filesets: path@modified-files          # put theses changes in the first commit
   --interactive(-i)                         # interactively choose which changes to include in the first commit
   --tool: path                              # specify diff editor to be used (implies --interactive)
   --message(-m): string                     # the change description to use
@@ -545,6 +567,7 @@ export extern "jj commit" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -564,6 +587,7 @@ export extern "jj config edit" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -581,6 +605,7 @@ export extern "jj config get" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -604,6 +629,7 @@ export extern "jj config list" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -623,6 +649,7 @@ export extern "jj config path" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -644,6 +671,7 @@ export extern "jj config set" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -664,6 +692,7 @@ export extern "jj config unset" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -684,6 +713,7 @@ export extern "jj describe" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -715,6 +745,7 @@ export extern "jj diff" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -737,6 +768,7 @@ export extern "jj diffedit" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -759,6 +791,7 @@ export extern "jj duplicate" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -776,6 +809,7 @@ export extern "jj edit" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -808,6 +842,7 @@ export extern "jj evolog" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -820,13 +855,14 @@ export extern "jj evolog" [
 
 # Show the source change for each line of the target file.
 export extern "jj file annotate" [
-  path: path                                # the file to annotate
+  path: path@tracked-files                  # the file to annotate
   --revision(-r): string@revsets            # an optional revision to start at
   --template(-T): string                    # render each line using the given template
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -840,12 +876,13 @@ export extern "jj file annotate" [
 # Sets or removes the executable bit for paths in the repo
 export extern "jj file chmod" [
   mode: string@modes                        # the mode to set
-  ...files: path                            # paths to change the executable bit for
+  ...files: path@tracked-files              # paths to change the executable bit for
   --revision(-r): string@revsets            # an optional revision to start at
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -865,6 +902,7 @@ export extern "jj file list" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -879,11 +917,12 @@ export extern "jj file list" [
 export extern "jj file search" [
   ...filesets: path                         # only search files matching these prefixes
   --revision(-r): string@revsets            # the revision to search files in
-  --pattern(-p): string                     # the glob pattern to search for
+  --pattern(-p): string                     # the pattern to search for
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -903,6 +942,7 @@ export extern "jj file show" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -921,6 +961,7 @@ export extern "jj file track" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -933,11 +974,12 @@ export extern "jj file track" [
 
 # Stop tracking specified paths in the working copy
 export extern "jj file untrack" [
-  ...files: path                            # paths to untrack
+  ...files: path@tracked-files              # paths to untrack
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -953,10 +995,12 @@ export extern "jj fix" [
   ...filesets: path                         # fix only these paths
   --source(-s): string@revsets              # fix files in these revisions and their descendants
   --include-unchanged-files                 # also fix unchanged files
+  --all-lines(-a)                           # format all lines instead of only modified lines
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -978,6 +1022,8 @@ export extern "jj gerrit upload" [
   --label(-l): string                       # add the following labels
   --topic: string                           # applies a topic to the change
   --hashtag: string                         # applies a hashtag to the change
+  --message(-m)                             # a patch set description of the new patch
+  --edit                                    # push the change as a change edit
   --wip                                     # marks the change as work in progress
   --ready                                   # unmarks the change as work in progress
   --private                                 #
@@ -987,14 +1033,17 @@ export extern "jj gerrit upload" [
   --notify: string@gerrit-notify            # who to email notifications to
   --submit                                  # directly submit the changes
   --skip-validation                         # skip performing validations
+  --merged                                  # create a new change, even if the change has already been merged
   --ignore-attention-set                    # do not modify the attention set upon uploading
   --deadline: string                        # the deadline after which the push should be aborted
   --custom: string                          # send the following custom keyed values
+  --option(-o): string                      # send a `git push -o` option
   --trace: string                           # for debugging Gerrit
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1019,6 +1068,7 @@ export extern "jj git clone" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1035,6 +1085,7 @@ export extern "jj git colocation disable" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1051,6 +1102,7 @@ export extern "jj git colocation enable" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1067,6 +1119,7 @@ export extern "jj git colocation status" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1083,6 +1136,7 @@ export extern "jj git export" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1103,6 +1157,7 @@ export extern "jj git fetch" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1119,6 +1174,7 @@ export extern "jj git import" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1139,6 +1195,7 @@ export extern "jj git init" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1162,10 +1219,12 @@ export extern "jj git push" [
   --change(-c): string@revsets              # push this commit by creating a bookmark
   --named: string                           # specify a new bookmark and the revision it points to
   --dry-run                                 # only display what will change on the remote
+  --option(-o): string                      # git push option
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1186,6 +1245,7 @@ export extern "jj git remote add" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1202,6 +1262,7 @@ export extern "jj git remote list" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1219,6 +1280,7 @@ export extern "jj git remote remove" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1237,6 +1299,7 @@ export extern "jj git remote rename" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1257,6 +1320,7 @@ export extern "jj git remote set-url" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1273,6 +1337,7 @@ export extern "jj git root" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1291,6 +1356,7 @@ export extern "jj help" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1320,6 +1386,7 @@ export extern "jj interdiff" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1354,6 +1421,7 @@ export extern "jj log" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1378,6 +1446,7 @@ export extern "jj metaedit" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1401,6 +1470,7 @@ export extern "jj new" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1421,6 +1491,7 @@ export extern "jj next" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1438,6 +1509,7 @@ export extern "jj operation abandon" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1470,6 +1542,7 @@ export extern "jj operation diff" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1487,6 +1560,7 @@ export extern "jj opreation integrate" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1520,6 +1594,7 @@ export extern "jj operation log" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1538,6 +1613,7 @@ export extern "jj operation restore" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1556,6 +1632,7 @@ export extern "jj operation revert" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1588,6 +1665,7 @@ export extern "jj operation show" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1605,6 +1683,7 @@ export extern "jj parallelize" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1625,6 +1704,7 @@ export extern "jj prev" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1652,6 +1732,7 @@ export extern "jj rebase" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1668,6 +1749,7 @@ export extern "jj redo" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1688,6 +1770,7 @@ export extern "jj resolve" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1712,6 +1795,7 @@ export extern "jj restore" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1734,6 +1818,7 @@ export extern "jj revert" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1750,6 +1835,31 @@ export extern "jj root" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Run a command across a set of revisions.
+export extern "jj run" [
+  command: string                           # command to run accros all selected revisions
+  ...args: string                           # arguments to pass to the command
+  --revision(-r): string@revsets            # the revisions to change
+  --job(-j): int                            # how mnay porcesses should run in parallel
+  --root                                    # run the command from the working-copy root
+  --clean                                   # delete each working copy before running the command
+  --restore-descendants                     # preserve the content when rebasing descendants
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1763,6 +1873,7 @@ export extern "jj root" [
 # Show commit description and changes in a revision
 export extern "jj show" [
   revset: string@revsets                    # show changes in this revision
+  --reversed                                # show revisions in the opposite order
   --template(-T): string                    # render a revision using the given template
   --summary(-s)                             # for each path, show only whether it was modified, added, or deleted
   --stat                                    # show a histogram of the changes
@@ -1775,11 +1886,11 @@ export extern "jj show" [
   --no-patch                                # do not show the patch
   --ignore-all-space(-w)                    # ignore whitespace when comparing lines
   --ignore-space-change(-b)                 # ignore changes in amount of whitespace when comparing lines
-  --no-patch                                # do not show the patch
   --help                                    # print help
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1798,6 +1909,7 @@ export extern "jj sign" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1816,6 +1928,7 @@ export extern "jj simplify-parents" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1832,6 +1945,7 @@ export extern "jj sparse edit" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1848,6 +1962,7 @@ export extern "jj sparse list" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1864,6 +1979,7 @@ export extern "jj sparse reset" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1883,6 +1999,7 @@ export extern "jj sparse set" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1895,7 +2012,7 @@ export extern "jj sparse set" [
 
 # Split a revision in two
 export extern "jj split" [
-  ...filesets: path                         # files to put in the selected changes
+  ...filesets: path@modified-files          # files to put in the selected changes
   --interactive(-i)                         # interactively choose which parts to split
   --tool: path                              # the edito to be used
   --revision(-r): string@revsets            # the revision to spli
@@ -1911,6 +2028,7 @@ export extern "jj split" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1943,6 +2061,7 @@ export extern "jj squash" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1960,6 +2079,7 @@ export extern "jj status" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1977,6 +2097,7 @@ export extern "jj tag delete" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -1999,6 +2120,7 @@ export extern "jj tag list" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2018,6 +2140,7 @@ export extern "jj tag set" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2034,6 +2157,7 @@ export extern "jj undo" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2051,6 +2175,24 @@ export extern "jj unsign" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
+  --ignore-immutable                        # allow rewriting immutable commits
+  --at-operation: string@operations         # operation to load the repo at
+  --debug                                   # enable debug logging
+  --color: string@color-when                # when to colorize output
+  --quiet                                   # silence non-primary command output
+  --no-pager                                # disable the pager
+  --config: string                          # additional configuration options
+  --config-file: path                       # additional configuration file
+]
+
+# Print the name of the backend used in the current repo
+export extern "jj util backend name" [
+  --help                                    # print help
+  -h                                        # print help summary
+  --repository(-R): path                    # repository to operate on
+  --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2068,6 +2210,7 @@ export extern "jj util completion" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2084,6 +2227,7 @@ export extern "jj util config-schema" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2102,6 +2246,7 @@ export extern "jj util exec" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2119,6 +2264,7 @@ export extern "jj util gc" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2136,6 +2282,7 @@ export extern "jj util install-man-pages" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2152,6 +2299,7 @@ export extern "jj util snapshot" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2168,6 +2316,7 @@ export extern "jj util markdown-help" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2184,6 +2333,7 @@ export extern "jj version" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2205,6 +2355,7 @@ export extern "jj workspace add" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2222,6 +2373,7 @@ export extern "jj workspace forget" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2239,6 +2391,7 @@ export extern "jj workspace list" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2256,6 +2409,7 @@ export extern "jj workspace rename" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2273,6 +2427,7 @@ export extern "jj workspace root" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
@@ -2289,6 +2444,7 @@ export extern "jj workspace update-stale" [
   -h                                        # print help summary
   --repository(-R): path                    # repository to operate on
   --ignore-working-copy                     # do not snapshot the working copy
+  --no-integrate-operation                  # do not integrate any operations
   --ignore-immutable                        # allow rewriting immutable commits
   --at-operation: string@operations         # operation to load the repo at
   --debug                                   # enable debug logging
