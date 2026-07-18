@@ -102,7 +102,7 @@ export-env {
                 } else {
                     print $"(ansi yellow_bold)fnm:(ansi reset) ($err_msg)"
                     let answer = (input "Install it? [y/N] ")
-                    if ($answer | str downcase) == "y" {
+                    if ($answer | str lowercase) == "y" {
                         let install_res = (do { ^fnm install ...$fnm_config.install_flags } | complete)
                         if $install_res.exit_code != 0 {
                             print $"(ansi red_bold)fnm:(ansi reset) Install failed."

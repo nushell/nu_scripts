@@ -44,7 +44,7 @@
 | `sort -u` | `sort \| uniq` |
 | `uniq` | `uniq` |
 | `cut -d: -f1` | `split column ':' \| get column0` |
-| `tr '[:upper:]' '[:lower:]'` | `str downcase` |
+| `tr '[:upper:]' '[:lower:]'` | `str lowercase` |
 
 ## Variables and Environment
 

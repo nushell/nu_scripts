@@ -90,7 +90,7 @@ def git-branch-icon [] {
                     "red"
                 }
             )
-            $"|(ansi $branch_colour)($branch)(ansi reset):($modified | get status | uniq | str downcase | each {|it| git-prompt-icons $it })" | str join
+            $"|(ansi $branch_colour)($branch)(ansi reset):($modified | get status | uniq | str lowercase | each {|it| git-prompt-icons $it })" | str join
         }
     }
   }

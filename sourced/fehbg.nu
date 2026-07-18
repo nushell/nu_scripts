@@ -45,7 +45,7 @@ def select-random [] {
 def list-images [dir: path] {
     ls $"($dir)/**/*" |
     where type == file |
-    str downcase name |
+    str lowercase name |
     where name =~ jpg or name =~ jpeg or name =~ tif or name =~ tiff or name =~ png
 }
 

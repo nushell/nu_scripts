@@ -2796,7 +2796,7 @@ def _scan-ext-refs-on-fns [rows:list<record>] {
                           })
               if ($dep0 == null) { null } else {
                 let sym = ($segs | skip 1 | str join '::')  # what’s used *within* the dep
-                { dep: ($dep0 | str downcase), sym: $sym }
+                { dep: ($dep0 | str lowercase), sym: $sym }
               }
             }
           }
@@ -3087,8 +3087,8 @@ export def rust-print-dep-usage [
     let maybes   = ($row.maybe | default [])
 
     for d in $uses_det {
-      let key = ($d.dep | str downcase)
-      if ($ext_set | any {|e| ($e | str downcase) == $key }) {
+      let key = ($d.dep | str lowercase)
+      if ($ext_set | any {|e| ($e | str lowercase) == $key }) {
         let cur = ($dep_index | get -i $key | default { real: {}, maybe: {} })
         let cur_syms = ($cur.real | get -i $fq | default [])
         let next_syms = ($cur_syms | append $d.syms | flatten | uniq | sort)
@@ -3099,8 +3099,8 @@ export def rust-print-dep-usage [
 
     if $include_maybe {
       for m in $maybes {
-        let key = ($m | str downcase)
-        if ($ext_set | any {|e| ($e | str downcase) == $key }) {
+        let key = ($m | str lowercase)
+        if ($ext_set | any {|e| ($e | str lowercase) == $key }) {
           let cur = ($dep_index | get -i $key | default { real: {}, maybe: {} })
           let cur_syms = ($cur.maybe | get -i $fq | default [])
           let nxt = ($cur | upsert maybe ($cur.maybe | upsert $fq $cur_syms))
@@ -3111,7 +3111,7 @@ export def rust-print-dep-usage [
   }
 
   let wanted = if ($dep | default '' | str length) > 0 {
-    let key = ($dep | str downcase)
+    let key = ($dep | str lowercase)
     if ($dep_index | columns | any {|k| $k == $key }) { [ $key ] } else { [] }
   } else {
     ($dep_index | columns | sort)
@@ -3344,7 +3344,7 @@ export def --env _ensure-caches [] {
 
 # Treat these as "true": 1, true, yes, on (case-insensitive)
 def _debug_enabled [] {
-  let raw = (_env_str 'RUST_AST_DEBUG' | str downcase | str trim)
+  let raw = (_env_str 'RUST_AST_DEBUG' | str lowercase | str trim)
   match $raw {
     "1" | "true" | "yes" | "on" => true
     _ => false

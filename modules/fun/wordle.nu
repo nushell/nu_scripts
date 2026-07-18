@@ -19,7 +19,7 @@ export def main [
     $guess_count += 1
     if ($guess_count <= $max_count or $unlimited) {
       print $"(ansi xterm_aquamarine1a)Enter your guess (ansi reset)\((ansi green)($guess_count)(ansi reset)/(ansi yellow)(if ($unlimited) {inf} else {$max_count})(ansi reset)\)"
-      let guess = (input | str downcase)
+      let guess = (input | str lowercase)
       if ($guess | str length) == 5 and ($words | any {|w| $w == $guess}) {
         mut out = ""
         mut checked = $word

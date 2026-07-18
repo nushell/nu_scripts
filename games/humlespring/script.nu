@@ -92,9 +92,9 @@ loop {
 
     # Parse input (simple verb-noun)
     let parts = ($user_input | split row " ")
-    let verb = ($parts | get 0 | str downcase)
+    let verb = ($parts | get 0 | str lowercase)
     # Use `get` and `default` for robust noun handling (handles commands with no noun)
-    let noun = if ($parts | length) > 1 { $parts | get 1 | default "" | str downcase } else {""}
+    let noun = if ($parts | length) > 1 { $parts | get 1 | default "" | str lowercase } else {""}
 
     # grab the current location once
     let loc_data = ($map | get $player_state.location)

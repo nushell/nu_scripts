@@ -6,7 +6,7 @@ def iter_inc [incr mult iter] {
 
 let is_release = (input "Did you compile in a release mode? y/n ")
 
-if ($is_release | str downcase | str trim) == "y" {
+if ($is_release | str lowercase | str trim) == "y" {
     print $"running test 0 at (date now |  format date '%Y-%m-%d %H:%M:%S.%3f')"
     # 0. this has wrong output
     let 0 = (seq 1 10 | each { timeit {

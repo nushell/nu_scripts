@@ -147,7 +147,7 @@ def conda-create-path-unix [env_dir: path] {
 }
 
 def windows? [] {
-    ($nu.os-info.name | str downcase) == "windows"
+    ($nu.os-info.name | str lowercase) == "windows"
 }
 
 def system-path [] {
