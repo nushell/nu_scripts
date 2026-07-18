@@ -84,8 +84,8 @@ export def --env activate [
     return
   }
 
-  let fh = ($host | str downcase)
-  let ft = ($target | str downcase)
+  let fh = ($host | str lowercase)
+  let ft = ($target | str lowercase)
   let fs = (
       if ($sdk != latest) {
         $sdk

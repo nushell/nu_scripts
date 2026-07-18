@@ -7,7 +7,7 @@ export-env {
     }
     let id = {
         name: [metadata name]
-        kind: [kind {|x|$x| str downcase}]
+        kind: [kind {|x|$x| str lowercase}]
         apiVersion: [apiVersion]
         labels: [metadata labels]
         created: [metadata creationTimestamp {|x|$x | into datetime}]

@@ -6,7 +6,7 @@ export def ns [
     let info = (
         sysctl -n kernel.arch kernel.ostype
         | lines
-        | {arch: ($in.0|str downcase), ostype: ($in.1|str downcase)}
+        | {arch: ($in.0|str lowercase), ostype: ($in.1|str lowercase)}
     )
 
     nix search --json nixpkgs $term

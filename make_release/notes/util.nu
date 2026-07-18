@@ -8,7 +8,7 @@ export def clean-title []: string -> string {
 
 # Check if the release notes section was left empty
 export def is-empty-keyword []: string -> bool {
-    str downcase | $in in ["", "n/a", "nothing", "none", "nan"]
+    str lowercase | $in in ["", "n/a", "nothing", "none", "nan"]
 }
 
 # Format a PR nicely, including a link

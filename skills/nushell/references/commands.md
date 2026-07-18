@@ -89,7 +89,7 @@ $table | where {|row| $row.size > 1kb and $row.name =~ ".csv"}
 |---------|---------|---------|
 | `str trim` | Trim whitespace | `" hi " \| str trim` |
 | `str upcase` | Uppercase | `"hi" \| str upcase` |
-| `str downcase` | Lowercase | `"HI" \| str downcase` |
+| `str lowercase` | Lowercase | `"HI" \| str lowercase` |
 | `str replace` | Replace text | `"hi" \| str replace "hi" "hello"` |
 | `str contains` | Check substring | `"hello" \| str contains "ell"` |
 | `str starts-with` | Check prefix | `"hello" \| str starts-with "he"` |

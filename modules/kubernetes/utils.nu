@@ -17,7 +17,7 @@ export def normalize-column-names [ ] {
     let cols = $i | columns
     mut t = $i
     for c in $cols {
-        $t = ($t | rename -c {$c: ($c | str downcase | str replace ' ' '_')})
+        $t = ($t | rename -c {$c: ($c | str lowercase | str replace ' ' '_')})
     }
     $t
 }

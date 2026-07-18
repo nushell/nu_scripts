@@ -21,7 +21,7 @@ export def "from dmidecode" [] {
                         | skip 2
                         | split column ':'
                         | str trim
-                        | str downcase column1
+                        | str lowercase column1
                         | str replace -a ' ' '_' column1
                         | transpose -r -d
                     }
