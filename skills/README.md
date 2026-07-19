@@ -16,7 +16,7 @@ use case mentioned in the description of the SKILL.md frontmatter.
 
 Copy the `nushell/` directory to `~/.claude/skills/` for global use in Claude Code,
 to `~/.copilot/skills` for global use with the Copilot coding agent or GitHub
-Copilot CLI, or to `~/.agent/skills/` for Codex, OpenCode, and other coding agents.
+Copilot CLI, or to `~/.agents/skills/` for Codex, OpenCode, and other coding agents.
 See your preferred LLM provider's documentation for specific details.
 
 ### Project usage
