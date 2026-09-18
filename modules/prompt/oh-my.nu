@@ -527,7 +527,8 @@ def git_right_prompt [gs os] {
 }
 
 export def git_prompt [] {
-  let gs = (gstat)
+  # The nearest-tag lookup is the expensive part of gstat and the prompt never shows it.
+  let gs = (gstat --no-tag)
   let os = $nu.os-info
   let left_prompt = (git_left_prompt $gs $os)
   let right_prompt = (git_right_prompt $gs $os)
