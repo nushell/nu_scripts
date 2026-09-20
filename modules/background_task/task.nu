@@ -47,6 +47,14 @@ export def spawn [
       $args = ($args | prepend ["--label" $label])
   }
 
+  # Keep the generated script outside the task's working directory, but add that
+  # directory to Nu's include path so relative `use`/`source` statements inside
+  # the closure still resolve as they did at `task spawn` time.
+  let task_working_directory = if $working_directory != null {
+    $working_directory
+  } else {
+    $env.PWD
+  }
   let source_path = mktemp --tmpdir --suffix "-nu-task"
 
   (
@@ -57,7 +65,7 @@ export def spawn [
   )
   | save --force $source_path
 
-  (pueue add --print-task-id ...$args $"nu --config '($nu.config-path)' --env-config '($nu.env-path)' ($source_path)")
+  (pueue add --print-task-id ...$args $"nu --config '($nu.config-path)' --env-config '($nu.env-path)' -I '($task_working_directory)' '($source_path)'")
 }
 
 # Remove tasks from the queue.
@@ -317,13 +325,14 @@ export def log [
   --detailed (-d)  # Include all fields, don't simplify output.
 ] {
   def resolve-nu-task [cmd: string] {
-    if ($cmd starts-with "nu") and ($cmd ends-with "-nu-task") {
-      let path = ($cmd | str trim | split row " " | last)
-      if ($path | path exists) {
-        open --raw $path | str trim | nu-highlight
-      } else {
-        $cmd
-      }
+    let nu_task_path = (
+      $cmd
+      | parse --regex "^nu(?: .*?)? '?(.+?-nu-task)'?$"
+      | get -o 0.capture0
+    )
+
+    if $nu_task_path != null and ($nu_task_path | path exists) {
+      open --raw $nu_task_path | str trim | nu-highlight
     } else {
       $cmd
     }
