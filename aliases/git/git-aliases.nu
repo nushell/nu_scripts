@@ -4,7 +4,7 @@ export def git_current_branch [] {
 }
 
 export def git_main_branch [] {
-    git remote show origin
+    ^git remote show origin
         | lines
         | str trim
         | find --regex 'HEAD .*?[：: ].+'
