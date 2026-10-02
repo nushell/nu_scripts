@@ -159,9 +159,9 @@ def "nu-complete git switch" [] {
   }
 }
 
-def "nu-complete git checkout" [context: string, position?:int] {
+def "nu-complete git checkout" [buffer: string, place?: record] {
   use git-completion-utils *
-  let preceding = $context | str substring ..$position
+  let preceding = $buffer | str substring ..$place.cursor
   # See what user typed before, like 'git checkout a-branch a-path'.
   # We exclude some flags from previous tokens, to detect if  a branch name has been used as the first argument.
   # FIXME: This method is still naive, though.
@@ -309,7 +309,6 @@ def "nu-complete git merge strategy options" [] {
   ['ours', 'theirs']
 }
 
-
 # Check out git branches and files
 export extern "git checkout" [
   ...targets: string@"nu-complete git checkout"   # name of the branch or files to checkout
@@ -401,9 +400,9 @@ export extern "git fetch" [
 ]
 
 # Yield local branches and (if remote is specified) remote branches with colon prefix
-def "nu-complete git push" [context: string, position: int] {
+def "nu-complete git push" [buffer: string, place: record] {
   use git-completion-utils *
-  let preceding = $context | str substring ..$position
+  let preceding = $buffer | str substring ..$place.cursor
   let tokens = $preceding | str trim | args-split | where ($it not-in $GIT_SKIPABLE_FLAGS)
 
   # Check if we have a remote argument (2nd token, 1st is 'git', 2nd is 'push', 3rd is remote)
