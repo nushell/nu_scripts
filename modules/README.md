@@ -12,6 +12,7 @@
   - [filesystem](#filesystem)
   - [formats](#formats)
   - [fun](#fun)
+  - [fxmacrodata](#fxmacrodata)
   - [github](#github)
   - [gitlab](#gitlab)
   - [jc](#jc)
@@ -109,6 +110,12 @@ Examples of input/output formatters:
 - [website-builder](../sourced/fun/website_builder.nu) - converts markdown into their equivalent html pages
 - [wordle](./fun/wordle.nu) - A Terminal Wordle game. The code is based on this [gist](https://gist.github.com/huytd/6a1a6a7b34a0d0abcac00b47e3d01513), but slightly personalized.
 
+
+## [fxmacrodata](./fxmacrodata/)
+
+Economic indicator releases, release calendars and FX rates from the FXMacroData API as Nushell tables
+(`fxmacrodata catalogue`, `fxmacrodata announcements`, `fxmacrodata calendar`, `fxmacrodata forex`).
+see [README](./fxmacrodata/)
 
 ## github
 
