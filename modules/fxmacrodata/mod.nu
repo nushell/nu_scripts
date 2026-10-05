@@ -17,7 +17,7 @@ def "nu-complete fxmacrodata currencies" [] {
 }
 
 def api-headers []: nothing -> record {
-    let key = $env.FXMACRODATA_API_KEY? | default ""
+    let key = $env.FXMACRODATA_API_KEY? | default "" | str trim
     if ($key | is-empty) { {} } else { {X-API-Key: $key} }
 }
 
@@ -33,7 +33,8 @@ def api-get [path: string, query: record = {}]: nothing -> any {
         $"($BASE_URL)($path)?($params | transpose -r -d | url build-query)"
     }
 
-    let response = http get --full --allow-errors --headers (api-headers) $url
+    # never follow redirects, so the key is not re-sent to another host
+    let response = http get --full --allow-errors --redirect-mode error --headers (api-headers) $url
     if $response.status >= 400 {
         let detail = if ($response.body | describe) =~ "^record" {
             $response.body.detail? | default ($response.body | to json -r)
@@ -44,7 +45,13 @@ def api-get [path: string, query: record = {}]: nothing -> any {
             msg: $"FXMacroData request failed with HTTP ($response.status): ($detail)"
         }
     }
-    $response.body
+    let body = $response.body
+    if ($body | describe) !~ "^record" or ($body.detail? != null and $body.data? == null) {
+        error make --unspanned {
+            msg: "FXMacroData returned an unexpected response"
+        }
+    }
+    $body
 }
 
 # Print free-tier notices to stderr, but only when they affected the result:
