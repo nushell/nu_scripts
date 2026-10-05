@@ -113,7 +113,8 @@ Examples of input/output formatters:
 
 ## [fxmacrodata](./fxmacrodata/)
 
-Economic indicator releases, release calendars and FX rates from the FXMacroData API as Nushell tables.
+Economic indicator releases, release calendars and FX rates from the FXMacroData API as Nushell tables
+(`fxmacrodata catalogue`, `fxmacrodata announcements`, `fxmacrodata calendar`, `fxmacrodata forex`).
 see [README](./fxmacrodata/)
 
 ## github

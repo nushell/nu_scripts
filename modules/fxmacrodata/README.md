@@ -9,7 +9,7 @@ use modules/fxmacrodata
 | Command | Description |
 |---------|-------------|
 | `fxmacrodata catalogue [currency]` | indicators available for a currency (default `usd`) |
-| `fxmacrodata history <currency> <indicator>` | release history for one indicator, most recent first. `--start`, `--end` (YYYY-MM-DD), `--limit` |
+| `fxmacrodata announcements <currency> <indicator>` | release history for one indicator, most recent first. `--start`, `--end` (YYYY-MM-DD), `--limit` |
 | `fxmacrodata calendar [currency]` | upcoming scheduled releases. `--indicator` to filter |
 | `fxmacrodata forex <base> <quote>` | daily FX spot rates. `--start`, `--end`, `--limit` (needs an API key) |
 
@@ -17,7 +17,7 @@ Every command accepts `--raw` to return the unmodified JSON response instead of 
 
 ## API key
 
-USD indicators and the USD calendar work without a key. Keyless history covers roughly the last 90 days and new releases show up after a short delay; when that applies a notice is printed to stderr. Other currencies and `forex` need a key:
+USD indicators and the USD calendar work without a key. Keyless history covers roughly the last 90 days and new releases show up after a short delay; when either of those changes what you get back, a notice is printed to stderr. Other currencies and `forex` need a key:
 
 ```nushell
 $env.FXMACRODATA_API_KEY = "..."
@@ -28,9 +28,8 @@ The key is only ever sent in the `X-API-Key` request header.
 ## Examples
 
 ```nushell
-> fxmacrodata history usd inflation --limit 5 | update date { format date "%Y-%m-%d" }
+> fxmacrodata announcements usd inflation --limit 5 | update date { format date "%Y-%m-%d" }
 fxmacrodata: Anonymous access returns the most recent 90 days. Supply an API key for the full history.
-fxmacrodata: Free access is delayed by 15 minutes. Releases published in the last 15 minutes are withheld. An Individual or Business API key returns them in real time.
 ╭───┬────────────┬───────┬──────────┬──────────────┬────────╮
 │ # │    date    │ value │ previous │   released   │ source │
 ├───┼────────────┼───────┼──────────┼──────────────┼────────┤

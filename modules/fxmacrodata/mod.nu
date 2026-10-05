@@ -47,17 +47,25 @@ def api-get [path: string, query: record = {}]: nothing -> any {
     $response.body
 }
 
-# Print free-tier notices (history window, release delay) to stderr
+# Print free-tier notices to stderr, but only when they affected the result:
+# the history window when it cut rows from this page, the release delay when
+# it withheld a release
 def report-free-tier [body: record] {
     let window = $body.freemium_window? | default {}
-    if ($window.applied? | default false) {
+    let page = $body.pagination? | default {}
+    let returned = $page.returned_count? | default ($body.data? | default [] | length)
+    let trimmed = (
+        ($window.applied? | default false)
+        and not ($page.has_more? | default false)
+        and $returned < ($page.limit? | default 0)
+    )
+    if $trimmed {
         print --stderr $"fxmacrodata: ($window.message? | default 'free tier history is limited')"
     }
     let delay = $body.freemium_delay? | default {}
-    if ($delay.applied? | default false) {
-        let withheld = $delay.withheld_count? | default 0
-        let suffix = if $withheld > 0 { $" \(($withheld) release\(s\) withheld\)" } else { "" }
-        print --stderr $"fxmacrodata: ($delay.message? | default 'free tier data is delayed')($suffix)"
+    let withheld = $delay.withheld_count? | default 0
+    if ($delay.applied? | default false) and $withheld > 0 {
+        print --stderr $"fxmacrodata: ($delay.message? | default 'free tier data is delayed') \(($withheld) release\(s\) withheld\)"
     }
 }
 
@@ -71,7 +79,7 @@ def date-to-datetime []: any -> any {
 
 # List the indicators published for a currency
 #
-# Each row is one indicator slug that can be passed to `fxmacrodata history`.
+# Each row is one indicator slug that can be passed to `fxmacrodata announcements`.
 @example "USD indicators that have recent data" { fxmacrodata catalogue usd | where has_recent_data }
 export def catalogue [
     currency: string@"nu-complete fxmacrodata currencies" = "usd" # three-letter currency code
@@ -103,10 +111,11 @@ export def catalogue [
 #
 # `date` is the reference period and `released` is when the figure was
 # published. Without an API key, USD history covers roughly the last 90 days
-# and new releases appear after a short delay; a notice is printed to stderr.
-@example "Last 12 US CPI releases" { fxmacrodata history usd inflation --limit 12 }
-@example "US payrolls since the start of 2025 (older history needs an API key)" { fxmacrodata history usd non_farm_payrolls --start 2025-01-01 }
-export def history [
+# and new releases appear after a short delay; a notice is printed to stderr
+# when either of those changes the result.
+@example "Last 12 US CPI releases" { fxmacrodata announcements usd inflation --limit 12 }
+@example "US payrolls since the start of 2025 (older history needs an API key)" { fxmacrodata announcements usd non_farm_payrolls --start 2025-01-01 }
+export def announcements [
     currency: string@"nu-complete fxmacrodata currencies" # three-letter currency code
     indicator: string # indicator slug, see `fxmacrodata catalogue`
     --start: string # first period date, YYYY-MM-DD
