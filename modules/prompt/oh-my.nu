@@ -526,9 +526,15 @@ def git_right_prompt [gs os] {
   # ]
 }
 
-export def git_prompt [] {
+export def git_prompt [
+  --placeholder # skip gstat and render the prompt as it looks outside a repository
+] {
   # The nearest-tag lookup is the expensive part of gstat and the prompt never shows it.
-  let gs = (gstat --no-tag)
+  let gs = if $placeholder {
+    {idx_added_staged: -1, idx_modified_staged: -1, idx_deleted_staged: -1, idx_renamed: -1, idx_type_changed: -1, wt_untracked: -1, wt_modified: -1, wt_deleted: -1, wt_type_changed: -1, wt_renamed: -1, ignored: -1, conflicts: -1, ahead: -1, behind: -1, stashes: -1, repo_name: no_repository, tag: no_tag, branch: no_branch, remote: no_remote, state: no_state}
+  } else {
+    gstat --no-tag
+  }
   let os = $nu.os-info
   let left_prompt = (git_left_prompt $gs $os)
   let right_prompt = (git_right_prompt $gs $os)
