@@ -66,19 +66,39 @@ module git-completion-utils {
     $result
   }
 
-  # Get changed files which can be restored by `git checkout --`
-  export def get-changed-files []: nothing -> list<string> {
-    ^git status -uno --porcelain=2 | lines
-    | where $it =~ '^1 [.MD]{2}'
-    | each { split row ' ' -n 9 | last }
+  # Porcelain v2's -z form contains literal pathnames, including quotes and newlines.
+  # Ordinary changes use type 1; every unmerged XY state uses type u.
+  def status-paths [--include-unmerged]: nothing -> list<string> {
+    let pattern = if $include_unmerged {
+      '(?s)^(?:1 [.MD]{2} (?:\S+ ){6}|u (?:DD|AU|UD|UA|DU|AA|UU) (?:\S+ ){8})(?<value>.+)$'
+    } else {
+      '(?s)^1 [.MD]{2} (?:\S+ ){6}(?<value>.+)$'
+    }
+    ^git --no-optional-locks status -uno --porcelain=2 -z
+    | split row "\u{0}"
+    | generate {|record, skip_old_name|
+        if $skip_old_name {
+          {next: false}
+        } else if $record starts-with '2 ' {
+          # A renamed/copied entry owns the next NUL field: its original pathname.
+          {next: true}
+        } else {
+          {out: $record, next: false}
+        }
+      } false
+    | parse --regex $pattern
+    | get value
   }
 
-  # Get files which can be retrieved from a branch/commit by `git checkout <tree-ish>`
-  export def get-checkoutable-files []: nothing -> list<string> {
-    # Relevant statuses are .M", "MM", "MD", ".D", "UU"
-    ^git status -uno --porcelain=2 | lines
-    | where $it =~ '^1 ([.MD]{2}|UU)'
-    | each { split row ' ' -n 9 | last }
+  # Get changed files which can be restored by `git checkout --`.
+  export def get-changed-files []: nothing -> list<string> { status-paths }
+
+  # Include unmerged paths when checking out a tree or choosing a conflict side.
+  export def get-checkoutable-files []: nothing -> list<string> { status-paths --include-unmerged }
+
+  # Completion values are pasted as Nu source; display the literal path separately.
+  export def format-checkout-files []: list<string> -> list<record<value: string, display_override: string, description: string, style: string>> {
+    $in | each {|path| {value: ($path | to nuon), display_override: $path, description: File, style: green} }
   }
 
   export def get-all-git-local-refs []: nothing -> list<record<ref: string, obj: string, upstream: string, subject: string>> {
@@ -171,22 +191,22 @@ def "nu-complete git checkout" [buffer: string, place?: record] {
   # - First arg is a branch
   # If before '--' is just 'git checkout' (or its alias), we suggest "dirty" files only (user is about to reset file).
   if $prev_tokens.2? == '--' {
-    return (get-changed-files)
+    return (get-changed-files | format-checkout-files)
   }
   if '--' in $prev_tokens {
-    return (get-checkoutable-files)
+    return (get-checkoutable-files | format-checkout-files)
   }
   # Already typed first argument.
   if ($prev_tokens | length) > 2 and $preceding ends-with ' ' {
     # If we are creating a new branch, we may want to specify a start point
     if ("-b" not-in $prev_tokens) and ("-B" not-in $prev_tokens) and ("--orphan" not-in $prev_tokens) {
-      return (get-checkoutable-files)
+      return (get-checkoutable-files | format-checkout-files)
     }
   }
   # The first argument can be local branches, remote branches, files and commits
   # Get local and remote branches
   let branches = get-mergable-sources
-  let files = (get-checkoutable-files) | wrap value | insert description 'File' | insert style green
+  let files = get-checkoutable-files | format-checkout-files
   let commits = ^git rev-list -n 400 --remotes --oneline | lines | split column -n 2 ' ' value description | upsert description {|x| $'Commit, ($x.value) ($x.description)' } | insert style 'light_cyan_dimmed'
   {
     options: {
