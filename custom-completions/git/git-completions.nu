@@ -424,33 +424,62 @@ export extern "git fetch" [
 def "nu-complete git push" [buffer: string, place: record] {
   use git-completion-utils *
   let preceding = $buffer | str substring ..$place.cursor
-  let tokens = $preceding | str trim | args-split | where ($it not-in $GIT_SKIPABLE_FLAGS)
-
-  # Check if we have a remote argument (2nd token, 1st is 'git', 2nd is 'push', 3rd is remote)
-  # BUT, args-split might be different depending on how it's called.
-  # "git push origin" -> ["git", "push", "origin"]
-  # If we have at least 3 tokens, the 3rd one IS likely the remote.
-  # We should double check if the 3rd token is actually a remote.
-  
+  let tokens = $preceding | str trim | args-split
+  let push_matches = $tokens | enumerate | where item == push
+  let push_index = $push_matches.0?.index? | default 1
   mut remote = ""
-  if ($tokens | length) >= 3 {
-    $remote = $tokens.2
+  mut option_value = ""
+  mut after_separator = false
+  mut deleting = false
+  # Scan through refspecs too: Git accepts flags before or after the remote.
+  for token in ($tokens | skip ($push_index + 1)) {
+    if ($option_value | is-not-empty) {
+      if $option_value == '--repo' { $remote = $token }
+      $option_value = ""
+      continue
+    }
+    if not $after_separator {
+      if $token == '--' {
+        $after_separator = true
+        continue
+      }
+      if $token in ['--delete' '-d'] {
+        $deleting = true
+        continue
+      }
+      if $token == '--no-delete' {
+        $deleting = false
+        continue
+      }
+      if $token == '--repo' {
+        $option_value = $token
+        continue
+      }
+      if $token starts-with '--repo=' {
+        $remote = $token | str substring 7..
+        continue
+      }
+      if $token in ['--exec' '--push-option' '-o' '--receive-pack' '--recurse-submodules'] {
+        $option_value = $token
+        continue
+      }
+      if $token starts-with '-' { continue }
+    }
+    if ($remote | is-empty) { $remote = $token }
   }
 
   let local_branches = (nu-complete git local branches)
-  
   if ($remote | is-empty) {
     return $local_branches
   }
 
-  # If we have a remote, find branches for that remote
-  # Use plumbing command to get remote branches, excluding HEAD
-  let remote_branches = (^git for-each-ref --format='%(refname:lstrip=3)' $'refs/remotes/($remote)' | lines | where $it != 'HEAD')
-  
-  # Prefix them with :
-  let deletion_candidates = ($remote_branches | each { |it| $":($it)" })
-
-  $local_branches | append $deletion_candidates
+  # The trailing slash excludes similarly named remotes such as upstream2.
+  let prefix = $'refs/remotes/($remote)/'
+  let remote_branches = (^git for-each-ref --format='%(refname)' $prefix | lines | each {|ref| $ref | str replace $prefix '' } | where $it != 'HEAD')
+  if $deleting {
+    return $remote_branches
+  }
+  $local_branches | append ($remote_branches | each { |branch| $":($branch)" })
 }
 
 # Push changes

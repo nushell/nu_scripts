@@ -138,7 +138,77 @@ def "remote rows stay on their own lines" [] {
   }
 }
 
-changed paths are literal and conflicts are checkoutable
-add-add conflicts are checkoutable but not ordinary changes
-rename source cannot masquerade as a status record
-remote rows stay on their own lines
+def "push delete offers remote names with flags in context" [] {
+  with-repo {||
+    for ref in [refs/remotes/upstream/main refs/remotes/upstream/feature/a refs/remotes/upstream2/decoy] {
+      ^git update-ref $ref HEAD
+    }
+    ^git symbolic-ref refs/remotes/upstream/HEAD refs/remotes/upstream/main
+    for line in ['git push --delete upstream ' 'git push -d upstream ' 'git push --force upstream --delete ' 'git push --push-option value --delete upstream ' 'git push --repo upstream --delete ' 'git push --repo=upstream --delete '] {
+      let actual = nu-complete git push $line {cursor: ($line | str length)}
+      assert equal ($actual | sort) ['feature/a' 'main']
+    }
+    let midline = 'git push --delete upstream --force'
+    assert equal ((nu-complete git push $midline {cursor: 27}) | sort) ['feature/a' 'main']
+    let normal = 'git push --force upstream '
+    let actual = nu-complete git push $normal {cursor: ($normal | str length)}
+    assert ('main' in $actual)
+    assert (':feature/a' in $actual)
+    assert (':decoy' not-in $actual)
+    # These flags must not turn an option value or a refspec into a remote or --delete.
+    for line in [
+      'git push --signed upstream '
+      'git push --signed=if-asked upstream '
+      'git push --repo upstream '
+      'git push --repo=upstream '
+      'git push --push-option --delete upstream '
+      'git push upstream --push-option --delete '
+      'git push -- upstream '
+      'git push upstream -- --delete '
+      'git push --delete --no-delete upstream '
+    ] {
+      let actual = nu-complete git push $line {cursor: ($line | str length)}
+      assert ('main' in $actual)
+      assert (':feature/a' in $actual)
+      assert ('feature/a' not-in $actual)
+    }
+  }
+}
+
+def "push strips a slash-containing remote name exactly" [] {
+  with-repo {||
+    ^git remote add team/upstream ../unused-remote
+    for ref in [refs/remotes/team/upstream/main refs/remotes/team/upstream/feature/a refs/remotes/team/upstream/foo/HEAD refs/remotes/team/upstream2/decoy] {
+      ^git update-ref $ref HEAD
+    }
+    ^git symbolic-ref refs/remotes/team/upstream/HEAD refs/remotes/team/upstream/main
+    let deleted = 'git push --delete team/upstream '
+    assert equal ((nu-complete git push $deleted {cursor: ($deleted | str length)}) | sort) ['feature/a' 'foo/HEAD' 'main']
+    let normal = 'git push team/upstream '
+    let rows = nu-complete git push $normal {cursor: ($normal | str length)}
+    assert (':feature/a' in $rows)
+    assert (':foo/HEAD' in $rows)
+    assert (':decoy' not-in $rows)
+  }
+}
+
+match ($env.GIT_COMPLETION_CASE? | default all) {
+  changed => {
+    changed paths are literal and conflicts are checkoutable
+    add-add conflicts are checkoutable but not ordinary changes
+    rename source cannot masquerade as a status record
+  }
+  remotes => { remote rows stay on their own lines }
+  push => {
+    push delete offers remote names with flags in context
+    push strips a slash-containing remote name exactly
+  }
+  all => {
+    changed paths are literal and conflicts are checkoutable
+    add-add conflicts are checkoutable but not ordinary changes
+    rename source cannot masquerade as a status record
+    remote rows stay on their own lines
+    push delete offers remote names with flags in context
+    push strips a slash-containing remote name exactly
+  }
+}
