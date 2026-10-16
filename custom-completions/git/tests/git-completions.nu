@@ -126,6 +126,19 @@ def "rename source cannot masquerade as a status record" [] {
   }
 }
 
+def "remote rows stay on their own lines" [] {
+  with-repo {||
+    ^git remote add origin '/tmp/a remote with spaces'
+    ^git remote add plain 'https://example.invalid/repo.git'
+    let rows = nu-complete git remotes
+    assert equal ($rows | length) 2
+    assert equal ($rows | get value | sort) [origin plain]
+    assert equal ($rows | where value == origin | get 0.description) '/tmp/a remote with spaces'
+    assert equal ($rows | where value == plain | get 0.description) 'https://example.invalid/repo.git'
+  }
+}
+
 changed paths are literal and conflicts are checkoutable
 add-add conflicts are checkoutable but not ordinary changes
 rename source cannot masquerade as a status record
+remote rows stay on their own lines

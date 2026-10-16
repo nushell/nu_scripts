@@ -123,7 +123,8 @@ def "nu-complete git available upstream" [] {
 
 def "nu-complete git remotes" [] {
   ^git remote --verbose
-  | parse --regex '(?<value>\S+)\s+(?<description>\S+)'
+  | lines
+  | parse --regex '^(?<value>\S+)\s+(?<description>.+) \((?:fetch|push)\)$'
   | uniq-by value # Deduplicate where fetch and push remotes are the same
 }
 
