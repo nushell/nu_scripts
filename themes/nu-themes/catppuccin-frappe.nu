@@ -1,31 +1,31 @@
 export def main [] {
     const color_palette = {
-        rosewater: "#dc8a78"
-        flamingo: "#dd7878"
-        pink: "#ea76cb"
-        mauve: "#8839ef"
-        red: "#d20f39"
-        maroon: "#e64553"
-        peach: "#fe640b"
-        yellow: "#df8e1d"
-        green: "#40a02b"
-        teal: "#179299"
-        sky: "#04a5e5"
-        sapphire: "#209fb5"
-        blue: "#1e66f5"
-        lavender: "#7287fd"
-        text: "#4c4f69"
-        subtext1: "#5c5f77"
-        subtext0: "#6c6f85"
-        overlay2: "#7c7f93"
-        overlay1: "#8c8fa1"
-        overlay0: "#9ca0b0"
-        surface2: "#acb0be"
-        surface1: "#bcc0cc"
-        surface0: "#ccd0da"
-        crust: "#dce0e8"
-        mantle: "#e6e9ef"
-        base: "#eff1f5"
+        rosewater: "#f2d5cf"
+        flamingo: "#eebebe"
+        pink: "#f4b8e4"
+        mauve: "#ca9ee6"
+        red: "#e78284"
+        maroon: "#ea999c"
+        peach: "#ef9f76"
+        yellow: "#e5c890"
+        green: "#a6d189"
+        teal: "#81c8be"
+        sky: "#99d1db"
+        sapphire: "#85c1dc"
+        blue: "#8caaee"
+        lavender: "#babbf1"
+        text: "#c6d0f5",
+        subtext1: "#b5bfe2"
+        subtext0: "#a5adce"
+        overlay2: "#949cbb"
+        overlay1: "#838ba7"
+        overlay0: "#737994"
+        surface2: "#626880"
+        surface1: "#51576d"
+        surface0: "#414559"
+        base: "#303446"
+        mantle: "#292c3c"
+        crust: "#232634"
     }
 
     return {
@@ -61,7 +61,7 @@ export def main [] {
             } else if $in > 1wk {
                 $color_palette.red
             }
-        }
+       }
         range: $color_palette.text
         float: $color_palette.text
         string: $color_palette.text
@@ -113,3 +113,39 @@ export def main [] {
         cursor: $color_palette.blue
     }
 }
+
+ # Update the Nushell configuration
+export def --env "set color_config" [] {
+    $env.config.color_config = (main)
+}
+
+# Update terminal colors
+export def "update terminal" [] {
+    let theme = (main)
+
+    # Set terminal colors
+    let osc_screen_foreground_color = '10;'
+    let osc_screen_background_color = '11;'
+    let osc_cursor_color = '12;'
+        
+    $"
+    (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
+    (ansi -o $osc_screen_background_color)($theme.background)(char bel)
+    (ansi -o $osc_cursor_color)($theme.cursor)(char bel)
+    "
+    # Line breaks above are just for source readability
+    # but create extra whitespace when activating. Collapse
+    # to one line and print with no-newline
+    | str replace --all "\n" ''
+    | print -n $"($in)\r"
+}
+
+export module activate {
+    export-env {
+        set color_config
+        update terminal
+    }
+}
+
+# Activate the theme when sourced
+use activate
