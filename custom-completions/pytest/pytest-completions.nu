@@ -7,8 +7,8 @@ def "nu-complete --code-highlight" [] { ["yes", "no"] }
 def "nu-complete --pastebin" [] { ["failed", "all"] }
 def "nu-complete --import-mode" [] { ["prepend", "append", "importlib"] }
 def "nu-complete --doctest-report" [] { ["none", "cdiff", "ndiff", "udiff", "only_first_failure"] }
-def "nu-complete --log-file-mode" [] { ["w"; "a"] }
-def "nu-complete --assert" [] { ["plain"; "rewrite"] }
+def "nu-complete --log-file-mode" [] { ["w", "a"] }
+def "nu-complete --assert" [] { ["plain", "rewrite"] }
 def "nu-complete --log-level" [] { ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] }
 
 export extern pytest [
