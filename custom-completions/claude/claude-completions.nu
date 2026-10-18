@@ -14,15 +14,15 @@ def "nu-complete claude input-format" [] {
 }
 
 def "nu-complete claude permission-mode" [] {
-    [acceptEdits bypassPermissions default dontAsk plan]
+    [acceptEdits auto bypassPermissions manual dontAsk plan]
 }
 
 def "nu-complete claude models" [] {
-    [sonnet opus haiku claude-sonnet-4-6]
+    [fable opus sonnet haiku claude-fable-5-1 claude-opus-5-5 claude-sonnet-5-5 claude-haiku-5-5]
 }
 
 def "nu-complete claude effort" [] {
-    [low medium high]
+    [low medium high xhigh max]
 }
 
 def "nu-complete claude scope" [] {
@@ -40,6 +40,12 @@ def "nu-complete claude transport" [] {
 def "nu-complete claude install-channel" [] {
     [stable latest]
 }
+
+# --resume, --from-pr, --worktree and --remote-control take an optional value,
+# which a Nushell flag cannot express, so they are declared as switches. A value
+# typed after one is passed to claude in place, as a positional:
+# `claude --resume` opens the session picker and `claude --resume <id>` resumes.
+# The `--flag=value` spelling is not available for these flags.
 
 # Claude Code - starts an interactive session by default, use -p/--print for non-interactive output
 export extern claude [
@@ -66,7 +72,7 @@ export extern claude [
     --append-system-prompt: string                          # Append system prompt
     --permission-mode: string@"nu-complete claude permission-mode"  # Permission mode
     --continue(-c)                                          # Continue last session
-    --resume(-r): string                                    # Resume session by ID
+    --resume(-r)                                            # Resume a session (optional ID or search term)
     --fork-session                                          # Fork session
     --no-session-persistence                                # Disable session persistence
     --model: string@"nu-complete claude models"             # Model to use
@@ -84,9 +90,10 @@ export extern claude [
     --disable-slash-commands                                 # Disable slash commands
     --chrome                                                # Enable Chrome
     --no-chrome                                             # Disable Chrome
-    --from-pr: string                                       # From PR
+    --from-pr                                               # Resume a session linked to a PR (optional number or URL)
     --file: path                                            # Input file
-    --worktree(-w): string                                  # Git worktree
+    --worktree(-w)                                          # Create a git worktree (optional name)
+    --remote-control                                        # Start with Remote Control enabled (optional name)
     --tmux                                                  # Tmux mode
     --effort: string@"nu-complete claude effort"            # Effort level
     --version(-v)                                           # Show version
