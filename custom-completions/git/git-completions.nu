@@ -314,6 +314,13 @@ def "nu-complete git subcommands" [] {
   | uniq-by value
 }
 
+# Like the above, but leaves out subcommands that already have their own extern
+# so they don't show up twice when completing `git <tab>`
+def "nu-complete git subcommands without externs" [] {
+  let externs = scope commands | where name starts-with "git " | get name | str substring 4..
+  nu-complete git subcommands | where value not-in $externs
+}
+
 def "nu-complete git add" [] {
   nu-complete git files
 }
@@ -1084,7 +1091,7 @@ export extern "git grep" [
 ]
 
 export extern "git" [
-  command?: string@"nu-complete git subcommands"   # Subcommands
+  command?: string@"nu-complete git subcommands without externs"   # Subcommands
   --version(-v)                                    # Prints the Git suite version that the git program came from
   --help(-h)                                       # Prints the synopsis and a list of the most commonly used commands
   --html-path                                      # Print the path, without trailing slash, where Git’s HTML documentation is installed and exit
