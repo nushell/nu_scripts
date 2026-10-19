@@ -33,6 +33,11 @@ export extern "ssh" [
 ]
 
 module ssh-completion-utils {
+    # Drop a trailing comment, like in "Host foo # my server"
+    def strip-comment []: string -> string {
+        $in | str replace -r '\s+#.*$' ''
+    }
+
     def extract-host []: list<string> -> record<names: list<string>, addr: string> {
         # Host is a list of lines, like:
         # ╭───┬──────────────────────────────╮
@@ -48,7 +53,7 @@ module ssh-completion-utils {
         if ($first_line | is-empty) or '*' in $first_line {
             null
         } else {
-            let names = $first_line | split row -r '\s+' | reject 0
+            let names = $first_line | strip-comment | split row -r '\s+' | reject 0
             # May not contain hostname
             match ($host | slice 1.. | find -n -ir '^\s*Hostname\s') {
                 [] => null,
@@ -61,7 +66,12 @@ module ssh-completion-utils {
     export def process []: string -> record<hosts: table<names: list<string>, addr: string>, includes: list<string>> {
         let lines = $in | lines
         # Get 'Include' lines
-        let include_lines = $lines | find -n -ir '^Include\s' | str trim | each { $in | split row -n 2 -r '\s+' | get 1 | str trim -c '"'}
+        # One Include line can list several files
+        let include_lines = $lines | find -n -ir '^Include\s' | each {
+            strip-comment | str trim | str replace -r '^\S+\s+' ''
+            | parse -r '"(?<quoted>[^"]*)"|(?<plain>[^\s"]+)'
+            | each { if ($in.quoted | is-empty) { $in.plain } else { $in.quoted } }
+        } | flatten
         # Find "Host" blocks
         let marks = $lines | enumerate | find -n -ir '^Host\s'
         let mark_indices = $marks | get index | append ($lines | length)
@@ -86,7 +96,9 @@ def "nu-complete ssh-host" [] {
     let first_result = $files | par-each {|file|
         let folder = $file | path expand | path dirname
         mut r = $file | open --raw | process
-        $r.includes = $r.includes | each {|f| $folder | path join $f }
+        $r.includes = $r.includes | each {|f|
+            if ($f | str starts-with '~') { $f | path expand --no-symlink } else { $folder | path join $f }
+        }
         $r
     } | reduce {|it| merge deep $it --strategy=append }
 
