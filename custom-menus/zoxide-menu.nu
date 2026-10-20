@@ -14,7 +14,7 @@ def __zoxide_menu [] {
       }
       source: { |buffer, position|
           zoxide query -ls $buffer
-          | parse -r '(?P<description>[0-9]+) (?P<value>.+)'
+          | parse -r '(?P<description>\d+(?:\.\d+)?)\s+(?P<value>.+)'
       }
     }
 }
