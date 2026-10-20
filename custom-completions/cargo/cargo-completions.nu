@@ -87,7 +87,7 @@ export extern "cargo build" [
   --release(-r)       # Build optimized artifacts with the release profile
   --profile: string@"nu-complete cargo profiles" # Build with the given profile
   --ignore-rust-version # Ignore `rust-version` specification in packages
-  --timings: string    # Output information how long each compilation takes
+  --timings            # Output information how long each compilation takes
   --target-dir: path  # Directory for all generated artifacts and intermediate files
   --out-dir: path     # Copy final artifacts to this directory
   --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
@@ -127,7 +127,7 @@ export extern "cargo check" [
   --release(-r) # Check optimized artifacts with the release profile
   --profile: string@"nu-complete cargo profiles" # Check with the given profile
   --ignore-rust-version # Ignore `rust-version` specification in packages
-  --timings: string    # Output information how long each compilation takes
+  --timings            # Output information how long each compilation takes
   --target-dir: path  # Directory for all generated artifacts and intermediate files
   --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q)        # Do not print cargo log messages
@@ -184,7 +184,7 @@ export extern "cargo doc" [
   --release(-r)             # Document optimized artifacts with the release profile
   --profile: string@"nu-complete cargo profiles" # Document with the given profile
   --ignore-rust-version     # Ignore `rust-version` specification in packages
-  --timings: string         # Output information how long each compilation takes
+  --timings                 # Output information how long each compilation takes
   --target-dir: path        # Directory for all generated artifacts and intermediate files
   --verbose(-v)             # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q)               # Do not print cargo log messages
@@ -288,7 +288,7 @@ export extern "cargo test" [
   --release(-r) # Test optimized artifacts with the release profile
   --profile: string@"nu-complete cargo profiles" # Test with the given profile
   --ignore-rust-version # Ignore `rust-version` specification in packages
-  --timings: string # Output information how long each compilation takes
+  --timings         # Output information how long each compilation takes
   --target-dir: path # Directory for all generated artifacts and intermediate files
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q) # Do not print cargo log messages
@@ -330,7 +330,7 @@ export extern "cargo bench" [
   --target: string # Benchmark for the given architecture
   --profile: string@"nu-complete cargo profiles" # Build artifacts with the specified profile
   --ignore-rust-version # Ignore `rust-version` specification in packages
-  --timings: string # Output information how long each compilation takes
+  --timings         # Output information how long each compilation takes
   --target-dir: path # Directory for all generated artifacts and intermediate files
   --verbose(-v) # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q) # Do not print cargo log messages
@@ -432,7 +432,7 @@ export extern "cargo install" [
   --target-dir: path # Directory for all generated artifacts and intermediate files
   --debug # Build with the dev profile instead the release profile
   --profile: string@"nu-complete cargo profiles" # Build artifacts with the specified profile
-  --timings: string # Output information how long each compilation takes
+  --timings         # Output information how long each compilation takes
   --frozen # Require Cargo.lock and cache are up to date
   --locked  # Require Cargo.lock is up to date
   --offline # Run without accessing the network
@@ -521,7 +521,7 @@ export extern "cargo clippy" [
   --release(-r) # Check optimized artifacts with the release profile
   --profile: string@"nu-complete cargo profiles" # Check with the given profile
   --ignore-rust-version # Ignore `rust-version` specification in packages
-  --timings: string    # Output information how long each compilation takes
+  --timings            # Output information how long each compilation takes
   --target-dir: path  # Directory for all generated artifacts and intermediate files
   --verbose(-v)      # Use verbose output. May be specified twice for "very verbose" output
   --quiet(-q)        # Do not print cargo log messages
