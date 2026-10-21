@@ -56,7 +56,7 @@ export def gcam [message: string] {
     git commit --all --message $message
 }
 export def gcsm [message: string] {
-    git commit --all --signoff $message
+    git commit --signoff --message $message
 }
 export alias gcas = git commit --all --signoff
 export def gcasm [message: string] {
