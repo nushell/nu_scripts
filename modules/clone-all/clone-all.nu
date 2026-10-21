@@ -5,8 +5,8 @@
 # returns "myspecial_repo" 
 
 # Grabs the repo name of a github (ORG/repo) string
-def "grab repo name" [ghrepo: string]: [string -> string] {
-    $ghrepo | split column "/" | get column2 | last
+def "grab repo name" [ghrepo: string]: [nothing -> string] {
+    $ghrepo | split column "/" | get column1 | last
 }
 
 # Generic fn to clone all repos of one organization into a specific folder

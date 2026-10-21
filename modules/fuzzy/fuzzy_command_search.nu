@@ -18,7 +18,7 @@ export def fuzzy-command-search [] {
     let command = ((help commands | each {|it|
         let name = ($it.name | str trim | ansi strip)
         $"($name)(pad-tabs $name $max_indent)($it.description)"
-    }) | str join (char nl) | fzf | split column (char tab) | get column1.0)
+    }) | str join (char nl) | fzf | split column (char tab) | get column0.0)
     if ($command | is-not-empty) {
         help $command
     }

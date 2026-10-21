@@ -203,7 +203,7 @@ def repo-structured [] {
     $status
     | where ($it | str starts-with '1') or ($it | str starts-with '2')
     | split column ' '
-    | get column2
+    | get column1
     | split column '' staging worktree --collapse-empty
   } else {
     [[]]
