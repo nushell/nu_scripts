@@ -5,18 +5,9 @@ export def "from cpuinfo" [] {
     | each {
         split column ':'
         | str trim
-        | update column1 {
-            get column1
-            | str replace -a ' ' '_'
-        }
+        | str replace -a ' ' '_' column0
         | transpose -r -d
-        | update flags {
-            get flags
-            | split row ' '
-        }
-        | update bugs {
-            get bugs
-            | split row ' '
-        }
+        | update flags { split row ' ' }
+        | update bugs { split row ' ' }
     }
 }

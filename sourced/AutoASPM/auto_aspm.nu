@@ -15,7 +15,7 @@ def get-bytes-for-device [
     | skip
     | compact -e
     | split column -c ':'
-    | get column2
+    | get column1
     | split row ' '
     | compact -e
     | str join
