@@ -11,7 +11,7 @@ def "nu-complete cargo packages" [] {
   if $metadata == '' {
     []
   } else {
-    $metadata | from json | get workspace_members | split column ' ' | get column1
+    $metadata | from json | get packages.name
   }
 }
 

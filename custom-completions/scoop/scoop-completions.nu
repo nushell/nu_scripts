@@ -135,7 +135,7 @@ def scoopCommands [] {
 }
 
 def scoopAliases [] {
-  scoop alias list | str trim | lines | slice 2.. | split column " " | get column1
+  scoop alias list | str trim | lines | slice 2.. | split column " " | get column0
 }
 
 def batStyles [] {
