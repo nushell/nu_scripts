@@ -18,6 +18,7 @@ export def git_main_branch [] {
 # (sorted alphabetically)
 #
 
+export alias g = git
 export alias ga = git add
 export alias gaa = git add --all
 export alias gapa = git add --patch
@@ -61,11 +62,16 @@ export alias gcas = git commit --all --signoff
 export def gcasm [message: string] {
     git commit --all --signoff --message $message
 }
+export alias gcav = git commit --all --verbose --no-verify
+export alias gcav! = git commit --all --verbose --no-verify --amend
+export alias gcfx = git commit --fixup
+export alias gcv = git commit --verbose --no-verify
 export alias gcb = git checkout -b
 export alias gcd = git checkout develop
 export alias gcf = git config --list
 export alias gcl = git clone --recurse-submodules
 export alias gclean = git clean --interactive -d
+export alias gclean! = git clean -d --force -x
 export def gpristine [] {
     git reset --hard
     git clean -d --force -x
@@ -85,6 +91,7 @@ export alias gcss = git commit --gpg-sign --signoff
 export def gcssm [message: string] {
     git commit --gpg-sign --signoff --message $message
 }
+export alias gscam = git commit --gpg-sign --all --message
 export alias gd = git diff
 export alias gdca = git diff --cached
 export alias gdcw = git diff --cached --word-diff
@@ -93,13 +100,30 @@ export alias gds = git diff --staged
 export alias gdt = git diff-tree --no-commit-id --name-only -r
 export alias gdup = git diff @{upstream}
 export alias gdw = git diff --word-diff
+export alias gdg = git diff --no-ext-diff
+export alias gdsc = git diff --stat --cached
+export alias gdto = git difftool
+export alias gdwc = git diff --word-diff --cached
 
 export alias gf = git fetch
 export alias gfa = git fetch --all --prune
 export alias gfo = git fetch origin
+export def gfm [] {
+    git fetch origin (git_main_branch)
+    git merge FETCH_HEAD
+}
 
 export alias gg = git gui citool
 export alias gga = git gui citool --amend
+export alias ggsup = git branch --set-upstream-to $"origin/(git_current_branch)"
+export alias ggl = git pull origin (git_current_branch)
+export alias ggp = git push origin (git_current_branch)
+export alias ggp! = git push origin (git_current_branch) --force-with-lease
+export def ggpnp [] {
+    git pull origin (git_current_branch)
+    git push origin (git_current_branch)
+}
+export alias ggu = git pull --rebase origin (git_current_branch)
 
 export alias ghh = git help
 
@@ -119,6 +143,7 @@ export alias gloga = git log --oneline --decorate --graph --all
 export alias glol = git log --graph $'--pretty=%Cred%h%Creset -%C(char lp)auto(char rp)%d%Creset %s %Cgreen(char lp)%ar(char rp) %C(char lp)bold blue(char rp)<%an>%Creset'
 export alias glola = git log --graph $'--pretty=%Cred%h%Creset -%C(char lp)auto(char rp)%d%Creset %s %Cgreen(char lp)%ar(char rp) %C(char lp)bold blue(char rp)<%an>%Creset' --all
 export alias glols = git log --graph $'--pretty=%Cred%h%Creset -%C(char lp)auto(char rp)%d%Creset %s %Cgreen(char lp)%ar(char rp) %C(char lp)bold blue(char rp)<%an>%Creset' --stat
+export alias glom = git log --oneline --decorate $"(git_main_branch).."
 
 export alias gm = git merge
 export alias gmtl = git mergetool --no-prompt
@@ -158,16 +183,34 @@ export alias grb = git rebase
 export alias grba = git rebase --abort
 export alias grbc = git rebase --continue
 export alias grbd = git rebase develop
+export alias grbdi = git rebase develop --interactive
+export alias grbdia = git rebase develop --interactive --autosquash
 export alias grbi = git rebase --interactive
 export alias grbm = git rebase (git_main_branch)
+export alias grbmi = git rebase (git_main_branch) --interactive
+export alias grbmia = git rebase (git_main_branch) --interactive --autosquash
 export alias grbo = git rebase --onto
+export def grbom [] {
+    git fetch origin (git_main_branch)
+    git rebase FETCH_HEAD
+}
+export def grbomi [] {
+    git fetch origin (git_main_branch)
+    git rebase FETCH_HEAD --interactive
+}
+export def grbomia [] {
+    git fetch origin (git_main_branch)
+    git rebase FETCH_HEAD --interactive --autosquash
+}
 export alias grbs = git rebase --skip
 export alias grev = git revert
 export alias grh = git reset
 export alias grhh = git reset --hard
+export alias grhpa = git reset --patch
 export alias groh = git reset $"origin/(git_current_branch)" --hard
 export alias grm = git rm
 export alias grmc = git rm --cached
+export alias grpo = git remote prune origin
 export def grmv [remote: string, new_name: string] {
     git remote rename $remote $new_name
 }
@@ -205,6 +248,8 @@ export alias gsts = git stash show --text
 export alias gstu = gsta --include-untracked
 export alias gstall = git stash --all
 export alias gsu = git submodule update
+export alias gsuri = git submodule update --recursive --init
+export alias gsur = git submodule update --recursive
 export alias gsw = git switch
 export alias gswc = git switch --create
 
@@ -237,6 +282,10 @@ export alias gwtmv = git worktree move
 export def gwtm [worktree: string] {
     git worktree remove $worktree
 }
+export alias gwtrm = git worktree remove
+export alias gwtlo = git worktree lock
+export alias gwtpr = git worktree prune
+export alias gwtulo = git worktree unlock
 
 export alias gam = git am
 export alias gamc = git am --continue
