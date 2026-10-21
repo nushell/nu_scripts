@@ -8,8 +8,5 @@ const eza_abbreviations = {
 }
 
 export-env {
-    $env.config.abbreviations = {
-        ...$eza_abbreviations
-        ...$env.config.abbreviations
-    }
+    $env.config.abbreviations = ($eza_abbreviations | merge $env.config.abbreviations)
 }

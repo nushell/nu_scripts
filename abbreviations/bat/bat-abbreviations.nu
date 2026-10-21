@@ -8,8 +8,5 @@ const bat_abbreviations = {
 }
 
 export-env {
-    $env.config.abbreviations = {
-        ...$bat_abbreviations
-        ...$env.config.abbreviations
-    }
+    $env.config.abbreviations = ($bat_abbreviations | merge $env.config.abbreviations)
 }

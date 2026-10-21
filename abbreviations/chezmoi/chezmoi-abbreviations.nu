@@ -8,8 +8,5 @@ const chezmoi_abbreviations = {
 }
 
 export-env {
-    $env.config.abbreviations = {
-        ...$chezmoi_abbreviations
-        ...$env.config.abbreviations
-    }
+    $env.config.abbreviations = ($chezmoi_abbreviations | merge $env.config.abbreviations)
 }
