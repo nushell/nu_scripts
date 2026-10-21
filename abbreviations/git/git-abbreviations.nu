@@ -58,6 +58,7 @@ const git_abbreviations = {
     gcav!: "git commit --all --verbose --no-verify --amend"
     gcfx: "git commit --fixup"
     gcv: "git commit --verbose --no-verify"
+    gcsm: "git commit --signoff --message"
     gcb: "git checkout -b"
     gcd: "git checkout develop"
     gcf: "git config --list"
