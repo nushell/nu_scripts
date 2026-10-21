@@ -1,5 +1,5 @@
 def "nu-complete subcommands" [] {
-  ^zellij --help | split column "SUBCOMMANDS:" | get column2.0 | str trim | lines | str trim | parse -r '(?P<command>^[
+  ^zellij --help | split column "SUBCOMMANDS:" | get column1.0 | str trim | lines | str trim | parse -r '(?P<command>^[
 a-z-]+)' | get command
 }
 
