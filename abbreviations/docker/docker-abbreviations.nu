@@ -35,8 +35,5 @@ const docker_abbreviations = {
 }
 
 export-env {
-    $env.config.abbreviations = {
-        ...$docker_abbreviations
-        ...$env.config.abbreviations
-    }
+    $env.config.abbreviations = ($docker_abbreviations | merge $env.config.abbreviations)
 }

@@ -187,8 +187,5 @@ const git_abbreviations = {
 }
 
 export-env {
-    $env.config.abbreviations = {
-        ...$git_abbreviations
-        ...$env.config.abbreviations
-    }
+    $env.config.abbreviations = ($git_abbreviations | merge $env.config.abbreviations)
 }
