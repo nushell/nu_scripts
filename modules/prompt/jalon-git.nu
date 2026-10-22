@@ -114,9 +114,11 @@ def current-dir-style [] {
     let current_dir_abbreviated = if $current_dir == $nu.home-dir {
         '~'
     } else {
-        let current_dir_relative_to_home = (
-            do --ignore-errors { $current_dir | path relative-to $nu.home-dir } | str join
-        )
+        let current_dir_relative_to_home = try {
+            $current_dir | path relative-to $nu.home-dir
+        } catch {
+            ''
+        }
 
         if ($current_dir_relative_to_home | is-empty) == false {
             $'~(char separator)($current_dir_relative_to_home)'
@@ -162,12 +164,12 @@ def duration-style [] {
 
 def fast-git-style [] {
     let s = get-styles
-    let b_info = (do -p { git --no-optional-locks branch -v } | str trim)
+    let b_info = (git --no-optional-locks branch -v | complete | get stdout | str trim)
     if ($b_info | is-empty) {
         ''
     } else {
         let info = ($b_info | parse -r '\* (?<name>(\([\S ]+\))|([\w\/\-\.]+)) +\w+ (\[((?<state>[^\]]+))+\])?')
-        let state_list = ($info.state.0 | split row ', ' | each { |it|
+        let state_list = ($info.state.0 | default '' | split row ', ' | each { |it|
             let p = ($it | parse "{s} {n}")
             if ($p | is-empty) {
                 if ($it | str starts-with "gone") {
@@ -190,7 +192,7 @@ def fast-git-style [] {
 
 def full-git-style [] {
     let s = get-styles
-    let info_lines = (do -p { git --no-optional-locks status --porcelain=2 --branch } | str trim | lines)
+    let info_lines = (git --no-optional-locks status --porcelain=2 --branch | complete | get stdout | str trim | lines)
     if ($info_lines | is-empty) {
         ''
     } else {
