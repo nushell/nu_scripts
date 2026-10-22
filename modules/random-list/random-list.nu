@@ -1,3 +1,5 @@
+use std/random
+
 def throw-error [
     error: string
     msg: string
@@ -7,8 +9,7 @@ def throw-error [
         msg: $"(ansi red_bold)($error)(ansi reset)"
         label: {
             text: $msg
-            start: $span.start
-            end: $span.end
+            span: $span
         }
     }
 }
