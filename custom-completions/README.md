@@ -21,3 +21,15 @@ export extern rustup [
 ]
 ```
 `use ./rustup.nu *` won't work here
+
+## For packagers
+
+Preferred layout per tool:
+
+```text
+custom-completions/<tool>/
+  readme.md
+  <tool>-completions.nu
+```
+
+Pin a git revision and path into that folder (or the whole tree). Prefer stable directory names; renames break links and package ids. This repo does not host release zip/tar assets for these trees.
