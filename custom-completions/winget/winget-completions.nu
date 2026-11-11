@@ -169,7 +169,6 @@ export def "winget source list" [
     pos_name?: string, # Name of the source
     --name(-n): string, # Name of the source
     --raw, # Output the raw CLI output instead of structured data
-    --help(-?) # Display the help for this command
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
     let params = ([
@@ -177,10 +176,9 @@ export def "winget source list" [
         "list"
         $pos_name
         (do $flagify name $name)
-        (do $flagify help $help)
     ] | compact --empty)
 
-    if $raw or $help {
+    if $raw {
         ^winget ...$params
     } else {
         let output = (^winget ...$params | lines)
@@ -235,7 +233,6 @@ export def "winget search" [
     --header: string, # Optional Windows-Package-Manager REST source HTTP header
     --accept_source_agreements, # Accept all source agreements during source operations
     --raw, # Output the raw CLI output instead of structured data
-    --help(-?) # Display the help for this command
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
 
@@ -256,7 +253,6 @@ export def "winget search" [
                 (do $flagify exact $exact)
                 (do $flagify header $header)
                 (do $flagify accept_source_agreements $accept_source_agreements)
-                (do $flagify help $help)
             ]
             | flatten
             | where { not ($in | is-empty) }
@@ -264,7 +260,7 @@ export def "winget search" [
 
     let output = ^winget ...$params
         | nu-complete winget trimLoadingSymbol
-    if $raw or $help {
+    if $raw {
         $output
     } else {
         let lines = ($output | detect columns --guess) | rename name id version match source
@@ -294,7 +290,6 @@ export def "winget list" [
     --accept_source_agreements, # Accept all source agreements during source operations
     --upgrade_available # Filter results by available upgrade
     --raw, # Output the raw CLI output instead of structured data
-    --help(-?) # Display the help for this command
 ] {
     let flagify = { |name, value| nu-complete winget flagify $name $value }
 
@@ -317,7 +312,6 @@ export def "winget list" [
             (do $flagify header $header)
             (do $flagify accept_source_agreements $accept_source_agreements)
             (do $flagify upgrade-available $upgrade_available)
-            (do $flagify help $help)
         ]
         | flatten
         | where { not ($in | is-empty) })
@@ -325,7 +319,7 @@ export def "winget list" [
 
     let output = ^winget ...$params
     | nu-complete winget trimLoadingSymbol
-    if $help or $raw {
+    if $raw {
         $output
     } else {
         let lines = ($output | detect columns --guess) | rename name id version available source
