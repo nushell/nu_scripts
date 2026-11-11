@@ -24,33 +24,27 @@ def flatten_fields [args] {
 def sql [q] {
     [
         [$q.select   ['select',   ' as ', ', ']]
-        [$q.from     ['from',     ' as ', ' join ']]
+        [[$q.from]   ['from',     ' as ', ' join ']]
         [$q.where?   ['where',    ' ',    ' and ']]
         [$q.whereOr? ['or',       ' ',    ' or ']]
         [$q.groupBy? ['group by', null,   ', ']]
         [$q.orderBy? ['order by', ' ',    ', ']]
-        [$q.limit?   ['limit',    null,   ' offset ']]
+        [[$q.limit?] ['limit',    null,   ' offset ']]
     ]
     | each {|x| $x.0 | flatten_fields $x.1 }
     | flatten
     | str join ' '
 }
 
+# Displays the recent command history
 export def 'history timing' [
-    pattern?
-    --exclude(-x): string
-    --num(-n)=10
-    --all(-a)
+    pattern?: string # Show commands matching the pattern
+    --exclude(-x): string # Exclude commands mathing the pattern
+    --num(-n)=10  # Maximum number or results
+    --all(-a)  # Show commands for all directories (default: cwd)
 ] {
     open $nu.history-path | query db (sql {
         from: history
-        where: [
-            "cmd not like 'history timing%'"
-            (if ($pattern | is-not-empty) {[cmd like (quote '%' $pattern '%')]})
-            (if ($exclude | is-not-empty) {[cmd not like (quote '%' $exclude '%')]})
-            (if not $all {[cwd = (quote $env.PWD)]})
-        ]
-        orderBy: [[start desc]]
         select: [
             [duration_ms duration]
             [command_line cmd]
@@ -58,6 +52,13 @@ export def 'history timing' [
             (if $all {[$"replace\(cwd, '($env.HOME)', '~')" cwd]})
             [exit_status exit]
         ]
+        where: [
+            "cmd not like 'history timing%'"
+            (if ($pattern | is-not-empty) {[cmd like (quote '%' $pattern '%')]})
+            (if ($exclude | is-not-empty) {[cmd not like (quote '%' $exclude '%')]})
+            (if not $all {[cwd = (quote $env.PWD)]})
+        ]
+        orderBy: [[start desc]]
         limit: $num
     })
     | update duration {|x| $x.duration | default 0 | do { $in * 1_000_000 } | into duration }
@@ -66,8 +67,8 @@ export def 'history timing' [
 
 def "nu-complete history dir" [] {
     open $nu.history-path | query db (sql {
-        select: [cwd ['count(1)' count]]
         from: history
+        select: [cwd ['count(1)' count]]
         groupBy: [cwd]
         orderBy: ['count desc']
         limit: 20
@@ -80,7 +81,7 @@ export def 'history top' [
     num=10
     --before (-b): duration
     --dir (-d)
-    --path(-p): list<string@"nu-complete history dir">
+    --path(-p): list<directory>
 ] {
     open $nu.history-path | query db (sql {
         from: history
