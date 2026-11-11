@@ -1,0 +1,15 @@
+use .. *
+source ($theme_name)
+clear
+sleep 100ms
+print `Theme name: '($theme_name)'`
+print -n \(preview theme small | table -e)
+sleep 250ms
+
+$Host.UI.RawUI.WindowTitle = 'Theme Preview'
+Add-Type -AssemblyName System.Windows.Forms
+[Windows.Forms.Sendkeys]::SendWait\('%{Prtsc}')
+[Windows.Forms.Sendkeys]::SendWait\('%{Prtsc}')
+[Windows.Forms.Sendkeys]::SendWait\('%{Prtsc}')
+sleep 1
+[Windows.Forms.Clipboard]::GetImage\().Save\('($theme_name).png', [System.Drawing.Imaging.ImageFormat]::Png)

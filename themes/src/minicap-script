@@ -1,0 +1,7 @@
+use .. *
+source ($theme_name)
+clear
+sleep 100ms
+print `Theme name: '($theme_name)'
+print -n (preview theme small | table -e)
+sleep 250ms
