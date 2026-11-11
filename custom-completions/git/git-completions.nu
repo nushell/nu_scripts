@@ -799,13 +799,31 @@ export extern "git reflog" [
 # Stage files
 export extern "git add" [
   ...file: string@"nu-complete git add"               # file to add
-  --all(-A)                                           # add all files
+  --all(-A)                                           # add changes from all tracked and untracked files (same as --no-ignore-removal)
+  --no-all                                            # ignore paths removed in the working tree (same as --ignore-removal)
+  --chmod: string                                     # '(+|-)x'; override the executable bit of the listed files
   --dry-run(-n)                                       # don't actually add the file(s), just show if they exist and/or will be ignored
   --edit(-e)                                          # open the diff vs. the index in an editor and let the user edit it
   --force(-f)                                         # allow adding otherwise ignored files
+  --ignore-errors                                     # continue add operation when adding a file to the index fails
+  --ignore-missing                                    # can only be used with --dry-run; check if any of the given files would be ignored, no matter if they are already present in the work tree or notcheck if - even missing - files are ignored in dry run
+  --ignore-removal                                    # ignore paths removed in the working tree (same as --no-all)
+  --no-ignore-removal                                 # add changes from all tracked and untracked files (same as --all)
+  --intent-to-add(-N)                                 # record only the fact that the path will be added later
+  --inter-hunk-context: int                           # show context between diff hunks up to the specified number of lines
   --interactive(-i)                                   # add modified contents in the working tree interactively to the index
   --patch(-p)                                         # interactively choose hunks to stage
+  --pathspec-from-file: string                        # read pathspec from file
+  --pathspec-file-nul                                 # with --pathspec-from-file, pathspec elements are separated with NUL character
+  --refresh                                           # don't add, only refresh the index
+  --renormalize                                       # Apply the "clean" process freshly to all tracked files to forcibly add them again to the index. This is useful after changing core.autocrlf configuration or the text attribute in order to correct files added with wrong CRLF/LF line endings. This option implies -u. Lone CR characters are untouched, thus while a CRLF cleans to LF, a CRCRLF sequence is only partially cleaned to CRLF.
+  --resolved                                          # Update the index for unmerged paths matching <pathspec> where no conflict markers remain in the working tree. Unmerged paths without conflict markers (including binary files and file deletions) are staged as resolved, while any path with leftover conflict markers causes the command to refuse to stage any files. Cannot be combined with -u or -A.
+  --sparse                                            # Allow updating index entries outside of the sparse-checkout cone. Normally, git add refuses to update index entries whose paths do not fit within the sparse-checkout cone, since those files might be removed from the working tree without warning. (See git-sparse-checkout docs for more details.)
+  --unified(-U): int                                  # Generate diffs with <n> lines of context. The number of context lines defaults to diff.context or 3 if the configuration variable is unset. (-U without <n> is silently accepted as a synonym for -p due to a historical accident).
+  --update(-u)                                        # Update the index not only where the working tree has a file matching <pathspec> but also where the index already has an entry. This adds, modifies, and removes index entries to match the working tree.
+                                                      # If no <pathspec> is given when -A option is used, all files in the entire working tree are updated (old versions of Git used to limit the update to the current directory and its subdirectories).
   --verbose(-v)                                       # be verbose
+  --no-warn-embedded-repo                             # By default, git add will warn when adding an embedded repository to the index without using git submodule add to create an entry in .gitmodules. This option will suppress the warning (e.g., if you are manually performing operations on submodules).
 ]
 
 # Delete file from the working tree and the index
