@@ -1,4 +1,4 @@
-use std assert
+use std/assert
 use ../std-rfc bench
 
 export def "test bench-timings" [] {

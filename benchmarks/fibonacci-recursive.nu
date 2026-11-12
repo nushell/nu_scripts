@@ -2,7 +2,7 @@
 # This is a much less efficient, recursive version of fibonacci that can be used to test our
 # command call performance.
 
-use std bench
+use std/bench
 
 def fib [n: int] {
   match $n {
@@ -13,5 +13,5 @@ def fib [n: int] {
 }
 
 def main [] {
-  print (bench { 0..20 | each { |n| fib $n } } | reject times)
+  print (bench { 0..20 | each { |n| fib $n } })
 }

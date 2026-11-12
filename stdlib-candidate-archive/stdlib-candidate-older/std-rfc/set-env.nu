@@ -18,7 +18,7 @@ export def --env main [
     --append (-a) # Append to the previous value or wrap in a new list
 ]: nothing -> nothing {
     def 'get or' [default field] {
-        get --ignore-errors $field | default $default
+        get --optional $field | default $default
     }
     let value = if $append {
         $env | get or [] $field | append $value

@@ -1,4 +1,4 @@
-use std bench
+use std/bench
 
 def "random bytes" [n: int]: nothing -> binary {
     seq 1 ($n / 8 + 1)

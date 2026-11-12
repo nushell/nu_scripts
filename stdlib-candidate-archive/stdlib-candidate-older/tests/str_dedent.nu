@@ -1,4 +1,4 @@
-use std assert
+use std/assert
 use ../std-rfc str
 
 export def "test str dedent" [] {

@@ -191,8 +191,8 @@ export def scale-minmax-table [a, b,input?] {
 # ```
 export def "cartesian product" [
     ...iters: list<any>  # the iterables you want the cartesian product of
-]: nothing -> list<list<any>> {
-    def aux [a: list<list<any>>]: nothing -> list<list<any>> {
+]: nothing -> list<any> {
+    def aux [a: list<list<any>>]: nothing -> list<any> {
         if ($a | is-empty) {
             return []
         }
@@ -215,7 +215,7 @@ export def "cartesian product" [
 
 #[test]
 def cartesian_product [] {
-    use std assert
+    use std/assert
 
     # emptiness
     assert equal (cartesian product [] []) []
@@ -277,7 +277,7 @@ export def ways-to-add-up-to [n: int]: [ nothing -> list<list<int>> ] {
 
 #[test]
 def test [] {
-    use std assert
+    use std/assert
     for it in [
         [n, expected];
 
