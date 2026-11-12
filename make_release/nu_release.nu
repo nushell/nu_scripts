@@ -1,4 +1,4 @@
-use std log
+use std/log
 
 export def main [] {
     let subcrates_wave_1 = [

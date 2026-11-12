@@ -1,4 +1,4 @@
-use std log
+use std/log
 
 use completions.nu *
 use tools.nu release-notes
