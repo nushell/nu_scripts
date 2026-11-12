@@ -1,4 +1,4 @@
-use std assert
+use std/assert
 use ../std-rfc record
 
 export def "test list_merge" [] {

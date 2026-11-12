@@ -1,4 +1,4 @@
-use std assert
+use std/assert
 use ../std-rfc parse-arg
 
 const SPAN = { start: 0, end: 0 }

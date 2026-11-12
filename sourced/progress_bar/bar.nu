@@ -11,13 +11,14 @@ def 'bar' [
     --width (-w): int = 5
 ] {
     let blocks = [null "▏" "▎" "▍" "▌" "▋" "▊" "▉" "█"]
-    let $whole_part = (($blocks | last) * ($percentage * $width // 1))
+    let $whole_part = ("" | fill --character ($blocks | last) --width ($percentage * $width // 1 | into int))
     let $fraction = (
         $blocks
         | get (
             ($percentage * $width) mod 1
             | $in * ($blocks | length | $in - 1)
             | math round
+            | into int
         )
     )
 
@@ -36,7 +37,7 @@ def 'bar' [
     }
 }
 
-use std assert equal
+use std/assert equal
 
 #[test]
 def bar_tests [] {

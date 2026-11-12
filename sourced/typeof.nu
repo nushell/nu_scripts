@@ -28,7 +28,7 @@ def typeof [] {
 
 #[test]
 def simple_type [] {
-    use std assert
+    use std/assert
 
     assert equal ("foo" | typeof) "string"
     assert equal (123 | typeof) "int"
@@ -37,23 +37,23 @@ def simple_type [] {
 
 #[test]
 def list_type [] {
-    use std assert
+    use std/assert
 
     assert equal ([1 2 3] | typeof) {type: "list", items: "int"}
     assert equal (["foo" "bar" "baz"] | typeof) {type: "list", items: "string"}
-    assert equal (["foo" 2 true] | typeof) {type: "list", items: "any"}
+    assert equal (["foo" 2 true] | typeof) {type: "list", items: "oneof<string, int, bool>"}
 }
 
 #[test]
 def table_type [] {
-    use std assert
+    use std/assert
     assert equal (ls | typeof) {
         type: "table",
         columns: {
             name: "string",
             type: "string",
             size: "filesize",
-            modified: "date",
+            modified: "datetime",
         }
     }
 }
@@ -61,32 +61,28 @@ def table_type [] {
 
 #[test]
 def record_type [] {
-    use std assert
-    assert equal ($nu | typeof) {
+    use std/assert
+    let data = {
+        name: "foo",
+        pid: 123,
+        os-info: {arch: "x86_64", kernel_version: "6.1"},
+        startup-time: 2sec,
+        is-login: false,
+    }
+    assert equal ($data | typeof) {
         type: "record",
         fields: {
-            default-config-dir: "string",
-            config-path: "string",
-            env-path: "string",
-            history-path: "string",
-            loginshell-path: "string",
-            plugin-path: "string",
-            home-path: "string",
-            temp-path: "string",
+            name: "string",
             pid: "int",
             os-info: {
                 type: "record",
                 fields: {
-                    name: "string",
                     arch: "string",
-                    family: "string",
                     kernel_version: "string",
                 }
             },
             startup-time: "duration",
-            is-interactive: "bool",
             is-login: "bool",
-            current-exe: "string",
         }
     }
 }

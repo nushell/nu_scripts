@@ -20,8 +20,11 @@
 #
 # credit panache-git for the git status widget.
 
-use std dirs
-use std assert
+use std/dirs
+use std/assert
+
+# set up `$env.DIRS_LIST` for whoever imports this module, since `dirs` reads it
+export-env { use std/dirs [] }
 
 # build the prompt from segments, looks like:
 #

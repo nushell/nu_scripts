@@ -1,4 +1,4 @@
-use std assert
+use std/assert
 use ../std-rfc 'bulk-rename'
 
 const fixture = [

@@ -80,7 +80,7 @@
 # }
 
 
-use std math
+use std/math
 
 def atan2 [y x] {
     if $x > 0 {
