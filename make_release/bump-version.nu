@@ -1,12 +1,12 @@
 #!/usr/bin/env nu
-use std log
+use std/log
 
 # bump the minor or patch version of the Nushell project
 def main [
     --patch # update the minor version instead of the minor
 ]: nothing -> nothing {
     let version = open Cargo.toml
-        | get package.version
+        | get workspace.package.version
         | parse "{major}.{minor}.{patch}"
         | into int major minor patch
         | into record
@@ -29,21 +29,21 @@ def main [
             | save --force $file.name
     }
 
-    "crates/nu-utils/src/default_files/doc_{config,env}.nu" | str expand | each {|file|
+    "crates/nu-config/default_files/doc_{config,env}.nu" | str expand | each {|file|
         log debug $"bumping ($file) from ($version) to ($new_version)"
         open --raw $file
             | str replace --all $'version = "($version)"' $'version = "($new_version)"'
             | save --force $file
     }
 
-    "crates/nu-utils/src/default_files/default_{config,env}.nu" | str expand | each {|file|
+    "crates/nu-config/default_files/default_{config,env}.nu" | str expand | each {|file|
         log debug $"bumping ($file) from ($version) to ($new_version)"
         open --raw $file
             | str replace --all $'version = "($version)"' $'version = "($new_version)"'
             | save --force $file
     }
 
-    "crates/nu-utils/src/default_files/scaffold_{config,env}.nu" | str expand | each {|file|
+    "crates/nu-config/default_files/scaffold_{config,env}.nu" | str expand | each {|file|
         log debug $"bumping ($file) from ($version) to ($new_version)"
         open --raw $file
             | str replace --all $'version = "($version)"' $'version = "($new_version)"'
