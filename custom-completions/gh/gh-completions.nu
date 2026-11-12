@@ -600,5 +600,5 @@ export def "gh my stars" [] {
             break
         }
     }
-    $stars | flatten | update cells --columns [starredAt] { $in | into datetime } | sort-by starredAt
+    $stars | flatten | update cells { $in | into datetime } starredAt | sort-by starredAt
 }
