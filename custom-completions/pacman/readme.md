@@ -18,7 +18,7 @@ for availability.
 Add this import to your Nushell `config.nu`, adjusting the repository path:
 
 ```nu
-use ~/Projects/nu_scripts/custom-completions/pacman/pacman-completions.nu *
+use <yourpath>/nu_scripts/custom-completions/pacman/pacman-completions.nu *
 ```
 
 Open a new Nushell session, or run the import in your current session.
