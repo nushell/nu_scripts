@@ -1,6 +1,6 @@
 # `elan` custom completions
 
-`elan` is the Lean version manager. This script provides custom completions for
+[`elan`](https://github.com/leanprover/elan) is the Lean version manager. This script provides custom completions for
 `elan`. It can be used by importing its exported commands via:
 
 ```nu
